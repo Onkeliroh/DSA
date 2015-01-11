@@ -1,0 +1,32 @@
+Pitch
+=====
+
+- Arduino genauigkeit? bit auflösung? (differenzieren zwischen chipsätzen)
+  -> gegen überstellung zu anderen produkten
+- bautrate? schneller = besser?
+- slave für arduino
+
+Programm
+========
+
+- Beliebig viele Kanäle
+- Belibibig viele Diagramme
+- konfigurierbare übersetzungsfunktion
+- Messungs Logger
+  -> ablauf loggen
+- CSV Logger
+  -> UTC | Localtime
+- Program Logger ( zwecks debug )
+
+Optionales
+----------
+
+- Lokalisierung
+- Editierbarkeit des Interfaces
+
+Slave
+=====
+
+- dynamische pin konfiguration
+  -> digital : an | aus
+  -> analog : range
