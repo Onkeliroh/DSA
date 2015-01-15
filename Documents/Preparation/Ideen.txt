@@ -6,6 +6,13 @@ Pitch
 - bautrate? schneller = besser?
 - slave für arduino
 
+Zu klären
+=========
+
+- sprache?
+- libs?
+- system kompatibilität? ( alle oder erstmal nur unix/linux )
+
 Programm
 ========
 
@@ -27,6 +34,7 @@ Optionales
 Slave
 =====
 
+- konfigurationen für chipsätze bzw. modelle
 - dynamische pin konfiguration
   -> digital : an | aus
   -> analog : range
