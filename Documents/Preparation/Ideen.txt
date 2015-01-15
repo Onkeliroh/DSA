@@ -2,7 +2,7 @@ Pitch
 =====
 
 - Arduino genauigkeit? bit auflösung? (differenzieren zwischen chipsätzen)
-  -> gegen überstellung zu anderen produkten
+  -> gegenüberstellung zu anderen produkten
 - bautrate? schneller = besser?
 - slave für arduino
 
@@ -13,9 +13,9 @@ Programm
 - Belibibig viele Diagramme
 - konfigurierbare übersetzungsfunktion
 - Messungs Logger
-  -> ablauf loggen
+    - -> ablauf loggen
 - CSV Logger
-  -> UTC | Localtime
+    - -> UTC | Localtime
 - Program Logger ( zwecks debug )
 
 Optionales
@@ -27,6 +27,7 @@ Optionales
 Slave
 =====
 
-- dynamische pin konfiguration
-  -> digital : an | aus
-  -> analog : range
+- orientierung an controlduino
+-  dynamische pin konfiguration
+    - -> digital : an | aus
+    - -> analog : range
