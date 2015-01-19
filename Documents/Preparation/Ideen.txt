@@ -17,6 +17,8 @@ Programm
 ========
 
 - Beliebig viele Kanäle
+  - -> custom abtastfrequenzen
+  - nur bei änderung
 - Belibibig viele Diagramme
 - konfigurierbare übersetzungsfunktion
 - Messungs Logger

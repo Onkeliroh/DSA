@@ -1,0 +1,23 @@
+Pros
+====
+
+- hoher grad an konfigurierbarkeit
+- wiederverwendbarkeit der einstellungen
+- logger
+
+Cons
+====
+
+- umständliche konfiguration
+	-> konfigurationsaufwand richtet sich an programmierer und nicht an
+endnutzer
+- noch wenig unterstützte controller
+- keine shebang line in den scripts
+- keine richtige dokumentation ( noch in entwicklung )
+
+Installation
+============
+
+1. instrumentino egg file runterladen
+2. python-setuptools installieren
+3. mit easy_install instrumentino egg installieren
