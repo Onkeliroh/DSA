@@ -9,9 +9,10 @@ Cons
 ====
 
 - umständliche konfiguration
-	-> konfigurationsaufwand richtet sich an programmierer und nicht an
-endnutzer
+	-> konfigurationsaufwand richtet sich an programmierer und nicht an endnutzer
 - noch wenig unterstützte controller
+	- programmierung der controller erweist sich als sehr umständlich durch
+	  ermangelung eines arduino sketches oder makefiles
 - keine shebang line in den scripts
 - keine richtige dokumentation ( noch in entwicklung )
 
