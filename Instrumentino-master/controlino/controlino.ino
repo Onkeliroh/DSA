@@ -35,7 +35,7 @@ Here you should choose the Arduino Board for which you'll
 compile Controlino. Only one model should be used (uncommented)
 ------------------------------------------------------------ */
 //#define ARDUINO_BOARD_UNO
-//#define ARDUINO_BOARD_LEONARDO
+#define ARDUINO_BOARD_LEONARDO
 //#define ARDUINO_BOARD_DUE
 //#define ARDUINO_BOARD_YUN
 //#define ARDUINO_BOARD_TRE
@@ -43,7 +43,7 @@ compile Controlino. Only one model should be used (uncommented)
 //#define ARDUINO_BOARD_MICRO
 //#define ARDUINO_BOARD_ESPLORA
 //#define ARDUINO_BOARD_MEGA_ADK
-#define ARDUINO_BOARD_MEGA_2560
+//#define ARDUINO_BOARD_MEGA_2560
 //#define ARDUINO_BOARD_ETHERNET
 //#define ARDUINO_BOARD_ROBOT
 //#define ARDUINO_BOARD_MINI
@@ -83,6 +83,7 @@ what you're doing)
 #ifdef ARDUINO_BOARD_LEONARDO
 	#define DIGI_PINS	20
 
+	#undef HARD_SER_MAX_PORTS
 	#define HARD_SER_MAX_PORTS	1
 	extern HardwareSerial Serial1;
 #endif
@@ -91,6 +92,7 @@ what you're doing)
 #ifdef ARDUINO_BOARD_DUE
 	#define DIGI_PINS	54
 
+	#undef HARD_SER_MAX_PORTS
 	#define HARD_SER_MAX_PORTS	3
 	extern HardwareSerial Serial1;
 	extern HardwareSerial Serial2;
@@ -121,6 +123,7 @@ what you're doing)
 #ifdef ARDUINO_BOARD_MEGA_ADK
 	#define DIGI_PINS	54
 
+	#undef HARD_SER_MAX_PORTS
 	#define HARD_SER_MAX_PORTS	3
 	extern HardwareSerial Serial1;
 	extern HardwareSerial Serial2;
@@ -131,6 +134,7 @@ what you're doing)
 #ifdef ARDUINO_BOARD_MEGA_2560
 	#define DIGI_PINS	54
 
+	#undef HARD_SER_MAX_PORTS
 	#define HARD_SER_MAX_PORTS	3
 	extern HardwareSerial Serial1;
 	extern HardwareSerial Serial2;
