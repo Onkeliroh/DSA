@@ -1,0 +1,15 @@
+﻿<Properties StartupItem="SimpleSerial/SimpleSerial.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SimpleSerial/Custom/Serial.cs">
+    <Files>
+      <File FileName="SimpleSerial/Program.cs" Line="17" Column="17" />
+      <File FileName="SimpleSerial/Custom/Serial.cs" Line="35" Column="35" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/home/onkeliroh/Bachelorarbeit/Code/SerialTest/code/SimpleSerial/SimpleSerial/Custom/Serial.cs" line="34" column="36" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
