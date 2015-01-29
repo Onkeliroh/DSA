@@ -1,0 +1,100 @@
+\documentclass[a4paper,10pt]{article}
+%\documentclass[a4paper,10pt]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+
+\title{Bachelorarbeit Pitch}
+\author{}
+\date{}
+
+\pdfinfo{%
+  /Title    (Bachelorarbeit Pitch)
+  /Author   (Daniel Pollack)
+  /Creator  (Daniel Pollack)
+  /Producer (Daniel Pollack)
+  /Subject  (Ideensammlung für meine Bachelorarbeit)
+  /Keywords (Bachelorarbeit, Instrumentino, C, Sharp, C#, CmdMessenger)
+}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\section{Grundlegende Ideen}
+Die Bachelorarbeit soll zum Ziel haben ein Programm zu erarbeiten, mit dessen 
+Hilfe ein informatisch unversierter Nutzer Messungen in einer 
+elektrotechnischen Schaltung vornehmen kann ohne vorhandene 
+Programmierkenntnisse.
+
+\section{Haupt Inhalte}
+\begin{itemize}
+ \item Nutzerfreundliches Interface
+ \item ``einfaches'' Handhabung der konfiguration
+  \subitem das schliesst das Aufspielen der Arduino-Software mit ein
+  \subitem Ardoino UNO und/oder MEGA sind zwingend zu unterstützen
+ \item Echtzeit loggen der Messwerte
+ \item OpenSource (vermutlich MIT oder GNU Lizens)
+ \item Konfigurierbarkeit der Diagramme
+\end{itemize}
+
+\section{Optionale Inhalte}
+\begin{itemize}
+ \item Interface bietet Möglichkeit zum Aufspielen der Arduino-Software
+ \item Unterstützung mehrerer Chipsätze
+\end{itemize}
+
+\section{Vorbereitung}
+Zur Vorbereitung wurden unterschiedliche bestehende Hardware und Software 
+Konzepte gesichtet und ausgewertet. Aus diesen Erkenntnissen wurden Schlüsse 
+zur Verbesserung einiger Funktionalitäten sowie Ideen zur ``Nachahmung'' 
+gezogen.
+\subsection{Instrumentino und Conrtolino}
+Istrumentino und die dazu gehörige Controlino Software für den Arduino wurden 
+von Israel Joel Koenka, Jorge Sáiz, Peter C. Hauser entwickelt. Die Software 
+verfolg den Ansatz einer Nutzer getriebenen Anpassung der Umgebung an eine 
+bestimmte Aufgabe, wie z.B. die Messung von Werten aus einem MassFlowControler.
+Hierzu wird ein durchaus überdurchschnittliches Informatikfachverständnis 
+vorraus gesetzt.
+
+\subsubsection{Vorteile}
+\begin{itemize}
+ \item eine Konfiguration kann als eigenständiges Programm auf Basis der 
+Bibliothek gesehen werden und ist somit, weitest gehend, vor versehentlicher 
+Änderung der Konfiguration geschütz
+\end{itemize}
+
+\subsubsection{Nachteile}
+\begin{itemize}
+ \item Der Installationsprozess gestaltet sich als umständlich und setzt zu 
+weilen Nieschensoftware vorraus, die zusätzlich installiert werden muss.
+ \item Eine Dokumentation ist nicht vorhanden -> Die Konfiguration eines 
+Versuchsaufbaus gestaltet sich als umständlich
+ \item Die Konfiguration der Software kann nur durch eine Person mit 
+Informatik/Python Kenntnissen durchgeführt werden.
+ \item Die Conrtolino Software verfügt über keine mitgelieferte Möglichkeit 
+ohne größere Anpassung des Codes und schreiben eines Makefiles o.ä. für andere 
+Arduino Boards aufgearbeitet und aufgespielt zu werden.
+ \item Die Software selber leidet unter Bugs, die z.B. Grafiken nicht richtig 
+oder garnicht laden
+ \item Die Darstellungen mehrerer Signale wird nur gebündelt in einem Diagramm 
+unterstützt. Es fehlt eine Option zur Erstellung mehrerer Diagramme
+ \item Der CSV Logger beginnt bereits zum Start der Software mit der 
+Logprozess, auch wenn garkein Arduino angeschlossen ist. -> Die Logdateien 
+müssen aufgearbeitet und die Leerenzeilen entfernt werden.
+\end{itemize}
+
+\section {CmdMessenger}
+Die CmdMessenger Bibliothek basiert auf der Sprache Mono, einer freien 
+Implementation der .net und C\# Sprache.
+\subsection{Vorteile}
+\subsection{Nachteile}
+
+\section {Software}
+
+\section {Arduino}
+\subsection{Slave}
+\subsection{Befehlssatz}
+
+
+\end{document}
