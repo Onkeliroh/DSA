@@ -1,0 +1,71 @@
+\section{Grundlegende Ideen}
+Die Bachelorarbeit soll zum Ziel haben ein Programm zu erarbeiten, mit dessen 
+Hilfe ein informatisch unversierter Nutzer Messungen in einer
+elektrotechnischen Schaltung vornehmen kann ohne vorhandene 
+Programmierkenntnisse.
+
+\section{Haupt Inhalte}
+\begin{itemize}
+ \item Nutzerfreundliches Interface
+ \item ``einfaches'' Handhabung der konfiguration
+  \subitem das schliesst das Aufspielen der Arduino-Software mit ein
+  \subitem Ardoino UNO und/oder MEGA sind zwingend zu unterstützen
+ \item Echtzeit loggen der Messwerte
+ \item OpenSource (vermutlich MIT oder GNU Lizens)
+ \item Konfigurierbarkeit der Diagramme
+  \subitem Nutzer kann die diagramm darstellung weitestgehen beeinflussen:
+    \subsubitem eine beliebige anzahl von diagrammen soll unterstützt werden
+\end{itemize}
+
+\section{Optionale Inhalte}
+\begin{itemize}
+ \item Interface bietet Möglichkeit zum Aufspielen der Arduino-Software
+ \item Unterstützung mehrerer Chipsätze
+ \item Diagramme können in separate Fenster ausgelagert werden
+\end{itemize}
+
+\section{Vorbereitung}
+Zur Vorbereitung wurden unterschiedliche bestehende Hardware und Software 
+Konzepte gesichtet und ausgewertet. Aus diesen Erkenntnissen wurden Schlüsse 
+zur Verbesserung einiger Funktionalitäten sowie Ideen zur ``Nachahmung'' 
+gezogen.
+
+\section {Software}
+DIe Software soll sich in ihrere Handhabung und ihrem Erscheinungsbild an 
+Nicht-Informatiker richten. Die Konfiguration des Messaufbaus soll über 
+grafisch ünterstützt werden, so das der Nutzer zu jeder Zeit weis welcher Pin 
+des Arduinos, zum Messzeitpunkt, konfiguriert sein wird. 
+
+Für die Log-Dateien soll eine Lokalisierung möglich sein. So soll der Nutzer zum 
+Beispiel wählen können ob er lieber eine englische oder deutsche 
+Zahlendarstellen haben will. Dies ist besonders von Interessen wenn es um die 
+Weiter verarbeitung der Messwerte geht und diese in andere Programme importiert 
+werden sollen. 
+
+Das Interface soll aber nicht lokalisiert werden. Ich sehe hierfür keine 
+Notwendigkeit.
+
+\section {Arduino}
+Die Arduino Software soll prinzipiell keine vim Nutzer definierte Logik 
+ausfürhen. Ihre Aufgabe wird es sein auf die, über die bestehende 
+USB-Verbindung empfangenen Befehle zu erkennen und zu verarbeiten. Diese 
+Befehle können in dem Teil Befehlssatz eingesehen werden.
+\subsection{Befehlssatz}
+\begin{tabular}{l|l|c|l}
+Befehl&Parameter& Richtung&Beschreibung\\\hline
+setDPin&Id des digital Pins&IN&Konfiguriert einen digital Pins als entweder 
+Input oder Output\\
+setAPin&Id des analog Pins&IN&Konfiguriert einen analogen Pins als entweder 
+Input oder Output\\
+fetchDPin&Id des digital Pins&OUT&Gibt den aktuellen Zustand eines digital Pins 
+wieder\\
+fetchAPin&Id des analog Pins&OUT&Gibt den aktuellen Wert eines analogen Pins 
+an\\
+\end{tabular}
+
+\subsubsection{Begriffsklärung}
+\begin{itemize}
+ \item[IN] von PC zu Arduino
+ \item[OUT] von PC zu Arduino mit Rückgabe von Werten an PC
+\end{itemize}
+

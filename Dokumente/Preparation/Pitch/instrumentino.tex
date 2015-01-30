@@ -1,0 +1,34 @@
+\section{Instrumentino und Conrtolino}
+Istrumentino und die dazu gehörige Controlino Software für den Arduino wurden 
+von Israel Joel Koenka, Jorge Sáiz, Peter C. Hauser entwickelt. Die Software 
+verfolg den Ansatz einer Nutzer getriebenen Anpassung der Umgebung an eine 
+bestimmte Aufgabe, wie z.B. die Messung von Werten aus einem MassFlowControler.
+Hierzu wird ein durchaus überdurchschnittliches Informatikfachverständnis 
+vorraus gesetzt.
+
+\subsubsection{Vorteile}
+\begin{itemize}
+ \item eine Konfiguration kann als eigenständiges Programm auf Basis der 
+Bibliothek gesehen werden und ist somit, weitest gehend, vor versehentlicher 
+Änderung der Konfiguration geschütz
+\end{itemize}
+
+\subsubsection{Nachteile}
+\begin{itemize}
+ \item Der Installationsprozess gestaltet sich als umständlich und setzt zu 
+weilen Nieschensoftware vorraus, die zusätzlich installiert werden muss.
+ \item Eine Dokumentation ist nicht vorhanden -> Die Konfiguration eines 
+Versuchsaufbaus gestaltet sich als umständlich
+ \item Die Konfiguration der Software kann nur durch eine Person mit 
+Informatik/Python Kenntnissen durchgeführt werden.
+ \item Die Conrtolino Software verfügt über keine mitgelieferte Möglichkeit 
+ohne größere Anpassung des Codes und schreiben eines Makefiles o.ä. für andere 
+Arduino Boards aufgearbeitet und aufgespielt zu werden.
+ \item Die Software selber leidet unter Bugs, die z.B. Grafiken nicht richtig 
+oder garnicht laden
+ \item Die Darstellungen mehrerer Signale wird nur gebündelt in einem Diagramm 
+unterstützt. Es fehlt eine Option zur Erstellung mehrerer Diagramme
+ \item Der CSV Logger beginnt bereits zum Start der Software mit der 
+Logprozess, auch wenn garkein Arduino angeschlossen ist. -> Die Logdateien 
+müssen aufgearbeitet und die Leerenzeilen entfernt werden.
+\end{itemize}
