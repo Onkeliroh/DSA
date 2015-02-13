@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2014.12.21)  30 JAN 2015 09:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.2.5)  13 FEB 2015 09:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -298,36 +298,38 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 9.
-
-Overfull \hbox (1.94507pt too wide) in paragraph at lines 49--53
+ [2]
+Overfull \hbox (1.94507pt too wide) in paragraph at lines 54--58
 \OT1/cmr/m/n/10 Die Ar-dui-no Soft-wa-re soll prin-zi-pi-ell kei-ne vim Nut-zer
  de-fi-nier-te Lo-gik ausf[]urhen.
  []
 
-[2]
-Overfull \hbox (153.19533pt too wide) in paragraph at lines 54--65
+
+Overfull \hbox (196.81816pt too wide) in paragraph at lines 59--77
 [] 
  []
 
-) (./instrumentino.tex [3]) (./cmdmessenger.tex) [4] (./BachelorarbeitPItch.aux
-) ) 
+) (./instrumentino.tex [3]) (./cmdmessenger.tex) (./campelllogger.tex) [4]
+[5] (./BachelorarbeitPItch.aux) ) 
 Here is how much of TeX's memory you used:
- 927 strings out of 493108
- 10710 string characters out of 6140724
- 74293 words of memory out of 5000000
- 4419 multiletter control sequences out of 15000+600000
- 7895 words of font info for 28 fonts, out of 8000000 for 9000
+ 932 strings out of 493108
+ 10780 string characters out of 6140726
+ 75293 words of memory out of 5000000
+ 4420 multiletter control sequences out of 15000+600000
+ 8241 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 25i,6n,23p,201b,185s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
-msy10.pfb>
-Output written on BachelorarbeitPItch.pdf (4 pages, 79353 bytes).
+ 25i,7n,23p,201b,187s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12
+.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sha
+re/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on BachelorarbeitPItch.pdf (5 pages, 109029 bytes).
 PDF statistics:
- 37 PDF objects out of 1000 (max. 8388607)
- 25 compressed objects within 1 object stream
+ 52 PDF objects out of 1000 (max. 8388607)
+ 36 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
