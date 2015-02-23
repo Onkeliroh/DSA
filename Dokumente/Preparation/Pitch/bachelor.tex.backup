@@ -4,6 +4,34 @@ Hilfe ein informatisch unversierter Nutzer Messungen in einer
 elektrotechnischen Schaltung vornehmen kann ohne vorhandene
 Programmierkenntnisse.
 
+\section{Grundlagen / theoretischer Hintergrund / Motivation}
+\begin{itemize}
+ \item Was ist ein DatenLogger:
+ \subitem Generelle Literatur zur Definition und Klärung wichtiger Terminologie
+ \item Wie sieht die praktische Anwendung aus:
+ \subitem Feld/Labor
+ \subitem Kernkomponenten
+ \subitem Campell Logger, und andere
+ \item Grundlagen Arduino
+ \subitem Warum, Was, Trend
+ \subitem Specs
+ \subitem \textit{ggf. Mikrocontroller allgemein}
+ \item Case-Study
+ \subitem Anwendung, Einsatz und Zweck von Datenloggern im Wissenschaftsbetrieb
+ \subitem Erläuterung von beispielhaften Szenarien
+ \subitem Welcher DatenLogger soll als Blaupause dienen?; CR100?
+ \subitem Wie sieht die Programmierung aus (CRBasic vs. EdLog)
+ \subitem Nachteile / Vorteile gegenüber Arduino
+ \item Spezifikationen Arduino:
+ \subitem Vorteile und Nachteile gegenüber DatenLogger
+ \subitem Einschränkungen im Einsatz (Bit-Resolution, Anzahl der Kanäle, nur 
+Single-Ended,…)
+ \subitem 12-Bit A/D-Wandler ist Standard
+ \subitem 16-Bit A/D von Adafruit ist möglich
+ 
+\end{itemize}
+
+
 \section{Hauptinhalte}
 \begin{itemize}
  \item Nutzerfreundliches Interface
@@ -58,7 +86,7 @@ Befehle können in dem Teil Befehlssatz eingesehen werden.
 \subsection{Befehlssatz}
 \begin{tabular}{l|l|c|l}
 \textbf{Befehl}&\textbf{Parameter}& 
-\textbf{Richtung}&\textbf{Beschreibung\\\hline}
+\textbf{Richtung}&\textbf{Beschreibung}\\\hline
 setDPin&Id des digital Pins&IN&Konfiguriert einen digital Pins als entweder
 Input oder Output\\
 setAPin&Id des analog Pins&IN&Konfiguriert einen analogen Pins als entweder
@@ -67,6 +95,12 @@ fetchDPin&Id des digital Pins&OUT&Gibt den aktuellen Zustand eines digital Pins
 wieder\\
 fetchAPin&Id des analog Pins&OUT&Gibt den aktuellen Wert eines analogen Pins
 an\\
+readyArduino& - &IN&Prüft ob Arduino fertig initialisiert ist und Befehle 
+entgegen nimmt\\
+readyPC& - &OUT&Antwort auf \textit{readyArduino}. Bestätigt das der Arduino 
+einsatzbereit ist\\
+whoAreYou& - &IN&Fragt Arduino nach seinem Model\\
+iAm& ModelId &OUT&Antwort auf \textit{whoAreYou}\\
 \end{tabular}
 
 \subsubsection{Begriffsklärung}
