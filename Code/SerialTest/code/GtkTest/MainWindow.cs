@@ -1,5 +1,7 @@
 ﻿using System;
 using Gtk;
+using System.ComponentModel;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public partial class MainWindow: Gtk.Window
 {
@@ -12,5 +14,10 @@ public partial class MainWindow: Gtk.Window
 	{
 		Application.Quit ();
 		a.RetVal = true;
+	}
+
+	protected void OnDelete (object sender, EventArgs e)
+	{
+		Application.Quit ();
 	}
 }
