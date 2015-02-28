@@ -111,7 +111,7 @@ public partial class MainWindow
 		this.vboxMain.Name = "vboxMain";
 		this.vboxMain.Spacing = 6;
 		// Container child vboxMain.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubarMain'><menu name='FileAction' action='FileAction'><menu name='addAction' action='addAction'/><menuitem name='openAction' action='openAction'/><separator/><menuitem name='saveAction' action='saveAction'/><separator/><menuitem name='quitAction' action='quitAction'/></menu><menu name='ConnectionAction' action='ConnectionAction'/><menu name='SolutionAction' action='SolutionAction'/><menu name='HelpAction' action='HelpAction'><menuitem name='HelpAction1' action='HelpAction1'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubarMain'><menu name='FileAction' action='FileAction'><menuitem name='openAction' action='openAction'/><separator/><menuitem name='saveAction' action='saveAction'/><separator/><menuitem name='quitAction' action='quitAction'/></menu><menu name='ConnectionAction' action='ConnectionAction'/><menu name='SolutionAction' action='SolutionAction'/><menu name='HelpAction' action='HelpAction'><menuitem name='HelpAction1' action='HelpAction1'/></menu></menubar></ui>");
 		this.menubarMain = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubarMain")));
 		this.menubarMain.Name = "menubarMain";
 		this.vboxMain.Add (this.menubarMain);
@@ -120,7 +120,7 @@ public partial class MainWindow
 		w2.Expand = false;
 		w2.Fill = false;
 		// Container child vboxMain.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar1'><toolitem name='newActionToolbar' action='newActionToolbar'/><toolitem name='openActionToolbar' action='openActionToolbar'/><toolitem name='saveActionToolbar' action='saveActionToolbar'/><separator/><toolitem name='refreshAction' action='refreshAction'/><toolitem name='RunAction' action='RunAction'/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar1'><toolitem name='addAction' action='addAction'/><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><separator/><toolitem name='refreshAction' action='refreshAction'/><toolitem name='RunAction' action='RunAction'/></toolbar></ui>");
 		this.toolbar1 = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar1")));
 		this.toolbar1.Name = "toolbar1";
 		this.toolbar1.ShowArrow = false;

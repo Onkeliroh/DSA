@@ -14,8 +14,9 @@ namespace Utility
 			return SerialPort.GetPortNames ();	
 		}
 
-		public static void ConnectToPort( string portname, int baut )
+		public static bool ConnectToPort( string portname, int baut )
 		{
+			try{
 			Port = new SerialPort (portname, baut);
 			Port.PortName = portname;
 			Port.BaudRate = baut;
@@ -26,7 +27,13 @@ namespace Utility
 			Port.Handshake = Handshake.None;
 			Port.DataReceived += Receive;
 			Port.Open ();
+			}
+			catch (Exception e) {
+				Console.Error.WriteLine (e);
+				return false;
+			}
 			Console.WriteLine ("Successfully connected!");
+			return true;
 		}
 
 		private static void Receive( object sender, SerialDataReceivedEventArgs e )

@@ -31,6 +31,7 @@
         <property name="Label" translatable="yes">Quit</property>
         <property name="ShortLabel" translatable="yes">Quit</property>
         <property name="StockId">gtk-quit</property>
+        <signal name="Activated" handler="OnDeleteEvent" />
       </action>
       <action id="saveAction">
         <property name="Type">Action</property>

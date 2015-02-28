@@ -9,21 +9,21 @@ namespace SimpleSerial
 	{
 		public static void Main (string[] args)
 		{
-			Config ();
-			bool exit = false;
-			while(!exit)
-			{
-				while (Serial.Incomming.Count > 0)
-					Console.WriteLine (DateTime.Now + "\t" + Serial.Incomming.Dequeue ());
+			if (Config ()) {
+				bool exit = false;
+				while (!exit) {
+					while (Serial.Incomming.Count > 0)
+						Console.WriteLine (DateTime.Now + "\t" + Serial.Incomming.Dequeue ());
 
-//				System.Threading.Thread.Sleep (100);
+					//				System.Threading.Thread.Sleep (100);
 
-				if (Console.KeyAvailable)
-					exit = true;
+					if (Console.KeyAvailable)
+						exit = true;
+				}
 			}
 		}
 
-		public static void Config()
+		public static bool Config()
 		{
 			Console.WriteLine ("Select one of serialports to listen to. Please enter the number.");
 			string[] names = Utility.Serial.GetPorts ();
@@ -34,7 +34,7 @@ namespace SimpleSerial
 
 			int selection = Convert.ToInt32(Console.ReadLine());
 
-			Serial.ConnectToPort ( names[selection], 9600);
+			return Serial.ConnectToPort ( names[selection], 9600);
 		}
 	}
 }

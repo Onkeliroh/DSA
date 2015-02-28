@@ -1,5 +1,0 @@
-/home/onkeliroh/Bachelorarbeit/Code/SerialTest/code/SimpleSerial/SimpleSerial/obj/x86/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/home/onkeliroh/Bachelorarbeit/Code/SerialTest/code/SimpleSerial/SimpleSerial/bin/Release/SimpleSerial.exe.mdb
-/home/onkeliroh/Bachelorarbeit/Code/SerialTest/code/SimpleSerial/SimpleSerial/bin/Release/SimpleSerial.exe
-/home/onkeliroh/Bachelorarbeit/Code/SerialTest/code/SimpleSerial/SimpleSerial/obj/x86/Release/SimpleSerial.exe
-/home/onkeliroh/Bachelorarbeit/Code/SerialTest/code/SimpleSerial/SimpleSerial/obj/x86/Release/SimpleSerial.exe.mdb
