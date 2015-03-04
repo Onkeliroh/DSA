@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="Flocence_Test/Flocence_Test.csproj">
+﻿<Properties StartupItem="../NplotTest/NplotTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Flocence_Test/PlotClass.cs">
     <Files>

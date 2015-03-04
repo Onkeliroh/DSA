@@ -29,7 +29,7 @@ public partial class MainWindow
 	
 	private global::Gtk.Statusbar statusbar1;
 
-	protected virtual void Build ()
+	protected virtual v
 	{
 		global::Stetic.Gui.Initialize (this);
 		// Widget MainWindow

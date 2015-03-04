@@ -1,7 +1,7 @@
 ﻿using Gtk;
 
 
-namespace FlocenceTest
+namespace FlorenceTest
 {
 	class MainClass
 	{
