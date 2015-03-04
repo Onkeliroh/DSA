@@ -1,9 +1,9 @@
 ﻿<Properties StartupItem="../NplotTest/NplotTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Flocence_Test/PlotClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../NplotTest/NplotTest.csproj">
     <Files>
-      <File FileName="Flocence_Test/Program.cs" Line="1" Column="1" />
-      <File FileName="Flocence_Test/PlotClass.cs" Line="41" Column="41" />
+      <File FileName="../NplotTest/Program.cs" Line="17" Column="17" />
+      <File FileName="../NplotTest/NplotTest.csproj" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

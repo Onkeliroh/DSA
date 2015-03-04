@@ -1,7 +1,9 @@
-﻿using System;
+﻿#define Window
+using System;
 using NPlot;
 using NPlot.Gtk;
 using Gtk;
+
 
 namespace NplotTest
 {
@@ -11,6 +13,11 @@ namespace NplotTest
 		{
 			Application.Init ();
 
+			#if Window
+			PlotWindow w = new PlotWindow ("NPlotTest");
+
+
+			#else
 			Window w = new Window ("NPlot Test");
 			w.DeleteEvent += delegate {
 				Application.Quit();
@@ -23,6 +30,7 @@ namespace NplotTest
 			plot.Show ();
 
 			w.Add (plot);
+			#endif
 
 			w.ShowAll ();
 
@@ -53,6 +61,41 @@ namespace NplotTest
 			plot.Legend.VerticalEdgePlacement = Legend.Placement.Outside;
 			plot.Legend.XOffset = 10;
 			plot.Legend.YOffset = 15;
+		}
+	}
+
+	public class PlotWindow : Gtk.Window
+	{
+		private Button QuitBtn;
+		private NPlot.Gtk.PlotSurface2D plot;
+
+		PlotWindow(string Title) : base(Title)
+		{
+			InitializeComponents ();
+		}
+
+		void InitializeComponents ()
+		{
+			QuitBtn = new Button ();
+			QuitBtn.Label = "Quit";
+			QuitBtn.Clicked += new System.EventHandler (delegate {
+				Application.Quit ();
+			});
+
+			plot = new NPlot.Gtk.PlotSurface2D ();
+
+			Gtk.VBox layout = new VBox ();
+
+			Add (layout);
+
+			layout.Add (plot);
+			layout.Add (QuitBtn);
+
+			SetSizeRequest(400,400);
+
+			this.OnDeleteEvent += new global::Gtk.DeleteEventHandler (delegate {
+				Application.Quit ();
+			});
 		}
 	}
 }
