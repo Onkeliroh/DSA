@@ -3,6 +3,7 @@
 .*
 .toc
 .*~
+.cs~
 .exe
 .pdf
 bin/
