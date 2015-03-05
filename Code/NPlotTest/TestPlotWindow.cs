@@ -14,13 +14,16 @@ namespace NplotTest
 			Application.Init ();
 
 			#if Window
-			PlotWindow w = new PlotWindow ("NPlotTest");
+			TestPlotWindow w = new TestPlotWindow ("NPlotTest");
 
+			BuildPlot(w.plot);
+
+			w.plot.Show();
 
 			#else
 			Window w = new Window ("NPlot Test");
 			w.DeleteEvent += delegate {
-				Application.Quit();
+			Application.Quit();
 			};
 
 			NPlot.Gtk.PlotSurface2D plot = new NPlot.Gtk.PlotSurface2D ();
@@ -64,12 +67,12 @@ namespace NplotTest
 		}
 	}
 
-	public class PlotWindow : Gtk.Window
+	public class TestPlotWindow : Gtk.Window
 	{
 		private Button QuitBtn;
-		private NPlot.Gtk.PlotSurface2D plot;
+		public NPlot.Gtk.PlotSurface2D plot;
 
-		PlotWindow(string Title) : base(Title)
+		public TestPlotWindow(string Title) : base(Title)
 		{
 			InitializeComponents ();
 		}
@@ -93,7 +96,7 @@ namespace NplotTest
 
 			SetSizeRequest(400,400);
 
-			this.OnDeleteEvent += new global::Gtk.DeleteEventHandler (delegate {
+			this.DeleteEvent += new global::Gtk.DeleteEventHandler (delegate (object obj, DeleteEventArgs e) {
 				Application.Quit ();
 			});
 		}

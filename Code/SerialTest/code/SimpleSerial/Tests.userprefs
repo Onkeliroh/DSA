@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="../NplotTest/NplotTest.csproj">
+﻿<Properties StartupItem="../../../NPlotTest/NPlotTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="../NplotTest/NplotTest.csproj">
     <Files>
