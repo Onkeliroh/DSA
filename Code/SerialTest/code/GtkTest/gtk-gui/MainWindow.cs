@@ -25,11 +25,9 @@ public partial class MainWindow
 	
 	private global::Gtk.Toolbar toolbar1;
 	
-	private global::Gtk.Button button1;
-	
 	private global::Gtk.Statusbar statusbar1;
 
-	protected virtual v
+	protected virtual void Build ()
 	{
 		global::Stetic.Gui.Initialize (this);
 		// Widget MainWindow
@@ -85,25 +83,14 @@ public partial class MainWindow
 		w3.Expand = false;
 		w3.Fill = false;
 		// Container child verticalMainBox.Gtk.Box+BoxChild
-		this.button1 = new global::Gtk.Button ();
-		this.button1.CanFocus = true;
-		this.button1.Name = "button1";
-		this.button1.UseUnderline = true;
-		this.button1.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
-		this.verticalMainBox.Add (this.button1);
-		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.verticalMainBox [this.button1]));
-		w4.Position = 2;
-		w4.Expand = false;
-		w4.Fill = false;
-		// Container child verticalMainBox.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";
 		this.statusbar1.Spacing = 6;
 		this.verticalMainBox.Add (this.statusbar1);
-		global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.verticalMainBox [this.statusbar1]));
-		w5.Position = 4;
-		w5.Expand = false;
-		w5.Fill = false;
+		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.verticalMainBox [this.statusbar1]));
+		w4.Position = 3;
+		w4.Expand = false;
+		w4.Fill = false;
 		this.Add (this.verticalMainBox);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
