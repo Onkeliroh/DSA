@@ -1,44 +1,62 @@
 ﻿using System;
+using System.Collections;
 using NPlot;
 using NPlot.Gtk;
 using Gtk;
+using System.Collections.Generic;
 
 namespace NplotTest
 {
 	public class NPlotConfigTestWindow : Gtk.Window
 	{
 		#region Components
+
 		Button QuitBtn;
-		Button RefreshBtn;
+		Button NewPlotBtn;
+		Button TimePlotBtn;
 		ComboBox Plots;
 		NPlot.Gtk.PlotSurface2D Plot;
 
 		VBox MainLayout;
 		HBox ButtonBar;
 		Table ConfigTable;
+
 		#endregion
 
+		#region Members
 
+		System.Timers.Timer TimePlotTimer;
 
-		public NPlotConfigTestWindow(string Title) : base(Title)
+		List<double> values;
+		#endregion
+
+		public NPlotConfigTestWindow (string Title) : base (Title)
 		{
 			InitializeComponents ();
+
+			TimePlotTimer = new System.Timers.Timer (500);
+			TimePlotTimer.Elapsed += new System.Timers.ElapsedEventHandler (OnTimerTick);
+
+			values = new List<double> ();
 		}
 
-		private void OnDelete(object obj, EventArgs e)
+		private void OnDelete (object obj, EventArgs e)
 		{
 			Application.Quit ();
 		}
 
-		void InitializeComponents()
+		void InitializeComponents ()
 		{
 			QuitBtn = new Button ();
 			QuitBtn.Label = "Quit";
 			QuitBtn.Clicked += new System.EventHandler (OnDelete);
 
-			RefreshBtn = new Button ();
-			RefreshBtn.Label = "Refresh";
-			RefreshBtn.Clicked += new EventHandler (CreatePlot); //todo
+			NewPlotBtn = new Button ();
+			NewPlotBtn.Label = "New Plot";
+			NewPlotBtn.Clicked += new EventHandler (CreatePlot);
+
+			TimePlotBtn = new Button ("TimePlot");
+			TimePlotBtn.Clicked += new EventHandler (TimePlot);
 
 			MainLayout = new VBox ();
 
@@ -46,7 +64,7 @@ namespace NplotTest
 			Plot = new NPlot.Gtk.PlotSurface2D ();
 
 			//ebene 2
-			Plots = new ComboBox(new String[]{
+			Plots = new ComboBox (new String[] {
 				"LinePlot",
 				"PointPlot",
 				"StepPlot",
@@ -58,7 +76,8 @@ namespace NplotTest
 			//ebene 3
 			ButtonBar = new HBox (true, 3);
 
-			ButtonBar.Add (RefreshBtn);
+			ButtonBar.Add (NewPlotBtn);
+			ButtonBar.Add (TimePlotBtn);
 			ButtonBar.Add (QuitBtn);
 
 			ConfigTable = new Table (3, 2, true);
@@ -76,7 +95,7 @@ namespace NplotTest
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (OnDelete);
 		}
 
-		private void CreatePlot( object obj, EventArgs e)
+		private void CreatePlot (object obj, EventArgs e)
 		{
 			this.Plot.Clear ();
 			this.Plot.Title = "Test Plot";
@@ -85,41 +104,14 @@ namespace NplotTest
 			//gen values
 			Random rgen = new Random ();
 
-			double[] values = new double[rgen.Next(10,1000)];
+			double[] values = new double[rgen.Next (10, 1000)];
 
-			for ( int i = 0; i < values.Length; i++)
-			{
-				values[i] = rgen.Next (0, 50);
+			for (int i = 0; i < values.Length; i++) {
+				values [i] = rgen.Next (0, 50);
 			}
 			//end gen values
 
-			//LinePlot plottype = new LinePlot ();
-			//PointPlot plottype = new PointPlot();
-			StepPlot plottype = new StepPlot();
-
-//			switch (Plots.Active)
-//			{
-//			case 0:
-//				LinePlot plottype = new LinePlot ();
-//				break;
-//			case 1:
-//				PointPlot plottype = new PointPlot ();
-//				break;
-//			case 2:
-//				plottype = new StepPlot ();
-//				break;
-//			case 3:
-//				plottype = new CandlePlot ();
-//				break;
-//			case 4:
-//				//Plot.Add (new Bar ());
-//				break;
-//			case 5:
-//				plottype = new ImagePlot ();
-//				break;
-//			default:
-//				plottype = new LinePlot ();
-//			}
+			StepPlot plottype = new StepPlot ();
 
 			plottype.DataSource = values;
 
@@ -131,5 +123,66 @@ namespace NplotTest
 			Plot.Refresh ();
 		}
 
+		private void TimePlot (object obj, EventArgs e)
+		{
+			if (TimePlotTimer.Enabled) {
+				TimePlotTimer.Stop ();
+				TimePlotTimer.Enabled = false;
+			} else {
+				TimePlotTimer.Enabled = true;
+				TimePlotTimer.Start ();
+			}
+		}
+
+		private void OnTimerTick (object obj, System.Timers.ElapsedEventArgs e){
+			GenValues ();
+			ShowPlot ();
+		}
+
+		private void GenValues()
+		{
+			Random rgen = new Random ();
+			values.Add (rgen.NextDouble());
+		}
+
+		private void ShowPlot ()
+		{
+			this.Plot.Clear ();
+			this.Plot.Title = "Test Plot";
+
+			AddPlotData ();
+
+			Plot.Legend = new Legend ();
+
+			Plot.ShowAll ();
+			Plot.Refresh ();
+		}
+
+		private void AddPlotData()
+		{
+			dynamic surface;
+						switch (Plots.Active) {
+			case 0:
+				surface = new LinePlot ();
+				break;
+			case 1:
+				surface = new PointPlot ();
+				break;
+			case 2:
+				surface = new StepPlot ();
+				break;
+			case 4:
+				surface = new CandlePlot ();
+				break;
+			case 5:
+				//surface = new ImagePlot ();
+				//break;
+			default:
+				surface = new PointPlot ();
+				break;
+			}
+			surface.DataSource = values.GetRange (0, values.Count - 1);
+			Plot.Add (surface);
+		}
 	}
 }
