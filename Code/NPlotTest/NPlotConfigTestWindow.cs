@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
-using NPlot;
-using NPlot.Gtk;
-using Gtk;
+using System.Drawing;
 using System.Collections.Generic;
+using Gtk;
+using NPlot;
 
 namespace NplotTest
 {
@@ -15,6 +14,7 @@ namespace NplotTest
 		Button NewPlotBtn;
 		Button TimePlotBtn;
 		ComboBox Plots;
+		ComboBox PlotsColors;
 		NPlot.Gtk.PlotSurface2D Plot;
 
 		VBox MainLayout;
@@ -26,6 +26,7 @@ namespace NplotTest
 		#region Members
 
 		System.Timers.Timer TimePlotTimer;
+		System.Drawing.Color PlotColor = System.Drawing.Color.Black;
 
 		List<double> values;
 		#endregion
@@ -47,9 +48,11 @@ namespace NplotTest
 
 		void InitializeComponents ()
 		{
+			this.SetSizeRequest (600, 400);
 			QuitBtn = new Button ();
 			QuitBtn.Label = "Quit";
 			QuitBtn.Clicked += new System.EventHandler (OnDelete);
+			QuitBtn.UseUnderline = false;
 
 			NewPlotBtn = new Button ();
 			NewPlotBtn.Label = "New Plot";
@@ -58,7 +61,7 @@ namespace NplotTest
 			TimePlotBtn = new Button ("TimePlot");
 			TimePlotBtn.Clicked += new EventHandler (TimePlot);
 
-			MainLayout = new VBox ();
+			MainLayout = new VBox (false,1);
 
 			//ebene 1
 			Plot = new NPlot.Gtk.PlotSurface2D ();
@@ -73,26 +76,60 @@ namespace NplotTest
 				"ImagePlot"
 			});
 
+			PlotsColors = new ComboBox (new String[] { 
+				"Red",
+				"Blue",
+				"Green",
+				"Black"
+			});
+
+			PlotsColors.Changed += new EventHandler (delegate {
+				switch (PlotsColors.Active)
+				{
+				case 0:
+					PlotColor = System.Drawing.Color.Red;
+					break;
+				case 1:
+					PlotColor = System.Drawing.Color.Blue;
+					break;
+				case 2: 
+					PlotColor = System.Drawing.Color.Green;
+					break;
+				case 3:
+					PlotColor = System.Drawing.Color.Black;
+					break;
+				default:
+					PlotColor = System.Drawing.Color.Black;
+					break;
+				}
+			});
+
 			//ebene 3
-			ButtonBar = new HBox (true, 3);
+			ButtonBar = new HBox (true, 1);
+			ButtonBar.HeightRequest = 50;
 
 			ButtonBar.Add (NewPlotBtn);
 			ButtonBar.Add (TimePlotBtn);
 			ButtonBar.Add (QuitBtn);
 
 			ConfigTable = new Table (3, 2, true);
+			ConfigTable.Homogeneous = false;
 			ConfigTable.Attach (new Label ("Plots"), 0, 1, 0, 1);
 			ConfigTable.Attach (Plots, 1, 2, 0, 1);
-			ConfigTable.Attach (new Label ("Color"), 0, 1, 1, 2);
-			MainLayout.Add (Plot);
-			MainLayout.Add (ConfigTable);
-			MainLayout.Add (ButtonBar);
+			ConfigTable.Attach (new Label ("Plot Color"), 0, 1, 1, 2);
+			ConfigTable.Attach (PlotsColors, 1, 2, 1, 2);
+
+			MainLayout.PackStart (Plot,true,true,1);
+			MainLayout.PackStart (ConfigTable,false,false,1);
+			MainLayout.PackStart (ButtonBar,false,false,1);
 
 			this.Add (MainLayout);
 
-			//this.Si
 
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (OnDelete);
+
+			//this.Maximize ();
+			this.ResizeChildren ();
 		}
 
 		private void CreatePlot (object obj, EventArgs e)
@@ -182,6 +219,7 @@ namespace NplotTest
 				break;
 			}
 			surface.DataSource = values.GetRange (0, values.Count - 1);
+			surface.Color = PlotColor;
 			Plot.Add (surface);
 		}
 	}
