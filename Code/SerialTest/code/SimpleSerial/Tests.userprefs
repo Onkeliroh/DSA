@@ -2,8 +2,15 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="../../../NPlotTest/NPlotConfigTestWindow.cs">
     <Files>
-      <File FileName="../../../NPlotTest/NPlotConfigTestWindow.cs" Line="60" Column="60" />
+      <File FileName="../../../NPlotTest/NPlotConfigTestWindow.cs" Line="7" Column="7" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>values</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

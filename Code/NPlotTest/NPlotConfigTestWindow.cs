@@ -206,7 +206,6 @@ namespace NplotTest
 					Console.Error.WriteLine (e);
 				}
 			}
-			Console.WriteLine ("values Count :\t" + values.Count);
 		}
 
 		private void ShowPlot ()
@@ -246,7 +245,22 @@ namespace NplotTest
 					surface = new PointPlot ();
 					break;
 				}
-				surface.DataSource = values[i].GetRange (0, values[i].Count - 1);
+				if ( NrOfValuesToShow.ValueAsInt < values[i].Count )
+				{
+					try
+					{
+						surface.DataSource = values [i].GetRange (values[i].Count - 1 - NrOfValuesToShow.ValueAsInt, NrOfValuesToShow.ValueAsInt);
+					}
+					catch(Exception e)
+					{
+						Console.Error.WriteLine (e);
+					}
+				}
+				else
+				{
+					int begin = 0;
+					surface.DataSource = values [i].GetRange (begin, values [i].Count - 1);
+				}
 				surface.Color = PlotColor;
 				Plot.Add (surface);
 			}
