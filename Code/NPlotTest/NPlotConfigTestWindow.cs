@@ -15,6 +15,8 @@ namespace NplotTest
 		Button TimePlotBtn;
 		ComboBox Plots;
 		ComboBox PlotsColors;
+		SpinButton NrOfValues;
+		SpinButton NrOfValuesToShow;
 		NPlot.Gtk.PlotSurface2D Plot;
 
 		VBox MainLayout;
@@ -28,7 +30,7 @@ namespace NplotTest
 		System.Timers.Timer TimePlotTimer;
 		System.Drawing.Color PlotColor = System.Drawing.Color.Black;
 
-		List<double> values;
+		List<List<double>> values;
 		#endregion
 
 		public NPlotConfigTestWindow (string Title) : base (Title)
@@ -38,7 +40,8 @@ namespace NplotTest
 			TimePlotTimer = new System.Timers.Timer (500);
 			TimePlotTimer.Elapsed += new System.Timers.ElapsedEventHandler (OnTimerTick);
 
-			values = new List<double> ();
+			values = new List<List<double>> ();
+			values.Add (new List<double> ());
 		}
 
 		private void OnDelete (object obj, EventArgs e)
@@ -75,6 +78,7 @@ namespace NplotTest
 				"BarPlot",
 				"ImagePlot"
 			});
+			Plots.Active = 0;
 
 			PlotsColors = new ComboBox (new String[] { 
 				"Red",
@@ -82,6 +86,7 @@ namespace NplotTest
 				"Green",
 				"Black"
 			});
+			PlotsColors.Active = 0;
 
 			PlotsColors.Changed += new EventHandler (delegate {
 				switch (PlotsColors.Active)
@@ -104,6 +109,15 @@ namespace NplotTest
 				}
 			});
 
+			NrOfValues = new SpinButton (1, 10, 1);
+			NrOfValues.ValueChanged += new EventHandler (delegate {
+				for (int i = values.Count; i < NrOfValues.Value; i++)
+				{
+					values.Add(new List<double>());
+				}
+			});
+			NrOfValuesToShow = new SpinButton (10, 1000, 10);
+
 			//ebene 3
 			ButtonBar = new HBox (true, 1);
 			ButtonBar.HeightRequest = 50;
@@ -112,12 +126,16 @@ namespace NplotTest
 			ButtonBar.Add (TimePlotBtn);
 			ButtonBar.Add (QuitBtn);
 
-			ConfigTable = new Table (3, 2, true);
+			ConfigTable = new Table (3, 2, false);
 			ConfigTable.Homogeneous = false;
 			ConfigTable.Attach (new Label ("Plots"), 0, 1, 0, 1);
 			ConfigTable.Attach (Plots, 1, 2, 0, 1);
 			ConfigTable.Attach (new Label ("Plot Color"), 0, 1, 1, 2);
 			ConfigTable.Attach (PlotsColors, 1, 2, 1, 2);
+			ConfigTable.Attach (new Label ("Number of Values"), 0, 1, 2, 3);
+			ConfigTable.Attach (NrOfValues, 1, 2, 2, 3);
+			ConfigTable.Attach (new Label ("Number of Values to Show"), 0, 1, 3, 4);
+			ConfigTable.Attach (NrOfValuesToShow, 1, 2, 3, 4);
 
 			MainLayout.PackStart (Plot,true,true,1);
 			MainLayout.PackStart (ConfigTable,false,false,1);
@@ -141,16 +159,16 @@ namespace NplotTest
 			//gen values
 			Random rgen = new Random ();
 
-			double[] values = new double[rgen.Next (10, 1000)];
+			double[] SinglePlotValues = new double[rgen.Next (10, 1000)];
 
-			for (int i = 0; i < values.Length; i++) {
-				values [i] = rgen.Next (0, 50);
+			for (int i = 0; i < SinglePlotValues.Length; i++) {
+				 SinglePlotValues[i] = rgen.Next (0, 50);
 			}
 			//end gen values
 
 			StepPlot plottype = new StepPlot ();
 
-			plottype.DataSource = values;
+			plottype.DataSource = SinglePlotValues;
 
 			Plot.Add (plottype);
 
@@ -179,7 +197,16 @@ namespace NplotTest
 		private void GenValues()
 		{
 			Random rgen = new Random ();
-			values.Add (rgen.NextDouble());
+			for (int i = 0; i < NrOfValues.Value; i++) {
+				try{
+					values[i].Add (rgen.NextDouble ());
+				}
+				catch (Exception e)
+				{
+					Console.Error.WriteLine (e);
+				}
+			}
+			Console.WriteLine ("values Count :\t" + values.Count);
 		}
 
 		private void ShowPlot ()
@@ -197,30 +224,32 @@ namespace NplotTest
 
 		private void AddPlotData()
 		{
-			dynamic surface;
-						switch (Plots.Active) {
-			case 0:
-				surface = new LinePlot ();
-				break;
-			case 1:
-				surface = new PointPlot ();
-				break;
-			case 2:
-				surface = new StepPlot ();
-				break;
-			case 4:
-				surface = new CandlePlot ();
-				break;
-			case 5:
-				//surface = new ImagePlot ();
-				//break;
-			default:
-				surface = new PointPlot ();
-				break;
+			for (int i = 0; i < NrOfValues.Value; i++) {
+				dynamic surface;
+				switch (Plots.Active) {
+				case 0:
+					surface = new LinePlot ();
+					break;
+				case 1:
+					surface = new PointPlot ();
+					break;
+				case 2:
+					surface = new StepPlot ();
+					break;
+				case 4:
+					surface = new CandlePlot ();
+					break;
+				case 5:
+					//surface = new ImagePlot ();
+					//break;
+				default:
+					surface = new PointPlot ();
+					break;
+				}
+				surface.DataSource = values[i].GetRange (0, values[i].Count - 1);
+				surface.Color = PlotColor;
+				Plot.Add (surface);
 			}
-			surface.DataSource = values.GetRange (0, values.Count - 1);
-			surface.Color = PlotColor;
-			Plot.Add (surface);
 		}
 	}
 }
