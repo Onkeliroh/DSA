@@ -31,7 +31,7 @@ Optionales
 ----------
 
 - Lokalisierung
-- Editierbarkeit des Interfaces 
+- Editierbarkeit des Interfaces
 	- verschieben von elementen/ auskoppeln von elementen in neue fenster
 
 Slave
@@ -41,8 +41,8 @@ Slave
   dinge wie z.b. anzahl pins, takt, etc.
 - konfigurationen für chipsätze bzw. modelle
 - dynamische pin konfiguration
-  -> digital : an | aus
-  -> analog : range
+    - -> digital : an | aus
+    - -> analog : range
 
 - orientierung an controlduino
 -  dynamische pin konfiguration

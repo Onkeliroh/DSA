@@ -2,8 +2,12 @@ ToDo
 ====
 
 - Serial Workaround implementieren
-- GTKSharp actions verstehen
-- Diagramm lib finden, verwenden
 - Arduino specs finden
 - arduino treiber ausarbeiten
 - struktur ausarbeiten
+- c sharp serial io lernen
+
+
+- kempel logger testen
+
+- gui screenshots sammeln (mockup)

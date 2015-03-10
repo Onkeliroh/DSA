@@ -1,12 +1,6 @@
 ﻿<Properties StartupItem="Mockup/Mockup.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Mockup/gtk-gui/MainWindow.cs">
-    <Files>
-      <File FileName="Mockup/Program.cs" Line="1" Column="1" />
-      <File FileName="Mockup/MainWindow.cs" Line="1" Column="1" />
-      <File FileName="Mockup/gtk-gui/MainWindow.cs" Line="79" Column="79" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
