@@ -1,9 +1,0 @@
-Elemente
-========
-
-1. Board struct
-	- address
-	- boardName
-	- label
-	
-
