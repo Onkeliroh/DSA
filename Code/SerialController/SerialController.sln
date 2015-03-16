@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialController", "SerialController\SerialController.csproj", "{23C861E8-747D-4014-AC68-3885197BC54C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialControllerTests", "SerialControllerTests\SerialControllerTests.csproj", "{3068B7EE-94D0-44E9-A2BF-93DCECE82394}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{23C861E8-747D-4014-AC68-3885197BC54C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C861E8-747D-4014-AC68-3885197BC54C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C861E8-747D-4014-AC68-3885197BC54C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C861E8-747D-4014-AC68-3885197BC54C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3068B7EE-94D0-44E9-A2BF-93DCECE82394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3068B7EE-94D0-44E9-A2BF-93DCECE82394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3068B7EE-94D0-44E9-A2BF-93DCECE82394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3068B7EE-94D0-44E9-A2BF-93DCECE82394}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
