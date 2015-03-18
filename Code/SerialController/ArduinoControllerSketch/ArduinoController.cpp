@@ -1,19 +1,20 @@
 #include "ArduinoController.h"
 
-byte incomming[3];
+#define ISANALOGPIN(p) 
+byte incomming[4];
 
 void ArduinoController::WorkThatCommand()
 {
   if (Serial.available())
   {
-    Serial.readBytesUntil(EndOfCommand,incomming,3);
+    Serial.readBytesUntil(EndOfCommand,incomming,4);
     
     switch(incomming[0])
     {
       case 0x0:
         break;
       case READPIN:
-        Serial.println(ReadPin(14));
+        Serial.println(ReadPin(0,ANALOG));
         break;
       default:
         Serial.println("Worked dat shit");  
@@ -21,14 +22,21 @@ void ArduinoController::WorkThatCommand()
   }
 }
 
-byte ArduinoController::ReadPin(byte PinNr)
+byte ArduinoController::ReadPin(byte pinNr, byte pinType)
 {
-   if (analogInputToDigitalPin(PinNr)!=-1)
-   {
-     return analogRead(PinNr);        
-   }
-   else
-   {
-     return digitalRead(PinNr);
-   }
+  if ( pinType == DIGITAL )
+  {
+    return digitalRead(pinNr);
+  }
+  else
+  {
+    if (analogInputToDigitalPin(pinNr)==-1)
+    {
+      return analogRead(pinNr);
+    }
+    else
+    {
+      return analogRead(analogInputToDigitalPin(pinNr));
+    }
+  }
 }

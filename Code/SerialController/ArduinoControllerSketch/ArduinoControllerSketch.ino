@@ -9,5 +9,7 @@ void setup() {
 }
 
 void loop() {  
-    ACON.WorkThatCommand();
+  //ACON.WorkThatCommand();
+  Serial.println('*',DEC);
+  delay(1000);
 }
