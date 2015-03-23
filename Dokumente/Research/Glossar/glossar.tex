@@ -1,0 +1,22 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{fontenc}
+\usepackage{graphicx}
+\usepackage{glossaries}
+
+\usepackage[dvips]{hyperref}
+
+\author{Daniel Pollack}
+\title{Glossar}
+\date{03/23/15}
+
+\glossary{name={Test},description={Dies ist ein Test}}
+\newglossaryentry{Test}{description={Dies ist noch ein Test}}
+\makeglossaries
+\begin{document}
+Hier kommt der Verweis auf \gls{Test}.
+\printglossaries
+\end{document}

@@ -1,0 +1,14 @@
+﻿<Properties StartupItem="Mokup/Mokup.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Mokup/gtk-gui/Mokup.StartWindow.cs">
+    <Files>
+      <File FileName="Mokup/StartWindow.cs" Line="14" Column="14" />
+      <File FileName="Mokup/ConfigurationWindow.cs" Line="3" Column="3" />
+      <File FileName="Mokup/gtk-gui/Mokup.StartWindow.cs" Line="3" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

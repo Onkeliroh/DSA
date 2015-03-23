@@ -6,39 +6,72 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.IO;
 
-namespace SerialController{
-	public class SerialController : System.IO.Ports.SerialPort {
+namespace SerialController
+{
+	public class SerialController : System.IO.Ports.SerialPort
+	{
 
 		#region Members
+
 		int fd;
 		FieldInfo disposedFieldInfo;
 		object data_received;
 		//private Thread DataReceiveThread;
+
 		#endregion
-		
-		
+
+		#region Commands
+
+		//derived from ASCII
+		readonly byte NULL = 0;
+		readonly byte EOT = 4;
+		readonly byte ACK = 6;
+		readonly byte NAK = 21;
+		readonly byte CAN = 24;
+
+		readonly byte READY = 1;
+		readonly byte SetPin = 2;
+		readonly byte ReadPin = 3;
+
+		#endregion
+
 		#region Constructor
-		public SerialController() : base() {}
-	
-		public SerialController(IContainer container) : base(container){}
 
-		public SerialController( string portName ) : base( portName ){}
+		public SerialController () : base ()
+		{
+		}
 
-		public SerialController( string portName, int baudRate ) : base ( portName,baudRate ){}
+		public SerialController (IContainer container) : base (container)
+		{
+		}
 
-		public SerialController( string portName, int baudRate, Parity parity ) : base ( portName, baudRate, parity ){}
+		public SerialController (string portName) : base (portName)
+		{
+		}
 
-		public SerialController( string portName, int baudRate, Parity parity, int dataBits) : base ( portName, baudRate, parity, dataBits){}
+		public SerialController (string portName, int baudRate) : base (portName, baudRate)
+		{
+		}
 
-		public SerialController( string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits ) : base ( portName, baudRate, parity, dataBits, stopBits ){}
+		public SerialController (string portName, int baudRate, Parity parity) : base (portName, baudRate, parity)
+		{
+		}
+
+		public SerialController (string portName, int baudRate, Parity parity, int dataBits) : base (portName, baudRate, parity, dataBits)
+		{
+		}
+
+		public SerialController (string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits) : base (portName, baudRate, parity, dataBits, stopBits)
+		{
+		}
+
 		#endregion
 
 		public new void Open ()
 		{
 			base.Open ();
 
-			if( IsWindows == false )
-			{
+			if (IsWindows == false) {
 				FieldInfo fieldInfo = BaseStream.GetType ().GetField ("fd", BindingFlags.Instance | BindingFlags.NonPublic);
 				fd = (int)fieldInfo.GetValue (BaseStream);
 				disposedFieldInfo = BaseStream.GetType ().GetField ("disposed", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -49,15 +82,14 @@ namespace SerialController{
 			}
 		}
 
-		static bool IsWindows
-		{
-			get{
+		static bool IsWindows {
+			get {
 				PlatformID id = Environment.OSVersion.Platform;
 				return id == PlatformID.Win32Windows || id == PlatformID.Win32NT;
 			}
 		}
 
-		private void EventThreadFunction()
+		private void EventThreadFunction ()
 		{
 			do {
 				try {
@@ -78,8 +110,7 @@ namespace SerialController{
 		{
 			SerialDataReceivedEventHandler handler = (SerialDataReceivedEventHandler)Events [data_received];
 
-			if ( handler != null)
-			{
+			if (handler != null) {
 				handler (this, args);
 			}
 		}
@@ -87,18 +118,16 @@ namespace SerialController{
 		[DllImport ("MonoPosixHelper", SetLastError = true)]
 		static extern bool poll_serial (int fd, out int error, int timeout);
 
-		private bool Poll(Stream stream, int timeout)
+		private bool Poll (Stream stream, int timeout)
 		{
 			CheckDisposed (stream);
-			if ( IsOpen == false)
-			{
+			if (IsOpen == false) {
 				throw new Exception ("port is closed");
 			}
 			int error;
 
 			bool poll_result = poll_serial (fd, out error, ReadTimeout);
-			if ( error == -1)
-			{
+			if (error == -1) {
 				ThrowIOException ();
 			}
 			return poll_result;
@@ -117,18 +146,9 @@ namespace SerialController{
 		void CheckDisposed (Stream stream)
 		{
 			bool disposed = (bool)disposedFieldInfo.GetValue (stream);
-			if (disposed)
-			{
+			if (disposed) {
 				throw new ObjectDisposedException (stream.GetType ().FullName);
 			}
 		}
-
-		private void DataReceiveThreadRun()
-		{
-			while ( this.IsOpen )
-			{
-				
-			}
-		}
-	}	
+	}
 }

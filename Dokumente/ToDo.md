@@ -1,7 +1,6 @@
 ToDo
 ====
 
-- Serial Workaround implementieren
 - Arduino specs finden
 - arduino treiber ausarbeiten
 - struktur ausarbeiten

@@ -1,0 +1,1 @@
+\glossaryentry{\PackageError {glossaries}{name key required in \string \newglossaryentry \space for entry `\@glo@label '}{You haven't specified the entry name}?\glossentry{Test}|setentrycounter[]{page}\glsnumberformat}{1}
