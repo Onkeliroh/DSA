@@ -165,6 +165,7 @@ namespace Mokup
 				this.Child.ShowAll ();
 			}
 			this.Show ();
+			this.button4.Clicked += new global::System.EventHandler (this.OnMeassureBtnClick);
 			this.button2.Clicked += new global::System.EventHandler (this.OnConfigBtnClick);
 		}
 	}

@@ -50,6 +50,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Mono.Posix" />
+    <Reference Include="Mono.Cairo" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -67,6 +68,8 @@
     <Compile Include="About.cs" />
     <Compile Include="ConfigurationWindow.cs" />
     <Compile Include="gtk-gui\Mokup.ConfigurationWindow.cs" />
+    <Compile Include="CollapseFrame.cs" />
+    <Compile Include="gtk-gui\Mokup.CollapseFrame.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

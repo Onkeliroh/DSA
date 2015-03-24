@@ -5,11 +5,11 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle ("Mokup")]
-[assembly: AssemblyDescription ("")]
+[assembly: AssemblyDescription ("A Mockup for my beachelor thesis.")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("onkeliroh")]
+[assembly: AssemblyCopyright ("Daniel Pollack")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 

@@ -28,6 +28,11 @@ namespace Mokup
 			OpenConfigurationWindow ();
 		}
 
+		private void OnMeassureBtnClick (object obj, EventArgs args)
+		{
+			OpenMeassureWindow ();
+		}
+
 		private void CreateObjects ()
 		{
 			Gtk.TreeViewColumn SessionNameColumn = new Gtk.TreeViewColumn ();
@@ -51,7 +56,19 @@ namespace Mokup
 
 		private void OpenConfigurationWindow (string path)
 		{
+			//todo
 			new ConfigurationWindow ().Show ();
+		}
+
+		private void OpenMeassureWindow ()
+		{
+			OpenMeassureWindow ("");
+		}
+
+		private void OpenMeassureWindow (string path)
+		{
+			//todo
+			new MeassureWindow ().Show ();
 		}
 	}
 }

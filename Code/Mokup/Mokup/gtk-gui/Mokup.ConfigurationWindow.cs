@@ -20,9 +20,31 @@ namespace Mokup
 		
 		private global::Gtk.Action aboutAction;
 		
+		private global::Gtk.Action newAction1;
+		
+		private global::Gtk.Action openAction1;
+		
+		private global::Gtk.Action saveAction1;
+		
+		private global::Gtk.Action mediaPlayAction;
+		
 		private global::Gtk.VBox vbox1;
 		
 		private global::Gtk.MenuBar menubar1;
+		
+		private global::Gtk.Toolbar ConfigToolbar;
+		
+		private global::Gtk.HBox hbox1;
+		
+		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
+		
+		private global::Gtk.TreeView treeview2;
+		
+		private global::Gtk.DrawingArea drawingarea1;
+		
+		private global::Gtk.ScrolledWindow GtkScrolledWindow;
+		
+		private global::Gtk.TreeView treeview1;
 		
 		private global::Gtk.Statusbar statusbar1;
 
@@ -53,8 +75,18 @@ namespace Mokup
 			this.aboutAction = new global::Gtk.Action ("aboutAction", global::Mono.Unix.Catalog.GetString ("About"), null, "gtk-about");
 			this.aboutAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("About");
 			w1.Add (this.aboutAction, null);
+			this.newAction1 = new global::Gtk.Action ("newAction1", null, null, "gtk-new");
+			w1.Add (this.newAction1, null);
+			this.openAction1 = new global::Gtk.Action ("openAction1", null, null, "gtk-open");
+			w1.Add (this.openAction1, null);
+			this.saveAction1 = new global::Gtk.Action ("saveAction1", null, null, "gtk-save");
+			w1.Add (this.saveAction1, null);
+			this.mediaPlayAction = new global::Gtk.Action ("mediaPlayAction", null, null, "gtk-media-play");
+			w1.Add (this.mediaPlayAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
+			this.WidthRequest = 800;
+			this.HeightRequest = 600;
 			this.Name = "Mokup.ConfigurationWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("ConfigurationWindow");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
@@ -62,7 +94,6 @@ namespace Mokup
 			// Container child Mokup.ConfigurationWindow.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
-			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><menuitem name='openAction' action='openAction'/><menuitem name='saveAction' action='saveAction'/><separator/><menuitem name='quitAction' action='quitAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='aboutAction' action='aboutAction'/></menu></menubar></ui>");
 			this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
@@ -73,20 +104,70 @@ namespace Mokup
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
+			this.UIManager.AddUiFromString ("<ui><toolbar name='ConfigToolbar'><toolitem name='newAction1' action='newAction1'/><toolitem name='openAction1' action='openAction1'/><toolitem name='saveAction1' action='saveAction1'/><separator/><toolitem name='mediaPlayAction' action='mediaPlayAction'/></toolbar></ui>");
+			this.ConfigToolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/ConfigToolbar")));
+			this.ConfigToolbar.Name = "ConfigToolbar";
+			this.ConfigToolbar.ShowArrow = false;
+			this.ConfigToolbar.ToolbarStyle = ((global::Gtk.ToolbarStyle)(2));
+			this.ConfigToolbar.IconSize = ((global::Gtk.IconSize)(2));
+			this.vbox1.Add (this.ConfigToolbar);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.ConfigToolbar]));
+			w3.Position = 1;
+			w3.Expand = false;
+			w3.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.hbox1 = new global::Gtk.HBox ();
+			this.hbox1.Name = "hbox1";
+			this.hbox1.Spacing = 6;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow ();
+			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
+			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
+			this.treeview2 = new global::Gtk.TreeView ();
+			this.treeview2.CanFocus = true;
+			this.treeview2.Name = "treeview2";
+			this.GtkScrolledWindow1.Add (this.treeview2);
+			this.hbox1.Add (this.GtkScrolledWindow1);
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.GtkScrolledWindow1]));
+			w5.Position = 0;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.drawingarea1 = new global::Gtk.DrawingArea ();
+			this.drawingarea1.WidthRequest = 271;
+			this.drawingarea1.Name = "drawingarea1";
+			this.hbox1.Add (this.drawingarea1);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.drawingarea1]));
+			w6.Position = 1;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
+			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+			this.treeview1 = new global::Gtk.TreeView ();
+			this.treeview1.CanFocus = true;
+			this.treeview1.Name = "treeview1";
+			this.GtkScrolledWindow.Add (this.treeview1);
+			this.hbox1.Add (this.GtkScrolledWindow);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.GtkScrolledWindow]));
+			w8.Position = 2;
+			this.vbox1.Add (this.hbox1);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
+			w9.Position = 2;
+			// Container child vbox1.Gtk.Box+BoxChild
 			this.statusbar1 = new global::Gtk.Statusbar ();
 			this.statusbar1.Name = "statusbar1";
 			this.statusbar1.Spacing = 6;
 			this.vbox1.Add (this.statusbar1);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
-			w3.Position = 2;
-			w3.Expand = false;
-			w3.Fill = false;
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
+			w10.Position = 3;
+			w10.Expand = false;
+			w10.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 400;
-			this.DefaultHeight = 300;
+			this.DefaultWidth = 800;
+			this.DefaultHeight = 600;
 			this.Show ();
 		}
 	}

@@ -27,7 +27,6 @@ namespace Mokup
 
 		private void InitializeComponents ()
 		{
-
 		}
 	}
 }
