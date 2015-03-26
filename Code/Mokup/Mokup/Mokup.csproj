@@ -68,8 +68,18 @@
     <Compile Include="About.cs" />
     <Compile Include="ConfigurationWindow.cs" />
     <Compile Include="gtk-gui\Mokup.ConfigurationWindow.cs" />
-    <Compile Include="CollapseFrame.cs" />
-    <Compile Include="gtk-gui\Mokup.CollapseFrame.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\CollapseFrameWidget\CollapseFrameWidget.csproj">
+      <Project>{9A8DB872-30A9-4F25-B147-4A50800E7089}</Project>
+      <Name>CollapseFrameWidget</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PlotWidget\PlotWidget.csproj">
+      <Project>{CDFA28E0-E945-44BA-890C-9CAD81B1550E}</Project>
+      <Name>PlotWidget</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

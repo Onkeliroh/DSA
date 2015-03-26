@@ -1,8 +1,11 @@
 ﻿<Properties StartupItem="../../../NPlotTest/NPlotTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../NPlotTest/NPlotConfigTestWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Flocence_Test/PlotClass.cs">
     <Files>
       <File FileName="../../../NPlotTest/NPlotConfigTestWindow.cs" Line="1" Column="1" />
+      <File FileName="SimpleSerial/Program.cs" Line="1" Column="1" />
+      <File FileName="../ZedGraphTest/Program.cs" Line="1" Column="1" />
+      <File FileName="Flocence_Test/PlotClass.cs" Line="11" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

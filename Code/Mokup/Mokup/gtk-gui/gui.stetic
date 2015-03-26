@@ -5,6 +5,8 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <widget-library name="../../../CollapseFrameWidget/bin/Debug/CollapseFrameWidget.dll" />
+    <widget-library name="../../../PlotWidget/bin/Debug/PlotWidget.dll" />
     <widget-library name="../bin/Debug/Mokup.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Mokup.StartWindow" design-size="800 600">
@@ -286,82 +288,29 @@
             <property name="MemberName" />
             <property name="Spacing">1</property>
             <child>
-              <widget class="Gtk.VBox" id="PlotVBox">
+              <widget class="PlotWidget.PlotWidget" id="plotwidget1">
                 <property name="MemberName" />
-                <property name="Spacing">1</property>
-                <child>
-                  <widget class="Gtk.HBox" id="PlotHBox">
-                    <property name="MemberName" />
-                    <property name="Spacing">1</property>
-                    <child>
-                      <widget class="Gtk.Notebook" id="notebook1">
-                        <property name="MemberName" />
-                        <property name="CanFocus">True</property>
-                        <property name="CurrentPage">0</property>
-                        <child>
-                          <placeholder />
-                        </child>
-                        <child>
-                          <widget class="Gtk.Label" id="label2">
-                            <property name="MemberName" />
-                            <property name="LabelProp" translatable="yes">page1</property>
-                          </widget>
-                          <packing>
-                            <property name="type">tab</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="Position">0</property>
-                        <property name="AutoSize">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Fixed" id="fixed1">
-                        <property name="MemberName" />
-                        <property name="HasWindow">False</property>
-                      </widget>
-                      <packing>
-                        <property name="Position">1</property>
-                        <property name="AutoSize">False</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="Position">0</property>
-                    <property name="AutoSize">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="Gtk.Toolbar" id="toolbar3">
-                    <property name="MemberName" />
-                    <property name="ShowArrow">False</property>
-                    <property name="IconSize">SmallToolbar</property>
-                    <node name="toolbar3" type="Toolbar">
-                      <node type="Toolitem" action="goBackAction" />
-                      <node type="Toolitem" action="mediaPauseAction" />
-                      <node type="Toolitem" action="goForwardAction" />
-                      <node type="Separator" />
-                      <node type="Toolitem" action="zoomInAction" />
-                      <node type="Toolitem" action="zoomOutAction" />
-                      <node type="Toolitem" action="zoom100Action" />
-                    </node>
-                  </widget>
-                  <packing>
-                    <property name="Position">1</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
+                <property name="Events">ButtonPressMask</property>
               </widget>
               <packing>
                 <property name="Position">0</property>
                 <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
               </packing>
             </child>
             <child>
-              <placeholder />
+              <widget class="CollapseFrameWidget.CollapseFrame" id="collapseframe1">
+                <property name="MemberName" />
+                <property name="WidthRequest">300</property>
+                <property name="Events">ButtonPressMask</property>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
             </child>
           </widget>
           <packing>
@@ -578,84 +527,6 @@
             <property name="Fill">False</property>
           </packing>
         </child>
-      </widget>
-    </child>
-  </widget>
-  <widget class="Gtk.Bin" id="Mokup.CollapseFrame" design-size="300 300">
-    <property name="MemberName" />
-    <property name="Visible">False</property>
-    <child>
-      <widget class="Gtk.HBox" id="hbox4">
-        <property name="MemberName" />
-        <child>
-          <widget class="Gtk.VBox" id="vbox3">
-            <property name="MemberName" />
-            <child>
-              <widget class="Gtk.Arrow" id="SizeArrow">
-                <property name="MemberName" />
-                <property name="CanFocus">True</property>
-              </widget>
-              <packing>
-                <property name="Position">0</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder />
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">0</property>
-            <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.Frame" id="frame2">
-            <property name="MemberName" />
-            <property name="ShadowType">None</property>
-            <child>
-              <widget class="Gtk.Alignment" id="GtkAlignment">
-                <property name="MemberName" />
-                <property name="Xalign">0</property>
-                <property name="Yalign">0</property>
-                <child>
-                  <placeholder />
-                </child>
-              </widget>
-            </child>
-            <child>
-              <widget class="Gtk.Label" id="GtkLabel">
-                <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">&lt;b&gt;GtkFrame&lt;/b&gt;</property>
-                <property name="UseMarkup">True</property>
-              </widget>
-              <packing>
-                <property name="type">label_item</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">1</property>
-            <property name="AutoSize">False</property>
-          </packing>
-        </child>
-      </widget>
-    </child>
-  </widget>
-  <widget class="Gtk.Bin" id="Mokup.ArrowButton" design-size="300 300">
-    <property name="MemberName" />
-    <property name="Visible">False</property>
-    <child>
-      <widget class="Gtk.Button" id="button3">
-        <property name="MemberName" />
-        <property name="CanFocus">True</property>
-        <property name="Type">TextOnly</property>
-        <property name="Label" translatable="yes">GtkButton</property>
-        <property name="UseUnderline">True</property>
       </widget>
     </child>
   </widget>

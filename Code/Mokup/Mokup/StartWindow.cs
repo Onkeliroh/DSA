@@ -68,7 +68,8 @@ namespace Mokup
 		private void OpenMeassureWindow (string path)
 		{
 			//todo
-			new MeassureWindow ().Show ();
+			var tmp = new MeassureWindow ();
+			tmp.Show ();
 		}
 	}
 }

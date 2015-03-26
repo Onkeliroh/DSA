@@ -1,4 +1,5 @@
 ﻿using System;
+using Gtk;
 
 namespace Mokup
 {
@@ -20,14 +21,13 @@ namespace Mokup
 			ShowAll ();
 		}
 
-		private void OnDelete (Object obj, EventArgs args)
+		private void OnDelete (object obj, EventArgs args)
 		{
 			this.Destroy ();
 		}
 
 		void InitializeComponents ()
 		{
-			this.ContentHBox.PackEnd (new CollapseFrame ());
 		}
 	}
 }
