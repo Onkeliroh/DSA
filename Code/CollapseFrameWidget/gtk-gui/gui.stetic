@@ -29,10 +29,11 @@
             <property name="RightAttach">2</property>
             <property name="AutoSize">True</property>
             <property name="XOptions">Fill</property>
+            <property name="YOptions">Fill</property>
             <property name="XExpand">False</property>
             <property name="XFill">True</property>
             <property name="XShrink">False</property>
-            <property name="YExpand">True</property>
+            <property name="YExpand">False</property>
             <property name="YFill">True</property>
             <property name="YShrink">False</property>
           </packing>
@@ -61,7 +62,7 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Label" id="CollapseFrameLabel">
+          <widget class="Gtk.Label" id="CollapseFrameLabelH">
             <property name="MemberName" />
             <property name="Xalign">0</property>
             <property name="LabelProp" translatable="yes">&lt;b&gt;CollapseFrameLabel&lt;/b&gt;</property>
@@ -81,13 +82,15 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.VSeparator" id="CollapseFrameVSeparator">
+          <widget class="Gtk.Label" id="CollapseFrameLabelV">
             <property name="MemberName" />
+            <property name="UseMarkup">True</property>
+            <property name="Angle">90</property>
           </widget>
           <packing>
             <property name="TopAttach">1</property>
             <property name="BottomAttach">2</property>
-            <property name="AutoSize">True</property>
+            <property name="AutoSize">False</property>
             <property name="XOptions">Fill</property>
             <property name="XExpand">False</property>
             <property name="XFill">True</property>

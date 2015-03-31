@@ -12,9 +12,9 @@ namespace CollapseFrameWidget
 		
 		private global::Gtk.Arrow CollapseFrameArrow;
 		
-		private global::Gtk.Label CollapseFrameLabel;
+		private global::Gtk.Label CollapseFrameLabelH;
 		
-		private global::Gtk.VSeparator CollapseFrameVSeparator;
+		private global::Gtk.Label CollapseFrameLabelV;
 
 		protected virtual void Build ()
 		{
@@ -35,6 +35,7 @@ namespace CollapseFrameWidget
 			w1.LeftAttach = ((uint)(1));
 			w1.RightAttach = ((uint)(2));
 			w1.XOptions = ((global::Gtk.AttachOptions)(4));
+			w1.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child CollapseFrameTable.Gtk.Table+TableChild
 			this.CollapseFrameEventbox = new global::Gtk.EventBox ();
 			this.CollapseFrameEventbox.Name = "CollapseFrameEventbox";
@@ -48,21 +49,23 @@ namespace CollapseFrameWidget
 			w3.XOptions = ((global::Gtk.AttachOptions)(4));
 			w3.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child CollapseFrameTable.Gtk.Table+TableChild
-			this.CollapseFrameLabel = new global::Gtk.Label ();
-			this.CollapseFrameLabel.Name = "CollapseFrameLabel";
-			this.CollapseFrameLabel.Xalign = 0F;
-			this.CollapseFrameLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>CollapseFrameLabel</b>");
-			this.CollapseFrameLabel.UseMarkup = true;
-			this.CollapseFrameTable.Add (this.CollapseFrameLabel);
-			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.CollapseFrameTable [this.CollapseFrameLabel]));
+			this.CollapseFrameLabelH = new global::Gtk.Label ();
+			this.CollapseFrameLabelH.Name = "CollapseFrameLabelH";
+			this.CollapseFrameLabelH.Xalign = 0F;
+			this.CollapseFrameLabelH.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>CollapseFrameLabel</b>");
+			this.CollapseFrameLabelH.UseMarkup = true;
+			this.CollapseFrameTable.Add (this.CollapseFrameLabelH);
+			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.CollapseFrameTable [this.CollapseFrameLabelH]));
 			w4.LeftAttach = ((uint)(1));
 			w4.RightAttach = ((uint)(2));
 			w4.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child CollapseFrameTable.Gtk.Table+TableChild
-			this.CollapseFrameVSeparator = new global::Gtk.VSeparator ();
-			this.CollapseFrameVSeparator.Name = "CollapseFrameVSeparator";
-			this.CollapseFrameTable.Add (this.CollapseFrameVSeparator);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.CollapseFrameTable [this.CollapseFrameVSeparator]));
+			this.CollapseFrameLabelV = new global::Gtk.Label ();
+			this.CollapseFrameLabelV.Name = "CollapseFrameLabelV";
+			this.CollapseFrameLabelV.UseMarkup = true;
+			this.CollapseFrameLabelV.Angle = 90;
+			this.CollapseFrameTable.Add (this.CollapseFrameLabelV);
+			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.CollapseFrameTable [this.CollapseFrameLabelV]));
 			w5.TopAttach = ((uint)(1));
 			w5.BottomAttach = ((uint)(2));
 			w5.XOptions = ((global::Gtk.AttachOptions)(4));

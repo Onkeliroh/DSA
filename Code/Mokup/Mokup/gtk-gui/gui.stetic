@@ -2,12 +2,13 @@
 <stetic-interface>
   <configuration>
     <images-root-path>..</images-root-path>
+    <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../../../CollapseFrameWidget/bin/Debug/CollapseFrameWidget.dll" />
     <widget-library name="../../../PlotWidget/bin/Debug/PlotWidget.dll" />
     <widget-library name="../bin/Debug/Mokup.exe" internal="true" />
+    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </import>
   <widget class="Gtk.Window" id="Mokup.StartWindow" design-size="800 600">
     <action-group name="Default">
@@ -288,22 +289,21 @@
             <property name="MemberName" />
             <property name="Spacing">1</property>
             <child>
-              <widget class="PlotWidget.PlotWidget" id="plotwidget1">
+              <widget class="PlotWidget.PlotWidget" id="plotwidget4">
                 <property name="MemberName" />
                 <property name="Events">ButtonPressMask</property>
               </widget>
               <packing>
                 <property name="Position">0</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
+                <property name="AutoSize">False</property>
               </packing>
             </child>
             <child>
               <widget class="CollapseFrameWidget.CollapseFrame" id="collapseframe1">
                 <property name="MemberName" />
-                <property name="WidthRequest">300</property>
                 <property name="Events">ButtonPressMask</property>
+                <property name="IsCollapsed">False</property>
+                <property name="LabelProp">Mathe</property>
               </widget>
               <packing>
                 <property name="Position">1</property>

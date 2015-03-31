@@ -28,7 +28,9 @@ namespace Mokup
 
 		void InitializeComponents ()
 		{
+			this.collapseframe1.Add (new Label ("Test"));
 		}
+
 	}
 }
 

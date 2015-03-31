@@ -34,7 +34,7 @@ namespace Mokup
 		
 		private global::Gtk.HBox ContentHBox;
 		
-		private global::PlotWidget.PlotWidget plotwidget1;
+		private global::PlotWidget.PlotWidget plotwidget4;
 		
 		private global::CollapseFrameWidget.CollapseFrame collapseframe1;
 		
@@ -104,19 +104,18 @@ namespace Mokup
 			this.ContentHBox.Name = "ContentHBox";
 			this.ContentHBox.Spacing = 1;
 			// Container child ContentHBox.Gtk.Box+BoxChild
-			this.plotwidget1 = new global::PlotWidget.PlotWidget ();
-			this.plotwidget1.Events = ((global::Gdk.EventMask)(256));
-			this.plotwidget1.Name = "plotwidget1";
-			this.ContentHBox.Add (this.plotwidget1);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.ContentHBox [this.plotwidget1]));
+			this.plotwidget4 = new global::PlotWidget.PlotWidget ();
+			this.plotwidget4.Events = ((global::Gdk.EventMask)(256));
+			this.plotwidget4.Name = "plotwidget4";
+			this.ContentHBox.Add (this.plotwidget4);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.ContentHBox [this.plotwidget4]));
 			w4.Position = 0;
-			w4.Expand = false;
-			w4.Fill = false;
 			// Container child ContentHBox.Gtk.Box+BoxChild
 			this.collapseframe1 = new global::CollapseFrameWidget.CollapseFrame ();
-			this.collapseframe1.WidthRequest = 300;
 			this.collapseframe1.Events = ((global::Gdk.EventMask)(256));
 			this.collapseframe1.Name = "collapseframe1";
+			this.collapseframe1.IsCollapsed = false;
+			this.collapseframe1.LabelProp = "Mathe";
 			this.ContentHBox.Add (this.collapseframe1);
 			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.ContentHBox [this.collapseframe1]));
 			w5.Position = 1;

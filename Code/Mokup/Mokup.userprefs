@@ -1,16 +1,16 @@
 ﻿<Properties StartupItem="Mokup/Mokup.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../PlotWidget/PlotWidget.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../CollapseFrameWidget/CollapseFrame.cs">
     <Files>
+      <File FileName="Mokup/MeassureWindow.cs" Line="48" Column="48" />
       <File FileName="../PlotWidget/PlotWidget.cs" Line="1" Column="1" />
-      <File FileName="Mokup/MeassureWindow.cs" Line="1" Column="1" />
+      <File FileName="../CollapseFrameWidget/CollapseFrame.cs" Line="48" Column="48" />
+      <File FileName="../DualSliderWidget/DualSlider.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/home/onkeliroh/Bachelorarbeit/Code/Mokup/Mokup/MeassureWindow.cs" line="11" column="12" />
-      <Breakpoint file="/home/onkeliroh/Bachelorarbeit/Code/Mokup/Mokup/StartWindow.cs" line="71" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <AuthorInfo Name="Daniel Pollack" Email="daniel.pollack@uni-weimar.de" Copyright="onkeliroh" Company="" Trademark="" />
 </Properties>
