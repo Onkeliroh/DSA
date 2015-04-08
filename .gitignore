@@ -1,11 +1,21 @@
-.log
-.swp
-.*
-.toc
-.*~
-.cs~
-.exe
-.pdf
+*.log
+*.swp
+*.toc
+*.*~
+*.cs~
+*.exe
+
+#begin latex
+*.pdf
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+#end latex
+
 bin/
 obj/
 ~
