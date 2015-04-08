@@ -1,0 +1,37 @@
+\documentclass[a4paper,10pt,openright,oneside,notitlepage]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[xindy]{glossaries}
+\usepackage[round]{natbib}
+\usepackage{hyperref}
+
+\title{Anforderungsanalyse der Bachelorarbeit}
+\author{Daniel Pollack}
+\date{}
+
+\pdfinfo{
+  /Title    (\title)
+  /Author   (\author)
+  /Creator  (\author)
+  /Producer (\author)
+  /Subject  ()
+  /Keywords ()
+}
+
+\makeglossary
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\input{Introduction}
+\input{System}
+\input{Glossar}
+
+\bibliographystyle{plain}
+\bibliography{Bibliography.bib}
+
+
+\end{document}

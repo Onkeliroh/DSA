@@ -7,15 +7,16 @@
 \usepackage{graphicx}
 \usepackage{glossaries}
 
-\usepackage[dvips]{hyperref}
+\usepackage[pdftex]{hyperref}
 
 \author{Daniel Pollack}
 \title{Glossar}
 \date{03/23/15}
 
-\glossary{name={Test},description={Dies ist ein Test}}
-\newglossaryentry{Test}{description={Dies ist noch ein Test}}
 \makeglossaries
+\newglossaryentry{Test}{
+name=Test,
+description={Dies ist noch ein Test}}
 \begin{document}
 Hier kommt der Verweis auf \gls{Test}.
 \printglossaries

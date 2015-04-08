@@ -1,0 +1,33 @@
+\part{Einleitung}
+\chapter{Anlass}
+Die Idee zu diesem Bachelorthema ist aus dem Arbeitsalltag am Max-Plack Institut
+für Biogeochemie in Jena entstanden. Durch Gesprächen mit Kollegen und beim
+\gls{Brainstorming} mit meinem Vorgesetzten bin ich zu dem Entschluss gekommen, 
+dass
+das angestrebte Thema eine sinnvolle Ergänzung im Arbeitsalltag und eine
+Verbesserung der Arbeitsabläufe, sowohl im Institut als auch anders wo
+darstellt.
+
+\chapter{Zweck}
+Zweck dieser Arbeit soll es sein eine Software zu entwickeln die den Aufbau und
+die Wartung von Versuchsaufbauten zu beschleunigt und vor allem zu
+vereinfacht. Bei meiner Recherche stellte sich herraus, dass manche am Institut
+verwendete System lediglich von einer geringen Anzahl personen konfiguriert und
+gewartet werden können. Dieser Zustand ist keines wegs optimal und kann den
+betrieblichen Ablauf erheblich stören, durch z.B. fehl der befähigten Personen.
+\chapter{Ziele}
+Diese Arbeit hat zum Ziel eine Softwarelösung zu entwickeln und umzusetzen, die 
+es einem elektrotechnisch geschulten und in dem Umgang mit Computern geübten 
+Nutzer erlaubt einen elektronischen Schaltkreis zu überwachen, messen und zu 
+steuern.
+\chapter{Referenzen}
+Bei Recherchen hat sich mein Eindruck nach dem Bedarft für eine solche Software 
+verstärkt. So ist das Interesse an erschwinglicher Hardware und handlicher 
+Software zum Prototyping und dem Aufbau von Versuchen besonders durch das 
+Aufkommen des Arduinos gewachsen. \cite[D. K. Fisher und P. J. Gould]{Modern 
+Instrumentation} beschrieben in ihrem Paper einen Versuchsaufbau mit Hilfe 
+eines Arduinonachbaus zur Ermittlung von Feuchtigkeitswerten in und um Pflanzen 
+herum. Ihr Aufbau und vorallem die Software verfolgen ein ähnliches Prinzip, 
+wie das von mir angestrebte. Der Arduino diehnt ihnen alls 
+Datenerfassungsergrät und übermittelt alle Daten ohne weitere Verarbeitung 
+direkt an entweder ein Speichermedium oder an einen Server.

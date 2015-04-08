@@ -1,0 +1,30 @@
+\ifglsentryexists{Brainstorming}{}%
+{%
+\gls@defglossaryentry{Brainstorming}%
+{%
+name={Brainstorming},%
+sort={Brainstorming},%
+type={main},%
+first={Brainstorming},%
+firstplural={Brainstormings},%
+text={Brainstorming},%
+plural={Brainstormings},%
+description={Eine Methode zur Findung von neunen, ungewöhnlichen Ideen.},%
+descriptionplural={Eine Methode zur Findung von neunen, ungewöhnlichen Ideen.},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+}%
