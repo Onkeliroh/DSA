@@ -1,1 +1,4 @@
-(indexentry :tkey (("Brainstorming" "\\glossentry{Brainstorming}") ) :locref "{}{4}" :attr "pageglsnumberformat" ) 
+\glossaryentry{Brainstorming?\glossentry{Brainstorming}|setentrycounter[]{page}\glsnumberformat}{3}
+\glossaryentry{Übertragungsfunktion?\glossentry{Uebertragungsfunktion}|setentrycounter[]{page}\glsnumberformat}{5}
+\glossaryentry{Eventlogging?\glossentry{Eventlogging}|setentrycounter[]{page}\glsnumberformat}{6}
+\glossaryentry{FAQ?\glossentry{FAQ}|setentrycounter[]{page}\glsnumberformat}{6}

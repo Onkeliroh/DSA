@@ -1,17 +1,66 @@
-\part{Programm}
-\chapter{Übersicht}
-\chapter{Funktionalitäten}
-\chapter{Optionale Funktionalitäten}
+\chapter{System}
+\section{Übersicht}
+%Beschreibung Programm
+Das System besteht aus zwei Teilen. Der eine Teil besteht aus einer Desktop Computer Anwendung und der zweite Teil besteht aus einem Arduino-Sketch.
+Beide Teile erfahren in den Folgenden Abschnitten einer genauere Beschreibung. Vorweg soll lediglich der grobe Aufbau des Systems skizziert werden.
+
+Die Desktop Computer Anwendung soll dem Nutzer eine Oberfläche bieten, mit der er ohne Programmierkenntnisse einen Mess- und Steuerungsaufbau für den Arduino erstellen und verwalten kann. Die Oberfläche soll bei einer erfolgreichen Erstellung und Ausführung dann in Echtzeit die Daten visualisieren und gleichzeitig in eine, auch vom Nutzer konfigurierte, Datei speichern.
+
+Der Arduino-Sketch wird eine Logik bekommen, mit der es möglich sein wird seine Ein- und Ausgängt während der Laufzeit zu konfigurieren. Diese Vorgehensweise ermöglicht es, die neu Einrichtung und das Aufspielen eine Arduino-Sketches auf ein Minimum zu begrenzen. Ausserdem bleib weniger geschulten Nutzern der Schritt des Softwareaufspielens erspart.
+
+%ToDo Bild
+
+\section{Funktionalitäten}
+Folgende Funktionalitäten sollen in dieser Arbeit umgesetzt werden:
+\begin{itemize}
+ \item Umsetzung eines Nutzerfreundlichen Interfaces
+ \item vereinfachtes Aufsetzen des Systems
+ \subitem die Bezieht sich vorallem auf die Einrichtung des Arduinos
+ \item Echtzeitloggen beliebiger Messwerte in beliebigen Frequenzen
+ \item Echtzeitvisualisierung der Messergebnisse
+ \item Angabe von Übertragungsfunktionen \gls{Uebertragungsfunktion} für einzelne Signale + Visualisierung
+ \item Konfigurierbarkeit der Visualisierung
+ \item Erarbeitung eines Protokolls für die Microcontroller - PC Kommunikation
+ \item Datenlogger mit angemessen hohem Grad an Konfigurationsmöglichkeiten
+\end{itemize}
+
+\section{Optionale Funktionalitäten}
+\begin{itemize}
+ \item Das Interface bietet die Möglichkeit zum Aufspielen des Arduinosketches (z.B. ein ``Uploadbutton'')
+ \item Unterstützung mehrerer Arduinoprodukte und Chipsätze
+ \item Visualisierungen können abgekoppelt vom Hauptfenster auf dem Desktop angeordnet werden
+ \item Eventlogging \gls{Eventlogging} soll ermöglicht werden.
+ \item Update-Benachrichtigung
+\end{itemize}
+
 \section{Usability}
+\subsection{Interface}
+\subsection{Visualisierung}
 \section{Verlässlichkeit Wartung}
+Im Fordergrund dieser Arbeit steht die erfolgreiche Umsetzung der Idee. Eine längerfristige Wartung und Weiterentwicklung des Systems ist daher momentan nicht von vorrangigem Interesse. Es sei jedoch auf die Lizenzierung zu verweißen, in der eine Open Source Lizens angestrebt wird. Zu dem sollen alle relevanten Dokumente einschliesslich des Quellcode auf einer freizugäglichen Plattform veröffentlicht werden.
+Denkbar ist beispielsweiße die Seite \href{https://github.com/}{GitHub}, welche sich durch eine große Community auszeichnet und die Kontrolle und Verwaltung eines Projekte ermöglicht.
+
+Für Fragen der Nutzer, besonders bei Problemen, kann ein \acrshort{FAQ} eingerichtet werden. Für speziellere Problem steht dem Nutzer auch der direkte Kontakt zur Verfügung.
 \section{Leistung}
-\section{Implementation \/ Umsetzung}
+\section{Implementation / Umsetzung}
+Die Umsetzung der Desktop Computer Anwendung wird in der Sprache \href{http://www.mono-project.com/}{Mono} geschehen. Für die Grafische Benutzeroberfläche wird die Bibliothek \href{http://www.gtk.org/}{GTK-sharp} in der Version 2.12 verwendet. Der Arduino-Sketch wird in C++ implementiert.
+
+Um eine problemarme Umsetzung zu gewährleisten ist es von äußerster Wichtigkeit, die Zugrundeliegenden Softwarekomponenten im Vorfeld ausreichend zu testen und sich mit ihnen vertraut zu machen. 
+%ToDo 
 \section{Interface}
 \section{Packaging}
-\section{Lizenz / Rechtliches}
+Ein Packaging gestaltet sich als etwas anspruchsvoll, da mehrere Betriebssystem berücksichtigt werden müssen. Für den Vertrieb auf Unix/Linux System ist es gängige Praxis die Software in einem entsprechenden Containerformat in einem der Repositories zu hinterlegen. Diese Methode hat den Vorteil eines, dem Nutzer vertrautem, Installationsprozesses und sichert weiterhin, sofern regelmäßig von System oder Nutzer initialisiert, die Aktualität der Software. 
+Für Windows existiert so eine Repository-Lösung bisher nicht. Es werden daher Architektur spezifische Binärdateien erstellt und auf der gewählten Internetpräsenz zum Download angeboten. 
+
+Es wird für jedes gängige System ein Handbuch erstellt, um einen geführten Installationsprozess zu gewährleisten.
+
+Die Installation von Dritt-Software wird nicht übernommen. Jedoch ein Hinweis im Handbuch und bei dem Installationsprozess auf fehlende Komponenten wird erfolgen.
+\section{Lizenz}
+Eine Auswahl für eine endgültige Lizenz muss noch getroffen werden. Unter Berücksichtigung der beteiligten Partei muss eine Lösung gefunden werden. Persönlich strebe ich eine Open-Source Lösung an.
+Bei der Wahl der Lizenz muss die verwendete Software Dritter berücksichtigt werden. Manche Lizenzen, wie zum Beispiel die \href{https://www.gnu.org/licenses/licenses.html#GPL}{GNU-Lizenz}, vererben sich und lassen somit nur wenige Optionen offen: 1. Verwendung der Dritt-Software, 2. Implementierung einer eigenen Lösung oder 3. Verwendung einer anders lizensierten Alternative.
 \chapter{Modelle}
 \section{Szenarios}
 \section{Use case model}
-\section{Analysis object model}
+%\section{Analysis object model}
 \section{Dynamic model}
 \section{User interface - navigation und Mockups}

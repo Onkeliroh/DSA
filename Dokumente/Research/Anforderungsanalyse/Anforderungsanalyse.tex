@@ -2,13 +2,15 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
-\usepackage[xindy]{glossaries}
-\usepackage[round]{natbib}
 \usepackage{hyperref}
+\usepackage[toc]{glossaries}
+\usepackage[square, numbers]{natbib}
 
 \title{Anforderungsanalyse der Bachelorarbeit}
 \author{Daniel Pollack}
 \date{}
+
+\newcommand{\ProgrammName}{ProgrammnamePlatzhalter}
 
 \pdfinfo{
   /Title    (\title)
@@ -28,10 +30,12 @@
 
 \input{Introduction}
 \input{System}
+%\addcontentsline{toc}{chapter}{Glossar}
 \input{Glossar}
 
-\bibliographystyle{plain}
-\bibliography{Bibliography.bib}
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{plainnat}
+\bibliography{Bibliography}
 
 
 \end{document}

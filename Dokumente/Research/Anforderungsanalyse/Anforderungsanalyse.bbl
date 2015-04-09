@@ -1,6 +1,22 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{2}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem{Instrumentino}
-J.~Sáiz I.~J.~Koenka and P.~C. Hauser.
+\bibitem[Fisher and Gould(2012)]{ModernInstrumentation}
+D.~K. Fisher and P.~J. Gould.
+\newblock Open-source hardware is a low-cost alternative for scientific
+  instrumentation and research.
+\newblock \emph{Modern Instrumentation}, 01\penalty0 (02):\penalty0 8–20,
+  2012.
+
+\bibitem[Koenka et~al.(2014)Koenka, Sáiz, and Hauser]{Instrumentino}
+I.~J. Koenka, J.~Sáiz, and P.~C. Hauser.
+\newblock Instrumentino: An open-source modular python framework for
+  controlling arduino based experimental instruments.
+\newblock \emph{Computer Physics Communications}, 185\penalty0 (10):\penalty0
+  2724–2729, 10 2014.
 
 \end{thebibliography}

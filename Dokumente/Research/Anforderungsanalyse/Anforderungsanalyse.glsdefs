@@ -28,3 +28,123 @@ parent={},%
 %
 }%
 }%
+\ifglsentryexists{Maker}{}%
+{%
+\gls@defglossaryentry{Maker}%
+{%
+name={Maker},%
+sort={Maker},%
+type={main},%
+first={Maker},%
+firstplural={Makers},%
+text={Maker},%
+plural={Makers},%
+description={"Beschreibt eine Person},%
+descriptionplural={"Beschreibt eine Person},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{Eventlogging}{}%
+{%
+\gls@defglossaryentry{Eventlogging}%
+{%
+name={Eventlogging},%
+sort={Eventlogging},%
+type={main},%
+first={Eventlogging},%
+firstplural={Eventloggings},%
+text={Eventlogging},%
+plural={Eventloggings},%
+description={Ermöglicht die Protokollierung von (vordefinierten) systembezogenen Event. Dies ist dienlich für die Analyse eines System.},%
+descriptionplural={Ermöglicht die Protokollierung von (vordefinierten) systembezogenen Event. Dies ist dienlich für die Analyse eines System.},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{Uebertragungsfunktion}{}%
+{%
+\gls@defglossaryentry{Uebertragungsfunktion}%
+{%
+name={Übertragungsfunktion},%
+sort={Übertragungsfunktion},%
+type={main},%
+first={\IeC {\"U}bertragungsfunktion},%
+firstplural={\IeC {\"U}bertragungsfunktions},%
+text={\IeC {\"U}bertragungsfunktion},%
+plural={\IeC {\"U}bertragungsfunktions},%
+description={Eine Übertragungsfunktion beschreibt im Naturwissenschftlichenrahmen eine Funktionen die den Zusammenhang zwischen Eingangs und Ausgangssignal beschreibt.},%
+descriptionplural={Eine Übertragungsfunktion beschreibt im Naturwissenschftlichenrahmen eine Funktionen die den Zusammenhang zwischen Eingangs und Ausgangssignal beschreibt.},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{FAQ}{}%
+{%
+\gls@defglossaryentry{FAQ}%
+{%
+name={FAQ},%
+sort={FAQ},%
+type={main},%
+first={Frequently Asked Questions\glsspace (FAQ)},%
+firstplural={Frequently Asked Questionss\glsspace (FAQs)},%
+text={FAQ},%
+plural={FAQs},%
+description={Frequently Asked Questions},%
+descriptionplural={Frequently Asked Questions\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Frequently Asked Questions},%
+longplural={Frequently Asked Questionss},%
+short={FAQ},%
+shortplural={FAQs},%
+counter={page},%
+parent={},%
+%
+}%
+}%
