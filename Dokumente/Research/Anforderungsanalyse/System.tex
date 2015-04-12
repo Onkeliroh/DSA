@@ -26,8 +26,8 @@ Folgende Funktionalitäten sollen in dieser Arbeit umgesetzt werden:
 
 \section{Optionale Funktionalitäten}
 \begin{itemize}
- \item Das Interface bietet die Möglichkeit zum Aufspielen des Arduinosketches (z.B. ein ``Uploadbutton'')
- \item Unterstützung mehrerer Arduinoprodukte und Chipsätze
+ \item Das Interface bietet die Möglichkeit zum Aufspielen des Arduino-Sketches (z.B. ein ``Uploadbutton'')
+ \item Unterstützung mehrerer Arduino-Produkte und Chipsätze
  \item Visualisierungen können abgekoppelt vom Hauptfenster auf dem Desktop angeordnet werden
  \item Eventlogging \gls{Eventlogging} soll ermöglicht werden.
  \item Update-Benachrichtigung
@@ -37,9 +37,14 @@ Folgende Funktionalitäten sollen in dieser Arbeit umgesetzt werden:
 Die angestrebte Zielgruppe dieses Systems kennt sich mit Elektrotechnik aus und ist vertraut mit der Bedienung von Computern und darauf installierten Anwendungen. Ein wissenschaftlicher Hintergund ist von Vorteil, aber nicht notwendig. Das System soll sich sowohl an Forscher, als auch \gls{Maker} richten.
 Eine Alterseinstuffung ist nicht notwendig. Die persönliche Befähigung ist ausschlaggebend für eine erfolgreiche Nutzung.
 
-\section{Usability}
-\section{Interface}
-Bei der Gestaltung des Interfaces ist es von äußerster Priorität dem Nutzer eine Art Pipeline zu bieten, an der er eine logische und ihm verständliche Abfolge von Aufgaben bearbeitet und ein erfolgreiches und zufriedenstellendes Endergebnis zu erreichen. Es soll vermiden werden dem Nutzer Optionen und Arbeitschirtte zu zeigen, die er in seinem gewählten Pfad nicht braucht. So ist es z.B. nicht notwendig dem Nutzer die Einrichtung einer Schaltung abzuverlangen, wenn er nur Daten loggen will.
+\section{Interface / Usability}
+Um eine gute Usability für den Nutzer zu gewährleisten werden weitestgehend Interface Elemente verwendet, die der Nutzer bereits aus anderen Anwendungen her kennt. Die bezieht sich besonders auf die Gestaltung dieser Elemente, welche das Thema des Betriebssystems übernehmen werden, anstelle ein eigenes Thema zu etablieren.
+
+Der Ablauf und der Aufbau des Interfaces soll eine Pipeline-Struktur ergeben, um dem Nutzer eine geführte Konfiguration eines Versuchsaufbaus zu ermöglichen. Sollte der Nutzer bereits mit der Anwendung vertraut sein, hat er allerdings auch die Möglichkeit aus dieser Pipeline auszubrechen und sich eine eigene anzueignen. Vergleichen kann man dieses Pipeline-Design mit einem Installations-Wizard.
+
+Für die Erarbeitung wird ein High-fidelity Prototyping mittels eines Computer-Prototyps angestrebt. Die Entscheidung für diese Vorgehensweise lässt sich mit dem hohen Maß an Interaktivität für den Nutzer beschreiben. Bedenken bezüglich eines höheren Aufwandes sind gerechtfertigt, jedoch überwiegen die Vorteile. Der Nutzer kann in einer ihm vertrauten, und vor allem der angestrebten, Umgebung den Prototypen verwenden. Die im Interface verwendeten Elemente sehen dabei bereits so aus wie im Endprodukt.Somit können Abstraktionsunterschied und eine Eingewöhnungszeit minimiert werden. Im Vergleich zu einem Paper-mockup oder einer Evaluation mittels Szenario kann mit der angestrebten Methode gezielter auf die Funktionalitäten getestet werden. Abgesehen davon gibt es allerdings keine größeren Unterschiede zwischen den verfügbaren Methodiken~\cite{johansson_case_2007}, lediglich unter Berücksichtigung der Nutzer ist meiner Meinung nach eine weniger abstrakte Methode zu bevorzugen.
+
+Zusätzlich lässt sich mit dieser Art von Prototyp eine detailliertere Evaluation vornehmen, durch z.B. genauere Zeitmessung für die Erfüllung einzelner Teilaufgaben. Beispielsweise kann genauer gemessen werden wie lange ein Nutzer braucht um eine Option zu aktivieren.
 \section{Verlässlichkeit Wartung}
 Im Vordergrund dieser Arbeit steht die erfolgreiche Umsetzung der Idee. Eine längerfristige Wartung und Weiterentwicklung des Systems ist daher momentan nicht von vorrangigem Interesse. Es sei jedoch auf die Lizenzierung zu verweisen, in der eine Open-Source Lizenz angestrebt wird. Zu dem sollen alle relevanten Dokumente einschließlich des Quellcode auf einer frei zugänglichen Plattform veröffentlicht werden.
 Denkbar ist beispielsweise die Seite \href{https://github.com/}{GitHub}, welche sich durch eine große Community auszeichnet und die Kontrolle und Verwaltung eines Projekte ermöglicht.
@@ -54,9 +59,7 @@ Um eine problemarme Umsetzung zu gewährleisten ist es von äußerster Wichtigke
 \section{Packaging}
 Ein Packaging gestaltet sich als etwas anspruchsvoll, da mehrere Betriebssystem berücksichtigt werden müssen. Für den Vertrieb auf Unix/Linux System ist es gängige Praxis die Software in einem entsprechenden Containerformat in einem der Repositories zu hinterlegen. Diese Methode hat den Vorteil eines, dem Nutzer vertrautem, Installationsprozesses und sichert weiterhin, sofern regelmäßig von System oder Nutzer initialisiert, die Aktualität der Software. 
 Für Windows existiert so eine Repository-Lösung bisher nicht. Es werden daher Architektur spezifische Binärdateien erstellt und auf der gewählten Internetpräsenz zum Download angeboten. 
-
 Es wird für jedes gängige System ein Handbuch erstellt, um einen geführten Installationsprozess zu gewährleisten.
-
 Die Installation von Dritt-Software wird nicht übernommen. Jedoch ein Hinweis im Handbuch und bei dem Installationsprozess auf fehlende Komponenten wird erfolgen.
 \section{Lizenz}
 Eine Auswahl für eine endgültige Lizenz muss noch getroffen werden. Unter Berücksichtigung der beteiligten Partei muss eine Lösung gefunden werden. Persönlich strebe ich eine Open-Source Lösung an.

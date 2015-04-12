@@ -124,7 +124,7 @@ parent={},%
 {%
 name={FAQ},%
 sort={FAQ},%
-type={main},%
+type={acronym},%
 first={Frequently Asked Questions\glsspace (FAQ)},%
 firstplural={Frequently Asked Questionss\glsspace (FAQs)},%
 text={FAQ},%
@@ -143,6 +143,66 @@ long={Frequently Asked Questions},%
 longplural={Frequently Asked Questionss},%
 short={FAQ},%
 shortplural={FAQs},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{CSV-detail}{}%
+{%
+\gls@defglossaryentry{CSV-detail}%
+{%
+name={Comma-separated values},%
+sort={Comma-separated values},%
+type={main},%
+first={Comma-separated values},%
+firstplural={Comma-separated valuess},%
+text={Comma-separated values},%
+plural={Comma-separated valuess},%
+description={Ein plain-text Format, in dem Werte durch Kommata getrennt gespeichert werden},%
+descriptionplural={Ein plain-text Format, in dem Werte durch Kommata getrennt gespeichert werden},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{CSV}{}%
+{%
+\gls@defglossaryentry{CSV}%
+{%
+name={CSV},%
+sort={CSV},%
+type={acronym},%
+first={Comma-separated values\glsadd {CSV-detail}\glsspace (CSV)},%
+firstplural={Comma-separated values\glsadd {CSV-detail}s\glsspace (CSVs)},%
+text={CSV},%
+plural={CSVs},%
+description={Comma-separated values\glsadd {CSV-detail}},%
+descriptionplural={Comma-separated values\glsadd {CSV-detail}\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Comma-separated values\glsadd {CSV-detail}},%
+longplural={Comma-separated values\glsadd {CSV-detail}s},%
+short={CSV},%
+shortplural={CSVs},%
 counter={page},%
 parent={},%
 %
