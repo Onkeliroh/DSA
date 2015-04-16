@@ -1,12 +1,12 @@
 \chapter{System}
 \section{Übersicht}
 %Beschreibung Programm
-Das System besteht aus zwei Teilen. Der eine Teil besteht aus einer Desktop Computer Anwendung und der zweite Teil besteht aus einem Arduino-Sketch.
-Beide Teile erfahren in den Folgenden Abschnitten einer genauere Beschreibung. Vorweg soll lediglich der grobe Aufbau des Systems skizziert werden.
+Das System besteht aus zwei Teilen. Der eine Teil besteht aus einer Desktop Computer Anwendung und der zweite Teil  aus einem Arduino-Sketch.
+Beide Teile erfahren in den folgenden Abschnitten einer genauere Beschreibung. Vorweg soll lediglich der grobe Aufbau des Systems skizziert werden.
 
-Die Desktop Computer Anwendung soll dem Nutzer eine Oberfläche bieten, mit der er ohne Programmierkenntnisse einen Mess- und Steuerungsaufbau für den Arduino erstellen und verwalten kann. Die Oberfläche soll bei einer erfolgreichen Erstellung und Ausführung dann in Echtzeit die Daten visualisieren und gleichzeitig in eine, auch vom Nutzer konfigurierte, Datei speichern.
+Die Desktop Computer Anwendung soll dem Nutzer eine Oberfläche bieten, mit der er ohne Programmierkenntnisse einen Mess- und Steuerungsaufbau für den Arduino erstellen und verwalten kann. Die Oberfläche soll bei einer erfolgreichen Erstellung und Ausführung  in Echtzeit die Daten visualisieren und gleichzeitig in eine, auch vom Nutzer konfigurierte, \acrshort{CSV}-Datei speichern.
 
-Der Arduino-Sketch wird eine Logik bekommen, mit der es möglich sein wird seine Ein- und Ausgänge während der Laufzeit zu konfigurieren. Diese Vorgehensweise ermöglicht es, die neu Einrichtung und das Aufspielen eine Arduino-Sketches auf ein Minimum zu begrenzen. Außerdem bleib weniger geschulten Nutzern der Schritt des Softwareaufspielens erspart.
+Der Arduino-Sketch wird eine Logik bekommen, mit der es möglich sein wird seine Ein- und Ausgänge während der Laufzeit zu konfigurieren. Diese Vorgehensweise ermöglicht es, die neu Einrichtung und das Aufspielen eine Arduino-Sketches auf ein Minimum zu begrenzen. Außerdem bleib weniger geschulten Nutzern die Erstellung und Installation einer neuen Arduino-Software erspart.
 
 %ToDo Bild
 
@@ -15,12 +15,12 @@ Folgende Funktionalitäten sollen in dieser Arbeit umgesetzt werden:
 \begin{itemize}
  \item Umsetzung eines Nutzerfreundlichen Interfaces
  \item vereinfachtes Aufsetzen des Systems
- \subitem die Bezieht sich vorallem auf die Einrichtung des Arduinos
+ \subitem dies bezieht sich vor allem auf die Einrichtung des Arduinos
  \item Echtzeitloggen beliebiger Messwerte in beliebigen Frequenzen
  \item Echtzeitvisualisierung der Messergebnisse
  \item Angabe von Übertragungsfunktionen \gls{Uebertragungsfunktion} für einzelne Signale + Visualisierung
  \item Konfigurierbarkeit der Visualisierung
- \item Erarbeitung eines Protokolls für die Microcontroller - PC Kommunikation
+ \item Erarbeitung eines Protokolls für die Mikrocontroller - PC Kommunikation
  \item Datenlogger mit angemessen hohem Grad an Konfigurationsmöglichkeiten
 \end{itemize}
 
@@ -28,23 +28,25 @@ Folgende Funktionalitäten sollen in dieser Arbeit umgesetzt werden:
 \begin{itemize}
  \item Das Interface bietet die Möglichkeit zum Aufspielen des Arduino-Sketches (z.B. ein ``Uploadbutton'')
  \item Unterstützung mehrerer Arduino-Produkte und Chipsätze
+ \item Unterstützung von Protokollen wie etwa I2C
  \item Visualisierungen können abgekoppelt vom Hauptfenster auf dem Desktop angeordnet werden
  \item Eventlogging \gls{Eventlogging} soll ermöglicht werden.
  \item Update-Benachrichtigung
 \end{itemize}
 
 \section{Nutzer}
-Die angestrebte Zielgruppe dieses Systems kennt sich mit Elektrotechnik aus und ist vertraut mit der Bedienung von Computern und darauf installierten Anwendungen. Ein wissenschaftlicher Hintergund ist von Vorteil, aber nicht notwendig. Das System soll sich sowohl an Forscher, als auch \gls{Maker} richten.
-Eine Alterseinstuffung ist nicht notwendig. Die persönliche Befähigung ist ausschlaggebend für eine erfolgreiche Nutzung.
+Die angestrebte Zielgruppe dieses Systems kennt sich mit Elektrotechnik aus und ist vertraut mit der Bedienung von Computern und darauf installierten Anwendungen. Ein wissenschaftlicher Hintergrund ist von Vorteil, aber nicht notwendig. Das System soll sich sowohl an Forscher, als auch \gls{Maker} richten.
+Eine Alterseinstufung ist nicht notwendig. Die persönliche Befähigung ist ausschlaggebend für eine erfolgreiche Nutzung.
 
 \section{Interface / Usability}
-Um eine gute Usability für den Nutzer zu gewährleisten werden weitestgehend Interface Elemente verwendet, die der Nutzer bereits aus anderen Anwendungen her kennt. Die bezieht sich besonders auf die Gestaltung dieser Elemente, welche das Thema des Betriebssystems übernehmen werden, anstelle ein eigenes Thema zu etablieren.
+Um eine gute Usability für den Nutzer zu gewährleisten, werden weitestgehend Interface Elemente verwendet die der Nutzer bereits aus anderen Anwendungen her kennt.
+Die bezieht sich besonders auf grafische Schema der Betriebssystem eigenen Elemente. Dieses Schema soll nach Möglichkeit übernommen werden.
 
-Der Ablauf und der Aufbau des Interfaces soll eine Pipeline-Struktur ergeben, um dem Nutzer eine geführte Konfiguration eines Versuchsaufbaus zu ermöglichen. Sollte der Nutzer bereits mit der Anwendung vertraut sein, hat er allerdings auch die Möglichkeit aus dieser Pipeline auszubrechen und sich eine eigene anzueignen. Vergleichen kann man dieses Pipeline-Design mit einem Installations-Wizard.
+Der Ablauf und der Aufbau des Interfaces soll eine Pipeline-Struktur ergeben, um dem Nutzer eine geführte Konfiguration eines Versuchsaufbaus zu ermöglichen. Sollte der Nutzer bereits mit der Anwendung vertraut sein, hat er allerdings auch die Möglichkeit aus dieser Pipeline auszubrechen und sich eine eigene Schrittfolge anzueignen. Vergleichen kann man dieses Pipeline-Design mit einem Installationsassistent, der dem Nutzer Schritt für Schritt einzelne Aspekte der Konfiguration zeigt, ohne den Nutzer zu überfordern.
 
-Für die Erarbeitung wird ein High-fidelity Prototyping mittels eines Computer-Prototyps angestrebt. Die Entscheidung für diese Vorgehensweise lässt sich mit dem hohen Maß an Interaktivität für den Nutzer beschreiben. Bedenken bezüglich eines höheren Aufwandes sind gerechtfertigt, jedoch überwiegen die Vorteile. Der Nutzer kann in einer ihm vertrauten, und vor allem der angestrebten, Umgebung den Prototypen verwenden. Die im Interface verwendeten Elemente sehen dabei bereits so aus wie im Endprodukt.Somit können Abstraktionsunterschied und eine Eingewöhnungszeit minimiert werden. Im Vergleich zu einem Paper-mockup oder einer Evaluation mittels Szenario kann mit der angestrebten Methode gezielter auf die Funktionalitäten getestet werden. Abgesehen davon gibt es allerdings keine größeren Unterschiede zwischen den verfügbaren Methodiken~\cite{johansson_case_2007}, lediglich unter Berücksichtigung der Nutzer ist meiner Meinung nach eine weniger abstrakte Methode zu bevorzugen.
+Für die Erarbeitung wird ein High-fidelity Prototyping mittels eines Computer-Prototyps angestrebt. Die Entscheidung für diese Vorgehensweise lässt sich mit dem hohen Maß an Interaktivität für den Nutzer beschreiben. Bedenken bezüglich eines höheren Aufwandes sind gerechtfertigt, jedoch überwiegen die Vorteile. Der Nutzer kann in einer ihm vertrauten, und vor allem der angestrebten, Umgebung den Prototypen verwenden. Die im Interface verwendeten Elemente sehen dabei bereits so aus wie im Endprodukt.Somit können Abstraktionsunterschied und eine Eingewöhnungszeit minimiert werden. Im Vergleich zu einem paper-mockup oder einer Evaluation mittels Szenario kann mit der angestrebten Methode gezielter auf die Funktionalitäten getestet werden. Abgesehen davon gibt es allerdings keine größeren Unterschiede zwischen den verfügbaren Methodiken~\cite{johansson_case_2007}. berücksichtigt mal allerdings die Zielgruppe dieser Arbeit liegt eine weniger abstrakte und daher interaktive Evaluation nahe. 
 
-Zusätzlich lässt sich mit dieser Art von Prototyp eine detailliertere Evaluation vornehmen, durch z.B. genauere Zeitmessung für die Erfüllung einzelner Teilaufgaben. Beispielsweise kann genauer gemessen werden wie lange ein Nutzer braucht um eine Option zu aktivieren.
+Zusätzlich lässt sich mit dieser Art von Prototyp eine detailliertere Evaluation vornehmen, durch z.B. genauere Zeitmessung für die Erfüllung einzelner Teilaufgaben. Beispielsweise kann genauer gemessen werden wie lange ein Nutzer braucht um eine Option zu aktivieren. Die Erkenntnisse der Evaluation können, so fern nicht schwerwiegend, direkt in der Oberfläche integriert werden.
 \section{Verlässlichkeit Wartung}
 Im Vordergrund dieser Arbeit steht die erfolgreiche Umsetzung der Idee. Eine längerfristige Wartung und Weiterentwicklung des Systems ist daher momentan nicht von vorrangigem Interesse. Es sei jedoch auf die Lizenzierung zu verweisen, in der eine Open-Source Lizenz angestrebt wird. Zu dem sollen alle relevanten Dokumente einschließlich des Quellcode auf einer frei zugänglichen Plattform veröffentlicht werden.
 Denkbar ist beispielsweise die Seite \href{https://github.com/}{GitHub}, welche sich durch eine große Community auszeichnet und die Kontrolle und Verwaltung eines Projekte ermöglicht.
@@ -54,13 +56,14 @@ Für Fragen der Nutzer, besonders bei Problemen, kann ein \acrshort{FAQ} eingeri
 \section{Implementation / Umsetzung}
 Die Umsetzung der Desktop Computer Anwendung wird in der Sprache \href{http://www.mono-project.com/}{Mono} geschehen. Für die Grafische Benutzeroberfläche wird die Bibliothek \href{http://www.gtk.org/}{GTK-sharp} in der Version 2.12 verwendet. Der Arduino-Sketch wird in C++ implementiert.
 
-Um eine problemarme Umsetzung zu gewährleisten ist es von äußerster Wichtigkeit, die Zugrundeliegenden Softwarekomponenten im Vorfeld ausreichend zu testen und sich mit ihnen vertraut zu machen. 
+Um eine problemarme Umsetzung zu gewährleisten ist es von äußerster Wichtigkeit, die zugrunde liegenden Softwarekomponenten im Vorfeld ausreichend zu testen und sich mit ihnen vertraut zu machen. 
 %ToDo 
 \section{Packaging}
-Ein Packaging gestaltet sich als etwas anspruchsvoll, da mehrere Betriebssystem berücksichtigt werden müssen. Für den Vertrieb auf Unix/Linux System ist es gängige Praxis die Software in einem entsprechenden Containerformat in einem der Repositories zu hinterlegen. Diese Methode hat den Vorteil eines, dem Nutzer vertrautem, Installationsprozesses und sichert weiterhin, sofern regelmäßig von System oder Nutzer initialisiert, die Aktualität der Software. 
+Ein Packaging gestaltet sich als etwas anspruchsvoller, da mehrere Betriebssystem berücksichtigt werden müssen. Für den Vertrieb auf Unix/Linux System ist es gängige Praxis die Software in einem entsprechenden Containerformat in einem der Repositories zu hinterlegen. Diese Methode hat den Vorteil eines, dem Nutzer vertrautem, Installationsprozesses und sichert weiterhin, sofern regelmäßig von System oder Nutzer initialisiert, die Aktualität der Software. 
 Für Windows existiert so eine Repository-Lösung bisher nicht. Es werden daher Architektur spezifische Binärdateien erstellt und auf der gewählten Internetpräsenz zum Download angeboten. 
 Es wird für jedes gängige System ein Handbuch erstellt, um einen geführten Installationsprozess zu gewährleisten.
 Die Installation von Dritt-Software wird nicht übernommen. Jedoch ein Hinweis im Handbuch und bei dem Installationsprozess auf fehlende Komponenten wird erfolgen.
+Alternativ kann die Software auch direkt von ihrer Internetseite bezogen werden und von dem Nutzer selbstständig installiert werden.
 \section{Lizenz}
 Eine Auswahl für eine endgültige Lizenz muss noch getroffen werden. Unter Berücksichtigung der beteiligten Partei muss eine Lösung gefunden werden. Persönlich strebe ich eine Open-Source Lösung an.
 Bei der Wahl der Lizenz muss die verwendete Software Dritter berücksichtigt werden. Manche Lizenzen, wie zum Beispiel die \href{https://www.gnu.org/licenses/licenses.html#GPL}{GNU-Lizenz}, vererben sich und lassen somit nur wenige Optionen offen: 1. Verwendung der Dritt-Software, 2. Implementierung einer eigenen Lösung oder 3. Verwendung einer anders lizenzierten Alternative.

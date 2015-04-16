@@ -118,36 +118,6 @@ parent={},%
 %
 }%
 }%
-\ifglsentryexists{FAQ}{}%
-{%
-\gls@defglossaryentry{FAQ}%
-{%
-name={FAQ},%
-sort={FAQ},%
-type={acronym},%
-first={Frequently Asked Questions\glsspace (FAQ)},%
-firstplural={Frequently Asked Questionss\glsspace (FAQs)},%
-text={FAQ},%
-plural={FAQs},%
-description={Frequently Asked Questions},%
-descriptionplural={Frequently Asked Questions\acrpluralsuffix },%
-symbol={\relax },%
-symbolplural={\relax },%
-user1={},%
-user2={},%
-user3={},%
-user4={},%
-user5={},%
-user6={},%
-long={Frequently Asked Questions},%
-longplural={Frequently Asked Questionss},%
-short={FAQ},%
-shortplural={FAQs},%
-counter={page},%
-parent={},%
-%
-}%
-}%
 \ifglsentryexists{CSV-detail}{}%
 {%
 \gls@defglossaryentry{CSV-detail}%
@@ -161,6 +131,36 @@ text={Comma-separated values},%
 plural={Comma-separated valuess},%
 description={Ein plain-text Format, in dem Werte durch Kommata getrennt gespeichert werden},%
 descriptionplural={Ein plain-text Format, in dem Werte durch Kommata getrennt gespeichert werden},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{Wizard}{}%
+{%
+\gls@defglossaryentry{Wizard}%
+{%
+name={Wizard},%
+sort={Wizard},%
+type={main},%
+first={Wizard},%
+firstplural={Wizards},%
+text={Wizard},%
+plural={Wizards},%
+description={Im Zusammenhang mit diesem Dokument ist ein Wizard als ein schrittweise geführte Software, wie ein Installationassisent zu verstehen.},%
+descriptionplural={Im Zusammenhang mit diesem Dokument ist ein Wizard als ein schrittweise geführte Software, wie ein Installationassisent zu verstehen.},%
 symbol={\relax },%
 symbolplural={\relax },%
 user1={},%
@@ -203,6 +203,96 @@ long={Comma-separated values\glsadd {CSV-detail}},%
 longplural={Comma-separated values\glsadd {CSV-detail}s},%
 short={CSV},%
 shortplural={CSVs},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{DYI}{}%
+{%
+\gls@defglossaryentry{DYI}%
+{%
+name={DYI},%
+sort={DYI},%
+type={acronym},%
+first={Do It Yourself\glsspace (DYI)},%
+firstplural={Do It Yourselfs\glsspace (DYIs)},%
+text={DYI},%
+plural={DYIs},%
+description={Do It Yourself},%
+descriptionplural={Do It Yourself\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Do It Yourself},%
+longplural={Do It Yourselfs},%
+short={DYI},%
+shortplural={DYIs},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{FAQ}{}%
+{%
+\gls@defglossaryentry{FAQ}%
+{%
+name={FAQ},%
+sort={FAQ},%
+type={acronym},%
+first={Frequently Asked Questions\glsspace (FAQ)},%
+firstplural={Frequently Asked Questionss\glsspace (FAQs)},%
+text={FAQ},%
+plural={FAQs},%
+description={Frequently Asked Questions},%
+descriptionplural={Frequently Asked Questions\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Frequently Asked Questions},%
+longplural={Frequently Asked Questionss},%
+short={FAQ},%
+shortplural={FAQs},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{IDE}{}%
+{%
+\gls@defglossaryentry{IDE}%
+{%
+name={IDE},%
+sort={IDE},%
+type={acronym},%
+first={integrated development environment\glsspace (IDE)},%
+firstplural={integrated development environments\glsspace (IDEs)},%
+text={IDE},%
+plural={IDEs},%
+description={integrated development environment},%
+descriptionplural={integrated development environment\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={integrated development environment},%
+longplural={integrated development environments},%
+short={IDE},%
+shortplural={IDEs},%
 counter={page},%
 parent={},%
 %

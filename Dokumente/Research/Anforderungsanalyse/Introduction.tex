@@ -1,35 +1,31 @@
 \chapter{Einleitung}
 \section{Anlass}
 Die Idee zu diesem Bachelorthema ist aus dem Arbeitsalltag am Max-Plack Institut
-für Biogeochemie in Jena entstanden. Durch Gesprächen mit Kollegen und beim
+für Biogeochemie in Jena entstanden. Durch Gespräche mit Kollegen und beim
 \gls{Brainstorming} mit meinem Vorgesetzten bin ich zu dem Entschluss gekommen, 
 dass das angestrebte Thema eine sinnvolle Ergänzung im Arbeitsalltag und eine
 Verbesserung der Arbeitsabläufe, sowohl im Institut als auch anders wo
 darstellt.
 
 \section{Zweck}
-Zweck dieser Arbeit soll es sein eine Software zu entwickeln die den Aufbau und
-die Wartung von Versuchsaufbauten zu beschleunigt und vor allem zu
-vereinfacht. Bei meiner Recherche stellte sich heraus, dass manche am Institut
-verwendete System lediglich von einer geringen Anzahl Personen konfiguriert und
-gewartet werden können. Dieser Zustand ist keineswegs optimal und kann den
-betrieblichen Ablauf erheblich stören, durch z.B. fehl der befähigten Personen.
+Zweck dieser Arbeit soll es sein, eine Software zu entwickeln die den Aufbau und
+die Wartung von Versuchsaufbauten beschleunigt und vor allem vereinfacht. Bei meiner Recherche stellte sich heraus, dass manche der am Institut
+verwendeten Systeme lediglich von einer geringen Anzahl Personen konfiguriert und gewartet werden können. Dieser Zustand ist keineswegs optimal und kann, z.B. durch das Fernbleiben eben dieser Personen, den betrieblichen Ablauf erheblich stören.
 \section{Ziele}
 Diese Arbeit hat zum Ziel eine Softwarelösung zu entwickeln und umzusetzen, die 
 es einem elektrotechnisch geschulten und in dem Umgang mit Computern geübten 
-Nutzer erlaubt einen elektronischen Schaltkreis zu überwachen, messen und zu 
+Nutzer erlaubt einen elektronischen Schaltkreis zu überwachen, zu messen und zu 
 steuern. Dem Nutzer soll eine Möglichkeit geboten werden, mittels eines eingängigen Interfaces, Messungen an elektrotechnischen Schaltungen vor zu nehmen. Darüber hinaus soll die Erstellung von Schaltvorgängen in einer elektrotechnischen Schaltung ermöglicht werden.
 \section{Referenzen}
-Bei Recherchen hat sich mein Eindruck nach dem Bedarf für eine solche Software 
-verstärkt. So ist das Interesse an erschwinglicher Hardware und handlicher 
+Bei Recherchen verfestigte sich mein Eindruck, dass eine solche Software durch aus Potential hat, Wissenschaftlern und \gls{Maker}{Makern} das Leben und ihre Arbeit zu vereinfachen. So ist das Interesse an erschwinglicher Hardware und handlicher 
 Software zum Prototyping und dem Aufbau von Versuchen besonders durch das 
 Aufkommen des Arduinos gewachsen. D.~K.~Fisher und P.~J.~Gould~\cite{ModernInstrumentation} beschrieben in ihrem Paper einen 
-Versuchsaufbau mit Hilfe eines Arduinonachbaus zur Ermittlung von 
+Versuchsaufbau mit Hilfe eines Arduino-Nachbaus zur Ermittlung von 
 Feuchtigkeitswerten in und um Pflanzen herum. Ihr Aufbau und vorallem die 
-Software verfolgen ein ähnliches Prinzip, wie das von mir angestrebte. Der 
-Arduino diehnt ihnen alls Datenerfassungsergrät und übermittelt alle Daten ohne 
+Software verfolgen ein ähnliches Prinzip wie das von mir angestrebte. Der 
+Arduino dient ihnen alls Datenerfassungsergrät und übermittelt alle Daten ohne 
 weitere Verarbeitung direkt an entweder ein Speichermedium oder an einen 
-Server. 
+Server. In diesem und einigen anderen Papers geht es häufig auch um eine finanzielle Sicht auf Experimente und die damit verbundene Durchführbarkeit. So beschreibt \citet{joshua_m._pearce_open-source_2014} in Kapitel 4 seines Buches, wie er eine Feuchtigkeitskammer für seine Forschungsarbeit anschaffen wollte. Er beschreibt, das die kommerziell verfügbaren Produkte außerhalb des Finanzrahmens waren und man somit auch eine \acrshort{DYI}-Lösung zurückgreifen mussten. Herz dieser Lösung war, aufgrund seines Preises und der beständigen Unterstützung durch Software-Bibliotheken Dritter, der Arduino.
 
 Der Aspekt einer Datenerfassung und Auswertung hat bereits andere veranlasst 
 eine entsprechende Software zu erstellen. Einer der jüngeren Ansätze stammt 
@@ -40,6 +36,5 @@ Nach eindringlicher Analyse der Software und einem Versuch eine eigene
 Testkonfiguration mit der Software, mit Hilfe des Entwicklers, zu erstellen, bin 
 ihc zu dem Schluss gekommen das diese Software nicht als ``fertig'' angesehen 
 werden kann und nicht einsatzbereit ist. Der Entwickler weißt in einer 
-Präsentation  auch darauf hin das der Konfigurationsprozess einen 
-``Administrator/Entwickler'' benötigt und es nicht vorgesehen ist diesen Schritt 
-einem Nutzer zu überlassen. 
+\href{https://github.com/yoelk/Instrumentino/blob/master/documents/Instrumentino\%20presentation.pptx}{Präsentation} auch darauf hin das der Konfigurationsprozess einen "`Administrator/Entwickler"' benötigt und es nicht vorgesehen ist diesen Schritt einem Endnutzer zu überlassen. 
+Ein ausgereiftes Konzept, wenn auch etwas älter stammt von \citet{dedrick_inexpensive_2000} und beschreibt einen Datenlogger auf Mikrocontrollerbasis mit einer entsprechenden Software zum Auslesen der gesammelten Daten. Auch hier wurde Wert auf den finanziellen Rahmen, sowie die Weiterverarbeitung und Langzeiterfassung von Daten gelegt.
