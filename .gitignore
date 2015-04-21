@@ -15,9 +15,16 @@
 *.out
 *.toc
 *.backup
+*.acn
+*.alg
+*.acr
+*.ist
 #end latex
 
 bin/
 obj/
 ~
 pdf
+Dokumente/Mockup/Resources/
+Dokumente/Mockup/index.html
+Dokumente/Mockup/pages/
