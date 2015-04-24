@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="CmdMessengerTestsController/CmdMessengerTestsController.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CmdMessengerTestsController/ArduinoController.cs">
+    <Files>
+      <File FileName="CmdMessengerTestsController/ArduinoController.cs" Line="28" Column="28" />
+      <File FileName="CmdMessengerTestsController/MainWindow.cs" Line="73" Column="73" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
