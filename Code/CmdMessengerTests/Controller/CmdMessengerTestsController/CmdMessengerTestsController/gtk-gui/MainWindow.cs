@@ -45,6 +45,36 @@ public partial class MainWindow
 	
 	private global::Gtk.Label LabelPin17;
 	
+	private global::Gtk.VBox vbox4;
+	
+	private global::Gtk.ComboBox combobox1;
+	
+	private global::Gtk.ComboBox combobox2;
+	
+	private global::Gtk.ComboBox combobox3;
+	
+	private global::Gtk.ComboBox combobox4;
+	
+	private global::Gtk.ComboBox combobox5;
+	
+	private global::Gtk.ComboBox combobox6;
+	
+	private global::Gtk.ComboBox combobox7;
+	
+	private global::Gtk.ComboBox combobox8;
+	
+	private global::Gtk.ComboBox combobox9;
+	
+	private global::Gtk.ComboBox combobox10;
+	
+	private global::Gtk.ComboBox combobox11;
+	
+	private global::Gtk.ComboBox combobox12;
+	
+	private global::Gtk.ComboBox combobox13;
+	
+	private global::Gtk.ComboBox combobox14;
+	
 	private global::Gtk.VBox vbox2;
 	
 	private global::Gtk.CheckButton checkbutton1;
@@ -90,6 +120,20 @@ public partial class MainWindow
 	private global::Gtk.Label LabelA1;
 	
 	private global::Gtk.Label LabelA2;
+	
+	private global::Gtk.VBox vbox6;
+	
+	private global::Gtk.ComboBox combobox15;
+	
+	private global::Gtk.ComboBox combobox16;
+	
+	private global::Gtk.ComboBox combobox17;
+	
+	private global::Gtk.ComboBox combobox18;
+	
+	private global::Gtk.ComboBox combobox20;
+	
+	private global::Gtk.ComboBox combobox19;
 	
 	private global::Gtk.VBox VBoxAnalogValues;
 	
@@ -306,6 +350,170 @@ public partial class MainWindow
 		w19.Fill = false;
 		w19.Padding = ((uint)(3));
 		// Container child HBoxControll.Gtk.Box+BoxChild
+		this.vbox4 = new global::Gtk.VBox ();
+		this.vbox4.Name = "vbox4";
+		this.vbox4.Homogeneous = true;
+		this.vbox4.Spacing = 6;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox1 = global::Gtk.ComboBox.NewText ();
+		this.combobox1.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox1.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox1.Name = "combobox1";
+		this.combobox1.Active = 1;
+		this.vbox4.Add (this.combobox1);
+		global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox1]));
+		w20.Position = 0;
+		w20.Expand = false;
+		w20.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox2 = global::Gtk.ComboBox.NewText ();
+		this.combobox2.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox2.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox2.Name = "combobox2";
+		this.combobox2.Active = 1;
+		this.vbox4.Add (this.combobox2);
+		global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox2]));
+		w21.Position = 1;
+		w21.Expand = false;
+		w21.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox3 = global::Gtk.ComboBox.NewText ();
+		this.combobox3.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox3.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox3.Name = "combobox3";
+		this.combobox3.Active = 1;
+		this.vbox4.Add (this.combobox3);
+		global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox3]));
+		w22.Position = 2;
+		w22.Expand = false;
+		w22.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox4 = global::Gtk.ComboBox.NewText ();
+		this.combobox4.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox4.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox4.Name = "combobox4";
+		this.combobox4.Active = 1;
+		this.vbox4.Add (this.combobox4);
+		global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox4]));
+		w23.Position = 3;
+		w23.Expand = false;
+		w23.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox5 = global::Gtk.ComboBox.NewText ();
+		this.combobox5.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox5.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox5.Name = "combobox5";
+		this.combobox5.Active = 1;
+		this.vbox4.Add (this.combobox5);
+		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox5]));
+		w24.Position = 4;
+		w24.Expand = false;
+		w24.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox6 = global::Gtk.ComboBox.NewText ();
+		this.combobox6.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox6.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox6.Name = "combobox6";
+		this.combobox6.Active = 1;
+		this.vbox4.Add (this.combobox6);
+		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox6]));
+		w25.Position = 5;
+		w25.Expand = false;
+		w25.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox7 = global::Gtk.ComboBox.NewText ();
+		this.combobox7.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox7.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox7.Name = "combobox7";
+		this.combobox7.Active = 1;
+		this.vbox4.Add (this.combobox7);
+		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox7]));
+		w26.Position = 6;
+		w26.Expand = false;
+		w26.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox8 = global::Gtk.ComboBox.NewText ();
+		this.combobox8.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox8.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox8.Name = "combobox8";
+		this.combobox8.Active = 1;
+		this.vbox4.Add (this.combobox8);
+		global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox8]));
+		w27.Position = 7;
+		w27.Expand = false;
+		w27.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox9 = global::Gtk.ComboBox.NewText ();
+		this.combobox9.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox9.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox9.Name = "combobox9";
+		this.combobox9.Active = 1;
+		this.vbox4.Add (this.combobox9);
+		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox9]));
+		w28.Position = 8;
+		w28.Expand = false;
+		w28.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox10 = global::Gtk.ComboBox.NewText ();
+		this.combobox10.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox10.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox10.Name = "combobox10";
+		this.combobox10.Active = 1;
+		this.vbox4.Add (this.combobox10);
+		global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox10]));
+		w29.Position = 9;
+		w29.Expand = false;
+		w29.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox11 = global::Gtk.ComboBox.NewText ();
+		this.combobox11.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox11.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox11.Name = "combobox11";
+		this.combobox11.Active = 1;
+		this.vbox4.Add (this.combobox11);
+		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox11]));
+		w30.Position = 10;
+		w30.Expand = false;
+		w30.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox12 = global::Gtk.ComboBox.NewText ();
+		this.combobox12.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox12.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox12.Name = "combobox12";
+		this.combobox12.Active = 1;
+		this.vbox4.Add (this.combobox12);
+		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox12]));
+		w31.Position = 11;
+		w31.Expand = false;
+		w31.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox13 = global::Gtk.ComboBox.NewText ();
+		this.combobox13.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox13.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox13.Name = "combobox13";
+		this.combobox13.Active = 1;
+		this.vbox4.Add (this.combobox13);
+		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox13]));
+		w32.Position = 12;
+		w32.Expand = false;
+		w32.Fill = false;
+		// Container child vbox4.Gtk.Box+BoxChild
+		this.combobox14 = global::Gtk.ComboBox.NewText ();
+		this.combobox14.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox14.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox14.Name = "combobox14";
+		this.combobox14.Active = 1;
+		this.vbox4.Add (this.combobox14);
+		global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.combobox14]));
+		w33.Position = 13;
+		w33.Expand = false;
+		w33.Fill = false;
+		this.HBoxControll.Add (this.vbox4);
+		global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.vbox4]));
+		w34.Position = 1;
+		w34.Expand = false;
+		w34.Fill = false;
+		// Container child HBoxControll.Gtk.Box+BoxChild
 		this.vbox2 = new global::Gtk.VBox ();
 		this.vbox2.Name = "vbox2";
 		this.vbox2.Homogeneous = true;
@@ -318,10 +526,10 @@ public partial class MainWindow
 		this.checkbutton1.DrawIndicator = true;
 		this.checkbutton1.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton1);
-		global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton1]));
-		w20.Position = 0;
-		w20.Expand = false;
-		w20.Fill = false;
+		global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton1]));
+		w35.Position = 0;
+		w35.Expand = false;
+		w35.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton2 = new global::Gtk.CheckButton ();
 		this.checkbutton2.CanFocus = true;
@@ -330,10 +538,10 @@ public partial class MainWindow
 		this.checkbutton2.DrawIndicator = true;
 		this.checkbutton2.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton2);
-		global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton2]));
-		w21.Position = 1;
-		w21.Expand = false;
-		w21.Fill = false;
+		global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton2]));
+		w36.Position = 1;
+		w36.Expand = false;
+		w36.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton3 = new global::Gtk.CheckButton ();
 		this.checkbutton3.CanFocus = true;
@@ -342,10 +550,10 @@ public partial class MainWindow
 		this.checkbutton3.DrawIndicator = true;
 		this.checkbutton3.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton3);
-		global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton3]));
-		w22.Position = 2;
-		w22.Expand = false;
-		w22.Fill = false;
+		global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton3]));
+		w37.Position = 2;
+		w37.Expand = false;
+		w37.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton4 = new global::Gtk.CheckButton ();
 		this.checkbutton4.CanFocus = true;
@@ -354,10 +562,10 @@ public partial class MainWindow
 		this.checkbutton4.DrawIndicator = true;
 		this.checkbutton4.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton4);
-		global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton4]));
-		w23.Position = 3;
-		w23.Expand = false;
-		w23.Fill = false;
+		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton4]));
+		w38.Position = 3;
+		w38.Expand = false;
+		w38.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton5 = new global::Gtk.CheckButton ();
 		this.checkbutton5.CanFocus = true;
@@ -366,10 +574,10 @@ public partial class MainWindow
 		this.checkbutton5.DrawIndicator = true;
 		this.checkbutton5.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton5);
-		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton5]));
-		w24.Position = 4;
-		w24.Expand = false;
-		w24.Fill = false;
+		global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton5]));
+		w39.Position = 4;
+		w39.Expand = false;
+		w39.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton6 = new global::Gtk.CheckButton ();
 		this.checkbutton6.CanFocus = true;
@@ -378,10 +586,10 @@ public partial class MainWindow
 		this.checkbutton6.DrawIndicator = true;
 		this.checkbutton6.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton6);
-		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton6]));
-		w25.Position = 5;
-		w25.Expand = false;
-		w25.Fill = false;
+		global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton6]));
+		w40.Position = 5;
+		w40.Expand = false;
+		w40.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton14 = new global::Gtk.CheckButton ();
 		this.checkbutton14.CanFocus = true;
@@ -390,11 +598,11 @@ public partial class MainWindow
 		this.checkbutton14.DrawIndicator = true;
 		this.checkbutton14.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton14);
-		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton14]));
-		w26.PackType = ((global::Gtk.PackType)(1));
-		w26.Position = 6;
-		w26.Expand = false;
-		w26.Fill = false;
+		global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton14]));
+		w41.PackType = ((global::Gtk.PackType)(1));
+		w41.Position = 6;
+		w41.Expand = false;
+		w41.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton13 = new global::Gtk.CheckButton ();
 		this.checkbutton13.CanFocus = true;
@@ -403,11 +611,11 @@ public partial class MainWindow
 		this.checkbutton13.DrawIndicator = true;
 		this.checkbutton13.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton13);
-		global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton13]));
-		w27.PackType = ((global::Gtk.PackType)(1));
-		w27.Position = 7;
-		w27.Expand = false;
-		w27.Fill = false;
+		global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton13]));
+		w42.PackType = ((global::Gtk.PackType)(1));
+		w42.Position = 7;
+		w42.Expand = false;
+		w42.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton12 = new global::Gtk.CheckButton ();
 		this.checkbutton12.CanFocus = true;
@@ -416,11 +624,11 @@ public partial class MainWindow
 		this.checkbutton12.DrawIndicator = true;
 		this.checkbutton12.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton12);
-		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton12]));
-		w28.PackType = ((global::Gtk.PackType)(1));
-		w28.Position = 8;
-		w28.Expand = false;
-		w28.Fill = false;
+		global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton12]));
+		w43.PackType = ((global::Gtk.PackType)(1));
+		w43.Position = 8;
+		w43.Expand = false;
+		w43.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton11 = new global::Gtk.CheckButton ();
 		this.checkbutton11.CanFocus = true;
@@ -429,11 +637,11 @@ public partial class MainWindow
 		this.checkbutton11.DrawIndicator = true;
 		this.checkbutton11.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton11);
-		global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton11]));
-		w29.PackType = ((global::Gtk.PackType)(1));
-		w29.Position = 9;
-		w29.Expand = false;
-		w29.Fill = false;
+		global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton11]));
+		w44.PackType = ((global::Gtk.PackType)(1));
+		w44.Position = 9;
+		w44.Expand = false;
+		w44.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton10 = new global::Gtk.CheckButton ();
 		this.checkbutton10.CanFocus = true;
@@ -442,11 +650,11 @@ public partial class MainWindow
 		this.checkbutton10.DrawIndicator = true;
 		this.checkbutton10.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton10);
-		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton10]));
-		w30.PackType = ((global::Gtk.PackType)(1));
-		w30.Position = 10;
-		w30.Expand = false;
-		w30.Fill = false;
+		global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton10]));
+		w45.PackType = ((global::Gtk.PackType)(1));
+		w45.Position = 10;
+		w45.Expand = false;
+		w45.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton9 = new global::Gtk.CheckButton ();
 		this.checkbutton9.CanFocus = true;
@@ -455,11 +663,11 @@ public partial class MainWindow
 		this.checkbutton9.DrawIndicator = true;
 		this.checkbutton9.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton9);
-		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton9]));
-		w31.PackType = ((global::Gtk.PackType)(1));
-		w31.Position = 11;
-		w31.Expand = false;
-		w31.Fill = false;
+		global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton9]));
+		w46.PackType = ((global::Gtk.PackType)(1));
+		w46.Position = 11;
+		w46.Expand = false;
+		w46.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton8 = new global::Gtk.CheckButton ();
 		this.checkbutton8.CanFocus = true;
@@ -468,11 +676,11 @@ public partial class MainWindow
 		this.checkbutton8.DrawIndicator = true;
 		this.checkbutton8.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton8);
-		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton8]));
-		w32.PackType = ((global::Gtk.PackType)(1));
-		w32.Position = 12;
-		w32.Expand = false;
-		w32.Fill = false;
+		global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton8]));
+		w47.PackType = ((global::Gtk.PackType)(1));
+		w47.Position = 12;
+		w47.Expand = false;
+		w47.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.checkbutton7 = new global::Gtk.CheckButton ();
 		this.checkbutton7.CanFocus = true;
@@ -481,23 +689,23 @@ public partial class MainWindow
 		this.checkbutton7.DrawIndicator = true;
 		this.checkbutton7.UseUnderline = true;
 		this.vbox2.Add (this.checkbutton7);
-		global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton7]));
-		w33.PackType = ((global::Gtk.PackType)(1));
-		w33.Position = 13;
-		w33.Expand = false;
-		w33.Fill = false;
+		global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton7]));
+		w48.PackType = ((global::Gtk.PackType)(1));
+		w48.Position = 13;
+		w48.Expand = false;
+		w48.Fill = false;
 		this.HBoxControll.Add (this.vbox2);
-		global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.vbox2]));
-		w34.Position = 1;
-		w34.Expand = false;
+		global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.vbox2]));
+		w49.Position = 2;
+		w49.Expand = false;
 		// Container child HBoxControll.Gtk.Box+BoxChild
 		this.vseparator1 = new global::Gtk.VSeparator ();
 		this.vseparator1.Name = "vseparator1";
 		this.HBoxControll.Add (this.vseparator1);
-		global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.vseparator1]));
-		w35.Position = 2;
-		w35.Expand = false;
-		w35.Fill = false;
+		global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.vseparator1]));
+		w50.Position = 3;
+		w50.Expand = false;
+		w50.Fill = false;
 		// Container child HBoxControll.Gtk.Box+BoxChild
 		this.vbox5 = new global::Gtk.VBox ();
 		this.vbox5.Name = "vbox5";
@@ -506,136 +714,225 @@ public partial class MainWindow
 		// Container child vbox5.Gtk.Box+BoxChild
 		this.LabelA5 = new global::Gtk.Label ();
 		this.LabelA5.Name = "LabelA5";
-		this.LabelA5.LabelProp = global::Mono.Unix.Catalog.GetString ("A5");
+		this.LabelA5.LabelProp = global::Mono.Unix.Catalog.GetString ("A5:");
 		this.vbox5.Add (this.LabelA5);
-		global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA5]));
-		w36.Position = 0;
-		w36.Expand = false;
-		w36.Fill = false;
+		global::Gtk.Box.BoxChild w51 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA5]));
+		w51.Position = 0;
+		w51.Expand = false;
+		w51.Fill = false;
 		// Container child vbox5.Gtk.Box+BoxChild
 		this.LabelA4 = new global::Gtk.Label ();
 		this.LabelA4.Name = "LabelA4";
-		this.LabelA4.LabelProp = global::Mono.Unix.Catalog.GetString ("A4");
+		this.LabelA4.LabelProp = global::Mono.Unix.Catalog.GetString ("A4:");
 		this.vbox5.Add (this.LabelA4);
-		global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA4]));
-		w37.Position = 1;
-		w37.Expand = false;
-		w37.Fill = false;
+		global::Gtk.Box.BoxChild w52 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA4]));
+		w52.Position = 1;
+		w52.Expand = false;
+		w52.Fill = false;
 		// Container child vbox5.Gtk.Box+BoxChild
 		this.LabelA3 = new global::Gtk.Label ();
 		this.LabelA3.Name = "LabelA3";
-		this.LabelA3.LabelProp = global::Mono.Unix.Catalog.GetString ("A3");
+		this.LabelA3.LabelProp = global::Mono.Unix.Catalog.GetString ("A3:");
 		this.vbox5.Add (this.LabelA3);
-		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA3]));
-		w38.Position = 2;
-		w38.Expand = false;
-		w38.Fill = false;
+		global::Gtk.Box.BoxChild w53 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA3]));
+		w53.Position = 2;
+		w53.Expand = false;
+		w53.Fill = false;
 		// Container child vbox5.Gtk.Box+BoxChild
 		this.LabelA = new global::Gtk.Label ();
 		this.LabelA.Name = "LabelA";
-		this.LabelA.LabelProp = global::Mono.Unix.Catalog.GetString ("A0");
+		this.LabelA.LabelProp = global::Mono.Unix.Catalog.GetString ("A0:");
 		this.vbox5.Add (this.LabelA);
-		global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA]));
-		w39.PackType = ((global::Gtk.PackType)(1));
-		w39.Position = 3;
-		w39.Expand = false;
-		w39.Fill = false;
+		global::Gtk.Box.BoxChild w54 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA]));
+		w54.PackType = ((global::Gtk.PackType)(1));
+		w54.Position = 3;
+		w54.Expand = false;
+		w54.Fill = false;
 		// Container child vbox5.Gtk.Box+BoxChild
 		this.LabelA1 = new global::Gtk.Label ();
 		this.LabelA1.Name = "LabelA1";
-		this.LabelA1.LabelProp = global::Mono.Unix.Catalog.GetString ("A1");
+		this.LabelA1.LabelProp = global::Mono.Unix.Catalog.GetString ("A1:");
 		this.vbox5.Add (this.LabelA1);
-		global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA1]));
-		w40.PackType = ((global::Gtk.PackType)(1));
-		w40.Position = 4;
-		w40.Expand = false;
-		w40.Fill = false;
+		global::Gtk.Box.BoxChild w55 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA1]));
+		w55.PackType = ((global::Gtk.PackType)(1));
+		w55.Position = 4;
+		w55.Expand = false;
+		w55.Fill = false;
 		// Container child vbox5.Gtk.Box+BoxChild
 		this.LabelA2 = new global::Gtk.Label ();
 		this.LabelA2.Name = "LabelA2";
-		this.LabelA2.LabelProp = global::Mono.Unix.Catalog.GetString ("A2");
+		this.LabelA2.LabelProp = global::Mono.Unix.Catalog.GetString ("A2:");
 		this.vbox5.Add (this.LabelA2);
-		global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA2]));
-		w41.PackType = ((global::Gtk.PackType)(1));
-		w41.Position = 5;
-		w41.Expand = false;
-		w41.Fill = false;
+		global::Gtk.Box.BoxChild w56 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.LabelA2]));
+		w56.PackType = ((global::Gtk.PackType)(1));
+		w56.Position = 5;
+		w56.Expand = false;
+		w56.Fill = false;
 		this.HBoxControll.Add (this.vbox5);
-		global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.vbox5]));
-		w42.Position = 3;
-		w42.Expand = false;
-		w42.Fill = false;
-		w42.Padding = ((uint)(5));
+		global::Gtk.Box.BoxChild w57 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.vbox5]));
+		w57.Position = 4;
+		w57.Expand = false;
+		w57.Fill = false;
+		w57.Padding = ((uint)(5));
+		// Container child HBoxControll.Gtk.Box+BoxChild
+		this.vbox6 = new global::Gtk.VBox ();
+		this.vbox6.Name = "vbox6";
+		this.vbox6.Homogeneous = true;
+		this.vbox6.Spacing = 6;
+		// Container child vbox6.Gtk.Box+BoxChild
+		this.combobox15 = global::Gtk.ComboBox.NewText ();
+		this.combobox15.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox15.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox15.Name = "combobox15";
+		this.combobox15.Active = 0;
+		this.vbox6.Add (this.combobox15);
+		global::Gtk.Box.BoxChild w58 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.combobox15]));
+		w58.Position = 0;
+		w58.Expand = false;
+		w58.Fill = false;
+		// Container child vbox6.Gtk.Box+BoxChild
+		this.combobox16 = global::Gtk.ComboBox.NewText ();
+		this.combobox16.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox16.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox16.Name = "combobox16";
+		this.combobox16.Active = 0;
+		this.vbox6.Add (this.combobox16);
+		global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.combobox16]));
+		w59.Position = 1;
+		w59.Expand = false;
+		w59.Fill = false;
+		// Container child vbox6.Gtk.Box+BoxChild
+		this.combobox17 = global::Gtk.ComboBox.NewText ();
+		this.combobox17.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox17.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox17.Name = "combobox17";
+		this.combobox17.Active = 0;
+		this.vbox6.Add (this.combobox17);
+		global::Gtk.Box.BoxChild w60 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.combobox17]));
+		w60.Position = 2;
+		w60.Expand = false;
+		w60.Fill = false;
+		// Container child vbox6.Gtk.Box+BoxChild
+		this.combobox18 = global::Gtk.ComboBox.NewText ();
+		this.combobox18.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox18.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox18.Name = "combobox18";
+		this.combobox18.Active = 0;
+		this.vbox6.Add (this.combobox18);
+		global::Gtk.Box.BoxChild w61 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.combobox18]));
+		w61.Position = 3;
+		w61.Expand = false;
+		w61.Fill = false;
+		// Container child vbox6.Gtk.Box+BoxChild
+		this.combobox20 = global::Gtk.ComboBox.NewText ();
+		this.combobox20.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox20.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox20.Name = "combobox20";
+		this.combobox20.Active = 0;
+		this.vbox6.Add (this.combobox20);
+		global::Gtk.Box.BoxChild w62 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.combobox20]));
+		w62.Position = 4;
+		w62.Expand = false;
+		w62.Fill = false;
+		// Container child vbox6.Gtk.Box+BoxChild
+		this.combobox19 = global::Gtk.ComboBox.NewText ();
+		this.combobox19.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.combobox19.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.combobox19.Name = "combobox19";
+		this.combobox19.Active = 0;
+		this.vbox6.Add (this.combobox19);
+		global::Gtk.Box.BoxChild w63 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.combobox19]));
+		w63.Position = 5;
+		w63.Expand = false;
+		w63.Fill = false;
+		this.HBoxControll.Add (this.vbox6);
+		global::Gtk.Box.BoxChild w64 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.vbox6]));
+		w64.Position = 5;
+		w64.Expand = false;
+		w64.Fill = false;
 		// Container child HBoxControll.Gtk.Box+BoxChild
 		this.VBoxAnalogValues = new global::Gtk.VBox ();
+		this.VBoxAnalogValues.WidthRequest = 104;
 		this.VBoxAnalogValues.Name = "VBoxAnalogValues";
 		this.VBoxAnalogValues.Homogeneous = true;
 		this.VBoxAnalogValues.Spacing = 6;
 		// Container child VBoxAnalogValues.Gtk.Box+BoxChild
 		this.LabelValueA5 = new global::Gtk.Label ();
 		this.LabelValueA5.Name = "LabelValueA5";
+		this.LabelValueA5.Xalign = 1F;
 		this.LabelValueA5.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+		this.LabelValueA5.Justify = ((global::Gtk.Justification)(1));
 		this.VBoxAnalogValues.Add (this.LabelValueA5);
-		global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA5]));
-		w43.Position = 0;
-		w43.Expand = false;
-		w43.Fill = false;
+		global::Gtk.Box.BoxChild w65 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA5]));
+		w65.Position = 0;
+		w65.Expand = false;
+		w65.Fill = false;
 		// Container child VBoxAnalogValues.Gtk.Box+BoxChild
 		this.LabelValueA4 = new global::Gtk.Label ();
 		this.LabelValueA4.Name = "LabelValueA4";
+		this.LabelValueA4.Xalign = 1F;
 		this.LabelValueA4.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+		this.LabelValueA4.Justify = ((global::Gtk.Justification)(1));
 		this.VBoxAnalogValues.Add (this.LabelValueA4);
-		global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA4]));
-		w44.Position = 1;
-		w44.Expand = false;
-		w44.Fill = false;
+		global::Gtk.Box.BoxChild w66 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA4]));
+		w66.Position = 1;
+		w66.Expand = false;
+		w66.Fill = false;
 		// Container child VBoxAnalogValues.Gtk.Box+BoxChild
 		this.LabelValueA3 = new global::Gtk.Label ();
 		this.LabelValueA3.Name = "LabelValueA3";
+		this.LabelValueA3.Xalign = 1F;
 		this.LabelValueA3.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+		this.LabelValueA3.Justify = ((global::Gtk.Justification)(1));
 		this.VBoxAnalogValues.Add (this.LabelValueA3);
-		global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA3]));
-		w45.Position = 2;
-		w45.Expand = false;
-		w45.Fill = false;
+		global::Gtk.Box.BoxChild w67 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA3]));
+		w67.Position = 2;
+		w67.Expand = false;
+		w67.Fill = false;
 		// Container child VBoxAnalogValues.Gtk.Box+BoxChild
 		this.LabelValueA = new global::Gtk.Label ();
 		this.LabelValueA.Name = "LabelValueA";
+		this.LabelValueA.Xalign = 1F;
 		this.LabelValueA.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+		this.LabelValueA.Justify = ((global::Gtk.Justification)(1));
 		this.VBoxAnalogValues.Add (this.LabelValueA);
-		global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA]));
-		w46.PackType = ((global::Gtk.PackType)(1));
-		w46.Position = 3;
-		w46.Expand = false;
-		w46.Fill = false;
+		global::Gtk.Box.BoxChild w68 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA]));
+		w68.PackType = ((global::Gtk.PackType)(1));
+		w68.Position = 3;
+		w68.Expand = false;
+		w68.Fill = false;
 		// Container child VBoxAnalogValues.Gtk.Box+BoxChild
 		this.LabelValueA1 = new global::Gtk.Label ();
 		this.LabelValueA1.Name = "LabelValueA1";
+		this.LabelValueA1.Xalign = 1F;
 		this.LabelValueA1.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+		this.LabelValueA1.Justify = ((global::Gtk.Justification)(1));
 		this.VBoxAnalogValues.Add (this.LabelValueA1);
-		global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA1]));
-		w47.PackType = ((global::Gtk.PackType)(1));
-		w47.Position = 4;
-		w47.Expand = false;
-		w47.Fill = false;
+		global::Gtk.Box.BoxChild w69 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA1]));
+		w69.PackType = ((global::Gtk.PackType)(1));
+		w69.Position = 4;
+		w69.Expand = false;
+		w69.Fill = false;
 		// Container child VBoxAnalogValues.Gtk.Box+BoxChild
 		this.LabelValueA2 = new global::Gtk.Label ();
 		this.LabelValueA2.Name = "LabelValueA2";
+		this.LabelValueA2.Xalign = 1F;
 		this.LabelValueA2.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+		this.LabelValueA2.Justify = ((global::Gtk.Justification)(1));
 		this.VBoxAnalogValues.Add (this.LabelValueA2);
-		global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA2]));
-		w48.PackType = ((global::Gtk.PackType)(1));
-		w48.Position = 5;
-		w48.Expand = false;
-		w48.Fill = false;
+		global::Gtk.Box.BoxChild w70 = ((global::Gtk.Box.BoxChild)(this.VBoxAnalogValues [this.LabelValueA2]));
+		w70.PackType = ((global::Gtk.PackType)(1));
+		w70.Position = 5;
+		w70.Expand = false;
+		w70.Fill = false;
 		this.HBoxControll.Add (this.VBoxAnalogValues);
-		global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.VBoxAnalogValues]));
-		w49.Position = 4;
-		w49.Expand = false;
-		w49.Fill = false;
+		global::Gtk.Box.BoxChild w71 = ((global::Gtk.Box.BoxChild)(this.HBoxControll [this.VBoxAnalogValues]));
+		w71.Position = 6;
+		w71.Expand = false;
+		w71.Fill = false;
 		this.vbox3.Add (this.HBoxControll);
-		global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.HBoxControll]));
-		w50.Position = 1;
+		global::Gtk.Box.BoxChild w72 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.HBoxControll]));
+		w72.Position = 1;
 		// Container child vbox3.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";
@@ -645,31 +942,31 @@ public partial class MainWindow
 		this.LabelStatus.Name = "LabelStatus";
 		this.LabelStatus.LabelProp = global::Mono.Unix.Catalog.GetString ("Status:");
 		this.statusbar1.Add (this.LabelStatus);
-		global::Gtk.Box.BoxChild w51 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelStatus]));
-		w51.Position = 1;
-		w51.Expand = false;
-		w51.Fill = false;
+		global::Gtk.Box.BoxChild w73 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelStatus]));
+		w73.Position = 1;
+		w73.Expand = false;
+		w73.Fill = false;
 		// Container child statusbar1.Gtk.Box+BoxChild
 		this.LabelConnectionStatus = new global::Gtk.Label ();
 		this.LabelConnectionStatus.Name = "LabelConnectionStatus";
 		this.LabelConnectionStatus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Not</b> connected");
 		this.LabelConnectionStatus.UseMarkup = true;
 		this.statusbar1.Add (this.LabelConnectionStatus);
-		global::Gtk.Box.BoxChild w52 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelConnectionStatus]));
-		w52.Position = 2;
-		w52.Expand = false;
-		w52.Fill = false;
+		global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelConnectionStatus]));
+		w74.Position = 2;
+		w74.Expand = false;
+		w74.Fill = false;
 		this.vbox3.Add (this.statusbar1);
-		global::Gtk.Box.BoxChild w53 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.statusbar1]));
-		w53.Position = 2;
-		w53.Expand = false;
-		w53.Fill = false;
+		global::Gtk.Box.BoxChild w75 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.statusbar1]));
+		w75.Position = 2;
+		w75.Expand = false;
+		w75.Fill = false;
 		this.Add (this.vbox3);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
-		this.DefaultWidth = 385;
-		this.DefaultHeight = 448;
+		this.DefaultWidth = 445;
+		this.DefaultHeight = 552;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.BtnConnect.Clicked += new global::System.EventHandler (this.Connect);

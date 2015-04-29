@@ -1,7 +1,6 @@
 ToDo
 ====
 
-- Arduino specs finden
 - arduino treiber ausarbeiten
 - struktur ausarbeiten
 - c sharp serial io lernen

@@ -17,6 +17,8 @@ enum
 {
   kAcknowledge,
   kError,
+  kSetPinMode,
+  kSetPinState,
   kSetPin,
   kReadAnalogPin,
   kReadAnalogPinResult,
@@ -29,6 +31,8 @@ void attachCommandCallbacks()
   cmdMessenger.attach(OnUnknownCommand);
   cmdMessenger.attach(kSetPin, OnSetPin);
   cmdMessenger.attach(kReadAnalogPin, OnReadAnalogPin);
+  cmdMessenger.attach(kSetPinMode, OnSetPinMode);
+  cmdMessenger.attach(k.SetPinState, OnSetPinState);
 }
 
 // Called when a received command has no attached function
@@ -44,14 +48,32 @@ void OnSetPin()
   byte State = cmdMessenger.readInt16Arg();
 
   pinMode(pinnr,Mode);
-  digitalWrite(pinnr,State);
+  if (Mode == OUTPUT)
+  {
+    digitalWrite(pinnr,State);
+  }
+}
+
+void OnSetPinMode()
+{
+  int pin = cmdMessenger.readInt16Arg();
+  int mode = cmdMessenger.readInt16Arg();
+  pinMode(pin,mode);
+}
+
+void OnSetPinState()
+{
+  int pin = cmdMessenger.readInt16Arg();
+  int state = cmdMessenger.readInt16Arg();
+  digitalWrite(pin,state);
 }
 
 void OnReadAnalogPin()
 {
-  float val = cmdMessenger.readInt16Arg();
+  int val = cmdMessenger.readInt16Arg();
   cmdMessenger.sendCmdStart(kReadAnalogPinResult);
-  cmdMessenger.sendCmdArg(analogRead(val));
+  cmdMessenger.sendCmdSciArg(val);
+  cmdMessenger.sendCmdSciArg(analogRead(val));
   cmdMessenger.sendCmdEnd();
 }
 

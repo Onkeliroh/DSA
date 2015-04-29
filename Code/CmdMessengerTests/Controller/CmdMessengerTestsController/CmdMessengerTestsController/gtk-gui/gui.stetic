@@ -7,7 +7,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/CmdMessengerTestsController.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="385 448">
+  <widget class="Gtk.Window" id="MainWindow" design-size="445 552">
     <property name="MemberName" />
     <property name="Title" translatable="yes">CmdMessengerTestsController</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -261,6 +261,229 @@
               </packing>
             </child>
             <child>
+              <widget class="Gtk.VBox" id="vbox4">
+                <property name="MemberName" />
+                <property name="Homogeneous">True</property>
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox1">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox2">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox3">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox4">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">3</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox5">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">4</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox6">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">5</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox7">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">6</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox8">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">7</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox9">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">8</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox10">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">9</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox11">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">10</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox12">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">11</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox13">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">12</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox14">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">1</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">13</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
               <widget class="Gtk.VBox" id="vbox2">
                 <property name="MemberName" />
                 <property name="Homogeneous">True</property>
@@ -500,7 +723,7 @@
                 </child>
               </widget>
               <packing>
-                <property name="Position">1</property>
+                <property name="Position">2</property>
                 <property name="AutoSize">False</property>
                 <property name="Expand">False</property>
               </packing>
@@ -510,7 +733,7 @@
                 <property name="MemberName" />
               </widget>
               <packing>
-                <property name="Position">2</property>
+                <property name="Position">3</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -524,7 +747,7 @@
                 <child>
                   <widget class="Gtk.Label" id="LabelA5">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">A5</property>
+                    <property name="LabelProp" translatable="yes">A5:</property>
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -536,7 +759,7 @@
                 <child>
                   <widget class="Gtk.Label" id="LabelA4">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">A4</property>
+                    <property name="LabelProp" translatable="yes">A4:</property>
                   </widget>
                   <packing>
                     <property name="Position">1</property>
@@ -548,7 +771,7 @@
                 <child>
                   <widget class="Gtk.Label" id="LabelA3">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">A3</property>
+                    <property name="LabelProp" translatable="yes">A3:</property>
                   </widget>
                   <packing>
                     <property name="Position">2</property>
@@ -560,7 +783,7 @@
                 <child>
                   <widget class="Gtk.Label" id="LabelA">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">A0</property>
+                    <property name="LabelProp" translatable="yes">A0:</property>
                   </widget>
                   <packing>
                     <property name="PackType">End</property>
@@ -573,7 +796,7 @@
                 <child>
                   <widget class="Gtk.Label" id="LabelA1">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">A1</property>
+                    <property name="LabelProp" translatable="yes">A1:</property>
                   </widget>
                   <packing>
                     <property name="PackType">End</property>
@@ -586,96 +809,7 @@
                 <child>
                   <widget class="Gtk.Label" id="LabelA2">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">A2</property>
-                  </widget>
-                  <packing>
-                    <property name="PackType">End</property>
-                    <property name="Position">5</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="Position">3</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-                <property name="Padding">5</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.VBox" id="VBoxAnalogValues">
-                <property name="MemberName" />
-                <property name="Homogeneous">True</property>
-                <property name="Spacing">6</property>
-                <child>
-                  <widget class="Gtk.Label" id="LabelValueA5">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">label1</property>
-                  </widget>
-                  <packing>
-                    <property name="Position">0</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="Gtk.Label" id="LabelValueA4">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">label1</property>
-                  </widget>
-                  <packing>
-                    <property name="Position">1</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="Gtk.Label" id="LabelValueA3">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">label1</property>
-                  </widget>
-                  <packing>
-                    <property name="Position">2</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="Gtk.Label" id="LabelValueA">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">label1</property>
-                  </widget>
-                  <packing>
-                    <property name="PackType">End</property>
-                    <property name="Position">3</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="Gtk.Label" id="LabelValueA1">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">label1</property>
-                  </widget>
-                  <packing>
-                    <property name="PackType">End</property>
-                    <property name="Position">4</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="Gtk.Label" id="LabelValueA2">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">label1</property>
+                    <property name="LabelProp" translatable="yes">A2:</property>
                   </widget>
                   <packing>
                     <property name="PackType">End</property>
@@ -688,6 +822,211 @@
               </widget>
               <packing>
                 <property name="Position">4</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+                <property name="Padding">5</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vbox6">
+                <property name="MemberName" />
+                <property name="Homogeneous">True</property>
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox15">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox16">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox17">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox18">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">3</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox20">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">4</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox19">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">INPUT
+OUTPUT</property>
+                    <property name="Active">0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">5</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">5</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="VBoxAnalogValues">
+                <property name="MemberName" />
+                <property name="WidthRequest">104</property>
+                <property name="Homogeneous">True</property>
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.Label" id="LabelValueA5">
+                    <property name="MemberName" />
+                    <property name="Xalign">1</property>
+                    <property name="LabelProp" translatable="yes">label1</property>
+                    <property name="Justify">Right</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="LabelValueA4">
+                    <property name="MemberName" />
+                    <property name="Xalign">1</property>
+                    <property name="LabelProp" translatable="yes">label1</property>
+                    <property name="Justify">Right</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="LabelValueA3">
+                    <property name="MemberName" />
+                    <property name="Xalign">1</property>
+                    <property name="LabelProp" translatable="yes">label1</property>
+                    <property name="Justify">Right</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="LabelValueA">
+                    <property name="MemberName" />
+                    <property name="Xalign">1</property>
+                    <property name="LabelProp" translatable="yes">label1</property>
+                    <property name="Justify">Right</property>
+                  </widget>
+                  <packing>
+                    <property name="PackType">End</property>
+                    <property name="Position">3</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="LabelValueA1">
+                    <property name="MemberName" />
+                    <property name="Xalign">1</property>
+                    <property name="LabelProp" translatable="yes">label1</property>
+                    <property name="Justify">Right</property>
+                  </widget>
+                  <packing>
+                    <property name="PackType">End</property>
+                    <property name="Position">4</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="LabelValueA2">
+                    <property name="MemberName" />
+                    <property name="Xalign">1</property>
+                    <property name="LabelProp" translatable="yes">label1</property>
+                    <property name="Justify">Right</property>
+                  </widget>
+                  <packing>
+                    <property name="PackType">End</property>
+                    <property name="Position">5</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">6</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>

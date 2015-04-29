@@ -4,11 +4,15 @@ using Gtk;
 using ArduinoController;
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
+using SamplerLogger;
+using System.Collections.Generic;
 
 public partial class MainWindow: Gtk.Window
 {
 	private readonly ArduinoController.ArduinoController _arduinoController;
 	private Timer AnalogTimer;
+
+	private CSVLogger logger = new CSVLogger ("test.csv", new List<string>{ "A0", "A1", "A2", "A3", "A4", "A5" }, false, false);
 
 	public MainWindow () : base (Gtk.WindowType.Toplevel)
 	{
@@ -18,12 +22,16 @@ public partial class MainWindow: Gtk.Window
 		AnalogTimer = new Timer (500);
 		AnalogTimer.Elapsed += FetchAnalog;
 
+		LabelValueA.Text = "Hello World";
+
 		initializeComponents ();
 	}
 
 	void initializeComponents ()
 	{
-		foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+		logger.Start ();
+		foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+		{
 			CBSerialPorts.AppendText (s);
 		}
 		CBSerialPorts.Active = 0;
@@ -31,20 +39,24 @@ public partial class MainWindow: Gtk.Window
 
 	void Connect (object sender, EventArgs e)
 	{
-		if (!_arduinoController.IsConnected) {
+		if (!_arduinoController.IsConnected)
+		{
 			_arduinoController.SerialPortName = CBSerialPorts.ActiveText;
 			_arduinoController.Setup ();
 
-			if (_arduinoController.IsConnected) {
+			if (_arduinoController.IsConnected)
+			{
 				BtnConnect.Label = "Disconnect";
 				LabelConnectionStatus.Text = @"<b>Connected</b>";
 				LabelConnectionStatus.UseMarkup = true;
 				AnalogTimer.Start ();
-			} else {
+			} else
+			{
 				LabelConnectionStatus.Text = @"<b>Something went wrong!</b>";
 				LabelConnectionStatus.UseMarkup = true;
 			}
-		} else {
+		} else
+		{
 			AnalogTimer.Stop ();
 			BtnConnect.Label = "Connect";
 			LabelConnectionStatus.Text = @"<b>Not</b> connected";
@@ -55,6 +67,7 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{
+		logger.Stop ();
 		_arduinoController.Disconnect ();
 		Application.Quit ();
 		a.RetVal = true;
@@ -69,12 +82,25 @@ public partial class MainWindow: Gtk.Window
 		_arduinoController.ReadAnalogPin (4);
 		_arduinoController.ReadAnalogPin (5);
 
-		LabelValueA.Text = Convert.ToString (_arduinoController.AnalogValues [0] [_arduinoController.AnalogValues [0].Count - 1]);
-		LabelValueA1.Text = Convert.ToString (_arduinoController.AnalogValues [1] [_arduinoController.AnalogValues [1].Count - 1]);
-		LabelValueA2.Text = Convert.ToString (_arduinoController.AnalogValues [2] [_arduinoController.AnalogValues [2].Count - 1]);
-		LabelValueA3.Text = Convert.ToString (_arduinoController.AnalogValues [3] [_arduinoController.AnalogValues [3].Count - 1]);
-		LabelValueA4.Text = Convert.ToString (_arduinoController.AnalogValues [4] [_arduinoController.AnalogValues [4].Count - 1]);
-		LabelValueA5.Text = Convert.ToString (_arduinoController.AnalogValues [5] [_arduinoController.AnalogValues [5].Count - 1]);
+		var tmp = new List<float> ();
+		tmp.Add (_arduinoController.AnalogValues [0] [_arduinoController.AnalogValues [0].Count - 1]);
+		tmp.Add (_arduinoController.AnalogValues [1] [_arduinoController.AnalogValues [1].Count - 1]);
+		tmp.Add (_arduinoController.AnalogValues [2] [_arduinoController.AnalogValues [2].Count - 1]);
+		tmp.Add (_arduinoController.AnalogValues [3] [_arduinoController.AnalogValues [3].Count - 1]);
+		tmp.Add (_arduinoController.AnalogValues [4] [_arduinoController.AnalogValues [4].Count - 1]);
+		tmp.Add (_arduinoController.AnalogValues [5] [_arduinoController.AnalogValues [5].Count - 1]);
+
+		logger.Log (tmp);
+
+		Gtk.Application.Invoke (delegate
+		{
+			LabelValueA.Text = Convert.ToString (_arduinoController.AnalogValues [0] [_arduinoController.AnalogValues [0].Count - 1]);
+			LabelValueA1.Text = Convert.ToString (_arduinoController.AnalogValues [1] [_arduinoController.AnalogValues [1].Count - 1]);
+			LabelValueA2.Text = Convert.ToString (_arduinoController.AnalogValues [2] [_arduinoController.AnalogValues [2].Count - 1]);
+			LabelValueA3.Text = Convert.ToString (_arduinoController.AnalogValues [3] [_arduinoController.AnalogValues [3].Count - 1]);
+			LabelValueA4.Text = Convert.ToString (_arduinoController.AnalogValues [4] [_arduinoController.AnalogValues [4].Count - 1]);
+			LabelValueA5.Text = Convert.ToString (_arduinoController.AnalogValues [5] [_arduinoController.AnalogValues [5].Count - 1]);
+		});
 	}
 
 	private void SetDPIN (int PinNr, DPinMode Mode, DPinState State)

@@ -1,20 +1,6 @@
-﻿// *** ArduinoController ***
-
-// This example expands the SendandReceiveArguments example. The PC will now sends commands to the Arduino when the trackbar 
-// is pulled. Every TrackBarChanged events will queue a message to the Arduino to set the blink speed of the 
-// internal / pin 13 LED
-// 
-// This example shows how to :
-// - use in combination with WinForms
-// - use in combination with ZedGraph
-// - send queued commands
-// - Use the CollapseCommandStrategy
-
-using System;
+﻿using System;
 using CommandMessenger;
-using CommandMessenger.Queue;
 using CommandMessenger.Transport.Serial;
-using Gtk;
 using System.Collections.Generic;
 
 namespace ArduinoController
@@ -25,6 +11,10 @@ namespace ArduinoController
 		// Command to acknowledge a received command
 		Error,
 		// Command to message that an error has occurred
+		SetPinMode,
+
+		SetPinState,
+
 		SetPin,
 		// Command to set Mode and state of a digital Pin
 		ReadAnalog,
@@ -49,9 +39,6 @@ namespace ArduinoController
 
 	public class ArduinoController
 	{
-		// This class (kind of) contains presentation logic, and domain model.
-		// ChartForm.cs contains the view components
-
 		private CmdMessenger _cmdMessenger;
 
 		public bool IsConnected {
@@ -123,6 +110,7 @@ namespace ArduinoController
 			_cmdMessenger.Attach (OnUnknownCommand);
 			_cmdMessenger.Attach ((int)Command.Acknowledge, OnAcknowledge);
 			_cmdMessenger.Attach ((int)Command.Error, OnError);
+			_cmdMessenger.Attach ((int)Command.ReadAnalogResult, OnReadAnalogResult);
 		}
 
 
@@ -159,6 +147,20 @@ namespace ArduinoController
 			Console.WriteLine (@"Sent > " + e.Command.CommandString ());
 		}
 
+		public void SetPinMode (int nr, DPinMode mode)
+		{
+			var command = new SendCommand ((int)Command.SetPinMode, nr);
+			command.AddArgument ((Int16)mode);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		public void SetPinState (int nr, DPinState state)
+		{
+			var command = new SendCommand ((int)Command.SetPinMode, nr);
+			command.AddArgument ((Int16)state);
+			_cmdMessenger.SendCommand (command);
+		}
+
 		public void SetPin (int nr, DPinMode mode, DPinState state)
 		{
 			var command = new SendCommand ((int)Command.SetPin, nr);
@@ -173,16 +175,21 @@ namespace ArduinoController
 			command.AddArgument (nr);
 			var commandreturn = _cmdMessenger.SendCommand (command);
 
-			if (commandreturn.Ok) {
-				if (AnalogValues.Count < nr) {
-					while (AnalogValues.Count <= nr) {
-						AnalogValues.Add (new List<float> ());
-					}
+			if (AnalogValues.Count < nr)
+			{
+				while (AnalogValues.Count <= nr)
+				{
+					AnalogValues.Add (new List<float> ());
 				}
-				var val = commandreturn.ReadFloatArg ();
-				Console.WriteLine (nr + "\t" + val);
-				AnalogValues [nr].Add (val);
 			}
+		}
+
+		private void OnReadAnalogResult (ReceivedCommand args)
+		{
+			int pin = (int)args.ReadFloatArg ();
+			float val = args.ReadFloatArg ();
+
+			AnalogValues [pin].Add (val);
 		}
 	}
 }
