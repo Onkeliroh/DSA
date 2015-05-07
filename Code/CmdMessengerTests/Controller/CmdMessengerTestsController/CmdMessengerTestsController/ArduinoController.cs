@@ -8,22 +8,26 @@ namespace ArduinoController
 	enum Command
 	{
 		Acknowledge,
-		// Command to acknowledge a received command
 		Error,
-		// Command to message that an error has occurred
 		SetPinMode,
-
 		SetPinState,
-
+		SetAnalogPin,
+		SetAnalogPinMode,
 		SetPin,
-		// Command to set Mode and state of a digital Pin
-		ReadAnalog,
-		// Command to read a analog Pin
-		ReadAnalogResult,
-		// Return for ReadAnalog command
+		ReadPinMode,
+		ReadPinState,
+		ReadAnalogPin,
+		ReadPinsMode,
+		ReadPin,
+
+		ReadPinModeResult,
+		ReadPinStateResult,
+		ReadAnalogPinResult,
+		ReadPinsModeResult,
+		ReadPinResult,
 	};
 
-	public enum DPinMode
+	public enum PinMode
 	{
 		INPUT,
 		OUTPUT}
@@ -101,6 +105,7 @@ namespace ArduinoController
 
 		public void Disconnect ()
 		{
+			IsConnected = false;
 			_cmdMessenger.Disconnect ();
 		}
 
@@ -110,7 +115,7 @@ namespace ArduinoController
 			_cmdMessenger.Attach (OnUnknownCommand);
 			_cmdMessenger.Attach ((int)Command.Acknowledge, OnAcknowledge);
 			_cmdMessenger.Attach ((int)Command.Error, OnError);
-			_cmdMessenger.Attach ((int)Command.ReadAnalogResult, OnReadAnalogResult);
+			_cmdMessenger.Attach ((int)Command.ReadAnalogPinResult, OnReadAnalogResult);
 		}
 
 
@@ -147,7 +152,7 @@ namespace ArduinoController
 			Console.WriteLine (@"Sent > " + e.Command.CommandString ());
 		}
 
-		public void SetPinMode (int nr, DPinMode mode)
+		public void SetPinMode (int nr, PinMode mode)
 		{
 			var command = new SendCommand ((int)Command.SetPinMode, nr);
 			command.AddArgument ((Int16)mode);
@@ -161,7 +166,7 @@ namespace ArduinoController
 			_cmdMessenger.SendCommand (command);
 		}
 
-		public void SetPin (int nr, DPinMode mode, DPinState state)
+		public void SetPin (int nr, PinMode mode, DPinState state)
 		{
 			var command = new SendCommand ((int)Command.SetPin, nr);
 			command.AddArgument ((Int16)mode);
@@ -171,9 +176,9 @@ namespace ArduinoController
 
 		public void ReadAnalogPin (int nr)
 		{
-			var command = new SendCommand ((int)Command.ReadAnalog);
+			var command = new SendCommand ((int)Command.ReadAnalogPin);
 			command.AddArgument (nr);
-			var commandreturn = _cmdMessenger.SendCommand (command);
+			_cmdMessenger.SendCommand (command);
 
 			if (AnalogValues.Count < nr)
 			{
@@ -190,6 +195,20 @@ namespace ArduinoController
 			float val = args.ReadFloatArg ();
 
 			AnalogValues [pin].Add (val);
+		}
+
+		public void SetAnalogPinMode (int Pin, PinMode mode)
+		{
+			var command = new SendCommand ((int)Command.SetAnalogPinMode, Pin);
+			command.AddArgument ((Int16)mode);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		public void SetAnalogPin (int Pin, int Val)
+		{
+			var command = new SendCommand ((int)Command.SetAnalogPin, Pin);
+			command.AddArgument (Val);
+			_cmdMessenger.SendCommand (command);
 		}
 	}
 }

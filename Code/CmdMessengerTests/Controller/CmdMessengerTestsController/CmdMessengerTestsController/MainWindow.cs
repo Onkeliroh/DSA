@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 public partial class MainWindow: Gtk.Window
 {
-	private readonly ArduinoController.ArduinoController _arduinoController;
+	private ArduinoController.ArduinoController _arduinoController;
 	private Timer AnalogTimer;
 
 	private CSVLogger logger = new CSVLogger ("test.csv", new List<string>{ "A0", "A1", "A2", "A3", "A4", "A5" }, false, false);
@@ -30,6 +30,12 @@ public partial class MainWindow: Gtk.Window
 	void initializeComponents ()
 	{
 		logger.Start ();
+		PreparePortNames ();
+	}
+
+	private void PreparePortNames ()
+	{
+		((ListStore)CBSerialPorts.Model).Clear ();
 		foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
 		{
 			CBSerialPorts.AppendText (s);
@@ -41,11 +47,13 @@ public partial class MainWindow: Gtk.Window
 	{
 		if (!_arduinoController.IsConnected)
 		{
+			//_arduinoController = new ArduinoController.ArduinoController ();
 			_arduinoController.SerialPortName = CBSerialPorts.ActiveText;
 			_arduinoController.Setup ();
 
 			if (_arduinoController.IsConnected)
 			{
+				BtnConnectRefresh.Sensitive = false;
 				BtnConnect.Label = "Disconnect";
 				LabelConnectionStatus.Text = @"<b>Connected</b>";
 				LabelConnectionStatus.UseMarkup = true;
@@ -59,16 +67,17 @@ public partial class MainWindow: Gtk.Window
 		{
 			AnalogTimer.Stop ();
 			BtnConnect.Label = "Connect";
+			BtnConnectRefresh.Sensitive = true;
 			LabelConnectionStatus.Text = @"<b>Not</b> connected";
 			LabelConnectionStatus.UseMarkup = true;
-			_arduinoController.Exit ();
+			_arduinoController.Disconnect ();
 		}
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{
 		logger.Stop ();
-		_arduinoController.Disconnect ();
+		_arduinoController.Exit ();
 		Application.Quit ();
 		a.RetVal = true;
 	}
@@ -103,13 +112,38 @@ public partial class MainWindow: Gtk.Window
 		});
 	}
 
-	private void SetDPIN (int PinNr, DPinMode Mode, DPinState State)
+	private void SetDPIN (int PinNr, PinMode Mode, DPinState State)
 	{
 		_arduinoController.SetPin (PinNr, Mode, State);
 	}
 
 	protected void OnCheckbutton1Toggled (object sender, EventArgs e)
 	{
-		SetDPIN (13, DPinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+		SetDPIN (13, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCombobox19Changed (object sender, EventArgs e)
+	{
+		_arduinoController.SetAnalogPinMode (14, PinMode.OUTPUT);
+	}
+
+	protected void OnHScaleAnalogPinNullValueChanged (object sender, EventArgs e)
+	{
+		_arduinoController.SetAnalogPin (14, Convert.ToInt16 (HScaleAnalogPinNull.Adjustment.Value));
+	}
+
+	protected void OnCBAnalogPin5ModeChanged (object sender, EventArgs e)
+	{
+		_arduinoController.SetAnalogPinMode (19, PinMode.OUTPUT);
+	}
+
+	protected void OnHScaleAnalogPinFiveValueChanged (object sender, EventArgs e)
+	{
+		_arduinoController.SetAnalogPin (19, Convert.ToInt16 (HScaleAnalogPinFive.Adjustment.Value));
+	}
+
+	protected void OnBtnConnectRefreshClicked (object sender, EventArgs e)
+	{
+		PreparePortNames ();
 	}
 }
