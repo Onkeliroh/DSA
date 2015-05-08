@@ -25,6 +25,12 @@ namespace ArduinoController
 		ReadAnalogPinResult,
 		ReadPinsModeResult,
 		ReadPinResult,
+
+		GetVersion,
+		GetModel,
+		GetNumberDigitalPins,
+		GetNumberAnalogPins,
+		GetDigitalBitMask,
 	};
 
 	public enum PinMode
@@ -63,6 +69,31 @@ namespace ArduinoController
 		public List<List<float>> AnalogValues {
 			get;
 			private set;
+		}
+
+		public string Version {
+			private set;
+			get;
+		}
+
+		public string Model {
+			private set;
+			get;
+		}
+
+		public int NumberOfDigitalPins {
+			private set;
+			get;
+		}
+
+		public int NumberOfAnalogPins {
+			private set;
+			get;
+		}
+
+		public UInt32 DigitalBitMask {
+			private set;
+			get;
 		}
 
 		// ------------------ MAIN  ----------------------
@@ -116,6 +147,11 @@ namespace ArduinoController
 			_cmdMessenger.Attach ((int)Command.Acknowledge, OnAcknowledge);
 			_cmdMessenger.Attach ((int)Command.Error, OnError);
 			_cmdMessenger.Attach ((int)Command.ReadAnalogPinResult, OnReadAnalogResult);
+			_cmdMessenger.Attach ((int)Command.GetVersion, OnGetVersion);
+			_cmdMessenger.Attach ((int)Command.GetModel, OnGetModel);
+			_cmdMessenger.Attach ((int)Command.GetNumberDigitalPins, OnGetNumberDigitalPins);
+			_cmdMessenger.Attach ((int)Command.GetNumberAnalogPins, OnGetNumberAnalogPins);
+			_cmdMessenger.Attach ((int)Command.GetDigitalBitMask, OnGetDigitalBitMask);
 		}
 
 
@@ -209,6 +245,61 @@ namespace ArduinoController
 			var command = new SendCommand ((int)Command.SetAnalogPin, Pin);
 			command.AddArgument (Val);
 			_cmdMessenger.SendCommand (command);
+		}
+
+		public void GetVersion ()
+		{
+			var command = new SendCommand ((int)Command.GetVersion);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		private void OnGetVersion (ReceivedCommand args)
+		{
+			Version = args.ReadStringArg ();
+		}
+
+		public void GetModel ()
+		{
+			var command = new SendCommand ((int)Command.GetModel);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		private void OnGetModel (ReceivedCommand args)
+		{
+			Model = args.ReadStringArg ();
+		}
+
+		public void GetNumberDigitalPins ()
+		{
+			var command = new SendCommand ((int)Command.GetNumberDigitalPins);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		private void OnGetNumberDigitalPins (ReceivedCommand args)
+		{
+			NumberOfDigitalPins = args.ReadInt32Arg ();
+		}
+
+		public void GetNumberAnalogPins ()
+		{
+			var command = new SendCommand ((int)Command.GetNumberAnalogPins);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		private void OnGetNumberAnalogPins (ReceivedCommand args)
+		{
+			NumberOfAnalogPins = args.ReadInt32Arg ();
+		}
+
+		public void GetDigitalBitMask ()
+		{
+			var command = new SendCommand ((int)Command.GetDigitalBitMask);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		public void OnGetDigitalBitMask (ReceivedCommand args)
+		{
+			DigitalBitMask = args.ReadBinUInt32Arg ();
 		}
 	}
 }

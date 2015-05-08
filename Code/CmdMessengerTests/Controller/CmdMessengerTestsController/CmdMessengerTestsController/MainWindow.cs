@@ -146,4 +146,24 @@ public partial class MainWindow: Gtk.Window
 	{
 		PreparePortNames ();
 	}
+
+	protected void OnBtnDataCollectClicked (object sender, EventArgs e)
+	{
+		textview2.Buffer.Clear ();
+
+		_arduinoController.GetVersion ();
+		_arduinoController.GetModel ();
+		_arduinoController.GetNumberDigitalPins ();
+		_arduinoController.GetNumberAnalogPins ();
+		_arduinoController.GetDigitalBitMask ();
+
+
+
+		textview2.Buffer.Text += "VERSION:\t" + _arduinoController.Version + "\n";
+		textview2.Buffer.Text += "MODEL:\t" + _arduinoController.Model + "\n";
+		textview2.Buffer.Text += "NUMBER OF DIGITAL PINS:\t" + Convert.ToString (_arduinoController.NumberOfDigitalPins) + "\n";
+		textview2.Buffer.Text += "NUMBER OF ANALOG PINS:\t" + Convert.ToString (_arduinoController.NumberOfAnalogPins) + "\n";
+		textview2.Buffer.Text += "DIGITAL BIT MASK:\t" + Convert.ToString (_arduinoController.DigitalBitMask, 2) + "\n";
+
+	}
 }

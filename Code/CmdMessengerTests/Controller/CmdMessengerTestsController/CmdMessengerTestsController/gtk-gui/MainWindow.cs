@@ -177,7 +177,13 @@ public partial class MainWindow
 	
 	private global::Gtk.Label label5;
 	
-	private global::Gtk.Table table1;
+	private global::Gtk.VBox vbox1;
+	
+	private global::Gtk.ScrolledWindow GtkScrolledWindow;
+	
+	private global::Gtk.TextView textview2;
+	
+	private global::Gtk.Button btnDataCollect;
 	
 	private global::Gtk.Label label6;
 	
@@ -1125,22 +1131,44 @@ public partial class MainWindow
 		this.notebook1.SetTabLabel (this.HBoxControll, this.label5);
 		this.label5.ShowAll ();
 		// Container child notebook1.Gtk.Notebook+NotebookChild
-		this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
-		this.table1.Name = "table1";
-		this.table1.RowSpacing = ((uint)(6));
-		this.table1.ColumnSpacing = ((uint)(6));
-		this.notebook1.Add (this.table1);
-		global::Gtk.Notebook.NotebookChild w85 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table1]));
-		w85.Position = 1;
+		this.vbox1 = new global::Gtk.VBox ();
+		this.vbox1.Name = "vbox1";
+		this.vbox1.Spacing = 6;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
+		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
+		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+		this.textview2 = new global::Gtk.TextView ();
+		this.textview2.CanFocus = true;
+		this.textview2.Name = "textview2";
+		this.GtkScrolledWindow.Add (this.textview2);
+		this.vbox1.Add (this.GtkScrolledWindow);
+		global::Gtk.Box.BoxChild w86 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
+		w86.Position = 0;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.btnDataCollect = new global::Gtk.Button ();
+		this.btnDataCollect.CanFocus = true;
+		this.btnDataCollect.Name = "btnDataCollect";
+		this.btnDataCollect.UseUnderline = true;
+		this.btnDataCollect.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+		this.vbox1.Add (this.btnDataCollect);
+		global::Gtk.Box.BoxChild w87 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnDataCollect]));
+		w87.Position = 1;
+		w87.Expand = false;
+		w87.Fill = false;
+		this.notebook1.Add (this.vbox1);
+		global::Gtk.Notebook.NotebookChild w88 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.vbox1]));
+		w88.Position = 1;
 		// Notebook tab
 		this.label6 = new global::Gtk.Label ();
 		this.label6.Name = "label6";
 		this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Intel");
-		this.notebook1.SetTabLabel (this.table1, this.label6);
+		this.notebook1.SetTabLabel (this.vbox1, this.label6);
 		this.label6.ShowAll ();
 		this.vbox3.Add (this.notebook1);
-		global::Gtk.Box.BoxChild w86 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.notebook1]));
-		w86.Position = 1;
+		global::Gtk.Box.BoxChild w89 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.notebook1]));
+		w89.Position = 1;
 		// Container child vbox3.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";
@@ -1150,25 +1178,25 @@ public partial class MainWindow
 		this.LabelStatus.Name = "LabelStatus";
 		this.LabelStatus.LabelProp = global::Mono.Unix.Catalog.GetString ("Status:");
 		this.statusbar1.Add (this.LabelStatus);
-		global::Gtk.Box.BoxChild w87 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelStatus]));
-		w87.Position = 1;
-		w87.Expand = false;
-		w87.Fill = false;
+		global::Gtk.Box.BoxChild w90 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelStatus]));
+		w90.Position = 1;
+		w90.Expand = false;
+		w90.Fill = false;
 		// Container child statusbar1.Gtk.Box+BoxChild
 		this.LabelConnectionStatus = new global::Gtk.Label ();
 		this.LabelConnectionStatus.Name = "LabelConnectionStatus";
 		this.LabelConnectionStatus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Not</b> connected");
 		this.LabelConnectionStatus.UseMarkup = true;
 		this.statusbar1.Add (this.LabelConnectionStatus);
-		global::Gtk.Box.BoxChild w88 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelConnectionStatus]));
-		w88.Position = 2;
-		w88.Expand = false;
-		w88.Fill = false;
+		global::Gtk.Box.BoxChild w91 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelConnectionStatus]));
+		w91.Position = 2;
+		w91.Expand = false;
+		w91.Fill = false;
 		this.vbox3.Add (this.statusbar1);
-		global::Gtk.Box.BoxChild w89 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.statusbar1]));
-		w89.Position = 2;
-		w89.Expand = false;
-		w89.Fill = false;
+		global::Gtk.Box.BoxChild w92 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.statusbar1]));
+		w92.Position = 2;
+		w92.Expand = false;
+		w92.Fill = false;
 		this.Add (this.vbox3);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
@@ -1183,5 +1211,6 @@ public partial class MainWindow
 		this.CBAnalogPin5Mode.Changed += new global::System.EventHandler (this.OnCBAnalogPin5ModeChanged);
 		this.CBAnalogPin0Mode.Changed += new global::System.EventHandler (this.OnCombobox19Changed);
 		this.HScaleAnalogPinFive.ValueChanged += new global::System.EventHandler (this.OnHScaleAnalogPinFiveValueChanged);
+		this.btnDataCollect.Clicked += new global::System.EventHandler (this.OnBtnDataCollectClicked);
 	}
 }

@@ -1,8 +1,7 @@
 ﻿<Properties StartupItem="Logger.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../../usr/share/arduino/hardware/arduino/avr/cores/arduino/Arduino.h">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Logger.cs">
     <Files>
-      <File FileName="../../../../../usr/share/arduino/hardware/arduino/avr/cores/arduino/Arduino.h" Line="1" Column="1" />
       <File FileName="Logger.cs" Line="1" Column="1" />
       <File FileName="InfoLogger.cs" Line="1" Column="1" />
       <File FileName="CSVLogger.cs" Line="1" Column="1" />
