@@ -51,63 +51,63 @@ public partial class MainWindow
 	
 	private global::Gtk.VBox VBoxDigitalPinModes;
 	
-	private global::Gtk.ComboBox combobox1;
+	private global::Gtk.ComboBox cbDPin13;
 	
-	private global::Gtk.ComboBox combobox2;
+	private global::Gtk.ComboBox cbDPin12;
 	
-	private global::Gtk.ComboBox combobox3;
+	private global::Gtk.ComboBox cbDPin11;
 	
-	private global::Gtk.ComboBox combobox4;
+	private global::Gtk.ComboBox cbDPin10;
 	
-	private global::Gtk.ComboBox combobox5;
+	private global::Gtk.ComboBox cbDPin9;
 	
-	private global::Gtk.ComboBox combobox6;
+	private global::Gtk.ComboBox cbDPin8;
 	
-	private global::Gtk.ComboBox combobox7;
+	private global::Gtk.ComboBox cbDPin7;
 	
-	private global::Gtk.ComboBox combobox8;
+	private global::Gtk.ComboBox cbDPin6;
 	
-	private global::Gtk.ComboBox combobox9;
+	private global::Gtk.ComboBox cbDPin5;
 	
-	private global::Gtk.ComboBox combobox10;
+	private global::Gtk.ComboBox cbDPin4;
 	
-	private global::Gtk.ComboBox combobox11;
+	private global::Gtk.ComboBox cbDPin3;
 	
-	private global::Gtk.ComboBox combobox12;
+	private global::Gtk.ComboBox cbDPin2;
 	
-	private global::Gtk.ComboBox combobox13;
+	private global::Gtk.ComboBox cbDPin1;
 	
-	private global::Gtk.ComboBox combobox14;
+	private global::Gtk.ComboBox cbDPin;
 	
 	private global::Gtk.VBox VBoxDigitalPinStates;
 	
-	private global::Gtk.CheckButton checkbutton1;
+	private global::Gtk.CheckButton cbtnDPin13;
 	
-	private global::Gtk.CheckButton checkbutton2;
+	private global::Gtk.CheckButton cbtnDPin12;
 	
-	private global::Gtk.CheckButton checkbutton3;
+	private global::Gtk.CheckButton cbtnDPin11;
 	
-	private global::Gtk.CheckButton checkbutton4;
+	private global::Gtk.CheckButton cbtnDPin10;
 	
-	private global::Gtk.CheckButton checkbutton5;
+	private global::Gtk.CheckButton cbtnDPin9;
 	
-	private global::Gtk.CheckButton checkbutton6;
+	private global::Gtk.CheckButton cbtnDPin8;
 	
-	private global::Gtk.CheckButton checkbutton14;
+	private global::Gtk.CheckButton cbtnDPin;
 	
-	private global::Gtk.CheckButton checkbutton13;
+	private global::Gtk.CheckButton cbtnDPin1;
 	
-	private global::Gtk.CheckButton checkbutton12;
+	private global::Gtk.CheckButton cbtnDPin2;
 	
-	private global::Gtk.CheckButton checkbutton11;
+	private global::Gtk.CheckButton cbtnDPin3;
 	
-	private global::Gtk.CheckButton checkbutton10;
+	private global::Gtk.CheckButton cbtnDPin4;
 	
-	private global::Gtk.CheckButton checkbutton9;
+	private global::Gtk.CheckButton cbtnDPin5;
 	
-	private global::Gtk.CheckButton checkbutton8;
+	private global::Gtk.CheckButton cbtnDPin6;
 	
-	private global::Gtk.CheckButton checkbutton7;
+	private global::Gtk.CheckButton cbtnDPin7;
 	
 	private global::Gtk.VSeparator vseparator1;
 	
@@ -257,7 +257,7 @@ public partial class MainWindow
 		this.notebook1 = new global::Gtk.Notebook ();
 		this.notebook1.CanFocus = true;
 		this.notebook1.Name = "notebook1";
-		this.notebook1.CurrentPage = 1;
+		this.notebook1.CurrentPage = 0;
 		// Container child notebook1.Gtk.Notebook+NotebookChild
 		this.HBoxControll = new global::Gtk.HBox ();
 		this.HBoxControll.Name = "HBoxControll";
@@ -411,156 +411,156 @@ public partial class MainWindow
 		this.VBoxDigitalPinModes.Homogeneous = true;
 		this.VBoxDigitalPinModes.Spacing = 6;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox1 = global::Gtk.ComboBox.NewText ();
-		this.combobox1.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox1.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox1.Name = "combobox1";
-		this.combobox1.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox1);
-		global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox1]));
+		this.cbDPin13 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin13.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin13.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin13.Name = "cbDPin13";
+		this.cbDPin13.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin13);
+		global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin13]));
 		w21.Position = 0;
 		w21.Expand = false;
 		w21.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox2 = global::Gtk.ComboBox.NewText ();
-		this.combobox2.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox2.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox2.Name = "combobox2";
-		this.combobox2.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox2);
-		global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox2]));
+		this.cbDPin12 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin12.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin12.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin12.Name = "cbDPin12";
+		this.cbDPin12.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin12);
+		global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin12]));
 		w22.Position = 1;
 		w22.Expand = false;
 		w22.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox3 = global::Gtk.ComboBox.NewText ();
-		this.combobox3.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox3.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox3.Name = "combobox3";
-		this.combobox3.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox3);
-		global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox3]));
+		this.cbDPin11 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin11.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin11.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin11.Name = "cbDPin11";
+		this.cbDPin11.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin11);
+		global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin11]));
 		w23.Position = 2;
 		w23.Expand = false;
 		w23.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox4 = global::Gtk.ComboBox.NewText ();
-		this.combobox4.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox4.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox4.Name = "combobox4";
-		this.combobox4.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox4);
-		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox4]));
+		this.cbDPin10 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin10.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin10.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin10.Name = "cbDPin10";
+		this.cbDPin10.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin10);
+		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin10]));
 		w24.Position = 3;
 		w24.Expand = false;
 		w24.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox5 = global::Gtk.ComboBox.NewText ();
-		this.combobox5.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox5.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox5.Name = "combobox5";
-		this.combobox5.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox5);
-		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox5]));
+		this.cbDPin9 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin9.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin9.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin9.Name = "cbDPin9";
+		this.cbDPin9.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin9);
+		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin9]));
 		w25.Position = 4;
 		w25.Expand = false;
 		w25.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox6 = global::Gtk.ComboBox.NewText ();
-		this.combobox6.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox6.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox6.Name = "combobox6";
-		this.combobox6.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox6);
-		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox6]));
+		this.cbDPin8 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin8.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin8.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin8.Name = "cbDPin8";
+		this.cbDPin8.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin8);
+		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin8]));
 		w26.Position = 5;
 		w26.Expand = false;
 		w26.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox7 = global::Gtk.ComboBox.NewText ();
-		this.combobox7.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox7.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox7.Name = "combobox7";
-		this.combobox7.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox7);
-		global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox7]));
+		this.cbDPin7 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin7.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin7.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin7.Name = "cbDPin7";
+		this.cbDPin7.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin7);
+		global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin7]));
 		w27.Position = 6;
 		w27.Expand = false;
 		w27.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox8 = global::Gtk.ComboBox.NewText ();
-		this.combobox8.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox8.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox8.Name = "combobox8";
-		this.combobox8.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox8);
-		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox8]));
+		this.cbDPin6 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin6.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin6.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin6.Name = "cbDPin6";
+		this.cbDPin6.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin6);
+		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin6]));
 		w28.Position = 7;
 		w28.Expand = false;
 		w28.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox9 = global::Gtk.ComboBox.NewText ();
-		this.combobox9.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox9.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox9.Name = "combobox9";
-		this.combobox9.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox9);
-		global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox9]));
+		this.cbDPin5 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin5.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin5.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin5.Name = "cbDPin5";
+		this.cbDPin5.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin5);
+		global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin5]));
 		w29.Position = 8;
 		w29.Expand = false;
 		w29.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox10 = global::Gtk.ComboBox.NewText ();
-		this.combobox10.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox10.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox10.Name = "combobox10";
-		this.combobox10.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox10);
-		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox10]));
+		this.cbDPin4 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin4.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin4.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin4.Name = "cbDPin4";
+		this.cbDPin4.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin4);
+		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin4]));
 		w30.Position = 9;
 		w30.Expand = false;
 		w30.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox11 = global::Gtk.ComboBox.NewText ();
-		this.combobox11.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox11.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox11.Name = "combobox11";
-		this.combobox11.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox11);
-		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox11]));
+		this.cbDPin3 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin3.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin3.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin3.Name = "cbDPin3";
+		this.cbDPin3.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin3);
+		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin3]));
 		w31.Position = 10;
 		w31.Expand = false;
 		w31.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox12 = global::Gtk.ComboBox.NewText ();
-		this.combobox12.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox12.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox12.Name = "combobox12";
-		this.combobox12.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox12);
-		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox12]));
+		this.cbDPin2 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin2.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin2.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin2.Name = "cbDPin2";
+		this.cbDPin2.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin2);
+		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin2]));
 		w32.Position = 11;
 		w32.Expand = false;
 		w32.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox13 = global::Gtk.ComboBox.NewText ();
-		this.combobox13.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox13.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox13.Name = "combobox13";
-		this.combobox13.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox13);
-		global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox13]));
+		this.cbDPin1 = global::Gtk.ComboBox.NewText ();
+		this.cbDPin1.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin1.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin1.Name = "cbDPin1";
+		this.cbDPin1.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin1);
+		global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin1]));
 		w33.Position = 12;
 		w33.Expand = false;
 		w33.Fill = false;
 		// Container child VBoxDigitalPinModes.Gtk.Box+BoxChild
-		this.combobox14 = global::Gtk.ComboBox.NewText ();
-		this.combobox14.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
-		this.combobox14.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
-		this.combobox14.Name = "combobox14";
-		this.combobox14.Active = 1;
-		this.VBoxDigitalPinModes.Add (this.combobox14);
-		global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.combobox14]));
+		this.cbDPin = global::Gtk.ComboBox.NewText ();
+		this.cbDPin.AppendText (global::Mono.Unix.Catalog.GetString ("INPUT"));
+		this.cbDPin.AppendText (global::Mono.Unix.Catalog.GetString ("OUTPUT"));
+		this.cbDPin.Name = "cbDPin";
+		this.cbDPin.Active = 1;
+		this.VBoxDigitalPinModes.Add (this.cbDPin);
+		global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinModes [this.cbDPin]));
 		w34.Position = 13;
 		w34.Expand = false;
 		w34.Fill = false;
@@ -575,177 +575,177 @@ public partial class MainWindow
 		this.VBoxDigitalPinStates.Homogeneous = true;
 		this.VBoxDigitalPinStates.Spacing = 6;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton1 = new global::Gtk.CheckButton ();
-		this.checkbutton1.CanFocus = true;
-		this.checkbutton1.Name = "checkbutton1";
-		this.checkbutton1.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton1.DrawIndicator = true;
-		this.checkbutton1.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton1);
-		global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton1]));
+		this.cbtnDPin13 = new global::Gtk.CheckButton ();
+		this.cbtnDPin13.CanFocus = true;
+		this.cbtnDPin13.Name = "cbtnDPin13";
+		this.cbtnDPin13.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin13.DrawIndicator = true;
+		this.cbtnDPin13.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin13);
+		global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin13]));
 		w36.Position = 0;
 		w36.Expand = false;
 		w36.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton2 = new global::Gtk.CheckButton ();
-		this.checkbutton2.CanFocus = true;
-		this.checkbutton2.Name = "checkbutton2";
-		this.checkbutton2.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton2.DrawIndicator = true;
-		this.checkbutton2.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton2);
-		global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton2]));
+		this.cbtnDPin12 = new global::Gtk.CheckButton ();
+		this.cbtnDPin12.CanFocus = true;
+		this.cbtnDPin12.Name = "cbtnDPin12";
+		this.cbtnDPin12.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin12.DrawIndicator = true;
+		this.cbtnDPin12.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin12);
+		global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin12]));
 		w37.Position = 1;
 		w37.Expand = false;
 		w37.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton3 = new global::Gtk.CheckButton ();
-		this.checkbutton3.CanFocus = true;
-		this.checkbutton3.Name = "checkbutton3";
-		this.checkbutton3.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton3.DrawIndicator = true;
-		this.checkbutton3.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton3);
-		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton3]));
+		this.cbtnDPin11 = new global::Gtk.CheckButton ();
+		this.cbtnDPin11.CanFocus = true;
+		this.cbtnDPin11.Name = "cbtnDPin11";
+		this.cbtnDPin11.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin11.DrawIndicator = true;
+		this.cbtnDPin11.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin11);
+		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin11]));
 		w38.Position = 2;
 		w38.Expand = false;
 		w38.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton4 = new global::Gtk.CheckButton ();
-		this.checkbutton4.CanFocus = true;
-		this.checkbutton4.Name = "checkbutton4";
-		this.checkbutton4.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton4.DrawIndicator = true;
-		this.checkbutton4.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton4);
-		global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton4]));
+		this.cbtnDPin10 = new global::Gtk.CheckButton ();
+		this.cbtnDPin10.CanFocus = true;
+		this.cbtnDPin10.Name = "cbtnDPin10";
+		this.cbtnDPin10.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin10.DrawIndicator = true;
+		this.cbtnDPin10.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin10);
+		global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin10]));
 		w39.Position = 3;
 		w39.Expand = false;
 		w39.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton5 = new global::Gtk.CheckButton ();
-		this.checkbutton5.CanFocus = true;
-		this.checkbutton5.Name = "checkbutton5";
-		this.checkbutton5.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton5.DrawIndicator = true;
-		this.checkbutton5.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton5);
-		global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton5]));
+		this.cbtnDPin9 = new global::Gtk.CheckButton ();
+		this.cbtnDPin9.CanFocus = true;
+		this.cbtnDPin9.Name = "cbtnDPin9";
+		this.cbtnDPin9.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin9.DrawIndicator = true;
+		this.cbtnDPin9.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin9);
+		global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin9]));
 		w40.Position = 4;
 		w40.Expand = false;
 		w40.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton6 = new global::Gtk.CheckButton ();
-		this.checkbutton6.CanFocus = true;
-		this.checkbutton6.Name = "checkbutton6";
-		this.checkbutton6.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton6.DrawIndicator = true;
-		this.checkbutton6.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton6);
-		global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton6]));
+		this.cbtnDPin8 = new global::Gtk.CheckButton ();
+		this.cbtnDPin8.CanFocus = true;
+		this.cbtnDPin8.Name = "cbtnDPin8";
+		this.cbtnDPin8.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin8.DrawIndicator = true;
+		this.cbtnDPin8.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin8);
+		global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin8]));
 		w41.Position = 5;
 		w41.Expand = false;
 		w41.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton14 = new global::Gtk.CheckButton ();
-		this.checkbutton14.CanFocus = true;
-		this.checkbutton14.Name = "checkbutton14";
-		this.checkbutton14.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton14.DrawIndicator = true;
-		this.checkbutton14.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton14);
-		global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton14]));
+		this.cbtnDPin = new global::Gtk.CheckButton ();
+		this.cbtnDPin.CanFocus = true;
+		this.cbtnDPin.Name = "cbtnDPin";
+		this.cbtnDPin.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin.DrawIndicator = true;
+		this.cbtnDPin.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin);
+		global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin]));
 		w42.PackType = ((global::Gtk.PackType)(1));
 		w42.Position = 6;
 		w42.Expand = false;
 		w42.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton13 = new global::Gtk.CheckButton ();
-		this.checkbutton13.CanFocus = true;
-		this.checkbutton13.Name = "checkbutton13";
-		this.checkbutton13.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton13.DrawIndicator = true;
-		this.checkbutton13.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton13);
-		global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton13]));
+		this.cbtnDPin1 = new global::Gtk.CheckButton ();
+		this.cbtnDPin1.CanFocus = true;
+		this.cbtnDPin1.Name = "cbtnDPin1";
+		this.cbtnDPin1.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin1.DrawIndicator = true;
+		this.cbtnDPin1.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin1);
+		global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin1]));
 		w43.PackType = ((global::Gtk.PackType)(1));
 		w43.Position = 7;
 		w43.Expand = false;
 		w43.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton12 = new global::Gtk.CheckButton ();
-		this.checkbutton12.CanFocus = true;
-		this.checkbutton12.Name = "checkbutton12";
-		this.checkbutton12.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton12.DrawIndicator = true;
-		this.checkbutton12.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton12);
-		global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton12]));
+		this.cbtnDPin2 = new global::Gtk.CheckButton ();
+		this.cbtnDPin2.CanFocus = true;
+		this.cbtnDPin2.Name = "cbtnDPin2";
+		this.cbtnDPin2.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin2.DrawIndicator = true;
+		this.cbtnDPin2.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin2);
+		global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin2]));
 		w44.PackType = ((global::Gtk.PackType)(1));
 		w44.Position = 8;
 		w44.Expand = false;
 		w44.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton11 = new global::Gtk.CheckButton ();
-		this.checkbutton11.CanFocus = true;
-		this.checkbutton11.Name = "checkbutton11";
-		this.checkbutton11.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton11.DrawIndicator = true;
-		this.checkbutton11.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton11);
-		global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton11]));
+		this.cbtnDPin3 = new global::Gtk.CheckButton ();
+		this.cbtnDPin3.CanFocus = true;
+		this.cbtnDPin3.Name = "cbtnDPin3";
+		this.cbtnDPin3.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin3.DrawIndicator = true;
+		this.cbtnDPin3.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin3);
+		global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin3]));
 		w45.PackType = ((global::Gtk.PackType)(1));
 		w45.Position = 9;
 		w45.Expand = false;
 		w45.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton10 = new global::Gtk.CheckButton ();
-		this.checkbutton10.CanFocus = true;
-		this.checkbutton10.Name = "checkbutton10";
-		this.checkbutton10.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton10.DrawIndicator = true;
-		this.checkbutton10.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton10);
-		global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton10]));
+		this.cbtnDPin4 = new global::Gtk.CheckButton ();
+		this.cbtnDPin4.CanFocus = true;
+		this.cbtnDPin4.Name = "cbtnDPin4";
+		this.cbtnDPin4.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin4.DrawIndicator = true;
+		this.cbtnDPin4.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin4);
+		global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin4]));
 		w46.PackType = ((global::Gtk.PackType)(1));
 		w46.Position = 10;
 		w46.Expand = false;
 		w46.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton9 = new global::Gtk.CheckButton ();
-		this.checkbutton9.CanFocus = true;
-		this.checkbutton9.Name = "checkbutton9";
-		this.checkbutton9.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton9.DrawIndicator = true;
-		this.checkbutton9.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton9);
-		global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton9]));
+		this.cbtnDPin5 = new global::Gtk.CheckButton ();
+		this.cbtnDPin5.CanFocus = true;
+		this.cbtnDPin5.Name = "cbtnDPin5";
+		this.cbtnDPin5.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin5.DrawIndicator = true;
+		this.cbtnDPin5.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin5);
+		global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin5]));
 		w47.PackType = ((global::Gtk.PackType)(1));
 		w47.Position = 11;
 		w47.Expand = false;
 		w47.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton8 = new global::Gtk.CheckButton ();
-		this.checkbutton8.CanFocus = true;
-		this.checkbutton8.Name = "checkbutton8";
-		this.checkbutton8.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton8.DrawIndicator = true;
-		this.checkbutton8.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton8);
-		global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton8]));
+		this.cbtnDPin6 = new global::Gtk.CheckButton ();
+		this.cbtnDPin6.CanFocus = true;
+		this.cbtnDPin6.Name = "cbtnDPin6";
+		this.cbtnDPin6.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin6.DrawIndicator = true;
+		this.cbtnDPin6.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin6);
+		global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin6]));
 		w48.PackType = ((global::Gtk.PackType)(1));
 		w48.Position = 12;
 		w48.Expand = false;
 		w48.Fill = false;
 		// Container child VBoxDigitalPinStates.Gtk.Box+BoxChild
-		this.checkbutton7 = new global::Gtk.CheckButton ();
-		this.checkbutton7.CanFocus = true;
-		this.checkbutton7.Name = "checkbutton7";
-		this.checkbutton7.Label = global::Mono.Unix.Catalog.GetString ("On");
-		this.checkbutton7.DrawIndicator = true;
-		this.checkbutton7.UseUnderline = true;
-		this.VBoxDigitalPinStates.Add (this.checkbutton7);
-		global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.checkbutton7]));
+		this.cbtnDPin7 = new global::Gtk.CheckButton ();
+		this.cbtnDPin7.CanFocus = true;
+		this.cbtnDPin7.Name = "cbtnDPin7";
+		this.cbtnDPin7.Label = global::Mono.Unix.Catalog.GetString ("On");
+		this.cbtnDPin7.DrawIndicator = true;
+		this.cbtnDPin7.UseUnderline = true;
+		this.VBoxDigitalPinStates.Add (this.cbtnDPin7);
+		global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.VBoxDigitalPinStates [this.cbtnDPin7]));
 		w49.PackType = ((global::Gtk.PackType)(1));
 		w49.Position = 13;
 		w49.Expand = false;
@@ -1207,7 +1207,21 @@ public partial class MainWindow
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.BtnConnect.Clicked += new global::System.EventHandler (this.Connect);
 		this.BtnConnectRefresh.Clicked += new global::System.EventHandler (this.OnBtnConnectRefreshClicked);
-		this.checkbutton1.Toggled += new global::System.EventHandler (this.OnCheckbutton1Toggled);
+		this.cbDPin13.Changed += new global::System.EventHandler (this.OnCbDPin13Changed);
+		this.cbDPin12.Changed += new global::System.EventHandler (this.OnCbDPin12Changed);
+		this.cbDPin11.Changed += new global::System.EventHandler (this.OnCbDPin11Changed);
+		this.cbDPin10.Changed += new global::System.EventHandler (this.OnCbDPin10Changed);
+		this.cbDPin9.Changed += new global::System.EventHandler (this.OnCbDPin9Changed);
+		this.cbDPin8.Changed += new global::System.EventHandler (this.OnCbDPin8Changed);
+		this.cbDPin7.Changed += new global::System.EventHandler (this.OnCbDPin7Changed);
+		this.cbDPin6.Changed += new global::System.EventHandler (this.OnCbDPin6Changed);
+		this.cbDPin5.Changed += new global::System.EventHandler (this.OnCbDPin5Changed);
+		this.cbDPin4.Changed += new global::System.EventHandler (this.OnCbDPin4Changed);
+		this.cbDPin3.Changed += new global::System.EventHandler (this.OnCbDPin3Changed);
+		this.cbDPin2.Changed += new global::System.EventHandler (this.OnCbDPin2Changed);
+		this.cbDPin1.Changed += new global::System.EventHandler (this.OnCbDPin1Changed);
+		this.cbDPin.Changed += new global::System.EventHandler (this.OnCbDPinChanged);
+		this.cbtnDPin13.Toggled += new global::System.EventHandler (this.OnCheckbutton1Toggled);
 		this.CBAnalogPin5Mode.Changed += new global::System.EventHandler (this.OnCBAnalogPin5ModeChanged);
 		this.CBAnalogPin0Mode.Changed += new global::System.EventHandler (this.OnCombobox19Changed);
 		this.HScaleAnalogPinFive.ValueChanged += new global::System.EventHandler (this.OnHScaleAnalogPinFiveValueChanged);

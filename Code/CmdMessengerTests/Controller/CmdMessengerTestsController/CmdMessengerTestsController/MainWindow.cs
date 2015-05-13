@@ -57,7 +57,7 @@ public partial class MainWindow: Gtk.Window
 				BtnConnect.Label = "Disconnect";
 				LabelConnectionStatus.Text = @"<b>Connected</b>";
 				LabelConnectionStatus.UseMarkup = true;
-				AnalogTimer.Start ();
+				//	AnalogTimer.Start ();
 			} else
 			{
 				LabelConnectionStatus.Text = @"<b>Something went wrong!</b>";
@@ -65,7 +65,7 @@ public partial class MainWindow: Gtk.Window
 			}
 		} else
 		{
-			AnalogTimer.Stop ();
+			//AnalogTimer.Stop ();
 			BtnConnect.Label = "Connect";
 			BtnConnectRefresh.Sensitive = true;
 			LabelConnectionStatus.Text = @"<b>Not</b> connected";
@@ -163,7 +163,159 @@ public partial class MainWindow: Gtk.Window
 		textview2.Buffer.Text += "MODEL:\t" + _arduinoController.Model + "\n";
 		textview2.Buffer.Text += "NUMBER OF DIGITAL PINS:\t" + Convert.ToString (_arduinoController.NumberOfDigitalPins) + "\n";
 		textview2.Buffer.Text += "NUMBER OF ANALOG PINS:\t" + Convert.ToString (_arduinoController.NumberOfAnalogPins) + "\n";
-		textview2.Buffer.Text += "DIGITAL BIT MASK:\t" + Convert.ToString (_arduinoController.DigitalBitMask, 2) + "\n";
+		textview2.Buffer.Text += "DIGITAL BIT MASK:\t" + Convert.ToString (_arduinoController.DigitalBitMask, 2).PadLeft (_arduinoController.NumberOfDigitalPins
+		, '0') + "\n";
 
+	}
+
+	protected void OnSetDigitalPinMode (object sender, EventArgs e)
+	{
+		CheckButton cbtn;
+		int pin = -1;
+		switch (((ComboBox)sender).Name)
+		{
+		case "cbDPin13":
+			pin = 13;
+			cbtn = cbtnDPin13;
+			break;
+		case "cbDPin12":
+			pin = 12;
+			cbtn = cbtnDPin12;
+			break;
+		case "cbDPin11":
+			pin = 11;
+			cbtn = cbtnDPin11;
+			break;
+		case "cbDPin10":
+			pin = 10;
+			cbtn = cbtnDPin10;
+			break;
+		case "cbDPin9":
+			pin = 9;
+			cbtn = cbtnDPin9;
+			break;
+		case "cbDPin8":
+			pin = 8;
+			cbtn = cbtnDPin8;
+			break;
+		case "cbDPin7":
+			pin = 7;
+			cbtn = cbtnDPin7;
+			break;
+		case "cbDPin6":
+			pin = 6;
+			cbtn = cbtnDPin6;
+			break;
+		case "cbDPin5":
+			pin = 5;
+			cbtn = cbtnDPin5;
+			break;
+		case "cbDPin4":
+			pin = 4;
+			cbtn = cbtnDPin4;
+			break;
+		case "cbDPin3":
+			pin = 3;
+			cbtn = cbtnDPin3;
+			break;
+		case "cbDPin2":
+			pin = 2;
+			cbtn = cbtnDPin2;
+			break;
+		case "cbDPin1":
+			pin = 1;
+			cbtn = cbtnDPin1;
+			break;
+		case "cbDPin":
+			pin = 0;
+			cbtn = cbtnDPin;
+			break;
+		default:
+			return;
+		}
+
+		switch (((ComboBox)sender).Active)
+		{
+		case 0:
+			cbtn.Sensitive = false;
+			_arduinoController.SetPinMode (pin, PinMode.INPUT);
+			break;
+		case 1:
+			cbtn.Sensitive = true;
+			_arduinoController.SetPinMode (pin, PinMode.OUTPUT);
+			break;
+		default:
+			break;
+		}
+	}
+
+	protected void OnCbDPin13Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin12Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin11Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin10Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin9Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin8Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin7Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin6Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin5Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin4Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin3Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin2Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPin1Changed (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnCbDPinChanged (object sender, EventArgs e)
+	{
+		OnSetDigitalPinMode (sender, e);
 	}
 }

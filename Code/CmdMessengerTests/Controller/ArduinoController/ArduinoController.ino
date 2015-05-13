@@ -175,15 +175,13 @@ void OnGetNumberAnalogPins()
 void OnGetDigitalBitMask()
 {
 	uint32_t mask = 0;
-	//for (int i = 20; i<=NUM_DIGITAL_PINS; i++)
-	//{
-		//bitWrite(mask,i,digitalPinToBitMask(i));
-	//}
 	mask = (PINB<<16)|(PINC<<8)|PIND;
 	cmdMessenger.sendCmdStart(kGetDigitalBitMask);
 	cmdMessenger.sendCmdBinArg(mask);
 	cmdMessenger.sendCmdEnd();
 }
+
+//---------------------ARDUINO--------------------------------------------------
 
 // Setup function
 void setup()

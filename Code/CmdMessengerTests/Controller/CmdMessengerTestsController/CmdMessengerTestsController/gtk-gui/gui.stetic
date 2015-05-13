@@ -90,7 +90,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">1</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.HBox" id="HBoxControll">
                 <property name="MemberName" />
@@ -289,12 +289,13 @@
                     <property name="Homogeneous">True</property>
                     <property name="Spacing">6</property>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox1">
+                      <widget class="Gtk.ComboBox" id="cbDPin13">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin13Changed" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -304,12 +305,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox2">
+                      <widget class="Gtk.ComboBox" id="cbDPin12">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin12Changed" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>
@@ -319,12 +321,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox3">
+                      <widget class="Gtk.ComboBox" id="cbDPin11">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin11Changed" />
                       </widget>
                       <packing>
                         <property name="Position">2</property>
@@ -334,12 +337,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox4">
+                      <widget class="Gtk.ComboBox" id="cbDPin10">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin10Changed" />
                       </widget>
                       <packing>
                         <property name="Position">3</property>
@@ -349,12 +353,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox5">
+                      <widget class="Gtk.ComboBox" id="cbDPin9">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin9Changed" />
                       </widget>
                       <packing>
                         <property name="Position">4</property>
@@ -364,12 +369,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox6">
+                      <widget class="Gtk.ComboBox" id="cbDPin8">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin8Changed" />
                       </widget>
                       <packing>
                         <property name="Position">5</property>
@@ -379,12 +385,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox7">
+                      <widget class="Gtk.ComboBox" id="cbDPin7">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin7Changed" />
                       </widget>
                       <packing>
                         <property name="Position">6</property>
@@ -394,12 +401,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox8">
+                      <widget class="Gtk.ComboBox" id="cbDPin6">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin6Changed" />
                       </widget>
                       <packing>
                         <property name="Position">7</property>
@@ -409,12 +417,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox9">
+                      <widget class="Gtk.ComboBox" id="cbDPin5">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin5Changed" />
                       </widget>
                       <packing>
                         <property name="Position">8</property>
@@ -424,12 +433,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox10">
+                      <widget class="Gtk.ComboBox" id="cbDPin4">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin4Changed" />
                       </widget>
                       <packing>
                         <property name="Position">9</property>
@@ -439,12 +449,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox11">
+                      <widget class="Gtk.ComboBox" id="cbDPin3">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin3Changed" />
                       </widget>
                       <packing>
                         <property name="Position">10</property>
@@ -454,12 +465,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox12">
+                      <widget class="Gtk.ComboBox" id="cbDPin2">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin2Changed" />
                       </widget>
                       <packing>
                         <property name="Position">11</property>
@@ -469,12 +481,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox13">
+                      <widget class="Gtk.ComboBox" id="cbDPin1">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPin1Changed" />
                       </widget>
                       <packing>
                         <property name="Position">12</property>
@@ -484,12 +497,13 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.ComboBox" id="combobox14">
+                      <widget class="Gtk.ComboBox" id="cbDPin">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
                         <property name="Items" translatable="yes">INPUT
 OUTPUT</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnCbDPinChanged" />
                       </widget>
                       <packing>
                         <property name="Position">13</property>
@@ -512,7 +526,7 @@ OUTPUT</property>
                     <property name="Homogeneous">True</property>
                     <property name="Spacing">6</property>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton1">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin13">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -529,7 +543,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton2">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin12">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -545,7 +559,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton3">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin11">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -561,7 +575,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton4">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin10">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -577,7 +591,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton5">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin9">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -593,7 +607,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton6">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin8">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -609,7 +623,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton14">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -626,7 +640,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton13">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin1">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -643,7 +657,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton12">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin2">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -660,7 +674,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton11">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin3">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -677,7 +691,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton10">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin4">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -694,7 +708,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton9">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin5">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -711,7 +725,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton8">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin6">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
@@ -728,7 +742,7 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.CheckButton" id="checkbutton7">
+                      <widget class="Gtk.CheckButton" id="cbtnDPin7">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">On</property>
