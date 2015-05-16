@@ -6,7 +6,7 @@
 // - Send a command with a parameter to the PC
 // - Shows how to invoke on the UI thread
 
-#include "CmdMessenger.h"  // CmdMessenger
+#include <CmdMessenger.h>  // CmdMessenger
 
 // Attach a new CmdMessenger object to the default Serial port
 CmdMessenger cmdMessenger = CmdMessenger(Serial);
@@ -39,8 +39,8 @@ enum
   kGetNumberDigitalPins,
   kGetNumberAnalogPins,
   kGetDigitalBitMask,
-  kGetPinOutputMask,
-  kGetPinModeMask,
+  //kGetPinOutputMask,
+  //kGetPinModeMask,
 };
 
 //DEFINITIONS-------------------------------------------------------------------
@@ -64,8 +64,8 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kGetNumberDigitalPins, OnGetNumberDigitalPins);
   cmdMessenger.attach(kGetNumberAnalogPins, OnGetNumberAnalogPins);
   cmdMessenger.attach(kGetDigitalBitMask, OnGetDigitalBitMask);
-  cmdMessenger.attach(kGetPinOutputMask, OnGetPinOutputMask);
-  cmdMessenger.attach(kGetPinModeMask, OnGetPinModeMask);
+  //cmdMessenger.attach(kGetPinOutputMask, OnGetPinOutputMask);
+  //cmdMessenger.attach(kGetPinModeMask, OnGetPinModeMask);
 }
 
 // Called when a received command has no attached function
@@ -155,9 +155,6 @@ void OnGetModel()
 	cmdMessenger.sendCmdArg(_AVR_ATmega644P__);
 	#elif defined(__AVR_ATmega644PA__)
 	cmdMessenger.sendCmdArg(_AVR_ATmega644PA__)
-	//#endif
-	//#if defined(__AVR_ATmega328P__)
-	//cmdMessenger.sendCmdArg(_AVR_ATmega328P__);
 	#endif
 	cmdMessenger.sendCmdEnd();
 }
@@ -185,19 +182,19 @@ void OnGetDigitalBitMask()
 	cmdMessenger.sendCmdEnd();
 }
 
-void OnGetPinOutputMask()
-{
-	cmdMessenger.sendCmdStart(kGetPinModeMask);
-	cmdMessenger.sendCmdBinArg((PORTD << 16)|(PORTB << 8)| PORTC );
-	cmdMessenger.sendCmdEnd();
-}
+//void OnGetPinOutputMask()
+//{
+	//cmdMessenger.sendCmdStart(kGetPinModeMask);
+	//cmdMessenger.sendCmdBinArg((PORTD << 16)|(PORTB << 8)| PORTC );
+	//cmdMessenger.sendCmdEnd();
+//}
 
-void OnGetPinModeMask()
-{
-	cmdMessenger.sendCmdStart(kGetPinModeMask);
-	cmdMessenger.sendCmdBinArg((DDRD << 16) | (DDRB << 8) | DDRC);
-	cmdMessenger.sendCmdEnd();
-}
+//void OnGetPinModeMask()
+//{
+	//cmdMessenger.sendCmdStart(kGetPinModeMask);
+	//cmdMessenger.sendCmdBinArg((DDRD << 16) | (DDRB << 8) | DDRC);
+	//cmdMessenger.sendCmdEnd();
+//}
 
 //---------------------ARDUINO--------------------------------------------------
 
@@ -206,6 +203,7 @@ void setup()
 {
   // Listen on serial connection for messages from the PC
   Serial.begin(115200);
+  while (!Serial){;} //wait for serial port to connect. Needed for Loenardo only
 
   // Adds newline to every command
   //cmdMessenger.printLfCr();

@@ -31,6 +31,8 @@ namespace ArduinoController
 		GetNumberDigitalPins,
 		GetNumberAnalogPins,
 		GetDigitalBitMask,
+		GetPinOutputMask,
+		GetPinModeMask,
 	};
 
 	public enum PinMode
@@ -92,6 +94,16 @@ namespace ArduinoController
 		}
 
 		public UInt32 DigitalBitMask {
+			private set;
+			get;
+		}
+
+		public UInt32 PinOutputMask {
+			private set;
+			get;
+		}
+
+		public UInt32 PinModeMask {
 			private set;
 			get;
 		}
@@ -300,6 +312,28 @@ namespace ArduinoController
 		public void OnGetDigitalBitMask (ReceivedCommand args)
 		{
 			DigitalBitMask = args.ReadBinUInt32Arg ();
+		}
+
+		public void GetPinOutputMask()
+		{
+			var command = new SendCommand ((int)Command.GetPinOutputMask);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		private void OnGetPinOutputMask(ReceivedCommand args)
+		{
+			PinOutputMask = args.ReadBinUInt32Arg ();
+		}
+
+		public void GetPinModeMask()
+		{
+			var command = new SendCommand ((int)Command.GetPinModeMask);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		private void OnGetPinModeMask(ReceivedCommand args)
+		{
+			PinModeMask = args.ReadBinUInt32Arg ();
 		}
 	}
 }

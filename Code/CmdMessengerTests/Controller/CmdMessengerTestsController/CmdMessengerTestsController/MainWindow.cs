@@ -62,7 +62,7 @@ public partial class MainWindow: Gtk.Window
 				LabelConnectionStatus.Text = @"<b>Connected</b>";
 				LabelConnectionStatus.UseMarkup = true;
 				nbMain.Sensitive = true;
-				//	AnalogTimer.Start ();
+				AnalogTimer.Start ();
 			} else
 			{
 				LabelConnectionStatus.Text = @"<b>Something went wrong!</b>";
@@ -70,7 +70,7 @@ public partial class MainWindow: Gtk.Window
 			}
 		} else
 		{
-			//AnalogTimer.Stop ();
+			AnalogTimer.Stop ();
 			BtnConnect.Label = "Connect";
 			BtnConnectRefresh.Sensitive = true;
 			LabelConnectionStatus.Text = @"<b>Not</b> connected";
@@ -167,23 +167,11 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnBtnDataCollectClicked (object sender, EventArgs e)
 	{
-		textview2.Buffer.Clear ();
-
 		_arduinoController.GetVersion ();
 		_arduinoController.GetModel ();
 		_arduinoController.GetNumberDigitalPins ();
 		_arduinoController.GetNumberAnalogPins ();
 		_arduinoController.GetDigitalBitMask ();
-
-
-
-		textview2.Buffer.Text += "VERSION:\t" + _arduinoController.Version + "\n";
-		textview2.Buffer.Text += "MODEL:\t" + _arduinoController.Model + "\n";
-		textview2.Buffer.Text += "NUMBER OF DIGITAL PINS:\t" + Convert.ToString (_arduinoController.NumberOfDigitalPins) + "\n";
-		textview2.Buffer.Text += "NUMBER OF ANALOG PINS:\t" + Convert.ToString (_arduinoController.NumberOfAnalogPins) + "\n";
-		textview2.Buffer.Text += "DIGITAL BIT MASK:\t" + Convert.ToString (_arduinoController.DigitalBitMask, 2).PadLeft (_arduinoController.NumberOfDigitalPins
-		, '0') + "\n";
-
 	}
 
 	protected void OnSetDigitalPinMode (object sender, EventArgs e)
@@ -335,5 +323,23 @@ public partial class MainWindow: Gtk.Window
 	protected void OnCbDPinChanged (object sender, EventArgs e)
 	{
 		OnSetDigitalPinMode (sender, e);
+	}
+
+	protected void OnButton4Clicked (object sender, EventArgs e)
+	{
+		_arduinoController.GetVersion ();
+		labelVersion.Text = _arduinoController.Version;
+	}
+
+	protected void OnButton5Clicked (object sender, EventArgs e)
+	{
+		_arduinoController.GetModel ();
+		labelModel.Text = _arduinoController.Model;
+	}
+
+	protected void OnButton6Clicked (object sender, EventArgs e)
+	{
+		_arduinoController.GetDigitalBitMask ();
+		labelDigiBitMask.Text = Convert.ToString (_arduinoController.DigitalBitMask, 2);
 	}
 }
