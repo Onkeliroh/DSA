@@ -78,7 +78,7 @@ namespace ArduinoController
 			get;
 		}
 
-		public string Model {
+		public UInt16 Model {
 			private set;
 			get;
 		}
@@ -119,7 +119,7 @@ namespace ArduinoController
 				CurrentSerialSettings = {
 					PortName = SerialPortName,
 					BaudRate = 115200,
-					DtrEnable = false
+					DtrEnable = true //bei UNO ändern 
 				}
 			}, BoardType.Bit16);
 
@@ -173,31 +173,41 @@ namespace ArduinoController
 		// In a WinForm application, console output gets routed to the output panel of your IDE
 		void OnUnknownCommand (ReceivedCommand arguments)
 		{            
+			#if DEBUG
 			Console.WriteLine (@"Command without attached callback received");
+			#endif
 		}
 
 		// Callback function that prints that the Arduino has acknowledged
 		void OnAcknowledge (ReceivedCommand arguments)
 		{
+			#if DEBUG
 			Console.WriteLine (@" Arduino is ready");
+			#endif
 		}
 
 		// Callback function that prints that the Arduino has experienced an error
 		void OnError (ReceivedCommand arguments)
 		{
+			#if DEBUG
 			Console.WriteLine (@"Arduino has experienced an error");
+			#endif
 		}
 
 		// Log received line to console
 		private void NewLineReceived (object sender, CommandEventArgs e)
 		{
+			#if DEBUG
 			Console.WriteLine (@"Received > " + e.Command.CommandString ());
+			#endif
 		}
 
 		// Log sent line to console
 		private void NewLineSent (object sender, CommandEventArgs e)
 		{
+			#if DEBUG
 			Console.WriteLine (@"Sent > " + e.Command.CommandString ());
+			#endif
 		}
 
 		public void SetPinMode (int nr, PinMode mode)
@@ -278,7 +288,7 @@ namespace ArduinoController
 
 		private void OnGetModel (ReceivedCommand args)
 		{
-			Model = args.ReadStringArg ();
+			Model = args.ReadUInt16Arg ();
 		}
 
 		public void GetNumberDigitalPins ()
@@ -314,24 +324,24 @@ namespace ArduinoController
 			DigitalBitMask = args.ReadBinUInt32Arg ();
 		}
 
-		public void GetPinOutputMask()
+		public void GetPinOutputMask ()
 		{
 			var command = new SendCommand ((int)Command.GetPinOutputMask);
 			_cmdMessenger.SendCommand (command);
 		}
 
-		private void OnGetPinOutputMask(ReceivedCommand args)
+		private void OnGetPinOutputMask (ReceivedCommand args)
 		{
 			PinOutputMask = args.ReadBinUInt32Arg ();
 		}
 
-		public void GetPinModeMask()
+		public void GetPinModeMask ()
 		{
 			var command = new SendCommand ((int)Command.GetPinModeMask);
 			_cmdMessenger.SendCommand (command);
 		}
 
-		private void OnGetPinModeMask(ReceivedCommand args)
+		private void OnGetPinModeMask (ReceivedCommand args)
 		{
 			PinModeMask = args.ReadBinUInt32Arg ();
 		}

@@ -39,8 +39,8 @@ enum
   kGetNumberDigitalPins,
   kGetNumberAnalogPins,
   kGetDigitalBitMask,
-  //kGetPinOutputMask,
-  //kGetPinModeMask,
+  kGetPinOutputMask,
+  kGetPinModeMask,
 };
 
 //DEFINITIONS-------------------------------------------------------------------
@@ -64,8 +64,8 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kGetNumberDigitalPins, OnGetNumberDigitalPins);
   cmdMessenger.attach(kGetNumberAnalogPins, OnGetNumberAnalogPins);
   cmdMessenger.attach(kGetDigitalBitMask, OnGetDigitalBitMask);
-  //cmdMessenger.attach(kGetPinOutputMask, OnGetPinOutputMask);
-  //cmdMessenger.attach(kGetPinModeMask, OnGetPinModeMask);
+  cmdMessenger.attach(kGetPinOutputMask, OnGetPinOutputMask);
+  cmdMessenger.attach(kGetPinModeMask, OnGetPinModeMask);
 }
 
 // Called when a received command has no attached function
@@ -133,28 +133,34 @@ void OnGetVersion()
 void OnGetModel()
 {
 	cmdMessenger.sendCmdStart(kGetModel);
-	#if defined( __AVR_ATtiny24__)
-	cmdMessenger.sendCmdArg(_AVR_ATtiny24__);
+	#if defined(__AVR_ATtiny24__)
+	cmdMessenger.sendCmdArg(__AVR_ATtiny24__);
 	#elif defined(__AVR_ATtiny44__)
-	cmdMessenger.sendCmdArg(_AVR_ATtiny44__);
+	cmdMessenger.sendCmdArg(__AVR_ATtiny44__);
 	#elif defined(__AVR_ATtiny84__)
-	cmdMessenger.sendCmdArg(_AVR_ATtiny84__);
+	cmdMessenger.sendCmdArg(__AVR_ATtiny84__);
+	#elif defined(__AVR_ATtiny25__)
+	\cmdMessenger.sendCmdArg(__AVR_ATtiny25__);
+	#elif defined(__AVR_ATtiny45__)
+	cmdMessenger.sendCmdArg(__AVR_ATtiny45__);
+	#elif defined(__AVR_ATtiny85__)
+	cmdMessenger.sendCmdArg(__AVR_ATtiny85__);
 	#elif defined(__AVR_ATmega1280__)
-	cmdMessenger.sendCmdArg(_AVR_ATmega1280__);
+	cmdMessenger.sendCmdArg(__AVR_ATmega1280__);
 	#elif defined(__AVR_ATmega2560__)
-	cmdMessenger.sendCmdArg(_AVR_ATmega2560__);
+	cmdMessenger.sendCmdArg(__AVR_ATmega2560__);
 	#elif defined(__AVR_ATmega1284__)
-	cmdMessenger.sendCmdArg(_AVR_ATmega1284__);
+	cmdMessenger.sendCmdArg(__AVR_ATmega1284__);
 	#elif defined(__AVR_ATmega1284P__)
-	cmdMessenger.sendCmdArg(_AVR_ATmega1284P__);
+	cmdMessenger.sendCmdArg(__AVR_ATmega1284P__);
 	#elif defined(__AVR_ATmega644__)
-	cmdMessenger.sendCmdArg(_AVR_ATmega644__);
+	cmdMessenger.sendCmdArg(__AVR_ATmega644__);
 	#elif defined(__AVR_ATmega644A__)
-	cmdMessenger.sendCmdArg(_AVR_ATmega644A__);
+	cmdMessenger.sendCmdArg(__AVR_ATmega644A__);
 	#elif defined(__AVR_ATmega644P__)
-	cmdMessenger.sendCmdArg(_AVR_ATmega644P__);
+	cmdMessenger.sendCmdArg(__AVR_ATmega644P__);
 	#elif defined(__AVR_ATmega644PA__)
-	cmdMessenger.sendCmdArg(_AVR_ATmega644PA__)
+	cmdMessenger.sendCmdArg(__AVR_ATmega644PA__);
 	#endif
 	cmdMessenger.sendCmdEnd();
 }
@@ -182,19 +188,19 @@ void OnGetDigitalBitMask()
 	cmdMessenger.sendCmdEnd();
 }
 
-//void OnGetPinOutputMask()
-//{
-	//cmdMessenger.sendCmdStart(kGetPinModeMask);
-	//cmdMessenger.sendCmdBinArg((PORTD << 16)|(PORTB << 8)| PORTC );
-	//cmdMessenger.sendCmdEnd();
-//}
+void OnGetPinOutputMask()
+{
+	cmdMessenger.sendCmdStart(kGetPinModeMask);
+	cmdMessenger.sendCmdBinArg((PORTD << 16)|(PORTB << 8)| PORTC );
+	cmdMessenger.sendCmdEnd();
+}
 
-//void OnGetPinModeMask()
-//{
-	//cmdMessenger.sendCmdStart(kGetPinModeMask);
-	//cmdMessenger.sendCmdBinArg((DDRD << 16) | (DDRB << 8) | DDRC);
-	//cmdMessenger.sendCmdEnd();
-//}
+void OnGetPinModeMask()
+{
+	cmdMessenger.sendCmdStart(kGetPinModeMask);
+	cmdMessenger.sendCmdBinArg((DDRD << 16) | (DDRB << 8) | DDRC);
+	cmdMessenger.sendCmdEnd();
+}
 
 //---------------------ARDUINO--------------------------------------------------
 

@@ -1325,6 +1325,7 @@ OUTPUT</property>
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Refresh</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnButton1Clicked" />
                       </widget>
                       <packing>
                         <property name="TopAttach">5</property>
@@ -1349,6 +1350,7 @@ OUTPUT</property>
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Refresh</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnButton2Clicked" />
                       </widget>
                       <packing>
                         <property name="TopAttach">6</property>
@@ -1446,6 +1448,7 @@ OUTPUT</property>
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Refresh</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnButton7Clicked" />
                       </widget>
                       <packing>
                         <property name="TopAttach">3</property>
@@ -1470,6 +1473,7 @@ OUTPUT</property>
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Refresh</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnButton8Clicked" />
                       </widget>
                       <packing>
                         <property name="TopAttach">4</property>

@@ -1524,9 +1524,13 @@ public partial class MainWindow
 		this.CBAnalogPin5Mode.Changed += new global::System.EventHandler (this.OnCBAnalogPin5ModeChanged);
 		this.CBAnalogPin0Mode.Changed += new global::System.EventHandler (this.OnCombobox19Changed);
 		this.HScaleAnalogPinFive.ValueChanged += new global::System.EventHandler (this.OnHScaleAnalogPinFiveValueChanged);
+		this.button8.Clicked += new global::System.EventHandler (this.OnButton8Clicked);
+		this.button7.Clicked += new global::System.EventHandler (this.OnButton7Clicked);
 		this.button6.Clicked += new global::System.EventHandler (this.OnButton6Clicked);
 		this.button5.Clicked += new global::System.EventHandler (this.OnButton5Clicked);
 		this.button4.Clicked += new global::System.EventHandler (this.OnButton4Clicked);
+		this.button2.Clicked += new global::System.EventHandler (this.OnButton2Clicked);
+		this.button1.Clicked += new global::System.EventHandler (this.OnButton1Clicked);
 		this.btnDataRefreshAll.Clicked += new global::System.EventHandler (this.OnBtnDataCollectClicked);
 	}
 }

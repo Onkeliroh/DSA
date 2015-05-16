@@ -334,12 +334,36 @@ public partial class MainWindow: Gtk.Window
 	protected void OnButton5Clicked (object sender, EventArgs e)
 	{
 		_arduinoController.GetModel ();
-		labelModel.Text = _arduinoController.Model;
+		labelModel.Text = Convert.ToString (_arduinoController.Model);
 	}
 
 	protected void OnButton6Clicked (object sender, EventArgs e)
 	{
+		_arduinoController.GetNumberDigitalPins ();
+		labelNrDigiPin.Text = Convert.ToString (_arduinoController.NumberOfDigitalPins, 10);
+	}
+
+	protected void OnButton7Clicked (object sender, EventArgs e)
+	{
+		_arduinoController.GetNumberAnalogPins ();
+		labelNrAnaPin.Text = Convert.ToString (_arduinoController.NumberOfAnalogPins, 10);
+	}
+
+	protected void OnButton8Clicked (object sender, EventArgs e)
+	{
 		_arduinoController.GetDigitalBitMask ();
-		labelDigiBitMask.Text = Convert.ToString (_arduinoController.DigitalBitMask, 2);
+		labelDigiBitMask.Text = Convert.ToString (_arduinoController.DigitalBitMask, 2).PadLeft (_arduinoController.NumberOfDigitalPins);
+	}
+
+	protected void OnButton1Clicked (object sender, EventArgs e)
+	{
+		_arduinoController.GetPinOutputMask ();
+		labelOutputBitMask.Text = Convert.ToString (_arduinoController.PinOutputMask, 2).PadLeft (_arduinoController.NumberOfDigitalPins);
+	}
+
+	protected void OnButton2Clicked (object sender, EventArgs e)
+	{
+		_arduinoController.GetPinModeMask ();
+		labelModeBitMask.Text = Convert.ToString (_arduinoController.PinModeMask, 2).PadLeft (_arduinoController.NumberOfDigitalPins);
 	}
 }
