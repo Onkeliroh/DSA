@@ -39,6 +39,8 @@ enum
   kGetNumberDigitalPins,
   kGetNumberAnalogPins,
   kGetDigitalBitMask,
+  kGetPinOutputMask,
+  kGetPinModeMask,
 };
 
 //DEFINITIONS-------------------------------------------------------------------
@@ -62,6 +64,8 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kGetNumberDigitalPins, OnGetNumberDigitalPins);
   cmdMessenger.attach(kGetNumberAnalogPins, OnGetNumberAnalogPins);
   cmdMessenger.attach(kGetDigitalBitMask, OnGetDigitalBitMask);
+  cmdMessenger.attach(kGetPinOutputMask, OnGetPinOutputMask);
+  cmdMessenger.attach(kGetPinModeMask, OnGetPinModeMask);
 }
 
 // Called when a received command has no attached function
@@ -178,6 +182,20 @@ void OnGetDigitalBitMask()
 	mask = (PINB<<16)|(PINC<<8)|PIND;
 	cmdMessenger.sendCmdStart(kGetDigitalBitMask);
 	cmdMessenger.sendCmdBinArg(mask);
+	cmdMessenger.sendCmdEnd();
+}
+
+void OnGetPinOutputMask()
+{
+	cmdMessenger.sendCmdStart(kGetPinModeMask);
+	cmdMessenger.sendCmdBinArg((PORTD << 16)|(PORTB << 8)| PORTC );
+	cmdMessenger.sendCmdEnd();
+}
+
+void OnGetPinModeMask()
+{
+	cmdMessenger.sendCmdStart(kGetPinModeMask);
+	cmdMessenger.sendCmdBinArg((DDRD << 16) | (DDRB << 8) | DDRC);
 	cmdMessenger.sendCmdEnd();
 }
 

@@ -17,20 +17,19 @@ public partial class MainWindow: Gtk.Window
 	public MainWindow () : base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
-
-		_arduinoController = new ArduinoController.ArduinoController ();
-		AnalogTimer = new Timer (500);
-		AnalogTimer.Elapsed += FetchAnalog;
-
-		LabelValueA.Text = "Hello World";
-
 		initializeComponents ();
 	}
 
 	void initializeComponents ()
 	{
+		_arduinoController = new ArduinoController.ArduinoController ();
+		AnalogTimer = new Timer (500);
+		AnalogTimer.Elapsed += FetchAnalog;
+
 		logger.Start ();
 		PreparePortNames ();
+
+		nbMain.Sensitive = false;
 	}
 
 	private void PreparePortNames ()
@@ -45,10 +44,15 @@ public partial class MainWindow: Gtk.Window
 
 	void Connect (object sender, EventArgs e)
 	{
+		ConnectIntern (CBSerialPorts.ActiveText);
+	}
+
+	void ConnectIntern (string PortName)
+	{
 		if (!_arduinoController.IsConnected)
 		{
 			//_arduinoController = new ArduinoController.ArduinoController ();
-			_arduinoController.SerialPortName = CBSerialPorts.ActiveText;
+			_arduinoController.SerialPortName = PortName;
 			_arduinoController.Setup ();
 
 			if (_arduinoController.IsConnected)
@@ -57,6 +61,7 @@ public partial class MainWindow: Gtk.Window
 				BtnConnect.Label = "Disconnect";
 				LabelConnectionStatus.Text = @"<b>Connected</b>";
 				LabelConnectionStatus.UseMarkup = true;
+				nbMain.Sensitive = true;
 				//	AnalogTimer.Start ();
 			} else
 			{
@@ -71,6 +76,19 @@ public partial class MainWindow: Gtk.Window
 			LabelConnectionStatus.Text = @"<b>Not</b> connected";
 			LabelConnectionStatus.UseMarkup = true;
 			_arduinoController.Disconnect ();
+			nbMain.Sensitive = false;
+		}
+	}
+
+	void AutoConnect (object sender, EventArgs e)
+	{
+		foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+		{
+			ConnectIntern (s);
+			if (_arduinoController.IsConnected)
+			{
+				return;
+			}
 		}
 	}
 

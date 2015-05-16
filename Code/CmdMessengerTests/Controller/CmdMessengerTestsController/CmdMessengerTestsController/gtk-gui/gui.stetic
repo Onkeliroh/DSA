@@ -7,7 +7,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/CmdMessengerTestsController.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="607 568">
+  <widget class="Gtk.Window" id="MainWindow" design-size="774 568">
     <property name="MemberName" />
     <property name="Title" translatable="yes">CmdMessengerTestsController</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -23,7 +23,9 @@
             <child>
               <widget class="Gtk.Label" id="LabelSerialPort">
                 <property name="MemberName" />
+                <property name="Xalign">1</property>
                 <property name="LabelProp" translatable="yes">SerialPort:</property>
+                <property name="Justify">Right</property>
               </widget>
               <packing>
                 <property name="Position">0</property>
@@ -78,6 +80,23 @@
                 <property name="Fill">False</property>
               </packing>
             </child>
+            <child>
+              <widget class="Gtk.Button" id="bntAutoConnect">
+                <property name="MemberName" />
+                <property name="WidthRequest">150</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">Auto Connect</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="PackType">End</property>
+                <property name="Position">4</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="Position">0</property>
@@ -87,7 +106,7 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Notebook" id="notebook1">
+          <widget class="Gtk.Notebook" id="nbMain">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
             <property name="CurrentPage">0</property>
