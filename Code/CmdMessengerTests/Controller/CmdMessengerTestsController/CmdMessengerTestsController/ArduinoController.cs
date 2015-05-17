@@ -78,7 +78,7 @@ namespace ArduinoController
 			get;
 		}
 
-		public UInt16 Model {
+		public string Model {
 			private set;
 			get;
 		}
@@ -288,7 +288,7 @@ namespace ArduinoController
 
 		private void OnGetModel (ReceivedCommand args)
 		{
-			Model = args.ReadUInt16Arg ();
+			Model = args.ReadBinStringArg();
 		}
 
 		public void GetNumberDigitalPins ()

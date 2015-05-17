@@ -62,7 +62,7 @@ public partial class MainWindow: Gtk.Window
 				LabelConnectionStatus.Text = @"<b>Connected</b>";
 				LabelConnectionStatus.UseMarkup = true;
 				nbMain.Sensitive = true;
-				AnalogTimer.Start ();
+//				AnalogTimer.Start ();
 			} else
 			{
 				LabelConnectionStatus.Text = @"<b>Something went wrong!</b>";
@@ -70,7 +70,7 @@ public partial class MainWindow: Gtk.Window
 			}
 		} else
 		{
-			AnalogTimer.Stop ();
+//			AnalogTimer.Stop ();
 			BtnConnect.Label = "Connect";
 			BtnConnectRefresh.Sensitive = true;
 			LabelConnectionStatus.Text = @"<b>Not</b> connected";
@@ -334,7 +334,7 @@ public partial class MainWindow: Gtk.Window
 	protected void OnButton5Clicked (object sender, EventArgs e)
 	{
 		_arduinoController.GetModel ();
-		labelModel.Text = Convert.ToString (_arduinoController.Model);
+		labelModel.Text = _arduinoController.Model;
 	}
 
 	protected void OnButton6Clicked (object sender, EventArgs e)
