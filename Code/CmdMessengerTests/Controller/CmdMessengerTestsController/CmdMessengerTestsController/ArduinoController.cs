@@ -83,12 +83,12 @@ namespace ArduinoController
 			get;
 		}
 
-		public int NumberOfDigitalPins {
+		public uint NumberOfDigitalPins {
 			private set;
 			get;
 		}
 
-		public int NumberOfAnalogPins {
+		public uint NumberOfAnalogPins {
 			private set;
 			get;
 		}
@@ -119,7 +119,7 @@ namespace ArduinoController
 				CurrentSerialSettings = {
 					PortName = SerialPortName,
 					BaudRate = 115200,
-					DtrEnable = true //bei UNO ändern 
+					DtrEnable = false //bei UNO ändern 
 				}
 			}, BoardType.Bit16);
 
@@ -159,11 +159,13 @@ namespace ArduinoController
 			_cmdMessenger.Attach ((int)Command.Acknowledge, OnAcknowledge);
 			_cmdMessenger.Attach ((int)Command.Error, OnError);
 			_cmdMessenger.Attach ((int)Command.ReadAnalogPinResult, OnReadAnalogResult);
-			_cmdMessenger.Attach ((int)Command.GetVersion, OnGetVersion);
-			_cmdMessenger.Attach ((int)Command.GetModel, OnGetModel);
-			_cmdMessenger.Attach ((int)Command.GetNumberDigitalPins, OnGetNumberDigitalPins);
-			_cmdMessenger.Attach ((int)Command.GetNumberAnalogPins, OnGetNumberAnalogPins);
-			_cmdMessenger.Attach ((int)Command.GetDigitalBitMask, OnGetDigitalBitMask);
+//			_cmdMessenger.Attach ((int)Command.GetVersion, OnGetVersion);
+//			_cmdMessenger.Attach ((int)Command.GetModel, OnGetModel);
+//			_cmdMessenger.Attach ((int)Command.GetNumberDigitalPins, OnGetNumberDigitalPins);
+//			_cmdMessenger.Attach ((int)Command.GetNumberAnalogPins, OnGetNumberAnalogPins);
+//			_cmdMessenger.Attach ((int)Command.GetDigitalBitMask, OnGetDigitalBitMask);
+//			_cmdMessenger.Attach ((int)Command.GetPinOutputMask, OnGetPinModeMask);
+//			_cmdMessenger.Attach ((int)Command.GetPinModeMask, OnGetPinModeMask);
 		}
 
 
@@ -271,8 +273,13 @@ namespace ArduinoController
 
 		public void GetVersion ()
 		{
-			var command = new SendCommand ((int)Command.GetVersion);
-			_cmdMessenger.SendCommand (command);
+			var command = new SendCommand ((int)Command.GetVersion, (int)Command.GetVersion, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				Version = returnVal.ReadStringArg ();
+			}
+
 		}
 
 		private void OnGetVersion (ReceivedCommand args)
@@ -282,41 +289,58 @@ namespace ArduinoController
 
 		public void GetModel ()
 		{
-			var command = new SendCommand ((int)Command.GetModel);
-			_cmdMessenger.SendCommand (command);
+			var command = new SendCommand ((int)Command.GetModel, (int)Command.GetModel, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				Model = returnVal.ReadBinStringArg ();
+			}
+
 		}
 
 		private void OnGetModel (ReceivedCommand args)
 		{
-			Model = args.ReadBinStringArg();
+			Model = args.ReadBinStringArg ();
 		}
 
 		public void GetNumberDigitalPins ()
 		{
-			var command = new SendCommand ((int)Command.GetNumberDigitalPins);
-			_cmdMessenger.SendCommand (command);
+			var command = new SendCommand ((int)Command.GetNumberDigitalPins, (int)Command.GetNumberDigitalPins, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				NumberOfDigitalPins = returnVal.ReadUInt32Arg ();
+			}
 		}
 
 		private void OnGetNumberDigitalPins (ReceivedCommand args)
 		{
-			NumberOfDigitalPins = args.ReadInt32Arg ();
+			NumberOfDigitalPins = args.ReadUInt32Arg ();
 		}
 
 		public void GetNumberAnalogPins ()
 		{
-			var command = new SendCommand ((int)Command.GetNumberAnalogPins);
-			_cmdMessenger.SendCommand (command);
+			var command = new SendCommand ((int)Command.GetNumberAnalogPins, (int)Command.GetNumberAnalogPins, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				NumberOfAnalogPins = returnVal.ReadBinUInt32Arg ();
+			}
 		}
 
 		private void OnGetNumberAnalogPins (ReceivedCommand args)
 		{
-			NumberOfAnalogPins = args.ReadInt32Arg ();
+			NumberOfAnalogPins = args.ReadUInt32Arg ();
 		}
 
 		public void GetDigitalBitMask ()
 		{
-			var command = new SendCommand ((int)Command.GetDigitalBitMask);
-			_cmdMessenger.SendCommand (command);
+			var command = new SendCommand ((int)Command.GetDigitalBitMask, (int)Command.GetDigitalBitMask, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				DigitalBitMask = returnVal.ReadBinUInt32Arg ();
+			}
 		}
 
 		public void OnGetDigitalBitMask (ReceivedCommand args)
@@ -326,8 +350,12 @@ namespace ArduinoController
 
 		public void GetPinOutputMask ()
 		{
-			var command = new SendCommand ((int)Command.GetPinOutputMask);
-			_cmdMessenger.SendCommand (command);
+			var command = new SendCommand ((int)Command.GetPinOutputMask, (int)Command.GetPinOutputMask, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				PinOutputMask = returnVal.ReadBinUInt32Arg ();
+			}
 		}
 
 		private void OnGetPinOutputMask (ReceivedCommand args)
@@ -337,13 +365,20 @@ namespace ArduinoController
 
 		public void GetPinModeMask ()
 		{
-			var command = new SendCommand ((int)Command.GetPinModeMask);
-			_cmdMessenger.SendCommand (command);
+			var command = new SendCommand ((int)Command.GetPinModeMask, (int)Command.GetPinModeMask, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				PinModeMask = returnVal.ReadBinUInt32Arg ();
+				Console.WriteLine (PinModeMask);
+			}
+//			_cmdMessenger.SendCommand (command);
 		}
 
 		private void OnGetPinModeMask (ReceivedCommand args)
 		{
-			PinModeMask = args.ReadBinUInt32Arg ();
+			var val = args.ReadUInt32Arg ();
+			PinModeMask = val;
 		}
 	}
 }

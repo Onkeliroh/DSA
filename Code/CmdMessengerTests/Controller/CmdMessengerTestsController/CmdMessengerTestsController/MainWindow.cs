@@ -171,7 +171,15 @@ public partial class MainWindow: Gtk.Window
 		_arduinoController.GetModel ();
 		_arduinoController.GetNumberDigitalPins ();
 		_arduinoController.GetNumberAnalogPins ();
-		_arduinoController.GetDigitalBitMask ();
+		_arduinoController.GetPinOutputMask ();
+		_arduinoController.GetPinModeMask ();
+
+		labelVersion.Text = _arduinoController.Version;
+		labelModel.Text = _arduinoController.Model;
+		labelNrDigiPin.Text = Convert.ToString (_arduinoController.NumberOfDigitalPins, 10);
+		labelNrAnaPin.Text = Convert.ToString (_arduinoController.NumberOfAnalogPins, 10);
+		labelOutputBitMask.Text = Convert.ToString (_arduinoController.PinOutputMask, 2).PadLeft ((int)_arduinoController.NumberOfDigitalPins);
+		labelModeBitMask.Text = Convert.ToString (_arduinoController.PinModeMask, 2).PadLeft ((int)_arduinoController.NumberOfDigitalPins);
 	}
 
 	protected void OnSetDigitalPinMode (object sender, EventArgs e)
@@ -349,21 +357,80 @@ public partial class MainWindow: Gtk.Window
 		labelNrAnaPin.Text = Convert.ToString (_arduinoController.NumberOfAnalogPins, 10);
 	}
 
-	protected void OnButton8Clicked (object sender, EventArgs e)
-	{
-		_arduinoController.GetDigitalBitMask ();
-		labelDigiBitMask.Text = Convert.ToString (_arduinoController.DigitalBitMask, 2).PadLeft (_arduinoController.NumberOfDigitalPins);
-	}
-
 	protected void OnButton1Clicked (object sender, EventArgs e)
 	{
 		_arduinoController.GetPinOutputMask ();
-		labelOutputBitMask.Text = Convert.ToString (_arduinoController.PinOutputMask, 2).PadLeft (_arduinoController.NumberOfDigitalPins);
+		labelOutputBitMask.Text = Convert.ToString (_arduinoController.PinOutputMask, 2).PadLeft ((int)_arduinoController.NumberOfDigitalPins);
 	}
 
 	protected void OnButton2Clicked (object sender, EventArgs e)
 	{
 		_arduinoController.GetPinModeMask ();
-		labelModeBitMask.Text = Convert.ToString (_arduinoController.PinModeMask, 2).PadLeft (_arduinoController.NumberOfDigitalPins);
+		labelModeBitMask.Text = Convert.ToString (_arduinoController.PinModeMask, 2).PadLeft ((int)_arduinoController.NumberOfDigitalPins);
+	}
+
+	protected void OnCbtnDPin12Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (12, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin11Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (11, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin10Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (10, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin9Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (9, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin8Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (8, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin7Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (7, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin6Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (6, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin5Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (5, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin4Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (4, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin3Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (3, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin2Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (2, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPin1Toggled (object sender, EventArgs e)
+	{
+		SetDPIN (1, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
+	}
+
+	protected void OnCbtnDPinToggled (object sender, EventArgs e)
+	{
+		SetDPIN (0, PinMode.OUTPUT, (((CheckButton)sender).Active ? DPinState.HIGH : DPinState.LOW));
 	}
 }

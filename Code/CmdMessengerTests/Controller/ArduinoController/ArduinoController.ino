@@ -237,7 +237,7 @@ cmdMessenger.sendCmdArg("__AVR_ATmega64__");
 cmdMessenger.sendCmdArg("__AVR_ATmega64A__");
 #elif defined (__AVR_ATmega640__)
 cmdMessenger.sendCmdArg("__AVR_ATmega640__");
-#elif defined (__AVR_ATmega644__) 
+#elif defined (__AVR_ATmega644__)
 cmdMessenger.sendCmdArg("__AVR_ATmega644__");
 #elif (defined __AVR_ATmega644A__)
 cmdMessenger.sendCmdArg("__AVR_ATmega644A__");
@@ -295,7 +295,7 @@ cmdMessenger.sendCmdArg("__AVR_ATmega325A__");
 cmdMessenger.sendCmdArg("__AVR_ATmega325P__");
 #elif defined (__AVR_ATmega325PA__)
 cmdMessenger.sendCmdArg("__AVR_ATmega325PA__");
-#elif defined (__AVR_ATmega3250__) 
+#elif defined (__AVR_ATmega3250__)
 cmdMessenger.sendCmdArg("__AVR_ATmega3250__");
 #elif (defined __AVR_ATmega3250A__)
 cmdMessenger.sendCmdArg("__AVR_ATmega3250A__");
@@ -311,7 +311,7 @@ cmdMessenger.sendCmdArg("__AVR_ATmega328__");
 cmdMessenger.sendCmdArg("__AVR_ATmega329__");
 #elif (defined __AVR_ATmega329A__)
 cmdMessenger.sendCmdArg("__AVR_ATmega329A__");
-#elif defined (__AVR_ATmega329P__) 
+#elif defined (__AVR_ATmega329P__)
 cmdMessenger.sendCmdArg("__AVR_ATmega329P__");
 #elif (defined __AVR_ATmega329PA__)
 cmdMessenger.sendCmdArg("__AVR_ATmega329PA__");
@@ -670,15 +670,15 @@ void OnGetDigitalBitMask()
 
 void OnGetPinOutputMask()
 {
-	cmdMessenger.sendCmdStart(kGetPinModeMask);
-	cmdMessenger.sendCmdBinArg((PORTD << 16)|(PORTB << 8)| PORTC );
+	cmdMessenger.sendCmdStart(kGetPinOutputMask);
+	cmdMessenger.sendCmdBinArg((PIND << 16)|(PINB << 8)| PINC );
 	cmdMessenger.sendCmdEnd();
 }
 
 void OnGetPinModeMask()
 {
 	cmdMessenger.sendCmdStart(kGetPinModeMask);
-	cmdMessenger.sendCmdBinArg((DDRD << 16) | (DDRB << 8) | DDRC);
+	cmdMessenger.sendCmdArg(DigitalPinsToModeMask());
 	cmdMessenger.sendCmdEnd();
 }
 
@@ -690,9 +690,6 @@ void setup()
   // Listen on serial connection for messages from the PC
   Serial.begin(115200);
   while (!Serial){;} //wait for serial port to connect. Needed for Loenardo only
-
-  // Adds newline to every command
-  //cmdMessenger.printLfCr();
 
   // Attach my application's user-defined callback methods
   attachCommandCallbacks();
@@ -710,3 +707,21 @@ void loop()
   cmdMessenger.feedinSerialData();
   delay(10);
 }
+
+uint32_t DigitalPinsToModeMask(){
+  uint32_t PinsModeMask = 0;
+  uint8_t bitmask;
+  uint8_t port;
+  for (int i = 0; i < NUM_DIGITAL_PINS; i++)
+  {
+     bitmask = digitalPinToBitMask(i);
+     port = digitalPinToPort(i);
+
+     if (bitRead(*portModeRegister(port),bit(bitmask)) == true)
+     {
+       bitSet(PinsModeMask,i);
+     }
+  }
+  return PinsModeMask;
+}
+

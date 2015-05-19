@@ -10,6 +10,7 @@
   <widget class="Gtk.Window" id="MainWindow" design-size="773 568">
     <property name="MemberName" />
     <property name="Title" translatable="yes">CmdMessengerTestsController</property>
+    <property name="Icon">stock:gtk-preferences Menu</property>
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
@@ -569,6 +570,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin12Toggled" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>
@@ -585,6 +587,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin11Toggled" />
                       </widget>
                       <packing>
                         <property name="Position">2</property>
@@ -601,6 +604,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin10Toggled" />
                       </widget>
                       <packing>
                         <property name="Position">3</property>
@@ -617,6 +621,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin9Toggled" />
                       </widget>
                       <packing>
                         <property name="Position">4</property>
@@ -633,6 +638,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin8Toggled" />
                       </widget>
                       <packing>
                         <property name="Position">5</property>
@@ -649,6 +655,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPinToggled" />
                       </widget>
                       <packing>
                         <property name="PackType">End</property>
@@ -666,6 +673,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin1Toggled" />
                       </widget>
                       <packing>
                         <property name="PackType">End</property>
@@ -683,6 +691,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin2Toggled" />
                       </widget>
                       <packing>
                         <property name="PackType">End</property>
@@ -700,6 +709,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin3Toggled" />
                       </widget>
                       <packing>
                         <property name="PackType">End</property>
@@ -717,6 +727,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin4Toggled" />
                       </widget>
                       <packing>
                         <property name="PackType">End</property>
@@ -734,6 +745,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin5Toggled" />
                       </widget>
                       <packing>
                         <property name="PackType">End</property>
@@ -751,6 +763,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin6Toggled" />
                       </widget>
                       <packing>
                         <property name="PackType">End</property>
@@ -768,6 +781,7 @@ OUTPUT</property>
                         <property name="DrawIndicator">True</property>
                         <property name="HasLabel">True</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="OnCbtnDPin7Toggled" />
                       </widget>
                       <packing>
                         <property name="PackType">End</property>
@@ -1281,19 +1295,10 @@ OUTPUT</property>
                 <child>
                   <widget class="Gtk.Table" id="tableValues">
                     <property name="MemberName" />
-                    <property name="NRows">9</property>
+                    <property name="NRows">8</property>
                     <property name="NColumns">3</property>
                     <property name="RowSpacing">6</property>
                     <property name="ColumnSpacing">6</property>
-                    <child>
-                      <placeholder />
-                    </child>
-                    <child>
-                      <placeholder />
-                    </child>
-                    <child>
-                      <placeholder />
-                    </child>
                     <child>
                       <widget class="Gtk.Button" id="btnDataRefreshAll">
                         <property name="MemberName" />
@@ -1304,8 +1309,8 @@ OUTPUT</property>
                         <signal name="Clicked" handler="OnBtnDataCollectClicked" />
                       </widget>
                       <packing>
-                        <property name="TopAttach">8</property>
-                        <property name="BottomAttach">9</property>
+                        <property name="TopAttach">7</property>
+                        <property name="BottomAttach">8</property>
                         <property name="RightAttach">3</property>
                         <property name="AutoSize">False</property>
                         <property name="XOptions">Fill</property>
@@ -1328,8 +1333,8 @@ OUTPUT</property>
                         <signal name="Clicked" handler="OnButton1Clicked" />
                       </widget>
                       <packing>
-                        <property name="TopAttach">5</property>
-                        <property name="BottomAttach">6</property>
+                        <property name="TopAttach">4</property>
+                        <property name="BottomAttach">5</property>
                         <property name="LeftAttach">2</property>
                         <property name="RightAttach">3</property>
                         <property name="AutoSize">True</property>
@@ -1353,8 +1358,8 @@ OUTPUT</property>
                         <signal name="Clicked" handler="OnButton2Clicked" />
                       </widget>
                       <packing>
-                        <property name="TopAttach">6</property>
-                        <property name="BottomAttach">7</property>
+                        <property name="TopAttach">5</property>
+                        <property name="BottomAttach">6</property>
                         <property name="LeftAttach">2</property>
                         <property name="RightAttach">3</property>
                         <property name="AutoSize">True</property>
@@ -1467,26 +1472,19 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.Button" id="button8">
+                      <widget class="Gtk.Fixed" id="fixed1">
                         <property name="MemberName" />
-                        <property name="CanFocus">True</property>
-                        <property name="Type">TextOnly</property>
-                        <property name="Label" translatable="yes">Refresh</property>
-                        <property name="UseUnderline">True</property>
-                        <signal name="Clicked" handler="OnButton8Clicked" />
+                        <property name="HasWindow">False</property>
                       </widget>
                       <packing>
-                        <property name="TopAttach">4</property>
-                        <property name="BottomAttach">5</property>
-                        <property name="LeftAttach">2</property>
+                        <property name="TopAttach">6</property>
+                        <property name="BottomAttach">7</property>
                         <property name="RightAttach">3</property>
-                        <property name="AutoSize">True</property>
-                        <property name="XOptions">Fill</property>
-                        <property name="YOptions">Fill</property>
-                        <property name="XExpand">False</property>
+                        <property name="AutoSize">False</property>
+                        <property name="XExpand">True</property>
                         <property name="XFill">True</property>
                         <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
+                        <property name="YExpand">True</property>
                         <property name="YFill">True</property>
                         <property name="YShrink">False</property>
                       </packing>
@@ -1569,34 +1567,14 @@ OUTPUT</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="label22">
-                        <property name="MemberName" />
-                        <property name="Xalign">0</property>
-                        <property name="LabelProp" translatable="yes">Digital bit mask:</property>
-                      </widget>
-                      <packing>
-                        <property name="TopAttach">4</property>
-                        <property name="BottomAttach">5</property>
-                        <property name="AutoSize">True</property>
-                        <property name="XOptions">Fill</property>
-                        <property name="YOptions">Fill</property>
-                        <property name="XExpand">False</property>
-                        <property name="XFill">True</property>
-                        <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
-                        <property name="YFill">True</property>
-                        <property name="YShrink">False</property>
-                      </packing>
-                    </child>
-                    <child>
                       <widget class="Gtk.Label" id="label7">
                         <property name="MemberName" />
                         <property name="Xalign">0</property>
                         <property name="LabelProp" translatable="yes">Pin output bit mask:</property>
                       </widget>
                       <packing>
-                        <property name="TopAttach">5</property>
-                        <property name="BottomAttach">6</property>
+                        <property name="TopAttach">4</property>
+                        <property name="BottomAttach">5</property>
                         <property name="AutoSize">True</property>
                         <property name="XOptions">Fill</property>
                         <property name="YOptions">Fill</property>
@@ -1615,28 +1593,8 @@ OUTPUT</property>
                         <property name="LabelProp" translatable="yes">Pin mode bit mask:</property>
                       </widget>
                       <packing>
-                        <property name="TopAttach">6</property>
-                        <property name="BottomAttach">7</property>
-                        <property name="AutoSize">True</property>
-                        <property name="XOptions">Fill</property>
-                        <property name="YOptions">Fill</property>
-                        <property name="XExpand">False</property>
-                        <property name="XFill">True</property>
-                        <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
-                        <property name="YFill">True</property>
-                        <property name="YShrink">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Label" id="labelDigiBitMask">
-                        <property name="MemberName" />
-                      </widget>
-                      <packing>
-                        <property name="TopAttach">4</property>
-                        <property name="BottomAttach">5</property>
-                        <property name="LeftAttach">1</property>
-                        <property name="RightAttach">2</property>
+                        <property name="TopAttach">5</property>
+                        <property name="BottomAttach">6</property>
                         <property name="AutoSize">True</property>
                         <property name="XOptions">Fill</property>
                         <property name="YOptions">Fill</property>
@@ -1653,8 +1611,8 @@ OUTPUT</property>
                         <property name="MemberName" />
                       </widget>
                       <packing>
-                        <property name="TopAttach">6</property>
-                        <property name="BottomAttach">7</property>
+                        <property name="TopAttach">5</property>
+                        <property name="BottomAttach">6</property>
                         <property name="LeftAttach">1</property>
                         <property name="RightAttach">2</property>
                         <property name="AutoSize">False</property>
@@ -1732,8 +1690,8 @@ OUTPUT</property>
                         <property name="MemberName" />
                       </widget>
                       <packing>
-                        <property name="TopAttach">5</property>
-                        <property name="BottomAttach">6</property>
+                        <property name="TopAttach">4</property>
+                        <property name="BottomAttach">5</property>
                         <property name="LeftAttach">1</property>
                         <property name="RightAttach">2</property>
                         <property name="AutoSize">False</property>

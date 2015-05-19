@@ -197,7 +197,7 @@ public partial class MainWindow
 	
 	private global::Gtk.Button button7;
 	
-	private global::Gtk.Button button8;
+	private global::Gtk.Fixed fixed1;
 	
 	private global::Gtk.Label label18;
 	
@@ -207,13 +207,9 @@ public partial class MainWindow
 	
 	private global::Gtk.Label label21;
 	
-	private global::Gtk.Label label22;
-	
 	private global::Gtk.Label label7;
 	
 	private global::Gtk.Label label8;
-	
-	private global::Gtk.Label labelDigiBitMask;
 	
 	private global::Gtk.Label labelModeBitMask;
 	
@@ -241,6 +237,7 @@ public partial class MainWindow
 		// Widget MainWindow
 		this.Name = "MainWindow";
 		this.Title = global::Mono.Unix.Catalog.GetString ("CmdMessengerTestsController");
+		this.Icon = global::Stetic.IconLoader.LoadIcon (this, "gtk-preferences", global::Gtk.IconSize.Menu);
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
 		this.vbox3 = new global::Gtk.VBox ();
@@ -1193,7 +1190,7 @@ public partial class MainWindow
 		this.table1.RowSpacing = ((uint)(6));
 		this.table1.ColumnSpacing = ((uint)(6));
 		// Container child table1.Gtk.Table+TableChild
-		this.tableValues = new global::Gtk.Table (((uint)(9)), ((uint)(3)), false);
+		this.tableValues = new global::Gtk.Table (((uint)(8)), ((uint)(3)), false);
 		this.tableValues.Name = "tableValues";
 		this.tableValues.RowSpacing = ((uint)(6));
 		this.tableValues.ColumnSpacing = ((uint)(6));
@@ -1205,8 +1202,8 @@ public partial class MainWindow
 		this.btnDataRefreshAll.Label = global::Mono.Unix.Catalog.GetString ("Refresh ALL");
 		this.tableValues.Add (this.btnDataRefreshAll);
 		global::Gtk.Table.TableChild w86 = ((global::Gtk.Table.TableChild)(this.tableValues [this.btnDataRefreshAll]));
-		w86.TopAttach = ((uint)(8));
-		w86.BottomAttach = ((uint)(9));
+		w86.TopAttach = ((uint)(7));
+		w86.BottomAttach = ((uint)(8));
 		w86.RightAttach = ((uint)(3));
 		w86.XOptions = ((global::Gtk.AttachOptions)(4));
 		w86.YOptions = ((global::Gtk.AttachOptions)(4));
@@ -1218,8 +1215,8 @@ public partial class MainWindow
 		this.button1.Label = global::Mono.Unix.Catalog.GetString ("Refresh");
 		this.tableValues.Add (this.button1);
 		global::Gtk.Table.TableChild w87 = ((global::Gtk.Table.TableChild)(this.tableValues [this.button1]));
-		w87.TopAttach = ((uint)(5));
-		w87.BottomAttach = ((uint)(6));
+		w87.TopAttach = ((uint)(4));
+		w87.BottomAttach = ((uint)(5));
 		w87.LeftAttach = ((uint)(2));
 		w87.RightAttach = ((uint)(3));
 		w87.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -1232,8 +1229,8 @@ public partial class MainWindow
 		this.button2.Label = global::Mono.Unix.Catalog.GetString ("Refresh");
 		this.tableValues.Add (this.button2);
 		global::Gtk.Table.TableChild w88 = ((global::Gtk.Table.TableChild)(this.tableValues [this.button2]));
-		w88.TopAttach = ((uint)(6));
-		w88.BottomAttach = ((uint)(7));
+		w88.TopAttach = ((uint)(5));
+		w88.BottomAttach = ((uint)(6));
 		w88.LeftAttach = ((uint)(2));
 		w88.RightAttach = ((uint)(3));
 		w88.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -1293,19 +1290,14 @@ public partial class MainWindow
 		w92.XOptions = ((global::Gtk.AttachOptions)(4));
 		w92.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
-		this.button8 = new global::Gtk.Button ();
-		this.button8.CanFocus = true;
-		this.button8.Name = "button8";
-		this.button8.UseUnderline = true;
-		this.button8.Label = global::Mono.Unix.Catalog.GetString ("Refresh");
-		this.tableValues.Add (this.button8);
-		global::Gtk.Table.TableChild w93 = ((global::Gtk.Table.TableChild)(this.tableValues [this.button8]));
-		w93.TopAttach = ((uint)(4));
-		w93.BottomAttach = ((uint)(5));
-		w93.LeftAttach = ((uint)(2));
+		this.fixed1 = new global::Gtk.Fixed ();
+		this.fixed1.Name = "fixed1";
+		this.fixed1.HasWindow = false;
+		this.tableValues.Add (this.fixed1);
+		global::Gtk.Table.TableChild w93 = ((global::Gtk.Table.TableChild)(this.tableValues [this.fixed1]));
+		w93.TopAttach = ((uint)(6));
+		w93.BottomAttach = ((uint)(7));
 		w93.RightAttach = ((uint)(3));
-		w93.XOptions = ((global::Gtk.AttachOptions)(4));
-		w93.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
 		this.label18 = new global::Gtk.Label ();
 		this.label18.Name = "label18";
@@ -1348,115 +1340,93 @@ public partial class MainWindow
 		w97.XOptions = ((global::Gtk.AttachOptions)(4));
 		w97.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
-		this.label22 = new global::Gtk.Label ();
-		this.label22.Name = "label22";
-		this.label22.Xalign = 0F;
-		this.label22.LabelProp = global::Mono.Unix.Catalog.GetString ("Digital bit mask:");
-		this.tableValues.Add (this.label22);
-		global::Gtk.Table.TableChild w98 = ((global::Gtk.Table.TableChild)(this.tableValues [this.label22]));
-		w98.TopAttach = ((uint)(4));
-		w98.BottomAttach = ((uint)(5));
-		w98.XOptions = ((global::Gtk.AttachOptions)(4));
-		w98.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child tableValues.Gtk.Table+TableChild
 		this.label7 = new global::Gtk.Label ();
 		this.label7.Name = "label7";
 		this.label7.Xalign = 0F;
 		this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("Pin output bit mask:");
 		this.tableValues.Add (this.label7);
-		global::Gtk.Table.TableChild w99 = ((global::Gtk.Table.TableChild)(this.tableValues [this.label7]));
-		w99.TopAttach = ((uint)(5));
-		w99.BottomAttach = ((uint)(6));
-		w99.XOptions = ((global::Gtk.AttachOptions)(4));
-		w99.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w98 = ((global::Gtk.Table.TableChild)(this.tableValues [this.label7]));
+		w98.TopAttach = ((uint)(4));
+		w98.BottomAttach = ((uint)(5));
+		w98.XOptions = ((global::Gtk.AttachOptions)(4));
+		w98.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
 		this.label8 = new global::Gtk.Label ();
 		this.label8.Name = "label8";
 		this.label8.Xalign = 0F;
 		this.label8.LabelProp = global::Mono.Unix.Catalog.GetString ("Pin mode bit mask:");
 		this.tableValues.Add (this.label8);
-		global::Gtk.Table.TableChild w100 = ((global::Gtk.Table.TableChild)(this.tableValues [this.label8]));
-		w100.TopAttach = ((uint)(6));
-		w100.BottomAttach = ((uint)(7));
-		w100.XOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w99 = ((global::Gtk.Table.TableChild)(this.tableValues [this.label8]));
+		w99.TopAttach = ((uint)(5));
+		w99.BottomAttach = ((uint)(6));
+		w99.XOptions = ((global::Gtk.AttachOptions)(4));
+		w99.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child tableValues.Gtk.Table+TableChild
+		this.labelModeBitMask = new global::Gtk.Label ();
+		this.labelModeBitMask.Name = "labelModeBitMask";
+		this.tableValues.Add (this.labelModeBitMask);
+		global::Gtk.Table.TableChild w100 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelModeBitMask]));
+		w100.TopAttach = ((uint)(5));
+		w100.BottomAttach = ((uint)(6));
+		w100.LeftAttach = ((uint)(1));
+		w100.RightAttach = ((uint)(2));
 		w100.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
-		this.labelDigiBitMask = new global::Gtk.Label ();
-		this.labelDigiBitMask.Name = "labelDigiBitMask";
-		this.tableValues.Add (this.labelDigiBitMask);
-		global::Gtk.Table.TableChild w101 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelDigiBitMask]));
-		w101.TopAttach = ((uint)(4));
-		w101.BottomAttach = ((uint)(5));
+		this.labelModel = new global::Gtk.Label ();
+		this.labelModel.Name = "labelModel";
+		this.tableValues.Add (this.labelModel);
+		global::Gtk.Table.TableChild w101 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelModel]));
+		w101.TopAttach = ((uint)(1));
+		w101.BottomAttach = ((uint)(2));
 		w101.LeftAttach = ((uint)(1));
 		w101.RightAttach = ((uint)(2));
 		w101.XOptions = ((global::Gtk.AttachOptions)(4));
 		w101.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
-		this.labelModeBitMask = new global::Gtk.Label ();
-		this.labelModeBitMask.Name = "labelModeBitMask";
-		this.tableValues.Add (this.labelModeBitMask);
-		global::Gtk.Table.TableChild w102 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelModeBitMask]));
-		w102.TopAttach = ((uint)(6));
-		w102.BottomAttach = ((uint)(7));
+		this.labelNrAnaPin = new global::Gtk.Label ();
+		this.labelNrAnaPin.Name = "labelNrAnaPin";
+		this.tableValues.Add (this.labelNrAnaPin);
+		global::Gtk.Table.TableChild w102 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelNrAnaPin]));
+		w102.TopAttach = ((uint)(3));
+		w102.BottomAttach = ((uint)(4));
 		w102.LeftAttach = ((uint)(1));
 		w102.RightAttach = ((uint)(2));
+		w102.XOptions = ((global::Gtk.AttachOptions)(4));
 		w102.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
-		this.labelModel = new global::Gtk.Label ();
-		this.labelModel.Name = "labelModel";
-		this.tableValues.Add (this.labelModel);
-		global::Gtk.Table.TableChild w103 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelModel]));
-		w103.TopAttach = ((uint)(1));
-		w103.BottomAttach = ((uint)(2));
+		this.labelNrDigiPin = new global::Gtk.Label ();
+		this.labelNrDigiPin.Name = "labelNrDigiPin";
+		this.tableValues.Add (this.labelNrDigiPin);
+		global::Gtk.Table.TableChild w103 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelNrDigiPin]));
+		w103.TopAttach = ((uint)(2));
+		w103.BottomAttach = ((uint)(3));
 		w103.LeftAttach = ((uint)(1));
 		w103.RightAttach = ((uint)(2));
 		w103.XOptions = ((global::Gtk.AttachOptions)(4));
 		w103.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
-		this.labelNrAnaPin = new global::Gtk.Label ();
-		this.labelNrAnaPin.Name = "labelNrAnaPin";
-		this.tableValues.Add (this.labelNrAnaPin);
-		global::Gtk.Table.TableChild w104 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelNrAnaPin]));
-		w104.TopAttach = ((uint)(3));
-		w104.BottomAttach = ((uint)(4));
-		w104.LeftAttach = ((uint)(1));
-		w104.RightAttach = ((uint)(2));
-		w104.XOptions = ((global::Gtk.AttachOptions)(4));
-		w104.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child tableValues.Gtk.Table+TableChild
-		this.labelNrDigiPin = new global::Gtk.Label ();
-		this.labelNrDigiPin.Name = "labelNrDigiPin";
-		this.tableValues.Add (this.labelNrDigiPin);
-		global::Gtk.Table.TableChild w105 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelNrDigiPin]));
-		w105.TopAttach = ((uint)(2));
-		w105.BottomAttach = ((uint)(3));
-		w105.LeftAttach = ((uint)(1));
-		w105.RightAttach = ((uint)(2));
-		w105.XOptions = ((global::Gtk.AttachOptions)(4));
-		w105.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child tableValues.Gtk.Table+TableChild
 		this.labelOutputBitMask = new global::Gtk.Label ();
 		this.labelOutputBitMask.Name = "labelOutputBitMask";
 		this.tableValues.Add (this.labelOutputBitMask);
-		global::Gtk.Table.TableChild w106 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelOutputBitMask]));
-		w106.TopAttach = ((uint)(5));
-		w106.BottomAttach = ((uint)(6));
-		w106.LeftAttach = ((uint)(1));
-		w106.RightAttach = ((uint)(2));
-		w106.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w104 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelOutputBitMask]));
+		w104.TopAttach = ((uint)(4));
+		w104.BottomAttach = ((uint)(5));
+		w104.LeftAttach = ((uint)(1));
+		w104.RightAttach = ((uint)(2));
+		w104.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableValues.Gtk.Table+TableChild
 		this.labelVersion = new global::Gtk.Label ();
 		this.labelVersion.Name = "labelVersion";
 		this.tableValues.Add (this.labelVersion);
-		global::Gtk.Table.TableChild w107 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelVersion]));
-		w107.LeftAttach = ((uint)(1));
-		w107.RightAttach = ((uint)(2));
-		w107.XOptions = ((global::Gtk.AttachOptions)(4));
-		w107.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w105 = ((global::Gtk.Table.TableChild)(this.tableValues [this.labelVersion]));
+		w105.LeftAttach = ((uint)(1));
+		w105.RightAttach = ((uint)(2));
+		w105.XOptions = ((global::Gtk.AttachOptions)(4));
+		w105.YOptions = ((global::Gtk.AttachOptions)(4));
 		this.table1.Add (this.tableValues);
 		this.nbMain.Add (this.table1);
-		global::Gtk.Notebook.NotebookChild w109 = ((global::Gtk.Notebook.NotebookChild)(this.nbMain [this.table1]));
-		w109.Position = 1;
+		global::Gtk.Notebook.NotebookChild w107 = ((global::Gtk.Notebook.NotebookChild)(this.nbMain [this.table1]));
+		w107.Position = 1;
 		// Notebook tab
 		this.label6 = new global::Gtk.Label ();
 		this.label6.Name = "label6";
@@ -1464,10 +1434,10 @@ public partial class MainWindow
 		this.nbMain.SetTabLabel (this.table1, this.label6);
 		this.label6.ShowAll ();
 		this.vbox3.Add (this.nbMain);
-		global::Gtk.Box.BoxChild w110 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.nbMain]));
-		w110.Position = 1;
-		w110.Expand = false;
-		w110.Fill = false;
+		global::Gtk.Box.BoxChild w108 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.nbMain]));
+		w108.Position = 1;
+		w108.Expand = false;
+		w108.Fill = false;
 		// Container child vbox3.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";
@@ -1477,25 +1447,25 @@ public partial class MainWindow
 		this.LabelStatus.Name = "LabelStatus";
 		this.LabelStatus.LabelProp = global::Mono.Unix.Catalog.GetString ("Status:");
 		this.statusbar1.Add (this.LabelStatus);
-		global::Gtk.Box.BoxChild w111 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelStatus]));
-		w111.Position = 1;
-		w111.Expand = false;
-		w111.Fill = false;
+		global::Gtk.Box.BoxChild w109 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelStatus]));
+		w109.Position = 1;
+		w109.Expand = false;
+		w109.Fill = false;
 		// Container child statusbar1.Gtk.Box+BoxChild
 		this.LabelConnectionStatus = new global::Gtk.Label ();
 		this.LabelConnectionStatus.Name = "LabelConnectionStatus";
 		this.LabelConnectionStatus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Not</b> connected");
 		this.LabelConnectionStatus.UseMarkup = true;
 		this.statusbar1.Add (this.LabelConnectionStatus);
-		global::Gtk.Box.BoxChild w112 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelConnectionStatus]));
-		w112.Position = 2;
-		w112.Expand = false;
-		w112.Fill = false;
+		global::Gtk.Box.BoxChild w110 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.LabelConnectionStatus]));
+		w110.Position = 2;
+		w110.Expand = false;
+		w110.Fill = false;
 		this.vbox3.Add (this.statusbar1);
-		global::Gtk.Box.BoxChild w113 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.statusbar1]));
-		w113.Position = 2;
-		w113.Expand = false;
-		w113.Fill = false;
+		global::Gtk.Box.BoxChild w111 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.statusbar1]));
+		w111.Position = 2;
+		w111.Expand = false;
+		w111.Fill = false;
 		this.Add (this.vbox3);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
@@ -1521,10 +1491,22 @@ public partial class MainWindow
 		this.cbDPin1.Changed += new global::System.EventHandler (this.OnCbDPin1Changed);
 		this.cbDPin.Changed += new global::System.EventHandler (this.OnCbDPinChanged);
 		this.cbtnDPin13.Toggled += new global::System.EventHandler (this.OnCheckbutton1Toggled);
+		this.cbtnDPin12.Toggled += new global::System.EventHandler (this.OnCbtnDPin12Toggled);
+		this.cbtnDPin11.Toggled += new global::System.EventHandler (this.OnCbtnDPin11Toggled);
+		this.cbtnDPin10.Toggled += new global::System.EventHandler (this.OnCbtnDPin10Toggled);
+		this.cbtnDPin9.Toggled += new global::System.EventHandler (this.OnCbtnDPin9Toggled);
+		this.cbtnDPin8.Toggled += new global::System.EventHandler (this.OnCbtnDPin8Toggled);
+		this.cbtnDPin7.Toggled += new global::System.EventHandler (this.OnCbtnDPin7Toggled);
+		this.cbtnDPin6.Toggled += new global::System.EventHandler (this.OnCbtnDPin6Toggled);
+		this.cbtnDPin5.Toggled += new global::System.EventHandler (this.OnCbtnDPin5Toggled);
+		this.cbtnDPin4.Toggled += new global::System.EventHandler (this.OnCbtnDPin4Toggled);
+		this.cbtnDPin3.Toggled += new global::System.EventHandler (this.OnCbtnDPin3Toggled);
+		this.cbtnDPin2.Toggled += new global::System.EventHandler (this.OnCbtnDPin2Toggled);
+		this.cbtnDPin1.Toggled += new global::System.EventHandler (this.OnCbtnDPin1Toggled);
+		this.cbtnDPin.Toggled += new global::System.EventHandler (this.OnCbtnDPinToggled);
 		this.CBAnalogPin5Mode.Changed += new global::System.EventHandler (this.OnCBAnalogPin5ModeChanged);
 		this.CBAnalogPin0Mode.Changed += new global::System.EventHandler (this.OnCombobox19Changed);
 		this.HScaleAnalogPinFive.ValueChanged += new global::System.EventHandler (this.OnHScaleAnalogPinFiveValueChanged);
-		this.button8.Clicked += new global::System.EventHandler (this.OnButton8Clicked);
 		this.button7.Clicked += new global::System.EventHandler (this.OnButton7Clicked);
 		this.button6.Clicked += new global::System.EventHandler (this.OnButton6Clicked);
 		this.button5.Clicked += new global::System.EventHandler (this.OnButton5Clicked);

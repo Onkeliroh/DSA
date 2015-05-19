@@ -1,9 +1,9 @@
 ﻿<Properties StartupItem="CmdMessengerTestsController/CmdMessengerTestsController.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CmdMessengerTestsController/MainWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CmdMessengerTestsController/ArduinoController.cs">
     <Files>
-      <File FileName="CmdMessengerTestsController/MainWindow.cs" Line="2" Column="2" />
-      <File FileName="CmdMessengerTestsController/ArduinoController.cs" Line="16" Column="16" />
+      <File FileName="CmdMessengerTestsController/MainWindow.cs" Line="93" Column="93" />
+      <File FileName="CmdMessengerTestsController/ArduinoController.cs" Line="35" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
