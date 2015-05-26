@@ -14,7 +14,11 @@ namespace NplotTest
 			Application.Init ();
 			var w = new NPlotConfigTestWindow ("NplotTest");
 			w.ShowAll ();
+			try{
 			Application.Run ();
+			}catch(Exception e) {
+				Console.Error.WriteLine (e);
+			}
 		}
 	}
 }
