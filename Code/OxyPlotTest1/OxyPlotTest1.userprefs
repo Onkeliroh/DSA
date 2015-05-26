@@ -1,9 +1,8 @@
-﻿<Properties StartupItem="NPlotTest.csproj">
+﻿<Properties StartupItem="OxyPlotTest1.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NPlotConfigTestWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="EmptyCSharpFile.cs">
     <Files>
-      <File FileName="TestPlotWindow.cs" Line="5" Column="7" />
-      <File FileName="NPlotConfigTestWindow.cs" Line="49" Column="24" />
+      <File FileName="EmptyCSharpFile.cs" Line="41" Column="155" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
