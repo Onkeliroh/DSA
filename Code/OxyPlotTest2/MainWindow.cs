@@ -109,6 +109,8 @@ public partial class MainWindow: Gtk.Window
 				Position = AxisPosition.Bottom,
 				Minimum = 0,
 				Maximum = 100,
+				MinimumPadding = 0,
+				MaximumPadding = 0,
 				MajorGridlineColor = OxyPlot.OxyColors.Gray,
 				MajorGridlineThickness = .5,
 				MajorGridlineStyle = LineStyle.Solid
@@ -117,11 +119,12 @@ public partial class MainWindow: Gtk.Window
 
 			var yAxis = new LinearAxis {
 				Position = AxisPosition.Left,
-				Minimum = 0,
+				Minimum = 10,
 				Maximum = 1,
-				IsPanEnabled = false,
-				MaximumPadding = 0,
-				MinimumPadding = 0,
+				AbsoluteMaximum = 10.1,
+				AbsoluteMinimum = -0.1,
+				MaximumPadding = 5,
+				MinimumPadding = 5,
 				MajorGridlineColor = OxyPlot.OxyColors.Gray,
 				MajorGridlineThickness = .5,
 				MajorGridlineStyle = LineStyle.Solid,
@@ -137,7 +140,7 @@ public partial class MainWindow: Gtk.Window
 				Random rand = new Random();
 				foreach (Series s in plotView.Model.Series)
 				{
-					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () ));
+					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () * 10 ));
 				}
 				iterator++;
 //				timeSeries.Points.Add(new DataPoint(i++,new Random().NextDouble()));
@@ -173,12 +176,16 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnCheckbuttonMarkerToggleToggled (object sender, EventArgs e)
 	{
-		if ((sender as CheckButton).Active)
-		{
+		if ((sender as CheckButton).Active) {
 			foreach (Series s in plotView.Model.Series) {
 				(s as LineSeries).MarkerType = MarkerType.Cross;
 				(s as LineSeries).MarkerStroke = OxyColors.Red;
 			}
+		} else {
+			foreach (Series s in plotView.Model.Series) {
+				(s as LineSeries).MarkerType = MarkerType.None;
+			}
+
 		}
 	}
 }
