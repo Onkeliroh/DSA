@@ -9,6 +9,20 @@ public partial class MainWindow
 	
 	private global::Gtk.Button btnCenterPlot;
 	
+	private global::Gtk.Frame frame1;
+	
+	private global::Gtk.Alignment GtkAlignment;
+	
+	private global::Gtk.Table table2;
+	
+	private global::Gtk.CheckButton checkbuttonSmoothPlot;
+	
+	private global::Gtk.Label label2;
+	
+	private global::Gtk.SpinButton spinbuttonNumberOfSeries;
+	
+	private global::Gtk.Label GtkLabel4;
+	
 	private global::Gtk.HBox hbox1;
 	
 	private global::Gtk.Button btnSinglePlot;
@@ -45,9 +59,72 @@ public partial class MainWindow
 		w1.RightAttach = ((uint)(2));
 		w1.XOptions = ((global::Gtk.AttachOptions)(4));
 		w1.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table1.Gtk.Table+TableChild
+		this.frame1 = new global::Gtk.Frame ();
+		this.frame1.Name = "frame1";
+		this.frame1.ShadowType = ((global::Gtk.ShadowType)(0));
+		// Container child frame1.Gtk.Container+ContainerChild
+		this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+		this.GtkAlignment.Name = "GtkAlignment";
+		this.GtkAlignment.LeftPadding = ((uint)(12));
+		// Container child GtkAlignment.Gtk.Container+ContainerChild
+		this.table2 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
+		this.table2.Name = "table2";
+		this.table2.RowSpacing = ((uint)(6));
+		this.table2.ColumnSpacing = ((uint)(6));
+		// Container child table2.Gtk.Table+TableChild
+		this.checkbuttonSmoothPlot = new global::Gtk.CheckButton ();
+		this.checkbuttonSmoothPlot.CanFocus = true;
+		this.checkbuttonSmoothPlot.Name = "checkbuttonSmoothPlot";
+		this.checkbuttonSmoothPlot.Label = global::Mono.Unix.Catalog.GetString ("Smooth Plot");
+		this.checkbuttonSmoothPlot.Active = true;
+		this.checkbuttonSmoothPlot.DrawIndicator = true;
+		this.checkbuttonSmoothPlot.UseUnderline = true;
+		this.table2.Add (this.checkbuttonSmoothPlot);
+		global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table2 [this.checkbuttonSmoothPlot]));
+		w2.RightAttach = ((uint)(2));
+		w2.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table2.Gtk.Table+TableChild
+		this.label2 = new global::Gtk.Label ();
+		this.label2.Name = "label2";
+		this.label2.Xalign = 0F;
+		this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Number of Series:");
+		this.table2.Add (this.label2);
+		global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table2 [this.label2]));
+		w3.TopAttach = ((uint)(1));
+		w3.BottomAttach = ((uint)(2));
+		w3.XOptions = ((global::Gtk.AttachOptions)(4));
+		w3.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table2.Gtk.Table+TableChild
+		this.spinbuttonNumberOfSeries = new global::Gtk.SpinButton (1, 32, 1);
+		this.spinbuttonNumberOfSeries.CanFocus = true;
+		this.spinbuttonNumberOfSeries.Name = "spinbuttonNumberOfSeries";
+		this.spinbuttonNumberOfSeries.Adjustment.PageIncrement = 10;
+		this.spinbuttonNumberOfSeries.ClimbRate = 1;
+		this.spinbuttonNumberOfSeries.Numeric = true;
+		this.spinbuttonNumberOfSeries.Value = 1;
+		this.table2.Add (this.spinbuttonNumberOfSeries);
+		global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table2 [this.spinbuttonNumberOfSeries]));
+		w4.TopAttach = ((uint)(1));
+		w4.BottomAttach = ((uint)(2));
+		w4.LeftAttach = ((uint)(1));
+		w4.RightAttach = ((uint)(2));
+		w4.YOptions = ((global::Gtk.AttachOptions)(4));
+		this.GtkAlignment.Add (this.table2);
+		this.frame1.Add (this.GtkAlignment);
+		this.GtkLabel4 = new global::Gtk.Label ();
+		this.GtkLabel4.Name = "GtkLabel4";
+		this.GtkLabel4.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Options</b>");
+		this.GtkLabel4.UseMarkup = true;
+		this.frame1.LabelWidget = this.GtkLabel4;
+		this.table1.Add (this.frame1);
+		global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table1 [this.frame1]));
+		w7.TopAttach = ((uint)(1));
+		w7.BottomAttach = ((uint)(2));
+		w7.RightAttach = ((uint)(3));
 		this.vboxMain.Add (this.table1);
-		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.table1]));
-		w2.Position = 1;
+		global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.table1]));
+		w8.Position = 1;
 		// Container child vboxMain.Gtk.Box+BoxChild
 		this.hbox1 = new global::Gtk.HBox ();
 		this.hbox1.Name = "hbox1";
@@ -60,8 +137,8 @@ public partial class MainWindow
 		this.btnSinglePlot.UseUnderline = true;
 		this.btnSinglePlot.Label = global::Mono.Unix.Catalog.GetString ("Show Single Plot");
 		this.hbox1.Add (this.btnSinglePlot);
-		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnSinglePlot]));
-		w3.Position = 0;
+		global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnSinglePlot]));
+		w9.Position = 0;
 		// Container child hbox1.Gtk.Box+BoxChild
 		this.btnTimedPlot = new global::Gtk.Button ();
 		this.btnTimedPlot.CanFocus = true;
@@ -69,8 +146,8 @@ public partial class MainWindow
 		this.btnTimedPlot.UseUnderline = true;
 		this.btnTimedPlot.Label = global::Mono.Unix.Catalog.GetString ("Time Plot");
 		this.hbox1.Add (this.btnTimedPlot);
-		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnTimedPlot]));
-		w4.Position = 1;
+		global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnTimedPlot]));
+		w10.Position = 1;
 		// Container child hbox1.Gtk.Box+BoxChild
 		this.btnExit = new global::Gtk.Button ();
 		this.btnExit.CanFocus = true;
@@ -78,13 +155,13 @@ public partial class MainWindow
 		this.btnExit.UseUnderline = true;
 		this.btnExit.Label = global::Mono.Unix.Catalog.GetString ("Exit");
 		this.hbox1.Add (this.btnExit);
-		global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnExit]));
-		w5.Position = 2;
+		global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnExit]));
+		w11.Position = 2;
 		this.vboxMain.Add (this.hbox1);
-		global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hbox1]));
-		w6.Position = 2;
-		w6.Expand = false;
-		w6.Fill = false;
+		global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hbox1]));
+		w12.Position = 2;
+		w12.Expand = false;
+		w12.Fill = false;
 		this.Add (this.vboxMain);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
@@ -93,6 +170,7 @@ public partial class MainWindow
 		this.DefaultHeight = 675;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+		this.spinbuttonNumberOfSeries.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnSpinbuttonNumberOfSeriesChangeValue);
 		this.btnCenterPlot.Clicked += new global::System.EventHandler (this.OnBtnCenterPlotClicked);
 		this.btnTimedPlot.Clicked += new global::System.EventHandler (this.OnBtnTimedPlotClicked);
 		this.btnExit.Clicked += new global::System.EventHandler (this.OnBtnExitClicked);

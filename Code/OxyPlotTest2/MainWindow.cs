@@ -7,6 +7,9 @@ using System.ComponentModel;
 using OxyPlot.Series;
 using GLib;
 using System.Timers;
+using OxyPlot.Axes;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class MainWindow: Gtk.Window
 {
@@ -91,27 +94,84 @@ public partial class MainWindow: Gtk.Window
 		//start timer
 		else if (!plotTimer.Enabled)
 		{
-			timeSeries = new LineSeries { Title = "timed Series" };
+			timeSeries = new LineSeries { 
+				Title = "timed Series", 
+				//rundet kurve
+				Smooth = true,
+				MarkerType = MarkerType.Cross,
+				MarkerStroke = OxyColors.Red
+			};
 
 			var plotModel = new PlotModel {
 				Title = "timed Plot",
 				PlotType = PlotType.Cartesian,
-				Background = OxyPlot.OxyColors.White
+				Background = OxyPlot.OxyColors.White,
 			};
 
 			plotModel.Series.Add (timeSeries);
-			plotModel.InvalidatePlot (true);
+
+			var xAxis =	new LinearAxis {
+				Position = AxisPosition.Bottom,
+				Minimum = 0,
+				Maximum = 100,
+				MajorGridlineColor = OxyPlot.OxyColors.Gray,
+				MajorGridlineThickness = .5,
+				MajorGridlineStyle = LineStyle.Solid
+			};
+			plotModel.Axes.Add ( xAxis );
+
+			var yAxis = new LinearAxis {
+				Position = AxisPosition.Left,
+				Minimum = 0,
+				Maximum = 1,
+				IsPanEnabled = false,
+				MaximumPadding = 0,
+				MinimumPadding = 0,
+				MajorGridlineColor = OxyPlot.OxyColors.Gray,
+				MajorGridlineThickness = .5,
+				MajorGridlineStyle = LineStyle.Solid,
+			};
+			plotModel.Axes.Add (yAxis);
 
 			plotView.Model = plotModel;
 
+			int i = 0;
+
 			plotTimer.Elapsed += (object senderer, ElapsedEventArgs es) =>
 			{
-				timeSeries.Points.Add (new DataPoint (DateTime.Now.Second, new Random ().NextDouble ()));
+				foreach (Series s in plotView.Model.Series)
+				{
+					(s as LineSeries).Points.Add (new DataPoint (i, new Random ().NextDouble ()));
+				}
+				i++;
+//				timeSeries.Points.Add(new DataPoint(i++,new Random().NextDouble()));
+				double panStep = xAxis.Transform(-1 + xAxis.Offset);
+				xAxis.Pan(panStep);
 				plotModel.InvalidatePlot (true);
-				Console.WriteLine (timeSeries.Points.Count);
 			};
 
 			plotTimer.Start ();
+		}
+	}
+
+	protected void OnSpinbuttonNumberOfSeriesChangeValue (object o, ChangeValueArgs args)
+	{
+		if (plotView.Model.Series.Count > (o as SpinButton).Value) {
+			while (plotView.Model.Series.Count > (o as SpinButton).Value) {
+				plotView.Model.Series.RemoveAt (plotView.Model.Series.Count - 1);
+			}
+		} else if (plotView.Model.Series.Count < (o as SpinButton).Value) {
+			while (plotView.Model.Series.Count > (o as SpinButton).Value) {
+				plotView.Model.Series.Add(new LineSeries());
+			}
+		}
+
+	}
+
+	protected void OnCheckbuttonSmoothPlotToggled (object sender, EventArgs e)
+	{
+		foreach (Series s in plotView.Model.Series) {
+			(s as LineSeries).Smooth = (sender as CheckButton).Active;
 		}
 	}
 }
