@@ -94,21 +94,16 @@ public partial class MainWindow: Gtk.Window
 		//start timer
 		else if (!plotTimer.Enabled)
 		{
-			timeSeries = new LineSeries { 
-				Title = "timed Series", 
-				//rundet kurve
-				Smooth = true,
-				MarkerType = MarkerType.Cross,
-				MarkerStroke = OxyColors.Red
-			};
-
 			var plotModel = new PlotModel {
 				Title = "timed Plot",
 				PlotType = PlotType.Cartesian,
 				Background = OxyPlot.OxyColors.White,
 			};
 
-			plotModel.Series.Add (timeSeries);
+			for (int i = 0; i < spinbuttonNumberOfSeries.Value; i++) {
+				plotModel.Series.Add (new LineSeries(){Title = i.ToString(), Smooth = true});
+			}
+
 
 			var xAxis =	new LinearAxis {
 				Position = AxisPosition.Bottom,
@@ -135,15 +130,16 @@ public partial class MainWindow: Gtk.Window
 
 			plotView.Model = plotModel;
 
-			int i = 0;
+			int iterator = 0;
 
 			plotTimer.Elapsed += (object senderer, ElapsedEventArgs es) =>
 			{
+				Random rand = new Random();
 				foreach (Series s in plotView.Model.Series)
 				{
-					(s as LineSeries).Points.Add (new DataPoint (i, new Random ().NextDouble ()));
+					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () ));
 				}
-				i++;
+				iterator++;
 //				timeSeries.Points.Add(new DataPoint(i++,new Random().NextDouble()));
 				double panStep = xAxis.Transform(-1 + xAxis.Offset);
 				xAxis.Pan(panStep);
@@ -172,6 +168,17 @@ public partial class MainWindow: Gtk.Window
 	{
 		foreach (Series s in plotView.Model.Series) {
 			(s as LineSeries).Smooth = (sender as CheckButton).Active;
+		}
+	}
+
+	protected void OnCheckbuttonMarkerToggleToggled (object sender, EventArgs e)
+	{
+		if ((sender as CheckButton).Active)
+		{
+			foreach (Series s in plotView.Model.Series) {
+				(s as LineSeries).MarkerType = MarkerType.Cross;
+				(s as LineSeries).MarkerStroke = OxyColors.Red;
+			}
 		}
 	}
 }
