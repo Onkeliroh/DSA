@@ -104,6 +104,7 @@
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">Time Plot</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnBtnTimedPlotClicked" />
               </widget>
               <packing>
                 <property name="Position">1</property>

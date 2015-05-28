@@ -94,6 +94,7 @@ public partial class MainWindow
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.btnCenterPlot.Clicked += new global::System.EventHandler (this.OnBtnCenterPlotClicked);
+		this.btnTimedPlot.Clicked += new global::System.EventHandler (this.OnBtnTimedPlotClicked);
 		this.btnExit.Clicked += new global::System.EventHandler (this.OnBtnExitClicked);
 	}
 }

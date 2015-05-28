@@ -119,7 +119,7 @@ namespace ArduinoController
 				CurrentSerialSettings = {
 					PortName = SerialPortName,
 					BaudRate = 115200,
-					DtrEnable = false //bei UNO ändern 
+					DtrEnable = true  //bei UNO ändern 
 				}
 			}, BoardType.Bit16);
 
