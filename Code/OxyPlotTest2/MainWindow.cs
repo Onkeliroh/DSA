@@ -10,6 +10,8 @@ using System.Timers;
 using OxyPlot.Axes;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
+using System.Runtime.CompilerServices;
 
 public partial class MainWindow: Gtk.Window
 {
@@ -105,16 +107,33 @@ public partial class MainWindow: Gtk.Window
 			}
 
 
-			var xAxis =	new LinearAxis {
+//			var xAxis =	new LinearAxis {
+//				Position = AxisPosition.Bottom,
+//				Minimum = 0,
+//				Maximum = 100,
+//				MinimumPadding = 0,
+//				MaximumPadding = 0,
+//				MajorGridlineColor = OxyPlot.OxyColors.Gray,
+//				MajorGridlineThickness = .5,
+//				MajorGridlineStyle = LineStyle.Solid
+//			};
+
+			var dt = new DateTime (2015, 1, 1);
+			var xAxis = new DateTimeAxis {
 				Position = AxisPosition.Bottom,
-				Minimum = 0,
-				Maximum = 100,
-				MinimumPadding = 0,
+				Minimum = DateTimeAxis.ToDouble(dt),
+				Maximum = DateTimeAxis.ToDouble(dt.AddMinutes(1)),
+				IntervalType = DateTimeIntervalType.Seconds,
+				MajorGridlineStyle = LineStyle.Solid,
+//				Angle = 90,
+				StringFormat = "dd:HH:mm:ss",
+//				MajorStep = 1.0 / 24 / 2, // 1/24 = 1 hour, 1/24/2 = 30 minutes
+				IsZoomEnabled = true,
 				MaximumPadding = 0,
-				MajorGridlineColor = OxyPlot.OxyColors.Gray,
-				MajorGridlineThickness = .5,
-				MajorGridlineStyle = LineStyle.Solid
+				MinimumPadding = 0,
+				TickStyle = TickStyle.None
 			};
+
 			plotModel.Axes.Add ( xAxis );
 
 			var yAxis = new LinearAxis {
@@ -125,6 +144,8 @@ public partial class MainWindow: Gtk.Window
 				AbsoluteMinimum = -0.1,
 				MaximumPadding = 5,
 				MinimumPadding = 5,
+				IsPanEnabled = false,
+				IsZoomEnabled = false,
 				MajorGridlineColor = OxyPlot.OxyColors.Gray,
 				MajorGridlineThickness = .5,
 				MajorGridlineStyle = LineStyle.Solid,
@@ -140,12 +161,13 @@ public partial class MainWindow: Gtk.Window
 				Random rand = new Random();
 				foreach (Series s in plotView.Model.Series)
 				{
-					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () * 10 ));
+//					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () * 10 ));
+					(s as LineSeries).Points.Add (DateTimeAxis.CreateDataPoint( dt.AddSeconds(1), rand.NextDouble() * 10 ));
+					dt = dt.AddSeconds(1).AddMilliseconds(Math.Floor(rand.NextDouble()*100));
 				}
 				iterator++;
-//				timeSeries.Points.Add(new DataPoint(i++,new Random().NextDouble()));
 				double panStep = xAxis.Transform(-1 + xAxis.Offset);
-				xAxis.Pan(panStep);
+//				xAxis.Pan(panStep);
 				plotModel.InvalidatePlot (true);
 			};
 
