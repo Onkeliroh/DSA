@@ -3,6 +3,10 @@
 
 public partial class MainWindow
 {
+	private global::Gtk.VBox vbox1;
+	
+	private global::Gtk.Notebook notebook1;
+	
 	private global::Gtk.VBox vboxMain;
 	
 	private global::Gtk.Table table1;
@@ -31,6 +35,24 @@ public partial class MainWindow
 	
 	private global::Gtk.Button btnTimedPlot;
 	
+	private global::Gtk.Label label1;
+	
+	private global::Gtk.VBox vbox2;
+	
+	private global::Gtk.VBox vboxMultiPlot;
+	
+	private global::Gtk.Table table3;
+	
+	private global::Gtk.Button btnStartStopMultiplot;
+	
+	private global::Gtk.CheckButton checkbuttonDetailedPlots;
+	
+	private global::Gtk.Label label4;
+	
+	private global::Gtk.SpinButton spinbuttonNumberOfMultiplots;
+	
+	private global::Gtk.Label label3;
+	
 	private global::Gtk.Button btnExit;
 
 	protected virtual void Build ()
@@ -41,6 +63,15 @@ public partial class MainWindow
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
+		this.vbox1 = new global::Gtk.VBox ();
+		this.vbox1.Name = "vbox1";
+		this.vbox1.Spacing = 6;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.notebook1 = new global::Gtk.Notebook ();
+		this.notebook1.CanFocus = true;
+		this.notebook1.Name = "notebook1";
+		this.notebook1.CurrentPage = 1;
+		// Container child notebook1.Gtk.Notebook+NotebookChild
 		this.vboxMain = new global::Gtk.VBox ();
 		this.vboxMain.Name = "vboxMain";
 		this.vboxMain.Spacing = 6;
@@ -162,21 +193,111 @@ public partial class MainWindow
 		this.hbox1.Add (this.btnTimedPlot);
 		global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnTimedPlot]));
 		w11.Position = 1;
-		// Container child hbox1.Gtk.Box+BoxChild
+		this.vboxMain.Add (this.hbox1);
+		global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hbox1]));
+		w12.Position = 2;
+		w12.Expand = false;
+		w12.Fill = false;
+		this.notebook1.Add (this.vboxMain);
+		// Notebook tab
+		this.label1 = new global::Gtk.Label ();
+		this.label1.Name = "label1";
+		this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("Time Test");
+		this.notebook1.SetTabLabel (this.vboxMain, this.label1);
+		this.label1.ShowAll ();
+		// Container child notebook1.Gtk.Notebook+NotebookChild
+		this.vbox2 = new global::Gtk.VBox ();
+		this.vbox2.Name = "vbox2";
+		this.vbox2.Spacing = 6;
+		// Container child vbox2.Gtk.Box+BoxChild
+		this.vboxMultiPlot = new global::Gtk.VBox ();
+		this.vboxMultiPlot.Name = "vboxMultiPlot";
+		this.vboxMultiPlot.Spacing = 6;
+		this.vbox2.Add (this.vboxMultiPlot);
+		global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.vboxMultiPlot]));
+		w14.Position = 0;
+		// Container child vbox2.Gtk.Box+BoxChild
+		this.table3 = new global::Gtk.Table (((uint)(3)), ((uint)(2)), false);
+		this.table3.Name = "table3";
+		this.table3.RowSpacing = ((uint)(6));
+		this.table3.ColumnSpacing = ((uint)(6));
+		// Container child table3.Gtk.Table+TableChild
+		this.btnStartStopMultiplot = new global::Gtk.Button ();
+		this.btnStartStopMultiplot.CanFocus = true;
+		this.btnStartStopMultiplot.Name = "btnStartStopMultiplot";
+		this.btnStartStopMultiplot.UseUnderline = true;
+		this.btnStartStopMultiplot.Label = global::Mono.Unix.Catalog.GetString ("Start / Stop");
+		this.table3.Add (this.btnStartStopMultiplot);
+		global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table3 [this.btnStartStopMultiplot]));
+		w15.TopAttach = ((uint)(2));
+		w15.BottomAttach = ((uint)(3));
+		w15.RightAttach = ((uint)(2));
+		w15.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table3.Gtk.Table+TableChild
+		this.checkbuttonDetailedPlots = new global::Gtk.CheckButton ();
+		this.checkbuttonDetailedPlots.CanFocus = true;
+		this.checkbuttonDetailedPlots.Name = "checkbuttonDetailedPlots";
+		this.checkbuttonDetailedPlots.Label = global::Mono.Unix.Catalog.GetString ("Detailed Plots");
+		this.checkbuttonDetailedPlots.Active = true;
+		this.checkbuttonDetailedPlots.DrawIndicator = true;
+		this.checkbuttonDetailedPlots.UseUnderline = true;
+		this.table3.Add (this.checkbuttonDetailedPlots);
+		global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table3 [this.checkbuttonDetailedPlots]));
+		w16.TopAttach = ((uint)(1));
+		w16.BottomAttach = ((uint)(2));
+		w16.RightAttach = ((uint)(2));
+		w16.XOptions = ((global::Gtk.AttachOptions)(4));
+		w16.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table3.Gtk.Table+TableChild
+		this.label4 = new global::Gtk.Label ();
+		this.label4.Name = "label4";
+		this.label4.Xalign = 0F;
+		this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Number of Plots:");
+		this.table3.Add (this.label4);
+		global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table3 [this.label4]));
+		w17.XOptions = ((global::Gtk.AttachOptions)(4));
+		w17.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table3.Gtk.Table+TableChild
+		this.spinbuttonNumberOfMultiplots = new global::Gtk.SpinButton (1, 10, 1);
+		this.spinbuttonNumberOfMultiplots.CanFocus = true;
+		this.spinbuttonNumberOfMultiplots.Name = "spinbuttonNumberOfMultiplots";
+		this.spinbuttonNumberOfMultiplots.Adjustment.PageIncrement = 10;
+		this.spinbuttonNumberOfMultiplots.ClimbRate = 1;
+		this.spinbuttonNumberOfMultiplots.Numeric = true;
+		this.spinbuttonNumberOfMultiplots.Value = 1;
+		this.table3.Add (this.spinbuttonNumberOfMultiplots);
+		global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table3 [this.spinbuttonNumberOfMultiplots]));
+		w18.LeftAttach = ((uint)(1));
+		w18.RightAttach = ((uint)(2));
+		w18.YOptions = ((global::Gtk.AttachOptions)(4));
+		this.vbox2.Add (this.table3);
+		global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.table3]));
+		w19.Position = 1;
+		w19.Expand = false;
+		this.notebook1.Add (this.vbox2);
+		global::Gtk.Notebook.NotebookChild w20 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.vbox2]));
+		w20.Position = 1;
+		// Notebook tab
+		this.label3 = new global::Gtk.Label ();
+		this.label3.Name = "label3";
+		this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Multiplot");
+		this.notebook1.SetTabLabel (this.vbox2, this.label3);
+		this.label3.ShowAll ();
+		this.vbox1.Add (this.notebook1);
+		global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
+		w21.Position = 0;
+		// Container child vbox1.Gtk.Box+BoxChild
 		this.btnExit = new global::Gtk.Button ();
 		this.btnExit.CanFocus = true;
 		this.btnExit.Name = "btnExit";
 		this.btnExit.UseUnderline = true;
 		this.btnExit.Label = global::Mono.Unix.Catalog.GetString ("Exit");
-		this.hbox1.Add (this.btnExit);
-		global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnExit]));
-		w12.Position = 2;
-		this.vboxMain.Add (this.hbox1);
-		global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hbox1]));
-		w13.Position = 2;
-		w13.Expand = false;
-		w13.Fill = false;
-		this.Add (this.vboxMain);
+		this.vbox1.Add (this.btnExit);
+		global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnExit]));
+		w22.Position = 1;
+		w22.Expand = false;
+		w22.Fill = false;
+		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
@@ -188,7 +309,9 @@ public partial class MainWindow
 		this.checkbuttonSmoothPlot.Toggled += new global::System.EventHandler (this.OnCheckbuttonSmoothPlotToggled);
 		this.checkbuttonMarkerToggle.Toggled += new global::System.EventHandler (this.OnCheckbuttonMarkerToggleToggled);
 		this.btnCenterPlot.Clicked += new global::System.EventHandler (this.OnBtnCenterPlotClicked);
+		this.btnSinglePlot.Clicked += new global::System.EventHandler (this.OnBtnSinglePlotClicked);
 		this.btnTimedPlot.Clicked += new global::System.EventHandler (this.OnBtnTimedPlotClicked);
+		this.btnStartStopMultiplot.Clicked += new global::System.EventHandler (this.OnBtnStartStopMultiplotClicked);
 		this.btnExit.Clicked += new global::System.EventHandler (this.OnBtnExitClicked);
 	}
 }

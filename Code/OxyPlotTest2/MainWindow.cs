@@ -12,12 +12,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using Gdk;
 
 public partial class MainWindow: Gtk.Window
 {
 	private OxyPlot.GtkSharp.PlotView plotView;
+	private PlotView multiPlotView ;
 
 	private Timer plotTimer;
+	private Timer multiPlotTimer = new Timer();
 
 	public LineSeries timeSeries;
 
@@ -43,6 +46,27 @@ public partial class MainWindow: Gtk.Window
 	private void InitComponents ()
 	{
 		//Plot stuff
+
+		plotView = new PlotView();
+		plotView.SetSizeRequest (400, 400);
+		plotView.Visible = true;
+		plotView.InvalidatePlot (true);
+
+		vboxMain.PackStart (plotView);
+		((Box.BoxChild)(vboxMain [plotView])).Position = 0;
+		((Box.BoxChild)(vboxMain [plotView])).Expand = true;
+
+		this.SetSizeRequest (600, 600);
+
+		//End Plot stuff
+
+		plotTimer = new Timer (500);
+
+		this.ShowAll ();
+	}
+
+	private void DrawSinglePlot()
+	{
 		var plotModel = new PlotModel {
 			Title = "TestPlot",
 			Subtitle = "",
@@ -59,21 +83,8 @@ public partial class MainWindow: Gtk.Window
 		}
 
 		plotModel.Series.Add (tmpSeries);
-//		plotModel.Series.Add (new FunctionSeries (Funktion, 0, 1, .1, "a+b"));
 
-		plotView = new PlotView { Model = plotModel };
-		plotView.SetSizeRequest (400, 400);
-		plotView.Visible = true;
-		plotView.InvalidatePlot (true);
-
-		vboxMain.PackStart (plotView);
-		((Box.BoxChild)(vboxMain [plotView])).Position = 0;
-
-		this.SetSizeRequest (600, 600);
-
-		//End Plot stuff
-
-		plotTimer = new Timer (500);
+		plotView.Model = plotModel;
 
 		this.ShowAll ();
 	}
@@ -107,32 +118,25 @@ public partial class MainWindow: Gtk.Window
 			}
 
 
-//			var xAxis =	new LinearAxis {
-//				Position = AxisPosition.Bottom,
-//				Minimum = 0,
-//				Maximum = 100,
-//				MinimumPadding = 0,
-//				MaximumPadding = 0,
-//				MajorGridlineColor = OxyPlot.OxyColors.Gray,
-//				MajorGridlineThickness = .5,
-//				MajorGridlineStyle = LineStyle.Solid
-//			};
-
-			var dt = new DateTime (2015, 1, 1);
-			var xAxis = new DateTimeAxis {
+			var xAxis =	new LinearAxis {
 				Position = AxisPosition.Bottom,
-				Minimum = DateTimeAxis.ToDouble(dt),
-				Maximum = DateTimeAxis.ToDouble(dt.AddMinutes(1)),
-				IntervalType = DateTimeIntervalType.Seconds,
-				MajorGridlineStyle = LineStyle.Solid,
-//				Angle = 90,
-				StringFormat = "dd:HH:mm:ss",
-//				MajorStep = 1.0 / 24 / 2, // 1/24 = 1 hour, 1/24/2 = 30 minutes
-				IsZoomEnabled = true,
-				MaximumPadding = 0,
+				Minimum = 0,
+				Maximum = 100,
 				MinimumPadding = 0,
-				TickStyle = TickStyle.None
+				MaximumPadding = 0,
+				MajorGridlineColor = OxyPlot.OxyColors.Gray,
+				MajorGridlineThickness = .5,
+				MajorGridlineStyle = OxyPlot.LineStyle.Solid
 			};
+
+
+//			var xAxis = new DateTimeAxis {
+//				Position = AxisPosition.Bottom,
+//				Minimum = DateTimeAxis.ToDouble(DateTime.Now),
+//				Maximum = DateTimeAxis.ToDouble(DateTime.Now.AddSeconds(10)),
+//				MajorStep = DateTimeAxis.ToDouble( new TimeSpan(0,0,1) ),
+//				StringFormat = "mm:ss"
+//			};
 
 			plotModel.Axes.Add ( xAxis );
 
@@ -148,7 +152,7 @@ public partial class MainWindow: Gtk.Window
 				IsZoomEnabled = false,
 				MajorGridlineColor = OxyPlot.OxyColors.Gray,
 				MajorGridlineThickness = .5,
-				MajorGridlineStyle = LineStyle.Solid,
+				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 			};
 			plotModel.Axes.Add (yAxis);
 
@@ -161,13 +165,11 @@ public partial class MainWindow: Gtk.Window
 				Random rand = new Random();
 				foreach (Series s in plotView.Model.Series)
 				{
-//					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () * 10 ));
-					(s as LineSeries).Points.Add (DateTimeAxis.CreateDataPoint( dt.AddSeconds(1), rand.NextDouble() * 10 ));
-					dt = dt.AddSeconds(1).AddMilliseconds(Math.Floor(rand.NextDouble()*100));
+					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () * 10 ));
 				}
 				iterator++;
 				double panStep = xAxis.Transform(-1 + xAxis.Offset);
-//				xAxis.Pan(panStep);
+				xAxis.Pan(panStep);
 				plotModel.InvalidatePlot (true);
 			};
 
@@ -208,6 +210,117 @@ public partial class MainWindow: Gtk.Window
 				(s as LineSeries).MarkerType = MarkerType.None;
 			}
 
+		}
+	}
+
+	protected void OnBtnSinglePlotClicked (object sender, EventArgs e)
+	{
+		DrawSinglePlot ();
+	}
+
+	protected void OnBtnStartStopMultiplotClicked (object sender, EventArgs e)
+	{
+		if (multiPlotTimer.Enabled) {
+
+			multiPlotTimer.Stop ();
+
+			multiPlotView.Model = null;
+			multiPlotView.Unrealize ();
+
+			vboxMultiPlot.Remove (multiPlotView);
+		} else {
+			//BEGIN Setup
+			multiPlotView = new PlotView();
+			multiPlotView.InvalidatePlot (true);
+
+			vboxMultiPlot.PackStart (multiPlotView, true, true, 0);
+			(vboxMultiPlot [multiPlotView] as VBox.BoxChild).Position = 0;
+
+
+			List<LineSeries> Serieses = new List<LineSeries> ();
+
+			for (int i = 0; i < spinbuttonNumberOfMultiplots.Value; i++) {
+				Serieses.Add(new LineSeries {
+					Title = "A"+i.ToString()
+				});
+			}
+
+			var multiPlotTotalModel = new PlotModel {
+				Title = "multiplot Total View",
+				PlotType = PlotType.Cartesian,
+				LegendPlacement = LegendPlacement.Outside,
+				LegendPosition = LegendPosition.RightMiddle};
+
+			var xAxis = new LinearAxis {
+				Position = AxisPosition.Bottom,
+				Minimum = -10,
+				Maximum = 0,
+				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
+				MajorGridlineColor = OxyPlot.OxyColors.Gray,
+				MajorGridlineThickness = .5,
+	};
+
+			var yAxis = new LinearAxis {
+				Position = AxisPosition.Left,
+				Maximum = 10,
+				Minimum = 0,
+				AbsoluteMaximum = 10,
+				AbsoluteMinimum = 0,
+				IsZoomEnabled = false,
+				IsPanEnabled = false,
+				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
+				MajorGridlineColor = OxyPlot.OxyColors.Gray,
+				MajorGridlineThickness = .5,
+				Key = "Total"
+			};
+
+			multiPlotTotalModel.Axes.Add (xAxis);
+			multiPlotTotalModel.Axes.Add (yAxis);
+
+			foreach (LineSeries ls in Serieses) {
+				multiPlotTotalModel.Series.Add (ls);
+			}
+
+			if (checkbuttonDetailedPlots.Active) {
+				for (int i = 0; i < spinbuttonNumberOfMultiplots.Value; i++) {
+
+					var Model = new PlotModel {
+					};
+					Model.Series.Add (Serieses[0]);
+
+					var View = new PlotView ();
+					View.Model = Model;
+
+					vboxMultiPlot.PackStart (View);
+					(vboxMultiPlot [View] as VBox.BoxChild).Position = i + 1;
+				}
+			}
+
+			multiPlotView.Model = multiPlotTotalModel;
+			//END Setup
+
+			//BEGIN TIMER Stuff
+			multiPlotTimer = new Timer(500);
+			int iterator = 0;
+
+			multiPlotTimer.Elapsed += (senderer, ee) => {
+				var rand = new Random();
+				foreach (LineSeries ls in multiPlotView.Model.Series)
+				{
+					ls.Points.Add(
+						new DataPoint(iterator, rand.NextDouble() * 10)
+					);
+				}
+				iterator++;
+				multiPlotView.Model.PanAllAxes(xAxis.Transform(-1 + xAxis.Offset),0);
+				multiPlotView.Model.ZoomAllAxes(1);
+				multiPlotTotalModel.InvalidatePlot (true);
+			};
+
+			multiPlotTimer.Start ();
+
+			this.ShowAll ();
+			//END TIMER Stuff
 		}
 	}
 }
