@@ -2,12 +2,27 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="MainWindow.cs">
     <Files>
-      <File FileName="Program.cs" Line="16" Column="1" />
-      <File FileName="MainWindow.cs" Line="59" Column="3" />
+      <File FileName="Program.cs" Line="14" Column="3" NotebookId="1" />
     </Files>
+    <FloatingWindows>
+      <FloatingWindow WindowId="1" X="0" Y="20" Width="683" Height="720">
+        <Files>
+          <File FileName="MainWindow.cs" Line="319" Column="1" />
+        </Files>
+      </FloatingWindow>
+    </FloatingWindows>
+    <Pads>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/onkeliroh/Bachelorarbeit/Code/OxyPlotTest2/MainWindow.cs" line="326" column="1" />
+      <Breakpoint file="/home/onkeliroh/Bachelorarbeit/Code/OxyPlotTest2/MainWindow.cs" line="322" column="1" />
+      <Breakpoint file="/home/onkeliroh/Bachelorarbeit/Code/OxyPlotTest2/MainWindow.cs" line="319" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

@@ -1,26 +1,21 @@
 ﻿using System;
-using Gtk;
-
-using OxyPlot;
-using OxyPlot.GtkSharp;
-using System.ComponentModel;
-using OxyPlot.Series;
-using GLib;
-using System.Timers;
-using OxyPlot.Axes;
 using System.Collections.Generic;
-using System.Linq;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using Gdk;
+
+using System.Timers;
+using Gtk;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.GtkSharp;
+using OxyPlot.Series;
 
 public partial class MainWindow: Gtk.Window
 {
 	private OxyPlot.GtkSharp.PlotView plotView;
-	private PlotView multiPlotView ;
+	private List<PlotView> multiPlotViews = new List<PlotView> ();
+
 
 	private Timer plotTimer;
-	private Timer multiPlotTimer = new Timer();
+	private Timer multiPlotTimer = new Timer ();
 
 	public LineSeries timeSeries;
 
@@ -47,7 +42,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		//Plot stuff
 
-		plotView = new PlotView();
+		plotView = new PlotView ();
 		plotView.SetSizeRequest (400, 400);
 		plotView.Visible = true;
 		plotView.InvalidatePlot (true);
@@ -65,7 +60,7 @@ public partial class MainWindow: Gtk.Window
 		this.ShowAll ();
 	}
 
-	private void DrawSinglePlot()
+	private void DrawSinglePlot ()
 	{
 		var plotModel = new PlotModel {
 			Title = "TestPlot",
@@ -89,8 +84,6 @@ public partial class MainWindow: Gtk.Window
 		this.ShowAll ();
 	}
 
-	public System.Func<double,double> Funktion = (a) => a + 1;
-
 	protected void OnBtnCenterPlotClicked (object sender, EventArgs e)
 	{
 		plotView.Model.ResetAllAxes ();
@@ -113,15 +106,16 @@ public partial class MainWindow: Gtk.Window
 				Background = OxyPlot.OxyColors.White,
 			};
 
-			for (int i = 0; i < spinbuttonNumberOfSeries.Value; i++) {
-				plotModel.Series.Add (new LineSeries(){Title = i.ToString(), Smooth = true});
+			for (int i = 0; i < spinbuttonNumberOfSeries.Value; i++)
+			{
+				plotModel.Series.Add (new LineSeries (){ Title = i.ToString (), Smooth = true });
 			}
 
 
 			var xAxis =	new LinearAxis {
 				Position = AxisPosition.Bottom,
-				Minimum = 0,
-				Maximum = 100,
+				Minimum = -10,
+				Maximum = 0,
 				MinimumPadding = 0,
 				MaximumPadding = 0,
 				MajorGridlineColor = OxyPlot.OxyColors.Gray,
@@ -138,7 +132,7 @@ public partial class MainWindow: Gtk.Window
 //				StringFormat = "mm:ss"
 //			};
 
-			plotModel.Axes.Add ( xAxis );
+			plotModel.Axes.Add (xAxis);
 
 			var yAxis = new LinearAxis {
 				Position = AxisPosition.Left,
@@ -162,14 +156,14 @@ public partial class MainWindow: Gtk.Window
 
 			plotTimer.Elapsed += (object senderer, ElapsedEventArgs es) =>
 			{
-				Random rand = new Random();
+				Random rand = new Random ();
 				foreach (Series s in plotView.Model.Series)
 				{
-					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () * 10 ));
+					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () * 10));
 				}
 				iterator++;
-				double panStep = xAxis.Transform(-1 + xAxis.Offset);
-				xAxis.Pan(panStep);
+				double panStep = xAxis.Transform (-1 + xAxis.Offset);
+				xAxis.Pan (panStep);
 				plotModel.InvalidatePlot (true);
 			};
 
@@ -179,13 +173,17 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnSpinbuttonNumberOfSeriesChangeValue (object o, ChangeValueArgs args)
 	{
-		if (plotView.Model.Series.Count > (o as SpinButton).Value) {
-			while (plotView.Model.Series.Count > (o as SpinButton).Value) {
+		if (plotView.Model.Series.Count > (o as SpinButton).Value)
+		{
+			while (plotView.Model.Series.Count > (o as SpinButton).Value)
+			{
 				plotView.Model.Series.RemoveAt (plotView.Model.Series.Count - 1);
 			}
-		} else if (plotView.Model.Series.Count < (o as SpinButton).Value) {
-			while (plotView.Model.Series.Count > (o as SpinButton).Value) {
-				plotView.Model.Series.Add(new LineSeries());
+		} else if (plotView.Model.Series.Count < (o as SpinButton).Value)
+		{
+			while (plotView.Model.Series.Count > (o as SpinButton).Value)
+			{
+				plotView.Model.Series.Add (new LineSeries ());
 			}
 		}
 
@@ -193,20 +191,25 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnCheckbuttonSmoothPlotToggled (object sender, EventArgs e)
 	{
-		foreach (Series s in plotView.Model.Series) {
+		foreach (Series s in plotView.Model.Series)
+		{
 			(s as LineSeries).Smooth = (sender as CheckButton).Active;
 		}
 	}
 
 	protected void OnCheckbuttonMarkerToggleToggled (object sender, EventArgs e)
 	{
-		if ((sender as CheckButton).Active) {
-			foreach (Series s in plotView.Model.Series) {
+		if ((sender as CheckButton).Active)
+		{
+			foreach (Series s in plotView.Model.Series)
+			{
 				(s as LineSeries).MarkerType = MarkerType.Cross;
 				(s as LineSeries).MarkerStroke = OxyColors.Red;
 			}
-		} else {
-			foreach (Series s in plotView.Model.Series) {
+		} else
+		{
+			foreach (Series s in plotView.Model.Series)
+			{
 				(s as LineSeries).MarkerType = MarkerType.None;
 			}
 
@@ -220,107 +223,116 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnBtnStartStopMultiplotClicked (object sender, EventArgs e)
 	{
-		if (multiPlotTimer.Enabled) {
+		if (multiPlotTimer.Enabled)
+		{
 
 			multiPlotTimer.Stop ();
 
-			multiPlotView.Model = null;
-			multiPlotView.Unrealize ();
+			foreach (PlotView pv in multiPlotViews)
+			{
+				pv.Model = null;
+				pv.Unrealize ();
 
-			vboxMultiPlot.Remove (multiPlotView);
-		} else {
-			//BEGIN Setup
-			multiPlotView = new PlotView();
-			multiPlotView.InvalidatePlot (true);
-
-			vboxMultiPlot.PackStart (multiPlotView, true, true, 0);
-			(vboxMultiPlot [multiPlotView] as VBox.BoxChild).Position = 0;
-
-
-			List<LineSeries> Serieses = new List<LineSeries> ();
-
-			for (int i = 0; i < spinbuttonNumberOfMultiplots.Value; i++) {
-				Serieses.Add(new LineSeries {
-					Title = "A"+i.ToString()
-				});
+				vboxMultiPlot.Remove (pv);
 			}
+		} else
+		{
+			#region Setup
+			multiPlotViews.Clear ();
+			for (int plotnr = 0; plotnr <= spinbuttonNumberOfMultiplots.Value; plotnr++)
+			{
+				var multiPlotView = new PlotView ();
+				multiPlotView.InvalidatePlot (true);
 
-			var multiPlotTotalModel = new PlotModel {
-				Title = "multiplot Total View",
-				PlotType = PlotType.Cartesian,
-				LegendPlacement = LegendPlacement.Outside,
-				LegendPosition = LegendPosition.RightMiddle};
+				vboxMultiPlot.PackStart (multiPlotView, true, true, 0);
+				(vboxMultiPlot [multiPlotView] as VBox.BoxChild).Position = plotnr;
 
-			var xAxis = new LinearAxis {
-				Position = AxisPosition.Bottom,
-				Minimum = -10,
-				Maximum = 0,
-				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
-				MajorGridlineColor = OxyPlot.OxyColors.Gray,
-				MajorGridlineThickness = .5,
-	};
+				var multiPlotTotalModel = new PlotModel {
+					Title = "A" + (plotnr - 1).ToString (),
+					PlotType = PlotType.Cartesian,
+					LegendPlacement = LegendPlacement.Outside,
+					LegendPosition = LegendPosition.RightMiddle
+				};
 
-			var yAxis = new LinearAxis {
-				Position = AxisPosition.Left,
-				Maximum = 10,
-				Minimum = 0,
-				AbsoluteMaximum = 10,
-				AbsoluteMinimum = 0,
-				IsZoomEnabled = false,
-				IsPanEnabled = false,
-				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
-				MajorGridlineColor = OxyPlot.OxyColors.Gray,
-				MajorGridlineThickness = .5,
-				Key = "Total"
-			};
+				var xAxis = new LinearAxis {
+					Position = AxisPosition.Bottom,
+					Minimum = -10,
+					Maximum = 0,
+					MajorGridlineStyle = OxyPlot.LineStyle.Solid,
+					MajorGridlineColor = OxyPlot.OxyColors.Gray,
+					MajorGridlineThickness = .5,
+				};
 
-			multiPlotTotalModel.Axes.Add (xAxis);
-			multiPlotTotalModel.Axes.Add (yAxis);
+				//damit alle x achsen gleich sind
+				xAxis.AxisChanged += (object senderer, AxisChangedEventArgs ee) =>
+				{
+					foreach (PlotView pv in multiPlotViews)
+					{
+//						pv.Model.PanAllAxes ((senderer as LinearAxis).Transform ((senderer as LinearAxis).Offset), 0);
+					}
+				};
 
-			foreach (LineSeries ls in Serieses) {
-				multiPlotTotalModel.Series.Add (ls);
-			}
+				var yAxis = new LinearAxis {
+					Position = AxisPosition.Left,
+					Maximum = 10,
+					Minimum = 0,
+					AbsoluteMaximum = 10,
+					AbsoluteMinimum = 0,
+					IsZoomEnabled = false,
+					IsPanEnabled = false,
+					MajorGridlineStyle = OxyPlot.LineStyle.Solid,
+					MajorGridlineColor = OxyPlot.OxyColors.Gray,
+					MajorGridlineThickness = .5,
+				};
 
-			if (checkbuttonDetailedPlots.Active) {
-				for (int i = 0; i < spinbuttonNumberOfMultiplots.Value; i++) {
+				multiPlotTotalModel.Axes.Add (xAxis);
+				multiPlotTotalModel.Axes.Add (yAxis);
 
-					var Model = new PlotModel {
-					};
-					Model.Series.Add (Serieses[0]);
-
-					var View = new PlotView ();
-					View.Model = Model;
-
-					vboxMultiPlot.PackStart (View);
-					(vboxMultiPlot [View] as VBox.BoxChild).Position = i + 1;
+				if (plotnr != 0)
+				{
+					multiPlotTotalModel.Series.Add (new LineSeries { Title = "A" + (plotnr - 1).ToString () });
+				} else
+				{
+					multiPlotTotalModel.Title = "Total";
+					for (int i = 0; i < spinbuttonNumberOfMultiplots.Value; i++)
+					{
+						multiPlotTotalModel.Series.Add (new LineSeries { Title = "A" + i.ToString () });
+					}
 				}
+
+				multiPlotView.Model = multiPlotTotalModel;
+				multiPlotViews.Add (multiPlotView);
 			}
+			#endregion
 
-			multiPlotView.Model = multiPlotTotalModel;
-			//END Setup
-
-			//BEGIN TIMER Stuff
-			multiPlotTimer = new Timer(500);
+			#region BEGIN TIMER Stuff
+			multiPlotTimer = new Timer (500);
 			int iterator = 0;
 
-			multiPlotTimer.Elapsed += (senderer, ee) => {
-				var rand = new Random();
-				foreach (LineSeries ls in multiPlotView.Model.Series)
+			multiPlotTimer.Elapsed += (senderer, ee) =>
+			{
+				Console.WriteLine (iterator);
+				var rand = new Random ();
+				for (int i = 1; i < multiPlotViews.Count; i++)
 				{
-					ls.Points.Add(
-						new DataPoint(iterator, rand.NextDouble() * 10)
+					double val = rand.NextDouble () * 10;
+					(multiPlotViews [i].Model.Series [0] as LineSeries).Points.Add (
+						new DataPoint (iterator, val)
 					);
+					(multiPlotViews [0].Model.Series [i - 1] as LineSeries).Points.Add (
+						new DataPoint (iterator, val)
+					);
+//					multiPlotViews [i].Model.PanAllAxes (xAxis.Transform (-1 + xAxis.Offset), 0);
+					multiPlotViews [i].Model.InvalidatePlot (true);
 				}
+				multiPlotViews [0].Model.InvalidatePlot (true);
 				iterator++;
-				multiPlotView.Model.PanAllAxes(xAxis.Transform(-1 + xAxis.Offset),0);
-				multiPlotView.Model.ZoomAllAxes(1);
-				multiPlotTotalModel.InvalidatePlot (true);
 			};
 
 			multiPlotTimer.Start ();
 
 			this.ShowAll ();
-			//END TIMER Stuff
+			#endregion
 		}
 	}
 }
