@@ -63,6 +63,7 @@ namespace ArduinoController
 			set;
 		}
 
+		//Constructor
 		public ArduinoController ()
 		{
 			IsConnected = false;
@@ -114,6 +115,7 @@ namespace ArduinoController
 		public void Setup ()
 		{
 			AnalogValues = new List<List<float>> ();
+
 
 			_cmdMessenger = new CmdMessenger (new SerialTransport () {
 				CurrentSerialSettings = {

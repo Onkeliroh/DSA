@@ -27,6 +27,28 @@ public partial class PrototypeWindow
 	
 	private global::Gtk.MenuBar menubar1;
 	
+	private global::Gtk.HBox hboxGreetings;
+	
+	private global::Gtk.Button btnNewConfig;
+	
+	private global::Gtk.Button btnOpenConfig;
+	
+	private global::Gtk.Table tableConnection;
+	
+	private global::Gtk.Button btnConnect;
+	
+	private global::Gtk.Button btnRefresh;
+	
+	private global::Gtk.ComboBox cbConnectPorts;
+	
+	private global::Gtk.Label label2;
+	
+	private global::Gtk.Label label3;
+	
+	private global::Gtk.Label lblConnectionPorts;
+	
+	private global::Gtk.Table tableConfiguration;
+	
 	private global::Gtk.Statusbar statusbar1;
 
 	protected virtual void Build ()
@@ -84,23 +106,155 @@ public partial class PrototypeWindow
 		w2.Expand = false;
 		w2.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
+		this.hboxGreetings = new global::Gtk.HBox ();
+		this.hboxGreetings.Name = "hboxGreetings";
+		this.hboxGreetings.Homogeneous = true;
+		this.hboxGreetings.Spacing = 6;
+		// Container child hboxGreetings.Gtk.Box+BoxChild
+		this.btnNewConfig = new global::Gtk.Button ();
+		this.btnNewConfig.WidthRequest = 300;
+		this.btnNewConfig.HeightRequest = 200;
+		this.btnNewConfig.CanFocus = true;
+		this.btnNewConfig.Name = "btnNewConfig";
+		this.btnNewConfig.UseUnderline = true;
+		this.btnNewConfig.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+		global::Gtk.Image w3 = new global::Gtk.Image ();
+		w3.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-new", global::Gtk.IconSize.Menu);
+		this.btnNewConfig.Image = w3;
+		this.hboxGreetings.Add (this.btnNewConfig);
+		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hboxGreetings [this.btnNewConfig]));
+		w4.Position = 0;
+		w4.Expand = false;
+		w4.Fill = false;
+		// Container child hboxGreetings.Gtk.Box+BoxChild
+		this.btnOpenConfig = new global::Gtk.Button ();
+		this.btnOpenConfig.WidthRequest = 300;
+		this.btnOpenConfig.HeightRequest = 200;
+		this.btnOpenConfig.Sensitive = false;
+		this.btnOpenConfig.CanFocus = true;
+		this.btnOpenConfig.Name = "btnOpenConfig";
+		this.btnOpenConfig.UseUnderline = true;
+		this.btnOpenConfig.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+		global::Gtk.Image w5 = new global::Gtk.Image ();
+		w5.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-open", global::Gtk.IconSize.Menu);
+		this.btnOpenConfig.Image = w5;
+		this.hboxGreetings.Add (this.btnOpenConfig);
+		global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hboxGreetings [this.btnOpenConfig]));
+		w6.Position = 1;
+		w6.Expand = false;
+		w6.Fill = false;
+		this.vbox1.Add (this.hboxGreetings);
+		global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hboxGreetings]));
+		w7.Position = 1;
+		w7.Fill = false;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.tableConnection = new global::Gtk.Table (((uint)(3)), ((uint)(5)), false);
+		this.tableConnection.Name = "tableConnection";
+		this.tableConnection.RowSpacing = ((uint)(6));
+		this.tableConnection.ColumnSpacing = ((uint)(6));
+		// Container child tableConnection.Gtk.Table+TableChild
+		this.btnConnect = new global::Gtk.Button ();
+		this.btnConnect.WidthRequest = 120;
+		this.btnConnect.CanFocus = true;
+		this.btnConnect.Name = "btnConnect";
+		this.btnConnect.UseUnderline = true;
+		this.btnConnect.Label = global::Mono.Unix.Catalog.GetString ("Connect");
+		global::Gtk.Image w8 = new global::Gtk.Image ();
+		w8.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
+		this.btnConnect.Image = w8;
+		this.tableConnection.Add (this.btnConnect);
+		global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.tableConnection [this.btnConnect]));
+		w9.LeftAttach = ((uint)(3));
+		w9.RightAttach = ((uint)(4));
+		w9.XOptions = ((global::Gtk.AttachOptions)(4));
+		w9.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child tableConnection.Gtk.Table+TableChild
+		this.btnRefresh = new global::Gtk.Button ();
+		this.btnRefresh.CanFocus = true;
+		this.btnRefresh.Name = "btnRefresh";
+		this.btnRefresh.UseUnderline = true;
+		this.btnRefresh.Label = global::Mono.Unix.Catalog.GetString ("Refresh");
+		global::Gtk.Image w10 = new global::Gtk.Image ();
+		w10.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-refresh", global::Gtk.IconSize.Menu);
+		this.btnRefresh.Image = w10;
+		this.tableConnection.Add (this.btnRefresh);
+		global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.tableConnection [this.btnRefresh]));
+		w11.TopAttach = ((uint)(1));
+		w11.BottomAttach = ((uint)(2));
+		w11.LeftAttach = ((uint)(3));
+		w11.RightAttach = ((uint)(4));
+		w11.XOptions = ((global::Gtk.AttachOptions)(4));
+		w11.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child tableConnection.Gtk.Table+TableChild
+		this.cbConnectPorts = global::Gtk.ComboBox.NewText ();
+		this.cbConnectPorts.WidthRequest = 200;
+		this.cbConnectPorts.Name = "cbConnectPorts";
+		this.tableConnection.Add (this.cbConnectPorts);
+		global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.tableConnection [this.cbConnectPorts]));
+		w12.LeftAttach = ((uint)(2));
+		w12.RightAttach = ((uint)(3));
+		w12.XOptions = ((global::Gtk.AttachOptions)(4));
+		w12.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child tableConnection.Gtk.Table+TableChild
+		this.label2 = new global::Gtk.Label ();
+		this.label2.Name = "label2";
+		this.tableConnection.Add (this.label2);
+		global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.tableConnection [this.label2]));
+		w13.LeftAttach = ((uint)(4));
+		w13.RightAttach = ((uint)(5));
+		w13.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child tableConnection.Gtk.Table+TableChild
+		this.label3 = new global::Gtk.Label ();
+		this.label3.Name = "label3";
+		this.tableConnection.Add (this.label3);
+		global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.tableConnection [this.label3]));
+		w14.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child tableConnection.Gtk.Table+TableChild
+		this.lblConnectionPorts = new global::Gtk.Label ();
+		this.lblConnectionPorts.Name = "lblConnectionPorts";
+		this.lblConnectionPorts.Xalign = 1F;
+		this.lblConnectionPorts.LabelProp = global::Mono.Unix.Catalog.GetString ("Available Ports:");
+		this.tableConnection.Add (this.lblConnectionPorts);
+		global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.tableConnection [this.lblConnectionPorts]));
+		w15.LeftAttach = ((uint)(1));
+		w15.RightAttach = ((uint)(2));
+		w15.XOptions = ((global::Gtk.AttachOptions)(4));
+		w15.YOptions = ((global::Gtk.AttachOptions)(4));
+		this.vbox1.Add (this.tableConnection);
+		global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.tableConnection]));
+		w16.Position = 2;
+		w16.Fill = false;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.tableConfiguration = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
+		this.tableConfiguration.Name = "tableConfiguration";
+		this.tableConfiguration.RowSpacing = ((uint)(6));
+		this.tableConfiguration.ColumnSpacing = ((uint)(6));
+		this.vbox1.Add (this.tableConfiguration);
+		global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.tableConfiguration]));
+		w17.Position = 3;
+		// Container child vbox1.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";
 		this.statusbar1.Spacing = 6;
 		this.vbox1.Add (this.statusbar1);
-		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
-		w3.Position = 2;
-		w3.Expand = false;
-		w3.Fill = false;
+		global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
+		w18.Position = 5;
+		w18.Expand = false;
+		w18.Fill = false;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
 		this.DefaultWidth = 1147;
 		this.DefaultHeight = 735;
+		this.tableConnection.Hide ();
+		this.tableConfiguration.Hide ();
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.aboutAction.Activated += new global::System.EventHandler (this.OnAboutActionActivated);
 		this.quitAction.Activated += new global::System.EventHandler (this.OnQuitActionActivated);
+		this.btnNewConfig.Clicked += new global::System.EventHandler (this.OnBtnNewConfigClicked);
+		this.btnRefresh.Clicked += new global::System.EventHandler (this.OnBtnRefreshClicked);
+		this.btnConnect.Clicked += new global::System.EventHandler (this.OnBtnConnectClicked);
 	}
 }
