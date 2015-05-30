@@ -235,10 +235,10 @@ public partial class MainWindow
 		w15.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child table3.Gtk.Table+TableChild
 		this.checkbuttonDetailedPlots = new global::Gtk.CheckButton ();
+		this.checkbuttonDetailedPlots.Sensitive = false;
 		this.checkbuttonDetailedPlots.CanFocus = true;
 		this.checkbuttonDetailedPlots.Name = "checkbuttonDetailedPlots";
 		this.checkbuttonDetailedPlots.Label = global::Mono.Unix.Catalog.GetString ("Detailed Plots");
-		this.checkbuttonDetailedPlots.Active = true;
 		this.checkbuttonDetailedPlots.DrawIndicator = true;
 		this.checkbuttonDetailedPlots.UseUnderline = true;
 		this.table3.Add (this.checkbuttonDetailedPlots);
