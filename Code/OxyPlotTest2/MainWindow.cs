@@ -13,6 +13,7 @@ public partial class MainWindow: Gtk.Window
 	private OxyPlot.GtkSharp.PlotView plotView;
 	private List<PlotView> multiPlotViews = new List<PlotView> ();
 
+	private Random rand = new Random ();
 
 	private Timer plotTimer;
 	private Timer multiPlotTimer = new Timer ();
@@ -241,6 +242,10 @@ public partial class MainWindow: Gtk.Window
 			multiPlotViews.Clear ();
 			for (int plotnr = 0; plotnr <= spinbuttonNumberOfMultiplots.Value; plotnr++)
 			{
+				if (!checkbuttonDetailedPlots.Active && plotnr != 0)
+				{
+					break;
+				}
 				var multiPlotView = new PlotView ();
 				multiPlotView.InvalidatePlot (true);
 
@@ -264,13 +269,16 @@ public partial class MainWindow: Gtk.Window
 				};
 
 				//damit alle x achsen gleich sind
-				xAxis.AxisChanged += (object senderer, AxisChangedEventArgs ee) =>
-				{
-					foreach (PlotView pv in multiPlotViews)
-					{
-//						pv.Model.PanAllAxes ((senderer as LinearAxis).Transform ((senderer as LinearAxis).Offset), 0);
-					}
-				};
+//				xAxis.AxisChanged += (object senderer, AxisChangedEventArgs ee) =>
+//				{
+//					foreach (PlotView pv in multiPlotViews)
+//					{
+//						if (!pv.Model.Axes [0].Equals ((senderer as LinearAxis)))
+//						{
+//							pv.Model.Axes [0].Pan ((senderer as LinearAxis).Transform ((senderer as LinearAxis).Offset));
+//						}
+//					}
+//				};
 
 				var yAxis = new LinearAxis {
 					Position = AxisPosition.Left,
@@ -300,6 +308,7 @@ public partial class MainWindow: Gtk.Window
 					}
 				}
 
+				multiPlotTotalModel.InvalidatePlot (true);
 				multiPlotView.Model = multiPlotTotalModel;
 				multiPlotViews.Add (multiPlotView);
 			}
@@ -311,22 +320,33 @@ public partial class MainWindow: Gtk.Window
 
 			multiPlotTimer.Elapsed += (senderer, ee) =>
 			{
-				Console.WriteLine (iterator);
-				var rand = new Random ();
-				for (int i = 1; i < multiPlotViews.Count; i++)
+				try
 				{
-					double val = rand.NextDouble () * 10;
-					(multiPlotViews [i].Model.Series [0] as LineSeries).Points.Add (
-						new DataPoint (iterator, val)
-					);
-					(multiPlotViews [0].Model.Series [i - 1] as LineSeries).Points.Add (
-						new DataPoint (iterator, val)
-					);
-//					multiPlotViews [i].Model.PanAllAxes (xAxis.Transform (-1 + xAxis.Offset), 0);
-					multiPlotViews [i].Model.InvalidatePlot (true);
+					for (int i = 1; i <= multiPlotViews [0].Model.Series.Count; i++)
+					{
+						double val = rand.NextDouble () * 10;
+						(multiPlotViews [0].Model.Series [i - 1] as LineSeries).Points.Add (
+							new DataPoint (iterator, val)
+						);
+						if (checkbuttonDetailedPlots.Active)
+						{
+							(multiPlotViews [i].Model.Series [0] as LineSeries).Points.Add (
+								new DataPoint (iterator, val)
+							);
+//						(multiPlotViews [i].Model.Series [0] as LineSeries).Color = (multiPlotViews [0].Model.Series [i - 1] as LineSeries).Color;
+							multiPlotViews [i].Model.Axes [0].Pan (multiPlotViews [i].Model.Axes [0].Transform (-1 + multiPlotViews [i].Model.Axes [0].Offset));
+						}
+					}
+					multiPlotViews [0].Model.Axes [0].Pan (multiPlotViews [0].Model.Axes [0].Transform (-1 + multiPlotViews [0].Model.Axes [0].Offset));
+					foreach (PlotView pv in multiPlotViews)
+					{
+						pv.Model.InvalidatePlot (true);
+					}
+					iterator++;
+				} catch (Exception exp)
+				{
+					Console.Error.WriteLine (exp);
 				}
-				multiPlotViews [0].Model.InvalidatePlot (true);
-				iterator++;
 			};
 
 			multiPlotTimer.Start ();
