@@ -324,7 +324,7 @@ namespace ArduinoController
 			var returnVal = _cmdMessenger.SendCommand (command);
 			if (returnVal.Ok)
 			{
-				NumberOfAnalogPins = returnVal.ReadBinUInt32Arg ();
+				NumberOfAnalogPins = returnVal.ReadUInt32Arg ();
 			}
 		}
 

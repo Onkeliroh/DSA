@@ -23,6 +23,8 @@ public partial class PrototypeWindow
 	
 	private global::Gtk.Action preferencesAction;
 	
+	private global::Gtk.Action disconnectAction;
+	
 	private global::Gtk.VBox vbox1;
 	
 	private global::Gtk.MenuBar menubar1;
@@ -47,7 +49,17 @@ public partial class PrototypeWindow
 	
 	private global::Gtk.Label lblConnectionPorts;
 	
-	private global::Gtk.Table tableConfiguration;
+	private global::Gtk.Table tableConfig;
+	
+	private global::Gtk.Button btnConfigBack;
+	
+	private global::Gtk.Button btnConfigRun;
+	
+	private global::Gtk.ScrolledWindow ScrolledWindowConfigVBox;
+	
+	private global::Gtk.VBox vboxConfig;
+	
+	private global::Gtk.VBox vboxPlot;
 	
 	private global::Gtk.Statusbar statusbar1;
 
@@ -87,17 +99,22 @@ public partial class PrototypeWindow
 		this.preferencesAction.Sensitive = false;
 		this.preferencesAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Preferences");
 		w1.Add (this.preferencesAction, null);
+		this.disconnectAction = new global::Gtk.Action ("disconnectAction", global::Mono.Unix.Catalog.GetString ("_Disconnect"), null, "gtk-disconnect");
+		this.disconnectAction.Sensitive = false;
+		this.disconnectAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Disconnect");
+		w1.Add (this.disconnectAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "PrototypeWindow";
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
-		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+		this.WindowPosition = ((global::Gtk.WindowPosition)(1));
+		this.AllowShrink = true;
 		// Container child PrototypeWindow.Gtk.Container+ContainerChild
 		this.vbox1 = new global::Gtk.VBox ();
 		this.vbox1.Name = "vbox1";
 		this.vbox1.Spacing = 6;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><menuitem name='saveAction' action='saveAction'/><separator/><menuitem name='quitAction' action='quitAction'/></menu><menu name='EditAction' action='EditAction'><menuitem name='preferencesAction' action='preferencesAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='aboutAction' action='aboutAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><menuitem name='saveAction' action='saveAction'/><separator/><menuitem name='disconnectAction' action='disconnectAction'/><menuitem name='quitAction' action='quitAction'/></menu><menu name='EditAction' action='EditAction'><menuitem name='preferencesAction' action='preferencesAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='aboutAction' action='aboutAction'/></menu></menubar></ui>");
 		this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
 		this.menubar1.Name = "menubar1";
 		this.vbox1.Add (this.menubar1);
@@ -225,22 +242,72 @@ public partial class PrototypeWindow
 		w16.Position = 2;
 		w16.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.tableConfiguration = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
-		this.tableConfiguration.Name = "tableConfiguration";
-		this.tableConfiguration.RowSpacing = ((uint)(6));
-		this.tableConfiguration.ColumnSpacing = ((uint)(6));
-		this.vbox1.Add (this.tableConfiguration);
-		global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.tableConfiguration]));
-		w17.Position = 3;
+		this.tableConfig = new global::Gtk.Table (((uint)(3)), ((uint)(2)), false);
+		this.tableConfig.Name = "tableConfig";
+		this.tableConfig.RowSpacing = ((uint)(6));
+		this.tableConfig.ColumnSpacing = ((uint)(6));
+		// Container child tableConfig.Gtk.Table+TableChild
+		this.btnConfigBack = new global::Gtk.Button ();
+		this.btnConfigBack.CanFocus = true;
+		this.btnConfigBack.Name = "btnConfigBack";
+		this.btnConfigBack.UseUnderline = true;
+		this.btnConfigBack.Label = global::Mono.Unix.Catalog.GetString ("Back");
+		this.tableConfig.Add (this.btnConfigBack);
+		global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.btnConfigBack]));
+		w17.TopAttach = ((uint)(2));
+		w17.BottomAttach = ((uint)(3));
+		w17.XOptions = ((global::Gtk.AttachOptions)(4));
+		w17.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child tableConfig.Gtk.Table+TableChild
+		this.btnConfigRun = new global::Gtk.Button ();
+		this.btnConfigRun.CanFocus = true;
+		this.btnConfigRun.Name = "btnConfigRun";
+		this.btnConfigRun.UseUnderline = true;
+		this.btnConfigRun.Label = global::Mono.Unix.Catalog.GetString ("Run");
+		this.tableConfig.Add (this.btnConfigRun);
+		global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.btnConfigRun]));
+		w18.TopAttach = ((uint)(2));
+		w18.BottomAttach = ((uint)(3));
+		w18.LeftAttach = ((uint)(1));
+		w18.RightAttach = ((uint)(2));
+		w18.XOptions = ((global::Gtk.AttachOptions)(4));
+		w18.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child tableConfig.Gtk.Table+TableChild
+		this.ScrolledWindowConfigVBox = new global::Gtk.ScrolledWindow ();
+		this.ScrolledWindowConfigVBox.Name = "ScrolledWindowConfigVBox";
+		this.ScrolledWindowConfigVBox.ShadowType = ((global::Gtk.ShadowType)(1));
+		// Container child ScrolledWindowConfigVBox.Gtk.Container+ContainerChild
+		global::Gtk.Viewport w19 = new global::Gtk.Viewport ();
+		w19.ShadowType = ((global::Gtk.ShadowType)(0));
+		// Container child GtkViewport.Gtk.Container+ContainerChild
+		this.vboxConfig = new global::Gtk.VBox ();
+		this.vboxConfig.Name = "vboxConfig";
+		this.vboxConfig.Spacing = 6;
+		w19.Add (this.vboxConfig);
+		this.ScrolledWindowConfigVBox.Add (w19);
+		this.tableConfig.Add (this.ScrolledWindowConfigVBox);
+		global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.ScrolledWindowConfigVBox]));
+		w22.BottomAttach = ((uint)(2));
+		w22.RightAttach = ((uint)(2));
+		this.vbox1.Add (this.tableConfig);
+		global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.tableConfig]));
+		w23.Position = 3;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.vboxPlot = new global::Gtk.VBox ();
+		this.vboxPlot.Name = "vboxPlot";
+		this.vboxPlot.Spacing = 6;
+		this.vbox1.Add (this.vboxPlot);
+		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.vboxPlot]));
+		w24.Position = 4;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";
 		this.statusbar1.Spacing = 6;
 		this.vbox1.Add (this.statusbar1);
-		global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
-		w18.Position = 5;
-		w18.Expand = false;
-		w18.Fill = false;
+		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
+		w25.Position = 5;
+		w25.Expand = false;
+		w25.Fill = false;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
@@ -248,7 +315,10 @@ public partial class PrototypeWindow
 		this.DefaultWidth = 1147;
 		this.DefaultHeight = 735;
 		this.tableConnection.Hide ();
-		this.tableConfiguration.Hide ();
+		this.vboxConfig.Hide ();
+		this.ScrolledWindowConfigVBox.Hide ();
+		this.tableConfig.Hide ();
+		this.vboxPlot.Hide ();
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.aboutAction.Activated += new global::System.EventHandler (this.OnAboutActionActivated);
@@ -256,5 +326,6 @@ public partial class PrototypeWindow
 		this.btnNewConfig.Clicked += new global::System.EventHandler (this.OnBtnNewConfigClicked);
 		this.btnRefresh.Clicked += new global::System.EventHandler (this.OnBtnRefreshClicked);
 		this.btnConnect.Clicked += new global::System.EventHandler (this.OnBtnConnectClicked);
+		this.btnConfigRun.Clicked += new global::System.EventHandler (this.OnBtnConfigRunClicked);
 	}
 }

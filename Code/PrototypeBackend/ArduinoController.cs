@@ -121,7 +121,7 @@ namespace ArduinoController
 				CurrentSerialSettings = {
 					PortName = SerialPortName,
 					BaudRate = 115200,
-					DtrEnable = true  //bei UNO ändern 
+					DtrEnable = true  //bei UNO auf false ändern 
 				}
 			}, BoardType.Bit16);
 
@@ -326,7 +326,7 @@ namespace ArduinoController
 			var returnVal = _cmdMessenger.SendCommand (command);
 			if (returnVal.Ok)
 			{
-				NumberOfAnalogPins = returnVal.ReadBinUInt32Arg ();
+				NumberOfAnalogPins = returnVal.ReadUInt32Arg ();
 			}
 		}
 
