@@ -8,9 +8,16 @@ namespace Prototype
 	public partial class SignalPinConfigBox : Gtk.Bin
 	{
 		public bool UseAsInput{ private set; get; }
+
 		public string SignalPinName { private set; get; }
 
-		public string LabelText{ private set; get;}
+		public string LabelText {
+			set {
+				this.lblFrame.Text = value;
+				this.LabelText = value;
+			}
+			get{ return this.LabelText; }
+		}
 
 		public EventHandler UseAsInputToggled;
 
@@ -29,12 +36,6 @@ namespace Prototype
 		protected void OnEntrySignalPinNameChanged (object sender, EventArgs e)
 		{
 			SignalPinName = (sender as Entry).Text;
-		}
-
-		public void SetLabel(string s)
-		{
-			GtkLabel1.Text = s;
-			LabelText = s;
 		}
 	}
 }

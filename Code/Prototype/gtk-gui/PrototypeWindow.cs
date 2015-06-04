@@ -134,7 +134,7 @@ public partial class PrototypeWindow
 		this.btnNewConfig.CanFocus = true;
 		this.btnNewConfig.Name = "btnNewConfig";
 		this.btnNewConfig.UseUnderline = true;
-		this.btnNewConfig.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+		this.btnNewConfig.Label = global::Mono.Unix.Catalog.GetString ("Create a new configuration");
 		global::Gtk.Image w3 = new global::Gtk.Image ();
 		w3.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-new", global::Gtk.IconSize.Menu);
 		this.btnNewConfig.Image = w3;
@@ -151,7 +151,7 @@ public partial class PrototypeWindow
 		this.btnOpenConfig.CanFocus = true;
 		this.btnOpenConfig.Name = "btnOpenConfig";
 		this.btnOpenConfig.UseUnderline = true;
-		this.btnOpenConfig.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+		this.btnOpenConfig.Label = global::Mono.Unix.Catalog.GetString ("Load configuration");
 		global::Gtk.Image w5 = new global::Gtk.Image ();
 		w5.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-open", global::Gtk.IconSize.Menu);
 		this.btnOpenConfig.Image = w5;

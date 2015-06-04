@@ -14,6 +14,7 @@ public partial class PrototypeWindow: Gtk.Window
 {
 
 	#region Window Stuff
+
 	public PrototypeWindow () : base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
@@ -27,7 +28,7 @@ public partial class PrototypeWindow: Gtk.Window
 
 	protected void OnQuitActionActivated (object sender, EventArgs e)
 	{
-		OnDeleteEvent(sender, null);
+		OnDeleteEvent (sender, null);
 	}
 
 	protected void OnAboutActionActivated (object sender, EventArgs e)
@@ -50,7 +51,8 @@ public partial class PrototypeWindow: Gtk.Window
 	protected void OnBtnRefreshClicked (object sender, EventArgs e)
 	{
 		(cbConnectPorts.Model as ListStore).Clear ();
-		foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+		foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+		{
 			cbConnectPorts.AppendText (s);	
 		}
 		cbConnectPorts.Active = 0;
@@ -60,12 +62,14 @@ public partial class PrototypeWindow: Gtk.Window
 	{
 		MainClass.arduinoController.SerialPortName = cbConnectPorts.ActiveText;
 		MainClass.arduinoController.Setup ();
-		if (MainClass.arduinoController.IsConnected) {
+		if (MainClass.arduinoController.IsConnected)
+		{
 			CreateConfigInterface ();
 			tableConfig.Visible = true;
 			tableConnection.Visible = false;
 			hboxGreetings.Visible = false;
-		} else {
+		} else
+		{
 			//Todo What else?
 		}
 	}
@@ -77,30 +81,34 @@ public partial class PrototypeWindow: Gtk.Window
 		hboxGreetings.Visible = false;
 		CleatePlotInterface ();
 	}
+
 	#endregion
+
 	#region Logic
-	private void CreateConfigInterface()
+
+	private void CreateConfigInterface ()
 	{
-		MainClass.arduinoController.GetNumberAnalogPins();
+		MainClass.arduinoController.GetNumberAnalogPins ();
 		System.Threading.Thread.Sleep (200);
 		Console.WriteLine (MainClass.arduinoController.NumberOfAnalogPins);
-		for (int i = 0; i < MainClass.arduinoController.NumberOfAnalogPins ; i++) {
+		for (int i = 0; i < MainClass.arduinoController.NumberOfAnalogPins; i++)
+		{
 			SignalPinConfigBox spcb = new SignalPinConfigBox ();
-			spcb.SetLabel ("Pin " + i);
+			spcb.LabelText = "Pin " + i;
 			spcb.Visible = true;
-			vboxConfig.PackStart (spcb,false,false,0);
+			vboxConfig.PackStart (spcb, false, false, 0);
 			(vboxConfig [spcb] as VBox.BoxChild).Position = i;
 		}
 		ShowAll ();
 	}
 
-	private void CleatePlotInterface()
+	private void CleatePlotInterface ()
 	{
 		var pv = new OxyPlot.GtkSharp.PlotView ();
 		vboxPlot.PackStart (pv);
 		(vboxPlot [pv] as VBox.BoxChild).Position = 0;
 
-		var pm = new OxyPlot.PlotModel (){PlotType = OxyPlot.PlotType.Cartesian };
+		var pm = new OxyPlot.PlotModel (){ PlotType = OxyPlot.PlotType.Cartesian };
 		var xAxis =	new OxyPlot.Axes.LinearAxis {
 			Position = AxisPosition.Bottom,
 			Minimum = -10,
@@ -137,17 +145,18 @@ public partial class PrototypeWindow: Gtk.Window
 		pv.Show ();
 	}
 
-	private static LineSeries CreateSeriesSuitableForDecimation()
+	private static LineSeries CreateSeriesSuitableForDecimation ()
 	{
-		var s1 = new LineSeries();
+		var s1 = new LineSeries ();
 
 		int n = 20000;
 		for (int i = 0; i < n; i++)
 		{
-			s1.Points.Add(new DataPoint((double)i / n, Math.Sin(i)));
+			s1.Points.Add (new DataPoint ((double)i / n, Math.Sin (i)));
 		}
 
 		return s1;
 	}
+
 	#endregion
 }
