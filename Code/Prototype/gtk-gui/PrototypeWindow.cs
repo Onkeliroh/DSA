@@ -25,7 +25,33 @@ public partial class PrototypeWindow
 	
 	private global::Gtk.Action disconnectAction;
 	
-	private global::Gtk.VBox vbox1;
+	private global::Gtk.Action ConnectionAction;
+	
+	private global::Gtk.Action DeviceTypeAction;
+	
+	private global::Gtk.Action BaudrateAction;
+	
+	private global::Gtk.RadioAction Action300Baud;
+	
+	private global::Gtk.RadioAction Action1200Baud;
+	
+	private global::Gtk.RadioAction Action2400Baud;
+	
+	private global::Gtk.RadioAction Action4800Baud;
+	
+	private global::Gtk.RadioAction Action9600Baud;
+	
+	private global::Gtk.RadioAction Action19200Baud;
+	
+	private global::Gtk.RadioAction Action38400Baud;
+	
+	private global::Gtk.RadioAction Action57600Baud;
+	
+	private global::Gtk.RadioAction Action115200Baud;
+	
+	private global::Gtk.Action PortsAction;
+	
+	private global::Gtk.VBox vboxMain;
 	
 	private global::Gtk.MenuBar menubar1;
 	
@@ -60,6 +86,8 @@ public partial class PrototypeWindow
 	private global::Gtk.VBox vboxConfig;
 	
 	private global::Gtk.VBox vboxPlot;
+	
+	private global::Gtk.Button btnPlotBack;
 	
 	private global::Gtk.Statusbar statusbar1;
 
@@ -103,6 +131,54 @@ public partial class PrototypeWindow
 		this.disconnectAction.Sensitive = false;
 		this.disconnectAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Disconnect");
 		w1.Add (this.disconnectAction, null);
+		this.ConnectionAction = new global::Gtk.Action ("ConnectionAction", global::Mono.Unix.Catalog.GetString ("Connection"), null, null);
+		this.ConnectionAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Connection");
+		w1.Add (this.ConnectionAction, null);
+		this.DeviceTypeAction = new global::Gtk.Action ("DeviceTypeAction", global::Mono.Unix.Catalog.GetString ("Device Type"), null, null);
+		this.DeviceTypeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Device Type");
+		w1.Add (this.DeviceTypeAction, null);
+		this.BaudrateAction = new global::Gtk.Action ("BaudrateAction", global::Mono.Unix.Catalog.GetString ("Baudrate"), null, null);
+		this.BaudrateAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Baudrate");
+		w1.Add (this.BaudrateAction, null);
+		this.Action300Baud = new global::Gtk.RadioAction ("Action300Baud", global::Mono.Unix.Catalog.GetString ("300"), null, null, 0);
+		this.Action300Baud.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+		this.Action300Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("300");
+		w1.Add (this.Action300Baud, null);
+		this.Action1200Baud = new global::Gtk.RadioAction ("Action1200Baud", global::Mono.Unix.Catalog.GetString ("1200"), null, null, 0);
+		this.Action1200Baud.Group = this.Action300Baud.Group;
+		this.Action1200Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("1200");
+		w1.Add (this.Action1200Baud, null);
+		this.Action2400Baud = new global::Gtk.RadioAction ("Action2400Baud", global::Mono.Unix.Catalog.GetString ("2400"), null, null, 0);
+		this.Action2400Baud.Group = this.Action1200Baud.Group;
+		this.Action2400Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("2400");
+		w1.Add (this.Action2400Baud, null);
+		this.Action4800Baud = new global::Gtk.RadioAction ("Action4800Baud", global::Mono.Unix.Catalog.GetString ("4800"), null, null, 0);
+		this.Action4800Baud.Group = this.Action2400Baud.Group;
+		this.Action4800Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("4800");
+		w1.Add (this.Action4800Baud, null);
+		this.Action9600Baud = new global::Gtk.RadioAction ("Action9600Baud", global::Mono.Unix.Catalog.GetString ("9600"), null, null, 0);
+		this.Action9600Baud.Group = this.Action4800Baud.Group;
+		this.Action9600Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("9600");
+		w1.Add (this.Action9600Baud, null);
+		this.Action19200Baud = new global::Gtk.RadioAction ("Action19200Baud", global::Mono.Unix.Catalog.GetString ("19200"), null, null, 0);
+		this.Action19200Baud.Group = this.Action4800Baud.Group;
+		this.Action19200Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("19200");
+		w1.Add (this.Action19200Baud, null);
+		this.Action38400Baud = new global::Gtk.RadioAction ("Action38400Baud", global::Mono.Unix.Catalog.GetString ("38400"), null, null, 0);
+		this.Action38400Baud.Group = this.Action4800Baud.Group;
+		this.Action38400Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("38400");
+		w1.Add (this.Action38400Baud, null);
+		this.Action57600Baud = new global::Gtk.RadioAction ("Action57600Baud", global::Mono.Unix.Catalog.GetString ("57600"), null, null, 0);
+		this.Action57600Baud.Group = this.Action4800Baud.Group;
+		this.Action57600Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("57600");
+		w1.Add (this.Action57600Baud, null);
+		this.Action115200Baud = new global::Gtk.RadioAction ("Action115200Baud", global::Mono.Unix.Catalog.GetString ("115200"), null, null, 0);
+		this.Action115200Baud.Group = this.Action4800Baud.Group;
+		this.Action115200Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("115200");
+		w1.Add (this.Action115200Baud, null);
+		this.PortsAction = new global::Gtk.Action ("PortsAction", global::Mono.Unix.Catalog.GetString ("Port(s)"), null, null);
+		this.PortsAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Port(s)");
+		w1.Add (this.PortsAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "PrototypeWindow";
@@ -110,19 +186,19 @@ public partial class PrototypeWindow
 		this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 		this.AllowShrink = true;
 		// Container child PrototypeWindow.Gtk.Container+ContainerChild
-		this.vbox1 = new global::Gtk.VBox ();
-		this.vbox1.Name = "vbox1";
-		this.vbox1.Spacing = 6;
-		// Container child vbox1.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><menuitem name='saveAction' action='saveAction'/><separator/><menuitem name='disconnectAction' action='disconnectAction'/><menuitem name='quitAction' action='quitAction'/></menu><menu name='EditAction' action='EditAction'><menuitem name='preferencesAction' action='preferencesAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='aboutAction' action='aboutAction'/></menu></menubar></ui>");
+		this.vboxMain = new global::Gtk.VBox ();
+		this.vboxMain.Name = "vboxMain";
+		this.vboxMain.Spacing = 6;
+		// Container child vboxMain.Gtk.Box+BoxChild
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><menuitem name='saveAction' action='saveAction'/><separator/><menuitem name='disconnectAction' action='disconnectAction'/><menuitem name='quitAction' action='quitAction'/></menu><menu name='ConnectionAction' action='ConnectionAction'><menu name='DeviceTypeAction' action='DeviceTypeAction'/><menu name='BaudrateAction' action='BaudrateAction'><menuitem name='Action300Baud' action='Action300Baud'/><menuitem name='Action1200Baud' action='Action1200Baud'/><menuitem name='Action2400Baud' action='Action2400Baud'/><menuitem name='Action4800Baud' action='Action4800Baud'/><menuitem name='Action9600Baud' action='Action9600Baud'/><menuitem name='Action19200Baud' action='Action19200Baud'/><menuitem name='Action38400Baud' action='Action38400Baud'/><menuitem name='Action57600Baud' action='Action57600Baud'/><menuitem name='Action115200Baud' action='Action115200Baud'/></menu><menu name='PortsAction' action='PortsAction'/></menu><menu name='EditAction' action='EditAction'><menuitem name='preferencesAction' action='preferencesAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='aboutAction' action='aboutAction'/></menu></menubar></ui>");
 		this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
 		this.menubar1.Name = "menubar1";
-		this.vbox1.Add (this.menubar1);
-		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.menubar1]));
+		this.vboxMain.Add (this.menubar1);
+		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.menubar1]));
 		w2.Position = 0;
 		w2.Expand = false;
 		w2.Fill = false;
-		// Container child vbox1.Gtk.Box+BoxChild
+		// Container child vboxMain.Gtk.Box+BoxChild
 		this.hboxGreetings = new global::Gtk.HBox ();
 		this.hboxGreetings.Name = "hboxGreetings";
 		this.hboxGreetings.Homogeneous = true;
@@ -160,11 +236,11 @@ public partial class PrototypeWindow
 		w6.Position = 1;
 		w6.Expand = false;
 		w6.Fill = false;
-		this.vbox1.Add (this.hboxGreetings);
-		global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hboxGreetings]));
+		this.vboxMain.Add (this.hboxGreetings);
+		global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hboxGreetings]));
 		w7.Position = 1;
 		w7.Fill = false;
-		// Container child vbox1.Gtk.Box+BoxChild
+		// Container child vboxMain.Gtk.Box+BoxChild
 		this.tableConnection = new global::Gtk.Table (((uint)(3)), ((uint)(5)), false);
 		this.tableConnection.Name = "tableConnection";
 		this.tableConnection.RowSpacing = ((uint)(6));
@@ -237,11 +313,11 @@ public partial class PrototypeWindow
 		w15.RightAttach = ((uint)(2));
 		w15.XOptions = ((global::Gtk.AttachOptions)(4));
 		w15.YOptions = ((global::Gtk.AttachOptions)(4));
-		this.vbox1.Add (this.tableConnection);
-		global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.tableConnection]));
+		this.vboxMain.Add (this.tableConnection);
+		global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.tableConnection]));
 		w16.Position = 2;
 		w16.Fill = false;
-		// Container child vbox1.Gtk.Box+BoxChild
+		// Container child vboxMain.Gtk.Box+BoxChild
 		this.tableConfig = new global::Gtk.Table (((uint)(3)), ((uint)(2)), false);
 		this.tableConfig.Name = "tableConfig";
 		this.tableConfig.RowSpacing = ((uint)(6));
@@ -289,26 +365,37 @@ public partial class PrototypeWindow
 		global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.ScrolledWindowConfigVBox]));
 		w22.BottomAttach = ((uint)(2));
 		w22.RightAttach = ((uint)(2));
-		this.vbox1.Add (this.tableConfig);
-		global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.tableConfig]));
+		this.vboxMain.Add (this.tableConfig);
+		global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.tableConfig]));
 		w23.Position = 3;
-		// Container child vbox1.Gtk.Box+BoxChild
+		// Container child vboxMain.Gtk.Box+BoxChild
 		this.vboxPlot = new global::Gtk.VBox ();
 		this.vboxPlot.Name = "vboxPlot";
 		this.vboxPlot.Spacing = 6;
-		this.vbox1.Add (this.vboxPlot);
-		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.vboxPlot]));
-		w24.Position = 4;
-		// Container child vbox1.Gtk.Box+BoxChild
+		// Container child vboxPlot.Gtk.Box+BoxChild
+		this.btnPlotBack = new global::Gtk.Button ();
+		this.btnPlotBack.CanFocus = true;
+		this.btnPlotBack.Name = "btnPlotBack";
+		this.btnPlotBack.UseUnderline = true;
+		this.btnPlotBack.Label = global::Mono.Unix.Catalog.GetString ("Back");
+		this.vboxPlot.Add (this.btnPlotBack);
+		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vboxPlot [this.btnPlotBack]));
+		w24.Position = 1;
+		w24.Expand = false;
+		w24.Fill = false;
+		this.vboxMain.Add (this.vboxPlot);
+		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.vboxPlot]));
+		w25.Position = 4;
+		// Container child vboxMain.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";
 		this.statusbar1.Spacing = 6;
-		this.vbox1.Add (this.statusbar1);
-		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
-		w25.Position = 5;
-		w25.Expand = false;
-		w25.Fill = false;
-		this.Add (this.vbox1);
+		this.vboxMain.Add (this.statusbar1);
+		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.statusbar1]));
+		w26.Position = 5;
+		w26.Expand = false;
+		w26.Fill = false;
+		this.Add (this.vboxMain);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
@@ -323,9 +410,11 @@ public partial class PrototypeWindow
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.aboutAction.Activated += new global::System.EventHandler (this.OnAboutActionActivated);
 		this.quitAction.Activated += new global::System.EventHandler (this.OnQuitActionActivated);
+		this.disconnectAction.Activated += new global::System.EventHandler (this.OnDisconnectActionActivated);
 		this.btnNewConfig.Clicked += new global::System.EventHandler (this.OnBtnNewConfigClicked);
 		this.btnRefresh.Clicked += new global::System.EventHandler (this.OnBtnRefreshClicked);
 		this.btnConnect.Clicked += new global::System.EventHandler (this.OnBtnConnectClicked);
 		this.btnConfigRun.Clicked += new global::System.EventHandler (this.OnBtnConfigRunClicked);
+		this.btnConfigBack.Clicked += new global::System.EventHandler (this.OnBtnConfigBackClicked);
 	}
 }

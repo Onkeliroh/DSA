@@ -16,7 +16,7 @@ namespace Prototype
 		
 		private global::Gtk.Entry entrySignalPinName;
 		
-		private global::Gtk.Entry entryUnit;
+		private global::Gtk.ComboBoxEntry entryUnit;
 		
 		private global::Gtk.Label lblMultiplier;
 		
@@ -41,8 +41,7 @@ namespace Prototype
 			// Container child Prototype.SignalPinConfigBox.Gtk.Container+ContainerChild
 			this.frame1 = new global::Gtk.Frame ();
 			this.frame1.Name = "frame1";
-			this.frame1.ShadowType = ((global::Gtk.ShadowType)(0));
-			this.frame1.BorderWidth = ((uint)(1));
+			this.frame1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame1.Gtk.Container+ContainerChild
 			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment.Name = "GtkAlignment";
@@ -94,11 +93,15 @@ namespace Prototype
 			w3.XOptions = ((global::Gtk.AttachOptions)(4));
 			w3.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.entryUnit = new global::Gtk.Entry ();
-			this.entryUnit.CanFocus = true;
+			this.entryUnit = global::Gtk.ComboBoxEntry.NewText ();
+			this.entryUnit.AppendText (global::Mono.Unix.Catalog.GetString ("C"));
+			this.entryUnit.AppendText (global::Mono.Unix.Catalog.GetString ("F"));
+			this.entryUnit.AppendText (global::Mono.Unix.Catalog.GetString ("K"));
+			this.entryUnit.AppendText (global::Mono.Unix.Catalog.GetString ("V"));
+			this.entryUnit.AppendText (global::Mono.Unix.Catalog.GetString ("A"));
+			this.entryUnit.AppendText (global::Mono.Unix.Catalog.GetString ("Pa"));
+			this.entryUnit.Sensitive = false;
 			this.entryUnit.Name = "entryUnit";
-			this.entryUnit.IsEditable = true;
-			this.entryUnit.InvisibleChar = '●';
 			this.table1.Add (this.entryUnit);
 			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.entryUnit]));
 			w4.TopAttach = ((uint)(4));
@@ -131,7 +134,6 @@ namespace Prototype
 			w6.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.lblSignalPinName = new global::Gtk.Label ();
-			this.lblSignalPinName.Sensitive = false;
 			this.lblSignalPinName.Name = "lblSignalPinName";
 			this.lblSignalPinName.LabelProp = global::Mono.Unix.Catalog.GetString ("Signal Label:");
 			this.table1.Add (this.lblSignalPinName);
@@ -152,12 +154,14 @@ namespace Prototype
 			w8.XOptions = ((global::Gtk.AttachOptions)(4));
 			w8.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.spMultiplier = new global::Gtk.SpinButton (0, 100, 1);
+			this.spMultiplier = new global::Gtk.SpinButton (-9999, 9999, 1);
+			this.spMultiplier.Sensitive = false;
 			this.spMultiplier.CanFocus = true;
 			this.spMultiplier.Name = "spMultiplier";
 			this.spMultiplier.Adjustment.PageIncrement = 10;
 			this.spMultiplier.ClimbRate = 1;
 			this.spMultiplier.Numeric = true;
+			this.spMultiplier.Value = 1;
 			this.table1.Add (this.spMultiplier);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1 [this.spMultiplier]));
 			w9.TopAttach = ((uint)(2));
@@ -167,7 +171,8 @@ namespace Prototype
 			w9.XOptions = ((global::Gtk.AttachOptions)(4));
 			w9.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.spOffset = new global::Gtk.SpinButton (0, 100, 1);
+			this.spOffset = new global::Gtk.SpinButton (-9999, 9999, 1);
+			this.spOffset.Sensitive = false;
 			this.spOffset.CanFocus = true;
 			this.spOffset.Name = "spOffset";
 			this.spOffset.Adjustment.PageIncrement = 10;

@@ -2,9 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="PrototypeWindow.cs">
     <Files>
-      <File FileName="PrototypeWindow.cs" Line="154" Column="1" />
-      <File FileName="SignalPinConfigBox.cs" Line="1" Column="1" />
-      <File FileName="gtk-gui/Prototype.SignalPinConfigBox.cs" Line="1" Column="1" />
+      <File FileName="PrototypeWindow.cs" Line="32" Column="1" />
+      <File FileName="SignalPinConfigBox.cs" Line="10" Column="45" />
+      <File FileName="gtk-gui/PrototypeWindow.cs" Line="186" Column="58" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

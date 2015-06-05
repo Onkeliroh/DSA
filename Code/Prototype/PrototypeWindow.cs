@@ -18,6 +18,16 @@ public partial class PrototypeWindow: Gtk.Window
 	public PrototypeWindow () : base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
+		InitComponents ();
+	}
+
+	private void InitComponents()
+	{
+		foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+		}
+
+
+		(this.UIManager.GetWidget ("/menubar1") as MenuBar).Insert (new MenuItem ("Test"), 5);
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -68,6 +78,8 @@ public partial class PrototypeWindow: Gtk.Window
 			tableConfig.Visible = true;
 			tableConnection.Visible = false;
 			hboxGreetings.Visible = false;
+			disconnectAction.Sensitive = true;
+			vboxPlot.Visible = false;
 		} else
 		{
 			//Todo What else?
@@ -79,7 +91,23 @@ public partial class PrototypeWindow: Gtk.Window
 		tableConfig.Visible = false;
 		tableConnection.Visible = false;
 		hboxGreetings.Visible = false;
+		vboxPlot.Visible = true;
 		CleatePlotInterface ();
+	}
+
+	protected void OnDisconnectActionActivated (object sender, EventArgs e)
+	{
+		if (MainClass.arduinoController.IsConnected) {
+			MainClass.arduinoController.Disconnect ();
+		}
+	}
+
+	protected void OnBtnConfigBackClicked (object sender, EventArgs e)
+	{
+		tableConfig.Visible = false;
+		tableConnection.Visible = true;
+		hboxGreetings.Visible = false;
+		disconnectAction.Sensitive = false;
 	}
 
 	#endregion
@@ -88,6 +116,11 @@ public partial class PrototypeWindow: Gtk.Window
 
 	private void CreateConfigInterface ()
 	{
+		foreach ( Widget w in vboxConfig.Children)
+		{
+			vboxConfig.Remove(w);
+		}
+
 		MainClass.arduinoController.GetNumberAnalogPins ();
 		System.Threading.Thread.Sleep (200);
 		Console.WriteLine (MainClass.arduinoController.NumberOfAnalogPins);
