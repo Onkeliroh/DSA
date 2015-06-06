@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger", "..\Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger.Transport.Serial", "..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj", "{00D85F0B-00A5-41FA-8A99-428C0199C663}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeTests", "..\PrototypeTests\PrototypeTests.csproj", "{7B3354E4-2100-496B-B15A-557FF10D9A2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -31,5 +33,9 @@ Global
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Debug|x86.Build.0 = Debug|x86
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Release|x86.ActiveCfg = Release|x86
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Release|x86.Build.0 = Release|x86
+		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Debug|x86.Build.0 = Debug|Any CPU
+		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Release|x86.ActiveCfg = Release|Any CPU
+		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

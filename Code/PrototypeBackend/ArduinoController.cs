@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ArduinoController
 {
-	enum Command
+	public enum Command
 	{
 		Acknowledge,
 		Error,
@@ -38,16 +38,20 @@ namespace ArduinoController
 	public enum PinMode
 	{
 		INPUT,
-		OUTPUT}
-
-	;
+		OUTPUT
+	};
 
 	public enum DPinState
 	{
 		LOW,
-		HIGH}
+		HIGH
+	};
 
-	;
+	public enum PinType
+	{
+		DIGITAL,
+		ANALOG
+	};
 
 	public class ArduinoController
 	{

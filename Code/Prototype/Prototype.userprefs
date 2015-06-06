@@ -1,10 +1,11 @@
 ﻿<Properties StartupItem="Prototype.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="gtk-gui\PrototypeWindow.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\PrototypeBackend\Controller.cs">
     <Files>
       <File FileName="PrototypeWindow.cs" Line="17" Column="2" />
-      <File FileName="SignalPinConfigBox.cs" Line="10" Column="45" />
-      <File FileName="gtk-gui\PrototypeWindow.cs" Line="18" Column="29" />
+      <File FileName="..\CommandMessengerLib\CommandMessenger.Transport.Serial\SerialTransport.cs" Line="53" Column="10" />
+      <File FileName="..\PrototypeBackend\Controller.cs" Line="22" Column="18" />
+      <File FileName="..\PrototypeBackend\MeasurementDate.cs" Line="14" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
