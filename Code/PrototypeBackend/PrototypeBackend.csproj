@@ -41,6 +41,7 @@
     <Compile Include="ArduinoData.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="MeasurementDate.cs" />
+    <Compile Include="ControllerAnalogEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

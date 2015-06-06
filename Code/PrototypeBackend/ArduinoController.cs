@@ -62,6 +62,8 @@ namespace ArduinoController
 			private set;
 		}
 
+		public EventHandler<EventArgs> onConnection;
+
 		public string SerialPortName {
 			private get;
 			set;
@@ -140,6 +142,9 @@ namespace ArduinoController
 
 			// Start listening
 			IsConnected = _cmdMessenger.Connect ();
+			if (IsConnected) {
+				onConnection (this, null);
+			}
 		}
 
 		// Exit function
@@ -165,13 +170,6 @@ namespace ArduinoController
 			_cmdMessenger.Attach ((int)Command.Acknowledge, OnAcknowledge);
 			_cmdMessenger.Attach ((int)Command.Error, OnError);
 			_cmdMessenger.Attach ((int)Command.ReadAnalogPinResult, OnReadAnalogResult);
-//			_cmdMessenger.Attach ((int)Command.GetVersion, OnGetVersion);
-//			_cmdMessenger.Attach ((int)Command.GetModel, OnGetModel);
-//			_cmdMessenger.Attach ((int)Command.GetNumberDigitalPins, OnGetNumberDigitalPins);
-//			_cmdMessenger.Attach ((int)Command.GetNumberAnalogPins, OnGetNumberAnalogPins);
-//			_cmdMessenger.Attach ((int)Command.GetDigitalBitMask, OnGetDigitalBitMask);
-//			_cmdMessenger.Attach ((int)Command.GetPinOutputMask, OnGetPinModeMask);
-//			_cmdMessenger.Attach ((int)Command.GetPinModeMask, OnGetPinModeMask);
 		}
 
 

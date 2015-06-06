@@ -13,6 +13,12 @@ namespace PrototypeBackend
 
 		public List<MeasurementDate> controllerMeasurementDateList{ private set; get; }
 
+		public List<List<double>> analogList;
+		public List<List<ArduinoController.DPinState>> digitalList;
+
+		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
+		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
+
 		private bool running = true;
 
 		public Controller ()
@@ -42,15 +48,15 @@ namespace PrototypeBackend
 
 		public void RemoveMeasurementDateRange( MeasurementDate[] md)
 		{
+			int pos;
 			foreach (MeasurementDate MD in md) {
-				if (MD != null) {
-					controllerMeasurementDateList.RemoveAt (controllerMeasurementDateList.IndexOf (MD));
+				pos = controllerMeasurementDateList.IndexOf (MD);
+				if (pos != -1 && pos >= 0 && pos < controllerMeasurementDateList.Count) {
+					controllerMeasurementDateList.RemoveAt (pos);
 				}
 			}
 		}
-
-
-
+			
 		public void Stop()
 		{
 			running = false;
@@ -59,7 +65,14 @@ namespace PrototypeBackend
 		private void Run()
 		{
 			while (running) {
-				
+				if (controllerMeasurementDateList.Count > 0)
+				{
+					if ( controllerMeasurementDateList[0].dueTime.Subtract(DateTime.Now).TotalMilliseconds < 100 )
+					{
+						Thread.Sleep (90);
+						controllerMeasurementDateList[0].pinCmd();
+					}
+				}
 			}
 		}
 	}

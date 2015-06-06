@@ -6,8 +6,8 @@ namespace PrototypeBackend
 	{
 		public ArduinoController.PinType? pinType;
 		public int pinNr;
-		public int dueTime;
-		public ArduinoController.Command pinCmd;
+		public DateTime dueTime;
+		public Action pinCmd;
 
 		public static bool operator < (MeasurementDate md1, MeasurementDate md2)
 		{
