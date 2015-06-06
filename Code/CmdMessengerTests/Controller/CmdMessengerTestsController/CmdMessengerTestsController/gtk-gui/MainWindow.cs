@@ -1085,9 +1085,9 @@ public partial class MainWindow
 		this.HScaleAnalogPinFive = new global::Gtk.HScale (null);
 		this.HScaleAnalogPinFive.CanFocus = true;
 		this.HScaleAnalogPinFive.Name = "HScaleAnalogPinFive";
-		this.HScaleAnalogPinFive.Adjustment.Upper = 1023;
-		this.HScaleAnalogPinFive.Adjustment.PageIncrement = 1;
-		this.HScaleAnalogPinFive.Adjustment.StepIncrement = 1;
+		this.HScaleAnalogPinFive.Adjustment.Upper = 1023D;
+		this.HScaleAnalogPinFive.Adjustment.PageIncrement = 1D;
+		this.HScaleAnalogPinFive.Adjustment.StepIncrement = 1D;
 		this.HScaleAnalogPinFive.DrawValue = true;
 		this.HScaleAnalogPinFive.Digits = 0;
 		this.HScaleAnalogPinFive.ValuePos = ((global::Gtk.PositionType)(2));
@@ -1100,9 +1100,9 @@ public partial class MainWindow
 		this.hscale2 = new global::Gtk.HScale (null);
 		this.hscale2.CanFocus = true;
 		this.hscale2.Name = "hscale2";
-		this.hscale2.Adjustment.Upper = 5;
-		this.hscale2.Adjustment.PageIncrement = 0.1;
-		this.hscale2.Adjustment.StepIncrement = 0.1;
+		this.hscale2.Adjustment.Upper = 5D;
+		this.hscale2.Adjustment.PageIncrement = 0.1D;
+		this.hscale2.Adjustment.StepIncrement = 0.1D;
 		this.hscale2.DrawValue = true;
 		this.hscale2.Digits = 0;
 		this.hscale2.ValuePos = ((global::Gtk.PositionType)(2));
@@ -1115,9 +1115,9 @@ public partial class MainWindow
 		this.hscale3 = new global::Gtk.HScale (null);
 		this.hscale3.CanFocus = true;
 		this.hscale3.Name = "hscale3";
-		this.hscale3.Adjustment.Upper = 5;
-		this.hscale3.Adjustment.PageIncrement = 0.1;
-		this.hscale3.Adjustment.StepIncrement = 0.1;
+		this.hscale3.Adjustment.Upper = 5D;
+		this.hscale3.Adjustment.PageIncrement = 0.1D;
+		this.hscale3.Adjustment.StepIncrement = 0.1D;
 		this.hscale3.DrawValue = true;
 		this.hscale3.Digits = 0;
 		this.hscale3.ValuePos = ((global::Gtk.PositionType)(2));
@@ -1130,9 +1130,9 @@ public partial class MainWindow
 		this.hscale4 = new global::Gtk.HScale (null);
 		this.hscale4.CanFocus = true;
 		this.hscale4.Name = "hscale4";
-		this.hscale4.Adjustment.Upper = 5;
-		this.hscale4.Adjustment.PageIncrement = 0.1;
-		this.hscale4.Adjustment.StepIncrement = 0.1;
+		this.hscale4.Adjustment.Upper = 5D;
+		this.hscale4.Adjustment.PageIncrement = 0.1D;
+		this.hscale4.Adjustment.StepIncrement = 0.1D;
 		this.hscale4.DrawValue = true;
 		this.hscale4.Digits = 0;
 		this.hscale4.ValuePos = ((global::Gtk.PositionType)(2));
@@ -1145,9 +1145,9 @@ public partial class MainWindow
 		this.hscale5 = new global::Gtk.HScale (null);
 		this.hscale5.CanFocus = true;
 		this.hscale5.Name = "hscale5";
-		this.hscale5.Adjustment.Upper = 5;
-		this.hscale5.Adjustment.PageIncrement = 0.1;
-		this.hscale5.Adjustment.StepIncrement = 0.1;
+		this.hscale5.Adjustment.Upper = 5D;
+		this.hscale5.Adjustment.PageIncrement = 0.1D;
+		this.hscale5.Adjustment.StepIncrement = 0.1D;
 		this.hscale5.DrawValue = true;
 		this.hscale5.Digits = 0;
 		this.hscale5.ValuePos = ((global::Gtk.PositionType)(2));
@@ -1160,9 +1160,9 @@ public partial class MainWindow
 		this.HScaleAnalogPinNull = new global::Gtk.HScale (null);
 		this.HScaleAnalogPinNull.CanFocus = true;
 		this.HScaleAnalogPinNull.Name = "HScaleAnalogPinNull";
-		this.HScaleAnalogPinNull.Adjustment.Upper = 1023;
-		this.HScaleAnalogPinNull.Adjustment.PageIncrement = 1;
-		this.HScaleAnalogPinNull.Adjustment.StepIncrement = 1;
+		this.HScaleAnalogPinNull.Adjustment.Upper = 1023D;
+		this.HScaleAnalogPinNull.Adjustment.PageIncrement = 1D;
+		this.HScaleAnalogPinNull.Adjustment.StepIncrement = 1D;
 		this.HScaleAnalogPinNull.DrawValue = true;
 		this.HScaleAnalogPinNull.Digits = 2;
 		this.HScaleAnalogPinNull.ValuePos = ((global::Gtk.PositionType)(2));
@@ -1436,8 +1436,6 @@ public partial class MainWindow
 		this.vbox3.Add (this.nbMain);
 		global::Gtk.Box.BoxChild w108 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.nbMain]));
 		w108.Position = 1;
-		w108.Expand = false;
-		w108.Fill = false;
 		// Container child vbox3.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";

@@ -71,6 +71,108 @@
         <property name="Sensitive">False</property>
         <property name="ShortLabel" translatable="yes">_Disconnect</property>
         <property name="StockId">gtk-disconnect</property>
+        <signal name="Activated" handler="OnDisconnectActionActivated" />
+      </action>
+      <action id="ConnectionAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Connection</property>
+        <property name="ShortLabel" translatable="yes">Connection</property>
+      </action>
+      <action id="DeviceTypeAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Device Type</property>
+        <property name="ShortLabel" translatable="yes">Device Type</property>
+      </action>
+      <action id="BaudrateAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Baudrate</property>
+        <property name="ShortLabel" translatable="yes">Baudrate</property>
+      </action>
+      <action id="Action300Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">300</property>
+        <property name="ShortLabel" translatable="yes">300</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="Action1200Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">1200</property>
+        <property name="ShortLabel" translatable="yes">1200</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="Action2400Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">2400</property>
+        <property name="ShortLabel" translatable="yes">2400</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="Action4800Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">4800</property>
+        <property name="ShortLabel" translatable="yes">4800</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="Action9600Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">9600</property>
+        <property name="ShortLabel" translatable="yes">9600</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="Action19200Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">19200</property>
+        <property name="ShortLabel" translatable="yes">19200</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="Action38400Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">38400</property>
+        <property name="ShortLabel" translatable="yes">38400</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="Action57600Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">57600</property>
+        <property name="ShortLabel" translatable="yes">57600</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="Action115200Baud">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">115200</property>
+        <property name="ShortLabel" translatable="yes">115200</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">True</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="PortsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Port(s)</property>
+        <property name="ShortLabel" translatable="yes">Port(s)</property>
       </action>
     </action-group>
     <property name="MemberName" />
@@ -79,7 +181,7 @@
     <property name="AllowShrink">True</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
-      <widget class="Gtk.VBox" id="vbox1">
+      <widget class="Gtk.VBox" id="vboxMain">
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
@@ -92,6 +194,21 @@
                 <node type="Separator" />
                 <node type="Menuitem" action="disconnectAction" />
                 <node type="Menuitem" action="quitAction" />
+              </node>
+              <node type="Menu" action="ConnectionAction">
+                <node type="Menu" action="DeviceTypeAction" />
+                <node type="Menu" action="BaudrateAction">
+                  <node type="Menuitem" action="Action300Baud" />
+                  <node type="Menuitem" action="Action1200Baud" />
+                  <node type="Menuitem" action="Action2400Baud" />
+                  <node type="Menuitem" action="Action4800Baud" />
+                  <node type="Menuitem" action="Action9600Baud" />
+                  <node type="Menuitem" action="Action19200Baud" />
+                  <node type="Menuitem" action="Action38400Baud" />
+                  <node type="Menuitem" action="Action57600Baud" />
+                  <node type="Menuitem" action="Action115200Baud" />
+                </node>
+                <node type="Menu" action="PortsAction" />
               </node>
               <node type="Menu" action="EditAction">
                 <node type="Menuitem" action="preferencesAction" />
@@ -339,6 +456,7 @@
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">Back</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnBtnConfigBackClicked" />
               </widget>
               <packing>
                 <property name="TopAttach">2</property>
@@ -405,7 +523,7 @@
               <packing>
                 <property name="BottomAttach">2</property>
                 <property name="RightAttach">2</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="XExpand">True</property>
                 <property name="XFill">True</property>
                 <property name="XShrink">False</property>
@@ -417,7 +535,7 @@
           </widget>
           <packing>
             <property name="Position">3</property>
-            <property name="AutoSize">True</property>
+            <property name="AutoSize">False</property>
           </packing>
         </child>
         <child>
@@ -429,7 +547,19 @@
               <placeholder />
             </child>
             <child>
-              <placeholder />
+              <widget class="Gtk.Button" id="btnPlotBack">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">Back</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
             </child>
           </widget>
           <packing>
@@ -458,14 +588,13 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="Prototype.SignalPinConfigBox" design-size="258 212">
+  <widget class="Gtk.Bin" id="Prototype.SignalPinConfigBox" design-size="292 196">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <child>
       <widget class="Gtk.Frame" id="frame1">
         <property name="MemberName" />
-        <property name="ShadowType">None</property>
-        <property name="BorderWidth">1</property>
+        <property name="ShadowType">In</property>
         <child>
           <widget class="Gtk.Alignment" id="GtkAlignment">
             <property name="MemberName" />
@@ -552,11 +681,16 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Entry" id="entryUnit">
+                  <widget class="Gtk.ComboBoxEntry" id="entryUnit">
                     <property name="MemberName" />
-                    <property name="CanFocus">True</property>
-                    <property name="IsEditable">True</property>
-                    <property name="InvisibleChar">●</property>
+                    <property name="Sensitive">False</property>
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes">C
+F
+K
+V
+A
+Pa</property>
                   </widget>
                   <packing>
                     <property name="TopAttach">4</property>
@@ -617,7 +751,6 @@
                 <child>
                   <widget class="Gtk.Label" id="lblSignalPinName">
                     <property name="MemberName" />
-                    <property name="Sensitive">False</property>
                     <property name="LabelProp" translatable="yes">Signal Label:</property>
                   </widget>
                   <packing>
@@ -657,12 +790,15 @@
                 <child>
                   <widget class="Gtk.SpinButton" id="spMultiplier">
                     <property name="MemberName" />
+                    <property name="Sensitive">False</property>
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
+                    <property name="Lower">-9999</property>
+                    <property name="Upper">9999</property>
                     <property name="PageIncrement">10</property>
                     <property name="StepIncrement">1</property>
                     <property name="ClimbRate">1</property>
                     <property name="Numeric">True</property>
+                    <property name="Value">1</property>
                   </widget>
                   <packing>
                     <property name="TopAttach">2</property>
@@ -683,8 +819,10 @@
                 <child>
                   <widget class="Gtk.SpinButton" id="spOffset">
                     <property name="MemberName" />
+                    <property name="Sensitive">False</property>
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
+                    <property name="Lower">-9999</property>
+                    <property name="Upper">9999</property>
                     <property name="PageIncrement">10</property>
                     <property name="StepIncrement">1</property>
                     <property name="ClimbRate">1</property>
