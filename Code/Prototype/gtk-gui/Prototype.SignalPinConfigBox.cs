@@ -154,14 +154,14 @@ namespace Prototype
 			w8.XOptions = ((global::Gtk.AttachOptions)(4));
 			w8.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.spMultiplier = new global::Gtk.SpinButton (-9999, 9999, 1);
+			this.spMultiplier = new global::Gtk.SpinButton (-9999D, 9999D, 1D);
 			this.spMultiplier.Sensitive = false;
 			this.spMultiplier.CanFocus = true;
 			this.spMultiplier.Name = "spMultiplier";
-			this.spMultiplier.Adjustment.PageIncrement = 10;
-			this.spMultiplier.ClimbRate = 1;
+			this.spMultiplier.Adjustment.PageIncrement = 10D;
+			this.spMultiplier.ClimbRate = 1D;
 			this.spMultiplier.Numeric = true;
-			this.spMultiplier.Value = 1;
+			this.spMultiplier.Value = 1D;
 			this.table1.Add (this.spMultiplier);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1 [this.spMultiplier]));
 			w9.TopAttach = ((uint)(2));
@@ -171,12 +171,12 @@ namespace Prototype
 			w9.XOptions = ((global::Gtk.AttachOptions)(4));
 			w9.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.spOffset = new global::Gtk.SpinButton (-9999, 9999, 1);
+			this.spOffset = new global::Gtk.SpinButton (-9999D, 9999D, 1D);
 			this.spOffset.Sensitive = false;
 			this.spOffset.CanFocus = true;
 			this.spOffset.Name = "spOffset";
-			this.spOffset.Adjustment.PageIncrement = 10;
-			this.spOffset.ClimbRate = 1;
+			this.spOffset.Adjustment.PageIncrement = 10D;
+			this.spOffset.ClimbRate = 1D;
 			this.spOffset.Numeric = true;
 			this.table1.Add (this.spOffset);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table1 [this.spOffset]));
