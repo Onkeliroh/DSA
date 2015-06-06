@@ -34,12 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
-    <Reference Include="CommandMessenger">
-      <HintPath>..\Prototype\CommandMessenger.dll</HintPath>
-    </Reference>
-    <Reference Include="CommandMessenger.Transport.Serial">
-      <HintPath>..\Prototype\CommandMessenger.Transport.Serial.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,4 +41,14 @@
     <Compile Include="ArduinoData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj">
+      <Project>{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}</Project>
+      <Name>CommandMessenger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj">
+      <Project>{00D85F0B-00A5-41FA-8A99-428C0199C663}</Project>
+      <Name>CommandMessenger.Transport.Serial</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
