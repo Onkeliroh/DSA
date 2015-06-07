@@ -54,21 +54,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrototypeWindow.cs" />
     <Compile Include="gtk-gui\PrototypeWindow.cs" />
     <Compile Include="SignalPinConfigBox.cs" />
     <Compile Include="gtk-gui\Prototype.SignalPinConfigBox.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PrototypeBackend\PrototypeBackend.csproj">
       <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
       <Name>PrototypeBackend</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

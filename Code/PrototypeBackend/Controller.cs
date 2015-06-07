@@ -7,19 +7,19 @@ namespace PrototypeBackend
 {
 	public class Controller
 	{
-		public EventHandler AnalogDataAvailable;
-
 		private Thread controllerThread;
 
 		public List<MeasurementDate> controllerMeasurementDateList{ private set; get; }
 
-		public List<List<double>> analogList;
-		public List<List<ArduinoController.DPinState>> digitalList;
+		public static List<List<double>> analogList;
+		public static List<List<ArduinoController.DPinState>> digitalList;
 
 		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 
 		private bool running = true;
+
+		public ArduinoController.ArduinoController ArduinoController = new ArduinoController.ArduinoController ();
 
 		public Controller ()
 		{
@@ -27,52 +27,70 @@ namespace PrototypeBackend
 			controllerThread.Start ();
 
 			controllerMeasurementDateList = new List<MeasurementDate> ();
+
+			ArduinoController.NewAnalogValue += OnNewArduinoNewAnalogValue;
+			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
 		}
 
-		public void AddMeasurementDate( MeasurementDate md )
+		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)
+		{
+			this.NewAnalogValue.Invoke (this, args);
+		}
+
+		private void OnNewArduinoNewDigitalValue (object sender, ControllerDigitalEventArgs args)
+		{
+			this.NewDigitalValue.Invoke (this, args);
+		}
+
+		public void AddMeasurementDate (MeasurementDate md)
 		{
 			controllerMeasurementDateList.Add (md);
 			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.dueTime).ToList ();
 		}
 
-		public void AddMeasurementDateRange( MeasurementDate[] md)
+		public void AddMeasurementDateRange (MeasurementDate[] md)
 		{
 			controllerMeasurementDateList.AddRange (md);
 			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.dueTime).ToList ();
 		}
 
-		public void RemoveMeasurementDate( MeasurementDate md)
+		public void RemoveMeasurementDate (MeasurementDate md)
 		{
 			controllerMeasurementDateList.RemoveAt (controllerMeasurementDateList.IndexOf (md));
 		}
 
-		public void RemoveMeasurementDateRange( MeasurementDate[] md)
+		public void RemoveMeasurementDateRange (MeasurementDate[] md)
 		{
 			int pos;
-			foreach (MeasurementDate MD in md) {
+			foreach (MeasurementDate MD in md)
+			{
 				pos = controllerMeasurementDateList.IndexOf (MD);
-				if (pos != -1 && pos >= 0 && pos < controllerMeasurementDateList.Count) {
+				if (pos != -1 && pos >= 0 && pos < controllerMeasurementDateList.Count)
+				{
 					controllerMeasurementDateList.RemoveAt (pos);
 				}
 			}
 		}
-			
-		public void Stop()
+
+		public void Stop ()
 		{
 			running = false;
 		}
 
-		private void Run()
+		private void Run ()
 		{
-			while (running) {
+			while (running)
+			{
 				if (controllerMeasurementDateList.Count > 0)
 				{
-					if ( controllerMeasurementDateList[0].dueTime.Subtract(DateTime.Now).TotalMilliseconds < 100 )
+					if (controllerMeasurementDateList [0].dueTime.Subtract (DateTime.Now).TotalMilliseconds < 100)
 					{
 						Thread.Sleep (90);
-						controllerMeasurementDateList[0].pinCmd();
+						controllerMeasurementDateList [0].pinCmd ();
+						controllerMeasurementDateList.RemoveAt (0);
 					}
 				}
+				Thread.Sleep (10);
 			}
 		}
 	}

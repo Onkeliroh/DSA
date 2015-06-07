@@ -2,6 +2,7 @@
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
 using System.Collections.Generic;
+using PrototypeBackend;
 
 namespace ArduinoController
 {
@@ -38,20 +39,23 @@ namespace ArduinoController
 	public enum PinMode
 	{
 		INPUT,
-		OUTPUT
-	};
+		OUTPUT}
+
+	;
 
 	public enum DPinState
 	{
 		LOW,
-		HIGH
-	};
+		HIGH}
+
+	;
 
 	public enum PinType
 	{
 		DIGITAL,
-		ANALOG
-	};
+		ANALOG}
+
+	;
 
 	public class ArduinoController
 	{
@@ -63,6 +67,8 @@ namespace ArduinoController
 		}
 
 		public EventHandler<EventArgs> onConnection;
+		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
+		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 
 		public string SerialPortName {
 			private get;
@@ -142,7 +148,8 @@ namespace ArduinoController
 
 			// Start listening
 			IsConnected = _cmdMessenger.Connect ();
-			if (IsConnected) {
+			if (IsConnected)
+			{
 				onConnection (this, null);
 			}
 		}
@@ -244,11 +251,11 @@ namespace ArduinoController
 			command.AddArgument (nr);
 			_cmdMessenger.SendCommand (command);
 
-			if (AnalogValues.Count < nr)
+			if (Controller.analogList.Count < nr)
 			{
-				while (AnalogValues.Count <= nr)
+				while (Controller.analogList.Count <= nr)
 				{
-					AnalogValues.Add (new List<float> ());
+					Controller.analogList.Add (new List<double> ());
 				}
 			}
 		}
@@ -258,7 +265,8 @@ namespace ArduinoController
 			int pin = (int)args.ReadFloatArg ();
 			float val = args.ReadFloatArg ();
 
-			AnalogValues [pin].Add (val);
+			Controller.analogList [pin].Add (val);
+			NewAnalogValue.Invoke (this, new ControllerAnalogEventArgs (pin, val));
 		}
 
 		public void SetAnalogPinMode (int Pin, PinMode mode)
@@ -299,7 +307,6 @@ namespace ArduinoController
 			{
 				Model = returnVal.ReadBinStringArg ();
 			}
-
 		}
 
 		private void OnGetModel (ReceivedCommand args)

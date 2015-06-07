@@ -1,10 +1,13 @@
 ﻿using Gtk;
+using PrototypeBackend;
 
 namespace Prototype
 {
 	class MainClass
 	{
-		public static ArduinoController.ArduinoController arduinoController{ private set; get;}
+		public static ArduinoController.ArduinoController arduinoController{ private set; get; }
+
+		public static PrototypeBackend.Controller mainController = new Controller ();
 
 		public static void Main (string[] args)
 		{
@@ -16,7 +19,7 @@ namespace Prototype
 			Application.Run ();
 		}
 
-		private static void InitComponents()
+		private static void InitComponents ()
 		{
 			arduinoController = new ArduinoController.ArduinoController ();
 		}

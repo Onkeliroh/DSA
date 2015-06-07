@@ -1,10 +1,6 @@
 ﻿using System;
 using Gtk;
 using Prototype;
-using System.IO.Ports;
-using System.Threading.Tasks;
-using System.Threading;
-using GLib;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.GtkSharp;
@@ -21,9 +17,10 @@ public partial class PrototypeWindow: Gtk.Window
 		InitComponents ();
 	}
 
-	private void InitComponents()
+	private void InitComponents ()
 	{
-		foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+		foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+		{
 		}
 
 
@@ -97,7 +94,8 @@ public partial class PrototypeWindow: Gtk.Window
 
 	protected void OnDisconnectActionActivated (object sender, EventArgs e)
 	{
-		if (MainClass.arduinoController.IsConnected) {
+		if (MainClass.arduinoController.IsConnected)
+		{
 			MainClass.arduinoController.Disconnect ();
 		}
 	}
@@ -116,9 +114,9 @@ public partial class PrototypeWindow: Gtk.Window
 
 	private void CreateConfigInterface ()
 	{
-		foreach ( Widget w in vboxConfig.Children)
+		foreach (Widget w in vboxConfig.Children)
 		{
-			vboxConfig.Remove(w);
+			vboxConfig.Remove (w);
 		}
 
 		MainClass.arduinoController.GetNumberAnalogPins ();
