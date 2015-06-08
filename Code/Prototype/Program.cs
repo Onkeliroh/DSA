@@ -5,9 +5,7 @@ namespace Prototype
 {
 	class MainClass
 	{
-		public static ArduinoController.ArduinoController arduinoController{ private set; get; }
-
-		public static PrototypeBackend.Controller mainController = new Controller ();
+		public static Controller mainController = new Controller ();
 
 		public static void Main (string[] args)
 		{
@@ -21,7 +19,6 @@ namespace Prototype
 
 		private static void InitComponents ()
 		{
-			arduinoController = new ArduinoController.ArduinoController ();
 		}
 	}
 }

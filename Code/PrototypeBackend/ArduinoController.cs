@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
-using System.Collections.Generic;
+using MonoDevelop.Components;
 using PrototypeBackend;
 
 namespace ArduinoController
@@ -66,9 +68,9 @@ namespace ArduinoController
 			private set;
 		}
 
-		public EventHandler<EventArgs> onConnection;
-		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
-		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
+		public event EventHandler<EventArgs> OnConnection;
+		public event EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
+		public event EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 
 		public string SerialPortName {
 			private get;
@@ -150,7 +152,13 @@ namespace ArduinoController
 			IsConnected = _cmdMessenger.Connect ();
 			if (IsConnected)
 			{
-				onConnection (this, null);
+				if (OnConnection != null) {
+					try {
+						OnConnection (this, null);
+					} catch (Exception e) {
+						Console.WriteLine (e);
+					}
+				}
 			}
 		}
 
@@ -166,8 +174,10 @@ namespace ArduinoController
 
 		public void Disconnect ()
 		{
-			IsConnected = false;
-			_cmdMessenger.Disconnect ();
+			if (IsConnected) {
+				IsConnected = false;
+				_cmdMessenger.Disconnect ();
+			}
 		}
 
 		/// Attach command call backs. 
@@ -383,7 +393,6 @@ namespace ArduinoController
 				PinModeMask = returnVal.ReadBinUInt32Arg ();
 				Console.WriteLine (PinModeMask);
 			}
-//			_cmdMessenger.SendCommand (command);
 		}
 
 		private void OnGetPinModeMask (ReceivedCommand args)

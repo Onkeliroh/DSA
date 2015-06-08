@@ -23,13 +23,13 @@ namespace PrototypeBackend
 
 		public Controller ()
 		{
-			controllerThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
-			controllerThread.Start ();
-
 			controllerMeasurementDateList = new List<MeasurementDate> ();
 
 			ArduinoController.NewAnalogValue += OnNewArduinoNewAnalogValue;
 			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
+
+			controllerThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
+			controllerThread.Start ();
 		}
 
 		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)

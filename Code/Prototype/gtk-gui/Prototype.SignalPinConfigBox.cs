@@ -30,6 +30,8 @@ namespace Prototype
 		
 		private global::Gtk.SpinButton spOffset;
 		
+		private global::Gtk.VSeparator vseparator1;
+		
 		private global::Gtk.Label lblFrame;
 
 		protected virtual void Build ()
@@ -47,7 +49,7 @@ namespace Prototype
 			this.GtkAlignment.Name = "GtkAlignment";
 			this.GtkAlignment.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			this.table1 = new global::Gtk.Table (((uint)(6)), ((uint)(2)), false);
+			this.table1 = new global::Gtk.Table (((uint)(6)), ((uint)(4)), false);
 			this.table1.Name = "table1";
 			this.table1.RowSpacing = ((uint)(6));
 			this.table1.ColumnSpacing = ((uint)(6));
@@ -62,7 +64,7 @@ namespace Prototype
 			global::Gtk.Table.TableChild w1 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnConfirm]));
 			w1.TopAttach = ((uint)(5));
 			w1.BottomAttach = ((uint)(6));
-			w1.RightAttach = ((uint)(2));
+			w1.RightAttach = ((uint)(4));
 			w1.XOptions = ((global::Gtk.AttachOptions)(4));
 			w1.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
@@ -154,14 +156,14 @@ namespace Prototype
 			w8.XOptions = ((global::Gtk.AttachOptions)(4));
 			w8.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.spMultiplier = new global::Gtk.SpinButton (-9999D, 9999D, 1D);
+			this.spMultiplier = new global::Gtk.SpinButton (-9999, 9999, 1);
 			this.spMultiplier.Sensitive = false;
 			this.spMultiplier.CanFocus = true;
 			this.spMultiplier.Name = "spMultiplier";
-			this.spMultiplier.Adjustment.PageIncrement = 10D;
-			this.spMultiplier.ClimbRate = 1D;
+			this.spMultiplier.Adjustment.PageIncrement = 10;
+			this.spMultiplier.ClimbRate = 1;
 			this.spMultiplier.Numeric = true;
-			this.spMultiplier.Value = 1D;
+			this.spMultiplier.Value = 1;
 			this.table1.Add (this.spMultiplier);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1 [this.spMultiplier]));
 			w9.TopAttach = ((uint)(2));
@@ -171,12 +173,12 @@ namespace Prototype
 			w9.XOptions = ((global::Gtk.AttachOptions)(4));
 			w9.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.spOffset = new global::Gtk.SpinButton (-9999D, 9999D, 1D);
+			this.spOffset = new global::Gtk.SpinButton (-9999, 9999, 1);
 			this.spOffset.Sensitive = false;
 			this.spOffset.CanFocus = true;
 			this.spOffset.Name = "spOffset";
-			this.spOffset.Adjustment.PageIncrement = 10D;
-			this.spOffset.ClimbRate = 1D;
+			this.spOffset.Adjustment.PageIncrement = 10;
+			this.spOffset.ClimbRate = 1;
 			this.spOffset.Numeric = true;
 			this.table1.Add (this.spOffset);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table1 [this.spOffset]));
@@ -186,6 +188,16 @@ namespace Prototype
 			w10.RightAttach = ((uint)(2));
 			w10.XOptions = ((global::Gtk.AttachOptions)(4));
 			w10.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
+			this.vseparator1 = new global::Gtk.VSeparator ();
+			this.vseparator1.Name = "vseparator1";
+			this.table1.Add (this.vseparator1);
+			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table1 [this.vseparator1]));
+			w11.BottomAttach = ((uint)(5));
+			w11.LeftAttach = ((uint)(2));
+			w11.RightAttach = ((uint)(3));
+			w11.XOptions = ((global::Gtk.AttachOptions)(4));
+			w11.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.GtkAlignment.Add (this.table1);
 			this.frame1.Add (this.GtkAlignment);
 			this.lblFrame = new global::Gtk.Label ();
