@@ -77,11 +77,11 @@ public partial class PrototypeWindow
 	
 	private global::Gtk.Table tableConfig;
 	
+	private global::Gtk.Button btnAddMeasurementSchedule;
+	
 	private global::Gtk.Button btnConfigBack;
 	
 	private global::Gtk.Button btnConfigRun;
-	
-	private global::Gtk.Button button1;
 	
 	private global::Gtk.Button button2;
 	
@@ -93,7 +93,11 @@ public partial class PrototypeWindow
 	
 	private global::Gtk.HBox hbox1;
 	
+	private global::Gtk.VBox vbox2;
+	
 	private global::Gtk.HBox Schedulehbox;
+	
+	private global::Gtk.Button btnClearStore;
 	
 	private global::Gtk.Label GtkLabel14;
 	
@@ -173,19 +177,19 @@ public partial class PrototypeWindow
 		this.Action9600Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("9600");
 		w1.Add (this.Action9600Baud, null);
 		this.Action19200Baud = new global::Gtk.RadioAction ("Action19200Baud", global::Mono.Unix.Catalog.GetString ("19200"), null, null, 0);
-		this.Action19200Baud.Group = this.Action9600Baud.Group;
+		this.Action19200Baud.Group = this.Action300Baud.Group;
 		this.Action19200Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("19200");
 		w1.Add (this.Action19200Baud, null);
 		this.Action38400Baud = new global::Gtk.RadioAction ("Action38400Baud", global::Mono.Unix.Catalog.GetString ("38400"), null, null, 0);
-		this.Action38400Baud.Group = this.Action9600Baud.Group;
+		this.Action38400Baud.Group = this.Action300Baud.Group;
 		this.Action38400Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("38400");
 		w1.Add (this.Action38400Baud, null);
 		this.Action57600Baud = new global::Gtk.RadioAction ("Action57600Baud", global::Mono.Unix.Catalog.GetString ("57600"), null, null, 0);
-		this.Action57600Baud.Group = this.Action9600Baud.Group;
+		this.Action57600Baud.Group = this.Action300Baud.Group;
 		this.Action57600Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("57600");
 		w1.Add (this.Action57600Baud, null);
 		this.Action115200Baud = new global::Gtk.RadioAction ("Action115200Baud", global::Mono.Unix.Catalog.GetString ("115200"), null, null, 0);
-		this.Action115200Baud.Group = this.Action9600Baud.Group;
+		this.Action115200Baud.Group = this.Action57600Baud.Group;
 		this.Action115200Baud.ShortLabel = global::Mono.Unix.Catalog.GetString ("115200");
 		w1.Add (this.Action115200Baud, null);
 		this.PortsAction = new global::Gtk.Action ("PortsAction", global::Mono.Unix.Catalog.GetString ("Port(s)"), null, null);
@@ -335,16 +339,32 @@ public partial class PrototypeWindow
 		this.tableConfig.RowSpacing = ((uint)(6));
 		this.tableConfig.ColumnSpacing = ((uint)(6));
 		// Container child tableConfig.Gtk.Table+TableChild
+		this.btnAddMeasurementSchedule = new global::Gtk.Button ();
+		this.btnAddMeasurementSchedule.WidthRequest = 300;
+		this.btnAddMeasurementSchedule.CanFocus = true;
+		this.btnAddMeasurementSchedule.Name = "btnAddMeasurementSchedule";
+		this.btnAddMeasurementSchedule.UseUnderline = true;
+		this.btnAddMeasurementSchedule.Label = global::Mono.Unix.Catalog.GetString ("Add Measurementschedule");
+		global::Gtk.Image w17 = new global::Gtk.Image ();
+		w17.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
+		this.btnAddMeasurementSchedule.Image = w17;
+		this.tableConfig.Add (this.btnAddMeasurementSchedule);
+		global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.btnAddMeasurementSchedule]));
+		w18.TopAttach = ((uint)(1));
+		w18.BottomAttach = ((uint)(2));
+		w18.XOptions = ((global::Gtk.AttachOptions)(0));
+		w18.YOptions = ((global::Gtk.AttachOptions)(0));
+		// Container child tableConfig.Gtk.Table+TableChild
 		this.btnConfigBack = new global::Gtk.Button ();
 		this.btnConfigBack.CanFocus = true;
 		this.btnConfigBack.Name = "btnConfigBack";
 		this.btnConfigBack.UseUnderline = true;
 		this.btnConfigBack.Label = global::Mono.Unix.Catalog.GetString ("Back");
 		this.tableConfig.Add (this.btnConfigBack);
-		global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.btnConfigBack]));
-		w17.TopAttach = ((uint)(5));
-		w17.BottomAttach = ((uint)(6));
-		w17.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.btnConfigBack]));
+		w19.TopAttach = ((uint)(5));
+		w19.BottomAttach = ((uint)(6));
+		w19.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableConfig.Gtk.Table+TableChild
 		this.btnConfigRun = new global::Gtk.Button ();
 		this.btnConfigRun.CanFocus = true;
@@ -352,28 +372,12 @@ public partial class PrototypeWindow
 		this.btnConfigRun.UseUnderline = true;
 		this.btnConfigRun.Label = global::Mono.Unix.Catalog.GetString ("Run");
 		this.tableConfig.Add (this.btnConfigRun);
-		global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.btnConfigRun]));
-		w18.TopAttach = ((uint)(5));
-		w18.BottomAttach = ((uint)(6));
-		w18.LeftAttach = ((uint)(1));
-		w18.RightAttach = ((uint)(3));
-		w18.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child tableConfig.Gtk.Table+TableChild
-		this.button1 = new global::Gtk.Button ();
-		this.button1.WidthRequest = 300;
-		this.button1.CanFocus = true;
-		this.button1.Name = "button1";
-		this.button1.UseUnderline = true;
-		this.button1.Label = global::Mono.Unix.Catalog.GetString ("Add Measurementschedule");
-		global::Gtk.Image w19 = new global::Gtk.Image ();
-		w19.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
-		this.button1.Image = w19;
-		this.tableConfig.Add (this.button1);
-		global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.button1]));
-		w20.TopAttach = ((uint)(1));
-		w20.BottomAttach = ((uint)(2));
-		w20.XOptions = ((global::Gtk.AttachOptions)(0));
-		w20.YOptions = ((global::Gtk.AttachOptions)(0));
+		global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.btnConfigRun]));
+		w20.TopAttach = ((uint)(5));
+		w20.BottomAttach = ((uint)(6));
+		w20.LeftAttach = ((uint)(1));
+		w20.RightAttach = ((uint)(3));
+		w20.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child tableConfig.Gtk.Table+TableChild
 		this.button2 = new global::Gtk.Button ();
 		this.button2.WidthRequest = 300;
@@ -413,12 +417,32 @@ public partial class PrototypeWindow
 		this.hbox1.Name = "hbox1";
 		this.hbox1.Spacing = 6;
 		// Container child hbox1.Gtk.Box+BoxChild
+		this.vbox2 = new global::Gtk.VBox ();
+		this.vbox2.Name = "vbox2";
+		this.vbox2.Spacing = 6;
+		// Container child vbox2.Gtk.Box+BoxChild
 		this.Schedulehbox = new global::Gtk.HBox ();
 		this.Schedulehbox.Name = "Schedulehbox";
 		this.Schedulehbox.Spacing = 6;
-		this.hbox1.Add (this.Schedulehbox);
-		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.Schedulehbox]));
+		this.vbox2.Add (this.Schedulehbox);
+		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.Schedulehbox]));
 		w24.Position = 0;
+		// Container child vbox2.Gtk.Box+BoxChild
+		this.btnClearStore = new global::Gtk.Button ();
+		this.btnClearStore.CanFocus = true;
+		this.btnClearStore.Name = "btnClearStore";
+		this.btnClearStore.UseUnderline = true;
+		this.btnClearStore.Label = global::Mono.Unix.Catalog.GetString ("Clear");
+		global::Gtk.Image w25 = new global::Gtk.Image ();
+		w25.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-clear", global::Gtk.IconSize.Menu);
+		this.btnClearStore.Image = w25;
+		this.vbox2.Add (this.btnClearStore);
+		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.btnClearStore]));
+		w26.Position = 1;
+		w26.Expand = false;
+		this.hbox1.Add (this.vbox2);
+		global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox2]));
+		w27.Position = 0;
 		this.GtkAlignment6.Add (this.hbox1);
 		this.Scheduleframe.Add (this.GtkAlignment6);
 		this.GtkLabel14 = new global::Gtk.Label ();
@@ -427,13 +451,13 @@ public partial class PrototypeWindow
 		this.GtkLabel14.UseMarkup = true;
 		this.Scheduleframe.LabelWidget = this.GtkLabel14;
 		this.tableConfig.Add (this.Scheduleframe);
-		global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.Scheduleframe]));
-		w27.BottomAttach = ((uint)(4));
-		w27.LeftAttach = ((uint)(1));
-		w27.RightAttach = ((uint)(3));
+		global::Gtk.Table.TableChild w30 = ((global::Gtk.Table.TableChild)(this.tableConfig [this.Scheduleframe]));
+		w30.BottomAttach = ((uint)(3));
+		w30.LeftAttach = ((uint)(1));
+		w30.RightAttach = ((uint)(3));
 		this.vboxMain.Add (this.tableConfig);
-		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.tableConfig]));
-		w28.Position = 3;
+		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.tableConfig]));
+		w31.Position = 3;
 		// Container child vboxMain.Gtk.Box+BoxChild
 		this.vboxPlot = new global::Gtk.VBox ();
 		this.vboxPlot.Name = "vboxPlot";
@@ -445,22 +469,22 @@ public partial class PrototypeWindow
 		this.btnPlotBack.UseUnderline = true;
 		this.btnPlotBack.Label = global::Mono.Unix.Catalog.GetString ("Back");
 		this.vboxPlot.Add (this.btnPlotBack);
-		global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vboxPlot [this.btnPlotBack]));
-		w29.Position = 1;
-		w29.Expand = false;
-		w29.Fill = false;
+		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vboxPlot [this.btnPlotBack]));
+		w32.Position = 1;
+		w32.Expand = false;
+		w32.Fill = false;
 		this.vboxMain.Add (this.vboxPlot);
-		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.vboxPlot]));
-		w30.Position = 4;
+		global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.vboxPlot]));
+		w33.Position = 4;
 		// Container child vboxMain.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar ();
 		this.statusbar1.Name = "statusbar1";
 		this.statusbar1.Spacing = 6;
 		this.vboxMain.Add (this.statusbar1);
-		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.statusbar1]));
-		w31.Position = 5;
-		w31.Expand = false;
-		w31.Fill = false;
+		global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.statusbar1]));
+		w34.Position = 5;
+		w34.Expand = false;
+		w34.Fill = false;
 		this.Add (this.vboxMain);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
@@ -478,8 +502,10 @@ public partial class PrototypeWindow
 		this.btnNewConfig.Clicked += new global::System.EventHandler (this.OnBtnNewConfigClicked);
 		this.btnRefresh.Clicked += new global::System.EventHandler (this.OnBtnRefreshClicked);
 		this.btnConnect.Clicked += new global::System.EventHandler (this.OnBtnConnectClicked);
+		this.btnClearStore.Clicked += new global::System.EventHandler (this.OnBtnClearStoreClicked);
 		this.btnConfigRun.Clicked += new global::System.EventHandler (this.OnBtnConfigRunClicked);
 		this.btnConfigBack.Clicked += new global::System.EventHandler (this.OnBtnConfigBackClicked);
+		this.btnAddMeasurementSchedule.Clicked += new global::System.EventHandler (this.OnBtnAddMeasurementScheduleClicked);
 		this.btnPlotBack.Clicked += new global::System.EventHandler (this.OnBtnPlotBackClicked);
 	}
 }

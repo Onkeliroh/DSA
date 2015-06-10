@@ -4,39 +4,40 @@ namespace PrototypeBackend
 {
 	public class MeasurementDate
 	{
-		public ArduinoController.PinType? pinType;
-		public int pinNr;
-		public DateTime dueTime;
-		public Action pinCmd;
+		public ArduinoController.PinType? PinType;
+		public string PinLabel;
+		public int PinNr;
+		public DateTime DueTime;
+		public ArduinoController.Command PinCmd;
 
 		public static bool operator < (MeasurementDate md1, MeasurementDate md2)
 		{
-			return md1.dueTime < md2.dueTime;
+			return md1.DueTime < md2.DueTime;
 		}
 
 		public static bool operator > (MeasurementDate md1, MeasurementDate md2)
 		{
-			return md1.dueTime > md2.dueTime;
+			return md1.DueTime > md2.DueTime;
 		}
 
 		public static bool operator >= (MeasurementDate md1, MeasurementDate md2)
 		{
-			return md1.dueTime >= md2.dueTime;
+			return md1.DueTime >= md2.DueTime;
 		}
 
 		public static bool operator <= (MeasurementDate md1, MeasurementDate md2)
 		{
-			return md1.dueTime <= md2.dueTime;
+			return md1.DueTime <= md2.DueTime;
 		}
 
 		public static bool operator == (MeasurementDate md1, MeasurementDate md2)
 		{
-			return md1.dueTime == md2.dueTime;
+			return md1.DueTime == md2.DueTime;
 		}
 
 		public static bool operator != (MeasurementDate md1, MeasurementDate md2)
 		{
-			return md1.dueTime != md2.dueTime;
+			return md1.DueTime != md2.DueTime;
 		}
 
 		public override bool Equals (object obj)
@@ -45,12 +46,14 @@ namespace PrototypeBackend
 			{
 				return false;
 			}
-			if (obj is MeasurementDate)
+			var measurementDate = obj as MeasurementDate;
+			if (measurementDate != null)
 			{
-				return ((obj as MeasurementDate).dueTime == dueTime
-				&& (obj as MeasurementDate).pinCmd == pinCmd
-				&& (obj as MeasurementDate).pinNr == pinNr
-				&& (obj as MeasurementDate).pinType == pinType);
+				return (measurementDate.DueTime == DueTime
+				&& measurementDate.PinCmd == PinCmd
+				&& measurementDate.PinNr == PinNr
+				&& measurementDate.PinType == PinType
+				&& measurementDate.PinLabel.Equals (PinLabel));
 			}
 			return false;
 		}
@@ -58,6 +61,11 @@ namespace PrototypeBackend
 		public override int GetHashCode ()
 		{
 			return base.GetHashCode ();
+		}
+
+		public override string ToString ()
+		{
+			return String.Format ("{0}\t{1}\t{2}\t{3}", PinLabel, PinNr, DueTime, PinType);
 		}
 	}
 }

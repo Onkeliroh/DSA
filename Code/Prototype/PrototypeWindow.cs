@@ -1,15 +1,21 @@
 ﻿using System;
 using Gtk;
 using Prototype;
+using PrototypeBackend;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.GtkSharp;
 using OxyPlot.Series;
 using System.ComponentModel;
 
+
+
 public partial class PrototypeWindow: Gtk.Window
 {
 	#region Member
+
+	private	Gtk.NodeStore ScheduleNodeStore = new NodeStore (typeof(ScheduleNode));
+	private	Gtk.NodeView ScheduleNodeview = new NodeView ();
 
 	#endregion
 
@@ -24,18 +30,34 @@ public partial class PrototypeWindow: Gtk.Window
 
 	private void InitComponents ()
 	{
-		foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+		foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+		{
 		}
 
 
 		(this.UIManager.GetWidget ("/menubar1") as MenuBar).Insert (new MenuItem ("Test"), 5);
 		(this.UIManager.GetWidget ("/menubar1") as MenuBar).Show ();
+
+		CreateConfigInterface ();
+
+		MainClass.mainController.MeasurementDateListUpdated += (o, e) =>
+		{
+			ScheduleNodeStore.Clear ();
+			foreach (MeasurementDate md in MainClass.mainController.controllerMeasurementDateList)
+			{
+				if (md.PinType == ArduinoController.PinType.ANALOG)
+				{
+					ScheduleNodeStore.AddNode (new ScheduleNode (md.PinLabel, md.PinNr, md.DueTime));
+				}
+			}
+			ScheduleNodeview.Show ();
+		};
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{
 		MainClass.mainController.Stop ();
-		MainClass.mainController.ArduinoController.Disconnect ();
+		MainClass.mainController.ArduinoController_.Disconnect ();
 		Application.Quit ();
 	}
 
@@ -65,7 +87,8 @@ public partial class PrototypeWindow: Gtk.Window
 	protected void OnBtnRefreshClicked (object sender, EventArgs e)
 	{
 		(cbConnectPorts.Model as ListStore).Clear ();
-		foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+		foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+		{
 			cbConnectPorts.AppendText (s);	
 		}
 		cbConnectPorts.Active = 0;
@@ -73,18 +96,25 @@ public partial class PrototypeWindow: Gtk.Window
 
 	protected void OnBtnConnectClicked (object sender, EventArgs e)
 	{
-		MainClass.mainController.ArduinoController.SerialPortName = cbConnectPorts.ActiveText;
-		MainClass.mainController.ArduinoController.Setup ();
-		if (MainClass.mainController.ArduinoController.IsConnected) {
-			CreateConfigInterface ();
-			tableConfig.Visible = true;
-			tableConnection.Visible = false;
-			hboxGreetings.Visible = false;
-			disconnectAction.Sensitive = true;
-			vboxPlot.Visible = false;
-		} else {
+		MainClass.mainController.ArduinoController_.SerialPortName = cbConnectPorts.ActiveText;
+		MainClass.mainController.ArduinoController_.Setup ();
+
+		#if FAKESERIAL
+		if (MainClass.mainController.ArduinoController.IsConnected)
+		{
+		#endif
+//		CreateConfigInterface ();
+		tableConfig.Visible = true;
+		tableConnection.Visible = false;
+		hboxGreetings.Visible = false;
+		disconnectAction.Sensitive = true;
+		vboxPlot.Visible = false;
+		#if FAKESERIAL
+		} else
+		{
 			//Todo What else?
 		}
+		#endif
 	}
 
 	protected void OnBtnConfigRunClicked (object sender, EventArgs e)
@@ -98,8 +128,9 @@ public partial class PrototypeWindow: Gtk.Window
 
 	protected void OnDisconnectActionActivated (object sender, EventArgs e)
 	{
-		if (MainClass.mainController.ArduinoController.IsConnected) {
-			MainClass.mainController.ArduinoController.Disconnect ();
+		if (MainClass.mainController.ArduinoController_.IsConnected)
+		{
+			MainClass.mainController.ArduinoController_.Disconnect ();
 		}
 	}
 
@@ -121,17 +152,18 @@ public partial class PrototypeWindow: Gtk.Window
 		disconnectAction.Sensitive = false;
 	}
 
+	protected void OnBtnClearStoreClicked (object sender, EventArgs e)
+	{
+		MainClass.mainController.ClearMeasurementDate ();
+	}
+
 	#endregion
 
 	#region Logic
 
 	private void CreateConfigInterface ()
 	{
-		Gtk.NodeStore ScheduleNodeStore = new NodeStore (typeof(ScheduleNode));
-		ScheduleNodeStore.AddNode (new ScheduleNode ("Test1"));
-		ScheduleNodeStore.AddNode (new ScheduleNode ("Test2"));
-
-		Gtk.NodeView ScheduleNodeview = new NodeView (ScheduleNodeStore);
+		ScheduleNodeview.NodeStore = ScheduleNodeStore;
 
 		Schedulehbox.Add (ScheduleNodeview);
 
@@ -140,12 +172,12 @@ public partial class PrototypeWindow: Gtk.Window
 		ScheduleNodeview.AppendColumn ("Time", new Gtk.CellRendererText (), "text", 2);
 
 		ScheduleNodeview.Show ();
-		ShowAll ();
 	}
 
 	private void CleatePlotInterface ()
 	{
-		if ((vboxPlot.Children [0] as PlotView) == null) {
+		if ((vboxPlot.Children [0] as PlotView) == null)
+		{
 			var pv = new OxyPlot.GtkSharp.PlotView ();
 			vboxPlot.PackStart (pv);
 			(vboxPlot [pv] as VBox.BoxChild).Position = 0;
@@ -193,16 +225,35 @@ public partial class PrototypeWindow: Gtk.Window
 		var s1 = new LineSeries ();
 
 		int n = 20000;
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++)
+		{
 			s1.Points.Add (new DataPoint ((double)i / n, Math.Sin (i)));
 		}
 
 		return s1;
 	}
 
+
+
+	protected void OnBtnAddMeasurementScheduleClicked (object sender, EventArgs e)
+	{
+		var dialog = new AddScheduleDialog (MainClass.mainController.AvailableAnalogPins);
+		var responce = dialog.Run ();
+		if (responce == (int)Gtk.ResponseType.Apply)
+		{
+			Console.WriteLine ("Apply");
+			MainClass.mainController.AddMeasurementDateRange (dialog.Dates);
+			//todo
+		} else if (responce == (int)Gtk.ResponseType.Cancel)
+		{
+			Console.WriteLine ("Cancel");
+		}
+		
+		dialog.Destroy ();
+	}
+
 	#endregion
 }
-
 namespace Prototype
 {
 	class ScheduleNode : Gtk.TreeNode
@@ -212,17 +263,23 @@ namespace Prototype
 		[Gtk.TreeNodeValue (Column = 1)]
 		public string Pin;
 		[Gtk.TreeNodeValue (Column = 2)]
-		public DateTime Time;
+		public string Time;
 
-		public ScheduleNode (string label) : this (label, "UNKNOWN", DateTime.Now)
+		public ScheduleNode (string label) : this (label, null, DateTime.Now)
 		{
 		}
 
-		public ScheduleNode (string label, string pin, DateTime time)
+		public ScheduleNode (string label, int? pin, DateTime time)
 		{
 			Label = label;
-			Pin = pin;
-			Time = time;
+			if (pin != null)
+			{
+				Pin = pin.ToString ();
+			} else
+			{
+				Pin = "UNKNOWN";
+			}
+			Time = String.Format (time.ToString (), System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FullDateTimePattern);
 		}
 	}
 }

@@ -1,14 +1,20 @@
 ﻿<Properties StartupItem="Prototype.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PrototypeWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeBackend/ArduinoController.cs">
     <Files>
-      <File FileName="SignalPinConfigBox.cs" Line="15" Column="38" />
-      <File FileName="../PrototypeBackend/Controller.cs" Line="78" Column="3" />
-      <File FileName="../PrototypeBackend/ArduinoController.cs" Line="154" Column="4" />
-      <File FileName="../CommandMessengerLib/CommandMessenger/CmdMessenger.cs" Line="400" Column="44" />
-      <File FileName="Program.cs" Line="8" Column="57" />
-      <File FileName="PrototypeWindow.cs" Line="144" Column="2" />
+      <File FileName="PrototypeWindow.cs" Line="102" Column="16" />
+      <File FileName="../PrototypeBackend/Controller.cs" Line="12" Column="30" />
+      <File FileName="../PrototypeBackend/ArduinoController.cs" Line="264" Column="1" />
+      <File FileName="../PrototypeBackend/MeasurementDate.cs" Line="68" Column="82" />
+      <File FileName="AddScheduleDialog.cs" Line="82" Column="40" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="Prototype" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

@@ -14,19 +14,27 @@ namespace PrototypeBackend
 		public static List<List<double>> analogList;
 		public static List<List<ArduinoController.DPinState>> digitalList;
 
+		public int[] AvailableAnalogPins {
+			private set{ }
+			get {
+				return GetUnusedPins (ArduinoController.PinType.ANALOG);
+			}
+		}
+
 		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
+		public EventHandler MeasurementDateListUpdated;
 
 		private bool running = true;
 
-		public ArduinoController.ArduinoController ArduinoController = new ArduinoController.ArduinoController ();
+		public ArduinoController.ArduinoController ArduinoController_ = new ArduinoController.ArduinoController ();
 
 		public Controller ()
 		{
 			controllerMeasurementDateList = new List<MeasurementDate> ();
 
-			ArduinoController.NewAnalogValue += OnNewArduinoNewAnalogValue;
-			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
+			ArduinoController_.NewAnalogValue += OnNewArduinoNewAnalogValue;
+			ArduinoController_.NewDigitalValue += OnNewArduinoNewDigitalValue;
 
 			controllerThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
 			controllerThread.Start ();
@@ -45,18 +53,21 @@ namespace PrototypeBackend
 		public void AddMeasurementDate (MeasurementDate md)
 		{
 			controllerMeasurementDateList.Add (md);
-			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.dueTime).ToList ();
+			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.DueTime).ToList ();
+			MeasurementDateListUpdated.Invoke (this, null);
 		}
 
 		public void AddMeasurementDateRange (MeasurementDate[] md)
 		{
 			controllerMeasurementDateList.AddRange (md);
-			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.dueTime).ToList ();
+			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.DueTime).ToList ();
+			MeasurementDateListUpdated.Invoke (this, null);
 		}
 
 		public void RemoveMeasurementDate (MeasurementDate md)
 		{
 			controllerMeasurementDateList.RemoveAt (controllerMeasurementDateList.IndexOf (md));
+			MeasurementDateListUpdated.Invoke (this, null);
 		}
 
 		public void RemoveMeasurementDateRange (MeasurementDate[] md)
@@ -70,6 +81,13 @@ namespace PrototypeBackend
 					controllerMeasurementDateList.RemoveAt (pos);
 				}
 			}
+			MeasurementDateListUpdated.Invoke (this, null);
+		}
+
+		public void ClearMeasurementDate ()
+		{
+			controllerMeasurementDateList.Clear ();
+			MeasurementDateListUpdated.Invoke (this, null);
 		}
 
 		public void Stop ()
@@ -83,15 +101,72 @@ namespace PrototypeBackend
 			{
 				if (controllerMeasurementDateList.Count > 0)
 				{
-					if (controllerMeasurementDateList [0].dueTime.Subtract (DateTime.Now).TotalMilliseconds < 100)
+					if (controllerMeasurementDateList [0].DueTime.Subtract (DateTime.Now).TotalMilliseconds < 10)
 					{
-						Thread.Sleep (90);
-						controllerMeasurementDateList [0].pinCmd ();
+						#if DEBUG
+						Console.WriteLine (controllerMeasurementDateList [0].ToString ());
+						#endif
+						switch (controllerMeasurementDateList [0].PinCmd)
+						{
+						case ArduinoController.Command.ReadAnalogPin:
+							ArduinoController_.ReadAnalogPin (controllerMeasurementDateList [0].PinNr);
+							break;
+						}
 						controllerMeasurementDateList.RemoveAt (0);
 					}
 				}
 				Thread.Sleep (10);
 			}
+		}
+
+		private int[] GetUsedPins (ArduinoController.PinType type)
+		{
+			List<int> pins = new List<int> ();
+
+
+			foreach (MeasurementDate md in this.controllerMeasurementDateList)
+			{
+				if (md.PinType == type)
+				{
+					if (!pins.Contains (md.PinNr))
+					{
+						pins.Add (md.PinNr);
+					}
+				}
+			}
+			return pins.ToArray ();
+		}
+
+		private int[] GetUnusedPins (ArduinoController.PinType type)
+		{
+			List<int> pins = new List<int> ();
+
+			if (ArduinoController.PinType.ANALOG == type)
+			{
+				for (int i = 0; i < ArduinoController_.NumberOfAnalogPins; i++)
+				{
+					pins.Add (i);
+				}
+			} else if (ArduinoController.PinType.DIGITAL == type)
+			{
+				for (int i = 0; i < ArduinoController_.NumberOfDigitalPins; i++)
+				{
+					pins.Add (i);
+				}
+			}
+
+			foreach (MeasurementDate md in this.controllerMeasurementDateList)
+			{
+				if (md.PinType == type)
+				{
+					if (pins.Contains (md.PinNr))
+					{
+						pins.Remove (md.PinNr);
+					}
+				}
+			}
+
+			return pins.ToArray ();
 		}
 	}
 }

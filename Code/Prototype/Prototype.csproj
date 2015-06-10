@@ -31,6 +31,18 @@
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>5</LangVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'FakeSerial|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\FakeSerial</OutputPath>
+    <DefineConstants>FAKESERIAL</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Custom" />
+      </CustomCommands>
+    </CustomCommands>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
@@ -56,10 +68,12 @@
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrototypeWindow.cs" />
-    <Compile Include="gtk-gui\PrototypeWindow.cs" />
     <Compile Include="SignalPinConfigBox.cs" />
     <Compile Include="gtk-gui\Prototype.SignalPinConfigBox.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="AddScheduleDialog.cs" />
+    <Compile Include="gtk-gui\Prototype.AddScheduleDialog.cs" />
+    <Compile Include="gtk-gui\PrototypeWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
