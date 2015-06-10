@@ -1,20 +1,11 @@
 ﻿<Properties StartupItem="Prototype.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeBackend/ArduinoController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="FakeSerial" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="PrototypeWindow.cs">
     <Files>
-      <File FileName="PrototypeWindow.cs" Line="102" Column="16" />
-      <File FileName="../PrototypeBackend/Controller.cs" Line="12" Column="30" />
-      <File FileName="../PrototypeBackend/ArduinoController.cs" Line="264" Column="1" />
-      <File FileName="../PrototypeBackend/MeasurementDate.cs" Line="68" Column="82" />
-      <File FileName="AddScheduleDialog.cs" Line="82" Column="40" />
+      <File FileName="PrototypeWindow.cs" Line="173" Column="1" />
+      <File FileName="../PrototypeBackend/Controller.cs" Line="117" Column="7" />
+      <File FileName="gtk-gui/PrototypeWindow.cs" Line="10" Column="40" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="Prototype" expanded="True" selected="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

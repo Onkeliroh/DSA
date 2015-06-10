@@ -6,6 +6,7 @@ namespace PrototypeBackend
 	{
 		public ArduinoController.PinType? PinType;
 		public string PinLabel;
+		public string Unit;
 		public int PinNr;
 		public DateTime DueTime;
 		public ArduinoController.Command PinCmd;
@@ -42,18 +43,18 @@ namespace PrototypeBackend
 
 		public override bool Equals (object obj)
 		{
-			if (obj == null)
-			{
+			if (obj == null) {
 				return false;
 			}
 			var measurementDate = obj as MeasurementDate;
-			if (measurementDate != null)
-			{
+			if (measurementDate != null) {
 				return (measurementDate.DueTime == DueTime
 				&& measurementDate.PinCmd == PinCmd
 				&& measurementDate.PinNr == PinNr
 				&& measurementDate.PinType == PinType
-				&& measurementDate.PinLabel.Equals (PinLabel));
+				&& measurementDate.PinLabel.Equals (PinLabel)
+				&& measurementDate.Unit.Equals (Unit)
+				);
 			}
 			return false;
 		}
@@ -65,7 +66,7 @@ namespace PrototypeBackend
 
 		public override string ToString ()
 		{
-			return String.Format ("{0}\t{1}\t{2}\t{3}", PinLabel, PinNr, DueTime, PinType);
+			return String.Format ("{0}\t{1}\t{2}\t{3}\t{4}", PinLabel, PinNr, DueTime, PinType, Unit);
 		}
 	}
 }

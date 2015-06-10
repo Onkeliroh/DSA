@@ -99,22 +99,18 @@ public partial class PrototypeWindow: Gtk.Window
 		MainClass.mainController.ArduinoController_.SerialPortName = cbConnectPorts.ActiveText;
 		MainClass.mainController.ArduinoController_.Setup ();
 
-		#if FAKESERIAL
-		if (MainClass.mainController.ArduinoController.IsConnected)
+		if (MainClass.mainController.ArduinoController_.IsConnected)
 		{
-		#endif
 //		CreateConfigInterface ();
 		tableConfig.Visible = true;
 		tableConnection.Visible = false;
 		hboxGreetings.Visible = false;
 		disconnectAction.Sensitive = true;
 		vboxPlot.Visible = false;
-		#if FAKESERIAL
 		} else
 		{
 			//Todo What else?
 		}
-		#endif
 	}
 
 	protected void OnBtnConfigRunClicked (object sender, EventArgs e)
@@ -241,14 +237,9 @@ public partial class PrototypeWindow: Gtk.Window
 		var responce = dialog.Run ();
 		if (responce == (int)Gtk.ResponseType.Apply)
 		{
-			Console.WriteLine ("Apply");
 			MainClass.mainController.AddMeasurementDateRange (dialog.Dates);
-			//todo
-		} else if (responce == (int)Gtk.ResponseType.Cancel)
-		{
-			Console.WriteLine ("Cancel");
-		}
-		
+		} 
+
 		dialog.Destroy ();
 	}
 

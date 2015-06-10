@@ -15,27 +15,50 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
+		FakeSerial|Any CPU = FakeSerial|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{00D85F0B-00A5-41FA-8A99-428C0199C663}.Debug|x86.ActiveCfg = Debug|x86
 		{00D85F0B-00A5-41FA-8A99-428C0199C663}.Debug|x86.Build.0 = Debug|x86
+		{00D85F0B-00A5-41FA-8A99-428C0199C663}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
+		{00D85F0B-00A5-41FA-8A99-428C0199C663}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
 		{00D85F0B-00A5-41FA-8A99-428C0199C663}.Release|x86.ActiveCfg = Release|x86
 		{00D85F0B-00A5-41FA-8A99-428C0199C663}.Release|x86.Build.0 = Release|x86
 		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.Debug|x86.ActiveCfg = Debug|x86
 		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.Debug|x86.Build.0 = Debug|x86
+		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
+		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
 		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.Release|x86.ActiveCfg = Release|x86
 		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.Release|x86.Build.0 = Release|x86
 		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Debug|x86.ActiveCfg = Debug|x86
 		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Debug|x86.Build.0 = Debug|x86
+		{26212356-8A7B-454E-91B0-D3A325E53AA5}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
+		{26212356-8A7B-454E-91B0-D3A325E53AA5}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
 		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Release|x86.ActiveCfg = Release|x86
 		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Release|x86.Build.0 = Release|x86
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Debug|x86.ActiveCfg = Debug|x86
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Debug|x86.Build.0 = Debug|x86
+		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
+		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Release|x86.ActiveCfg = Release|x86
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Release|x86.Build.0 = Release|x86
 		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Debug|x86.Build.0 = Debug|Any CPU
+		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
+		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
 		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Release|x86.ActiveCfg = Release|Any CPU
 		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.FileWidth = 120
+		$2.TabsToSpaces = False
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/plain
 	EndGlobalSection
 EndGlobal

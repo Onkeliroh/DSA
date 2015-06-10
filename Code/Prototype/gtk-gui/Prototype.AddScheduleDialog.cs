@@ -312,11 +312,6 @@ namespace Prototype
 			this.DefaultWidth = 462;
 			this.DefaultHeight = 183;
 			this.Show ();
-			this.sBOffset.ValueChanged += new global::System.EventHandler (this.OnSBOffsetValueChanged);
-			this.sBMultiplier.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnSBMultiplierChangeValue);
-			this.eUUnit.Changed += new global::System.EventHandler (this.OnEUUnitChanged);
-			this.ePinLabel.Changed += new global::System.EventHandler (this.OnEPinLabelChanged);
-			this.cBPins.Changed += new global::System.EventHandler (this.OnCBPinsChanged);
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
 			this.btnCancel.Clicked += new global::System.EventHandler (this.OnBtnCancelClicked);
 		}

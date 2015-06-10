@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using PrototypeBackend;
+using Gtk;
 
 namespace Prototype
 {
@@ -19,24 +20,16 @@ namespace Prototype
 			set {
 				Pins_ = new int[(value as int[]).Length];
 				Pins_ = (value as int[]);
-				foreach (int i in Pins_)
-				{
+				foreach (int i in Pins_) {
 					cBPins.AppendText (i.ToString ());
+				}
+				if (Pins_.Length > 0) {
+					cBPins.Active = 0;
 				}
 				cBPins.Show ();
 			}
 			get{ return Pins_; }
 		}
-
-		public int Pin{ private set; get; }
-
-		public string PinLabel{ private set; get; }
-
-		public double Multiplier { private set; get; }
-
-		public double Offset { private set; get; }
-
-		public string Unit { private set; get; }
 
 		public AddScheduleDialog () : this (new int[0])
 		{
@@ -45,49 +38,29 @@ namespace Prototype
 		public AddScheduleDialog (int[] pins)
 		{
 			this.Build ();
+			this.Title = "Add Schedule";
 			Pins = pins;
 		}
 
-		protected void OnEPinLabelChanged (object sender, EventArgs e)
-		{
-			PinLabel = ePinLabel.Text;
-		}
-
-		protected void OnCBPinsChanged (object sender, EventArgs e)
-		{
-			Pin = Convert.ToInt16 (cBPins.ActiveText);
-		}
-
-		protected void OnSBMultiplierChangeValue (object o, Gtk.ChangeValueArgs args)
-		{
-			Multiplier = sBMultiplier.Value;
-		}
-
-		protected void OnSBOffsetValueChanged (object sender, EventArgs e)
-		{
-			Offset = sBOffset.Value;
-		}
-
-		protected void OnEUUnitChanged (object sender, EventArgs e)
-		{
-			Unit = eUUnit.ActiveText;
-		}
 
 		protected void OnBtnAddClicked (object sender, EventArgs e)
 		{
+			string PinLabel = "";
+			if (ePinLabel.Text.Equals ("")) {
+				PinLabel = cBPins.ActiveText;
+			}
 			DatesList.Add (new PrototypeBackend.MeasurementDate () {
 				PinType = ArduinoController.PinType.ANALOG, 
-				PinNr = Pin, 
+				PinNr = Convert.ToInt16 (cBPins.ActiveText), 
 				PinCmd = ArduinoController.Command.ReadAnalogPin,
 				DueTime = DateTime.Now.AddMinutes (2),
 				PinLabel = PinLabel
 			});
 
-			for (int i = 0; i < sBRepetitions.Value; i++)
-			{
+			for (int i = 0; i < sBRepetitions.Value; i++) {
 				DatesList.Add (new PrototypeBackend.MeasurementDate () {
 					PinType = ArduinoController.PinType.ANALOG, 
-					PinNr = Pin, 
+					PinNr = Convert.ToInt16 (cBPins.ActiveText), 
 					PinCmd = ArduinoController.Command.ReadAnalogPin,
 					DueTime = DatesList [0].DueTime.AddMinutes (i + 1),
 					PinLabel = PinLabel

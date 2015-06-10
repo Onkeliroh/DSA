@@ -6,7 +6,7 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../bin/Debug/Prototype.exe" internal="true" />
+    <widget-library name="../bin/FakeSerial/Prototype.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="PrototypeWindow" design-size="1147 897">
     <action-group name="Default">
@@ -445,22 +445,10 @@
           <widget class="Gtk.Table" id="tableConfig">
             <property name="MemberName" />
             <property name="Visible">False</property>
-            <property name="NRows">6</property>
-            <property name="NColumns">3</property>
+            <property name="NRows">4</property>
+            <property name="NColumns">2</property>
             <property name="RowSpacing">6</property>
             <property name="ColumnSpacing">6</property>
-            <child>
-              <placeholder />
-            </child>
-            <child>
-              <placeholder />
-            </child>
-            <child>
-              <placeholder />
-            </child>
-            <child>
-              <placeholder />
-            </child>
             <child>
               <widget class="Gtk.Button" id="btnAddMeasurementSchedule">
                 <property name="MemberName" />
@@ -473,8 +461,6 @@
                 <signal name="Clicked" handler="OnBtnAddMeasurementScheduleClicked" />
               </widget>
               <packing>
-                <property name="TopAttach">1</property>
-                <property name="BottomAttach">2</property>
                 <property name="AutoSize">False</property>
                 <property name="XOptions">0</property>
                 <property name="YOptions">0</property>
@@ -496,8 +482,8 @@
                 <signal name="Clicked" handler="OnBtnConfigBackClicked" />
               </widget>
               <packing>
-                <property name="TopAttach">5</property>
-                <property name="BottomAttach">6</property>
+                <property name="TopAttach">3</property>
+                <property name="BottomAttach">4</property>
                 <property name="AutoSize">False</property>
                 <property name="YOptions">Fill</property>
                 <property name="XExpand">True</property>
@@ -518,10 +504,10 @@
                 <signal name="Clicked" handler="OnBtnConfigRunClicked" />
               </widget>
               <packing>
-                <property name="TopAttach">5</property>
-                <property name="BottomAttach">6</property>
+                <property name="TopAttach">3</property>
+                <property name="BottomAttach">4</property>
                 <property name="LeftAttach">1</property>
-                <property name="RightAttach">3</property>
+                <property name="RightAttach">2</property>
                 <property name="AutoSize">False</property>
                 <property name="YOptions">Fill</property>
                 <property name="XExpand">True</property>
@@ -543,8 +529,8 @@
                 <property name="UseUnderline">True</property>
               </widget>
               <packing>
-                <property name="TopAttach">2</property>
-                <property name="BottomAttach">3</property>
+                <property name="TopAttach">1</property>
+                <property name="BottomAttach">2</property>
                 <property name="AutoSize">False</property>
                 <property name="XOptions">0</property>
                 <property name="YOptions">0</property>
@@ -561,9 +547,9 @@
                 <property name="MemberName" />
               </widget>
               <packing>
-                <property name="TopAttach">4</property>
-                <property name="BottomAttach">5</property>
-                <property name="RightAttach">3</property>
+                <property name="TopAttach">2</property>
+                <property name="BottomAttach">3</property>
+                <property name="RightAttach">2</property>
                 <property name="AutoSize">True</property>
                 <property name="XOptions">Fill</property>
                 <property name="YOptions">Fill</property>
@@ -647,9 +633,9 @@
                 </child>
               </widget>
               <packing>
-                <property name="BottomAttach">3</property>
+                <property name="BottomAttach">2</property>
                 <property name="LeftAttach">1</property>
-                <property name="RightAttach">3</property>
+                <property name="RightAttach">2</property>
                 <property name="AutoSize">False</property>
                 <property name="XExpand">True</property>
                 <property name="XFill">True</property>
@@ -1072,7 +1058,6 @@ Pa</property>
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
-                <signal name="Changed" handler="OnCBPinsChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -1096,7 +1081,6 @@ Pa</property>
                 <property name="CanFocus">True</property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
-                <signal name="Changed" handler="OnEPinLabelChanged" />
               </widget>
               <packing>
                 <property name="LeftAttach">1</property>
@@ -1122,7 +1106,6 @@ K
 V
 A
 Pa</property>
-                <signal name="Changed" handler="OnEUUnitChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">4</property>
@@ -1311,7 +1294,6 @@ Pa</property>
                 <property name="StepIncrement">1</property>
                 <property name="ClimbRate">1</property>
                 <property name="Numeric">True</property>
-                <signal name="ChangeValue" handler="OnSBMultiplierChangeValue" />
               </widget>
               <packing>
                 <property name="TopAttach">2</property>
@@ -1338,7 +1320,6 @@ Pa</property>
                 <property name="StepIncrement">1</property>
                 <property name="ClimbRate">1</property>
                 <property name="Numeric">True</property>
-                <signal name="ValueChanged" handler="OnSBOffsetValueChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">3</property>

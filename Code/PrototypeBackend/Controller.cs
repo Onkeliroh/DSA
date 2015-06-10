@@ -70,6 +70,12 @@ namespace PrototypeBackend
 			MeasurementDateListUpdated.Invoke (this, null);
 		}
 
+		public void RemoveMeasurementDate (int position)
+		{
+			controllerMeasurementDateList.RemoveAt (position);
+						MeasurementDateListUpdated.Invoke (this, null);
+		}
+
 		public void RemoveMeasurementDateRange (MeasurementDate[] md)
 		{
 			int pos;
@@ -106,13 +112,15 @@ namespace PrototypeBackend
 						#if DEBUG
 						Console.WriteLine (controllerMeasurementDateList [0].ToString ());
 						#endif
+						#if !FAKESERIAL
 						switch (controllerMeasurementDateList [0].PinCmd)
 						{
 						case ArduinoController.Command.ReadAnalogPin:
 							ArduinoController_.ReadAnalogPin (controllerMeasurementDateList [0].PinNr);
 							break;
 						}
-						controllerMeasurementDateList.RemoveAt (0);
+						#endif
+						RemoveMeasurementDate (0);
 					}
 				}
 				Thread.Sleep (10);

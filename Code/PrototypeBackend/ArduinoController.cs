@@ -80,7 +80,13 @@ namespace ArduinoController
 		//Constructor
 		public ArduinoController ()
 		{
+			#if FAKESERIAL
+			NumberOfDigitalPins = 20;
+			NumberOfAnalogPins = 6;
+			IsConnected = true;
+			#else
 			IsConnected = false;
+			#endif
 		}
 
 		public List<List<float>> AnalogValues {
