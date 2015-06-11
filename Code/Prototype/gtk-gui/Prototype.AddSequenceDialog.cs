@@ -12,7 +12,7 @@ namespace Prototype
 		
 		private global::Gtk.ComboBox cBPins;
 		
-		private global::Gtk.Entry entry1;
+		private global::Gtk.Entry ePinLabel;
 		
 		private global::Gtk.Label label1;
 		
@@ -28,9 +28,15 @@ namespace Prototype
 		
 		private global::Gtk.Label label7;
 		
+		private global::Gtk.Label label8;
+		
+		private global::Gtk.Label label9;
+		
 		private global::Gtk.SpinButton sBAlternativeStateDuration;
 		
 		private global::Gtk.SpinButton sBInititalStateDuration;
+		
+		private global::Gtk.SpinButton sBRepetitions;
 		
 		private global::Gtk.VSeparator vseparator1;
 		
@@ -89,13 +95,13 @@ namespace Prototype
 			w4.XOptions = ((global::Gtk.AttachOptions)(4));
 			w4.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.entry1 = new global::Gtk.Entry ();
-			this.entry1.CanFocus = true;
-			this.entry1.Name = "entry1";
-			this.entry1.IsEditable = true;
-			this.entry1.InvisibleChar = '●';
-			this.table1.Add (this.entry1);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.entry1]));
+			this.ePinLabel = new global::Gtk.Entry ();
+			this.ePinLabel.CanFocus = true;
+			this.ePinLabel.Name = "ePinLabel";
+			this.ePinLabel.IsEditable = true;
+			this.ePinLabel.InvisibleChar = '●';
+			this.table1.Add (this.ePinLabel);
+			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.ePinLabel]));
 			w5.LeftAttach = ((uint)(1));
 			w5.RightAttach = ((uint)(2));
 			w5.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -184,6 +190,32 @@ namespace Prototype
 			w12.XOptions = ((global::Gtk.AttachOptions)(4));
 			w12.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
+			this.label8 = new global::Gtk.Label ();
+			this.label8.Name = "label8";
+			this.label8.Xalign = 0F;
+			this.label8.LabelProp = global::Mono.Unix.Catalog.GetString ("Repeate:");
+			this.table1.Add (this.label8);
+			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table1 [this.label8]));
+			w13.TopAttach = ((uint)(3));
+			w13.BottomAttach = ((uint)(4));
+			w13.LeftAttach = ((uint)(3));
+			w13.RightAttach = ((uint)(4));
+			w13.XOptions = ((global::Gtk.AttachOptions)(4));
+			w13.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
+			this.label9 = new global::Gtk.Label ();
+			this.label9.Name = "label9";
+			this.label9.Xalign = 0F;
+			this.label9.LabelProp = global::Mono.Unix.Catalog.GetString ("Times");
+			this.table1.Add (this.label9);
+			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table1 [this.label9]));
+			w14.TopAttach = ((uint)(3));
+			w14.BottomAttach = ((uint)(4));
+			w14.LeftAttach = ((uint)(5));
+			w14.RightAttach = ((uint)(6));
+			w14.XOptions = ((global::Gtk.AttachOptions)(4));
+			w14.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
 			this.sBAlternativeStateDuration = new global::Gtk.SpinButton (0, 1E+38, 1);
 			this.sBAlternativeStateDuration.Sensitive = false;
 			this.sBAlternativeStateDuration.CanFocus = true;
@@ -193,13 +225,13 @@ namespace Prototype
 			this.sBAlternativeStateDuration.Numeric = true;
 			this.sBAlternativeStateDuration.Value = 1000;
 			this.table1.Add (this.sBAlternativeStateDuration);
-			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table1 [this.sBAlternativeStateDuration]));
-			w13.TopAttach = ((uint)(2));
-			w13.BottomAttach = ((uint)(3));
-			w13.LeftAttach = ((uint)(4));
-			w13.RightAttach = ((uint)(5));
-			w13.XOptions = ((global::Gtk.AttachOptions)(4));
-			w13.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table1 [this.sBAlternativeStateDuration]));
+			w15.TopAttach = ((uint)(2));
+			w15.BottomAttach = ((uint)(3));
+			w15.LeftAttach = ((uint)(4));
+			w15.RightAttach = ((uint)(5));
+			w15.XOptions = ((global::Gtk.AttachOptions)(4));
+			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.sBInititalStateDuration = new global::Gtk.SpinButton (0, 1E+34, 1);
 			this.sBInititalStateDuration.CanFocus = true;
@@ -209,32 +241,49 @@ namespace Prototype
 			this.sBInititalStateDuration.Numeric = true;
 			this.sBInititalStateDuration.Value = 1000;
 			this.table1.Add (this.sBInititalStateDuration);
-			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table1 [this.sBInititalStateDuration]));
-			w14.TopAttach = ((uint)(1));
-			w14.BottomAttach = ((uint)(2));
-			w14.LeftAttach = ((uint)(4));
-			w14.RightAttach = ((uint)(5));
-			w14.XOptions = ((global::Gtk.AttachOptions)(4));
-			w14.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table1 [this.sBInititalStateDuration]));
+			w16.TopAttach = ((uint)(1));
+			w16.BottomAttach = ((uint)(2));
+			w16.LeftAttach = ((uint)(4));
+			w16.RightAttach = ((uint)(5));
+			w16.XOptions = ((global::Gtk.AttachOptions)(4));
+			w16.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
+			this.sBRepetitions = new global::Gtk.SpinButton (0, 100, 1);
+			this.sBRepetitions.CanFocus = true;
+			this.sBRepetitions.Name = "sBRepetitions";
+			this.sBRepetitions.Adjustment.PageIncrement = 10;
+			this.sBRepetitions.ClimbRate = 1;
+			this.sBRepetitions.Numeric = true;
+			this.table1.Add (this.sBRepetitions);
+			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table1 [this.sBRepetitions]));
+			w17.TopAttach = ((uint)(3));
+			w17.BottomAttach = ((uint)(4));
+			w17.LeftAttach = ((uint)(4));
+			w17.RightAttach = ((uint)(5));
+			w17.XOptions = ((global::Gtk.AttachOptions)(4));
+			w17.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.vseparator1 = new global::Gtk.VSeparator ();
 			this.vseparator1.Name = "vseparator1";
 			this.table1.Add (this.vseparator1);
-			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table1 [this.vseparator1]));
-			w15.BottomAttach = ((uint)(3));
-			w15.LeftAttach = ((uint)(2));
-			w15.RightAttach = ((uint)(3));
-			w15.XOptions = ((global::Gtk.AttachOptions)(4));
-			w15.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table1 [this.vseparator1]));
+			w18.BottomAttach = ((uint)(4));
+			w18.LeftAttach = ((uint)(2));
+			w18.RightAttach = ((uint)(3));
+			w18.XOptions = ((global::Gtk.AttachOptions)(4));
+			w18.YOptions = ((global::Gtk.AttachOptions)(4));
 			w1.Add (this.table1);
-			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(w1 [this.table1]));
-			w16.Position = 0;
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(w1 [this.table1]));
+			w19.Position = 0;
+			w19.Expand = false;
+			w19.Fill = false;
 			// Internal child Prototype.AddSequenceDialog.ActionArea
-			global::Gtk.HButtonBox w17 = this.ActionArea;
-			w17.Name = "dialog1_ActionArea";
-			w17.Spacing = 10;
-			w17.BorderWidth = ((uint)(5));
-			w17.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
+			global::Gtk.HButtonBox w20 = this.ActionArea;
+			w20.Name = "dialog1_ActionArea";
+			w20.Spacing = 10;
+			w20.BorderWidth = ((uint)(5));
+			w20.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.btnAdd = new global::Gtk.Button ();
 			this.btnAdd.CanDefault = true;
@@ -244,9 +293,9 @@ namespace Prototype
 			this.btnAdd.UseUnderline = true;
 			this.btnAdd.Label = "gtk-add";
 			this.AddActionWidget (this.btnAdd, 0);
-			global::Gtk.ButtonBox.ButtonBoxChild w18 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w17 [this.btnAdd]));
-			w18.Expand = false;
-			w18.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w21 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w20 [this.btnAdd]));
+			w21.Expand = false;
+			w21.Fill = false;
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.btnCancel = new global::Gtk.Button ();
 			this.btnCancel.CanDefault = true;
@@ -256,15 +305,15 @@ namespace Prototype
 			this.btnCancel.UseUnderline = true;
 			this.btnCancel.Label = "gtk-cancel";
 			this.AddActionWidget (this.btnCancel, -6);
-			global::Gtk.ButtonBox.ButtonBoxChild w19 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w17 [this.btnCancel]));
-			w19.Position = 1;
-			w19.Expand = false;
-			w19.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w22 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w20 [this.btnCancel]));
+			w22.Position = 1;
+			w22.Expand = false;
+			w22.Fill = false;
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 597;
-			this.DefaultHeight = 300;
+			this.DefaultWidth = 607;
+			this.DefaultHeight = 172;
 			this.Show ();
 			this.cBAlternating.Toggled += new global::System.EventHandler (this.OnCBAlternatingToggled);
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);

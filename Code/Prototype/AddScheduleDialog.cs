@@ -20,10 +20,12 @@ namespace Prototype
 			set {
 				Pins_ = new int[(value as int[]).Length];
 				Pins_ = (value as int[]);
-				foreach (int i in Pins_) {
+				foreach (int i in Pins_)
+				{
 					cBPins.AppendText (i.ToString ());
 				}
-				if (Pins_.Length > 0) {
+				if (Pins_.Length > 0)
+				{
 					cBPins.Active = 0;
 				}
 				cBPins.Show ();
@@ -46,7 +48,8 @@ namespace Prototype
 		protected void OnBtnAddClicked (object sender, EventArgs e)
 		{
 			string PinLabel = "";
-			if (ePinLabel.Text.Equals ("")) {
+			if (ePinLabel.Text.Equals (""))
+			{
 				PinLabel = cBPins.ActiveText;
 			}
 			DatesList.Add (new PrototypeBackend.MeasurementDate () {
@@ -57,7 +60,8 @@ namespace Prototype
 				PinLabel = PinLabel
 			});
 
-			for (int i = 0; i < sBRepetitions.Value; i++) {
+			for (int i = 0; i < sBRepetitions.Value; i++)
+			{
 				DatesList.Add (new PrototypeBackend.MeasurementDate () {
 					PinType = ArduinoController.PinType.ANALOG, 
 					PinNr = Convert.ToInt16 (cBPins.ActiveText), 

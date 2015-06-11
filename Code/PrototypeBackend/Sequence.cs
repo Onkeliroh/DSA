@@ -11,7 +11,12 @@ namespace PrototypeBackend
 		public int PinNr;
 		public ArduinoController.DPinState PinState = ArduinoController.DPinState.LOW;
 		public DateTime DueTime;
+		public double Interval;
 		public Action PinCmd;
+
+		public Sequence ()
+		{
+		}
 
 		public Sequence (string label, DateTime time, int pinnr)
 		{
@@ -53,7 +58,8 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as Sequence;
-			if (seq != null) {
+			if (seq != null)
+			{
 				return (seq.PinNr == PinNr
 				&& seq.PinLabel.Equals (PinLabel)
 				&& seq.DueTime.Equals (DueTime)

@@ -309,7 +309,7 @@ namespace Prototype
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 462;
+			this.DefaultWidth = 464;
 			this.DefaultHeight = 183;
 			this.Show ();
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);

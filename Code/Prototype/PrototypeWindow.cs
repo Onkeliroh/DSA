@@ -102,11 +102,11 @@ public partial class PrototypeWindow: Gtk.Window
 		if (MainClass.mainController.ArduinoController_.IsConnected)
 		{
 //		CreateConfigInterface ();
-		tableConfig.Visible = true;
-		tableConnection.Visible = false;
-		hboxGreetings.Visible = false;
-		disconnectAction.Sensitive = true;
-		vboxPlot.Visible = false;
+			tableConfig.Visible = true;
+			tableConnection.Visible = false;
+			hboxGreetings.Visible = false;
+			disconnectAction.Sensitive = true;
+			vboxPlot.Visible = false;
 		} else
 		{
 			//Todo What else?
@@ -151,6 +151,29 @@ public partial class PrototypeWindow: Gtk.Window
 	protected void OnBtnClearStoreClicked (object sender, EventArgs e)
 	{
 		MainClass.mainController.ClearMeasurementDate ();
+	}
+
+	protected void OnBtnAddMeasurementScheduleClicked (object sender, EventArgs e)
+	{
+		var dialog = new AddScheduleDialog (MainClass.mainController.AvailableAnalogPins);
+		var responce = dialog.Run ();
+		if (responce == (int)Gtk.ResponseType.Apply)
+		{
+			MainClass.mainController.AddMeasurementDateRange (dialog.Dates);
+		} 
+
+		dialog.Destroy ();
+	}
+
+	protected void OnBtnAddSequenceScheduleClicked (object sender, EventArgs e)
+	{
+		var dialog = new AddSequenceDialog (MainClass.mainController.AvailableDigitalPins);
+		var responce = dialog.Run ();
+		if (responce == (int)Gtk.ResponseType.Apply)
+		{
+			MainClass.mainController.AddSequenceDateRange (dialog.Sequences);
+		}
+		dialog.Destroy ();
 	}
 
 	#endregion
@@ -230,18 +253,6 @@ public partial class PrototypeWindow: Gtk.Window
 	}
 
 
-
-	protected void OnBtnAddMeasurementScheduleClicked (object sender, EventArgs e)
-	{
-		var dialog = new AddScheduleDialog (MainClass.mainController.AvailableAnalogPins);
-		var responce = dialog.Run ();
-		if (responce == (int)Gtk.ResponseType.Apply)
-		{
-			MainClass.mainController.AddMeasurementDateRange (dialog.Dates);
-		} 
-
-		dialog.Destroy ();
-	}
 
 	#endregion
 }

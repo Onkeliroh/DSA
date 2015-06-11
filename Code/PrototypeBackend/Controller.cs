@@ -11,6 +11,8 @@ namespace PrototypeBackend
 
 		public List<MeasurementDate> controllerMeasurementDateList{ private set; get; }
 
+		public List<Sequence> controllerSequenceDateList{ private set; get; }
+
 		public static List<List<double>> analogList;
 		public static List<List<ArduinoController.DPinState>> digitalList;
 
@@ -21,9 +23,17 @@ namespace PrototypeBackend
 			}
 		}
 
+		public int[] AvailableDigitalPins {
+			private set{ }
+			get {
+				return GetUnusedPins (ArduinoController.PinType.DIGITAL); 
+			}
+		}
+
 		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 		public EventHandler MeasurementDateListUpdated;
+		public EventHandler SequenceDateListUpdated;
 
 		private bool running = true;
 
@@ -32,6 +42,7 @@ namespace PrototypeBackend
 		public Controller ()
 		{
 			controllerMeasurementDateList = new List<MeasurementDate> ();
+			controllerSequenceDateList = new List<Sequence> ();
 
 			ArduinoController_.NewAnalogValue += OnNewArduinoNewAnalogValue;
 			ArduinoController_.NewDigitalValue += OnNewArduinoNewDigitalValue;
@@ -41,39 +52,95 @@ namespace PrototypeBackend
 		}
 
 		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)
-		{
-			this.NewAnalogValue.Invoke (this, args);
+		{	
+			if (this.NewAnalogValue != null)
+			{
+				this.NewAnalogValue.Invoke (this, args);
+			}
 		}
 
 		private void OnNewArduinoNewDigitalValue (object sender, ControllerDigitalEventArgs args)
 		{
-			this.NewDigitalValue.Invoke (this, args);
+			if (this.NewDigitalValue != null)
+			{
+				this.NewDigitalValue.Invoke (this, args);
+			}
 		}
 
 		public void AddMeasurementDate (MeasurementDate md)
 		{
 			controllerMeasurementDateList.Add (md);
 			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.DueTime).ToList ();
-			MeasurementDateListUpdated.Invoke (this, null);
+			if (MeasurementDateListUpdated != null)
+			{
+				MeasurementDateListUpdated.Invoke (this, null);
+			}
+		}
+
+		public void AddSequenceDate (Sequence seq)
+		{
+			controllerSequenceDateList.Add (seq);
+			controllerSequenceDateList = controllerSequenceDateList.OrderBy (o => o.DueTime).ToList ();
+			if (SequenceDateListUpdated != null)
+			{
+				SequenceDateListUpdated.Invoke (this, null);
+			}
 		}
 
 		public void AddMeasurementDateRange (MeasurementDate[] md)
 		{
 			controllerMeasurementDateList.AddRange (md);
 			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.DueTime).ToList ();
-			MeasurementDateListUpdated.Invoke (this, null);
+			if (MeasurementDateListUpdated != null)
+			{
+				MeasurementDateListUpdated.Invoke (this, null);
+			}
+		}
+
+		public void AddSequenceDateRange (Sequence[] seq)
+		{
+			controllerSequenceDateList.AddRange (seq);
+			controllerSequenceDateList = controllerSequenceDateList.OrderBy (o => o.DueTime).ToList ();
+			if (SequenceDateListUpdated != null)
+			{
+				SequenceDateListUpdated.Invoke (this, null);
+			}
 		}
 
 		public void RemoveMeasurementDate (MeasurementDate md)
 		{
 			controllerMeasurementDateList.RemoveAt (controllerMeasurementDateList.IndexOf (md));
-			MeasurementDateListUpdated.Invoke (this, null);
+			if (MeasurementDateListUpdated != null)
+			{
+				MeasurementDateListUpdated.Invoke (this, null);
+			}
+		}
+
+		public void RemoveSequenceDate (Sequence seq)
+		{
+			controllerSequenceDateList.RemoveAt (controllerSequenceDateList.IndexOf (seq));
+			if (SequenceDateListUpdated != null)
+			{
+				SequenceDateListUpdated.Invoke (this, null);
+			}
 		}
 
 		public void RemoveMeasurementDate (int position)
 		{
 			controllerMeasurementDateList.RemoveAt (position);
-						MeasurementDateListUpdated.Invoke (this, null);
+			if (MeasurementDateListUpdated != null)
+			{
+				MeasurementDateListUpdated.Invoke (this, null);
+			}
+		}
+
+		public void RemoveSequenceDate (int position)
+		{
+			controllerSequenceDateList.RemoveAt (position);
+			if (SequenceDateListUpdated != null)
+			{
+				SequenceDateListUpdated.Invoke (this, null);
+			}
 		}
 
 		public void RemoveMeasurementDateRange (MeasurementDate[] md)
@@ -87,13 +154,45 @@ namespace PrototypeBackend
 					controllerMeasurementDateList.RemoveAt (pos);
 				}
 			}
-			MeasurementDateListUpdated.Invoke (this, null);
+			if (MeasurementDateListUpdated != null)
+			{
+				MeasurementDateListUpdated.Invoke (this, null);
+			}
+		}
+
+		public void RemoveSequenceDateRange (Sequence[] seq)
+		{
+			int pos;
+			foreach (Sequence SEQ in seq)
+			{
+				pos = controllerSequenceDateList.IndexOf (SEQ);
+				if (pos != -1 && pos >= 0 && pos < controllerSequenceDateList.Count)
+				{
+					controllerSequenceDateList.RemoveAt (pos);
+				}
+			}
+			if (SequenceDateListUpdated != null)
+			{
+				SequenceDateListUpdated.Invoke (this, null);
+			}
 		}
 
 		public void ClearMeasurementDate ()
 		{
 			controllerMeasurementDateList.Clear ();
-			MeasurementDateListUpdated.Invoke (this, null);
+			if (MeasurementDateListUpdated != null)
+			{
+				MeasurementDateListUpdated.Invoke (this, null);
+			}
+		}
+
+		public void ClearSequenceDate ()
+		{
+			controllerSequenceDateList.Clear ();
+			if (SequenceDateListUpdated != null)
+			{
+				SequenceDateListUpdated.Invoke (this, null);
+			}
 		}
 
 		public void Stop ()
@@ -103,6 +202,7 @@ namespace PrototypeBackend
 
 		private void Run ()
 		{
+			//todo sequences berücksichtigen
 			while (running)
 			{
 				if (controllerMeasurementDateList.Count > 0)

@@ -34,7 +34,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'FakeSerial|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\FakeSerial</OutputPath>
-    <DefineConstants>FAKESERIAL</DefineConstants>
+    <DefineConstants>FAKESERIAL; DEBUG</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <CustomCommands>
       <CustomCommands>
