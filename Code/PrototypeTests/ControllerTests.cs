@@ -142,26 +142,26 @@ namespace PrototypeTests
 			Assert.AreEqual (42, val);
 		}
 
-		[Test ()]
-		public void QueueTest ()
-		{
-			var tmp = new PrototypeBackend.Controller ();
-
-			bool action = false;
-
-			tmp.AddMeasurementDate (new MeasurementDate () {
-				DueTime = DateTime.Now.AddSeconds (1), 
-				PinNr = 42, 
-				PinType = ArduinoController.PinType.DIGITAL, 
-				PinCmd = () =>
-				{
-					action = true;
-				}
-			});
-
-			Thread.Sleep (2000);
-			Assert.AreEqual (true, action);
-		}
+//		[Test ()]
+//		public void QueueTest ()
+//		{
+//			var tmp = new PrototypeBackend.Controller ();
+//
+//			bool action = false;
+//
+//			tmp.AddMeasurementDate (new MeasurementDate () {
+//				DueTime = DateTime.Now.AddSeconds (1), 
+//				PinNr = 42, 
+//				PinType = ArduinoController.PinType.DIGITAL, 
+//				PinCmd = () =>
+//				{
+//					action = true;
+//				}
+//			});
+//
+//			Thread.Sleep (2000);
+//			Assert.AreEqual (true, action);
+//		}
 	}
 }
 

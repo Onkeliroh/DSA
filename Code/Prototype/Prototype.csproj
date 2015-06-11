@@ -74,6 +74,8 @@
     <Compile Include="AddScheduleDialog.cs" />
     <Compile Include="gtk-gui\Prototype.AddScheduleDialog.cs" />
     <Compile Include="gtk-gui\PrototypeWindow.cs" />
+    <Compile Include="AddSequenceDialog.cs" />
+    <Compile Include="gtk-gui\Prototype.AddSequenceDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

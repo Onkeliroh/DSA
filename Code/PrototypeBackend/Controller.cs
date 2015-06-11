@@ -110,7 +110,7 @@ namespace PrototypeBackend
 					if (controllerMeasurementDateList [0].DueTime.Subtract (DateTime.Now).TotalMilliseconds < 10)
 					{
 						#if DEBUG
-						Console.WriteLine (controllerMeasurementDateList [0].ToString ());
+						Console.WriteLine (DateTime.Now + ":\t" + controllerMeasurementDateList [0].ToString ());
 						#endif
 						#if !FAKESERIAL
 						switch (controllerMeasurementDateList [0].PinCmd)
