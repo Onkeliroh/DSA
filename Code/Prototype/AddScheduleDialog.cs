@@ -57,7 +57,7 @@ namespace Prototype
 				PinNr = Convert.ToInt16 (cBPins.ActiveText), 
 				PinCmd = ArduinoController.Command.ReadAnalogPin,
 				DueTime = DateTime.Now.AddMinutes (2),
-				PinLabel = PinLabel
+				PinLabel = PinLabel,
 			});
 
 			for (int i = 0; i < sBRepetitions.Value; i++)

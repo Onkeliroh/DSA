@@ -64,49 +64,81 @@ namespace Prototype
 			if (ePinLabel.Text.Equals (""))
 			{
 				PinLabel = cBPins.ActiveText;
-			}
-			SequencesList.Add (new Sequence () {
-				PinLabel = PinLabel,
-				PinNr = Convert.ToInt16 (cBPins.ActiveText),
-				Interval = sBInititalStateDuration.Value,
-				PinType = ArduinoController.PinType.DIGITAL,
-				DueTime = DateTime.Now.AddMinutes (2),
-				PinState = State
-			});
-			for (int i = 0; i < (int)sBRepetitions.Value; i++)
+			} else
 			{
-				SequencesList.Add (new Sequence () {
-					PinLabel = PinLabel,
-					PinNr = Convert.ToInt16 (cBPins.ActiveText),
-					Interval = sBInititalStateDuration.Value,
-					PinType = ArduinoController.PinType.DIGITAL,
-					DueTime = SequencesList [0].DueTime.AddMilliseconds (i * sBInititalStateDuration.Value),
-					PinState = State
-				});
+				PinLabel = ePinLabel.Text;
 			}
+	
 			if (cBAlternating.Active)
 			{
+
 				SequencesList.Add (new Sequence () {
 					PinLabel = PinLabel,
 					PinNr = Convert.ToInt16 (cBPins.ActiveText),
 					Interval = sBInititalStateDuration.Value,
 					PinType = ArduinoController.PinType.DIGITAL,
-					DueTime = DateTime.Now.AddMinutes (2).AddMilliseconds (sBAlternativeStateDuration.Value),
-					PinState = AltState
+					DueTime = DateTime.Now,
+					PinState = State,
+					PinCmd = () => MainClass.mainController.ArduinoController_.SetPin (Convert.ToInt16 (cBPins.ActiveText), ArduinoController.PinMode.OUTPUT, State)
 				});
-				for (int i = 0; i < (int)sBRepetitions.Value; i++)
+				if (cBAlternating.Active)
 				{
 					SequencesList.Add (new Sequence () {
 						PinLabel = PinLabel,
 						PinNr = Convert.ToInt16 (cBPins.ActiveText),
 						Interval = sBInititalStateDuration.Value,
 						PinType = ArduinoController.PinType.DIGITAL,
-						DueTime = SequencesList [0].DueTime.AddMilliseconds (i * sBAlternativeStateDuration.Value),
-						PinState = AltState
+						DueTime = SequencesList [0].DueTime.AddMilliseconds (sBAlternativeStateDuration.Value),
+						PinState = AltState,
+						PinCmd = () => MainClass.mainController.ArduinoController_.SetPin (Convert.ToInt16 (cBPins.ActiveText), ArduinoController.PinMode.OUTPUT, AltState)
 					});
 				}
-				
+				for (int i = 1; i <= (int)sBRepetitions.Value; i++)
+				{
+					SequencesList.Add (new Sequence () {
+						PinLabel = PinLabel,
+						PinNr = Convert.ToInt16 (cBPins.ActiveText),
+						Interval = sBInititalStateDuration.Value,
+						PinType = ArduinoController.PinType.DIGITAL,
+						DueTime = SequencesList [SequencesList.Count - 1].DueTime.AddMilliseconds (sBInititalStateDuration.Value),
+						PinState = State,
+						PinCmd = () => MainClass.mainController.ArduinoController_.SetPin (Convert.ToInt16 (cBPins.ActiveText), ArduinoController.PinMode.OUTPUT, State)
+					});
+					SequencesList.Add (new Sequence () {
+						PinLabel = PinLabel,
+						PinNr = Convert.ToInt16 (cBPins.ActiveText),
+						Interval = sBInititalStateDuration.Value,
+						PinType = ArduinoController.PinType.DIGITAL,
+						DueTime = SequencesList [SequencesList.Count - 1].DueTime.AddMilliseconds (sBAlternativeStateDuration.Value),
+						PinState = AltState,
+						PinCmd = () => MainClass.mainController.ArduinoController_.SetPin (Convert.ToInt16 (cBPins.ActiveText), ArduinoController.PinMode.OUTPUT, AltState)
+					});
+				}
+			} else
+			{
+				SequencesList.Add (new Sequence () {
+					PinLabel = PinLabel,
+					PinNr = Convert.ToInt16 (cBPins.ActiveText),
+					Interval = sBInititalStateDuration.Value,
+					PinType = ArduinoController.PinType.DIGITAL,
+					DueTime = DateTime.Now,
+					PinState = State,
+					PinCmd = () => MainClass.mainController.ArduinoController_.SetPin (Convert.ToInt16 (cBPins.ActiveText), ArduinoController.PinMode.OUTPUT, State)
+				});
+				for (int i = 1; i <= (int)sBRepetitions.Value; i++)
+				{
+					SequencesList.Add (new Sequence () {
+						PinLabel = PinLabel,
+						PinNr = Convert.ToInt16 (cBPins.ActiveText),
+						Interval = sBInititalStateDuration.Value,
+						PinType = ArduinoController.PinType.DIGITAL,
+						DueTime = SequencesList [i].DueTime.AddMilliseconds (sBInititalStateDuration.Value),
+						PinState = State,
+						PinCmd = () => MainClass.mainController.ArduinoController_.SetPin (Convert.ToInt16 (cBPins.ActiveText), ArduinoController.PinMode.OUTPUT, State)
+					});
+				}	
 			}
+				
 
 
 			this.Respond (Gtk.ResponseType.Apply);

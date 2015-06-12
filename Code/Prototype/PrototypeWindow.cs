@@ -16,6 +16,8 @@ public partial class PrototypeWindow: Gtk.Window
 
 	private	Gtk.NodeStore ScheduleNodeStore = new NodeStore (typeof(ScheduleNode));
 	private	Gtk.NodeView ScheduleNodeview = new NodeView ();
+	private Gtk.NodeStore SequenceNodeStore = new NodeStore (typeof(SequenceNode));
+	private Gtk.NodeView SequenceNodeview = new NodeView ();
 
 	#endregion
 
@@ -52,6 +54,18 @@ public partial class PrototypeWindow: Gtk.Window
 			}
 			ScheduleNodeview.Show ();
 		};
+
+//		MainClass.mainController.SequenceDateListUpdated += (o, e) =>
+//		{
+//			SequenceNodeStore.Clear ();
+//			foreach (Sequence seq in MainClass.mainController.controllerSequenceDateList)
+//			{
+//				if (seq.PinType == ArduinoController.PinType.DIGITAL)
+//				{
+//					SequenceNodeStore.AddNode (new SequenceNode (seq.PinLabel, seq.PinNr, seq.DueTime, Enum.GetName (typeof(ArduinoController.DPinState), seq.PinState)));
+//				}
+//			}
+//		};
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -153,6 +167,11 @@ public partial class PrototypeWindow: Gtk.Window
 		MainClass.mainController.ClearMeasurementDate ();
 	}
 
+	protected void OnBtnClearSeqenceStoreClicked (object sender, EventArgs e)
+	{
+		MainClass.mainController.ClearSequenceDate ();
+	}
+
 	protected void OnBtnAddMeasurementScheduleClicked (object sender, EventArgs e)
 	{
 		var dialog = new AddScheduleDialog (MainClass.mainController.AvailableAnalogPins);
@@ -184,13 +203,31 @@ public partial class PrototypeWindow: Gtk.Window
 	{
 		ScheduleNodeview.NodeStore = ScheduleNodeStore;
 
-		Schedulehbox.Add (ScheduleNodeview);
+		var Sw1 = new Gtk.ScrolledWindow ();
+		Sw1.Add (ScheduleNodeview);
+		Schedulehbox.Add (Sw1);
 
 		ScheduleNodeview.AppendColumn ("Label", new Gtk.CellRendererText (), "text", 0);
 		ScheduleNodeview.AppendColumn ("Pin", new Gtk.CellRendererText (), "text", 1);
 		ScheduleNodeview.AppendColumn ("Time", new Gtk.CellRendererText (), "text", 2);
 
+		Sw1.Show ();
 		ScheduleNodeview.Show ();
+
+
+		SequenceNodeview.NodeStore = SequenceNodeStore;
+
+		var Sw2 = new Gtk.ScrolledWindow ();
+		Sw2.Add (SequenceNodeview);
+		Sequencehbox.Add (Sw2);
+
+		SequenceNodeview.AppendColumn ("Label", new Gtk.CellRendererText (), "text", 0);
+		SequenceNodeview.AppendColumn ("Pin", new Gtk.CellRendererText (), "text", 1);
+		SequenceNodeview.AppendColumn ("Time", new Gtk.CellRendererText (), "text", 2);
+		SequenceNodeview.AppendColumn ("New State", new Gtk.CellRendererText (), "text", 3);
+
+		Sw2.Show ();
+		SequenceNodeview.Show ();
 	}
 
 	private void CleatePlotInterface ()
@@ -254,6 +291,7 @@ public partial class PrototypeWindow: Gtk.Window
 
 
 
+
 	#endregion
 }
 namespace Prototype
@@ -282,6 +320,43 @@ namespace Prototype
 				Pin = "UNKNOWN";
 			}
 			Time = String.Format (time.ToString (), System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FullDateTimePattern);
+		}
+	}
+
+	class SequenceNode : Gtk.TreeNode
+	{
+		[Gtk.TreeNodeValue (Column = 0)]
+		public string Label;
+		[Gtk.TreeNodeValue (Column = 1)]
+		public string Pin;
+		[Gtk.TreeNodeValue (Column = 2)]
+		public string Time;
+		[Gtk.TreeNodeValue (Column = 3)]
+		public string State;
+
+		public SequenceNode (string label) : this (label, null, DateTime.Now, null)
+		{
+		}
+
+		public SequenceNode (string label, int? pin, DateTime time, string state)
+		{
+			Label = label;
+			if (pin != null)
+			{
+				Pin = pin.ToString ();
+			} else
+			{
+				Pin = "UNKNOWN";
+			}
+			Time = String.Format (time.ToString (), System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FullDateTimePattern);
+
+			if (state != null)
+			{
+				State = state;
+			} else
+			{
+				State = "UNKNOWN";
+			}
 		}
 	}
 }

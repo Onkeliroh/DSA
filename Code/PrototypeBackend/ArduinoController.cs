@@ -59,7 +59,7 @@ namespace ArduinoController
 
 	;
 
-	public class ArduinoController
+	public  class ArduinoController
 	{
 		private CmdMessenger _cmdMessenger;
 
@@ -154,18 +154,23 @@ namespace ArduinoController
 			// Attach to NewLineSent for logging purposes
 			_cmdMessenger.NewLineSent += NewLineSent;                       
 
+			#if !FAKESERIAL
 			// Start listening
 			IsConnected = _cmdMessenger.Connect ();
 			if (IsConnected)
 			{
-				if (OnConnection != null) {
-					try {
-						OnConnection (this, null);
-					} catch (Exception e) {
+				if (OnConnection != null)
+				{
+					try
+					{
+						OnConnection.Invoke (this, null);
+					} catch (Exception e)
+					{
 						Console.WriteLine (e);
 					}
 				}
 			}
+			#endif
 		}
 
 		// Exit function
@@ -180,7 +185,8 @@ namespace ArduinoController
 
 		public void Disconnect ()
 		{
-			if (IsConnected) {
+			if (IsConnected)
+			{
 				IsConnected = false;
 				_cmdMessenger.Disconnect ();
 			}

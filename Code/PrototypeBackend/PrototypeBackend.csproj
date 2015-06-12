@@ -32,11 +32,13 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'FakeSerial|AnyCPU' ">
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\FakeSerial</OutputPath>
     <WarningLevel>4</WarningLevel>
     <DefineConstants>FAKESERIAL; DEBUG</DefineConstants>
     <LangVersion>5</LangVersion>
+    <DebugSymbols>true</DebugSymbols>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
