@@ -55,17 +55,35 @@ public partial class PrototypeWindow: Gtk.Window
 			ScheduleNodeview.Show ();
 		};
 
-//		MainClass.mainController.SequenceDateListUpdated += (o, e) =>
-//		{
-//			SequenceNodeStore.Clear ();
-//			foreach (Sequence seq in MainClass.mainController.controllerSequenceDateList)
-//			{
-//				if (seq.PinType == ArduinoController.PinType.DIGITAL)
-//				{
-//					SequenceNodeStore.AddNode (new SequenceNode (seq.PinLabel, seq.PinNr, seq.DueTime, Enum.GetName (typeof(ArduinoController.DPinState), seq.PinState)));
-//				}
-//			}
-//		};
+		MainClass.mainController.SequenceDateListUpdated += (o, e) =>
+		{
+			try
+			{
+				lock (SequenceNodeStore)
+				{
+					lock (MainClass.mainController.controllerSequenceDateList)
+					{
+						SequenceNodeStore.Clear ();
+						foreach (Sequence seq in MainClass.mainController.controllerSequenceDateList)
+						{
+							if (seq.PinType == ArduinoController.PinType.DIGITAL)
+							{
+								try
+								{
+									SequenceNodeStore.AddNode (new SequenceNode (seq.PinLabel, seq.PinNr, seq.DueTime, Enum.GetName (typeof(ArduinoController.DPinState), seq.PinState)));
+								} catch (Exception ex)
+								{
+									Console.Error.WriteLine (ex);
+								}
+							}
+						}
+					}
+				}
+			} catch (Exception exx)
+			{
+				Console.Error.WriteLine (exx);
+			}
+		};
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)

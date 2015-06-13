@@ -144,14 +144,11 @@ namespace PrototypeBackend
 
 		public void RemoveSequenceDate (int position)
 		{
-			lock (controllerSequenceDateList)
+			controllerSequenceDateList.RemoveAt (position);
+			if (SequenceDateListUpdated != null)
 			{
-				controllerSequenceDateList.RemoveAt (position);
+				SequenceDateListUpdated.Invoke (this, null);
 			}
-//			if (SequenceDateListUpdated != null)
-//			{
-//				SequenceDateListUpdated.Invoke (this, null);
-//			}
 		}
 
 		public void RemoveMeasurementDateRange (MeasurementDate[] md)

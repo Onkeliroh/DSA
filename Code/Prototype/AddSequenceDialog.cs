@@ -125,7 +125,7 @@ namespace Prototype
 					PinState = State,
 					PinCmd = () => MainClass.mainController.ArduinoController_.SetPin (Convert.ToInt16 (cBPins.ActiveText), ArduinoController.PinMode.OUTPUT, State)
 				});
-				for (int i = 1; i <= (int)sBRepetitions.Value; i++)
+				for (int i = 0; i < (int)sBRepetitions.Value; i++)
 				{
 					SequencesList.Add (new Sequence () {
 						PinLabel = PinLabel,
