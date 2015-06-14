@@ -4,6 +4,7 @@
 *.*~
 *.cs~
 *.exe
+*.userprefs
 
 #begin latex
 *.pdf
