@@ -60,5 +60,7 @@ Global
 		$2.inheritsSet = VisualStudio
 		$2.inheritsScope = text/plain
 		$2.scope = text/plain
+		$0.VersionControlPolicy = $3
+		$3.inheritsSet = Mono
 	EndGlobalSection
 EndGlobal

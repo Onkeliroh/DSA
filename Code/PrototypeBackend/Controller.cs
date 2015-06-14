@@ -37,7 +37,7 @@ namespace PrototypeBackend
 
 		private bool running = true;
 
-		public ArduinoController.ArduinoController ArduinoController_ = new ArduinoController.ArduinoController ();
+		public  ArduinoController.ArduinoController ArduinoController_ = new ArduinoController.ArduinoController ();
 
 		public Controller ()
 		{
@@ -49,6 +49,14 @@ namespace PrototypeBackend
 
 			controllerThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
 			controllerThread.Start ();
+
+			ArduinoController_.OnConnection += ((o, e) =>
+			{
+				ArduinoController_.GetNumberAnalogPins ();
+				ArduinoController_.GetNumberDigitalPins ();
+				ArduinoController_.GetVersion ();
+				ArduinoController_.GetModel ();
+			});
 		}
 
 		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)
@@ -223,7 +231,20 @@ namespace PrototypeBackend
 						RemoveMeasurementDate (0);
 					}
 				}
-				Thread.Sleep (10);
+				if (controllerSequenceDateList.Count > 0)
+				{
+					if (controllerSequenceDateList [0].DueTime.Subtract (DateTime.Now).TotalMilliseconds < 10)
+					{
+						#if DEBUG
+						Console.WriteLine (DateTime.Now + "\t" + controllerSequenceDateList [0].ToString ());
+						#endif
+						#if !FAKESERIAL
+						controllerSequenceDateList [0].PinCmd ();
+						#endif
+						RemoveSequenceDate (0);
+					}
+				}
+//				Thread.Sleep (10);
 			}
 		}
 
