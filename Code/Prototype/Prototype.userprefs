@@ -1,13 +1,10 @@
 ﻿<Properties StartupItem="Prototype.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PrototypeWindow.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="FakeSerial" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeBackend/Controller.cs">
     <Files>
-      <File FileName="PrototypeWindow.cs" Line="76" Column="1" />
-      <File FileName="AddSequenceDialog.cs" Line="110" Column="47" />
-      <File FileName="../PrototypeBackend/Controller.cs" Line="137" Column="3" />
-      <File FileName="../PrototypeBackend/ArduinoController.cs" Line="137" Column="1" />
-      <File FileName="Program.cs" Line="17" Column="1" />
-      <File FileName="../CommandMessengerLib/CommandMessenger/CmdMessenger.cs" Line="210" Column="1" />
+      <File FileName="../PrototypeBackend/Controller.cs" Line="32" Column="3" />
+      <File FileName="../PrototypeBackend/Sequence.cs" Line="14" Column="1" />
+      <File FileName="../PrototypeBackend/MeasurementData.cs" Line="15" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -52,9 +52,11 @@
     <Compile Include="ArduinoController.cs" />
     <Compile Include="ArduinoData.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="MeasurementDate.cs" />
     <Compile Include="ControllerAnalogEventArgs.cs" />
     <Compile Include="Sequence.cs" />
+    <Compile Include="Scheduler.cs" />
+    <Compile Include="MeasurementData.cs" />
+    <Compile Include="IPin.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

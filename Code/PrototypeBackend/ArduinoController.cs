@@ -8,6 +8,7 @@ using PrototypeBackend;
 
 namespace ArduinoController
 {
+	#region ENUMS
 	public enum Command
 	{
 		Acknowledge,
@@ -58,6 +59,7 @@ namespace ArduinoController
 		ANALOG}
 
 	;
+	#endregion
 
 	public  class ArduinoController
 	{
@@ -273,21 +275,12 @@ namespace ArduinoController
 			command.AddArgument (nr);
 			_cmdMessenger.SendCommand (command);
 
-			if (Controller.analogList.Count < nr)
-			{
-				while (Controller.analogList.Count <= nr)
-				{
-					Controller.analogList.Add (new List<double> ());
-				}
-			}
 		}
 
 		private void OnReadAnalogResult (ReceivedCommand args)
 		{
 			int pin = (int)args.ReadFloatArg ();
 			float val = args.ReadFloatArg ();
-
-			Controller.analogList [pin].Add (val);
 			NewAnalogValue.Invoke (this, new ControllerAnalogEventArgs (pin, val));
 		}
 
