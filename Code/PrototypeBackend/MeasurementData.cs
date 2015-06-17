@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace PrototypeBackend
 {
@@ -16,7 +18,13 @@ namespace PrototypeBackend
 
 		public int? RelativCurrentPin { get; set; }
 
+		[XmlIgnore]
 		public Action PinCmd{ get; set; }
+
+		public MeasurementData ()
+		{
+			PinType = ArduinoController.PinType.ANALOG;
+		}
 
 		public override bool Equals (object obj)
 		{
@@ -39,11 +47,21 @@ namespace PrototypeBackend
 			return base.GetHashCode ();
 		}
 
-
 		public override string ToString ()
 		{
 			return String.Format ("Label: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}", PinLabel, PinNr, PinType, Unit);
 		}
+
+		public string ToXML ()
+		{
+			XmlSerializer tmp = new XmlSerializer (typeof(MeasurementData));
+			string returnstring = "";
+			TextWriter tw = new StreamWriter (returnstring);
+			tmp.Serialize (tw, this);
+			tw.Close ();
+			return returnstring;
+		}
+
 	}
 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using ArduinoController;
-using System.Security.Cryptography;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace PrototypeBackend
 {
@@ -20,6 +21,7 @@ namespace PrototypeBackend
 
 		public Sequence ()
 		{
+			PinType = ArduinoController.PinType.DIGITAL;
 		}
 
 		public Sequence (string label, DateTime time, int pinnr)
@@ -42,12 +44,22 @@ namespace PrototypeBackend
 
 		public override int GetHashCode ()
 		{
-			base.GetHashCode ();
+			return base.GetHashCode ();
 		}
 
 		public override string ToString ()
 		{
 			return string.Format ("Label: {0}\tNumber: {1}\tType: {2}\tState: {3}", PinLabel, PinNr, PinType, PinState);
+		}
+
+		public string ToXML ()
+		{
+			XmlSerializer tmp = new XmlSerializer (typeof(Sequence));
+			string returnstring = "";
+			TextWriter tw = new StreamWriter (returnstring);
+			tmp.Serialize (tw, this);
+			tw.Close ();
+			return returnstring;
 		}
 	}
 }

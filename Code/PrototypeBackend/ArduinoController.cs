@@ -5,6 +5,8 @@ using CommandMessenger;
 using CommandMessenger.Transport.Serial;
 using MonoDevelop.Components;
 using PrototypeBackend;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace ArduinoController
 {
@@ -18,6 +20,7 @@ namespace ArduinoController
 		SetAnalogPin,
 		SetAnalogPinMode,
 		SetPin,
+		SetAnalogReference,
 		ReadPinMode,
 		ReadPinState,
 		ReadAnalogPin,
@@ -37,6 +40,7 @@ namespace ArduinoController
 		GetDigitalBitMask,
 		GetPinOutputMask,
 		GetPinModeMask,
+		GetAnalogReference,
 	};
 
 	public enum PinMode
@@ -64,31 +68,20 @@ namespace ArduinoController
 	public  class ArduinoController
 	{
 		private CmdMessenger _cmdMessenger;
+		private Board _board;
+
+		public event EventHandler<EventArgs> OnConnection;
+		public event EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
+		public event EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 
 		public bool IsConnected {
 			get;
 			private set;
 		}
 
-		public event EventHandler<EventArgs> OnConnection;
-		public event EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
-		public event EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
-
 		public string SerialPortName {
 			private get;
 			set;
-		}
-
-		//Constructor
-		public ArduinoController ()
-		{
-			#if FAKESERIAL
-			NumberOfDigitalPins = 20;
-			NumberOfAnalogPins = 6;
-			IsConnected = true;
-			#else
-			IsConnected = false;
-			#endif
 		}
 
 		public List<List<float>> AnalogValues {
@@ -97,23 +90,23 @@ namespace ArduinoController
 		}
 
 		public string Version {
-			private set;
-			get;
+			private set{ _board.Version = value; }
+			get{ return _board.Version; }
 		}
 
 		public string Model {
-			private set;
-			get;
+			private set{ _board.Model = Model; }
+			get{ return _board.Model; }
 		}
 
 		public uint NumberOfDigitalPins {
-			private set;
-			get;
+			private set{ _board.NumberOfDigitalPins = value; }
+			get { return _board.NumberOfDigitalPins; }
 		}
 
 		public uint NumberOfAnalogPins {
-			private set;
-			get;
+			private set { _board.NumberOfAnalogPins = value; }
+			get{ return _board.NumberOfAnalogPins; }
 		}
 
 		public UInt32 DigitalBitMask {
@@ -131,12 +124,35 @@ namespace ArduinoController
 			get;
 		}
 
+		public Dictionary<string,int> AnalogReferences {
+			private set{ _board.AnalogReferences = value; }
+			get { return _board.AnalogReferences; }
+		}
+
 		// ------------------ MAIN  ----------------------
+
+		//Constructor
+		public ArduinoController () : this (6, 20)
+		{
+		}
+
+		public ArduinoController (uint AnalogPinsCount, uint DigitalPinsCount)
+		{
+			_board = new Board ();
+			NumberOfAnalogPins = AnalogPinsCount;
+			NumberOfDigitalPins = DigitalPinsCount;
+			#if FAKESERIAL
+			IsConnected = true;
+			#else
+			IsConnected = false;
+			#endif
+		}
 
 		// Setup function
 		public void Setup ()
 		{
 			AnalogValues = new List<List<float>> ();
+			AnalogReferences = new Dictionary<string, int> ();
 
 
 			_cmdMessenger = new CmdMessenger (new SerialTransport () {
@@ -178,9 +194,11 @@ namespace ArduinoController
 		// Exit function
 		public void Exit ()
 		{
+			#if !FAKESERIAL
 			// Stop listening
 			_cmdMessenger.Disconnect ();
 
+			#endif
 			// Dispose Command Messenger
 			_cmdMessenger.Dispose ();
 		}
@@ -190,8 +208,11 @@ namespace ArduinoController
 			if (IsConnected)
 			{
 				IsConnected = false;
+				#if !FAKESERIAL
 				_cmdMessenger.Disconnect ();
+				#endif
 			}
+
 		}
 
 		/// Attach command call backs. 
@@ -306,7 +327,20 @@ namespace ArduinoController
 			{
 				Version = returnVal.ReadStringArg ();
 			}
+		}
 
+		public void GetAnalogReference ()
+		{
+			var command = new SendCommand ((int)Command.GetAnalogReference, (int)Command.GetAnalogReference, 500);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				AnalogReferences.Clear ();
+				for (int i = 0; i < (returnVal.Arguments.Length / 2); i++)
+				{
+					AnalogReferences.Add (returnVal.ReadStringArg (), returnVal.ReadInt16Arg ());
+				}
+			}
 		}
 
 		private void OnGetVersion (ReceivedCommand args)
@@ -405,5 +439,39 @@ namespace ArduinoController
 			var val = args.ReadUInt32Arg ();
 			PinModeMask = val;
 		}
+	}
+
+	public class Board
+	{
+		public uint NumberOfAnalogPins = 0;
+		public uint NumberOfDigitalPins = 0;
+		public Dictionary<string,int> AnalogReferences = new Dictionary<string, int> ();
+		public string Version = "";
+		public string Model = "";
+		public string Name = "";
+
+		public Board ()
+		{
+		}
+
+		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, Dictionary<string,int> analogReferences, string version, string model, string name)
+		{
+			this.NumberOfAnalogPins = numberOfAnalogPins;
+			this.NumberOfDigitalPins = numberOfDigitalPins;
+			this.AnalogReferences = analogReferences;
+			this.Version = version;
+			this.Model = model;
+			this.Name = name;
+		}
+
+		//		public string ToXml ()
+		//		{
+		//			XmlSerializer tmp = new XmlSerializer (typeof(Board));
+		//			string returnstring = "";
+		//			TextWriter tw = new StreamWriter (returnstring);
+		//			tmp.Serialize (tw, this);
+		//			tw.Close ();
+		//			return returnstring;
+		//		}
 	}
 }

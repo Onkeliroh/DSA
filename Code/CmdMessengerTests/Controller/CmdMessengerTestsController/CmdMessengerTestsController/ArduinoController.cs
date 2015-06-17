@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
-using System.Collections.Generic;
 
 namespace ArduinoController
 {
-	enum Command
+	#region ENUMS
+	public enum Command
 	{
 		Acknowledge,
 		Error,
@@ -14,6 +15,7 @@ namespace ArduinoController
 		SetAnalogPin,
 		SetAnalogPinMode,
 		SetPin,
+		SetAnalogReference,
 		ReadPinMode,
 		ReadPinState,
 		ReadAnalogPin,
@@ -33,6 +35,7 @@ namespace ArduinoController
 		GetDigitalBitMask,
 		GetPinOutputMask,
 		GetPinModeMask,
+		GetAnalogReference,
 	};
 
 	public enum PinMode
@@ -49,7 +52,15 @@ namespace ArduinoController
 
 	;
 
-	public class ArduinoController
+	public enum PinType
+	{
+		DIGITAL,
+		ANALOG}
+
+	;
+	#endregion
+
+	public  class ArduinoController
 	{
 		private CmdMessenger _cmdMessenger;
 
@@ -58,14 +69,25 @@ namespace ArduinoController
 			private set;
 		}
 
+		public event EventHandler<EventArgs> OnConnection;
+		public event EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
+		public event EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
+
 		public string SerialPortName {
 			private get;
 			set;
 		}
 
+		//Constructor
 		public ArduinoController ()
 		{
+			#if FAKESERIAL
+			NumberOfDigitalPins = 20;
+			NumberOfAnalogPins = 6;
+			IsConnected = true;
+			#else
 			IsConnected = false;
+			#endif
 		}
 
 		public List<List<float>> AnalogValues {
@@ -108,18 +130,25 @@ namespace ArduinoController
 			get;
 		}
 
+		public Dictionary<string,int> AnalogReferences {
+			private set;
+			get;
+		}
+
 		// ------------------ MAIN  ----------------------
 
 		// Setup function
 		public void Setup ()
 		{
 			AnalogValues = new List<List<float>> ();
+			AnalogReferences = new Dictionary<string, int> ();
+
 
 			_cmdMessenger = new CmdMessenger (new SerialTransport () {
 				CurrentSerialSettings = {
 					PortName = SerialPortName,
 					BaudRate = 115200,
-					DtrEnable = true  //bei UNO ändern 
+					DtrEnable = true  //bei UNO auf false ändern 
 				}
 			}, BoardType.Bit16);
 
@@ -132,8 +161,23 @@ namespace ArduinoController
 			// Attach to NewLineSent for logging purposes
 			_cmdMessenger.NewLineSent += NewLineSent;                       
 
+			#if !FAKESERIAL
 			// Start listening
 			IsConnected = _cmdMessenger.Connect ();
+			if (IsConnected)
+			{
+				if (OnConnection != null)
+				{
+					try
+					{
+						OnConnection.Invoke (this, null);
+					} catch (Exception e)
+					{
+						Console.WriteLine (e);
+					}
+				}
+			}
+			#endif
 		}
 
 		// Exit function
@@ -148,8 +192,11 @@ namespace ArduinoController
 
 		public void Disconnect ()
 		{
-			IsConnected = false;
-			_cmdMessenger.Disconnect ();
+			if (IsConnected)
+			{
+				IsConnected = false;
+				_cmdMessenger.Disconnect ();
+			}
 		}
 
 		/// Attach command call backs. 
@@ -159,13 +206,6 @@ namespace ArduinoController
 			_cmdMessenger.Attach ((int)Command.Acknowledge, OnAcknowledge);
 			_cmdMessenger.Attach ((int)Command.Error, OnError);
 			_cmdMessenger.Attach ((int)Command.ReadAnalogPinResult, OnReadAnalogResult);
-//			_cmdMessenger.Attach ((int)Command.GetVersion, OnGetVersion);
-//			_cmdMessenger.Attach ((int)Command.GetModel, OnGetModel);
-//			_cmdMessenger.Attach ((int)Command.GetNumberDigitalPins, OnGetNumberDigitalPins);
-//			_cmdMessenger.Attach ((int)Command.GetNumberAnalogPins, OnGetNumberAnalogPins);
-//			_cmdMessenger.Attach ((int)Command.GetDigitalBitMask, OnGetDigitalBitMask);
-//			_cmdMessenger.Attach ((int)Command.GetPinOutputMask, OnGetPinModeMask);
-//			_cmdMessenger.Attach ((int)Command.GetPinModeMask, OnGetPinModeMask);
 		}
 
 
@@ -240,21 +280,13 @@ namespace ArduinoController
 			command.AddArgument (nr);
 			_cmdMessenger.SendCommand (command);
 
-			if (AnalogValues.Count < nr)
-			{
-				while (AnalogValues.Count <= nr)
-				{
-					AnalogValues.Add (new List<float> ());
-				}
-			}
 		}
 
 		private void OnReadAnalogResult (ReceivedCommand args)
 		{
 			int pin = (int)args.ReadFloatArg ();
 			float val = args.ReadFloatArg ();
-
-			AnalogValues [pin].Add (val);
+			NewAnalogValue.Invoke (this, new ControllerAnalogEventArgs (pin, val));
 		}
 
 		public void SetAnalogPinMode (int Pin, PinMode mode)
@@ -279,7 +311,20 @@ namespace ArduinoController
 			{
 				Version = returnVal.ReadStringArg ();
 			}
+		}
 
+		public void GetAnalogReference ()
+		{
+			var command = new SendCommand ((int)Command.GetAnalogReference, (int)Command.GetAnalogReference, 500);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				AnalogReferences.Clear ();
+				for (int i = 0; i < returnVal.Arguments.Length; i + 2)
+				{
+					AnalogReferences.Add (returnVal.ReadStringArg (), returnVal.ReadInt16Arg ());
+				}
+			}
 		}
 
 		private void OnGetVersion (ReceivedCommand args)
@@ -295,7 +340,6 @@ namespace ArduinoController
 			{
 				Model = returnVal.ReadBinStringArg ();
 			}
-
 		}
 
 		private void OnGetModel (ReceivedCommand args)
@@ -372,7 +416,6 @@ namespace ArduinoController
 				PinModeMask = returnVal.ReadBinUInt32Arg ();
 				Console.WriteLine (PinModeMask);
 			}
-//			_cmdMessenger.SendCommand (command);
 		}
 
 		private void OnGetPinModeMask (ReceivedCommand args)

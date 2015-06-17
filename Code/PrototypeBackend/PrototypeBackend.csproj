@@ -46,6 +46,7 @@
     <Reference Include="MonoDevelop.Ide, Version=2.6.0.0, Culture=neutral">
       <Package>monodevelop</Package>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Scheduler.cs" />
     <Compile Include="MeasurementData.cs" />
     <Compile Include="IPin.cs" />
+    <Compile Include="BoardParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
