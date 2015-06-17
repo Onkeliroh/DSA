@@ -4,15 +4,19 @@ using System.Security.Cryptography;
 
 namespace PrototypeBackend
 {
-	public class Sequence
+	public class Sequence : IPin
 	{
-		public ArduinoController.PinType? PinType;
-		public string PinLabel;
-		public int PinNr;
+		public PinType? PinType { get; set; }
+
+		public PinMode? PinMode { get; set; }
+
+		public string PinLabel { get; set; }
+
+		public int PinNr { get ; set; }
+
 		public ArduinoController.DPinState PinState = ArduinoController.DPinState.LOW;
-		public DateTime DueTime;
-		public double Interval;
-		public Action PinCmd;
+
+		public Action PinCmd{ get; set; }
 
 		public Sequence ()
 		{
@@ -21,38 +25,7 @@ namespace PrototypeBackend
 		public Sequence (string label, DateTime time, int pinnr)
 		{
 			PinLabel = label;
-			DueTime = time;
 			PinNr = pinnr;
-		}
-
-		public static bool operator < (Sequence s1, Sequence s2)
-		{
-			return s1.DueTime < s2.DueTime;
-		}
-
-		public static bool operator > (Sequence s1, Sequence s2)
-		{
-			return s1.DueTime > s2.DueTime;
-		}
-
-		public static bool operator <= (Sequence s1, Sequence s2)
-		{
-			return s1.DueTime <= s2.DueTime;
-		}
-
-		public static bool operator >= (Sequence s1, Sequence s2)
-		{
-			return s1.DueTime >= s2.DueTime;
-		}
-
-		public static bool operator == (Sequence s1, Sequence s2)
-		{
-			return s1.DueTime == s2.DueTime;
-		}
-
-		public static bool operator != (Sequence s1, Sequence s2)
-		{
-			return s1.DueTime != s2.DueTime;
 		}
 
 		public override bool Equals (object obj)
@@ -62,7 +35,6 @@ namespace PrototypeBackend
 			{
 				return (seq.PinNr == PinNr
 				&& seq.PinLabel.Equals (PinLabel)
-				&& seq.DueTime.Equals (DueTime)
 				&& seq.PinState.Equals (PinState));
 			}
 			return false;
@@ -70,12 +42,12 @@ namespace PrototypeBackend
 
 		public override int GetHashCode ()
 		{
-			return base.GetHashCode ();
+			base.GetHashCode ();
 		}
 
 		public override string ToString ()
 		{
-			return string.Format ("{0}\t{1}\t{2}\t{3}", PinLabel, PinNr, DueTime, PinState);
+			return string.Format ("Label: {0}\tNumber: {1}\tType: {2}\tState: {3}", PinLabel, PinNr, PinType, PinState);
 		}
 	}
 }

@@ -45,7 +45,7 @@ public partial class PrototypeWindow: Gtk.Window
 		MainClass.mainController.MeasurementDateListUpdated += (o, e) =>
 		{
 			ScheduleNodeStore.Clear ();
-			foreach (MeasurementDate md in MainClass.mainController.controllerMeasurementDateList)
+			foreach (MeasurementData md in MainClass.mainController.controllerMeasurementDateList)
 			{
 				if (md.PinType == ArduinoController.PinType.ANALOG)
 				{

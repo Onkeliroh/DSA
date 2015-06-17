@@ -9,12 +9,9 @@ namespace PrototypeBackend
 	{
 		private Thread controllerThread;
 
-		public List<MeasurementDate> controllerMeasurementDateList{ private set; get; }
+		public List<IPin> controllerPins{ private set; get; }
 
-		public List<Sequence> controllerSequenceDateList{ private set; get; }
-
-		public static List<List<double>> analogList;
-		public static List<List<ArduinoController.DPinState>> digitalList;
+		public List<Scheduler> controllerSchedulerList { private set; get; }
 
 		public int[] AvailableAnalogPins {
 			private set{ }
@@ -32,8 +29,8 @@ namespace PrototypeBackend
 
 		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
-		public EventHandler MeasurementDateListUpdated;
-		public EventHandler SequenceDateListUpdated;
+		public EventHandler SchedulerListUpdated;
+		public EventHandler PinsUpdated;
 
 		private bool running = true;
 
@@ -41,8 +38,9 @@ namespace PrototypeBackend
 
 		public Controller ()
 		{
-			controllerMeasurementDateList = new List<MeasurementDate> ();
-			controllerSequenceDateList = new List<Sequence> ();
+//			controllerMeasurementDateList = new List<MeasurementDate> ();
+//			controllerSequenceDateList = new List<Sequence> ();
+			controllerSchedulerList = new List<Scheduler> ();
 
 			ArduinoController_.NewAnalogValue += OnNewArduinoNewAnalogValue;
 			ArduinoController_.NewDigitalValue += OnNewArduinoNewDigitalValue;
@@ -75,131 +73,73 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void AddMeasurementDate (MeasurementDate md)
+		public void AddScheduler (Scheduler s)
 		{
-			controllerMeasurementDateList.Add (md);
-			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.DueTime).ToList ();
-			if (MeasurementDateListUpdated != null)
+			if (!controllerSchedulerList.Contains (s))
 			{
-				MeasurementDateListUpdated.Invoke (this, null);
+				controllerSchedulerList.Add (s);
+			}
+
+			if (SchedulerListUpdated != null)
+			{
+				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
 
-		public void AddSequenceDate (Sequence seq)
+		public void AddPin (IPin ip)
 		{
-			controllerSequenceDateList.Add (seq);
-			controllerSequenceDateList = controllerSequenceDateList.OrderBy (o => o.DueTime).ToList ();
-			if (SequenceDateListUpdated != null)
+			if (!controllerPins.Contains (ip))
 			{
-				SequenceDateListUpdated.Invoke (this, null);
+				controllerPins.Add (ip);
+			}
+			if (PinsUpdated != null)
+			{
+				PinsUpdated.Invoke (this, null);
 			}
 		}
 
-		public void AddMeasurementDateRange (MeasurementDate[] md)
+		public void AddSchedulerRange (Scheduler[] s)
 		{
-			controllerMeasurementDateList.AddRange (md);
-			controllerMeasurementDateList = controllerMeasurementDateList.OrderBy (o => o.DueTime).ToList ();
-			if (MeasurementDateListUpdated != null)
+			foreach (Scheduler sc in s)
 			{
-				MeasurementDateListUpdated.Invoke (this, null);
-			}
-		}
-
-		public void AddSequenceDateRange (Sequence[] seq)
-		{
-			controllerSequenceDateList.AddRange (seq);
-			controllerSequenceDateList = controllerSequenceDateList.OrderBy (o => o.DueTime).ToList ();
-			if (SequenceDateListUpdated != null)
-			{
-				SequenceDateListUpdated.Invoke (this, null);
-			}
-		}
-
-		public void RemoveMeasurementDate (MeasurementDate md)
-		{
-			controllerMeasurementDateList.RemoveAt (controllerMeasurementDateList.IndexOf (md));
-			if (MeasurementDateListUpdated != null)
-			{
-				MeasurementDateListUpdated.Invoke (this, null);
-			}
-		}
-
-		public void RemoveSequenceDate (Sequence seq)
-		{
-			controllerSequenceDateList.RemoveAt (controllerSequenceDateList.IndexOf (seq));
-			if (SequenceDateListUpdated != null)
-			{
-				SequenceDateListUpdated.Invoke (this, null);
-			}
-		}
-
-		public void RemoveMeasurementDate (int position)
-		{
-			controllerMeasurementDateList.RemoveAt (position);
-			if (MeasurementDateListUpdated != null)
-			{
-				MeasurementDateListUpdated.Invoke (this, null);
-			}
-		}
-
-		public void RemoveSequenceDate (int position)
-		{
-			controllerSequenceDateList.RemoveAt (position);
-			if (SequenceDateListUpdated != null)
-			{
-				SequenceDateListUpdated.Invoke (this, null);
-			}
-		}
-
-		public void RemoveMeasurementDateRange (MeasurementDate[] md)
-		{
-			int pos;
-			foreach (MeasurementDate MD in md)
-			{
-				pos = controllerMeasurementDateList.IndexOf (MD);
-				if (pos != -1 && pos >= 0 && pos < controllerMeasurementDateList.Count)
+				if (!controllerSchedulerList.Contains (sc))
 				{
-					controllerMeasurementDateList.RemoveAt (pos);
+					controllerSchedulerList.Add (sc);
 				}
 			}
-			if (MeasurementDateListUpdated != null)
+			if (SchedulerListUpdated != null)
 			{
-				MeasurementDateListUpdated.Invoke (this, null);
+				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
 
-		public void RemoveSequenceDateRange (Sequence[] seq)
+		public void RemoveScheduler (Scheduler s)
 		{
-			int pos;
-			foreach (Sequence SEQ in seq)
+			controllerSchedulerList.Remove (s);
+			if (SchedulerListUpdated != null)
 			{
-				pos = controllerSequenceDateList.IndexOf (SEQ);
-				if (pos != -1 && pos >= 0 && pos < controllerSequenceDateList.Count)
-				{
-					controllerSequenceDateList.RemoveAt (pos);
-				}
-			}
-			if (SequenceDateListUpdated != null)
-			{
-				SequenceDateListUpdated.Invoke (this, null);
+				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
 
-		public void ClearMeasurementDate ()
+		public void RemoveSchedulerRange (Scheduler[] s)
 		{
-			controllerMeasurementDateList.Clear ();
-			if (MeasurementDateListUpdated != null)
+			foreach (Scheduler sc in s)
 			{
-				MeasurementDateListUpdated.Invoke (this, null);
+				controllerSchedulerList.Remove (sc);
+			}
+			if (SchedulerListUpdated != null)
+			{
+				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
 
-		public void ClearSequenceDate ()
+		public void ClearScheduler ()
 		{
-			controllerSequenceDateList.Clear ();
-			if (SequenceDateListUpdated != null)
+			controllerSchedulerList.Clear ();
+			if (SchedulerListUpdated != null)
 			{
-				SequenceDateListUpdated.Invoke (this, null);
+				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
 
@@ -213,54 +153,29 @@ namespace PrototypeBackend
 			//todo sequences berücksichtigen
 			while (running)
 			{
-				if (controllerMeasurementDateList.Count > 0)
+				if (DateTime.Now.Subtract (controllerSchedulerList [0].DueTime).TotalMilliseconds < 10)
 				{
-					if (controllerMeasurementDateList [0].DueTime.Subtract (DateTime.Now).TotalMilliseconds < 10)
+					if (controllerSchedulerList [0].Run () == true)
 					{
-						#if DEBUG
-						Console.WriteLine (DateTime.Now + ":\t" + controllerMeasurementDateList [0].ToString ());
-						#endif
-						#if !FAKESERIAL
-						switch (controllerMeasurementDateList [0].PinCmd)
-						{
-						case ArduinoController.Command.ReadAnalogPin:
-							ArduinoController_.ReadAnalogPin (controllerMeasurementDateList [0].PinNr);
-							break;
-						}
-						#endif
-						RemoveMeasurementDate (0);
+						controllerSchedulerList.RemoveAt (0);
+					} else
+					{
+						controllerSchedulerList = controllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
 					}
 				}
-				if (controllerSequenceDateList.Count > 0)
-				{
-					if (controllerSequenceDateList [0].DueTime.Subtract (DateTime.Now).TotalMilliseconds < 10)
-					{
-						#if DEBUG
-						Console.WriteLine (DateTime.Now + "\t" + controllerSequenceDateList [0].ToString ());
-						#endif
-						#if !FAKESERIAL
-						controllerSequenceDateList [0].PinCmd ();
-						#endif
-						RemoveSequenceDate (0);
-					}
-				}
-//				Thread.Sleep (10);
 			}
 		}
 
-		private int[] GetUsedPins (ArduinoController.PinType type)
+		private IPin[] GetUsedPins (ArduinoController.PinType type)
 		{
-			List<int> pins = new List<int> ();
+			HashSet<IPin> pins = new HashSet<IPin> ();
 
 
-			foreach (MeasurementDate md in this.controllerMeasurementDateList)
+			foreach (IPin cp in this.controllerPins)
 			{
-				if (md.PinType == type)
+				if (cp.PinType == type)
 				{
-					if (!pins.Contains (md.PinNr))
-					{
-						pins.Add (md.PinNr);
-					}
+					pins.Add (cp);
 				}
 			}
 			return pins.ToArray ();
@@ -268,34 +183,25 @@ namespace PrototypeBackend
 
 		private int[] GetUnusedPins (ArduinoController.PinType type)
 		{
-			List<int> pins = new List<int> ();
-
-			if (ArduinoController.PinType.ANALOG == type)
+			uint numpins = 0;
+			if (type.Equals (ArduinoController.PinType.ANALOG))
 			{
-				for (int i = 0; i < ArduinoController_.NumberOfAnalogPins; i++)
-				{
-					pins.Add (i);
-				}
-			} else if (ArduinoController.PinType.DIGITAL == type)
+				numpins = ArduinoController_.NumberOfAnalogPins; 
+			} else if (type.Equals (ArduinoController.PinType.DIGITAL))
 			{
-				for (int i = 0; i < ArduinoController_.NumberOfDigitalPins; i++)
-				{
-					pins.Add (i);
-				}
+				numpins = ArduinoController_.NumberOfDigitalPins;
 			}
 
-			foreach (MeasurementDate md in this.controllerMeasurementDateList)
+			List<int> unusedpins = new List<int> ();
+
+			for (int i = 0; i < numpins; i++)
 			{
-				if (md.PinType == type)
+				if (controllerPins.Where (o => o.PinNr == i) == null)
 				{
-					if (pins.Contains (md.PinNr))
-					{
-						pins.Remove (md.PinNr);
-					}
+					unusedpins.Add (i);
 				}
 			}
-
-			return pins.ToArray ();
+			return unusedpins.ToArray ();
 		}
 	}
 }

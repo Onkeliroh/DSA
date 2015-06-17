@@ -15,27 +15,27 @@ namespace PrototypeTests
 
 			Assert.AreEqual (0, tmp.controllerMeasurementDateList.Count);
 
-			tmp.AddMeasurementDate (new PrototypeBackend.MeasurementDate () {
+			tmp.AddMeasurementDate (new PrototypeBackend.MeasurementData () {
 				DueTime = new DateTime (1),
 				PinNr = 0,
 				PinType = ArduinoController.PinType.ANALOG
 			});
 			Assert.AreEqual (1, tmp.controllerMeasurementDateList.Count);
-			tmp.AddMeasurementDate (new PrototypeBackend.MeasurementDate () {
+			tmp.AddMeasurementDate (new PrototypeBackend.MeasurementData () {
 				DueTime = new DateTime (3),
 				PinNr = 0,
 				PinType = ArduinoController.PinType.ANALOG
 			});
 			Assert.AreEqual (2, tmp.controllerMeasurementDateList.Count);
 
-			tmp.AddMeasurementDate (new PrototypeBackend.MeasurementDate () {
+			tmp.AddMeasurementDate (new PrototypeBackend.MeasurementData () {
 				DueTime = new DateTime (42),
 				PinNr = 0,
 				PinType = ArduinoController.PinType.ANALOG
 			});
 			Assert.AreEqual (3, tmp.controllerMeasurementDateList.Count);
 
-			tmp.AddMeasurementDate (new PrototypeBackend.MeasurementDate () {
+			tmp.AddMeasurementDate (new PrototypeBackend.MeasurementData () {
 				DueTime = new DateTime (2),
 				PinNr = 0,
 				PinType = ArduinoController.PinType.ANALOG
@@ -53,12 +53,12 @@ namespace PrototypeTests
 		{
 			var tmp = new PrototypeBackend.Controller ();
 
-			var dates = new MeasurementDate[5];
-			dates [0] = new MeasurementDate (){ DueTime = new DateTime (2) };
-			dates [1] = new MeasurementDate (){ DueTime = new DateTime (4) };
-			dates [2] = new MeasurementDate (){ DueTime = new DateTime (1) };
-			dates [3] = new MeasurementDate (){ DueTime = new DateTime (42) };
-			dates [4] = new MeasurementDate (){ DueTime = new DateTime (88) };
+			var dates = new MeasurementData[5];
+			dates [0] = new MeasurementData (){ DueTime = new DateTime (2) };
+			dates [1] = new MeasurementData (){ DueTime = new DateTime (4) };
+			dates [2] = new MeasurementData (){ DueTime = new DateTime (1) };
+			dates [3] = new MeasurementData (){ DueTime = new DateTime (42) };
+			dates [4] = new MeasurementData (){ DueTime = new DateTime (88) };
 
 			tmp.AddMeasurementDateRange (dates);
 			Assert.AreEqual (5, tmp.controllerMeasurementDateList.Count);
@@ -75,12 +75,12 @@ namespace PrototypeTests
 		{
 			var tmp = new PrototypeBackend.Controller ();
 
-			var dates = new MeasurementDate[5];
-			dates [0] = new MeasurementDate (){ DueTime = new DateTime (2) };
-			dates [1] = new MeasurementDate (){ DueTime = new DateTime (4) };
-			dates [2] = new MeasurementDate (){ DueTime = new DateTime (1) };
-			dates [3] = new MeasurementDate (){ DueTime = new DateTime (42) };
-			dates [4] = new MeasurementDate (){ DueTime = new DateTime (88) };
+			var dates = new MeasurementData[5];
+			dates [0] = new MeasurementData (){ DueTime = new DateTime (2) };
+			dates [1] = new MeasurementData (){ DueTime = new DateTime (4) };
+			dates [2] = new MeasurementData (){ DueTime = new DateTime (1) };
+			dates [3] = new MeasurementData (){ DueTime = new DateTime (42) };
+			dates [4] = new MeasurementData (){ DueTime = new DateTime (88) };
 
 			tmp.AddMeasurementDateRange (dates);
 			Assert.AreEqual (5, tmp.controllerMeasurementDateList.Count);
@@ -99,21 +99,21 @@ namespace PrototypeTests
 		{
 			var tmp = new PrototypeBackend.Controller ();
 
-			var dates = new MeasurementDate[5];
-			dates [0] = new MeasurementDate (){ DueTime = new DateTime (2) };
-			dates [1] = new MeasurementDate (){ DueTime = new DateTime (4) };
-			dates [2] = new MeasurementDate (){ DueTime = new DateTime (1) };
-			dates [3] = new MeasurementDate (){ DueTime = new DateTime (42) };
-			dates [4] = new MeasurementDate (){ DueTime = new DateTime (88) };
+			var dates = new MeasurementData[5];
+			dates [0] = new MeasurementData (){ DueTime = new DateTime (2) };
+			dates [1] = new MeasurementData (){ DueTime = new DateTime (4) };
+			dates [2] = new MeasurementData (){ DueTime = new DateTime (1) };
+			dates [3] = new MeasurementData (){ DueTime = new DateTime (42) };
+			dates [4] = new MeasurementData (){ DueTime = new DateTime (88) };
 
 			tmp.AddMeasurementDateRange (dates);
 			Assert.AreEqual (5, tmp.controllerMeasurementDateList.Count);
 
-			var deletedates = new MeasurementDate[4];
+			var deletedates = new MeasurementData[4];
 			deletedates [0] = dates [1];
 			deletedates [1] = dates [3];
 			deletedates [2] = dates [4];
-			deletedates [3] = new MeasurementDate (){ DueTime = new DateTime (43) };
+			deletedates [3] = new MeasurementData (){ DueTime = new DateTime (43) };
 
 			tmp.RemoveMeasurementDateRange (deletedates);
 			Assert.AreEqual (2, tmp.controllerMeasurementDateList.Count);
