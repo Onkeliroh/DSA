@@ -15,37 +15,31 @@ namespace PrototypeTests
 
 			Assert.AreEqual (0, tmp.controllerSchedulerList.Count);
 
-			try
-			{
-				var sched = new Scheduler (){ DueTime = new DateTime (1) };
-				tmp.AddScheduler (sched);
-			} catch (Exception e)
-			{
-				Console.WriteLine (e);
-			}
-//			Assert.AreEqual (1, tmp.controllerSchedulerList.Count);
-//
-//			tmp.AddScheduler (new PrototypeBackend.Scheduler () {
-//				DueTime = new DateTime (3),
-//			});
-//			Assert.AreEqual (2, tmp.controllerSchedulerList.Count);
-//
-//			tmp.AddScheduler (new Scheduler () {
-//				DueTime = new DateTime (42),
-//			});
-//
-//			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
-//			Assert.AreEqual (new DateTime (3), tmp.controllerSchedulerList [1].DueTime);
-//			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [2].DueTime);
-//
-//			tmp.AddScheduler (new Scheduler () {
-//				DueTime = new DateTime (13),
-//			});
-//
-//			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
-//			Assert.AreEqual (new DateTime (3), tmp.controllerSchedulerList [1].DueTime);
-//			Assert.AreEqual (new DateTime (13), tmp.controllerSchedulerList [2].DueTime);
-//			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [3].DueTime);
+			var sched = new Scheduler (){ DueTime = new DateTime (1) };
+			tmp.AddScheduler (sched);
+			Assert.AreEqual (1, tmp.controllerSchedulerList.Count);
+
+			tmp.AddScheduler (new PrototypeBackend.Scheduler () {
+				DueTime = new DateTime (42),
+			});
+			Assert.AreEqual (2, tmp.controllerSchedulerList.Count);
+
+			tmp.AddScheduler (new Scheduler () {
+				DueTime = new DateTime (3),
+			});
+
+			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
+			Assert.AreEqual (new DateTime (3), tmp.controllerSchedulerList [1].DueTime);
+			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [2].DueTime);
+
+			tmp.AddScheduler (new Scheduler () {
+				DueTime = new DateTime (13),
+			});
+
+			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
+			Assert.AreEqual (new DateTime (3), tmp.controllerSchedulerList [1].DueTime);
+			Assert.AreEqual (new DateTime (13), tmp.controllerSchedulerList [2].DueTime);
+			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [3].DueTime);
 		}
 
 		[Test ()]
@@ -53,20 +47,19 @@ namespace PrototypeTests
 		{
 			var tmp = new PrototypeBackend.Controller ();
 
-			var dates = new Scheduler[5];
-			dates [1] = new Scheduler (){ DueTime = new DateTime (4) };
-			dates [2] = new Scheduler (){ DueTime = new DateTime (1) };
+			var dates = new Scheduler[4];
+			dates [0] = new Scheduler (){ DueTime = new DateTime (4) };
+			dates [1] = new Scheduler (){ DueTime = new DateTime (1) };
+			dates [2] = new Scheduler (){ DueTime = new DateTime (88) };
 			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
-			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
 
 			tmp.AddSchedulerRange (dates);
-			Assert.AreEqual (5, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (4, tmp.controllerSchedulerList.Count);
 
-			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
-			Assert.AreEqual (new DateTime (2), tmp.controllerSchedulerList [1].DueTime);
-			Assert.AreEqual (new DateTime (4), tmp.controllerSchedulerList [2].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [3].DueTime);
-			Assert.AreEqual (new DateTime (88), tmp.controllerSchedulerList [4].DueTime);
+			Assert.AreEqual (true, tmp.controllerSchedulerList [0].DueTime.Equals (new DateTime (1)));
+			Assert.AreEqual (new DateTime (4), tmp.controllerSchedulerList [1].DueTime);
+			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [2].DueTime);
+			Assert.AreEqual (new DateTime (88), tmp.controllerSchedulerList [3].DueTime);
 		}
 
 		[Test ()]
@@ -87,9 +80,6 @@ namespace PrototypeTests
 			tmp.RemoveScheduler (dates [1]);
 			Assert.AreEqual (4, tmp.controllerSchedulerList.Count);
 
-			Console.WriteLine (tmp.controllerSchedulerList [0].DueTime);
-			Console.WriteLine (tmp.controllerSchedulerList [1].DueTime);
-			Console.WriteLine (tmp.controllerSchedulerList [2].DueTime);
 			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
 			Assert.AreEqual (new DateTime (2), tmp.controllerSchedulerList [1].DueTime);
 			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [2].DueTime);

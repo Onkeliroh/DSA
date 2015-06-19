@@ -82,10 +82,10 @@ namespace PrototypeBackend
 				controllerSchedulerList = controllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
 			}
 
-//			if (SchedulerListUpdated != null)
-//			{
-//				SchedulerListUpdated.Invoke (this, null);
-//			}
+			if (SchedulerListUpdated != null)
+			{
+				SchedulerListUpdated.Invoke (this, null);
+			}
 		}
 
 		public void AddPin (IPin ip)
