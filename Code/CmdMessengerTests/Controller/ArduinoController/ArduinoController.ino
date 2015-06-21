@@ -22,6 +22,7 @@ enum
   kSetAnalogPin,
   kSetAnalogPinMode,
   kSetPin,
+  kSetAnalogReference,
   kReadPinMode,
   kReadPinState,
   kReadAnalogPin,
@@ -41,6 +42,7 @@ enum
   kGetDigitalBitMask,
   kGetPinOutputMask,
   kGetPinModeMask,
+  kGetAnalogReference,
 };
 
 //DEFINITIONS-------------------------------------------------------------------
@@ -59,6 +61,7 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kSetPinState, OnSetPinState);
   cmdMessenger.attach(kSetAnalogPin, OnSetAnalogPin);
   cmdMessenger.attach(kSetAnalogPinMode, OnSetAnalogPinMode);
+  cmdMessenger.attach(kSetAnalogReference, OnSetAnalogReference);
   cmdMessenger.attach(kGetVersion, OnGetVersion);
   cmdMessenger.attach(kGetModel, OnGetModel);
   cmdMessenger.attach(kGetNumberDigitalPins, OnGetNumberDigitalPins);
@@ -66,6 +69,7 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kGetDigitalBitMask, OnGetDigitalBitMask);
   cmdMessenger.attach(kGetPinOutputMask, OnGetPinOutputMask);
   cmdMessenger.attach(kGetPinModeMask, OnGetPinModeMask);
+  cmdMessenger.attach(kGetAnalogReference, OnGetAnalogReference);
 }
 
 // Called when a received command has no attached function
@@ -121,6 +125,11 @@ void OnSetAnalogPinMode()
 {
   int Pin = cmdMessenger.readInt16Arg();
   pinMode(Pin,cmdMessenger.readInt16Arg());
+}
+
+void OnSetAnalogReference()
+{
+  analogReference(cmdMessenger.readInt16Arg());
 }
 
 void OnGetVersion()
@@ -680,6 +689,25 @@ void OnGetPinModeMask()
 	cmdMessenger.sendCmdStart(kGetPinModeMask);
 	cmdMessenger.sendCmdArg(DigitalPinsToModeMask());
 	cmdMessenger.sendCmdEnd();
+}
+
+void OnGetAnalogReference()
+{
+  cmdMessenger.sendCmdStart(kGetAnalogReference);
+  cmdMessenger.sendCmdArg("DEFAULT");
+  cmdMessenger.sendCmdArg(DEFAULT);
+  #ifdef INTERNAL
+  cmdMessenger.sendCmdArg("INTERNAL");
+  cmdMessenger.sendCmdArg(INTERNAL);
+  #else
+  cmdMessenger.sendCmdArg("INTERNAL1V1");
+  cmdMessenger.sendCmdArg(INTERNAL1V1);
+  cmdMessenger.sendCmdArg("INTERNAL2V56");
+  cmdMessenger.sendCmdArg(INTERNAL2V56);
+  #endif
+  cmdMessenger.sendCmdArg("EXTERNAL");
+  cmdMessenger.sendCmdArg(EXTERNAL);
+  cmdMessenger.sendCmdEnd();
 }
 
 //---------------------ARDUINO--------------------------------------------------

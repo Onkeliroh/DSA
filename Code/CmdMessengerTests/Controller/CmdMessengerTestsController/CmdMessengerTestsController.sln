@@ -7,22 +7,37 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger", "..\..\.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger.Transport.Serial", "..\..\..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj", "{00D85F0B-00A5-41FA-8A99-428C0199C663}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeBackend", "..\..\..\PrototypeBackend\PrototypeBackend.csproj", "{26212356-8A7B-454E-91B0-D3A325E53AA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
+		FakeSerial|Any CPU = FakeSerial|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{00D85F0B-00A5-41FA-8A99-428C0199C663}.Debug|x86.ActiveCfg = Debug|x86
 		{00D85F0B-00A5-41FA-8A99-428C0199C663}.Debug|x86.Build.0 = Debug|x86
+		{00D85F0B-00A5-41FA-8A99-428C0199C663}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
+		{00D85F0B-00A5-41FA-8A99-428C0199C663}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
 		{00D85F0B-00A5-41FA-8A99-428C0199C663}.Release|x86.ActiveCfg = Release|x86
 		{00D85F0B-00A5-41FA-8A99-428C0199C663}.Release|x86.Build.0 = Release|x86
+		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Debug|x86.ActiveCfg = Debug|x86
+		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Debug|x86.Build.0 = Debug|x86
+		{26212356-8A7B-454E-91B0-D3A325E53AA5}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
+		{26212356-8A7B-454E-91B0-D3A325E53AA5}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
+		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Release|x86.ActiveCfg = Release|x86
+		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Release|x86.Build.0 = Release|x86
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Debug|x86.ActiveCfg = Debug|x86
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Debug|x86.Build.0 = Debug|x86
+		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
+		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Release|x86.ActiveCfg = Release|x86
 		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}.Release|x86.Build.0 = Release|x86
 		{72421EA3-1C80-4129-AFDE-52DEBA9C084C}.Debug|x86.ActiveCfg = Debug|x86
 		{72421EA3-1C80-4129-AFDE-52DEBA9C084C}.Debug|x86.Build.0 = Debug|x86
+		{72421EA3-1C80-4129-AFDE-52DEBA9C084C}.FakeSerial|Any CPU.ActiveCfg = Debug|x86
+		{72421EA3-1C80-4129-AFDE-52DEBA9C084C}.FakeSerial|Any CPU.Build.0 = Debug|x86
 		{72421EA3-1C80-4129-AFDE-52DEBA9C084C}.Release|x86.ActiveCfg = Release|x86
 		{72421EA3-1C80-4129-AFDE-52DEBA9C084C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

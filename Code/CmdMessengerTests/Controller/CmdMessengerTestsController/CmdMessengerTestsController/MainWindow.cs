@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Timers;
 using Gtk;
-using ArduinoController;
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
 using SamplerLogger;
 using System.Collections.Generic;
+using ArduinoController;
 
 public partial class MainWindow: Gtk.Window
 {
+	//	private ArduinoController _arduinoController;
 	private ArduinoController.ArduinoController _arduinoController;
 	private Timer AnalogTimer;
 
@@ -173,6 +174,7 @@ public partial class MainWindow: Gtk.Window
 		_arduinoController.GetNumberAnalogPins ();
 		_arduinoController.GetPinOutputMask ();
 		_arduinoController.GetPinModeMask ();
+		_arduinoController.GetAnalogReference ();
 
 		labelVersion.Text = _arduinoController.Version;
 		labelModel.Text = _arduinoController.Model;
@@ -180,6 +182,12 @@ public partial class MainWindow: Gtk.Window
 		labelNrAnaPin.Text = Convert.ToString (_arduinoController.NumberOfAnalogPins, 10);
 		labelOutputBitMask.Text = Convert.ToString (_arduinoController.PinOutputMask, 2).PadLeft ((int)_arduinoController.NumberOfDigitalPins);
 		labelModeBitMask.Text = Convert.ToString (_arduinoController.PinModeMask, 2).PadLeft ((int)_arduinoController.NumberOfDigitalPins);
+		string tmp = "";
+		foreach (string s in _arduinoController.AnalogReferences.Keys)
+		{
+			tmp += s + " | ";
+		}
+		labelAnalogReferences.Text = tmp;
 	}
 
 	protected void OnSetDigitalPinMode (object sender, EventArgs e)
@@ -367,6 +375,17 @@ public partial class MainWindow: Gtk.Window
 	{
 		_arduinoController.GetPinModeMask ();
 		labelModeBitMask.Text = Convert.ToString (_arduinoController.PinModeMask, 2).PadLeft ((int)_arduinoController.NumberOfDigitalPins);
+	}
+
+	protected void OnButton3Clicked (object sender, EventArgs e)
+	{
+		_arduinoController.GetAnalogReference ();
+		string tmp = "";
+		foreach (string s in _arduinoController.AnalogReferences.Keys)
+		{
+			tmp += s + " | ";
+		}
+		labelAnalogReferences.Text = tmp;
 	}
 
 	protected void OnCbtnDPin12Toggled (object sender, EventArgs e)

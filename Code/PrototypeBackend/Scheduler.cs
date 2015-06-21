@@ -61,7 +61,7 @@ namespace PrototypeBackend
 
 		public override bool Equals (object s)
 		{
-			return DueTime.Add == (s as Scheduler).DueTime;
+			return DueTime == (s as Scheduler).DueTime;
 		}
 
 		public override int GetHashCode ()
@@ -87,13 +87,7 @@ namespace PrototypeBackend
 		{
 			foreach (IPin ip in Pins)
 			{
-				if (ip is MeasurementData)
-				{
-					(ip as MeasurementData).PinCmd;
-				} else if (ip is Sequence)
-				{
-					(ip as Sequence).PinCmd;
-				}
+				ip.PinCmd ();
 			}
 			if (Repetitions != null)
 			{

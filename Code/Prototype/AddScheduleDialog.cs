@@ -55,8 +55,8 @@ namespace Prototype
 			DatesList.Add (new PrototypeBackend.MeasurementData () {
 				PinType = ArduinoController.PinType.ANALOG, 
 				PinNr = Convert.ToInt16 (cBPins.ActiveText), 
-				PinCmd = ArduinoController.Command.ReadAnalogPin,
-				DueTime = DateTime.Now.AddMinutes (2),
+//				PinCmd = ArduinoController.Command.ReadAnalogPin,
+//				DueTime = DateTime.Now.AddMinutes (2),
 				PinLabel = PinLabel,
 			});
 
@@ -65,8 +65,8 @@ namespace Prototype
 				DatesList.Add (new PrototypeBackend.MeasurementData () {
 					PinType = ArduinoController.PinType.ANALOG, 
 					PinNr = Convert.ToInt16 (cBPins.ActiveText), 
-					PinCmd = ArduinoController.Command.ReadAnalogPin,
-					DueTime = DatesList [0].DueTime.AddMinutes (i + 1),
+//					PinCmd = ArduinoController.Command.ReadAnalogPin,
+//					DueTime = DatesList [0].DueTime.AddMinutes (i + 1),
 					PinLabel = PinLabel
 				});
 			}

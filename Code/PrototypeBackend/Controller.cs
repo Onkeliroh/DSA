@@ -38,9 +38,8 @@ namespace PrototypeBackend
 
 		public Controller ()
 		{
-//			controllerMeasurementDateList = new List<MeasurementDate> ();
-//			controllerSequenceDateList = new List<Sequence> ();
 			controllerSchedulerList = new List<Scheduler> ();
+			controllerPins = new List<IPin> ();
 
 			ArduinoController_.NewAnalogValue += OnNewArduinoNewAnalogValue;
 			ArduinoController_.NewDigitalValue += OnNewArduinoNewDigitalValue;
@@ -56,6 +55,8 @@ namespace PrototypeBackend
 				ArduinoController_.GetModel ();
 			});
 		}
+
+
 
 		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)
 		{	
@@ -78,6 +79,7 @@ namespace PrototypeBackend
 			if (!controllerSchedulerList.Contains (s))
 			{
 				controllerSchedulerList.Add (s);
+				controllerSchedulerList = controllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
 			}
 
 			if (SchedulerListUpdated != null)
@@ -107,6 +109,7 @@ namespace PrototypeBackend
 					controllerSchedulerList.Add (sc);
 				}
 			}
+			controllerSchedulerList = controllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
 			if (SchedulerListUpdated != null)
 			{
 				SchedulerListUpdated.Invoke (this, null);
@@ -153,35 +156,42 @@ namespace PrototypeBackend
 			//todo sequences berücksichtigen
 			while (running)
 			{
-				if (DateTime.Now.Subtract (controllerSchedulerList [0].DueTime).TotalMilliseconds < 10)
+				if (controllerSchedulerList.Count > 0)
 				{
-					if (controllerSchedulerList [0].Run () == true)
+					if (DateTime.Now.Subtract (controllerSchedulerList [0].DueTime).TotalMilliseconds < 10)
 					{
-						controllerSchedulerList.RemoveAt (0);
-					} else
-					{
-						controllerSchedulerList = controllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
+						if (controllerSchedulerList [0].Run () == true)
+						{
+							controllerSchedulerList.RemoveAt (0);
+						} else
+						{
+							controllerSchedulerList = controllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
+						}
 					}
 				}
 			}
 		}
 
-		private IPin[] GetUsedPins (ArduinoController.PinType type)
+		public int[] GetUsedPins (ArduinoController.PinType type)
 		{
-			HashSet<IPin> pins = new HashSet<IPin> ();
+			List<int> pins = new List<int> ();
 
 
 			foreach (IPin cp in this.controllerPins)
 			{
 				if (cp.PinType == type)
 				{
-					pins.Add (cp);
+					pins.Add (cp.PinNr);
 				}
 			}
-			return pins.ToArray ();
+			if (pins.Count > 0)
+			{
+				return pins.ToArray ();
+			}
+			return new int[0];
 		}
 
-		private int[] GetUnusedPins (ArduinoController.PinType type)
+		public int[] GetUnusedPins (ArduinoController.PinType type)
 		{
 			uint numpins = 0;
 			if (type.Equals (ArduinoController.PinType.ANALOG))
@@ -196,11 +206,17 @@ namespace PrototypeBackend
 
 			for (int i = 0; i < numpins; i++)
 			{
-				if (controllerPins.Where (o => o.PinNr == i) == null)
+				unusedpins.Add (i);
+			}
+
+			foreach (IPin ip in controllerPins)
+			{
+				if (ip.PinType == type)
 				{
-					unusedpins.Add (i);
+					unusedpins.Remove (ip.PinNr);
 				}
 			}
+
 			return unusedpins.ToArray ();
 		}
 	}

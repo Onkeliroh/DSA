@@ -42,48 +42,6 @@ public partial class PrototypeWindow: Gtk.Window
 
 		CreateConfigInterface ();
 
-		MainClass.mainController.MeasurementDateListUpdated += (o, e) =>
-		{
-			ScheduleNodeStore.Clear ();
-			foreach (MeasurementData md in MainClass.mainController.controllerMeasurementDateList)
-			{
-				if (md.PinType == ArduinoController.PinType.ANALOG)
-				{
-					ScheduleNodeStore.AddNode (new ScheduleNode (md.PinLabel, md.PinNr, md.DueTime));
-				}
-			}
-			ScheduleNodeview.Show ();
-		};
-
-		MainClass.mainController.SequenceDateListUpdated += (o, e) =>
-		{
-			try
-			{
-				lock (SequenceNodeStore)
-				{
-					lock (MainClass.mainController.controllerSequenceDateList)
-					{
-						SequenceNodeStore.Clear ();
-						foreach (Sequence seq in MainClass.mainController.controllerSequenceDateList)
-						{
-							if (seq.PinType == ArduinoController.PinType.DIGITAL)
-							{
-								try
-								{
-									SequenceNodeStore.AddNode (new SequenceNode (seq.PinLabel, seq.PinNr, seq.DueTime, Enum.GetName (typeof(ArduinoController.DPinState), seq.PinState)));
-								} catch (Exception ex)
-								{
-									Console.Error.WriteLine (ex);
-								}
-							}
-						}
-					}
-				}
-			} catch (Exception exx)
-			{
-				Console.Error.WriteLine (exx);
-			}
-		};
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -182,12 +140,12 @@ public partial class PrototypeWindow: Gtk.Window
 
 	protected void OnBtnClearStoreClicked (object sender, EventArgs e)
 	{
-		MainClass.mainController.ClearMeasurementDate ();
+//		MainClass.mainController.ClearMeasurementDate ();
 	}
 
 	protected void OnBtnClearSeqenceStoreClicked (object sender, EventArgs e)
 	{
-		MainClass.mainController.ClearSequenceDate ();
+//		MainClass.mainController.ClearSequenceDate ();
 	}
 
 	protected void OnBtnAddMeasurementScheduleClicked (object sender, EventArgs e)
@@ -196,7 +154,7 @@ public partial class PrototypeWindow: Gtk.Window
 		var responce = dialog.Run ();
 		if (responce == (int)Gtk.ResponseType.Apply)
 		{
-			MainClass.mainController.AddMeasurementDateRange (dialog.Dates);
+//			MainClass.mainController.AddMeasurementDateRange (dialog.Dates);
 		} 
 
 		dialog.Destroy ();
@@ -208,7 +166,7 @@ public partial class PrototypeWindow: Gtk.Window
 		var responce = dialog.Run ();
 		if (responce == (int)Gtk.ResponseType.Apply)
 		{
-			MainClass.mainController.AddSequenceDateRange (dialog.Sequences);
+//			MainClass.mainController.AddSequenceDateRange (dialog.Sequences);
 		}
 		dialog.Destroy ();
 	}
