@@ -5,7 +5,7 @@ using System.IO;
 
 namespace PrototypeBackend
 {
-	public class Sequence : IPin
+	public class DPin : IPin
 	{
 		public PinType? PinType { get; set; }
 
@@ -19,12 +19,12 @@ namespace PrototypeBackend
 
 		public Action PinCmd{ get; set; }
 
-		public Sequence ()
+		public DPin ()
 		{
 			PinType = ArduinoController.PinType.DIGITAL;
 		}
 
-		public Sequence (string label, DateTime time, int pinnr)
+		public DPin (string label, DateTime time, int pinnr)
 		{
 			PinLabel = label;
 			PinNr = pinnr;
@@ -32,7 +32,7 @@ namespace PrototypeBackend
 
 		public override bool Equals (object obj)
 		{
-			var seq = obj as Sequence;
+			var seq = obj as DPin;
 			if (seq != null)
 			{
 				return (seq.PinNr == PinNr
@@ -54,7 +54,7 @@ namespace PrototypeBackend
 
 		public string ToXML ()
 		{
-			XmlSerializer tmp = new XmlSerializer (typeof(Sequence));
+			XmlSerializer tmp = new XmlSerializer (typeof(DPin));
 			string returnstring = "";
 			TextWriter tw = new StreamWriter (returnstring);
 			tmp.Serialize (tw, this);

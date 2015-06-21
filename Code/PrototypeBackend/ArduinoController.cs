@@ -18,7 +18,6 @@ namespace ArduinoController
 		SetPinMode,
 		SetPinState,
 		SetAnalogPin,
-		SetAnalogPinMode,
 		SetPin,
 		SetAnalogReference,
 		ReadPinMode,
@@ -306,18 +305,23 @@ namespace ArduinoController
 
 		}
 
+		public DPinState? ReadPin (int nr)
+		{
+			var command = new SendCommand ((int)Command.ReadPin, (int)Command.ReadPin, 500);
+			command.AddArgument (nr);
+			var result = _cmdMessenger.SendCommand (command);
+			if (result.Ok)
+			{
+				return (result.ReadBinInt16Arg () == (int)DPinState.HIGH) ? DPinState.HIGH : DPinState.LOW;
+			}
+			return null;
+		}
+
 		private void OnReadAnalogResult (ReceivedCommand args)
 		{
 			int pin = (int)args.ReadFloatArg ();
 			float val = args.ReadFloatArg ();
 			NewAnalogValue.Invoke (this, new ControllerAnalogEventArgs (pin, val));
-		}
-
-		public void SetAnalogPinMode (int Pin, PinMode mode)
-		{
-			var command = new SendCommand ((int)Command.SetAnalogPinMode, Pin);
-			command.AddArgument ((Int16)mode);
-			_cmdMessenger.SendCommand (command);
 		}
 
 		public void SetAnalogPin (int Pin, int Val)
@@ -468,11 +472,14 @@ namespace ArduinoController
 		public string Model = "";
 		public string Name = "";
 
+		//default with Arduino UNO
+		public bool UseDTR = false;
+
 		public Board ()
 		{
 		}
 
-		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, Dictionary<string,int> analogReferences, string version, string model, string name)
+		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, Dictionary<string,int> analogReferences, string name = "", string version = "", string model = "", bool dtr = false)
 		{
 			this.NumberOfAnalogPins = numberOfAnalogPins;
 			this.NumberOfDigitalPins = numberOfDigitalPins;
@@ -480,6 +487,7 @@ namespace ArduinoController
 			this.Version = version;
 			this.Model = model;
 			this.Name = name;
+			this.UseDTR = dtr;
 		}
 
 		//		public string ToXml ()

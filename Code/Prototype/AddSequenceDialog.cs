@@ -9,9 +9,9 @@ namespace Prototype
 {
 	public partial class AddSequenceDialog : Gtk.Dialog
 	{
-		private List<Sequence> SequencesList = new List<Sequence> ();
+		private List<DPin> SequencesList = new List<DPin> ();
 
-		public Sequence[] Sequences {
+		public DPin[] Sequences {
 			private set{ }
 			get {
 				return SequencesList.ToArray ();
@@ -72,7 +72,7 @@ namespace Prototype
 			if (cBAlternating.Active)
 			{
 
-				SequencesList.Add (new Sequence () {
+				SequencesList.Add (new DPin () {
 					PinLabel = PinLabel,
 					PinNr = Convert.ToInt16 (cBPins.ActiveText),
 //					Interval = sBInititalStateDuration.Value,
@@ -83,7 +83,7 @@ namespace Prototype
 				});
 				if (cBAlternating.Active)
 				{
-					SequencesList.Add (new Sequence () {
+					SequencesList.Add (new DPin () {
 						PinLabel = PinLabel,
 						PinNr = Convert.ToInt16 (cBPins.ActiveText),
 //						Interval = sBInititalStateDuration.Value,
@@ -95,7 +95,7 @@ namespace Prototype
 				}
 				for (int i = 1; i <= (int)sBRepetitions.Value; i++)
 				{
-					SequencesList.Add (new Sequence () {
+					SequencesList.Add (new DPin () {
 						PinLabel = PinLabel,
 						PinNr = Convert.ToInt16 (cBPins.ActiveText),
 //						Interval = sBInititalStateDuration.Value,
@@ -104,7 +104,7 @@ namespace Prototype
 						PinState = State,
 						PinCmd = () => MainClass.mainController.ArduinoController_.SetPin (Convert.ToInt16 (cBPins.ActiveText), ArduinoController.PinMode.OUTPUT, State)
 					});
-					SequencesList.Add (new Sequence () {
+					SequencesList.Add (new DPin () {
 						PinLabel = PinLabel,
 						PinNr = Convert.ToInt16 (cBPins.ActiveText),
 //						Interval = sBInititalStateDuration.Value,
@@ -116,7 +116,7 @@ namespace Prototype
 				}
 			} else
 			{
-				SequencesList.Add (new Sequence () {
+				SequencesList.Add (new DPin () {
 					PinLabel = PinLabel,
 					PinNr = Convert.ToInt16 (cBPins.ActiveText),
 //					Interval = sBInititalStateDuration.Value,
@@ -127,7 +127,7 @@ namespace Prototype
 				});
 				for (int i = 0; i < (int)sBRepetitions.Value; i++)
 				{
-					SequencesList.Add (new Sequence () {
+					SequencesList.Add (new DPin () {
 						PinLabel = PinLabel,
 						PinNr = Convert.ToInt16 (cBPins.ActiveText),
 //						Interval = sBInititalStateDuration.Value,

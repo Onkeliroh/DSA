@@ -53,11 +53,11 @@
     <Compile Include="ArduinoController.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="ControllerAnalogEventArgs.cs" />
-    <Compile Include="Sequence.cs" />
     <Compile Include="Scheduler.cs" />
-    <Compile Include="MeasurementData.cs" />
     <Compile Include="IPin.cs" />
     <Compile Include="BoardParser.cs" />
+    <Compile Include="DPin.cs" />
+    <Compile Include="APin.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

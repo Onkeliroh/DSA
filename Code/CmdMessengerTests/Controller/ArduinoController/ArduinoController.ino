@@ -20,7 +20,6 @@ enum
   kSetPinMode,
   kSetPinState,
   kSetAnalogPin,
-  kSetAnalogPinMode,
   kSetPin,
   kSetAnalogReference,
   kReadPinMode,
@@ -57,10 +56,10 @@ void attachCommandCallbacks()
   cmdMessenger.attach(OnUnknownCommand);
   cmdMessenger.attach(kSetPin, OnSetPin);
   cmdMessenger.attach(kReadAnalogPin, OnReadAnalogPin);
+  cmdMessenger.attach(kReadPin, OnReadPin);
   cmdMessenger.attach(kSetPinMode, OnSetPinMode);
   cmdMessenger.attach(kSetPinState, OnSetPinState);
   cmdMessenger.attach(kSetAnalogPin, OnSetAnalogPin);
-  cmdMessenger.attach(kSetAnalogPinMode, OnSetAnalogPinMode);
   cmdMessenger.attach(kSetAnalogReference, OnSetAnalogReference);
   cmdMessenger.attach(kGetVersion, OnGetVersion);
   cmdMessenger.attach(kGetModel, OnGetModel);
@@ -114,17 +113,19 @@ void OnReadAnalogPin()
   cmdMessenger.sendCmdEnd();
 }
 
+void OnReadPin()
+{
+  int nr = cmdMessenger.readInt16Arg();
+  cmdMessenger.sendCmdStart(kReadPin);
+  cmdMessenger.sendCmdArg(digitalRead(nr));
+  cmdMessenger.sendCmdEnd();
+}
+
 void OnSetAnalogPin()
 {
   int Pin = cmdMessenger.readInt16Arg();
   int Val = cmdMessenger.readInt16Arg();
   analogWrite(Pin,Val);
-}
-
-void OnSetAnalogPinMode()
-{
-  int Pin = cmdMessenger.readInt16Arg();
-  pinMode(Pin,cmdMessenger.readInt16Arg());
 }
 
 void OnSetAnalogReference()

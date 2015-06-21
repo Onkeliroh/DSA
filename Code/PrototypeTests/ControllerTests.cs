@@ -164,7 +164,7 @@ namespace PrototypeTests
 
 			Assert.AreEqual (pins.Length, 0);
 
-			tmp.AddPin (new MeasurementData () {
+			tmp.AddPin (new APin () {
 				PinNr = 0,
 			});
 
@@ -172,11 +172,11 @@ namespace PrototypeTests
 			Assert.AreEqual (pins.Length, 1);
 			Assert.AreEqual (pins [0], 0);
 
-			tmp.AddPin (new Sequence () {
+			tmp.AddPin (new DPin () {
 				PinNr = 42
 			});
 
-			tmp.AddPin (new Sequence () {
+			tmp.AddPin (new DPin () {
 				PinNr = 13
 			});
 

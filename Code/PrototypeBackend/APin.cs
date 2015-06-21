@@ -4,7 +4,7 @@ using System.IO;
 
 namespace PrototypeBackend
 {
-	public class MeasurementData : IPin
+	public class APin : IPin
 	{
 		public ArduinoController.PinType? PinType { get; set; }
 
@@ -19,7 +19,7 @@ namespace PrototypeBackend
 		[XmlIgnore]
 		public Action PinCmd{ get; set; }
 
-		public MeasurementData ()
+		public APin ()
 		{
 			PinType = ArduinoController.PinType.ANALOG;
 		}
@@ -28,13 +28,13 @@ namespace PrototypeBackend
 		{
 			if (obj != null)
 			{
-				if (obj is MeasurementData)
+				if (obj is APin)
 				{
-					return (obj as MeasurementData).PinType == PinType &&
-					(obj as MeasurementData).PinMode == PinMode &&
-					(obj as MeasurementData).PinLabel.Equals (PinLabel) &&
-					(obj as MeasurementData).Unit.Equals (Unit) &&
-					(obj as MeasurementData).PinNr.Equals (PinNr);
+					return (obj as APin).PinType == PinType &&
+					(obj as APin).PinMode == PinMode &&
+					(obj as APin).PinLabel.Equals (PinLabel) &&
+					(obj as APin).Unit.Equals (Unit) &&
+					(obj as APin).PinNr.Equals (PinNr);
 				}
 			}
 			return false;
@@ -52,7 +52,7 @@ namespace PrototypeBackend
 
 		public string ToXML ()
 		{
-			XmlSerializer tmp = new XmlSerializer (typeof(MeasurementData));
+			XmlSerializer tmp = new XmlSerializer (typeof(APin));
 			string returnstring = "";
 			TextWriter tw = new StreamWriter (returnstring);
 			tmp.Serialize (tw, this);
