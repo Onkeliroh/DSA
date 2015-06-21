@@ -16,8 +16,6 @@ namespace PrototypeBackend
 
 		public int PinNr{ get; set; }
 
-		public int? RelativCurrentPin { get; set; }
-
 		[XmlIgnore]
 		public Action PinCmd{ get; set; }
 

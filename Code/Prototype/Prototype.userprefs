@@ -2,9 +2,16 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="FakeSerial" />
   <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeTests/ControllerTests.cs">
     <Files>
-      <File FileName="../PrototypeBackend/Controller.cs" Line="1" Column="1" />
-      <File FileName="../PrototypeTests/ControllerTests.cs" Line="46" Column="7" />
+      <File FileName="../PrototypeBackend/Controller.cs" Line="109" Column="38" />
+      <File FileName="../PrototypeTests/ControllerTests.cs" Line="58" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="Prototype" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

@@ -290,6 +290,14 @@ namespace ArduinoController
 			_cmdMessenger.SendCommand (command);
 		}
 
+		public void SetAnalogReference (int AnalogReference)
+		{
+			_board.AnalogReference = AnalogReference;
+			var command = new SendCommand ((int)Command.SetAnalogReference);
+			command.AddArgument (AnalogReference);
+			_cmdMessenger.SendCommand (command);
+		}
+
 		public void ReadAnalogPin (int nr)
 		{
 			var command = new SendCommand ((int)Command.ReadAnalogPin);
@@ -446,6 +454,16 @@ namespace ArduinoController
 		public uint NumberOfAnalogPins = 0;
 		public uint NumberOfDigitalPins = 0;
 		public Dictionary<string,int> AnalogReferences = new Dictionary<string, int> ();
+
+		public int AnalogReference {
+			get{ return AnalogReference_; }
+			set {
+				AnalogReference_ = value;
+				
+			}
+		}
+
+		private int AnalogReference_;
 		public string Version = "";
 		public string Model = "";
 		public string Name = "";
