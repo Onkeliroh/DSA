@@ -1,20 +1,32 @@
 ﻿<Properties StartupItem="../PrototypeManualTests/PrototypeManualTests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="FakeSerial" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeTests/ControllerTests.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeBackend/ArduinoController.cs">
     <Files>
       <File FileName="../PrototypeBackend/Controller.cs" Line="109" Column="38" />
-      <File FileName="../PrototypeTests/ControllerTests.cs" Line="58" Column="1" />
+      <File FileName="../PrototypeBackend/ArduinoController.cs" Line="483" Column="3" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State name="__root__">
-          <Node name="Prototype" expanded="True" selected="True" />
+          <Node name="Prototype" expanded="True">
+            <Node name="PrototypeTests" expanded="True">
+              <Node name="PrototypeTests" expanded="True">
+                <Node name="BoardLoaderTests" expanded="True" />
+                <Node name="BoardTests" expanded="True" />
+                <Node name="ControllerTests" expanded="True">
+                  <Node name="EventTest" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <RunToCursorBreakpoint file="/home/onkeliroh/Bachelorarbeit/Code/PrototypeBackend/ArduinoController.cs" line="26" column="15" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
