@@ -47,7 +47,7 @@ public partial class PrototypeWindow: Gtk.Window
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{
 		MainClass.mainController.Stop ();
-		MainClass.mainController.ArduinoController_.Disconnect ();
+		ArduinoController.Disconnect ();
 		Application.Quit ();
 	}
 
@@ -86,10 +86,10 @@ public partial class PrototypeWindow: Gtk.Window
 
 	protected void OnBtnConnectClicked (object sender, EventArgs e)
 	{
-		MainClass.mainController.ArduinoController_.SerialPortName = cbConnectPorts.ActiveText;
-		MainClass.mainController.ArduinoController_.Setup ();
+		ArduinoController.SerialPortName = cbConnectPorts.ActiveText;
+		ArduinoController.Setup ();
 
-		if (MainClass.mainController.ArduinoController_.IsConnected)
+		if (ArduinoController.IsConnected)
 		{
 //		CreateConfigInterface ();
 			tableConfig.Visible = true;
@@ -114,9 +114,9 @@ public partial class PrototypeWindow: Gtk.Window
 
 	protected void OnDisconnectActionActivated (object sender, EventArgs e)
 	{
-		if (MainClass.mainController.ArduinoController_.IsConnected)
+		if (ArduinoController.IsConnected)
 		{
-			MainClass.mainController.ArduinoController_.Disconnect ();
+			ArduinoController.Disconnect ();
 		}
 	}
 

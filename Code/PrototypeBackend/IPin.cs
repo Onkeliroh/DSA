@@ -12,9 +12,9 @@ namespace PrototypeBackend
 
 		Action PinCmd{ get; set; }
 
-		ArduinoController.PinType? PinType { get; set; }
+		PrototypeBackend.PinType PinType { get; set; }
 
-		ArduinoController.PinMode? PinMode { get; set; }
+		PrototypeBackend.PinMode PinMode { get; set; }
 	}
 }
 

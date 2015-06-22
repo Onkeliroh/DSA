@@ -6,9 +6,9 @@ namespace PrototypeBackend
 {
 	public class APin : IPin
 	{
-		public ArduinoController.PinType? PinType { get; set; }
+		public PrototypeBackend.PinType PinType { get; set; }
 
-		public ArduinoController.PinMode? PinMode { get; set; }
+		public PrototypeBackend.PinMode PinMode { get; set; }
 
 		public string PinLabel { get; set; }
 
@@ -16,12 +16,14 @@ namespace PrototypeBackend
 
 		public int PinNr{ get; set; }
 
+		public int PinValue { get; set; }
+
 		[XmlIgnore]
 		public Action PinCmd{ get; set; }
 
 		public APin ()
 		{
-			PinType = ArduinoController.PinType.ANALOG;
+			PinType = PrototypeBackend.PinType.ANALOG;
 		}
 
 		public override bool Equals (object obj)
@@ -58,6 +60,19 @@ namespace PrototypeBackend
 			tmp.Serialize (tw, this);
 			tw.Close ();
 			return returnstring;
+		}
+
+		public void Run ()
+		{
+			switch (PinMode)
+			{
+			case PrototypeBackend.PinMode.OUTPUT:
+				PrototypeBackend.ArduinoController.SetAnalogPin (PinNr, PinValue);
+				break;
+			case PrototypeBackend.PinMode.INPUT:
+				PrototypeBackend.ArduinoController.ReadAnalogPin (PinNr);
+				break;
+			}
 		}
 
 	}

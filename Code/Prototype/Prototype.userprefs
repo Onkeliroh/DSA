@@ -1,9 +1,13 @@
 ﻿<Properties StartupItem="../PrototypeManualTests/PrototypeManualTests.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="FakeSerial" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeBackend/ArduinoController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeBackend/ControllerAnalogEventArgs.cs">
     <Files>
-      <File FileName="../PrototypeBackend/Controller.cs" Line="109" Column="38" />
-      <File FileName="../PrototypeBackend/ArduinoController.cs" Line="483" Column="3" />
+      <File FileName="../PrototypeBackend/BoardParser.cs" Line="79" Column="1" />
+      <File FileName="../PrototypeTests/BoardLoaderTests.cs" Line="29" Column="1" />
+      <File FileName="../PrototypeManualTests/Program.cs" Line="35" Column="1" />
+      <File FileName="../PrototypeBackend/ArduinoController.cs" Line="316" Column="63" />
+      <File FileName="../PrototypeBackend/APin.cs" Line="28" Column="1" />
+      <File FileName="../PrototypeBackend/ControllerAnalogEventArgs.cs" Line="24" Column="2" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
@@ -11,11 +15,7 @@
           <Node name="Prototype" expanded="True">
             <Node name="PrototypeTests" expanded="True">
               <Node name="PrototypeTests" expanded="True">
-                <Node name="BoardLoaderTests" expanded="True" />
-                <Node name="BoardTests" expanded="True" />
-                <Node name="ControllerTests" expanded="True">
-                  <Node name="EventTest" selected="True" />
-                </Node>
+                <Node name="BoardLoaderTests" expanded="True" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -25,7 +25,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <RunToCursorBreakpoint file="/home/onkeliroh/Bachelorarbeit/Code/PrototypeBackend/ArduinoController.cs" line="26" column="15" />
+      <Breakpoint file="/home/onkeliroh/Bachelorarbeit/Code/PrototypeManualTests/Program.cs" line="35" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -160,7 +160,7 @@ namespace PrototypeTests
 		{
 			var tmp = new Controller ();
 
-			var pins = tmp.GetUsedPins (ArduinoController.PinType.ANALOG);
+			var pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
 
 			Assert.AreEqual (pins.Length, 0);
 
@@ -168,7 +168,7 @@ namespace PrototypeTests
 				PinNr = 0,
 			});
 
-			pins = tmp.GetUsedPins (ArduinoController.PinType.ANALOG);
+			pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
 			Assert.AreEqual (pins.Length, 1);
 			Assert.AreEqual (pins [0], 0);
 
@@ -180,11 +180,11 @@ namespace PrototypeTests
 				PinNr = 13
 			});
 
-			pins = tmp.GetUsedPins (ArduinoController.PinType.ANALOG);
+			pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
 			Assert.AreEqual (pins.Length, 1);
 			Assert.AreEqual (pins [0], 0);
 
-			pins = tmp.GetUsedPins (ArduinoController.PinType.DIGITAL);
+			pins = tmp.GetUsedPins (PrototypeBackend.PinType.DIGITAL);
 			Assert.AreEqual (pins.Length, 2);
 			Assert.AreEqual (pins [0], 42);
 			Assert.AreEqual (pins [1], 13);
@@ -194,9 +194,8 @@ namespace PrototypeTests
 		public void GetUnusedPinsTest ()
 		{
 			var tmp = new Controller ();
-			tmp.ArduinoController_ = new ArduinoController.ArduinoController (6, 20);
 
-			var pins = tmp.GetUnusedPins (ArduinoController.PinType.ANALOG);
+			var pins = tmp.GetUnusedPins (PrototypeBackend.PinType.ANALOG);
 			Assert.AreEqual (pins.Length, 6);
 
 //			tmp.AddPin (new MeasurementData () {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ArduinoController;
+using PrototypeBackend;
 
 namespace PrototypeBackend
 {
@@ -26,8 +26,9 @@ namespace PrototypeBackend
 				{
 					throw new FileNotFoundException ();
 				}
-			} catch (Exception)
+			} catch (Exception e)
 			{
+				Console.Error.WriteLine (e);
 			}
 			return Boards;
 		}
@@ -57,18 +58,22 @@ namespace PrototypeBackend
 					}
 					args = args [1].Split ('=');
 					if (args [0].Equals ("name"))
+					{
 						Boards [key].Name = args [1];
-					if (args [0].Equals ("numberofdigitalpins"))
+					} else if (args [0].Equals ("numberofdigitalpins"))
+					{
 						Boards [key].NumberOfDigitalPins = Convert.ToUInt16 (args [1]);
-					if (args [0].Equals ("numberofanalogpins"))
+					} else if (args [0].Equals ("numberofanalogpins"))
+					{
 						Boards [key].NumberOfAnalogPins = Convert.ToUInt16 (args [1]);
-					if (args [0].Equals ("analogreference"))
+					} else if (args [0].Equals ("analogreference"))
 					{
 						string[] references = args [1].Split (' ');
 						Boards [key].AnalogReferences.Add (references [0], Convert.ToInt16 (references [1]));
-					}
-					if (args [0].Equals ("mcu"))
+					} else if (args [0].Equals ("mcu"))
+					{
 						Boards [key].Model = args [1];
+					}
 				}
 			}
 			return Boards.Values.ToArray<Board> ();
