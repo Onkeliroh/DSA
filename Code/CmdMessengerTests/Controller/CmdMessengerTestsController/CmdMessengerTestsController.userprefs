@@ -1,10 +1,11 @@
 ﻿<Properties StartupItem="CmdMessengerTestsController/CmdMessengerTestsController.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../PrototypeBackend/ArduinoController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../../C_Programmierung/Studentdatenbank/Makefile">
     <Files>
       <File FileName="CmdMessengerTestsController/ArduinoController.cs" Line="1" Column="1" />
-      <File FileName="CmdMessengerTestsController/MainWindow.cs" Line="159" Column="3" />
-      <File FileName="../../../PrototypeBackend/ArduinoController.cs" Line="305" Column="5" />
+      <File FileName="CmdMessengerTestsController/MainWindow.cs" Line="1" Column="1" />
+      <File FileName="../../../PrototypeBackend/ArduinoController.cs" Line="1" Column="1" />
+      <File FileName="../../../../../C_Programmierung/Studentdatenbank/Makefile" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
