@@ -1,21 +1,21 @@
 ﻿<Properties StartupItem="../PrototypeManualTests/PrototypeManualTests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeBackend/ControllerAnalogEventArgs.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../PrototypeTests/DPinTests.cs">
     <Files>
-      <File FileName="../PrototypeBackend/BoardParser.cs" Line="79" Column="1" />
-      <File FileName="../PrototypeTests/BoardLoaderTests.cs" Line="29" Column="1" />
-      <File FileName="../PrototypeManualTests/Program.cs" Line="35" Column="1" />
-      <File FileName="../PrototypeBackend/ArduinoController.cs" Line="316" Column="63" />
-      <File FileName="../PrototypeBackend/APin.cs" Line="28" Column="1" />
-      <File FileName="../PrototypeBackend/ControllerAnalogEventArgs.cs" Line="24" Column="2" />
+      <File FileName="../PrototypeBackend/IPin.cs" Line="16" Column="43" />
+      <File FileName="../PrototypeBackend/APin.cs" Line="21" Column="36" />
+      <File FileName="../PrototypeBackend/Scheduler.cs" Line="109" Column="16" />
+      <File FileName="../PrototypeTests/DPinTests.cs" Line="38" Column="1" />
+      <File FileName="../PrototypeTests/APinTests.cs" Line="34" Column="47" NotebookId="1" />
+      <File FileName="../PrototypeBackend/DPin.cs" Line="51" Column="18" NotebookId="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State name="__root__">
-          <Node name="Prototype" expanded="True">
+          <Node name="Prototype" expanded="True" selected="True">
             <Node name="PrototypeTests" expanded="True">
               <Node name="PrototypeTests" expanded="True">
-                <Node name="BoardLoaderTests" expanded="True" selected="True" />
+                <Node name="DPinTests" expanded="True" />
               </Node>
             </Node>
           </Node>

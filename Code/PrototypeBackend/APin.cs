@@ -16,14 +16,19 @@ namespace PrototypeBackend
 
 		public int PinNr{ get; set; }
 
-		public int PinValue { get; set; }
+		public System.Drawing.Color PinColor { get; set; }
 
-		[XmlIgnore]
-		public Action PinCmd{ get; set; }
+		public int PinValue { get; set; }
 
 		public APin ()
 		{
 			PinType = PrototypeBackend.PinType.ANALOG;
+			PinMode = PrototypeBackend.PinMode.INPUT;
+			PinLabel = "";
+			PinNr = -1;
+			PinColor = System.Drawing.Color.Blue;
+			PinValue = 0;
+			Unit = "";
 		}
 
 		public override bool Equals (object obj)
@@ -36,7 +41,8 @@ namespace PrototypeBackend
 					(obj as APin).PinMode == PinMode &&
 					(obj as APin).PinLabel.Equals (PinLabel) &&
 					(obj as APin).Unit.Equals (Unit) &&
-					(obj as APin).PinNr.Equals (PinNr);
+					(obj as APin).PinNr.Equals (PinNr) &&
+					(obj as APin).PinColor.Equals (PinColor);
 				}
 			}
 			return false;
@@ -49,7 +55,7 @@ namespace PrototypeBackend
 
 		public override string ToString ()
 		{
-			return String.Format ("Label: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}", PinLabel, PinNr, PinType, Unit);
+			return String.Format ("Label: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}\tColor: {4}", PinLabel, PinNr, PinType, Unit, PinColor);
 		}
 
 		public string ToXML ()

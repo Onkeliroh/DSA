@@ -15,7 +15,6 @@
   <graph edgedefault="directed" id="G">
     <data key="d7"/>
     <node id="n0">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.start1">
           <y:Geometry height="40.0" width="43.314453125" x="268.8364242311508" y="0.0"/>
@@ -33,12 +32,11 @@
     </node>
     <node id="n1" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="320.6484375" width="168.0" x="209.71507936507936" y="50.0"/>
+              <y:Geometry height="375.6484375" width="168.0" x="209.71507936507936" y="50.0"/>
               <y:Fill color="#CAECFF84" transparent="false"/>
               <y:BorderStyle color="#666699" type="dotted" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#99CCFF" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="168.0" x="0.0" y="0.0">Konfiguriere Signal</y:NodeLabel>
@@ -63,7 +61,6 @@
       </data>
       <graph edgedefault="directed" id="n1:">
         <node id="n1::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.manualOperation">
               <y:Geometry height="40.0" width="86.603515625" x="247.19189298115077" y="86.4609375"/>
@@ -80,10 +77,9 @@
           </data>
         </node>
         <node id="n1::n1">
-          <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.manualOperation">
-              <y:Geometry height="40.0" width="98.556640625" x="241.21533048115077" y="201.0546875"/>
+              <y:Geometry height="40.0" width="98.556640625" x="241.21533048115077" y="256.0546875"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="88.556640625" x="5.0" y="11.015625">Wähle Pin aus<y:LabelModel>
@@ -97,10 +93,9 @@
           </data>
         </node>
         <node id="n1::n2">
-          <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.manualOperation">
-              <y:Geometry height="40.0" width="115.07421875" x="232.95654141865077" y="315.6484375"/>
+              <y:Geometry height="40.0" width="115.07421875" x="232.95654141865077" y="370.6484375"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="105.07421875" x="5.0" y="11.015625">Wähle Operation<y:LabelModel>
@@ -113,13 +108,28 @@
             </y:GenericNode>
           </data>
         </node>
+        <node id="n1::n3">
+          <data key="d6">
+            <y:GenericNode configuration="com.yworks.flowchart.manualOperation">
+              <y:Geometry height="40.0" width="85.390625" x="247.79833829365077" y="141.4609375"/>
+              <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+              <y:BorderStyle color="#000000" type="line" width="1.0"/>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="75.390625" x="5.0" y="11.015625">Setze Farbe<y:LabelModel>
+                  <y:SmartNodeLabelModel distance="4.0"/>
+                </y:LabelModel>
+                <y:ModelParameter>
+                  <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+                </y:ModelParameter>
+              </y:NodeLabel>
+            </y:GenericNode>
+          </data>
+        </node>
       </graph>
     </node>
     <node id="n2">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
-          <y:Geometry height="40.0" width="41.28125" x="64.21691468253968" y="395.6484375"/>
+          <y:Geometry height="40.0" width="41.28125" x="64.21691468253968" y="450.6484375"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="31.28125" x="5.0" y="11.015625">Stop<y:LabelModel>
@@ -133,10 +143,9 @@
       </data>
     </node>
     <node id="n3">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.annotation">
-          <y:Geometry height="169.1875" width="149.71484375" x="10.00011780753968" y="136.4609375"/>
+          <y:Geometry height="169.1875" width="149.71484375" x="10.00011780753968" y="191.4609375"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_size" configuration="CroppingLabel" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="169.1875" modelName="custom" textColor="#000000" visible="true" width="149.71484375" x="0.0" y="0.0">Es können nur Pins mit gleicher Frequenze gewählt werden. Nach der Wahl des ersten Pins werden die restlichen verfügbaren Pins nach Kompatibilität bezüglich der Frequenz gefiltert und nur noch kompatible Pins zur Auswahl angezeigt.<y:LabelModel>
@@ -148,18 +157,31 @@
           </y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
+            <y:Property class="java.lang.Byte" name="LAYER_STYLE_PROPERTY_KEY" value="1"/>
           </y:StyleProperties>
         </y:GenericNode>
       </data>
     </node>
     <edge id="n1::e0" source="n1::n1" target="n1::n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-46.7470703125" sy="-10.0" tx="-24.63916015625" ty="-20.0">
-            <y:Point x="225.71533048115077" y="211.0546875"/>
-            <y:Point x="225.71533048115077" y="185.5546875"/>
-            <y:Point x="265.8544906374008" y="185.5546875"/>
+            <y:Point x="225.71533048115077" y="266.0546875"/>
+            <y:Point x="225.71533048115077" y="240.5546875"/>
+            <y:Point x="265.8544906374008" y="240.5546875"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="true"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="n1::e1" source="n1::n0" target="n1::n1">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="38.3330078125" sy="0.0" tx="44.3095703125" ty="0.0">
+            <y:Point x="354.77222222222224" y="106.4609375"/>
+            <y:Point x="354.77222222222224" y="276.0546875"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -167,19 +189,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n1::e1" source="n1::n0" target="n1::n1">
-      <data key="d9"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
     <edge id="e0" source="n0" target="n1::n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0"/>
@@ -190,7 +200,6 @@
       </data>
     </edge>
     <edge id="n1::e2" source="n1::n1" target="n1::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0"/>
@@ -201,12 +210,11 @@
       </data>
     </edge>
     <edge id="e1" source="n1::n2" target="n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
-            <y:Point x="290.4936507936508" y="380.6484375"/>
-            <y:Point x="84.85753968253968" y="380.6484375"/>
+            <y:Point x="290.4936507936508" y="435.6484375"/>
+            <y:Point x="84.85753968253968" y="435.6484375"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -215,15 +223,36 @@
       </data>
     </edge>
     <edge id="e2" source="n1::n1" target="n3">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-41.7470703125" sy="10.0" tx="74.857421875" ty="0.0">
-            <y:Point x="184.71507936507936" y="231.0546875"/>
-            <y:Point x="184.71507936507936" y="221.0546875"/>
+            <y:Point x="184.71507936507936" y="286.0546875"/>
+            <y:Point x="184.71507936507936" y="276.0546875"/>
           </y:Path>
           <y:LineStyle color="#C0C0C0" type="dashed" width="1.0"/>
           <y:Arrows source="none" target="none"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="n1::e3" source="n1::n0" target="n1::n3">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="n1::e4" source="n1::n3" target="n1::n1">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>

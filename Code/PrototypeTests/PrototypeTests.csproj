@@ -37,11 +37,14 @@
     <Reference Include="nunit.framework">
       <HintPath>..\Prototype\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerTests.cs" />
     <Compile Include="BoardTests.cs" />
     <Compile Include="BoardLoaderTests.cs" />
+    <Compile Include="APinTests.cs" />
+    <Compile Include="DPinTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

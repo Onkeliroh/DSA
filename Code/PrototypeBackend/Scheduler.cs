@@ -85,26 +85,28 @@ namespace PrototypeBackend
 
 		public bool Run ()
 		{
-			foreach (IPin ip in Pins)
-			{
-				ip.PinCmd ();
-			}
-			if (Repetitions != null)
-			{
-				if (RepetitionsLeft > 0)
-				{
-					DueTime = DueTime.AddMilliseconds (Interval);
-					RepetitionsLeft -= 1;
-					return false;
-				} else
-				{
-					return true;
-				}
-			} else
-			{
-				DueTime = DueTime.AddMilliseconds (Interval);
-				return false;
-			}
+//			foreach (IPin ip in Pins)
+//			{
+//				ip.PinCmd ();
+//			}
+//			if (Repetitions != null)
+//			{
+//				if (RepetitionsLeft > 0)
+//				{
+//					DueTime = DueTime.AddMilliseconds (Interval);
+//					RepetitionsLeft -= 1;
+//					return false;
+//				} else
+//				{
+//					return true;
+//				}
+//			} else
+//			{
+//				DueTime = DueTime.AddMilliseconds (Interval);
+//				return false;
+//			}
+			//ToDo remove
+			return false;
 		}
 	}
 }

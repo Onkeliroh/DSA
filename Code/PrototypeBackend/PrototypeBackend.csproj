@@ -47,6 +47,7 @@
       <Package>monodevelop</Package>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

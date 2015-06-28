@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace PrototypeBackend
 {
@@ -8,13 +9,15 @@ namespace PrototypeBackend
 
 		int PinNr{ get; set; }
 
-		string ToString ();
-
-		Action PinCmd{ get; set; }
+		System.Drawing.Color PinColor{ get; set; }
 
 		PrototypeBackend.PinType PinType { get; set; }
 
 		PrototypeBackend.PinMode PinMode { get; set; }
+
+		//Methods
+
+		string ToString ();
 	}
 }
 
