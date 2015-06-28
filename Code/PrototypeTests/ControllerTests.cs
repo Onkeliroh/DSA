@@ -124,11 +124,11 @@ namespace PrototypeTests
 			tmp.NewAnalogValue += (o, e) =>
 			{
 				received = true;
-				pin = e.PinNr;
-				val = e.PinValue;
+				pin = e.PinNr [0];
+				val = e.PinValue [0];
 			};
 
-			tmp.NewAnalogValue.Invoke (null, new ControllerAnalogEventArgs (42, 42));
+			tmp.NewAnalogValue.Invoke (null, new ControllerAnalogEventArgs (new int[]{ 42 }, new int[]{ 42 }));
 			Assert.AreEqual (true, received);
 			Assert.AreEqual (42, pin);
 			Assert.AreEqual (42, val);

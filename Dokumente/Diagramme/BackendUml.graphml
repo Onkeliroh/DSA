@@ -144,10 +144,10 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="152.0" width="130.0" x="935.0" y="374.0"/>
+          <y:Geometry height="154.5" width="212.5" x="1093.75" y="372.75"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="32.07568359375" x="48.962158203125" y="25.96875">IPin<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="32.07568359375" x="90.212158203125" y="25.96875">IPin<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -159,6 +159,7 @@
 PinNr : int
 PinType : PinType
 PinMode : PinMode
+PinColor : System.Drawing.Color
 </y:AttributeLabel>
             <y:MethodLabel>ToString : string</y:MethodLabel>
           </y:UML>
@@ -169,7 +170,7 @@ PinMode : PinMode
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="197.0" width="145.09814453125" x="752.450927734375" y="351.5"/>
+          <y:Geometry height="197.0" width="145.09814453125" x="902.450927734375" y="351.5"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="38.02978515625" x="53.5341796875" y="25.96875">DPin<y:LabelModel>
@@ -196,7 +197,7 @@ GetHashCode : int</y:MethodLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="243.25" width="145.09814453125" x="927.450927734375" y="578.375"/>
+          <y:Geometry height="243.25" width="145.09814453125" x="1127.450927734375" y="578.375"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="37.2998046875" x="53.899169921875" y="25.96875">APin<y:LabelModel>
@@ -297,13 +298,12 @@ Name : string</y:AttributeLabel>
     </node>
     <node id="n12">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="124.24889673433358" width="116.68314210061772" x="941.6584289496911" y="862.8755516328332"/>
+          <y:Geometry height="141.24889673433358" width="233.43314210061772" x="1083.2834289496911" y="854.3755516328332"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="49.60791015625" x="33.53761597218386" y="25.96875">Signal<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="49.60791015625" x="91.91261597218386" y="25.96875">Signal<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -313,7 +313,8 @@ Name : string</y:AttributeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="class" use3DEffect="false">
             <y:AttributeLabel>Pins : APin[]
 Name : string
-Operation : TBA</y:AttributeLabel>
+Operation : TBA
+SignalColor : System.Drawing.Color</y:AttributeLabel>
             <y:MethodLabel>ToString : string</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
@@ -321,13 +322,12 @@ Operation : TBA</y:AttributeLabel>
     </node>
     <node id="n13">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="110.49889673433358" width="116.68314210061772" x="591.6584289496911" y="394.7505516328332"/>
+          <y:Geometry height="124.24889673433358" width="255.18314210061772" x="597.4084289496911" y="387.8755516328332"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="75.3349609375" x="20.674090581558858" y="25.96875">Sequence
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="75.3349609375" x="89.92409058155886" y="25.96875">Sequence
 <y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -337,10 +337,28 @@ Operation : TBA</y:AttributeLabel>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="class" use3DEffect="false">
             <y:AttributeLabel>Pins : DPin[]
-Name : string</y:AttributeLabel>
+Name : string
+SequenceColor : System.Drawing.Color</y:AttributeLabel>
             <y:MethodLabel>ToString : string</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
+      </data>
+    </node>
+    <node id="n14">
+      <data key="d5"/>
+      <data key="d6">
+        <y:GenericNode configuration="com.yworks.flowchart.manualOperation">
+          <y:Geometry height="40.0" width="29.26953125" x="-156.134765625" y="181.0"/>
+          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="19.26953125" x="5.0" y="11.015625">15<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+        </y:GenericNode>
       </data>
     </node>
     <edge id="e0" source="n0" target="n4">
@@ -380,7 +398,7 @@ Name : string</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-65.0" sy="-0.0" tx="72.549072265625" ty="-0.0"/>
+          <y:Path sx="-106.25" sy="-0.0" tx="72.549072265625" ty="-0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>
@@ -391,7 +409,7 @@ Name : string</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="76.0" tx="0.0" ty="-121.625"/>
+          <y:Path sx="0.0" sy="77.25" tx="0.0" ty="-121.625"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>
@@ -403,7 +421,7 @@ Name : string</y:AttributeLabel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="43.711669921875" sy="-12.5" tx="0.0" ty="98.5">
-            <y:Point x="825.0" y="687.5"/>
+            <y:Point x="975.0" y="687.5"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
@@ -503,10 +521,9 @@ Name : string</y:AttributeLabel>
     </edge>
     <edge id="e14" source="n13" target="n7">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="58.34157105030886" sy="-0.0" tx="-72.549072265625" ty="-0.0"/>
+          <y:Path sx="127.59157105030886" sy="-0.0" tx="-72.549072265625" ty="-0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -515,10 +532,9 @@ Name : string</y:AttributeLabel>
     </edge>
     <edge id="e15" source="n12" target="n8">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-62.12444836716679" tx="0.0" ty="121.625"/>
+          <y:Path sx="0.0" sy="-70.62444836716679" tx="0.0" ty="121.625"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -527,10 +543,9 @@ Name : string</y:AttributeLabel>
     </edge>
     <edge id="e16" source="n1" target="n12">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="25.0" sy="24.0" tx="-58.34157105030886" ty="-0.0">
+          <y:Path sx="25.0" sy="24.0" tx="-116.71657105030886" ty="-0.0">
             <y:Point x="500.0" y="925.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
@@ -541,10 +556,9 @@ Name : string</y:AttributeLabel>
     </edge>
     <edge id="e17" source="n1" target="n13">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="25.0" sy="-24.0" tx="-58.34157105030886" ty="-0.0">
+          <y:Path sx="25.0" sy="-24.0" tx="-127.59157105030886" ty="-0.0">
             <y:Point x="500.0" y="450.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>

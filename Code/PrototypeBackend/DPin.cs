@@ -15,15 +15,19 @@ namespace PrototypeBackend
 
 		public int PinNr { get ; set; }
 
-		public PrototypeBackend.DPinState PinState = PrototypeBackend.DPinState.LOW;
+		public System.Drawing.Color PinColor { get; set; }
 
-		public Action PinCmd{ get; set; }
+		public PrototypeBackend.DPinState PinState = PrototypeBackend.DPinState.LOW;
 
 		//Constructors
 
 		public DPin ()
 		{
 			PinType = PrototypeBackend.PinType.DIGITAL;
+			PinMode = PrototypeBackend.PinMode.OUTPUT;
+			PinLabel = "";
+			PinNr = -1;
+			PinColor = System.Drawing.Color.Blue;
 		}
 
 		public DPin (string label, DateTime time, int pinnr)
@@ -41,7 +45,10 @@ namespace PrototypeBackend
 			{
 				return (seq.PinNr == PinNr
 				&& seq.PinLabel.Equals (PinLabel)
-				&& seq.PinState.Equals (PinState));
+				&& seq.PinState.Equals (PinState)
+				&& seq.PinColor.Equals (PinColor)
+				&& seq.PinType.Equals (PinType)
+				&& seq.PinMode.Equals (PinMode));
 			}
 			return false;
 		}
