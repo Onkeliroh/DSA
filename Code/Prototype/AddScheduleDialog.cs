@@ -7,9 +7,9 @@ namespace Prototype
 {
 	public partial class AddScheduleDialog : Gtk.Dialog
 	{
-		private List<PrototypeBackend.MeasurementData> DatesList = new List<PrototypeBackend.MeasurementData> ();
+		private List<PrototypeBackend.APin> DatesList = new List<PrototypeBackend.APin> ();
 
-		public PrototypeBackend.MeasurementData[] Dates { 
+		public PrototypeBackend.APin[] Dates { 
 			private set { } 
 			get { return DatesList.ToArray (); } 
 		}
@@ -52,8 +52,8 @@ namespace Prototype
 			{
 				PinLabel = cBPins.ActiveText;
 			}
-			DatesList.Add (new PrototypeBackend.MeasurementData () {
-				PinType = ArduinoController.PinType.ANALOG, 
+			DatesList.Add (new PrototypeBackend.APin () {
+				PinType = PrototypeBackend.PinType.ANALOG, 
 				PinNr = Convert.ToInt16 (cBPins.ActiveText), 
 //				PinCmd = ArduinoController.Command.ReadAnalogPin,
 //				DueTime = DateTime.Now.AddMinutes (2),
@@ -62,8 +62,8 @@ namespace Prototype
 
 			for (int i = 0; i < sBRepetitions.Value; i++)
 			{
-				DatesList.Add (new PrototypeBackend.MeasurementData () {
-					PinType = ArduinoController.PinType.ANALOG, 
+				DatesList.Add (new PrototypeBackend.APin () {
+					PinType = PrototypeBackend.PinType.ANALOG, 
 					PinNr = Convert.ToInt16 (cBPins.ActiveText), 
 //					PinCmd = ArduinoController.Command.ReadAnalogPin,
 //					DueTime = DatesList [0].DueTime.AddMinutes (i + 1),

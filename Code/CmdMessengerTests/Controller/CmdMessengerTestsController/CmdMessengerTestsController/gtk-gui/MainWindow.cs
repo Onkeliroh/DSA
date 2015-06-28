@@ -1192,6 +1192,7 @@ public partial class MainWindow
 		this.label5.ShowAll ();
 		// Container child nbMain.Gtk.Notebook+NotebookChild
 		this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), true);
+		this.table1.Name = "table1";
 		this.table1.RowSpacing = ((uint)(6));
 		this.table1.ColumnSpacing = ((uint)(6));
 		// Container child table1.Gtk.Table+TableChild

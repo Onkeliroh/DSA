@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
+using PrototypeBackend;
 
 namespace PrototypeBackend
 {
@@ -16,14 +17,14 @@ namespace PrototypeBackend
 		public int[] AvailableAnalogPins {
 			private set{ }
 			get {
-				return GetUnusedPins (ArduinoController.PinType.ANALOG);
+				return GetUnusedPins (PinType.ANALOG);
 			}
 		}
 
 		public int[] AvailableDigitalPins {
 			private set{ }
 			get {
-				return GetUnusedPins (ArduinoController.PinType.DIGITAL); 
+				return GetUnusedPins (PinType.DIGITAL); 
 			}
 		}
 
@@ -34,25 +35,24 @@ namespace PrototypeBackend
 
 		private bool running = true;
 
-		public  ArduinoController.ArduinoController ArduinoController_ = new ArduinoController.ArduinoController ();
-
 		public Controller ()
 		{
+			ArduinoController.Init ();
 			controllerSchedulerList = new List<Scheduler> ();
 			controllerPins = new List<IPin> ();
 
-			ArduinoController_.NewAnalogValue += OnNewArduinoNewAnalogValue;
-			ArduinoController_.NewDigitalValue += OnNewArduinoNewDigitalValue;
+			ArduinoController.NewAnalogValue += OnNewArduinoNewAnalogValue;
+			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
 
 			controllerThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
 			controllerThread.Start ();
 
-			ArduinoController_.OnConnection += ((o, e) =>
+			ArduinoController.OnConnection += ((o, e) =>
 			{
-				ArduinoController_.GetNumberAnalogPins ();
-				ArduinoController_.GetNumberDigitalPins ();
-				ArduinoController_.GetVersion ();
-				ArduinoController_.GetModel ();
+				ArduinoController.GetNumberAnalogPins ();
+				ArduinoController.GetNumberDigitalPins ();
+				ArduinoController.GetVersion ();
+				ArduinoController.GetModel ();
 			});
 		}
 
@@ -172,7 +172,7 @@ namespace PrototypeBackend
 			}
 		}
 
-		public int[] GetUsedPins (ArduinoController.PinType type)
+		public int[] GetUsedPins (PrototypeBackend.PinType type)
 		{
 			List<int> pins = new List<int> ();
 
@@ -191,15 +191,15 @@ namespace PrototypeBackend
 			return new int[0];
 		}
 
-		public int[] GetUnusedPins (ArduinoController.PinType type)
+		public int[] GetUnusedPins (PrototypeBackend.PinType type)
 		{
 			uint numpins = 0;
-			if (type.Equals (ArduinoController.PinType.ANALOG))
+			if (type.Equals (PrototypeBackend.PinType.ANALOG))
 			{
-				numpins = ArduinoController_.NumberOfAnalogPins; 
-			} else if (type.Equals (ArduinoController.PinType.DIGITAL))
+				numpins = ArduinoController.NumberOfAnalogPins; 
+			} else if (type.Equals (PrototypeBackend.PinType.DIGITAL))
 			{
-				numpins = ArduinoController_.NumberOfDigitalPins;
+				numpins = ArduinoController.NumberOfDigitalPins;
 			}
 
 			List<int> unusedpins = new List<int> ();

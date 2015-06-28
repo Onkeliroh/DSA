@@ -1,38 +1,42 @@
 ﻿using System;
-using ArduinoController;
+using PrototypeBackend;
 using System.Xml.Serialization;
 using System.IO;
 
 namespace PrototypeBackend
 {
-	public class Sequence : IPin
+	public class DPin : IPin
 	{
-		public PinType? PinType { get; set; }
+		public PinType PinType { get; set; }
 
-		public PinMode? PinMode { get; set; }
+		public PinMode PinMode { get; set; }
 
 		public string PinLabel { get; set; }
 
 		public int PinNr { get ; set; }
 
-		public ArduinoController.DPinState PinState = ArduinoController.DPinState.LOW;
+		public PrototypeBackend.DPinState PinState = PrototypeBackend.DPinState.LOW;
 
 		public Action PinCmd{ get; set; }
 
-		public Sequence ()
+		//Constructors
+
+		public DPin ()
 		{
-			PinType = ArduinoController.PinType.DIGITAL;
+			PinType = PrototypeBackend.PinType.DIGITAL;
 		}
 
-		public Sequence (string label, DateTime time, int pinnr)
+		public DPin (string label, DateTime time, int pinnr)
 		{
 			PinLabel = label;
 			PinNr = pinnr;
 		}
 
+		//Methods
+
 		public override bool Equals (object obj)
 		{
-			var seq = obj as Sequence;
+			var seq = obj as DPin;
 			if (seq != null)
 			{
 				return (seq.PinNr == PinNr
@@ -54,12 +58,25 @@ namespace PrototypeBackend
 
 		public string ToXML ()
 		{
-			XmlSerializer tmp = new XmlSerializer (typeof(Sequence));
+			XmlSerializer tmp = new XmlSerializer (typeof(DPin));
 			string returnstring = "";
 			TextWriter tw = new StreamWriter (returnstring);
 			tmp.Serialize (tw, this);
 			tw.Close ();
 			return returnstring;
+		}
+
+		public void Run ()
+		{
+			switch (PinMode)
+			{
+			case PrototypeBackend.PinMode.OUTPUT:
+				PrototypeBackend.ArduinoController.SetPin (PinNr, PinMode, PinState);
+				break;
+			case PrototypeBackend.PinMode.INPUT:
+				PinState = PrototypeBackend.ArduinoController.ReadPin (PinNr);
+				break;
+			}
 		}
 	}
 }

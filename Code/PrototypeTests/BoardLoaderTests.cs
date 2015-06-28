@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using PrototypeBackend;
-using ArduinoController;
 using NUnit.Framework;
 
 namespace PrototypeTests
