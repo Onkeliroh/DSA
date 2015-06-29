@@ -126,9 +126,15 @@ class Program
 		Console.WriteLine ("Please enter a parameter name:");
 		string name = Console.ReadLine ();
 		Console.WriteLine ("Please enter a value for this parameter:");
-		double value = Convert.ToDouble (Console.ReadLine ());
 
-		parameter_.Add (name, value);
+		try
+		{
+			double value = Convert.ToDouble (Console.ReadLine ());
+			parameter_.Add (name, value);
+		} catch (Exception e)
+		{
+			Console.WriteLine ("It appears, that you have entered a non numberical value.");
+		}
 
 		Console.WriteLine ("\nDo you wish to enter another value?:");
 		if (Console.Read () == 'y')
