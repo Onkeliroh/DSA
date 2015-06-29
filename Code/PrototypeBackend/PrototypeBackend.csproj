@@ -59,6 +59,8 @@
     <Compile Include="BoardParser.cs" />
     <Compile Include="DPin.cs" />
     <Compile Include="APin.cs" />
+    <Compile Include="Signal.cs" />
+    <Compile Include="SignalOperationCompiler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

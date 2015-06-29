@@ -45,6 +45,8 @@
     <Compile Include="BoardLoaderTests.cs" />
     <Compile Include="APinTests.cs" />
     <Compile Include="DPinTests.cs" />
+    <Compile Include="SignalTests.cs" />
+    <Compile Include="SignalOperationCompilertests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

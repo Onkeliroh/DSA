@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright ("onkeliroh")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
+[assembly: InternalsVisibleTo ("PrototypeTests")]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,

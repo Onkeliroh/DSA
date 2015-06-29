@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Xml.Serialization;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PrototypeBackend
 {
 	public class APin : IPin
 	{
+		#region Member
+
 		public PrototypeBackend.PinType PinType { get; set; }
 
 		public PrototypeBackend.PinMode PinMode { get; set; }
@@ -18,7 +22,50 @@ namespace PrototypeBackend
 
 		public System.Drawing.Color PinColor { get; set; }
 
-		public int PinValue { get; set; }
+		public double Gain{ get; set; }
+
+		public double Offset{ get; set; }
+
+		public List<double> Values{ get; private set; }
+
+		public double PinValue {
+			private set{ }
+			get {
+				if (Values.Count >= Interval)
+				{
+					if (Interval == 1)
+					{
+						if (!double.IsNaN (Values.Last ()))
+						{
+							return ((Values.Last () * Gain) + Offset);
+						}
+						return double.NaN;
+					} else
+					{
+						double result = 0;
+						for (int i = Values.Count - Interval; i < Values.Count; i++)
+						{
+							if (!double.IsNaN (Values [i]))
+							{
+								result += (Values [i] * Gain) + Offset;
+							}
+						}
+						return result / Interval;
+					}
+				} else
+				{
+					return double.NaN;
+				}
+			}
+		}
+
+		public int Interval { get; set; }
+
+		public double Frequency { get; set; }
+
+		#endregion
+
+		#region Methods
 
 		public APin ()
 		{
@@ -27,8 +74,12 @@ namespace PrototypeBackend
 			PinLabel = "";
 			PinNr = -1;
 			PinColor = System.Drawing.Color.Blue;
-			PinValue = 0;
 			Unit = "";
+			Gain = 1;
+			Offset = 0;
+			Interval = 1;
+			Frequency = 1000;
+			Values = new List<double> ();
 		}
 
 		public override bool Equals (object obj)
@@ -70,17 +121,10 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			switch (PinMode)
-			{
-			case PrototypeBackend.PinMode.OUTPUT:
-				PrototypeBackend.ArduinoController.SetAnalogPin (PinNr, PinValue);
-				break;
-			case PrototypeBackend.PinMode.INPUT:
-				PrototypeBackend.ArduinoController.ReadAnalogPin (PinNr);
-				break;
-			}
+			Values.Add (PrototypeBackend.ArduinoController.ReadAnalogPin (PinNr));
 		}
 
+		#endregion
 	}
 }
 

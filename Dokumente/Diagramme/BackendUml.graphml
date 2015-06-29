@@ -18,7 +18,7 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="48.0" width="68.15185546875" x="440.924072265625" y="301.0"/>
+          <y:Geometry height="48.0" width="68.15185546875" x="715.924072265625" y="351.0"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="58.15185546875" x="5.0" y="25.96875">System<y:LabelModel>
@@ -39,7 +39,7 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="48.0" width="87.42333984375" x="431.288330078125" y="676.0"/>
+          <y:Geometry height="48.0" width="87.42333984375" x="981.288330078125" y="676.0"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="77.42333984375" x="5.0" y="25.96875">Controller<y:LabelModel>
@@ -60,7 +60,7 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="48.0" width="99.4140625" x="425.29296875" y="951.0"/>
+          <y:Geometry height="48.0" width="99.4140625" x="975.29296875" y="1001.0"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="89.4140625" x="5.0" y="25.96875">CSV-Logger<y:LabelModel>
@@ -81,7 +81,7 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="68.93123028391165" width="145.09814453125" x="77.450927734375" y="665.5343848580442"/>
+          <y:Geometry height="68.93123028391165" width="145.09814453125" x="327.450927734375" y="665.5343848580442"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="135.09814453125" x="5.0" y="25.96875">ArduinoController<y:LabelModel>
@@ -102,7 +102,7 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="48.0" width="96.0244140625" x="551.98779296875" y="301.0"/>
+          <y:Geometry height="48.0" width="96.0244140625" x="701.98779296875" y="276.0"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="86.0244140625" x="5.0" y="25.96875">Sys-Logger<y:LabelModel>
@@ -123,7 +123,7 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="48.0" width="124.39208984375" x="87.803955078125" y="776.0"/>
+          <y:Geometry height="48.0" width="124.39208984375" x="162.803955078125" y="676.0"/>
           <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="114.39208984375" x="5.0" y="25.96875">cmdMessenger<y:LabelModel>
@@ -144,7 +144,7 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="154.5" width="212.5" x="1093.75" y="372.75"/>
+          <y:Geometry height="153.3063196466876" width="212.5" x="1443.75" y="173.3468401766562"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="32.07568359375" x="90.212158203125" y="25.96875">IPin<y:LabelModel>
@@ -155,11 +155,11 @@
             </y:ModelParameter>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="interface" use3DEffect="false">
-            <y:AttributeLabel>PinLabel : string
-PinNr : int
-PinType : PinType
-PinMode : PinMode
-PinColor : System.Drawing.Color
+            <y:AttributeLabel>+ PinLabel : string
++ PinNr : int
++ PinType : PinType
++ PinMode : PinMode
++ PinColor : System.Drawing.Color
 </y:AttributeLabel>
             <y:MethodLabel>ToString : string</y:MethodLabel>
           </y:UML>
@@ -170,7 +170,7 @@ PinColor : System.Drawing.Color
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="197.0" width="145.09814453125" x="902.450927734375" y="351.5"/>
+          <y:Geometry height="182.218643533123" width="145.09814453125" x="1252.450927734375" y="158.8906782334385"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="38.02978515625" x="53.5341796875" y="25.96875">DPin<y:LabelModel>
@@ -181,11 +181,11 @@ PinColor : System.Drawing.Color
             </y:ModelParameter>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="class" use3DEffect="false">
-            <y:AttributeLabel>PinLabel : stirng
-PinNr : int
-PinType : PinType
-PinMode : PinMode
-PinState : DPinState</y:AttributeLabel>
+            <y:AttributeLabel>+ PinLabel : string
++ PinNr : int
++ PinType : PinType
++ PinMode : PinMode
++ PinState : DPinState</y:AttributeLabel>
             <y:MethodLabel>Equals : bool
 ToString : string
 GetHashCode : int</y:MethodLabel>
@@ -197,7 +197,7 @@ GetHashCode : int</y:MethodLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="243.25" width="145.09814453125" x="1127.450927734375" y="578.375"/>
+          <y:Geometry height="261.7134520741394" width="145.09814453125" x="1477.450927734375" y="569.1432739629303"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="37.2998046875" x="53.899169921875" y="25.96875">APin<y:LabelModel>
@@ -208,18 +208,21 @@ GetHashCode : int</y:MethodLabel>
             </y:ModelParameter>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="class" use3DEffect="false">
-            <y:AttributeLabel>PinLabel : stirng
-PinNr : int
-PinType : PinType
-PinMode : PinMode
-PinState : DPinState
-Unit : stirng
-Gain : double
-Offset : double
-</y:AttributeLabel>
-            <y:MethodLabel>Equals : bool
-ToString : string
-GetHashCode : int</y:MethodLabel>
+            <y:AttributeLabel>+ PinLabel : stirng
++ PinNr : int
++ PinType : PinType
++ PinMode : PinMode
++ PinState : DPinState
++ Unit : stirng
++ Gain : double
++ Offset : double
++ PinValue : double
++ Interval : int
++ Frequency : double</y:AttributeLabel>
+            <y:MethodLabel>+ Equals : bool
++ ToString : string
++ GetHashCode : int
++ Run</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
       </data>
@@ -228,10 +231,10 @@ GetHashCode : int</y:MethodLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="171.0" width="274.0" x="13.0" y="239.5"/>
+          <y:Geometry height="180.3838455520505" width="279.519909148265" x="260.2400454258675" y="434.80807722397475"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="47.3291015625" x="113.33544921875" y="25.96875">Board<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="47.3291015625" x="116.09540379288251" y="25.96875">Board<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -239,14 +242,14 @@ GetHashCode : int</y:MethodLabel>
             </y:ModelParameter>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="class" use3DEffect="false">
-            <y:AttributeLabel>NumberOfDigitalPins : int
-NumberOfAnalogPins : int
-AnalogReferences : Dictionary&lt;string,int&gt;
-AnalogReference : int
-Version ; string
-Model : string
-Name : string</y:AttributeLabel>
-            <y:MethodLabel/>
+            <y:AttributeLabel>+ NumberOfDigitalPins : int
++ NumberOfAnalogPins : int
++ AnalogReferences : Dictionary&lt;string,int&gt;
++ AnalogReference : int
++ Version ; string
++ Model : string
++ Name : string</y:AttributeLabel>
+            <y:MethodLabel>+ ToString : string</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
       </data>
@@ -255,7 +258,7 @@ Name : string</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="163.0" width="300.3333333333335" x="-0.16666666666674246" y="18.5"/>
+          <y:Geometry height="163.0" width="300.3333333333335" x="599.8333333333333" y="443.5"/>
           <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="95.00634765625" x="102.66349283854174" y="25.96875">BoardParser<y:LabelModel>
@@ -279,7 +282,7 @@ Name : string</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="82.17823343848579" width="218.77911716472556" x="365.6104414176372" y="-16.08911671924284"/>
+          <y:Geometry height="82.17823343848579" width="218.77911716472556" x="-9.389558582362781" y="333.9108832807571"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="208.41357421875" x="5.182771472987781" y="25.96875">SessionConfigurationParser<y:LabelModel>
@@ -300,10 +303,10 @@ Name : string</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="141.24889673433358" width="233.43314210061772" x="1083.2834289496911" y="854.3755516328332"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Geometry height="191.02934258675066" width="307.32549894604335" x="1396.3372505269783" y="879.4853287066246"/>
+          <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="49.60791015625" x="91.91261597218386" y="25.96875">Signal<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="49.60791015625" x="128.85879439489668" y="25.96875">Signal<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -311,11 +314,15 @@ Name : string</y:AttributeLabel>
             </y:ModelParameter>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="class" use3DEffect="false">
-            <y:AttributeLabel>Pins : APin[]
-Name : string
-Operation : TBA
-SignalColor : System.Drawing.Color</y:AttributeLabel>
-            <y:MethodLabel>ToString : string</y:MethodLabel>
+            <y:AttributeLabel>+ Pins : List&lt;APin&gt;
++ SignalName : string
++ SignalColor : System.Drawing.Color
++ SingnalValue : double
+- SignalOperation : Func&lt;double[],double&gt;
++ SignalOperationStirng : string
+- SignalOperationString_ : string</y:AttributeLabel>
+            <y:MethodLabel>+ ToString : string
++ Run</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
       </data>
@@ -324,10 +331,10 @@ SignalColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="124.24889673433358" width="255.18314210061772" x="597.4084289496911" y="387.8755516328332"/>
+          <y:Geometry height="163.0" width="396.4705129186243" x="826.7647435406878" y="168.5"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="75.3349609375" x="89.92409058155886" y="25.96875">Sequence
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="75.3349609375" x="160.56777599056215" y="25.96875">Sequence
 <y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -336,36 +343,68 @@ SignalColor : System.Drawing.Color</y:AttributeLabel>
             </y:ModelParameter>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="class" use3DEffect="false">
-            <y:AttributeLabel>Pins : DPin[]
-Name : string
-SequenceColor : System.Drawing.Color</y:AttributeLabel>
-            <y:MethodLabel>ToString : string</y:MethodLabel>
+            <y:AttributeLabel>+ Pins : DPin[]
++ Name : string
++ SequenceColor : System.Drawing.Color
++ Operations : List&lt;SequenceOperation&gt;</y:AttributeLabel>
+            <y:MethodLabel>+ ToString : string
++ AddSequenceOperation(int, PinState,DateTIme , double)
++ AddSequenceOperation(int, PinState, DateTime, DateTime)</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
       </data>
     </node>
     <node id="n14">
+      <data key="d4"/>
       <data key="d5"/>
       <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.manualOperation">
-          <y:Geometry height="40.0" width="29.26953125" x="-156.134765625" y="181.0"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+        <y:UMLClassNode>
+          <y:Geometry height="110.79863722397465" width="383.5133687232187" x="1358.2433156383906" y="1119.6006813880126"/>
+          <y:Fill color="#339966" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="19.26953125" x="5.0" y="11.015625">15<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="188.28515625" x="97.61410623660936" y="25.96875">SignalOperationCompiler<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="-0.03703090122767855" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
             </y:ModelParameter>
           </y:NodeLabel>
-        </y:GenericNode>
+          <y:UML clipContent="true" constraint="static" omitDetails="false" stereotype="class" use3DEffect="false">
+            <y:AttributeLabel/>
+            <y:MethodLabel>+ CompileOperation(string,string[]):Func&lt;double[],double&gt;</y:MethodLabel>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+    </node>
+    <node id="n15">
+      <data key="d4"/>
+      <data key="d5"/>
+      <data key="d6">
+        <y:UMLClassNode>
+          <y:Geometry height="110.79863722397465" width="154.0" x="948.0" y="-5.399318611987326"/>
+          <y:Fill hasColor="false" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="148.548828125" x="2.7255859375" y="25.96875">SequenceOperation<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="-0.03703090122767855" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="struct" use3DEffect="false">
+            <y:AttributeLabel>+ PinNr : int
++ PinState : PinState
++ Time : DateTime</y:AttributeLabel>
+            <y:MethodLabel/>
+          </y:UML>
+        </y:UMLClassNode>
       </data>
     </node>
     <edge id="e0" source="n0" target="n4">
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="34.075927734375" sy="-0.0" tx="-48.01220703125" ty="-0.0"/>
+          <y:Path sx="0.0" sy="-24.0" tx="0.0" ty="24.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -376,7 +415,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-43.711669921875" sy="-0.0" tx="72.549072265625" ty="-0.0"/>
+          <y:Path sx="-43.711669921875" sy="0.0" tx="72.549072265625" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -387,7 +426,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="34.46561514195582" tx="0.0" ty="-24.0"/>
+          <y:Path sx="-72.549072265625" sy="0.0" tx="62.196044921875" ty="0.0"/>
           <y:LineStyle color="#000000" type="dashed" width="1.0"/>
           <y:Arrows source="none" target="plain"/>
           <y:BendStyle smoothed="false"/>
@@ -398,7 +437,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-106.25" sy="-0.0" tx="72.549072265625" ty="-0.0"/>
+          <y:Path sx="-106.25" sy="0.0" tx="72.549072265625" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>
@@ -409,7 +448,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="77.25" tx="0.0" ty="-121.625"/>
+          <y:Path sx="0.0" sy="76.6531598233438" tx="0.0" ty="-130.85672603706973"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>
@@ -420,8 +459,8 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="43.711669921875" sy="-12.5" tx="0.0" ty="98.5">
-            <y:Point x="975.0" y="687.5"/>
+          <y:Path sx="43.711669921875" sy="-12.5" tx="0.0" ty="91.1093217665615">
+            <y:Point x="1325.0" y="687.5"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
@@ -433,7 +472,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="43.711669921875" sy="-0.0" tx="-72.549072265625" ty="-0.0"/>
+          <y:Path sx="43.711669921875" sy="0.0" tx="-72.549072265625" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -444,7 +483,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-34.46561514195582" tx="0.0" ty="85.5"/>
+          <y:Path sx="0.0" sy="-34.46561514195582" tx="0.0" ty="90.1919227760252"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -455,7 +494,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="81.5" tx="0.0" ty="-85.5"/>
+          <y:Path sx="-150.16666666666674" sy="0.0" tx="139.7599545741325" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -477,9 +516,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-25.0" sy="-24.0" tx="150.16666666666674" ty="-0.0">
-            <y:Point x="450.0" y="100.0"/>
-          </y:Path>
+          <y:Path sx="0.0" sy="24.0" tx="0.0" ty="-81.5"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -490,7 +527,9 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-34.075927734375" sy="-0.0" tx="137.0" ty="-0.0"/>
+          <y:Path sx="-34.075927734375" sy="12.5" tx="0.0" ty="-90.19192277602525">
+            <y:Point x="400.0" y="387.5"/>
+          </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -501,7 +540,9 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="24.0" tx="0.0" ty="-24.0"/>
+          <y:Path sx="34.075927734375" sy="0.0" tx="-25.0" ty="-24.0">
+            <y:Point x="1000.0" y="375.0"/>
+          </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -512,7 +553,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-24.0" tx="0.0" ty="41.08911671924284"/>
+          <y:Path sx="-34.075927734375" sy="0.0" tx="109.38955858236278" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -523,7 +564,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="127.59157105030886" sy="-0.0" tx="-72.549072265625" ty="-0.0"/>
+          <y:Path sx="198.23525645931204" sy="0.0" tx="-72.549072265625" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -534,7 +575,7 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-70.62444836716679" tx="0.0" ty="121.625"/>
+          <y:Path sx="0.0" sy="-95.51467129337539" tx="0.0" ty="130.85672603706962"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -545,8 +586,8 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="25.0" sy="24.0" tx="-116.71657105030886" ty="-0.0">
-            <y:Point x="500.0" y="925.0"/>
+          <y:Path sx="25.0" sy="24.0" tx="-153.66274947302168" ty="0.0">
+            <y:Point x="1050.0" y="975.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
@@ -558,9 +599,31 @@ SequenceColor : System.Drawing.Color</y:AttributeLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="25.0" sy="-24.0" tx="-127.59157105030886" ty="-0.0">
-            <y:Point x="500.0" y="450.0"/>
-          </y:Path>
+          <y:Path sx="0.0" sy="-24.0" tx="0.0" ty="81.5"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="white_diamond" target="none"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e18" source="n12" target="n14">
+      <data key="d8"/>
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="95.51467129337516" tx="0.0" ty="-55.39931861198738"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="white_diamond" target="none"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e19" source="n13" target="n15">
+      <data key="d8"/>
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="-81.5" tx="0.0" ty="55.399318611987326"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="white_diamond" target="none"/>
           <y:BendStyle smoothed="false"/>
