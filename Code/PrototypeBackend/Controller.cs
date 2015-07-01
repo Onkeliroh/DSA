@@ -179,9 +179,9 @@ namespace PrototypeBackend
 
 			foreach (IPin cp in this.controllerPins)
 			{
-				if (cp.PinType == type)
+				if (cp.Type == type)
 				{
-					pins.Add (cp.PinNr);
+					pins.Add (cp.Number);
 				}
 			}
 			if (pins.Count > 0)
@@ -211,9 +211,9 @@ namespace PrototypeBackend
 
 			foreach (IPin ip in controllerPins)
 			{
-				if (ip.PinType == type)
+				if (ip.Type == type)
 				{
-					unusedpins.Remove (ip.PinNr);
+					unusedpins.Remove (ip.Number);
 				}
 			}
 

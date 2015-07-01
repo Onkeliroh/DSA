@@ -53,21 +53,21 @@ namespace Prototype
 				PinLabel = cBPins.ActiveText;
 			}
 			DatesList.Add (new PrototypeBackend.APin () {
-				PinType = PrototypeBackend.PinType.ANALOG, 
-				PinNr = Convert.ToInt16 (cBPins.ActiveText), 
+				Type = PrototypeBackend.PinType.ANALOG, 
+				Number = Convert.ToInt16 (cBPins.ActiveText), 
 //				PinCmd = ArduinoController.Command.ReadAnalogPin,
 //				DueTime = DateTime.Now.AddMinutes (2),
-				PinLabel = PinLabel,
+				Name = PinLabel,
 			});
 
 			for (int i = 0; i < sBRepetitions.Value; i++)
 			{
 				DatesList.Add (new PrototypeBackend.APin () {
-					PinType = PrototypeBackend.PinType.ANALOG, 
-					PinNr = Convert.ToInt16 (cBPins.ActiveText), 
+					Type = PrototypeBackend.PinType.ANALOG, 
+					Number = Convert.ToInt16 (cBPins.ActiveText), 
 //					PinCmd = ArduinoController.Command.ReadAnalogPin,
 //					DueTime = DatesList [0].DueTime.AddMinutes (i + 1),
-					PinLabel = PinLabel
+					Name = PinLabel
 				});
 			}
 

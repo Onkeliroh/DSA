@@ -7,33 +7,33 @@ namespace PrototypeBackend
 {
 	public class DPin : IPin
 	{
-		public PinType PinType { get; set; }
+		public PinType Type { get; set; }
 
-		public PinMode PinMode { get; set; }
+		public PinMode Mode { get; set; }
 
-		public string PinLabel { get; set; }
+		public string Name { get; set; }
 
-		public int PinNr { get ; set; }
+		public int Number { get ; set; }
 
-		public System.Drawing.Color PinColor { get; set; }
+		public System.Drawing.Color PlotColor { get; set; }
 
-		public PrototypeBackend.DPinState PinState = PrototypeBackend.DPinState.LOW;
+		public PrototypeBackend.DPinState State = PrototypeBackend.DPinState.LOW;
 
 		//Constructors
 
 		public DPin ()
 		{
-			PinType = PrototypeBackend.PinType.DIGITAL;
-			PinMode = PrototypeBackend.PinMode.OUTPUT;
-			PinLabel = "";
-			PinNr = -1;
-			PinColor = System.Drawing.Color.Blue;
+			Type = PrototypeBackend.PinType.DIGITAL;
+			Mode = PrototypeBackend.PinMode.OUTPUT;
+			Name = "";
+			Number = -1;
+			PlotColor = System.Drawing.Color.Empty;
 		}
 
 		public DPin (string label, DateTime time, int pinnr)
 		{
-			PinLabel = label;
-			PinNr = pinnr;
+			Name = label;
+			Number = pinnr;
 		}
 
 		//Methods
@@ -43,12 +43,12 @@ namespace PrototypeBackend
 			var seq = obj as DPin;
 			if (seq != null)
 			{
-				return (seq.PinNr == PinNr
-				&& seq.PinLabel.Equals (PinLabel)
-				&& seq.PinState.Equals (PinState)
-				&& seq.PinColor.Equals (PinColor)
-				&& seq.PinType.Equals (PinType)
-				&& seq.PinMode.Equals (PinMode));
+				return (seq.Number == Number
+				&& seq.Name.Equals (Name)
+				&& seq.State.Equals (State)
+				&& seq.PlotColor.Equals (PlotColor)
+				&& seq.Type.Equals (Type)
+				&& seq.Mode.Equals (Mode));
 			}
 			return false;
 		}
@@ -60,7 +60,7 @@ namespace PrototypeBackend
 
 		public override string ToString ()
 		{
-			return string.Format ("Label: {0}\tNumber: {1}\tType: {2}\tState: {3}", PinLabel, PinNr, PinType, PinState);
+			return string.Format ("Label: {0}\tNumber: {1}\tType: {2}\tState: {3}", Name, Number, Type, State);
 		}
 
 		public string ToXML ()
@@ -75,13 +75,13 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			switch (PinMode)
+			switch (Mode)
 			{
 			case PrototypeBackend.PinMode.OUTPUT:
-				PrototypeBackend.ArduinoController.SetPin (PinNr, PinMode, PinState);
+				PrototypeBackend.ArduinoController.SetPin (Number, Mode, State);
 				break;
 			case PrototypeBackend.PinMode.INPUT:
-				PinState = PrototypeBackend.ArduinoController.ReadPin (PinNr);
+				State = PrototypeBackend.ArduinoController.ReadPin (Number);
 				break;
 			}
 		}

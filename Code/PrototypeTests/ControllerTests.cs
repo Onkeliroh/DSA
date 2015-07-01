@@ -165,7 +165,7 @@ namespace PrototypeTests
 			Assert.AreEqual (pins.Length, 0);
 
 			tmp.AddPin (new APin () {
-				PinNr = 0,
+				Number = 0,
 			});
 
 			pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
@@ -173,11 +173,11 @@ namespace PrototypeTests
 			Assert.AreEqual (pins [0], 0);
 
 			tmp.AddPin (new DPin () {
-				PinNr = 42
+				Number = 42
 			});
 
 			tmp.AddPin (new DPin () {
-				PinNr = 13
+				Number = 13
 			});
 
 			pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);

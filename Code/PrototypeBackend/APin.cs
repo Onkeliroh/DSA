@@ -10,17 +10,17 @@ namespace PrototypeBackend
 	{
 		#region Member
 
-		public PrototypeBackend.PinType PinType { get; set; }
+		public PrototypeBackend.PinType Type { get; set; }
 
-		public PrototypeBackend.PinMode PinMode { get; set; }
+		public PrototypeBackend.PinMode Mode { get; set; }
 
-		public string PinLabel { get; set; }
+		public string Name { get; set; }
 
 		public string Unit { get; set; }
 
-		public int PinNr{ get; set; }
+		public int Number{ get; set; }
 
-		public System.Drawing.Color PinColor { get; set; }
+		public System.Drawing.Color PlotColor { get; set; }
 
 		public double Gain{ get; set; }
 
@@ -28,7 +28,7 @@ namespace PrototypeBackend
 
 		public List<double> Values{ get; private set; }
 
-		public double PinValue {
+		public double Value {
 			private set{ }
 			get {
 				if (Values.Count >= Interval)
@@ -69,11 +69,11 @@ namespace PrototypeBackend
 
 		public APin ()
 		{
-			PinType = PrototypeBackend.PinType.ANALOG;
-			PinMode = PrototypeBackend.PinMode.INPUT;
-			PinLabel = "";
-			PinNr = -1;
-			PinColor = System.Drawing.Color.Blue;
+			Type = PrototypeBackend.PinType.ANALOG;
+			Mode = PrototypeBackend.PinMode.INPUT;
+			Name = "";
+			Number = -1;
+			PlotColor = System.Drawing.Color.Empty;
 			Unit = "";
 			Gain = 1;
 			Offset = 0;
@@ -88,12 +88,12 @@ namespace PrototypeBackend
 			{
 				if (obj is APin)
 				{
-					return (obj as APin).PinType == PinType &&
-					(obj as APin).PinMode == PinMode &&
-					(obj as APin).PinLabel.Equals (PinLabel) &&
+					return (obj as APin).Type == Type &&
+					(obj as APin).Mode == Mode &&
+					(obj as APin).Name.Equals (Name) &&
 					(obj as APin).Unit.Equals (Unit) &&
-					(obj as APin).PinNr.Equals (PinNr) &&
-					(obj as APin).PinColor.Equals (PinColor);
+					(obj as APin).Number.Equals (Number) &&
+					(obj as APin).PlotColor.Equals (PlotColor);
 				}
 			}
 			return false;
@@ -106,7 +106,7 @@ namespace PrototypeBackend
 
 		public override string ToString ()
 		{
-			return String.Format ("Label: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}\tColor: {4}", PinLabel, PinNr, PinType, Unit, PinColor);
+			return String.Format ("Label: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}\tColor: {4}", Name, Number, Type, Unit, PlotColor);
 		}
 
 		public string ToXML ()
@@ -121,7 +121,7 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			Values.Add (PrototypeBackend.ArduinoController.ReadAnalogPin (PinNr));
+			Values.Add (PrototypeBackend.ArduinoController.ReadAnalogPin (Number));
 		}
 
 		#endregion

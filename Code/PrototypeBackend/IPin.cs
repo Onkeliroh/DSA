@@ -5,15 +5,15 @@ namespace PrototypeBackend
 {
 	public interface IPin
 	{
-		string PinLabel{ get; set; }
+		string Name{ get; set; }
 
-		int PinNr{ get; set; }
+		int Number{ get; set; }
 
-		System.Drawing.Color PinColor{ get; set; }
+		System.Drawing.Color PlotColor{ get; set; }
 
-		PrototypeBackend.PinType PinType { get; set; }
+		PrototypeBackend.PinType Type { get; set; }
 
-		PrototypeBackend.PinMode PinMode { get; set; }
+		PrototypeBackend.PinMode Mode { get; set; }
 
 		//Methods
 

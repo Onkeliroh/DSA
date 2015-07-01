@@ -13,12 +13,12 @@ namespace PrototypeTests
 		{
 			var pin = new DPin ();
 
-			Assert.AreEqual (PrototypeBackend.PinType.DIGITAL, pin.PinType);
-			Assert.AreEqual (PrototypeBackend.PinMode.OUTPUT, pin.PinMode);
+			Assert.AreEqual (PrototypeBackend.PinType.DIGITAL, pin.Type);
+			Assert.AreEqual (PrototypeBackend.PinMode.OUTPUT, pin.Mode);
 
-			Assert.AreEqual (Color.Blue, pin.PinColor);
-			pin.PinColor = System.Drawing.Color.Red;
-			Assert.AreEqual (Color.Red, pin.PinColor);
+			Assert.AreEqual (Color.Blue, pin.PlotColor);
+			pin.PlotColor = System.Drawing.Color.Red;
+			Assert.AreEqual (Color.Red, pin.PlotColor);
 		}
 
 		[Test ()]
@@ -29,7 +29,7 @@ namespace PrototypeTests
 
 			Assert.AreEqual (true, pin1.Equals (pin2));
 
-			pin1.PinColor = Color.LimeGreen;
+			pin1.PlotColor = Color.LimeGreen;
 
 			Assert.AreEqual (false, pin1.Equals (pin2));
 		}

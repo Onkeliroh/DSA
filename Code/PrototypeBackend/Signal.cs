@@ -10,7 +10,9 @@ namespace PrototypeBackend
 
 		public List<APin> Pins;
 
-		public string SignalName{ get; private set; }
+		public string SignalName{ get; set; }
+
+		public string Unit { get; set; }
 
 		public System.Drawing.Color SignalColor { get; set; }
 
@@ -20,7 +22,7 @@ namespace PrototypeBackend
 			get {
 				if (SignalOperation != null)
 				{
-					return (SignalOperation (Pins.Select (o => o.PinValue).ToArray ()));
+					return (SignalOperation (Pins.Select (o => o.Value).ToArray ()));
 				}
 				return double.NaN;
 			}
@@ -32,7 +34,7 @@ namespace PrototypeBackend
 				return SignalOperationString_; 
 			} 
 			set { 
-				SignalOperation = SignalOperationCompiler.CompileOperation (value, Pins.Select (o => o.PinLabel).ToArray ());
+				SignalOperation = SignalOperationCompiler.CompileOperation (value, Pins.Select (o => o.Name).ToArray ());
 				if (SignalOperation != null)
 				{
 					SignalOperationString_ = value; 

@@ -24,7 +24,7 @@ namespace PrototypeTests
 			Signal signal = new Signal ();
 
 			signal.Pins.Add (new APin () {
-				PinLabel = "Temp1"
+				Name = "Temp1"
 			});
 
 			Assert.AreEqual (1, signal.Pins.Count);
