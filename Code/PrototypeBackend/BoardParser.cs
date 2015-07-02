@@ -50,7 +50,7 @@ namespace PrototypeBackend
 					continue;
 				} else
 				{
-					string[] args = line.Split ('.');
+					string[] args = line.Split (new char[]{ '.' }, 2);
 					string key = args [0];
 					if (!Boards.ContainsKey (args [0]))
 					{
@@ -66,13 +66,22 @@ namespace PrototypeBackend
 					} else if (args [0].Equals ("numberofanalogpins"))
 					{
 						Boards [key].NumberOfAnalogPins = Convert.ToUInt16 (args [1]);
-					} else if (args [0].Equals ("analogreference"))
+					} else if (args [0].Equals ("analogreferenceoption"))
 					{
 						string[] references = args [1].Split (' ');
 						Boards [key].AnalogReferences.Add (references [0], Convert.ToInt16 (references [1]));
 					} else if (args [0].Equals ("mcu"))
 					{
 						Boards [key].Model = args [1];
+					} else if (args [0].Equals ("analogreferencevoltage"))
+					{
+						if (args.Length > 2)
+						{
+							Boards [key].AnalogReferenceVoltage = Convert.ToDouble (args [1] + '.' + args [2]);
+						} else
+						{
+							Boards [key].AnalogReferenceVoltage = Convert.ToDouble (args [1]);
+						}
 					}
 				}
 			}

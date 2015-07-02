@@ -8,18 +8,12 @@ namespace PrototypeTests
 	public class BoardTests
 	{
 		[Test ()]
-		public void BoardXmlTests ()
-		{
-			var tmp = new PrototypeBackend.Board ();
-		}
-
-		[Test ()]
 		public void ConstructorTest ()
 		{
 			var tmp = new Board ();
 			Assert.AreEqual (6, tmp.NumberOfAnalogPins);
 			Assert.AreEqual (20, tmp.NumberOfDigitalPins);
-			Assert.AreEqual (0, tmp.AnalogReference);
+			Assert.AreEqual (5, tmp.AnalogReferenceVoltage);
 		}
 
 		[Test ()]

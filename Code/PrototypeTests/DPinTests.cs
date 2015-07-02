@@ -16,7 +16,7 @@ namespace PrototypeTests
 			Assert.AreEqual (PrototypeBackend.PinType.DIGITAL, pin.Type);
 			Assert.AreEqual (PrototypeBackend.PinMode.OUTPUT, pin.Mode);
 
-			Assert.AreEqual (Color.Blue, pin.PlotColor);
+			Assert.AreEqual (Color.Empty, pin.PlotColor);
 			pin.PlotColor = System.Drawing.Color.Red;
 			Assert.AreEqual (Color.Red, pin.PlotColor);
 		}

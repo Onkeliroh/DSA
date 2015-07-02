@@ -219,7 +219,7 @@ namespace PrototypeBackend
 		}
 
 
-		// ------------------  CALLBACKS ---------------------
+		#region CALLBACKS
 
 		// Called when a received command has no attached function.
 		// In a WinForm application, console output gets routed to the output panel of your IDE
@@ -246,6 +246,11 @@ namespace PrototypeBackend
 			#endif
 		}
 
+		private static void OnGetVersion (ReceivedCommand args)
+		{
+			Version = args.ReadStringArg ();
+		}
+
 		// Log received line to console
 		private static void NewLineReceived (object sender, CommandEventArgs e)
 		{
@@ -261,6 +266,10 @@ namespace PrototypeBackend
 			Console.WriteLine (@"Sent > " + e.Command.CommandString ());
 			#endif
 		}
+
+		#endregion
+
+		#region SETTER
 
 		public static void SetPinMode (int nr, PinMode mode)
 		{
@@ -286,11 +295,22 @@ namespace PrototypeBackend
 
 		public static void SetAnalogReference (int AnalogReference)
 		{
-			_board.AnalogReference = AnalogReference;
+			_board.AnalogReferenceVoltage = AnalogReference;
 			var command = new SendCommand ((int)Command.SetAnalogReference);
 			command.AddArgument (AnalogReference);
 			_cmdMessenger.SendCommand (command);
 		}
+
+		public static void SetAnalogPin (int Pin, int Val)
+		{
+			var command = new SendCommand ((int)Command.SetAnalogPin, Pin);
+			command.AddArgument (Val);
+			_cmdMessenger.SendCommand (command);
+		}
+
+		#endregion
+
+		#region GETTER
 
 		public static int ReadAnalogPin (int nr)
 		{
@@ -331,13 +351,6 @@ namespace PrototypeBackend
 			return DPinState.LOW;
 		}
 
-		public static void SetAnalogPin (int Pin, int Val)
-		{
-			var command = new SendCommand ((int)Command.SetAnalogPin, Pin);
-			command.AddArgument (Val);
-			_cmdMessenger.SendCommand (command);
-		}
-
 		public static void GetVersion ()
 		{
 			var command = new SendCommand ((int)Command.GetVersion, (int)Command.GetVersion, 1000);
@@ -362,11 +375,6 @@ namespace PrototypeBackend
 			}
 		}
 
-		private static void OnGetVersion (ReceivedCommand args)
-		{
-			Version = args.ReadStringArg ();
-		}
-
 		public static void GetModel ()
 		{
 			var command = new SendCommand ((int)Command.GetModel, (int)Command.GetModel, 1000);
@@ -377,11 +385,6 @@ namespace PrototypeBackend
 			}
 		}
 
-		private static void OnGetModel (ReceivedCommand args)
-		{
-			Model = args.ReadBinStringArg ();
-		}
-
 		public static void GetNumberDigitalPins ()
 		{
 			var command = new SendCommand ((int)Command.GetNumberDigitalPins, (int)Command.GetNumberDigitalPins, 1000);
@@ -389,12 +392,11 @@ namespace PrototypeBackend
 			if (returnVal.Ok)
 			{
 				NumberOfDigitalPins = returnVal.ReadUInt32Arg ();
+			} else
+			{
+				//in case the arduino did not respond
+				NumberOfDigitalPins = uint.MaxValue;
 			}
-		}
-
-		private static void OnGetNumberDigitalPins (ReceivedCommand args)
-		{
-			NumberOfDigitalPins = args.ReadUInt32Arg ();
 		}
 
 		public static void GetNumberAnalogPins ()
@@ -404,12 +406,10 @@ namespace PrototypeBackend
 			if (returnVal.Ok)
 			{
 				NumberOfAnalogPins = returnVal.ReadUInt32Arg ();
+			} else
+			{
+				NumberOfAnalogPins = uint.MaxValue;
 			}
-		}
-
-		private static void OnGetNumberAnalogPins (ReceivedCommand args)
-		{
-			NumberOfAnalogPins = args.ReadUInt32Arg ();
 		}
 
 		public static void GetDigitalBitMask ()
@@ -419,12 +419,10 @@ namespace PrototypeBackend
 			if (returnVal.Ok)
 			{
 				DigitalBitMask = returnVal.ReadBinUInt32Arg ();
+			} else
+			{
+				DigitalBitMask = 0x0;
 			}
-		}
-
-		public static void OnGetDigitalBitMask (ReceivedCommand args)
-		{
-			DigitalBitMask = args.ReadBinUInt32Arg ();
 		}
 
 		public static void GetPinOutputMask ()
@@ -434,12 +432,10 @@ namespace PrototypeBackend
 			if (returnVal.Ok)
 			{
 				PinOutputMask = returnVal.ReadBinUInt32Arg ();
+			} else
+			{
+				PinOutputMask = 0x0;
 			}
-		}
-
-		private static void OnGetPinOutputMask (ReceivedCommand args)
-		{
-			PinOutputMask = args.ReadBinUInt32Arg ();
 		}
 
 		public static void GetPinModeMask ()
@@ -449,15 +445,13 @@ namespace PrototypeBackend
 			if (returnVal.Ok)
 			{
 				PinModeMask = returnVal.ReadBinUInt32Arg ();
-				Console.WriteLine (PinModeMask);
+			} else
+			{
+				PinModeMask = 0x0;
 			}
 		}
 
-		private static void OnGetPinModeMask (ReceivedCommand args)
-		{
-			var val = args.ReadUInt32Arg ();
-			PinModeMask = val;
-		}
+		#endregion
 	}
 
 	public class Board
@@ -466,15 +460,15 @@ namespace PrototypeBackend
 		public uint NumberOfDigitalPins = 0;
 		public Dictionary<string,int> AnalogReferences = new Dictionary<string, int> ();
 
-		public int AnalogReference {
-			get{ return AnalogReference_; }
+		public double AnalogReferenceVoltage {
+			get{ return AnalogReferenceVoltage_; }
 			set {
-				AnalogReference_ = value;
+				AnalogReferenceVoltage_ = value;
 				
 			}
 		}
 
-		private int AnalogReference_;
+		private double AnalogReferenceVoltage_;
 		public string Version = "";
 		public string Model = "";
 		public string Name = "";
@@ -485,6 +479,7 @@ namespace PrototypeBackend
 		public Board ()
 		{
 			AnalogReferences = new Dictionary<string,int> ();
+			AnalogReferenceVoltage_ = 5;
 			NumberOfAnalogPins = 6;
 			NumberOfDigitalPins = 20;
 		}
@@ -499,15 +494,5 @@ namespace PrototypeBackend
 			this.Name = name;
 			this.UseDTR = dtr;
 		}
-
-		//		public string ToXml ()
-		//		{
-		//			XmlSerializer tmp = new XmlSerializer (typeof(Board));
-		//			string returnstring = "";
-		//			TextWriter tw = new StreamWriter (returnstring);
-		//			tmp.Serialize (tw, this);
-		//			tw.Close ();
-		//			return returnstring;
-		//		}
 	}
 }

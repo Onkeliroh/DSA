@@ -15,9 +15,10 @@ namespace PrototypeTests
 			tw.WriteLine ("uno.name=Arduino Uno");
 			tw.WriteLine ("uno.numberofdigitalpins=20");
 			tw.WriteLine ("uno.numberofanalogpins=6");
-			tw.WriteLine ("uno.analogreference=DEFAULT 0");
-			tw.WriteLine ("uno.analogreference=INTERNAL 1");
-			tw.WriteLine ("uno.analogreference=EXTERNAL 3");
+			tw.WriteLine ("uno.analogreferenceoption=DEFAULT 0");
+			tw.WriteLine ("uno.analogreferenceoption=INTERNAL 1");
+			tw.WriteLine ("uno.analogreferenceoption=EXTERNAL 3");
+			tw.WriteLine ("uno.analogreferencevoltage=4.3");
 			tw.Close ();
 
 			Board[] boards = PrototypeBackend.BoardParser.parse (filepath);
@@ -30,6 +31,7 @@ namespace PrototypeTests
 			Assert.AreEqual (true, boards [0].AnalogReferences.ContainsKey ("DEFAULT"));
 			Assert.AreEqual (true, boards [0].AnalogReferences.ContainsKey ("INTERNAL"));
 			Assert.AreEqual (true, boards [0].AnalogReferences.ContainsKey ("EXTERNAL"));
+			Assert.AreEqual (4.3, boards [0].AnalogReferenceVoltage, 0.1);
 
 			File.Delete (filepath);
 		}
@@ -42,16 +44,16 @@ namespace PrototypeTests
 			tw.WriteLine ("uno.name=Arduino Uno");
 			tw.WriteLine ("uno.numberofdigitalpins=20");
 			tw.WriteLine ("uno.numberofanalogpins=6");
-			tw.WriteLine ("uno.analogreference=DEFAULT 0");
-			tw.WriteLine ("uno.analogreference=INTERNAL 1");
-			tw.WriteLine ("uno.analogreference=EXTERNAL 3");
+			tw.WriteLine ("uno.analogreferenceoption=DEFAULT 0");
+			tw.WriteLine ("uno.analogreferenceoption=INTERNAL 1");
+			tw.WriteLine ("uno.analogreferenceoption=EXTERNAL 3");
 			tw.WriteLine ("#------------------------------");
 			tw.WriteLine ("leonardo.name=Arduino Leonardo");
 			tw.WriteLine ("leonardo.numberofdigitalpins=20");
 			tw.WriteLine ("leonardo.numberofanalogpins=12");
-			tw.WriteLine ("leonardo.analogreference=DEFAULT 0");
-			tw.WriteLine ("leonardo.analogreference=INTERNAL 1");
-			tw.WriteLine ("leonardo.analogreference=EXTERNAL 3");
+			tw.WriteLine ("leonardo.analogreferenceoption=DEFAULT 0");
+			tw.WriteLine ("leonardo.analogreferenceoption=INTERNAL 1");
+			tw.WriteLine ("leonardo.analogreferenceoption=EXTERNAL 3");
 			tw.Close ();
 
 			Board[] boards = PrototypeBackend.BoardParser.parse (filepath);
