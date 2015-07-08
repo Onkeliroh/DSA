@@ -20,7 +20,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">1</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.VBox" id="vboxMain">
                 <property name="MemberName" />
@@ -31,19 +31,10 @@
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
-                    <property name="NRows">3</property>
+                    <property name="NRows">2</property>
                     <property name="NColumns">3</property>
                     <property name="RowSpacing">6</property>
                     <property name="ColumnSpacing">6</property>
-                    <child>
-                      <placeholder />
-                    </child>
-                    <child>
-                      <placeholder />
-                    </child>
-                    <child>
-                      <placeholder />
-                    </child>
                     <child>
                       <placeholder />
                     </child>
@@ -204,10 +195,11 @@
                         <property name="BottomAttach">2</property>
                         <property name="RightAttach">3</property>
                         <property name="AutoSize">False</property>
+                        <property name="YOptions">Fill</property>
                         <property name="XExpand">True</property>
                         <property name="XFill">True</property>
                         <property name="XShrink">False</property>
-                        <property name="YExpand">True</property>
+                        <property name="YExpand">False</property>
                         <property name="YFill">True</property>
                         <property name="YShrink">False</property>
                       </packing>
@@ -216,6 +208,8 @@
                   <packing>
                     <property name="Position">1</property>
                     <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
                   </packing>
                 </child>
                 <child>
@@ -238,6 +232,34 @@
                       </packing>
                     </child>
                     <child>
+                      <widget class="Gtk.Button" id="btnSingleTimePlot">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextOnly</property>
+                        <property name="Label" translatable="yes">Single Time Plot</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnSingleTimePlotClicked" />
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Button" id="btnNaNTest">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextOnly</property>
+                        <property name="Label" translatable="yes">NaN Test</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnNaNTestClicked" />
+                      </widget>
+                      <packing>
+                        <property name="Position">2</property>
+                        <property name="AutoSize">False</property>
+                      </packing>
+                    </child>
+                    <child>
                       <widget class="Gtk.Button" id="btnTimedPlot">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
@@ -247,12 +269,9 @@
                         <signal name="Clicked" handler="OnBtnTimedPlotClicked" />
                       </widget>
                       <packing>
-                        <property name="Position">1</property>
+                        <property name="Position">3</property>
                         <property name="AutoSize">False</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder />
                     </child>
                   </widget>
                   <packing>

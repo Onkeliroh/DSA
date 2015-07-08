@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using System.Timers;
 using Gtk;
@@ -56,7 +57,7 @@ public partial class MainWindow: Gtk.Window
 
 		//End Plot stuff
 
-		plotTimer = new Timer (500);
+		plotTimer = new Timer (1000);
 
 		this.ShowAll ();
 	}
@@ -85,6 +86,69 @@ public partial class MainWindow: Gtk.Window
 		this.ShowAll ();
 	}
 
+	private void DrawSingleTimePlot ()
+	{
+		var model = new PlotModel {
+			Title = "Single Time Plot",
+			PlotType = PlotType.XY,
+			Background = OxyColors.White
+		};
+		model.InvalidatePlot (true);
+
+		model.Axes.Add (
+			new DateTimeAxis {
+				IntervalType = DateTimeIntervalType.Seconds,
+				MajorGridlineStyle = LineStyle.Solid,
+				Position = AxisPosition.Bottom
+			}
+		);
+
+		var dt = DateTime.Now;
+
+		var series = new LineSeries ();
+		var rand = new Random ();
+		for (int i = 0; i < 100; i++)
+		{
+			series.Points.Add (DateTimeAxis.CreateDataPoint (dt.AddSeconds (i), rand.NextDouble () * 10));
+		}
+
+		model.Series.Add (series);
+
+		plotView.Model = model;
+
+		this.ShowAll ();
+	}
+
+	private void DrawNaNTestPlot ()
+	{
+		var plotModel = new PlotModel {
+			Title = "TestPlot",
+			Subtitle = "",
+			PlotType = PlotType.Cartesian,
+			Background = OxyColors.White
+		};
+		plotModel.InvalidatePlot (true);
+
+		var tmpSeries = new LineSeries ();
+		var rand = new Random ();
+		for (int i = 0; i < 100; i++)
+		{
+			tmpSeries.Points.Add (new DataPoint (i, rand.NextDouble ()));
+		}
+
+		for (int i = 1; i < (int)(rand.NextDouble () * 10); i++)
+		{
+			int pos = rand.Next () % 100;
+			tmpSeries.Points [pos] = new DataPoint (pos, double.NaN);
+		}
+
+		plotModel.Series.Add (tmpSeries);
+
+		plotView.Model = plotModel;
+
+		this.ShowAll ();
+	}
+
 	protected void OnBtnCenterPlotClicked (object sender, EventArgs e)
 	{
 		plotView.Model.ResetAllAxes ();
@@ -103,35 +167,37 @@ public partial class MainWindow: Gtk.Window
 		{
 			var plotModel = new PlotModel {
 				Title = "timed Plot",
-				PlotType = PlotType.Cartesian,
+				PlotType = PlotType.XY,
 				Background = OxyPlot.OxyColors.White,
 			};
 
 			for (int i = 0; i < spinbuttonNumberOfSeries.Value; i++)
 			{
-				plotModel.Series.Add (new LineSeries (){ Title = i.ToString (), Smooth = true });
+				plotModel.Series.Add (new LineSeries (){ Title = i.ToString (), DataFieldX = "X", DataFieldY = "Y" });
 			}
 
 
-			var xAxis =	new LinearAxis {
-				Position = AxisPosition.Bottom,
-				Minimum = -10,
-				Maximum = 0,
-				MinimumPadding = 0,
-				MaximumPadding = 0,
-				MajorGridlineColor = OxyPlot.OxyColors.Gray,
-				MajorGridlineThickness = .5,
-				MajorGridlineStyle = OxyPlot.LineStyle.Solid
-			};
-
-
-//			var xAxis = new DateTimeAxis {
+//			var xAxis =	new LinearAxis {
 //				Position = AxisPosition.Bottom,
-//				Minimum = DateTimeAxis.ToDouble(DateTime.Now),
-//				Maximum = DateTimeAxis.ToDouble(DateTime.Now.AddSeconds(10)),
-//				MajorStep = DateTimeAxis.ToDouble( new TimeSpan(0,0,1) ),
-//				StringFormat = "mm:ss"
+//				Minimum = -10,
+//				Maximum = 0,
+//				MinimumPadding = 0,
+//				MaximumPadding = 0,
+//				MajorGridlineColor = OxyPlot.OxyColors.Gray,
+//				MajorGridlineThickness = .5,
+//				MajorGridlineStyle = OxyPlot.LineStyle.Solid
 //			};
+
+
+			var xAxis = new DateTimeAxis {
+				Position = AxisPosition.Bottom,
+				Minimum = DateTimeAxis.ToDouble (DateTime.Now),
+				Maximum = DateTimeAxis.ToDouble (DateTime.Now.AddSeconds (10)),
+//				MajorStep = DateTimeAxis.ToDouble (new TimeSpan (0, 0, 0, 10, 0)),
+
+				IntervalType = DateTimeIntervalType.Seconds,
+				StringFormat = "HH:mm:ss",
+			};
 
 			plotModel.Axes.Add (xAxis);
 
@@ -160,12 +226,16 @@ public partial class MainWindow: Gtk.Window
 				Random rand = new Random ();
 				foreach (Series s in plotView.Model.Series)
 				{
-					(s as LineSeries).Points.Add (new DataPoint (iterator, rand.NextDouble () * 10));
+					(s as OxyPlot.Series.LineSeries).Points.Add (
+						DateTimeAxis.CreateDataPoint (DateTime.Now, rand.NextDouble () * 100)
+					);
+					Console.WriteLine ((s as OxyPlot.Series.LineSeries).Points.Count + "\t" + (s as OxyPlot.Series.LineSeries).Points.Last ().Y);
 				}
 				iterator++;
 				double panStep = xAxis.Transform (-1 + xAxis.Offset);
 				xAxis.Pan (panStep);
 				plotModel.InvalidatePlot (true);
+				ShowAll ();
 			};
 
 			plotTimer.Start ();
@@ -220,6 +290,16 @@ public partial class MainWindow: Gtk.Window
 	protected void OnBtnSinglePlotClicked (object sender, EventArgs e)
 	{
 		DrawSinglePlot ();
+	}
+
+	protected void OnBtnSingleTimePlotClicked (object sender, EventArgs e)
+	{
+		DrawSingleTimePlot ();		
+	}
+
+	protected void OnBtnNaNTestClicked (object sender, EventArgs e)
+	{
+		DrawNaNTestPlot ();
 	}
 
 	protected void OnBtnStartStopMultiplotClicked (object sender, EventArgs e)
