@@ -152,7 +152,7 @@ public partial class MainWindow: Gtk.Window
 	protected void OnBtnCenterPlotClicked (object sender, EventArgs e)
 	{
 		plotView.Model.ResetAllAxes ();
-
+		plotView.InvalidatePlot (true);
 	}
 
 	protected void OnBtnTimedPlotClicked (object sender, EventArgs e)
@@ -171,32 +171,14 @@ public partial class MainWindow: Gtk.Window
 				Background = OxyPlot.OxyColors.White,
 			};
 
-			for (int i = 0; i < spinbuttonNumberOfSeries.Value; i++)
-			{
-				plotModel.Series.Add (new LineSeries (){ Title = i.ToString (), DataFieldX = "X", DataFieldY = "Y" });
-			}
-
-
-//			var xAxis =	new LinearAxis {
-//				Position = AxisPosition.Bottom,
-//				Minimum = -10,
-//				Maximum = 0,
-//				MinimumPadding = 0,
-//				MaximumPadding = 0,
-//				MajorGridlineColor = OxyPlot.OxyColors.Gray,
-//				MajorGridlineThickness = .5,
-//				MajorGridlineStyle = OxyPlot.LineStyle.Solid
-//			};
-
+			var plotSeries = new LineSeries ();
+			plotModel.Series.Add (plotSeries);
 
 			var xAxis = new DateTimeAxis {
 				Position = AxisPosition.Bottom,
-				Minimum = DateTimeAxis.ToDouble (DateTime.Now),
-				Maximum = DateTimeAxis.ToDouble (DateTime.Now.AddSeconds (10)),
-//				MajorStep = DateTimeAxis.ToDouble (new TimeSpan (0, 0, 0, 10, 0)),
-
+//				Minimum = DateTimeAxis.ToDouble (DateTime.Now),
+//				Maximum = DateTimeAxis.ToDouble (DateTime.Now.AddSeconds (10)),
 				IntervalType = DateTimeIntervalType.Seconds,
-				StringFormat = "HH:mm:ss",
 			};
 
 			plotModel.Axes.Add (xAxis);
@@ -220,22 +202,23 @@ public partial class MainWindow: Gtk.Window
 			plotView.Model = plotModel;
 
 			int iterator = 0;
+			var dt = DateTime.Now;
 
+			Random rand = new Random ();
 			plotTimer.Elapsed += (object senderer, ElapsedEventArgs es) =>
 			{
-				Random rand = new Random ();
-				foreach (Series s in plotView.Model.Series)
-				{
-					(s as OxyPlot.Series.LineSeries).Points.Add (
-						DateTimeAxis.CreateDataPoint (DateTime.Now, rand.NextDouble () * 100)
-					);
-					Console.WriteLine ((s as OxyPlot.Series.LineSeries).Points.Count + "\t" + (s as OxyPlot.Series.LineSeries).Points.Last ().Y);
-				}
+				plotSeries.Points.Add (
+					DateTimeAxis.CreateDataPoint (dt.AddSeconds (iterator), rand.NextDouble () * 100)
+				);
 				iterator++;
-				double panStep = xAxis.Transform (-1 + xAxis.Offset);
-				xAxis.Pan (panStep);
+//				if (iterator > 10)
+//				{
+//					double panStep = xAxis.Transform (-1 + xAxis.Offset);
+//					xAxis.Pan (panStep);
+//				}
+				Console.WriteLine (xAxis.Offset + "\t" + dt.AddSeconds (iterator).ToOADate () + "\t" + xAxis.Position + "\t" + xAxis.InverseTransform (xAxis.ScreenMin.X));
 				plotModel.InvalidatePlot (true);
-				ShowAll ();
+				plotView.InvalidatePlot (true);
 			};
 
 			plotTimer.Start ();
