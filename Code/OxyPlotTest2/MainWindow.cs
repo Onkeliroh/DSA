@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using System.Timers;
 using Gtk;
@@ -8,6 +7,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.GtkSharp;
 using OxyPlot.Series;
+using System.IO;
 
 public partial class MainWindow: Gtk.Window
 {
@@ -38,6 +38,18 @@ public partial class MainWindow: Gtk.Window
 	protected void OnBtnExitClicked (object sender, EventArgs e)
 	{
 		Application.Quit ();
+	}
+
+	protected void OnKeyPressEvent(object sender, KeyPressEventArgs e)
+	{
+		Console.WriteLine (e.Event.Key + "\t" + e.Event.State);
+		if (e.Event.Key.Equals (Gdk.Key.c) && e.Event.State.Equals(Gdk.ModifierType.ControlMask|Gdk.ModifierType.Mod2Mask)){
+			Console.WriteLine ("Saving plot");
+			var stream = File.Create ("plot.png");
+			var pngExporter = new PngExporter ();
+			pngExporter.Export (plotView.Model, stream);
+			stream.Close ();
+		}
 	}
 
 	private void InitComponents ()
@@ -144,6 +156,138 @@ public partial class MainWindow: Gtk.Window
 
 		plotModel.Series.Add (tmpSeries);
 
+		plotView.Model = plotModel;
+
+		this.ShowAll ();
+	}
+
+	private void DrawStairStepSinglePlot ()
+	{
+		var plotModel = new PlotModel {
+			Title = "TestPlot",
+			Subtitle = "",
+			PlotType = PlotType.Cartesian,
+			Background = OxyColors.White
+		};
+		plotModel.InvalidatePlot (true);
+
+		var tmpSeries = new StairStepSeries ();
+		var rand = new Random ();
+
+		for (int i = 0; i < 100; i++) {
+			tmpSeries.Points.Add(new DataPoint(i,rand.Next()%2));
+		}
+		plotModel.Series.Add( tmpSeries );
+		plotView.Model = plotModel;
+
+		this.ShowAll ();
+	}
+
+	private void DrawStairStepSinglePlotCustomAxes ()
+	{
+		var plotModel = new PlotModel {
+			Title = "TestPlot",
+			Subtitle = "",
+			PlotType = PlotType.Cartesian,
+			Background = OxyColors.White
+		};
+		plotModel.InvalidatePlot (true);
+
+		plotModel.Axes.Add (
+			new LinearAxis () {
+				Position = AxisPosition.Left,
+				Minimum = 0,
+				Maximum = 1,
+				LabelFormatter = x => ((int)x == 0)?"LOW":"HIGH",
+				IsPanEnabled = false,
+				IsZoomEnabled = false,
+				AbsoluteMaximum = 1.1,
+				AbsoluteMinimum = -0.1,
+				MinorStep = 1,
+				MajorStep = 1
+			});
+
+		var tmpSeries = new StairStepSeries ();
+		var rand = new Random ();
+
+		for (int i = 0; i < 100; i++) {
+			tmpSeries.Points.Add(new DataPoint(i,rand.Next()%2));
+		}
+		plotModel.Series.Add( tmpSeries );
+		plotView.Model = plotModel;
+
+		this.ShowAll ();
+	}
+
+	private void DrawStairStepDualPlotCustomAxes()
+	{
+		var plotModel = new PlotModel {
+			Title = "TestPlot",
+			Subtitle = "",
+			PlotType = PlotType.XY,
+			Background = OxyColors.White
+		};
+		plotModel.InvalidatePlot (true);
+
+		#region yAxes
+		plotModel.Axes.Add (
+			new LinearAxis () {
+				Key = "Stair1",
+				Title = "Stair1",
+				StartPosition =0.1,
+				EndPosition = 0.45,
+				Position = AxisPosition.Left,
+				Minimum = 0,
+				Maximum = 1,
+				LabelFormatter = x => ((int)x == 0)?"LOW":"HIGH",
+				IsPanEnabled = false,
+				IsZoomEnabled = false,
+				AbsoluteMaximum = 1.1,
+				AbsoluteMinimum = -0.1,
+				MinorStep = 1,
+				MajorStep = 1
+			});
+		plotModel.Axes.Add (
+			new LinearAxis () {
+				Key = "Stair2",
+				Title = "Stair2",
+				StartPosition = 0.5,
+				EndPosition = 0.95,
+				Position = AxisPosition.Left,
+				Minimum = 0,
+				Maximum = 1,
+				LabelFormatter = x => ((int)x == 0)?"LOW":"HIGH",
+				IsPanEnabled = false,
+				IsZoomEnabled = false,
+				AbsoluteMaximum = 1.1,
+				AbsoluteMinimum = -0.1,
+				MinorStep = 1,
+				MajorStep = 1
+			});
+		#endregion
+
+		plotModel.Axes.Add (new DateTimeAxis {
+				IntervalType = DateTimeIntervalType.Seconds,
+				MajorGridlineStyle = LineStyle.Solid,
+				Position = AxisPosition.Bottom	
+			}
+		);
+
+		var dt = DateTime.Now;
+		var tmpSeries = new StairStepSeries (){YAxisKey = "Stair1"};
+		var rand = new Random ();
+
+		for (int i = 0; i < 100; i++) {
+			tmpSeries.Points.Add(DateTimeAxis.CreateDataPoint(dt.AddSeconds(i),rand.Next()%2));
+		}
+		plotModel.Series.Add( tmpSeries );
+
+		tmpSeries = new StairStepSeries (){YAxisKey = "Stair2"};
+
+		for (int i = 0; i < 100; i++) {
+			tmpSeries.Points.Add(DateTimeAxis.CreateDataPoint(dt.AddSeconds(i),rand.Next()%2));
+		}
+		plotModel.Series.Add( tmpSeries );
 		plotView.Model = plotModel;
 
 		this.ShowAll ();
@@ -285,6 +429,21 @@ public partial class MainWindow: Gtk.Window
 		DrawNaNTestPlot ();
 	}
 
+	protected void OnBtnStairStepSinglePlotClicked (object sender, EventArgs e)
+	{
+		DrawStairStepSinglePlot ();
+	}
+
+	protected void OnBtnStairStepSingleCustomAxesClicked (object sender, EventArgs e)
+	{
+		DrawStairStepSinglePlotCustomAxes ();
+	}
+
+	protected void OnBtnStairStempDualPlotCustomAxesClicked (object sender, EventArgs e)
+	{
+		DrawStairStepDualPlotCustomAxes ();
+	}
+
 	protected void OnBtnStartStopMultiplotClicked (object sender, EventArgs e)
 	{
 		if (multiPlotTimer.Enabled)
@@ -330,18 +489,6 @@ public partial class MainWindow: Gtk.Window
 					MajorGridlineColor = OxyPlot.OxyColors.Gray,
 					MajorGridlineThickness = .5,
 				};
-
-				//damit alle x achsen gleich sind
-//				xAxis.AxisChanged += (object senderer, AxisChangedEventArgs ee) =>
-//				{
-//					foreach (PlotView pv in multiPlotViews)
-//					{
-//						if (!pv.Model.Axes [0].Equals ((senderer as LinearAxis)))
-//						{
-//							pv.Model.Axes [0].Pan ((senderer as LinearAxis).Transform ((senderer as LinearAxis).Offset));
-//						}
-//					}
-//				};
 
 				var yAxis = new LinearAxis {
 					Position = AxisPosition.Left,

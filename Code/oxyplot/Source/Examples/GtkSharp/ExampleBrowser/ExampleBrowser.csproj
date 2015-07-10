@@ -25,8 +25,6 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -130,13 +128,13 @@
       <Project>{FACB89E5-53A5-4748-9F5B-E0714EBB37B2}</Project>
       <Name>ExampleLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OxyPlot\OxyPlot.csproj">
-      <Project>{7A0B35C0-DD17-4964-8E9A-44D6CECDC692}</Project>
-      <Name>OxyPlot</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\OxyPlot.GtkSharp\OxyPlot.GtkSharp.csproj">
       <Project>{89D008D7-AD33-4AB6-B61A-064C48DA6699}</Project>
       <Name>OxyPlot.GtkSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\OxyPlot\OxyPlot.csproj">
+      <Project>{7A0B35C0-DD17-4964-8E9A-44D6CECDC692}</Project>
+      <Name>OxyPlot</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
