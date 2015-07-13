@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using System.Timers;
 using Gtk;
@@ -12,6 +13,8 @@ using System.IO;
 public partial class MainWindow: Gtk.Window
 {
 	private OxyPlot.GtkSharp.PlotView plotView;
+	private PlotView scrollPlotView;
+	private double scrollValue = 0;
 	private List<PlotView> multiPlotViews = new List<PlotView> ();
 
 	private Random rand = new Random ();
@@ -40,10 +43,11 @@ public partial class MainWindow: Gtk.Window
 		Application.Quit ();
 	}
 
-	protected void OnKeyPressEvent(object sender, KeyPressEventArgs e)
+	protected void OnKeyPressEvent (object sender, KeyPressEventArgs e)
 	{
 		Console.WriteLine (e.Event.Key + "\t" + e.Event.State);
-		if (e.Event.Key.Equals (Gdk.Key.c) && e.Event.State.Equals(Gdk.ModifierType.ControlMask|Gdk.ModifierType.Mod2Mask)){
+		if (e.Event.Key.Equals (Gdk.Key.c) && e.Event.State.Equals (Gdk.ModifierType.ControlMask | Gdk.ModifierType.Mod2Mask))
+		{
 			Console.WriteLine ("Saving plot");
 			var stream = File.Create ("plot.png");
 			var pngExporter = new PngExporter ();
@@ -64,6 +68,16 @@ public partial class MainWindow: Gtk.Window
 		vboxMain.PackStart (plotView);
 		((Box.BoxChild)(vboxMain [plotView])).Position = 0;
 		((Box.BoxChild)(vboxMain [plotView])).Expand = true;
+
+		scrollPlotView = new PlotView () {Controller = new PlotController () {
+			}
+		};
+		scrollPlotView.Visible = true;
+		scrollPlotView.InvalidatePlot (true);
+
+		vboxScroll.PackStart (scrollPlotView);
+		((Box.BoxChild)(vboxScroll [scrollPlotView])).Position = 0;
+		((Box.BoxChild)(vboxScroll [scrollPlotView])).Expand = true;
 
 		this.SetSizeRequest (600, 600);
 
@@ -109,22 +123,33 @@ public partial class MainWindow: Gtk.Window
 
 		model.Axes.Add (
 			new DateTimeAxis {
-				IntervalType = DateTimeIntervalType.Seconds,
+				IntervalType = DateTimeIntervalType.Auto,
 				MajorGridlineStyle = LineStyle.Solid,
-				Position = AxisPosition.Bottom
+				Position = AxisPosition.Bottom,
+				IntervalLength = (1 / 24 / 60) * 5,
+
 			}
 		);
+
+		model.Axes.Add (new LinearAxis {
+			Position = AxisPosition.Left,
+			IsZoomEnabled = false,
+			IsPanEnabled = false,
+			AbsoluteMaximum = 10,
+			AbsoluteMinimum = 0
+		});
 
 		var dt = DateTime.Now;
 
 		var series = new LineSeries ();
 		var rand = new Random ();
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 1000; i++)
 		{
 			series.Points.Add (DateTimeAxis.CreateDataPoint (dt.AddSeconds (i), rand.NextDouble () * 10));
 		}
 
 		model.Series.Add (series);
+//		model.Axes.FirstOrDefault (o => o.Position == AxisPosition.Bottom).IntervalLength = (1 / 24 / 60) * 5;
 
 		plotView.Model = model;
 
@@ -174,10 +199,11 @@ public partial class MainWindow: Gtk.Window
 		var tmpSeries = new StairStepSeries ();
 		var rand = new Random ();
 
-		for (int i = 0; i < 100; i++) {
-			tmpSeries.Points.Add(new DataPoint(i,rand.Next()%2));
+		for (int i = 0; i < 100; i++)
+		{
+			tmpSeries.Points.Add (new DataPoint (i, rand.Next () % 2));
 		}
-		plotModel.Series.Add( tmpSeries );
+		plotModel.Series.Add (tmpSeries);
 		plotView.Model = plotModel;
 
 		this.ShowAll ();
@@ -198,7 +224,7 @@ public partial class MainWindow: Gtk.Window
 				Position = AxisPosition.Left,
 				Minimum = 0,
 				Maximum = 1,
-				LabelFormatter = x => ((int)x == 0)?"LOW":"HIGH",
+				LabelFormatter = x => ((int)x == 0) ? "LOW" : "HIGH",
 				IsPanEnabled = false,
 				IsZoomEnabled = false,
 				AbsoluteMaximum = 1.1,
@@ -210,16 +236,17 @@ public partial class MainWindow: Gtk.Window
 		var tmpSeries = new StairStepSeries ();
 		var rand = new Random ();
 
-		for (int i = 0; i < 100; i++) {
-			tmpSeries.Points.Add(new DataPoint(i,rand.Next()%2));
+		for (int i = 0; i < 100; i++)
+		{
+			tmpSeries.Points.Add (new DataPoint (i, rand.Next () % 2));
 		}
-		plotModel.Series.Add( tmpSeries );
+		plotModel.Series.Add (tmpSeries);
 		plotView.Model = plotModel;
 
 		this.ShowAll ();
 	}
 
-	private void DrawStairStepDualPlotCustomAxes()
+	private void DrawStairStepDualPlotCustomAxes ()
 	{
 		var plotModel = new PlotModel {
 			Title = "TestPlot",
@@ -234,12 +261,12 @@ public partial class MainWindow: Gtk.Window
 			new LinearAxis () {
 				Key = "Stair1",
 				Title = "Stair1",
-				StartPosition =0.1,
+				StartPosition = 0.1,
 				EndPosition = 0.45,
 				Position = AxisPosition.Left,
 				Minimum = 0,
 				Maximum = 1,
-				LabelFormatter = x => ((int)x == 0)?"LOW":"HIGH",
+				LabelFormatter = x => ((int)x == 0) ? "LOW" : "HIGH",
 				IsPanEnabled = false,
 				IsZoomEnabled = false,
 				AbsoluteMaximum = 1.1,
@@ -256,7 +283,7 @@ public partial class MainWindow: Gtk.Window
 				Position = AxisPosition.Left,
 				Minimum = 0,
 				Maximum = 1,
-				LabelFormatter = x => ((int)x == 0)?"LOW":"HIGH",
+				LabelFormatter = x => ((int)x == 0) ? "LOW" : "HIGH",
 				IsPanEnabled = false,
 				IsZoomEnabled = false,
 				AbsoluteMaximum = 1.1,
@@ -267,27 +294,29 @@ public partial class MainWindow: Gtk.Window
 		#endregion
 
 		plotModel.Axes.Add (new DateTimeAxis {
-				IntervalType = DateTimeIntervalType.Seconds,
-				MajorGridlineStyle = LineStyle.Solid,
-				Position = AxisPosition.Bottom	
-			}
+			IntervalType = DateTimeIntervalType.Seconds,
+			MajorGridlineStyle = LineStyle.Solid,
+			Position = AxisPosition.Bottom	
+		}
 		);
 
 		var dt = DateTime.Now;
-		var tmpSeries = new StairStepSeries (){YAxisKey = "Stair1"};
+		var tmpSeries = new StairStepSeries (){ YAxisKey = "Stair1" };
 		var rand = new Random ();
 
-		for (int i = 0; i < 100; i++) {
-			tmpSeries.Points.Add(DateTimeAxis.CreateDataPoint(dt.AddSeconds(i),rand.Next()%2));
+		for (int i = 0; i < 100; i++)
+		{
+			tmpSeries.Points.Add (DateTimeAxis.CreateDataPoint (dt.AddSeconds (i), rand.Next () % 2));
 		}
-		plotModel.Series.Add( tmpSeries );
+		plotModel.Series.Add (tmpSeries);
 
-		tmpSeries = new StairStepSeries (){YAxisKey = "Stair2"};
+		tmpSeries = new StairStepSeries (){ YAxisKey = "Stair2" };
 
-		for (int i = 0; i < 100; i++) {
-			tmpSeries.Points.Add(DateTimeAxis.CreateDataPoint(dt.AddSeconds(i),rand.Next()%2));
+		for (int i = 0; i < 100; i++)
+		{
+			tmpSeries.Points.Add (DateTimeAxis.CreateDataPoint (dt.AddSeconds (i), rand.Next () % 2));
 		}
-		plotModel.Series.Add( tmpSeries );
+		plotModel.Series.Add (tmpSeries);
 		plotView.Model = plotModel;
 
 		this.ShowAll ();
@@ -320,19 +349,16 @@ public partial class MainWindow: Gtk.Window
 
 			var xAxis = new DateTimeAxis {
 				Position = AxisPosition.Bottom,
-//				Minimum = DateTimeAxis.ToDouble (DateTime.Now),
-//				Maximum = DateTimeAxis.ToDouble (DateTime.Now.AddSeconds (10)),
 				IntervalType = DateTimeIntervalType.Seconds,
 			};
-
 			plotModel.Axes.Add (xAxis);
 
 			var yAxis = new LinearAxis {
 				Position = AxisPosition.Left,
 				Minimum = 10,
 				Maximum = 1,
-				AbsoluteMaximum = 10.1,
-				AbsoluteMinimum = -0.1,
+				AbsoluteMaximum = 100,
+				AbsoluteMinimum = 0,
 				MaximumPadding = 5,
 				MinimumPadding = 5,
 				IsPanEnabled = false,
@@ -355,12 +381,11 @@ public partial class MainWindow: Gtk.Window
 					DateTimeAxis.CreateDataPoint (dt.AddSeconds (iterator), rand.NextDouble () * 100)
 				);
 				iterator++;
-//				if (iterator > 10)
-//				{
-//					double panStep = xAxis.Transform (-1 + xAxis.Offset);
-//					xAxis.Pan (panStep);
-//				}
-				Console.WriteLine (xAxis.Offset + "\t" + dt.AddSeconds (iterator).ToOADate () + "\t" + xAxis.Position + "\t" + xAxis.InverseTransform (xAxis.ScreenMin.X));
+
+				double panStep = xAxis.Transform (xAxis.Offset);
+				xAxis.Pan (panStep);
+
+				Console.WriteLine (xAxis.Offset + "\t" + dt.AddSeconds (iterator).ToOADate ());
 				plotModel.InvalidatePlot (true);
 				plotView.InvalidatePlot (true);
 			};
@@ -563,6 +588,72 @@ public partial class MainWindow: Gtk.Window
 
 			this.ShowAll ();
 			#endregion
+		}
+	}
+
+	protected void OnBtnLinearScrollClicked (object sender, EventArgs e)
+	{
+		var plotModel = new PlotModel {
+			Title = "TestPlot",
+			Subtitle = "",
+			PlotType = PlotType.Cartesian,
+			Background = OxyColors.White
+		};
+
+		plotModel.Axes.Add (new LinearAxis {
+			Key = "XAxis",
+			Position = AxisPosition.Bottom,
+			Minimum = 0,
+			Maximum = 10,
+			MinimumRange = 10,
+		});
+		plotModel.Axes.Add (new LinearAxis {
+			Position = AxisPosition.Left,
+			AbsoluteMinimum = 0,
+			AbsoluteMaximum = 1,
+			IsPanEnabled = false,
+			IsZoomEnabled = false,
+		});
+
+		plotModel.InvalidatePlot (true);
+
+		var tmpSeries = new LineSeries ();
+		var rand = new Random ();
+		for (int i = 0; i < 100; i++)
+		{
+			tmpSeries.Points.Add (new DataPoint (i, rand.NextDouble ()));
+		}
+
+		plotModel.Series.Add (tmpSeries);
+		scrollPlotView.Model = plotModel;
+
+		this.ShowAll ();
+	}
+
+	protected void OnHsbScrollValueChanged (object sender, EventArgs e)
+	{
+		if (scrollPlotView.Model != null)
+		{
+			Axis XAxis = scrollPlotView.Model.Axes.FirstOrDefault (o => o.Key.Equals ("XAxis"));
+//			double diff = XAxis.ActualMaximum - XAxis.ActualMinimum;
+//			XAxis.AbsoluteMinimum = hsbScroll.Value;
+//			XAxis.AbsoluteMaximum = hsbScroll.Value + diff;
+
+			if (scrollValue > hsbScroll.Value)
+			{
+//				XAxis.Pan (XAxis.Transform (1 + XAxis.Offset));
+				XAxis.Pan (10 + XAxis.Offset);
+			} else
+			{
+				XAxis.Pan (-10 + XAxis.Offset);
+//				XAxis.Pan (XAxis.Transform (-1 + XAxis.Offset));
+			}
+
+
+			scrollValue = hsbScroll.Value;
+				
+			scrollPlotView.InvalidatePlot (true);
+			scrollPlotView.Model.InvalidatePlot (true);
 		}
 	}
 }

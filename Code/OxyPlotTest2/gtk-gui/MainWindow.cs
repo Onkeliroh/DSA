@@ -41,7 +41,7 @@ public partial class MainWindow
 	
 	private global::Gtk.SpinButton spinbuttonNumberOfSeries;
 	
-	private global::Gtk.Label GtkLabel8;
+	private global::Gtk.Label GtkLabel9;
 	
 	private global::Gtk.Label label1;
 	
@@ -61,6 +61,18 @@ public partial class MainWindow
 	
 	private global::Gtk.Label label3;
 	
+	private global::Gtk.VBox vboxScroll;
+	
+	private global::Gtk.HScrollbar hsbScroll;
+	
+	private global::Gtk.Table table4;
+	
+	private global::Gtk.Button btnLinearScroll;
+	
+	private global::Gtk.Button btnTimeScroll;
+	
+	private global::Gtk.Label label5;
+	
 	private global::Gtk.Button btnExit;
 
 	protected virtual void Build ()
@@ -78,7 +90,7 @@ public partial class MainWindow
 		this.notebook1 = new global::Gtk.Notebook ();
 		this.notebook1.CanFocus = true;
 		this.notebook1.Name = "notebook1";
-		this.notebook1.CurrentPage = 0;
+		this.notebook1.CurrentPage = 2;
 		// Container child notebook1.Gtk.Notebook+NotebookChild
 		this.vboxMain = new global::Gtk.VBox ();
 		this.vboxMain.Name = "vboxMain";
@@ -252,11 +264,11 @@ public partial class MainWindow
 		w12.YOptions = ((global::Gtk.AttachOptions)(4));
 		this.GtkAlignment.Add (this.table2);
 		this.frame1.Add (this.GtkAlignment);
-		this.GtkLabel8 = new global::Gtk.Label ();
-		this.GtkLabel8.Name = "GtkLabel8";
-		this.GtkLabel8.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Options</b>");
-		this.GtkLabel8.UseMarkup = true;
-		this.frame1.LabelWidget = this.GtkLabel8;
+		this.GtkLabel9 = new global::Gtk.Label ();
+		this.GtkLabel9.Name = "GtkLabel9";
+		this.GtkLabel9.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Options</b>");
+		this.GtkLabel9.UseMarkup = true;
+		this.frame1.LabelWidget = this.GtkLabel9;
 		this.table1.Add (this.frame1);
 		global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table1 [this.frame1]));
 		w15.TopAttach = ((uint)(1));
@@ -353,9 +365,63 @@ public partial class MainWindow
 		this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Multiplot");
 		this.notebook1.SetTabLabel (this.vbox2, this.label3);
 		this.label3.ShowAll ();
+		// Container child notebook1.Gtk.Notebook+NotebookChild
+		this.vboxScroll = new global::Gtk.VBox ();
+		this.vboxScroll.Name = "vboxScroll";
+		this.vboxScroll.Spacing = 6;
+		// Container child vboxScroll.Gtk.Box+BoxChild
+		this.hsbScroll = new global::Gtk.HScrollbar (null);
+		this.hsbScroll.Name = "hsbScroll";
+		this.hsbScroll.Adjustment.Upper = 100;
+		this.hsbScroll.Adjustment.PageIncrement = 10;
+		this.hsbScroll.Adjustment.PageSize = 10;
+		this.hsbScroll.Adjustment.StepIncrement = 1;
+		this.vboxScroll.Add (this.hsbScroll);
+		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vboxScroll [this.hsbScroll]));
+		w25.Position = 1;
+		w25.Expand = false;
+		w25.Fill = false;
+		// Container child vboxScroll.Gtk.Box+BoxChild
+		this.table4 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
+		this.table4.Name = "table4";
+		this.table4.RowSpacing = ((uint)(6));
+		this.table4.ColumnSpacing = ((uint)(6));
+		// Container child table4.Gtk.Table+TableChild
+		this.btnLinearScroll = new global::Gtk.Button ();
+		this.btnLinearScroll.CanFocus = true;
+		this.btnLinearScroll.Name = "btnLinearScroll";
+		this.btnLinearScroll.UseUnderline = true;
+		this.btnLinearScroll.Label = global::Mono.Unix.Catalog.GetString ("LinearScroll");
+		this.table4.Add (this.btnLinearScroll);
+		global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.table4 [this.btnLinearScroll]));
+		w26.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table4.Gtk.Table+TableChild
+		this.btnTimeScroll = new global::Gtk.Button ();
+		this.btnTimeScroll.CanFocus = true;
+		this.btnTimeScroll.Name = "btnTimeScroll";
+		this.btnTimeScroll.UseUnderline = true;
+		this.btnTimeScroll.Label = global::Mono.Unix.Catalog.GetString ("TimeScroll");
+		this.table4.Add (this.btnTimeScroll);
+		global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.table4 [this.btnTimeScroll]));
+		w27.LeftAttach = ((uint)(1));
+		w27.RightAttach = ((uint)(2));
+		w27.YOptions = ((global::Gtk.AttachOptions)(4));
+		this.vboxScroll.Add (this.table4);
+		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vboxScroll [this.table4]));
+		w28.Position = 2;
+		w28.Expand = false;
+		this.notebook1.Add (this.vboxScroll);
+		global::Gtk.Notebook.NotebookChild w29 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.vboxScroll]));
+		w29.Position = 2;
+		// Notebook tab
+		this.label5 = new global::Gtk.Label ();
+		this.label5.Name = "label5";
+		this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("ScrollTest");
+		this.notebook1.SetTabLabel (this.vboxScroll, this.label5);
+		this.label5.ShowAll ();
 		this.vbox1.Add (this.notebook1);
-		global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
-		w25.Position = 0;
+		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
+		w30.Position = 0;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.btnExit = new global::Gtk.Button ();
 		this.btnExit.CanFocus = true;
@@ -363,10 +429,10 @@ public partial class MainWindow
 		this.btnExit.UseUnderline = true;
 		this.btnExit.Label = global::Mono.Unix.Catalog.GetString ("Exit");
 		this.vbox1.Add (this.btnExit);
-		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnExit]));
-		w26.Position = 1;
-		w26.Expand = false;
-		w26.Fill = false;
+		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnExit]));
+		w31.Position = 1;
+		w31.Expand = false;
+		w31.Fill = false;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
@@ -383,6 +449,9 @@ public partial class MainWindow
 		this.btnSingleTimePlot.Clicked += new global::System.EventHandler (this.OnBtnSingleTimePlotClicked);
 		this.btnSinglePlot.Clicked += new global::System.EventHandler (this.OnBtnSinglePlotClicked);
 		this.btnNaNTest.Clicked += new global::System.EventHandler (this.OnBtnNaNTestClicked);
+		this.btnCenterPlot.Clicked += new global::System.EventHandler (this.OnBtnCenterPlotClicked);
+		this.hsbScroll.ValueChanged += new global::System.EventHandler (this.OnHsbScrollValueChanged);
+		this.btnLinearScroll.Clicked += new global::System.EventHandler (this.OnBtnLinearScrollClicked);
 		this.btnExit.Clicked += new global::System.EventHandler (this.OnBtnExitClicked);
 	}
 }

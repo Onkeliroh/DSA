@@ -21,7 +21,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="CurrentPage">2</property>
             <child>
               <widget class="Gtk.VBox" id="vboxMain">
                 <property name="MemberName" />
@@ -49,6 +49,7 @@
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Best _Fit</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnCenterPlotClicked" />
                       </widget>
                       <packing>
                         <property name="LeftAttach">1</property>
@@ -351,7 +352,7 @@
                           </widget>
                         </child>
                         <child>
-                          <widget class="Gtk.Label" id="GtkLabel8">
+                          <widget class="Gtk.Label" id="GtkLabel9">
                             <property name="MemberName" />
                             <property name="LabelProp" translatable="yes">&lt;b&gt;Options&lt;/b&gt;</property>
                             <property name="UseMarkup">True</property>
@@ -524,6 +525,119 @@
               <widget class="Gtk.Label" id="label3">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">Multiplot</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vboxScroll">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <widget class="Gtk.HScrollbar" id="hsbScroll">
+                    <property name="MemberName" />
+                    <property name="Upper">100</property>
+                    <property name="PageIncrement">10</property>
+                    <property name="PageSize">10</property>
+                    <property name="StepIncrement">1</property>
+                    <signal name="ValueChanged" handler="OnHsbScrollValueChanged" />
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Table" id="table4">
+                    <property name="MemberName" />
+                    <property name="NRows">3</property>
+                    <property name="NColumns">3</property>
+                    <property name="RowSpacing">6</property>
+                    <property name="ColumnSpacing">6</property>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <widget class="Gtk.Button" id="btnLinearScroll">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextOnly</property>
+                        <property name="Label" translatable="yes">LinearScroll</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnLinearScrollClicked" />
+                      </widget>
+                      <packing>
+                        <property name="AutoSize">False</property>
+                        <property name="YOptions">Fill</property>
+                        <property name="XExpand">True</property>
+                        <property name="XFill">True</property>
+                        <property name="XShrink">False</property>
+                        <property name="YExpand">False</property>
+                        <property name="YFill">True</property>
+                        <property name="YShrink">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Button" id="btnTimeScroll">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextOnly</property>
+                        <property name="Label" translatable="yes">TimeScroll</property>
+                        <property name="UseUnderline">True</property>
+                      </widget>
+                      <packing>
+                        <property name="LeftAttach">1</property>
+                        <property name="RightAttach">2</property>
+                        <property name="AutoSize">False</property>
+                        <property name="YOptions">Fill</property>
+                        <property name="XExpand">True</property>
+                        <property name="XFill">True</property>
+                        <property name="XShrink">False</property>
+                        <property name="YExpand">False</property>
+                        <property name="YFill">True</property>
+                        <property name="YShrink">False</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">False</property>
+                    <property name="Expand">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="label5">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">ScrollTest</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
