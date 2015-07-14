@@ -21,7 +21,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">2</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.VBox" id="vboxMain">
                 <property name="MemberName" />
@@ -83,9 +83,6 @@
                                 <property name="Homogeneous">True</property>
                                 <property name="RowSpacing">6</property>
                                 <property name="ColumnSpacing">6</property>
-                                <child>
-                                  <placeholder />
-                                </child>
                                 <child>
                                   <placeholder />
                                 </child>
@@ -196,6 +193,31 @@
                                   <packing>
                                     <property name="TopAttach">5</property>
                                     <property name="BottomAttach">6</property>
+                                    <property name="LeftAttach">1</property>
+                                    <property name="RightAttach">2</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="XOptions">Fill</property>
+                                    <property name="YOptions">Fill</property>
+                                    <property name="XExpand">False</property>
+                                    <property name="XFill">True</property>
+                                    <property name="XShrink">False</property>
+                                    <property name="YExpand">False</property>
+                                    <property name="YFill">True</property>
+                                    <property name="YShrink">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Button" id="btnStairStepSingleCustomAxes2">
+                                    <property name="MemberName" />
+                                    <property name="CanFocus">True</property>
+                                    <property name="Type">TextOnly</property>
+                                    <property name="Label" translatable="yes">StairStepSinglePlotCustomAxes2</property>
+                                    <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnStairStepSingleCustomAxes2Clicked" />
+                                  </widget>
+                                  <packing>
+                                    <property name="TopAttach">6</property>
+                                    <property name="BottomAttach">7</property>
                                     <property name="LeftAttach">1</property>
                                     <property name="RightAttach">2</property>
                                     <property name="AutoSize">True</property>

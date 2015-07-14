@@ -9,6 +9,7 @@ using OxyPlot.Axes;
 using OxyPlot.GtkSharp;
 using OxyPlot.Series;
 using System.IO;
+using System.Collections.ObjectModel;
 
 public partial class MainWindow: Gtk.Window
 {
@@ -656,4 +657,61 @@ public partial class MainWindow: Gtk.Window
 			scrollPlotView.Model.InvalidatePlot (true);
 		}
 	}
+
+	protected void OnBtnStairStepSingleCustomAxes2Clicked (object sender, EventArgs e)
+	{
+		var plotModel = new PlotModel {
+			Title = "TestPlot",
+			Subtitle = "",
+			PlotType = PlotType.XY,
+			Background = OxyColors.White
+		};
+
+		plotModel.Axes.Add (
+			new LinearAxis () {
+				Position = AxisPosition.Left,
+				Minimum = 0,
+				Maximum = 1,
+				LabelFormatter = x => ((int)x == 0) ? "LOW" : "HIGH",
+				IsPanEnabled = false,
+				IsZoomEnabled = false,
+				AbsoluteMaximum = 1.1,
+				AbsoluteMinimum = -0.1,
+				MinorStep = 1,
+				MajorStep = 1
+			});
+
+		plotModel.Axes.Add (new TimeSpanAxis {
+			Position = AxisPosition.Bottom,
+			AbsoluteMinimum = 0
+		});
+
+		var collection = new Collection<TimeValue> ();
+		var rand = new Random ();
+		TimeSpan time = new TimeSpan (0);
+
+		for (int i = 0; i < 1000; i++)
+		{
+			collection.Add (new TimeValue { Time = time, Value = rand.Next () % 2 });
+			time = time.Add (TimeSpan.FromSeconds (10));
+		}
+
+//		var tmpSeries = new StairStepSeries () {
+		var tmpSeries = new LineSeries () {
+			ItemsSource = collection,
+			DataFieldX = "Time",
+			DataFieldY = "Value"
+		};
+		plotModel.Series.Add (tmpSeries);
+		plotView.Model = plotModel;
+		plotModel.InvalidatePlot (true);
+
+		this.ShowAll ();
+	}
+}
+
+public class TimeValue
+{
+	public TimeSpan Time;
+	public double Value;
 }
