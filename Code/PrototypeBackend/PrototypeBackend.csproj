@@ -61,6 +61,8 @@
     <Compile Include="APin.cs" />
     <Compile Include="Signal.cs" />
     <Compile Include="SignalOperationCompiler.cs" />
+    <Compile Include="SequenceOperation.cs" />
+    <Compile Include="Sequence.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

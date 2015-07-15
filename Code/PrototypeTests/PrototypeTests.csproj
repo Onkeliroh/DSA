@@ -47,6 +47,7 @@
     <Compile Include="DPinTests.cs" />
     <Compile Include="SignalTests.cs" />
     <Compile Include="SignalOperationCompilertests.cs" />
+    <Compile Include="SequenceTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
