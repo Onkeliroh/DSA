@@ -77,17 +77,30 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Next ()
 		{
-			if (Cycle > Repetitions)
+			if (Cycle > Repetitions || Chain.Count == 0)
 			{
 				return  null;
 			}
-			SequenceOperation op = Chain [CurrentOperation];
 			CurrentOperation += 1;
 			if (CurrentOperation == Chain.Count)
 			{
 				CurrentOperation = 0;
 				Cycle += 1;
 			}
+			SequenceOperation op = Chain [CurrentOperation];
+			return op;
+		}
+
+		/// <summary>
+		/// Returns the current SequenceOperation.
+		/// </summary>
+		public SequenceOperation? Current()
+		{
+			if (Cycle > Repetitions || Chain.Count == 0)
+			{
+				return  null;
+			}
+			SequenceOperation op = Chain [CurrentOperation];
 			return op;
 		}
 	}

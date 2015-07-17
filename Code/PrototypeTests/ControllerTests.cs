@@ -2,6 +2,9 @@
 using System;
 using PrototypeBackend;
 using System.Threading;
+using System.Security.Cryptography;
+using NUnit.Framework.Constraints;
+using System.Runtime.InteropServices;
 
 namespace PrototypeTests
 {
@@ -13,33 +16,33 @@ namespace PrototypeTests
 		{
 			var tmp = new Controller ();
 
-			Assert.AreEqual (0, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (0, tmp.ControllerSchedulerList.Count);
 
 			var sched = new Scheduler (){ DueTime = new DateTime (1) };
 			tmp.AddScheduler (sched);
-			Assert.AreEqual (1, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (1, tmp.ControllerSchedulerList.Count);
 
 			tmp.AddScheduler (new PrototypeBackend.Scheduler () {
 				DueTime = new DateTime (42),
 			});
-			Assert.AreEqual (2, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (2, tmp.ControllerSchedulerList.Count);
 
 			tmp.AddScheduler (new Scheduler () {
 				DueTime = new DateTime (3),
 			});
 
-			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
-			Assert.AreEqual (new DateTime (3), tmp.controllerSchedulerList [1].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [2].DueTime);
+			Assert.AreEqual (new DateTime (1), tmp.ControllerSchedulerList [0].DueTime);
+			Assert.AreEqual (new DateTime (3), tmp.ControllerSchedulerList [1].DueTime);
+			Assert.AreEqual (new DateTime (42), tmp.ControllerSchedulerList [2].DueTime);
 
 			tmp.AddScheduler (new Scheduler () {
 				DueTime = new DateTime (13),
 			});
 
-			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
-			Assert.AreEqual (new DateTime (3), tmp.controllerSchedulerList [1].DueTime);
-			Assert.AreEqual (new DateTime (13), tmp.controllerSchedulerList [2].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [3].DueTime);
+			Assert.AreEqual (new DateTime (1), tmp.ControllerSchedulerList [0].DueTime);
+			Assert.AreEqual (new DateTime (3), tmp.ControllerSchedulerList [1].DueTime);
+			Assert.AreEqual (new DateTime (13), tmp.ControllerSchedulerList [2].DueTime);
+			Assert.AreEqual (new DateTime (42), tmp.ControllerSchedulerList [3].DueTime);
 		}
 
 		[Test ()]
@@ -54,12 +57,12 @@ namespace PrototypeTests
 			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
 
 			tmp.AddSchedulerRange (dates);
-			Assert.AreEqual (4, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (4, tmp.ControllerSchedulerList.Count);
 
-			Assert.AreEqual (true, tmp.controllerSchedulerList [0].DueTime.Equals (new DateTime (1)));
-			Assert.AreEqual (new DateTime (4), tmp.controllerSchedulerList [1].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [2].DueTime);
-			Assert.AreEqual (new DateTime (88), tmp.controllerSchedulerList [3].DueTime);
+			Assert.AreEqual (true, tmp.ControllerSchedulerList [0].DueTime.Equals (new DateTime (1)));
+			Assert.AreEqual (new DateTime (4), tmp.ControllerSchedulerList [1].DueTime);
+			Assert.AreEqual (new DateTime (42), tmp.ControllerSchedulerList [2].DueTime);
+			Assert.AreEqual (new DateTime (88), tmp.ControllerSchedulerList [3].DueTime);
 		}
 
 		[Test ()]
@@ -75,15 +78,15 @@ namespace PrototypeTests
 			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
 
 			tmp.AddSchedulerRange (dates);
-			Assert.AreEqual (5, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (5, tmp.ControllerSchedulerList.Count);
 
 			tmp.RemoveScheduler (dates [1]);
-			Assert.AreEqual (4, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (4, tmp.ControllerSchedulerList.Count);
 
-			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
-			Assert.AreEqual (new DateTime (2), tmp.controllerSchedulerList [1].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.controllerSchedulerList [2].DueTime);
-			Assert.AreEqual (new DateTime (88), tmp.controllerSchedulerList [3].DueTime);
+			Assert.AreEqual (new DateTime (1), tmp.ControllerSchedulerList [0].DueTime);
+			Assert.AreEqual (new DateTime (2), tmp.ControllerSchedulerList [1].DueTime);
+			Assert.AreEqual (new DateTime (42), tmp.ControllerSchedulerList [2].DueTime);
+			Assert.AreEqual (new DateTime (88), tmp.ControllerSchedulerList [3].DueTime);
 		}
 
 		[Test ()]
@@ -99,7 +102,7 @@ namespace PrototypeTests
 			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
 
 			tmp.AddSchedulerRange (dates);
-			Assert.AreEqual (5, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (5, tmp.ControllerSchedulerList.Count);
 
 			var deletedates = new Scheduler[4];
 			deletedates [0] = dates [1];
@@ -108,10 +111,10 @@ namespace PrototypeTests
 			deletedates [3] = new Scheduler (){ DueTime = new DateTime (43) };
 
 			tmp.RemoveSchedulerRange (deletedates);
-			Assert.AreEqual (2, tmp.controllerSchedulerList.Count);
+			Assert.AreEqual (2, tmp.ControllerSchedulerList.Count);
 
-			Assert.AreEqual (new DateTime (1), tmp.controllerSchedulerList [0].DueTime);
-			Assert.AreEqual (new DateTime (2), tmp.controllerSchedulerList [1].DueTime);
+			Assert.AreEqual (new DateTime (1), tmp.ControllerSchedulerList [0].DueTime);
+			Assert.AreEqual (new DateTime (2), tmp.ControllerSchedulerList [1].DueTime);
 		}
 
 		[Test ()]
@@ -133,27 +136,6 @@ namespace PrototypeTests
 			Assert.AreEqual (42, pin);
 			Assert.AreEqual (42, val);
 		}
-
-		//		[Test ()]
-		//		public void QueueTest ()
-		//		{
-		//			var tmp = new PrototypeBackend.Controller ();
-		//
-		//			bool action = false;
-		//
-		//			tmp.AddMeasurementDate (new MeasurementDate () {
-		//				DueTime = DateTime.Now.AddSeconds (1),
-		//				PinNr = 42,
-		//				PinType = ArduinoController.PinType.DIGITAL,
-		//				PinCmd = () =>
-		//				{
-		//					action = true;
-		//				}
-		//			});
-		//
-		//			Thread.Sleep (2000);
-		//			Assert.AreEqual (true, action);
-		//		}
 
 		[Test ()]
 		public void GetUsedPinsTest ()
@@ -181,7 +163,7 @@ namespace PrototypeTests
 			});
 
 			pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
-			Assert.AreEqual (pins.Length, 1);
+			Assert.AreEqual (1,pins.Length);
 			Assert.AreEqual (pins [0], 0);
 
 			pins = tmp.GetUsedPins (PrototypeBackend.PinType.DIGITAL);
@@ -195,33 +177,67 @@ namespace PrototypeTests
 		{
 			var tmp = new Controller ();
 
-			var pins = tmp.GetUnusedPins (PrototypeBackend.PinType.ANALOG);
+			var pins = tmp.GetUnusedPins (PinType.ANALOG);
 			Assert.AreEqual (pins.Length, 6);
 
-//			tmp.AddPin (new MeasurementData () {
-//				PinNr = 0,
-//			});
-//
-//			pins = tmp.GetUnusedPins (ArduinoController.PinType.ANALOG);
-//			Assert.AreEqual (pins.Length, 5);
-//			Assert.AreEqual (pins [0], 1);
-//
-//			tmp.AddPin (new Sequence () {
-//				PinNr = 42
-//			});
-//
-//			tmp.AddPin (new Sequence () {
-//				PinNr = 13
-//			});
-//
-//			pins = tmp.GetUnusedPins (ArduinoController.PinType.ANALOG);
-//			Assert.AreEqual (pins.Length, 5);
-//			Assert.AreEqual (pins [0], 1);
-//
-//			pins = tmp.GetUnusedPins (ArduinoController.PinType.DIGITAL);
-//			Assert.AreEqual (pins.Length, 18);
-//			Assert.AreEqual (pins [0], 0);
-//			Assert.AreEqual (pins [1], 1);
+			tmp.AddPin (new APin() {
+				Number = 0,
+			});
+
+			pins = tmp.GetUnusedPins (PinType.ANALOG);
+			Assert.AreEqual (pins.Length, 5);
+			Assert.AreEqual (pins [0], 1);
+
+			tmp.AddPin (
+				new DPin(){
+					Name = "Ding of Awesome",
+					Number = 13
+				}
+			);
+
+			tmp.AddPin (
+				new DPin(){
+					Name = "Pin of Doom",
+					Number = 12
+				}
+			);
+
+			pins = tmp.GetUnusedPins (PinType.ANALOG);
+			Assert.AreEqual (pins.Length, 5);
+			Assert.AreEqual (pins [0], 1);
+
+			pins = tmp.GetUnusedPins (PinType.DIGITAL);
+			Assert.AreEqual (pins.Length, 18);
+			Assert.AreEqual (pins [0], 0);
+			Assert.AreEqual (pins [1], 1);
+		}
+
+		[Test]
+		public void SequenceThread()
+		{
+			var con = new Controller ();
+
+			DPin[] dpins = new DPin[10];
+			for (int i = 0; i < dpins.Length; i++)
+			{
+				dpins[i]= new DPin ("", i);
+			}
+
+			Sequence[] seqs = new Sequence[10];
+			for (int i = 0; i < seqs.Length; i++) {
+				seqs [i] = new Sequence ();
+				seqs [i].Pin = dpins [i];
+				seqs [i].AddSequenceOperation (DPinState.HIGH, TimeSpan.FromSeconds (0), TimeSpan.FromSeconds (i * 10));
+			}
+
+			con.ControlSequences.AddRange (seqs);
+			con.Start ();
+			Thread.Sleep (1000);
+			foreach (Sequence seq in seqs) {
+				Assert.AreEqual (1, seq.Cycle);
+				Assert.AreEqual (1, seq.Chain.Count);
+			}
+			con.Stop ();
 		}
 	}
 }

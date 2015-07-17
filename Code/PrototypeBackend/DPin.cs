@@ -30,7 +30,7 @@ namespace PrototypeBackend
 			PlotColor = System.Drawing.Color.Empty;
 		}
 
-		public DPin (string label, DateTime time, int pinnr)
+		public DPin (string label, int pinnr)
 		{
 			Name = label;
 			Number = pinnr;

@@ -8,7 +8,7 @@ namespace PrototypeBackend
 	{
 		public string Label = "";
 		public DateTime DueTime;
-		public double Interval;
+		public double Frequency;
 
 		public int? Repetitions {
 			get{ return Repetitions; }
@@ -73,7 +73,7 @@ namespace PrototypeBackend
 		{
 			string tmp;
 
-			tmp = "Label: " + Label + "\t Interval: " + Interval.ToString () + "\t Repetitions: " + Repetitions; 
+			tmp = "Label: " + Label + "\t Interval: " + Frequency.ToString () + "\t Repetitions: " + Repetitions; 
 
 			foreach (IPin ip in Pins)
 			{

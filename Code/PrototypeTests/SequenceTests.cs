@@ -78,7 +78,7 @@ namespace PrototypeTests
 		}
 
 		[Test]
-		public void NextTest ()
+		public void CurrentTest ()
 		{
 			Sequence seq = new Sequence () {
 				Pin = new DPin () {
@@ -104,14 +104,14 @@ namespace PrototypeTests
 			Assert.AreEqual (2, seq.Chain.Count);
 
 			Assert.AreEqual (0, seq.Cycle);
-			Assert.AreEqual (DPinState.HIGH, ((SequenceOperation)seq.Next ()).State);
+			Assert.AreEqual (DPinState.HIGH, ((SequenceOperation)seq.Current ()).State);
 			Assert.AreEqual (0, seq.Cycle);
-			Assert.AreEqual (DPinState.LOW, ((SequenceOperation)seq.Next ()).State);
+			Assert.AreEqual (DPinState.LOW, ((SequenceOperation)seq.Next()).State);
+			Assert.AreEqual (0, seq.Cycle);
+			Assert.AreEqual (DPinState.HIGH, ((SequenceOperation)seq.Next()).State);
 			Assert.AreEqual (1, seq.Cycle);
-			Assert.AreEqual (DPinState.HIGH, ((SequenceOperation)seq.Next ()).State);
+			Assert.AreEqual (DPinState.LOW, ((SequenceOperation)seq.Next()).State);
 			Assert.AreEqual (1, seq.Cycle);
-			Assert.AreEqual (DPinState.LOW, ((SequenceOperation)seq.Next ()).State);
-			Assert.AreEqual (2, seq.Cycle);
 
 			seq.Reset ();
 			Assert.AreEqual (0, seq.Cycle);

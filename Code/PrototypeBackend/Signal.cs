@@ -61,6 +61,17 @@ namespace PrototypeBackend
 			SignalOperationString_ = string.Empty;
 		}
 
+		public bool AddPin(APin pin)
+		{
+			if (Pins.Count > 0) {
+				if (Math.Abs (Pins [0].Frequency - pin.Frequency) < 0.0001) {
+					Pins.Add (pin);
+					return true;
+				}
+			}
+			return false;
+		}
+
 		public void Run ()
 		{
 			foreach (APin ap in Pins)

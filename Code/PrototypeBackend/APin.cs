@@ -42,15 +42,17 @@ namespace PrototypeBackend
 						return double.NaN;
 					} else
 					{
-						double result = 0;
-						for (int i = Values.Count - Interval; i < Values.Count; i++)
-						{
-							if (!double.IsNaN (Values [i]))
-							{
-								result += (Values [i] * Gain) + Offset;
+						if (Values.Count >= Interval) {
+							double result = 0;
+							for (int i = Values.Count - Interval; i < Values.Count; i++) {
+								if (!double.IsNaN (Values [i])) {
+									result += (Values [i] * Gain) + Offset;
+								}
 							}
+							return result / Interval;
+						} else {
+							return double.NaN;
 						}
-						return result / Interval;
 					}
 				} else
 				{

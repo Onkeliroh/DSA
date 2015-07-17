@@ -133,8 +133,6 @@ namespace PrototypeBackend
 			get { return _board.AnalogReferences; }
 		}
 
-		// ------------------ MAIN  ----------------------
-
 		public static void Init (uint apins = 6, uint dpins = 20)
 		{
 			_board = new Board ();
@@ -147,7 +145,6 @@ namespace PrototypeBackend
 			#endif
 		}
 
-		// Setup function
 		public static void Setup ()
 		{
 			_cmdMessenger = new CmdMessenger (new SerialTransport () {
@@ -276,6 +273,7 @@ namespace PrototypeBackend
 			var command = new SendCommand ((int)Command.SetPinMode, nr);
 			command.AddArgument ((Int16)mode);
 			_cmdMessenger.SendCommand (command);
+			//TODO baue event ein
 		}
 
 		public static void SetPinState (int nr, DPinState state)
@@ -283,14 +281,18 @@ namespace PrototypeBackend
 			var command = new SendCommand ((int)Command.SetPinMode, nr);
 			command.AddArgument ((Int16)state);
 			_cmdMessenger.SendCommand (command);
+			//TODO baue event ein
 		}
 
 		public static void SetPin (int nr, PinMode mode, DPinState state)
 		{
+			#if !FAKESERIAL
 			var command = new SendCommand ((int)Command.SetPin, nr);
 			command.AddArgument ((Int16)mode);
 			command.AddArgument ((Int16)state);
 			_cmdMessenger.SendCommand (command);
+			//TODO baue event ein
+			#endif
 		}
 
 		public static void SetAnalogReference (int AnalogReference)
@@ -299,6 +301,7 @@ namespace PrototypeBackend
 			var command = new SendCommand ((int)Command.SetAnalogReference);
 			command.AddArgument (AnalogReference);
 			_cmdMessenger.SendCommand (command);
+			//TODO baue event ein
 		}
 
 		public static void SetAnalogPin (int Pin, int Val)
@@ -306,6 +309,7 @@ namespace PrototypeBackend
 			var command = new SendCommand ((int)Command.SetAnalogPin, Pin);
 			command.AddArgument (Val);
 			_cmdMessenger.SendCommand (command);
+			//TODO baue event ein
 		}
 
 		#endregion
