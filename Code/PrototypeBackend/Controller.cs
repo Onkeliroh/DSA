@@ -99,7 +99,8 @@ namespace PrototypeBackend
 
 		public void AddPin (IPin ip)
 		{
-			if (!ControllerPins.Contains (ip)) {
+			if (!ControllerPins.Contains (ip))
+			{
 				ControllerPins.Add (ip);
 				if (PinsUpdated != null)
 				{
@@ -159,12 +160,68 @@ namespace PrototypeBackend
 			running = false;
 		}
 
-		public void Start()
+		public void Start ()
 		{
-			running = true;
-			StartTime = DateTime.Now;
-			sequenceThread.Start ();
-			signalThread.Start ();
+			if (CheckSequences () && CheckSignals ())
+			{
+				running = true;
+				StartTime = DateTime.Now;
+				sequenceThread.Start ();
+				signalThread.Start ();
+			}
+		}
+
+		public bool CheckSequences ()
+		{
+			foreach (Sequence seq in this.ControlSequences)
+			{
+				if (!CheckSequence (seq))
+					return false;
+			}
+			return true;
+		}
+
+		public bool CheckSequence (Sequence seq)
+		{
+			//Check for overlapping
+			for (int i = 1; i < seq.Chain.Count; i++)
+			{
+				if (seq.Chain [i - 1].Time.Add (seq.Chain [i - 1].Duration) > seq.Chain [i].Time)
+				{
+					return false;
+				}
+			}
+
+			//fill gaps
+			List<SequenceOperation> additionalOperations = new List<SequenceOperation> ();
+			if (seq.Chain [0].Time != TimeSpan.FromSeconds (0))
+			{
+				additionalOperations.Add (new SequenceOperation () {
+					Time = TimeSpan.FromSeconds (0),
+					Duration = seq.Chain [0].Time,
+					State = DPinState.LOW
+				});
+			}
+
+			for (int i = 1; i < seq.Chain.Count; i++)
+			{
+				if (seq.Chain [i].Time != seq.Chain [i - 1].Time.Add (seq.Chain [i - 1].Duration))
+				{
+					additionalOperations.Add (new SequenceOperation () {
+						Time = seq.Chain [i - 1].Time.Add (seq.Chain [i - 1].Duration),
+						Duration = seq.Chain [i].Time.Subtract (seq.Chain [i - 1].Time.Add (seq.Chain [i - 1].Duration)),
+						State = DPinState.LOW
+					});
+				}
+			}
+			seq.AddSequenceOperationRange (additionalOperations.ToArray ());
+			return true;	
+		}
+
+		public bool CheckSignals ()
+		{
+			//TODO implement
+			return true;
 		}
 
 		private void Run ()
@@ -188,17 +245,21 @@ namespace PrototypeBackend
 			}
 		}
 
-		private void ManageSequence()
+		private void ManageSequence ()
 		{
-			while (running) {
-				foreach (Sequence seq in ControlSequences) {
-					if (seq.Current () != null) {
+			while (running)
+			{
+				foreach (Sequence seq in ControlSequences)
+				{
+					if (seq.Current () != null)
+					{
 						SequenceOperation op = (SequenceOperation)seq.Current ();
-						if (StartTime <= DateTime.Now.Subtract (op.Time)) {
+						if (StartTime <= DateTime.Now.Subtract (op.Time))
+						{
+							Console.Write (DateTime.Now + "\t");
 							ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
 							seq.Next ();
-						} else if (StartTime <= DateTime.Now.Subtract (op.Time.Add (op.Duration))) {
-							ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, DPinState.LOW);
+							Thread.Sleep (op.Duration);
 						}
 					}
 				}
@@ -207,7 +268,7 @@ namespace PrototypeBackend
 
 		public int[] GetUsedPins (PrototypeBackend.PinType type)
 		{
-			return ControllerPins.Where(o=>o.Type == type).Select (o => o.Number).ToArray<int> (); 
+			return ControllerPins.Where (o => o.Type == type).Select (o => o.Number).ToArray<int> (); 
 		}
 
 		public int[] GetUnusedPins (PrototypeBackend.PinType type)

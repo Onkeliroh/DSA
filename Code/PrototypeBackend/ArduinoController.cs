@@ -85,7 +85,7 @@ namespace PrototypeBackend
 		}
 
 		public static string SerialPortName {
-			private get;
+			get;
 			set;
 		}
 
@@ -139,6 +139,16 @@ namespace PrototypeBackend
 			_board = new Board ();
 			NumberOfAnalogPins = apins;
 			NumberOfDigitalPins = dpins;
+
+			OnConnection += (sender, e) =>
+			{
+				GetVersion ();
+				GetModel ();
+				GetNumberAnalogPins ();
+				GetNumberDigitalPins ();
+			};
+
+			SerialPortName = "";
 			#if FAKESERIAL
 			IsConnected = true;
 			#else
@@ -150,7 +160,7 @@ namespace PrototypeBackend
 		{
 			try
 			{
-				_cmdMessenger.Disconnect ();
+				Disconnect ();
 				// Analysis disable once EmptyGeneralCatchClause
 			} catch (Exception)
 			{
@@ -175,21 +185,21 @@ namespace PrototypeBackend
 			#if !FAKESERIAL
 			// Start listening
 			IsConnected = _cmdMessenger.Connect ();
-			if (IsConnected)
-			{
-				if (OnConnection != null)
-				{
-					try
-					{
-						OnConnection.Invoke (null, null);
-					} catch (Exception e)
-					{
-						Console.WriteLine (e);
-					}
-				}
-			} 
+//			if (IsConnected)
+//			{
+//				if (OnConnection != null)
+//				{
+//					try
+//					{
+//						OnConnection.Invoke (null, null);
+//					} catch (Exception e)
+//					{
+//						Console.WriteLine (e);
+//					}
+//				}
+//			} 
 		
-			OnConnectionChanged.Invoke (null, null);
+//			OnConnectionChanged.Invoke (null, null);
 			
 			#endif
 		}
@@ -214,6 +224,10 @@ namespace PrototypeBackend
 				#if !FAKESERIAL
 				_cmdMessenger.Disconnect ();
 				#endif
+				if (OnConnectionChanged != null)
+				{
+					OnConnectionChanged.Invoke (null, null);
+				}
 			}
 
 		}
@@ -244,6 +258,14 @@ namespace PrototypeBackend
 			#if DEBUG
 			Console.WriteLine (@" Arduino is ready");
 			#endif
+			if (OnConnection != null)
+			{
+				OnConnection.Invoke (null, null);
+			}
+			if (OnConnectionChanged != null)
+			{
+				OnConnectionChanged.Invoke (null, null);
+			}
 		}
 
 		// Callback function that prints that the Arduino has experienced an error

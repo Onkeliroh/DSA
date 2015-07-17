@@ -3,6 +3,13 @@ using System.Linq;
 
 namespace PrototypeBackend
 {
+	public enum SequenceState
+	{
+		New,
+		Running,
+		Done,
+	}
+
 	public class Sequence
 	{
 		public DPin Pin { get; set; }
@@ -16,6 +23,8 @@ namespace PrototypeBackend
 		public int Cycle { get; private set; }
 
 		public int CurrentOperation { get; private set; }
+
+		public SequenceState CurrentState { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the repetitions.
@@ -37,6 +46,7 @@ namespace PrototypeBackend
 			Repetitions = 0;
 			Cycle = 0;
 			CurrentOperation = 0;
+			CurrentState = SequenceState.New;
 		}
 
 		/// <summary>
@@ -56,6 +66,15 @@ namespace PrototypeBackend
 		public void AddSequenceOperation (SequenceOperation seqop)
 		{
 			Chain.Add (seqop);
+			Chain = Chain.OrderBy (o => o.Time).ToList ();
+//			Chain.Reverse ();
+		}
+
+		public void AddSequenceOperationRange (SequenceOperation[] seqops)
+		{
+			Chain.AddRange (seqops);
+			Chain = Chain.OrderBy (o => o.Time).ToList ();
+//			Chain.Reverse ();
 		}
 
 		/// <summary>
@@ -79,6 +98,7 @@ namespace PrototypeBackend
 		{
 			if (Cycle > Repetitions || Chain.Count == 0)
 			{
+				CurrentState = SequenceState.Done;
 				return  null;
 			}
 			CurrentOperation += 1;
@@ -94,14 +114,26 @@ namespace PrototypeBackend
 		/// <summary>
 		/// Returns the current SequenceOperation.
 		/// </summary>
-		public SequenceOperation? Current()
+		public SequenceOperation? Current ()
 		{
 			if (Cycle > Repetitions || Chain.Count == 0)
 			{
+				CurrentState = SequenceState.Done;
 				return  null;
 			}
 			SequenceOperation op = Chain [CurrentOperation];
+			CurrentState = SequenceState.Running;
 			return op;
+		}
+
+		public override string ToString ()
+		{
+			string res = String.Format ("Pin: {0}\tName: {1}", Pin, Name);
+			foreach (SequenceOperation seqop in Chain)
+			{
+				res += string.Format ("\nStartTime: {0}\tDuration: {1}\tState: {2}", seqop.Time, seqop.Duration, seqop.State);
+			}
+			return res;
 		}
 	}
 }

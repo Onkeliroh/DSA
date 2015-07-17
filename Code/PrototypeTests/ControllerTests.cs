@@ -217,10 +217,6 @@ namespace PrototypeTests
 		{
 			var con = new Controller ();
 
-			#if !FAKESERIAL
-			ArduinoController.SerialPortName = "/dev/ttyACM0";
-			ArduinoController.Setup ();
-			#endif
 
 			DPin[] dpins = new DPin[10];
 			for (int i = 0; i < dpins.Length; i++)
@@ -237,6 +233,7 @@ namespace PrototypeTests
 			}
 
 			con.ControlSequences.AddRange (seqs);
+			#if FAKESERIAL
 			con.Start ();
 			Thread.Sleep (1000);
 			foreach (Sequence seq in seqs)
@@ -245,6 +242,58 @@ namespace PrototypeTests
 				Assert.AreEqual (1, seq.Chain.Count);
 			}
 			con.Stop ();
+			#endif
+		}
+
+		[Test]
+		public void CheckSequenceTest ()
+		{
+			var con = new Controller ();
+			var seq = new Sequence ();
+			seq.AddSequenceOperation (new SequenceOperation () {
+				Time = TimeSpan.FromSeconds (10),
+				Duration = TimeSpan.FromSeconds (5),
+				State = DPinState.HIGH
+			});
+			seq.AddSequenceOperation (new SequenceOperation () {
+				Time = TimeSpan.FromSeconds (1),
+				Duration = TimeSpan.FromSeconds (5),
+				State = DPinState.HIGH
+			});
+
+			Assert.AreEqual (2, seq.Chain.Count);
+			Assert.AreEqual (TimeSpan.FromSeconds (1), seq.Chain [0].Time);
+			Assert.AreEqual (TimeSpan.FromSeconds (10), seq.Chain [1].Time);
+
+			con.ControlSequences.Add (seq);
+
+			Assert.AreEqual (true, con.CheckSequences ());
+
+			Assert.AreEqual (TimeSpan.FromSeconds (0), con.ControlSequences [0].Chain [0].Time);
+			Assert.AreEqual (TimeSpan.FromSeconds (6), con.ControlSequences [0].Chain [2].Time);
+
+
+			Console.WriteLine (con.ControlSequences [0].ToString ());
+		}
+
+		[Test]
+		public void CheckSequenceTest2 ()
+		{
+			var con = new Controller ();
+			var seq = new Sequence ();
+			seq.AddSequenceOperation (new SequenceOperation () {
+				Time = TimeSpan.FromSeconds (10),
+				Duration = TimeSpan.FromSeconds (5),
+				State = DPinState.HIGH
+			});
+			seq.AddSequenceOperation (new SequenceOperation () {
+				Time = TimeSpan.FromSeconds (1),
+				Duration = TimeSpan.FromSeconds (10),
+				State = DPinState.HIGH
+			});
+			con.ControlSequences.Add (seq);
+
+			Assert.AreNotEqual (true, con.CheckSequences ());
 		}
 	}
 }

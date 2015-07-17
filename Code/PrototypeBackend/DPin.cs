@@ -34,6 +34,9 @@ namespace PrototypeBackend
 		{
 			Name = label;
 			Number = pinnr;
+			Type = PrototypeBackend.PinType.DIGITAL;
+			Mode = PrototypeBackend.PinMode.OUTPUT;
+			PlotColor = System.Drawing.Color.Empty;
 		}
 
 		//Methods
