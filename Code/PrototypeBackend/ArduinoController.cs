@@ -70,6 +70,7 @@ namespace PrototypeBackend
 		private static Board _board = new Board ();
 
 		public static event EventHandler<EventArgs> OnConnection;
+		public static event EventHandler<EventArgs> OnConnectionChanged;
 		public static event EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public static event EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 
@@ -147,6 +148,13 @@ namespace PrototypeBackend
 
 		public static void Setup ()
 		{
+			try
+			{
+				_cmdMessenger.Disconnect ();
+				// Analysis disable once EmptyGeneralCatchClause
+			} catch (Exception)
+			{
+			}
 			_cmdMessenger = new CmdMessenger (new SerialTransport () {
 				CurrentSerialSettings = {
 					PortName = SerialPortName,
@@ -179,7 +187,10 @@ namespace PrototypeBackend
 						Console.WriteLine (e);
 					}
 				}
-			}
+			} 
+		
+			OnConnectionChanged.Invoke (null, null);
+			
 			#endif
 		}
 
