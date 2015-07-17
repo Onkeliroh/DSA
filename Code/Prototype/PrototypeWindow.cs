@@ -6,7 +6,6 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.GtkSharp;
 using OxyPlot.Series;
-using System.ComponentModel;
 
 
 
@@ -38,7 +37,7 @@ public partial class PrototypeWindow: Gtk.Window
 
 
 		(this.UIManager.GetWidget ("/menubar1") as MenuBar).Insert (new MenuItem ("Test"), 5);
-		(this.UIManager.GetWidget ("/menubar1") as MenuBar).Show ();
+		(this.UIManager.GetWidget ("/menubar1") as MenuBar).ShowAll ();
 
 		CreateConfigInterface ();
 

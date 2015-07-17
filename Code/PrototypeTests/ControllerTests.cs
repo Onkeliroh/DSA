@@ -163,7 +163,7 @@ namespace PrototypeTests
 			});
 
 			pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
-			Assert.AreEqual (1,pins.Length);
+			Assert.AreEqual (1, pins.Length);
 			Assert.AreEqual (pins [0], 0);
 
 			pins = tmp.GetUsedPins (PrototypeBackend.PinType.DIGITAL);
@@ -180,7 +180,7 @@ namespace PrototypeTests
 			var pins = tmp.GetUnusedPins (PinType.ANALOG);
 			Assert.AreEqual (pins.Length, 6);
 
-			tmp.AddPin (new APin() {
+			tmp.AddPin (new APin () {
 				Number = 0,
 			});
 
@@ -189,14 +189,14 @@ namespace PrototypeTests
 			Assert.AreEqual (pins [0], 1);
 
 			tmp.AddPin (
-				new DPin(){
+				new DPin () {
 					Name = "Ding of Awesome",
 					Number = 13
 				}
 			);
 
 			tmp.AddPin (
-				new DPin(){
+				new DPin () {
 					Name = "Pin of Doom",
 					Number = 12
 				}
@@ -213,18 +213,24 @@ namespace PrototypeTests
 		}
 
 		[Test]
-		public void SequenceThread()
+		public void SequenceThread ()
 		{
 			var con = new Controller ();
+
+			#if !FAKESERIAL
+			ArduinoController.SerialPortName = "/dev/ttyACM0";
+			ArduinoController.Setup ();
+			#endif
 
 			DPin[] dpins = new DPin[10];
 			for (int i = 0; i < dpins.Length; i++)
 			{
-				dpins[i]= new DPin ("", i);
+				dpins [i] = new DPin ("", i);
 			}
 
 			Sequence[] seqs = new Sequence[10];
-			for (int i = 0; i < seqs.Length; i++) {
+			for (int i = 0; i < seqs.Length; i++)
+			{
 				seqs [i] = new Sequence ();
 				seqs [i].Pin = dpins [i];
 				seqs [i].AddSequenceOperation (DPinState.HIGH, TimeSpan.FromSeconds (0), TimeSpan.FromSeconds (i * 10));
@@ -233,7 +239,8 @@ namespace PrototypeTests
 			con.ControlSequences.AddRange (seqs);
 			con.Start ();
 			Thread.Sleep (1000);
-			foreach (Sequence seq in seqs) {
+			foreach (Sequence seq in seqs)
+			{
 				Assert.AreEqual (1, seq.Cycle);
 				Assert.AreEqual (1, seq.Chain.Count);
 			}
