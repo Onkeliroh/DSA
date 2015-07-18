@@ -83,8 +83,7 @@ namespace PrototypeDebugWindow
 							ArduinoController.Setup ();
 						} else
 						{
-							lblConnectionStatus.Text = "<b>NOT</b> connected";
-							lblConnectionStatus.UseMarkup = true;
+							ArduinoController.Disconnect ();
 						}
 					};
 					portmenu.Append (portname);
@@ -106,6 +105,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnKeyPressEvent (object obj, KeyPressEventArgs a)
 		{
+			//TODO shotcuts -> mask vergleich
 			if (a.Event.Key == Gdk.Key.q && a.Event.State == Gdk.ModifierType.ControlMask)
 			{
 				OnDeleteEvent (null, null);
