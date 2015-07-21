@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
-using MonoDevelop.Components;
 using PrototypeBackend;
-using System.Xml.Serialization;
-using System.IO;
 
 namespace PrototypeBackend
 {
@@ -293,7 +289,7 @@ namespace PrototypeBackend
 		private static void NewLineSent (object sender, CommandEventArgs e)
 		{
 			#if DEBUG
-			Console.WriteLine (@"Sent > " + e.Command.CommandString ());
+			Console.WriteLine (DateTime.Now + @": Sent > " + e.Command.CommandString ());
 			#endif
 		}
 
@@ -324,7 +320,11 @@ namespace PrototypeBackend
 			command.AddArgument ((Int16)mode);
 			command.AddArgument ((Int16)state);
 			_cmdMessenger.SendCommand (command);
-			//TODO baue event ein
+
+			if (NewDigitalValue != null)
+			{
+				NewDigitalValue.Invoke (null, new ControllerDigitalEventArgs (nr, state));
+			}
 			#endif
 		}
 

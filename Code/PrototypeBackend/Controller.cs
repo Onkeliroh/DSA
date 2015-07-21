@@ -3,7 +3,6 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using PrototypeBackend;
-using System.Configuration;
 
 namespace PrototypeBackend
 {
@@ -11,7 +10,9 @@ namespace PrototypeBackend
 	{
 		private Thread signalThread;
 
-		private Thread sequenceThread;
+		//		private Thread sequenceThread;
+
+		private List<Thread> sequenceThreads = new List<Thread> ();
 
 		public List<IPin> ControllerPins{ private set; get; }
 
@@ -38,7 +39,7 @@ namespace PrototypeBackend
 		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 		public EventHandler SchedulerListUpdated;
-		public EventHandler PinsUpdated;
+		public EventHandler<ControllerPinUpdateArgs> PinsUpdated;
 
 		private bool running = true;
 
@@ -53,10 +54,8 @@ namespace PrototypeBackend
 			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
 
 			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
-//			controllerThread.Start ();
 
-			sequenceThread = new Thread (new ThreadStart (ManageSequence)){ Name = "sequenceThread" };
-//			sequenceThread.Start ();
+//			sequenceThread = new Thread (new ThreadStart (ManageSequence)){ Name = "sequenceThread" };
 
 			ArduinoController.OnConnection += ((o, e) =>
 			{
@@ -104,7 +103,7 @@ namespace PrototypeBackend
 				ControllerPins.Add (ip);
 				if (PinsUpdated != null)
 				{
-					PinsUpdated.Invoke (this, null);
+					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ip, PinUpdateOperation.Add));
 				}
 			}
 		}
@@ -157,65 +156,49 @@ namespace PrototypeBackend
 
 		public void Stop ()
 		{
+			sequenceThreads.ForEach (o => o.Abort ());
 			running = false;
 		}
 
 		public void Start ()
 		{
-			if (CheckSequences () && CheckSignals ())
+
+			if (CheckSignals ())
 			{
+				BuildSequenceList ();
 				running = true;
 				StartTime = DateTime.Now;
-				sequenceThread.Start ();
+				sequenceThreads.ForEach (o => o.Start ());
 				signalThread.Start ();
 			}
 		}
 
-		public bool CheckSequences ()
+		private void BuildSequenceList ()
 		{
-			foreach (Sequence seq in this.ControlSequences)
+			sequenceThreads.Clear ();
+			foreach (Sequence seq in ControlSequences)
 			{
-				if (!CheckSequence (seq))
-					return false;
-			}
-			return true;
-		}
+				var seqThread = new Thread (
+					                new ThreadStart (() =>
+					{
+						SequenceOperation op = (SequenceOperation)seq.Current ();
+						while (seq.Current () != null)
+						{
+							op = (SequenceOperation)seq.Current ();
+							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation))
+							{
+								//TODO Zeit messen
 
-		public bool CheckSequence (Sequence seq)
-		{
-			//Check for overlapping
-			for (int i = 1; i < seq.Chain.Count; i++)
-			{
-				if (seq.Chain [i - 1].Time.Add (seq.Chain [i - 1].Duration) > seq.Chain [i].Time)
-				{
-					return false;
-				}
-			}
+								ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
+								seq.Next ();
+								Thread.Sleep (op.Duration);
+							}
+						}	
+					}
+					                )){ Name = seq.Name + "_Thread" };
 
-			//fill gaps
-			List<SequenceOperation> additionalOperations = new List<SequenceOperation> ();
-			if (seq.Chain [0].Time != TimeSpan.FromSeconds (0))
-			{
-				additionalOperations.Add (new SequenceOperation () {
-					Time = TimeSpan.FromSeconds (0),
-					Duration = seq.Chain [0].Time,
-					State = DPinState.LOW
-				});
+				sequenceThreads.Add (seqThread);
 			}
-
-			for (int i = 1; i < seq.Chain.Count; i++)
-			{
-				if (seq.Chain [i].Time != seq.Chain [i - 1].Time.Add (seq.Chain [i - 1].Duration))
-				{
-					additionalOperations.Add (new SequenceOperation () {
-						Time = seq.Chain [i - 1].Time.Add (seq.Chain [i - 1].Duration),
-						Duration = seq.Chain [i].Time.Subtract (seq.Chain [i - 1].Time.Add (seq.Chain [i - 1].Duration)),
-						State = DPinState.LOW
-					});
-				}
-			}
-			seq.AddSequenceOperationRange (additionalOperations.ToArray ());
-			return true;	
 		}
 
 		public bool CheckSignals ()
@@ -245,26 +228,26 @@ namespace PrototypeBackend
 			}
 		}
 
-		private void ManageSequence ()
-		{
-			while (running)
-			{
-				foreach (Sequence seq in ControlSequences)
-				{
-					if (seq.Current () != null)
-					{
-						SequenceOperation op = (SequenceOperation)seq.Current ();
-						if (StartTime <= DateTime.Now.Subtract (op.Time))
-						{
-							Console.Write (DateTime.Now + "\t");
-							ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
-							seq.Next ();
-							Thread.Sleep (op.Duration);
-						}
-					}
-				}
-			}
-		}
+		//		private void ManageSequence ()
+		//		{
+		//			while (running)
+		//			{
+		//				foreach (Sequence seq in ControlSequences)
+		//				{
+		//					if (seq.Current () != null)
+		//					{
+		//						SequenceOperation op = (SequenceOperation)seq.Current ();
+		//						if (StartTime <= DateTime.Now.Subtract (op.Time))
+		//						{
+		//							Console.Write (DateTime.Now + "\t");
+		//							ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
+		//							seq.Next ();
+		//							Thread.Sleep (op.Duration);
+		//						}
+		//					}
+		//				}
+		//			}
+		//		}
 
 		public int[] GetUsedPins (PrototypeBackend.PinType type)
 		{

@@ -26,6 +26,8 @@ namespace PrototypeBackend
 
 		public SequenceState CurrentState { get; private set; }
 
+		public TimeSpan lastOperation{ get; private set; }
+
 		/// <summary>
 		/// Gets or sets the repetitions.
 		/// 0 = one cycle
@@ -47,6 +49,7 @@ namespace PrototypeBackend
 			Cycle = 0;
 			CurrentOperation = 0;
 			CurrentState = SequenceState.New;
+			lastOperation = new TimeSpan (0);
 		}
 
 		/// <summary>
@@ -54,9 +57,9 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <param name="dps">digital pin state to be set</param>
 		/// <param name="starttime">Time after the last operation or start</param>
-		public void AddSequenceOperation (DPinState dps, TimeSpan starttime, TimeSpan duration)
+		public void AddSequenceOperation (DPinState dps, TimeSpan duration)
 		{
-			Chain.Add (new SequenceOperation (){ State = dps, Time = starttime, Duration = duration });
+			Chain.Add (new SequenceOperation (){ State = dps, Duration = duration });
 		}
 
 		/// <summary>
@@ -66,15 +69,11 @@ namespace PrototypeBackend
 		public void AddSequenceOperation (SequenceOperation seqop)
 		{
 			Chain.Add (seqop);
-			Chain = Chain.OrderBy (o => o.Time).ToList ();
-//			Chain.Reverse ();
 		}
 
 		public void AddSequenceOperationRange (SequenceOperation[] seqops)
 		{
 			Chain.AddRange (seqops);
-			Chain = Chain.OrderBy (o => o.Time).ToList ();
-//			Chain.Reverse ();
 		}
 
 		/// <summary>
@@ -96,6 +95,7 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Next ()
 		{
+			lastOperation += Chain [CurrentOperation].Duration;
 			if (Cycle > Repetitions || Chain.Count == 0)
 			{
 				CurrentState = SequenceState.Done;
@@ -131,7 +131,7 @@ namespace PrototypeBackend
 			string res = String.Format ("Pin: {0}\tName: {1}", Pin, Name);
 			foreach (SequenceOperation seqop in Chain)
 			{
-				res += string.Format ("\nStartTime: {0}\tDuration: {1}\tState: {2}", seqop.Time, seqop.Duration, seqop.State);
+				res += string.Format ("\nDuration: {0}\tState: {1}", seqop.Duration, seqop.State);
 			}
 			return res;
 		}

@@ -1,14 +1,14 @@
 ﻿using System;
 using Gtk;
 using PrototypeBackend;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace PrototypeDebugWindow
 {
 	public partial class MainWindow : Gtk.Window
 	{
+		Controller con = new Controller ();
+
 		public MainWindow () :
 			base (Gtk.WindowType.Toplevel)
 		{
@@ -37,6 +37,17 @@ namespace PrototypeDebugWindow
 
 
 			BuildMenu ();
+
+			con.PinsUpdated += (o, a) =>
+			{
+				if (a.UpdateOperation == PinUpdateOperation.Add)
+				{
+					tvLog.Buffer.Text += String.Format ("{0}: Added Pin -> {1}", DateTime.Now, a.Pin);
+				} else if (a.UpdateOperation == PinUpdateOperation.Remove)
+				{
+					tvLog.Buffer.Text += String.Format ("{0}: Removed Pin -> {1}", DateTime.Now, a.Pin);
+				}
+			};
 		}
 
 		private void BuildMenu ()
@@ -91,7 +102,6 @@ namespace PrototypeDebugWindow
 				portmenu.ShowAll ();
 			};
 
-
 			mbar.Append (connection);
 			mbar.ShowAll ();
 			
@@ -99,6 +109,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnDeleteEvent (object obj, DeleteEventArgs a)
 		{
+			con.Stop ();
 			ArduinoController.Disconnect ();
 			Application.Quit ();
 		}
@@ -106,7 +117,7 @@ namespace PrototypeDebugWindow
 		protected void OnKeyPressEvent (object obj, KeyPressEventArgs a)
 		{
 			//TODO shotcuts -> mask vergleich
-			if (a.Event.Key == Gdk.Key.q && a.Event.State == Gdk.ModifierType.ControlMask)
+			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask)
 			{
 				OnDeleteEvent (null, null);
 			}
@@ -130,11 +141,11 @@ namespace PrototypeDebugWindow
 			}
 		}
 
-		protected async void OnBtnBlinkSequenceTestClicked (object sender, EventArgs e)
+		protected void OnBtnBlinkSequenceTestClicked (object sender, EventArgs e)
 		{
 			if (ArduinoController.IsConnected)
 			{
-				var con = new Controller ();
+				con.ControlSequences.Clear (); 
 				var scheduler = new Scheduler ();
 				con.AddScheduler (scheduler);
 
@@ -146,22 +157,14 @@ namespace PrototypeDebugWindow
 				sequence.AddSequenceOperation (new SequenceOperation () {
 					Duration = TimeSpan.FromSeconds (1),
 					State = DPinState.HIGH,
-					Time = TimeSpan.FromSeconds (0)
 				});
 				sequence.AddSequenceOperation (new SequenceOperation {
 					Duration = TimeSpan.FromSeconds (1),
 					State = DPinState.LOW,
-					Time = TimeSpan.FromSeconds (1)
 				});
 				con.ControlSequences.Add (sequence);
 
 				con.Start ();
-
-				while (sequence.Current () != null)
-				{
-					await Task.Delay (10);
-				}
-				con.Stop ();
 			} else
 			{
 				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
@@ -170,30 +173,39 @@ namespace PrototypeDebugWindow
 			}
 		}
 
-		protected async void OnBtnDoubleBlinkClicked (object sender, EventArgs e)
+		protected void OnBtnDoubleBlinkClicked (object sender, EventArgs e)
 		{
 			if (ArduinoController.IsConnected)
 			{
-				var con = new Controller ();
+				con.ControlSequences.Clear ();
 
-				for (int i = 0; i < 2; i++)
-				{
-					var sequence = new Sequence () {
-						Pin = new DPin ("Dings", i + 11),
-						Repetitions = 10
-					};
-					sequence.AddSequenceOperation (new SequenceOperation () {
-						Duration = TimeSpan.FromSeconds (1),
-						State = DPinState.HIGH,
-						Time = TimeSpan.FromSeconds (0)
-					});
-					sequence.AddSequenceOperation (new SequenceOperation {
-						Duration = TimeSpan.FromSeconds (1),
-						State = DPinState.LOW,
-						Time = TimeSpan.FromSeconds (1 + i)
-					});
-					con.ControlSequences.Add (sequence);
-				}
+				var sequence = new Sequence () {
+					Pin = new DPin ("Dings", 3),
+					Repetitions = 10
+				};
+				sequence.AddSequenceOperation (new SequenceOperation () {
+					Duration = TimeSpan.FromSeconds (1),
+					State = DPinState.HIGH,
+				});
+				sequence.AddSequenceOperation (new SequenceOperation {
+					Duration = TimeSpan.FromSeconds (1),
+					State = DPinState.LOW,
+				});
+				con.ControlSequences.Add (sequence);
+
+				sequence = new Sequence () {
+					Pin = new DPin ("Dings", 4),
+					Repetitions = 10
+				};
+				sequence.AddSequenceOperation (new SequenceOperation () {
+					Duration = TimeSpan.FromSeconds (1),
+					State = DPinState.LOW,
+				});
+				sequence.AddSequenceOperation (new SequenceOperation {
+					Duration = TimeSpan.FromSeconds (1),
+					State = DPinState.HIGH,
+				});
+				con.ControlSequences.Add (sequence);
 
 				foreach (Sequence seq in con.ControlSequences)
 				{
@@ -201,12 +213,6 @@ namespace PrototypeDebugWindow
 				}
 
 				con.Start ();
-
-				while (con.ControlSequences [0].CurrentState != SequenceState.Done && con.ControlSequences [0].CurrentState != SequenceState.Done)
-				{
-					await Task.Delay (10);
-				}
-				con.Stop ();
 			} else
 			{
 				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
@@ -214,6 +220,28 @@ namespace PrototypeDebugWindow
 				dialog.ShowNow ();
 			}
 		}
+
+		protected void OnBtnStopNResetClicked (object sender, EventArgs e)
+		{
+			con.Stop ();
+			for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
+			{
+				ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.LOW);
+			}
+		}
+
+		protected void OnBtnAddanalogInputClicked (object sender, EventArgs e)
+		{
+			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration ();
+			dialog.ShowAll ();
+
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Apply)
+				{
+					con.AddPin (dialog.Pin);
+				}
+			};
+		}
 	}
 }
-

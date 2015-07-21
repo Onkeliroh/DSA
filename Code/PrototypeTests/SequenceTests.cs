@@ -60,7 +60,7 @@ namespace PrototypeTests
 
 			seq.AddSequenceOperation (new SequenceOperation () {
 				State = DPinState.HIGH,
-				Time = TimeSpan.FromSeconds (30)
+				Duration = TimeSpan.FromSeconds (30)
 			});
 
 			Assert.AreEqual (1, seq.Chain.Count);
@@ -94,11 +94,11 @@ namespace PrototypeTests
 
 			seq.AddSequenceOperation (new SequenceOperation () {
 				State = DPinState.HIGH,
-				Time = TimeSpan.FromSeconds (30)
+				Duration = TimeSpan.FromSeconds (30)
 			});
 			seq.AddSequenceOperation (new SequenceOperation () {
 				State = DPinState.LOW,
-				Time = TimeSpan.FromSeconds (30)
+				Duration = TimeSpan.FromSeconds (30)
 			});
 
 			Assert.AreEqual (2, seq.Chain.Count);
@@ -106,11 +106,11 @@ namespace PrototypeTests
 			Assert.AreEqual (0, seq.Cycle);
 			Assert.AreEqual (DPinState.HIGH, ((SequenceOperation)seq.Current ()).State);
 			Assert.AreEqual (0, seq.Cycle);
-			Assert.AreEqual (DPinState.LOW, ((SequenceOperation)seq.Next()).State);
+			Assert.AreEqual (DPinState.LOW, ((SequenceOperation)seq.Next ()).State);
 			Assert.AreEqual (0, seq.Cycle);
-			Assert.AreEqual (DPinState.HIGH, ((SequenceOperation)seq.Next()).State);
+			Assert.AreEqual (DPinState.HIGH, ((SequenceOperation)seq.Next ()).State);
 			Assert.AreEqual (1, seq.Cycle);
-			Assert.AreEqual (DPinState.LOW, ((SequenceOperation)seq.Next()).State);
+			Assert.AreEqual (DPinState.LOW, ((SequenceOperation)seq.Next ()).State);
 			Assert.AreEqual (1, seq.Cycle);
 
 			seq.Reset ();
