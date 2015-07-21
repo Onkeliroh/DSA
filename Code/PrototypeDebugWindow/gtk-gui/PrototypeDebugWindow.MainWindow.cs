@@ -22,19 +22,19 @@ namespace PrototypeDebugWindow
 		
 		private global::Gtk.Table table4;
 		
-		private global::Gtk.Button btnAddanalogInput;
+		private global::Gtk.Button btnAddDPins;
 		
 		private global::Gtk.Button button414;
 		
-		private global::Gtk.Button button415;
+		private global::Gtk.Button btnClearDPins;
 		
-		private global::Gtk.Alignment GtkAlignment;
+		private global::Gtk.Alignment GtkAlignment4;
 		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
 		
 		private global::Gtk.TreeView treeview2;
 		
-		private global::Gtk.Label GtkLabel14;
+		private global::Gtk.Label GtkLabel16;
 		
 		private global::Gtk.Frame frame2;
 		
@@ -151,16 +151,16 @@ namespace PrototypeDebugWindow
 			this.table4.RowSpacing = ((uint)(6));
 			this.table4.ColumnSpacing = ((uint)(6));
 			// Container child table4.Gtk.Table+TableChild
-			this.btnAddanalogInput = new global::Gtk.Button ();
-			this.btnAddanalogInput.CanFocus = true;
-			this.btnAddanalogInput.Name = "btnAddanalogInput";
-			this.btnAddanalogInput.UseUnderline = true;
-			this.btnAddanalogInput.Label = global::Mono.Unix.Catalog.GetString ("Add analog Input...");
+			this.btnAddDPins = new global::Gtk.Button ();
+			this.btnAddDPins.CanFocus = true;
+			this.btnAddDPins.Name = "btnAddanalogInput";
+			this.btnAddDPins.UseUnderline = true;
+			this.btnAddDPins.Label = global::Mono.Unix.Catalog.GetString ("Add analog Input...");
 			global::Gtk.Image w5 = new global::Gtk.Image ();
 			w5.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
-			this.btnAddanalogInput.Image = w5;
-			this.table4.Add (this.btnAddanalogInput);
-			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table4 [this.btnAddanalogInput]));
+			this.btnAddDPins.Image = w5;
+			this.table4.Add (this.btnAddDPins);
+			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table4 [this.btnAddDPins]));
 			w6.XOptions = ((global::Gtk.AttachOptions)(4));
 			w6.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
@@ -179,24 +179,24 @@ namespace PrototypeDebugWindow
 			w8.XOptions = ((global::Gtk.AttachOptions)(4));
 			w8.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
-			this.button415 = new global::Gtk.Button ();
-			this.button415.CanFocus = true;
-			this.button415.Name = "button415";
-			this.button415.UseUnderline = true;
-			this.button415.Label = global::Mono.Unix.Catalog.GetString ("Clear");
+			this.btnClearDPins = new global::Gtk.Button ();
+			this.btnClearDPins.CanFocus = true;
+			this.btnClearDPins.Name = "button415";
+			this.btnClearDPins.UseUnderline = true;
+			this.btnClearDPins.Label = global::Mono.Unix.Catalog.GetString ("Clear");
 			global::Gtk.Image w9 = new global::Gtk.Image ();
 			w9.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-clear", global::Gtk.IconSize.Menu);
-			this.button415.Image = w9;
-			this.table4.Add (this.button415);
-			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table4 [this.button415]));
+			this.btnClearDPins.Image = w9;
+			this.table4.Add (this.btnClearDPins);
+			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table4 [this.btnClearDPins]));
 			w10.TopAttach = ((uint)(2));
 			w10.BottomAttach = ((uint)(3));
 			w10.XOptions = ((global::Gtk.AttachOptions)(4));
 			w10.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
-			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.GtkAlignment.Name = "GtkAlignment";
-			this.GtkAlignment.LeftPadding = ((uint)(12));
+			this.GtkAlignment4 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.GtkAlignment4.Name = "GtkAlignment";
+			this.GtkAlignment4.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment.Gtk.Container+ContainerChild
 			this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
@@ -206,18 +206,18 @@ namespace PrototypeDebugWindow
 			this.treeview2.CanFocus = true;
 			this.treeview2.Name = "treeview2";
 			this.GtkScrolledWindow1.Add (this.treeview2);
-			this.GtkAlignment.Add (this.GtkScrolledWindow1);
-			this.table4.Add (this.GtkAlignment);
-			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table4 [this.GtkAlignment]));
+			this.GtkAlignment4.Add (this.GtkScrolledWindow1);
+			this.table4.Add (this.GtkAlignment4);
+			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table4 [this.GtkAlignment4]));
 			w13.BottomAttach = ((uint)(4));
 			w13.LeftAttach = ((uint)(1));
 			w13.RightAttach = ((uint)(2));
 			this.frame1.Add (this.table4);
-			this.GtkLabel14 = new global::Gtk.Label ();
-			this.GtkLabel14.Name = "GtkLabel14";
-			this.GtkLabel14.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Analog Inputs</b>");
-			this.GtkLabel14.UseMarkup = true;
-			this.frame1.LabelWidget = this.GtkLabel14;
+			this.GtkLabel16 = new global::Gtk.Label ();
+			this.GtkLabel16.Name = "GtkLabel14";
+			this.GtkLabel16.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Analog Inputs</b>");
+			this.GtkLabel16.UseMarkup = true;
+			this.frame1.LabelWidget = this.GtkLabel16;
 			this.table1.Add (this.frame1);
 			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table1 [this.frame1]));
 			w15.LeftAttach = ((uint)(2));
@@ -441,6 +441,7 @@ namespace PrototypeDebugWindow
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
+			this.btnAddDPins.Clicked += new global::System.EventHandler (this.OnBtnAddanalogInputClicked);
 		}
 	}
 }

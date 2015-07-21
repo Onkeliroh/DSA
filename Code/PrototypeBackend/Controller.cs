@@ -57,8 +57,7 @@ namespace PrototypeBackend
 
 //			sequenceThread = new Thread (new ThreadStart (ManageSequence)){ Name = "sequenceThread" };
 
-			ArduinoController.OnConnection += ((o, e) =>
-			{
+			ArduinoController.OnConnection += ((o, e) => {
 				ArduinoController.GetNumberAnalogPins ();
 				ArduinoController.GetNumberDigitalPins ();
 				ArduinoController.GetVersion ();
@@ -68,41 +67,35 @@ namespace PrototypeBackend
 
 		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)
 		{	
-			if (this.NewAnalogValue != null)
-			{
+			if (this.NewAnalogValue != null) {
 				this.NewAnalogValue.Invoke (this, args);
 			}
 		}
 
 		private void OnNewArduinoNewDigitalValue (object sender, ControllerDigitalEventArgs args)
 		{
-			if (this.NewDigitalValue != null)
-			{
+			if (this.NewDigitalValue != null) {
 				this.NewDigitalValue.Invoke (this, args);
 			}
 		}
 
 		public void AddScheduler (Scheduler s)
 		{
-			if (!ControllerSchedulerList.Contains (s))
-			{
+			if (!ControllerSchedulerList.Contains (s)) {
 				ControllerSchedulerList.Add (s);
 				ControllerSchedulerList = ControllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
 			}
 
-			if (SchedulerListUpdated != null)
-			{
+			if (SchedulerListUpdated != null) {
 				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
 
 		public void AddPin (IPin ip)
 		{
-			if (!ControllerPins.Contains (ip))
-			{
+			if (!ControllerPins.Contains (ip) && ip != null) {
 				ControllerPins.Add (ip);
-				if (PinsUpdated != null)
-				{
+				if (PinsUpdated != null) {
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ip, PinUpdateOperation.Add));
 				}
 			}
@@ -110,16 +103,13 @@ namespace PrototypeBackend
 
 		public void AddSchedulerRange (Scheduler[] s)
 		{
-			foreach (Scheduler sc in s)
-			{
-				if (!ControllerSchedulerList.Contains (sc))
-				{
+			foreach (Scheduler sc in s) {
+				if (!ControllerSchedulerList.Contains (sc)) {
 					ControllerSchedulerList.Add (sc);
 				}
 			}
 			ControllerSchedulerList = ControllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
-			if (SchedulerListUpdated != null)
-			{
+			if (SchedulerListUpdated != null) {
 				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
@@ -127,20 +117,17 @@ namespace PrototypeBackend
 		public void RemoveScheduler (Scheduler s)
 		{
 			ControllerSchedulerList.Remove (s);
-			if (SchedulerListUpdated != null)
-			{
+			if (SchedulerListUpdated != null) {
 				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
 
 		public void RemoveSchedulerRange (Scheduler[] s)
 		{
-			foreach (Scheduler sc in s)
-			{
+			foreach (Scheduler sc in s) {
 				ControllerSchedulerList.Remove (sc);
 			}
-			if (SchedulerListUpdated != null)
-			{
+			if (SchedulerListUpdated != null) {
 				SchedulerListUpdated.Invoke (this, null);
 			}
 		}
@@ -148,9 +135,16 @@ namespace PrototypeBackend
 		public void ClearScheduler ()
 		{
 			ControllerSchedulerList.Clear ();
-			if (SchedulerListUpdated != null)
-			{
+			if (SchedulerListUpdated != null) {
 				SchedulerListUpdated.Invoke (this, null);
+			}
+		}
+
+		public void ClearPins (PinType type)
+		{
+			ControllerPins.RemoveAll (o => o.Type == type);
+			if (PinsUpdated != null) {
+				PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, PinUpdateOperation.Remove));
 			}
 		}
 
@@ -163,8 +157,7 @@ namespace PrototypeBackend
 		public void Start ()
 		{
 
-			if (CheckSignals ())
-			{
+			if (CheckSignals ()) {
 				BuildSequenceList ();
 				running = true;
 				StartTime = DateTime.Now;
@@ -176,17 +169,13 @@ namespace PrototypeBackend
 		private void BuildSequenceList ()
 		{
 			sequenceThreads.Clear ();
-			foreach (Sequence seq in ControlSequences)
-			{
+			foreach (Sequence seq in ControlSequences) {
 				var seqThread = new Thread (
-					                new ThreadStart (() =>
-					{
+					                new ThreadStart (() => {
 						SequenceOperation op = (SequenceOperation)seq.Current ();
-						while (seq.Current () != null)
-						{
+						while (seq.Current () != null) {
 							op = (SequenceOperation)seq.Current ();
-							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation))
-							{
+							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation)) {
 								//TODO Zeit messen
 
 								ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
@@ -210,17 +199,12 @@ namespace PrototypeBackend
 		private void Run ()
 		{
 			//todo sequences berücksichtigen
-			while (running)
-			{
-				if (ControllerSchedulerList.Count > 0)
-				{
-					if (DateTime.Now.Subtract (ControllerSchedulerList [0].DueTime).TotalMilliseconds < 1)
-					{
-						if (ControllerSchedulerList [0].Run () == true)
-						{
+			while (running) {
+				if (ControllerSchedulerList.Count > 0) {
+					if (DateTime.Now.Subtract (ControllerSchedulerList [0].DueTime).TotalMilliseconds < 1) {
+						if (ControllerSchedulerList [0].Run () == true) {
 							ControllerSchedulerList.RemoveAt (0);
-						} else
-						{
+						} else {
 							ControllerSchedulerList = ControllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
 						}
 					}
@@ -257,29 +241,31 @@ namespace PrototypeBackend
 		public int[] GetUnusedPins (PrototypeBackend.PinType type)
 		{
 			uint numpins = 0;
-			if (type.Equals (PrototypeBackend.PinType.ANALOG))
-			{
-				numpins = ArduinoController.NumberOfAnalogPins; 
-			} else if (type.Equals (PrototypeBackend.PinType.DIGITAL))
-			{
-				numpins = ArduinoController.NumberOfDigitalPins;
-			}
-
 			List<int> unusedpins = new List<int> ();
 
-			for (int i = 0; i < numpins; i++)
-			{
-				unusedpins.Add (i);
-			}
-
-			foreach (IPin ip in ControllerPins)
-			{
-				if (ip.Type == type)
-				{
-					unusedpins.Remove (ip.Number);
+			if (type.Equals (PrototypeBackend.PinType.ANALOG)) {
+				numpins = ArduinoController.NumberOfAnalogPins; 
+				for (int i = 0; i < numpins; i++) {
+					unusedpins.Add (i);
+				}
+				foreach (APin ip in ControllerPins) {
+					Console.WriteLine ("Checking: " + ip);
+					if (ip.Type == type) {
+						unusedpins.Remove (ip.Number);
+					}
+				}
+			} else if (type.Equals (PrototypeBackend.PinType.DIGITAL)) {
+				numpins = ArduinoController.NumberOfDigitalPins;
+				for (int i = 0; i < numpins; i++) {
+					unusedpins.Add (i);
+				}
+				foreach (DPin ip in ControllerPins) {
+					Console.WriteLine ("Checking: " + ip);
+					if (ip.Type == type) {
+						unusedpins.Remove (ip.Number);
+					}
 				}
 			}
-
 			return unusedpins.ToArray ();
 		}
 	}

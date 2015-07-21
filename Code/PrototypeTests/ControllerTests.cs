@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using PrototypeBackend;
+using System.Security.Cryptography;
 
 namespace PrototypeTests
 {
@@ -206,6 +207,16 @@ namespace PrototypeTests
 			Assert.AreEqual (pins.Length, 18);
 			Assert.AreEqual (pins [0], 0);
 			Assert.AreEqual (pins [1], 1);
+		}
+
+		[Test]
+		public void GetUnusedPinsTest2()
+		{
+			var con = new Controller ();
+			con.AddPin (new DPin (){ Name = "Pin1", Number = 0 });
+
+			Assert.AreEqual (19, con.AvailableDigitalPins.Length);
+			Assert.AreEqual (1, con.AvailableDigitalPins [0]);
 		}
 
 		[Test]

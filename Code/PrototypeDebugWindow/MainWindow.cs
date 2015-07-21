@@ -21,14 +21,11 @@ namespace PrototypeDebugWindow
 		private void InitComponents ()
 		{
 			ArduinoController.Init ();
-			ArduinoController.OnConnectionChanged += (object sender, EventArgs e) =>
-			{
-				if (ArduinoController.IsConnected)
-				{
+			ArduinoController.OnConnectionChanged += (object sender, EventArgs e) => {
+				if (ArduinoController.IsConnected) {
 					lblConnectionStatus.Text = "connected";
 					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
-				} else
-				{
+				} else {
 					lblConnectionStatus.Text = "<b>NOT</b> connected";
 					lblConnectionStatus.UseMarkup = true;
 					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
@@ -38,14 +35,11 @@ namespace PrototypeDebugWindow
 
 			BuildMenu ();
 
-			con.PinsUpdated += (o, a) =>
-			{
-				if (a.UpdateOperation == PinUpdateOperation.Add)
-				{
-					tvLog.Buffer.Text += String.Format ("{0}: Added Pin -> {1}", DateTime.Now, a.Pin);
-				} else if (a.UpdateOperation == PinUpdateOperation.Remove)
-				{
-					tvLog.Buffer.Text += String.Format ("{0}: Removed Pin -> {1}", DateTime.Now, a.Pin);
+			con.PinsUpdated += (o, a) => {
+				if (a.UpdateOperation == PinUpdateOperation.Add) {
+					tvLog.Buffer.Text += String.Format ("{0} | Added Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
+				} else if (a.UpdateOperation == PinUpdateOperation.Remove) {
+					tvLog.Buffer.Text += String.Format ("{0} | Removed Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
 				}
 			};
 		}
@@ -72,28 +66,21 @@ namespace PrototypeDebugWindow
 			connectionmenu.Append (port);
 			port.Submenu = portmenu;
 
-			port.Activated += (object sender, EventArgs e) =>
-			{
-				foreach (MenuItem mi in portmenu.AllChildren)
-				{
+			port.Activated += (object sender, EventArgs e) => {
+				foreach (MenuItem mi in portmenu.AllChildren) {
 					portmenu.Remove (mi);
 				}
-				foreach (String s in System.IO.Ports.SerialPort.GetPortNames())
-				{
+				foreach (String s in System.IO.Ports.SerialPort.GetPortNames()) {
 					CheckMenuItem portname = new CheckMenuItem (s);
-					if (ArduinoController.SerialPortName.Equals (s))
-					{
+					if (ArduinoController.SerialPortName.Equals (s)) {
 						portname.Toggle ();
 					}
 
-					portname.Toggled += (object senderer, EventArgs ee) =>
-					{
-						if ((senderer as CheckMenuItem).Active)
-						{
+					portname.Toggled += (object senderer, EventArgs ee) => {
+						if ((senderer as CheckMenuItem).Active) {
 							ArduinoController.SerialPortName = ((senderer as CheckMenuItem).Child as Label).Text;
 							ArduinoController.Setup ();
-						} else
-						{
+						} else {
 							ArduinoController.Disconnect ();
 						}
 					};
@@ -117,24 +104,20 @@ namespace PrototypeDebugWindow
 		protected void OnKeyPressEvent (object obj, KeyPressEventArgs a)
 		{
 			//TODO shotcuts -> mask vergleich
-			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask)
-			{
+			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask) {
 				OnDeleteEvent (null, null);
 			}
 		}
 
 		protected async void OnBtnDigitalPingTestClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected)
-			{
-				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
-				{
+			if (ArduinoController.IsConnected) {
+				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
 					ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.HIGH);
 					await Task.Delay (500);
 				}
 				await Task.Delay (2000);
-				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
-				{
+				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
 					ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.LOW);
 					await Task.Delay (500);
 				}
@@ -143,8 +126,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnBlinkSequenceTestClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected)
-			{
+			if (ArduinoController.IsConnected) {
 				con.ControlSequences.Clear (); 
 				var scheduler = new Scheduler ();
 				con.AddScheduler (scheduler);
@@ -165,8 +147,7 @@ namespace PrototypeDebugWindow
 				con.ControlSequences.Add (sequence);
 
 				con.Start ();
-			} else
-			{
+			} else {
 				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
 				dialog.Close += (senderer, ee) => dialog.Dispose ();
 				dialog.ShowNow ();
@@ -175,8 +156,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnDoubleBlinkClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected)
-			{
+			if (ArduinoController.IsConnected) {
 				con.ControlSequences.Clear ();
 
 				var sequence = new Sequence () {
@@ -207,41 +187,43 @@ namespace PrototypeDebugWindow
 				});
 				con.ControlSequences.Add (sequence);
 
-				foreach (Sequence seq in con.ControlSequences)
-				{
+				foreach (Sequence seq in con.ControlSequences) {
 					Console.WriteLine (seq.ToString ());
 				}
 
 				con.Start ();
-			} else
-			{
+			} else {
 				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
-				dialog.Close += (senderer, ee) => dialog.Dispose ();
-				dialog.ShowNow ();
+				dialog.Run ();
+				dialog.Destroy ();
 			}
 		}
 
 		protected void OnBtnStopNResetClicked (object sender, EventArgs e)
 		{
 			con.Stop ();
-			for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
-			{
+			for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
 				ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.LOW);
 			}
 		}
 
 		protected void OnBtnAddanalogInputClicked (object sender, EventArgs e)
 		{
-			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration ();
-			dialog.ShowAll ();
+			int[] dings = con.AvailableDigitalPins;
 
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Apply)
-				{
+			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration (dings);
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Apply) {
 					con.AddPin (dialog.Pin);
 				}
 			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		protected void OnBtnClearDPinsClicked (object sender, EventArgs e)
+		{
+			con.ClearPins (pinType.DIGITAL);
 		}
 	}
 }
