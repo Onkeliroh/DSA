@@ -3,6 +3,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using PrototypeBackend;
+using System.Xml;
 
 namespace PrototypeBackend
 {
@@ -119,6 +120,28 @@ namespace PrototypeBackend
 			ControllerSchedulerList.Remove (s);
 			if (SchedulerListUpdated != null) {
 				SchedulerListUpdated.Invoke (this, null);
+			}
+		}
+
+		public void RemovePin (string name)
+		{
+			var result = ControllerPins.Where (o => o.Name == name).ToList<IPin> ();
+
+			if (result.Count > 0) {
+				if (PinsUpdated != null) {
+					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (result [0], PinUpdateOperation.Remove));
+				}
+				ControllerPins.Remove (result [0]);
+			}
+		}
+
+		public void RemovePin (int index)
+		{
+			if (index > 0 && index < ControllerPins.Count) {
+				ControllerPins.RemoveAt (index);
+				if (PinsUpdated != null) {
+					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, PinUpdateOperation.Remove));
+				}
 			}
 		}
 

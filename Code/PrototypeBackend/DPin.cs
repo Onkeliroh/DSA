@@ -44,8 +44,7 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as DPin;
-			if (seq != null)
-			{
+			if (seq != null) {
 				return (seq.Number == Number
 				&& seq.Name.Equals (Name)
 				&& seq.State.Equals (State)
@@ -63,7 +62,7 @@ namespace PrototypeBackend
 
 		public override string ToString ()
 		{
-			return string.Format ("Label: {0}\tNumber: {1}\tType: {2}\tState: {3}", Name, Number, Type, State);
+			return string.Format ("Name: {0}\tNumber: {1}\tType: {2}\tState: {3}", Name, Number, Type, State);
 		}
 
 		public string ToXML ()
@@ -78,8 +77,7 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			switch (Mode)
-			{
+			switch (Mode) {
 			case PrototypeBackend.PinMode.OUTPUT:
 				PrototypeBackend.ArduinoController.SetPin (Number, Mode, State);
 				break;

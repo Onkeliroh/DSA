@@ -2,12 +2,16 @@
 using Gtk;
 using PrototypeBackend;
 using System.Threading.Tasks;
+using System.Security;
+using Gdk;
 
 namespace PrototypeDebugWindow
 {
 	public partial class MainWindow : Gtk.Window
 	{
 		Controller con = new Controller ();
+
+		private Gtk.NodeStore NodeStoreDigitalPins = new NodeStore (typeof(DPinTreeNode));
 
 		public MainWindow () :
 			base (Gtk.WindowType.Toplevel)
@@ -32,8 +36,8 @@ namespace PrototypeDebugWindow
 				}
 			};
 
-
 			BuildMenu ();
+			BuildNodeViews ();
 
 			con.PinsUpdated += (o, a) => {
 				if (a.UpdateOperation == PinUpdateOperation.Add) {
@@ -41,7 +45,28 @@ namespace PrototypeDebugWindow
 				} else if (a.UpdateOperation == PinUpdateOperation.Remove) {
 					tvLog.Buffer.Text += String.Format ("{0} | Removed Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
 				}
+				FillDigitalPinNodes ();
 			};
+		}
+
+		private void FillDigitalPinNodes ()
+		{
+			NodeStoreDigitalPins.Clear ();
+			foreach (DPin pin in con.ControllerPins) {
+				NodeStoreDigitalPins.AddNode (new DPinTreeNode (pin));
+			}
+			nvDigitalPins.QueueDraw ();
+		}
+
+		private void BuildNodeViews ()
+		{
+			nvDigitalPins.NodeStore = NodeStoreDigitalPins;
+
+			nvDigitalPins.AppendColumn ("Name(Pin)", new Gtk.CellRendererText (), "text", 0);
+			nvDigitalPins.AppendColumn ("Color", new Gtk.CellRendererText (), "text", 1);
+			nvDigitalPins.AppendColumn ("Seqeuence", new Gtk.CellRendererText (), "text", 2);
+
+			nvDigitalPins.Show ();
 		}
 
 		private void BuildMenu ()
@@ -223,7 +248,36 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnClearDPinsClicked (object sender, EventArgs e)
 		{
-			con.ClearPins (pinType.DIGITAL);
+			con.ClearPins (PinType.DIGITAL);
+		}
+
+		protected void OnBtnRemoveDPinClicked (object sender, EventArgs e)
+		{
+			DPinTreeNode node = (DPinTreeNode)nvDigitalPins.NodeSelection.SelectedNode;
+			if (node != null) {
+				con.RemovePin (node.RealName);
+			}
+		}
+	}
+
+	public class DPinTreeNode : Gtk.TreeNode
+	{
+		[Gtk.TreeNodeValue (Column = 0)]
+		public string Name;
+		[Gtk.TreeNodeValue (Column = 1)]
+		public string Color = "";
+		[Gtk.TreeNodeValue (Column = 2)]
+		public string Sequence = "";
+
+		public string RealName { get; private set; }
+
+		public DPinTreeNode (DPin pin)
+		{
+			Name = pin.Name + "(" + pin.Number + ")";
+			Color = "";
+			Sequence = "";
+
+			RealName = pin.Name;
 		}
 	}
 }
