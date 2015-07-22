@@ -45,7 +45,8 @@ namespace PrototypeBackend
 	public enum PinUpdateOperation
 	{
 		Add,
-		Remove
+		Remove,
+		Clear,
 	}
 
 	public class ControllerPinUpdateArgs
@@ -54,10 +55,13 @@ namespace PrototypeBackend
 
 		public PinUpdateOperation UpdateOperation { get; private set; }
 
-		public ControllerPinUpdateArgs (IPin pin, PinUpdateOperation pinUpdateOperation)
+		public PinType Type { get; private set; }
+
+		public ControllerPinUpdateArgs (IPin pin, PinUpdateOperation pinUpdateOperation, PinType pinType)
 		{
 			Pin = pin;
 			UpdateOperation = pinUpdateOperation;
+			Type = pinType;
 		}
 	}
 }

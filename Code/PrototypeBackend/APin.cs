@@ -22,7 +22,7 @@ namespace PrototypeBackend
 
 		public System.Drawing.Color PlotColor { get; set; }
 
-		public double Gain{ get; set; }
+		public double Slope{ get; set; }
 
 		public double Offset{ get; set; }
 
@@ -31,26 +31,35 @@ namespace PrototypeBackend
 		public double Value {
 			private set{ }
 			get {
-				if (Values.Count >= Interval) {
-					if (Interval == 1) {
-						if (!double.IsNaN (Values.Last ())) {
-							return ((Values.Last () * Gain) + Offset);
+				if (Values.Count >= Interval)
+				{
+					if (Interval == 1)
+					{
+						if (!double.IsNaN (Values.Last ()))
+						{
+							return ((Values.Last () * Slope) + Offset);
 						}
 						return double.NaN;
-					} else {
-						if (Values.Count >= Interval) {
+					} else
+					{
+						if (Values.Count >= Interval)
+						{
 							double result = 0;
-							for (int i = Values.Count - Interval; i < Values.Count; i++) {
-								if (!double.IsNaN (Values [i])) {
-									result += (Values [i] * Gain) + Offset;
+							for (int i = Values.Count - Interval; i < Values.Count; i++)
+							{
+								if (!double.IsNaN (Values [i]))
+								{
+									result += (Values [i] * Slope) + Offset;
 								}
 							}
 							return result / Interval;
-						} else {
+						} else
+						{
 							return double.NaN;
 						}
 					}
-				} else {
+				} else
+				{
 					return double.NaN;
 				}
 			}
@@ -72,7 +81,7 @@ namespace PrototypeBackend
 			Number = -1;
 			PlotColor = System.Drawing.Color.Empty;
 			Unit = "";
-			Gain = 1;
+			Slope = 1;
 			Offset = 0;
 			Interval = 1;
 			Frequency = 1000;
@@ -81,12 +90,14 @@ namespace PrototypeBackend
 
 		public override bool Equals (object obj)
 		{
-			if (obj != null) {
-				if (obj is APin) {
+			if (obj != null)
+			{
+				if (obj is APin)
+				{
 					return (obj as APin).Type == Type &&
 					(obj as APin).Mode == Mode &&
 					(obj as APin).Name.Equals (Name) &&
-					(obj as APin).Unit.Equals (Unit) &&
+					(obj as APin).Unit == this.Unit &&
 					(obj as APin).Number.Equals (Number) &&
 					(obj as APin).PlotColor.Equals (PlotColor);
 				}

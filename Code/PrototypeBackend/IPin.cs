@@ -18,6 +18,8 @@ namespace PrototypeBackend
 		//Methods
 
 		string ToString ();
+
+		bool Equals (object obj);
 	}
 }
 
