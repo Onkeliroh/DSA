@@ -410,4 +410,28 @@ namespace PrototypeDebugWindow
 			RealName = pin.Name;
 		}
 	}
+
+	public class SignalTreeNode : Gtk.NodeView
+	{
+		[Gtk.TreeNodeValue (Column = 0)]
+		public string Name;
+		[Gtk.TreeNodeValue (Column = 1)]
+		public Gtk.Button btnAddRemove;
+
+		public SignalTreeNode (Signal analogSignal)
+		{
+			
+		}
+
+		public void ToggleButton (bool last = false)
+		{
+			if (last)
+			{
+				btnAddRemove.Label = "+";
+			} else
+			{
+				btnAddRemove.Label = "-";
+			}
+		}
+	}
 }
