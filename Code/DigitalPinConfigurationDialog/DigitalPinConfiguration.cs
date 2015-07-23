@@ -13,7 +13,7 @@ namespace DigitalPinConfigurationDialog
 			get{ return pin; }
 			set {
 				entryName.Text = value.Name;
-				cbColor.Color = new Gdk.Color (value.PlotColor.R, value.PlotColor.G, value.PlotColor.B);
+				cbColor.Color = value.PlotColor;
 				cbPin.AppendText ("D" + value.Number.ToString ());
 				cbPin.Active = cbPin.Data.Count - 1;
 				pin = value;
@@ -25,6 +25,7 @@ namespace DigitalPinConfigurationDialog
 		public DigitalPinConfiguration (int[] availablePins, DPin dpin = null)
 		{
 			this.Build ();
+
 			for (int i = 0; i < availablePins.Length; i++)
 			{
 				cbPin.AppendText ("D" + availablePins [i].ToString ());
@@ -45,21 +46,13 @@ namespace DigitalPinConfigurationDialog
 
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
-			if (entryName.Text != "")
-			{
-				pin = new DPin () {
-					Name = entryName.Text,
-					Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1)),
-					PlotColor = Color.FromArgb ((byte)cbColor.Alpha, (byte)cbColor.Color.Red, (byte)cbColor.Color.Green, (byte)cbColor.Color.Blue)
-				};
+			pin = new DPin () {
+				Name = entryName.Text,
+				Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1)),
+				PlotColor = cbColor.Color,
+			};
 
-				Respond (Gtk.ResponseType.Apply);
-			} else
-			{
-				var dialog = new MessageDialog (null, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Please enter a Name.", new object[]{ });
-				dialog.Run ();
-				dialog.Destroy ();
-			}
+			Respond (Gtk.ResponseType.Apply);
 		}
 
 		protected void OnButtonCancelClicked (object sender, EventArgs e)

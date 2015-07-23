@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Gdk;
 
 namespace PrototypeBackend
 {
@@ -16,7 +17,7 @@ namespace PrototypeBackend
 
 		public string Name { get; set; }
 
-		public System.Drawing.Color Color { get; set; }
+		public Gdk.Color Color { get; set; }
 
 		public System.Collections.Generic.List<SequenceOperation> Chain { get; set; }
 
@@ -43,7 +44,7 @@ namespace PrototypeBackend
 		{
 			Pin = null;
 			Name = "";
-			Color = System.Drawing.Color.Empty;
+			Color = Gdk.Color.Zero;
 			Chain = new System.Collections.Generic.List<SequenceOperation> ();
 			Repetitions = 0;
 			Cycle = 0;

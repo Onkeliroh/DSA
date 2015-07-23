@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gdk;
 
 namespace PrototypeBackend
 {
@@ -14,7 +15,7 @@ namespace PrototypeBackend
 
 		public string Unit { get; set; }
 
-		public System.Drawing.Color SignalColor { get; set; }
+		public Gdk.Color SignalColor { get; set; }
 
 		private Func<double[],double> SignalOperation { get; set; }
 
@@ -56,15 +57,17 @@ namespace PrototypeBackend
 			//Todo init
 			Pins = new List<APin> ();
 			SignalName = string.Empty;
-			SignalColor = System.Drawing.Color.Blue;
+			SignalColor = Gdk.Color.Zero;
 			SignalOperation = null;
 			SignalOperationString_ = string.Empty;
 		}
 
-		public bool AddPin(APin pin)
+		public bool AddPin (APin pin)
 		{
-			if (Pins.Count > 0) {
-				if (Math.Abs (Pins [0].Frequency - pin.Frequency) < 0.0001) {
+			if (Pins.Count > 0)
+			{
+				if (Math.Abs (Pins [0].Frequency - pin.Frequency) < 0.0001)
+				{
 					Pins.Add (pin);
 					return true;
 				}

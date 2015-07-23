@@ -78,7 +78,7 @@ namespace SignalConfigurationDialog
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
 			this.nvSignal = new global::Gtk.NodeView ();
 			this.nvSignal.CanFocus = true;
-			this.nvSignal.Name = "nodeview1";
+			this.nvSignal.Name = "nvSignal";
 			this.GtkScrolledWindow.Add (this.nvSignal);
 			this.GtkAlignment2.Add (this.GtkScrolledWindow);
 			this.frame1.Add (this.GtkAlignment2);

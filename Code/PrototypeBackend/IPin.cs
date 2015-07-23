@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Drawing;
+
+using Gdk;
 
 namespace PrototypeBackend
 {
@@ -9,7 +10,7 @@ namespace PrototypeBackend
 
 		int Number{ get; set; }
 
-		System.Drawing.Color PlotColor{ get; set; }
+		Gdk.Color PlotColor{ get; set; }
 
 		PrototypeBackend.PinType Type { get; set; }
 

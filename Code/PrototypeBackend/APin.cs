@@ -4,6 +4,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
+using Gdk;
+
 namespace PrototypeBackend
 {
 	public class APin : IPin
@@ -20,7 +22,7 @@ namespace PrototypeBackend
 
 		public int Number{ get; set; }
 
-		public System.Drawing.Color PlotColor { get; set; }
+		public Gdk.Color PlotColor { get; set; }
 
 		public double Slope{ get; set; }
 
@@ -79,7 +81,7 @@ namespace PrototypeBackend
 			Mode = PrototypeBackend.PinMode.INPUT;
 			Name = "";
 			Number = -1;
-			PlotColor = System.Drawing.Color.Empty;
+			PlotColor = new Gdk.Color (0, 0, 0);
 			Unit = "";
 			Slope = 1;
 			Offset = 0;

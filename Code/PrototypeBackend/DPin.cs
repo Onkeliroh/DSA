@@ -15,7 +15,7 @@ namespace PrototypeBackend
 
 		public int Number { get ; set; }
 
-		public System.Drawing.Color PlotColor { get; set; }
+		public Gdk.Color PlotColor { get; set; }
 
 		public PrototypeBackend.DPinState State = PrototypeBackend.DPinState.LOW;
 
@@ -27,7 +27,7 @@ namespace PrototypeBackend
 			Mode = PrototypeBackend.PinMode.OUTPUT;
 			Name = "";
 			Number = -1;
-			PlotColor = System.Drawing.Color.Empty;
+			PlotColor = Gdk.Color.Zero;
 		}
 
 		public DPin (string label, int pinnr)
@@ -36,7 +36,7 @@ namespace PrototypeBackend
 			Number = pinnr;
 			Type = PrototypeBackend.PinType.DIGITAL;
 			Mode = PrototypeBackend.PinMode.OUTPUT;
-			PlotColor = System.Drawing.Color.Empty;
+			PlotColor = Gdk.Color.Zero;
 		}
 
 		//Methods
@@ -44,7 +44,8 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as DPin;
-			if (seq != null) {
+			if (seq != null)
+			{
 				return (seq.Number == Number
 				&& seq.Name.Equals (Name)
 				&& seq.State.Equals (State)
@@ -77,7 +78,8 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			switch (Mode) {
+			switch (Mode)
+			{
 			case PrototypeBackend.PinMode.OUTPUT:
 				PrototypeBackend.ArduinoController.SetPin (Number, Mode, State);
 				break;

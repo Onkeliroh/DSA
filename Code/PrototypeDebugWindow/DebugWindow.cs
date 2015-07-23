@@ -4,6 +4,8 @@ using PrototypeBackend;
 using System.Threading.Tasks;
 using System.Security;
 using Gdk;
+using System.Drawing;
+using GUIHelper;
 
 namespace PrototypeDebugWindow
 {
@@ -61,6 +63,13 @@ namespace PrototypeDebugWindow
 					FillAnalogPinNodes ();
 				}
 			};
+
+			nvAnalogPins.NodeSelection.Changed += (o, a) =>
+			{
+				Gtk.NodeSelection selection = (Gtk.NodeSelection)o;
+				APinTreeNode node = (APinTreeNode)selection.SelectedNode;
+				Console.WriteLine (node.Name);
+			};
 		}
 
 		private void FillDigitalPinNodes ()
@@ -94,7 +103,7 @@ namespace PrototypeDebugWindow
 			nvDigitalPins.NodeStore = NodeStoreDigitalPins;
 
 			nvDigitalPins.AppendColumn ("Name(Pin)", new Gtk.CellRendererText (), "text", 0);
-			nvDigitalPins.AppendColumn ("Color", new Gtk.CellRendererText (), "text", 1);
+			nvDigitalPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 1);
 			nvDigitalPins.AppendColumn ("Seqeuence", new Gtk.CellRendererText (), "text", 2);
 
 			nvDigitalPins.Show ();
@@ -102,7 +111,7 @@ namespace PrototypeDebugWindow
 			nvAnalogPins.NodeStore = NodeStoreAnalogPins;
 
 			nvAnalogPins.AppendColumn ("Name(Pin)", new Gtk.CellRendererText (), "text", 0);
-			nvAnalogPins.AppendColumn ("Color", new Gtk.CellRendererText (), "text", 1);
+			nvAnalogPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 1);
 			nvAnalogPins.AppendColumn ("Signal", new Gtk.CellRendererText (), "text", 2);
 			nvAnalogPins.AppendColumn ("Slope", new Gtk.CellRendererText (), "text", 3);
 			nvAnalogPins.AppendColumn ("Offset", new Gtk.CellRendererText (), "text", 4);
@@ -352,86 +361,25 @@ namespace PrototypeDebugWindow
 		{
 			con.ClearPins (PinType.ANALOG);
 		}
-	}
 
-	public class DPinTreeNode : Gtk.TreeNode
-	{
-		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name;
-		[Gtk.TreeNodeValue (Column = 1)]
-		public string Color = "";
-		[Gtk.TreeNodeValue (Column = 2)]
-		public string Sequence = "";
-
-		public string RealName { get; private set; }
-
-		public DPinTreeNode (DPin pin)
+		protected void OnBtnAddSignalClicked (object sender, EventArgs e)
 		{
-			Name = pin.Name + "(" + pin.Number + ")";
-			Color = "";
-			Sequence = "";
-
-			RealName = pin.Name;
-		}
-	}
-
-	public class APinTreeNode : Gtk.TreeNode
-	{
-		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name;
-		[Gtk.TreeNodeValue (Column = 1)]
-		public string Color = "";
-		[Gtk.TreeNodeValue (Column = 2)]
-		public string Signal = "";
-		[Gtk.TreeNodeValue (Column = 3)]
-		public double Slope = 1;
-		[Gtk.TreeNodeValue (Column = 4)]
-		public double Offset = 0;
-		[Gtk.TreeNodeValue (Column = 5)]
-		public string Unit = "";
-		[Gtk.TreeNodeValue (Column = 6)]
-		public double Frequency = 1;
-		[Gtk.TreeNodeValue (Column = 7)]
-		public double Interval = 1;
-
-		public string RealName { get; private set; }
-
-		public APinTreeNode (APin pin)
-		{
-			Name = pin.Name + "(" + pin.Number + ")";
-			Color = "";
-			Signal = "";
-			Slope = pin.Slope;
-			Offset = pin.Offset;
-			Frequency = pin.Frequency;
-			Interval = pin.Interval;
-			Unit = pin.Unit;
-
-			RealName = pin.Name;
-		}
-	}
-
-	public class SignalTreeNode : Gtk.NodeView
-	{
-		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name;
-		[Gtk.TreeNodeValue (Column = 1)]
-		public Gtk.Button btnAddRemove;
-
-		public SignalTreeNode (Signal analogSignal)
-		{
-			
-		}
-
-		public void ToggleButton (bool last = false)
-		{
-			if (last)
+			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog ();
+			dialog.Response += (o, args) =>
 			{
-				btnAddRemove.Label = "+";
-			} else
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		protected void OnBtnAddSequenceClicked (object sender, EventArgs e)
+		{
+			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration ();
+			dialog.Response += (o, args) =>
 			{
-				btnAddRemove.Label = "-";
-			}
+			};
+			dialog.Run ();
+			dialog.Destroy ();
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Drawing;
 using PrototypeBackend;
 using Gtk;
+using GUIHelper;
 
 namespace SignalConfigurationDialog
 {
@@ -15,7 +16,7 @@ namespace SignalConfigurationDialog
 				if (value.Unit != null)
 				{
 					cbeUnit.AppendText (value.Unit);
-					cbeUnit.Activate = cbeUnit.Data.Count - 1;
+					cbeUnit.Active = cbeUnit.Data.Count - 1;
 				}
 					
 				analogSignal = value;
@@ -24,17 +25,20 @@ namespace SignalConfigurationDialog
 
 		private Signal analogSignal;
 
-		private Gtk.NodeStore SignalStore = 
+		private Gtk.NodeStore SignalStore = new NodeStore (typeof(SignalTreeNode));
 
 		public SignalConfigurationDialog ()
 		{
 			this.Build ();
 
-			nvSignal.NodeStore
+			nvSignal.NodeStore = SignalStore;
+			nvSignal.AppendColumn (new TreeViewColumn ("Name(Pin)", new CellRendererText (), "text", 0));
+			nvSignal.AppendColumn (new TreeViewColumn ("Add/Remove", new CellRendererText (), "text", 1));
 		}
 
-		private DrawNodeView()
+		private void DrawNodeView ()
 		{
+//			SignalStore.AddNode(new SignalTreeNode())
 			
 		}
 	}
