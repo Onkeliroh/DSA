@@ -33,35 +33,26 @@ namespace PrototypeBackend
 		public double Value {
 			private set{ }
 			get {
-				if (Values.Count >= Interval)
-				{
-					if (Interval == 1)
-					{
-						if (!double.IsNaN (Values.Last ()))
-						{
+				if (Values.Count >= Interval) {
+					if (Interval == 1) {
+						if (!double.IsNaN (Values.Last ())) {
 							return ((Values.Last () * Slope) + Offset);
 						}
 						return double.NaN;
-					} else
-					{
-						if (Values.Count >= Interval)
-						{
+					} else {
+						if (Values.Count >= Interval) {
 							double result = 0;
-							for (int i = Values.Count - Interval; i < Values.Count; i++)
-							{
-								if (!double.IsNaN (Values [i]))
-								{
+							for (int i = Values.Count - Interval; i < Values.Count; i++) {
+								if (!double.IsNaN (Values [i])) {
 									result += (Values [i] * Slope) + Offset;
 								}
 							}
 							return result / Interval;
-						} else
-						{
+						} else {
 							return double.NaN;
 						}
 					}
-				} else
-				{
+				} else {
 					return double.NaN;
 				}
 			}
@@ -92,10 +83,8 @@ namespace PrototypeBackend
 
 		public override bool Equals (object obj)
 		{
-			if (obj != null)
-			{
-				if (obj is APin)
-				{
+			if (obj != null) {
+				if (obj is APin) {
 					return (obj as APin).Type == Type &&
 					(obj as APin).Mode == Mode &&
 					(obj as APin).Name.Equals (Name) &&
@@ -114,7 +103,7 @@ namespace PrototypeBackend
 
 		public override string ToString ()
 		{
-			return String.Format ("Name: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}\tColor: {4}", Name, Number, Type, Unit, PlotColor);
+			return String.Format ("Name: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}", Name, Number, Type, Unit);
 		}
 
 		public string ToXML ()

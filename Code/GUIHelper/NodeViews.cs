@@ -66,7 +66,7 @@ namespace GUIHelper
 
 	}
 
-	public class SignalTreeNode : Gtk.NodeView
+	public class SignalTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
 		public string Name;
@@ -81,27 +81,39 @@ namespace GUIHelper
 
 		public void ToggleButton (bool last = false)
 		{
-			if (last)
-			{
+			if (last) {
 				btnAddRemove.Label = "+";
-			} else
-			{
+			} else {
 				btnAddRemove.Label = "-";
 			}
 		}
 	}
 
-	public class SequenceTreeNode : Gtk.NodeView
+	public class SequenceOperationTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
 		public TimeSpan Duration;
 		[Gtk.TreeNodeValue (Column = 1)]
 		public DPinState State;
 
-		public SequenceTreeNode (SequenceOperation seqop)
+		public SequenceOperationTreeNode (SequenceOperation seqop)
 		{
 			Duration = seqop.Duration;
 			State = seqop.State;
+		}
+	}
+
+	public class SequenceTreeNode : Gtk.TreeNode
+	{
+		[Gtk.TreeNodeValue (Column = 0)]
+		public string Name;
+		[Gtk.TreeNodeValue (Column = 1)]
+		public string Pins;
+
+		public SequenceTreeNode (Sequence seq)
+		{
+			Name = seq.Name;
+			Pins = String.Format ("{0}({1})", seq.Pin.Name, seq.Pin.Number);
 		}
 	}
 }

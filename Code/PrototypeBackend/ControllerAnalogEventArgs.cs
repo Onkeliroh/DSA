@@ -30,19 +30,22 @@ namespace PrototypeBackend
 
 		public DateTime TimeStamp { get; private set; }
 
-		public ControllerDigitalEventArgs (int pinNr, DPinState pinValue) : this (pinNr, pinValue, DateTime.Now)
+		public PinMode PinMode { get; private set; }
+
+		public ControllerDigitalEventArgs (int pinNr, DPinState pinValue, PinMode mode = PinMode.OUTPUT) : this (pinNr, pinValue, DateTime.Now, mode)
 		{
 		}
 
-		public ControllerDigitalEventArgs (int pinNr, DPinState pinValue, DateTime timeStamp)
+		public ControllerDigitalEventArgs (int pinNr, DPinState pinValue, DateTime timeStamp, PinMode mode = PinMode.OUTPUT)
 		{
 			PinNr = pinNr;
 			PinValue = pinValue;
 			TimeStamp = timeStamp;
+			PinMode = mode;
 		}
 	}
 
-	public enum PinUpdateOperation
+	public enum UpdateOperation
 	{
 		Add,
 		Remove,
@@ -53,15 +56,28 @@ namespace PrototypeBackend
 	{
 		public IPin Pin { get; private set; }
 
-		public PinUpdateOperation UpdateOperation { get; private set; }
+		public UpdateOperation UpdateOperation { get; private set; }
 
 		public PinType Type { get; private set; }
 
-		public ControllerPinUpdateArgs (IPin pin, PinUpdateOperation pinUpdateOperation, PinType pinType)
+		public ControllerPinUpdateArgs (IPin pin, UpdateOperation pinUpdateOperation, PinType pinType)
 		{
 			Pin = pin;
 			UpdateOperation = pinUpdateOperation;
 			Type = pinType;
+		}
+	}
+
+	public class ControllerSequenceUpdateArgs
+	{
+		public Sequence Seq { get; private set; }
+
+		public UpdateOperation UpdateOperation { get; private set; }
+
+		public ControllerSequenceUpdateArgs (UpdateOperation seqUpdateOperation, Sequence seq = null)
+		{
+			Seq = seq;
+			UpdateOperation = seqUpdateOperation;
 		}
 	}
 }

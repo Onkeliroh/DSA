@@ -110,7 +110,7 @@ namespace PrototypeDebugWindow
 		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow4;
 		
-		private global::Gtk.NodeView nvSignals1;
+		private global::Gtk.NodeView nvSequences;
 		
 		private global::Gtk.Label label4;
 		
@@ -195,6 +195,7 @@ namespace PrototypeDebugWindow
 			this.GtkAlignment3.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment3.Gtk.Container+ContainerChild
 			this.table2 = new global::Gtk.Table (((uint)(4)), ((uint)(2)), false);
+			this.table2.Name = "table2";
 			this.table2.RowSpacing = ((uint)(6));
 			this.table2.ColumnSpacing = ((uint)(6));
 			// Container child table2.Gtk.Table+TableChild
@@ -638,10 +639,10 @@ namespace PrototypeDebugWindow
 			this.GtkScrolledWindow4.Name = "GtkScrolledWindow4";
 			this.GtkScrolledWindow4.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow4.Gtk.Container+ContainerChild
-			this.nvSignals1 = new global::Gtk.NodeView ();
-			this.nvSignals1.CanFocus = true;
-			this.nvSignals1.Name = "nvSignals1";
-			this.GtkScrolledWindow4.Add (this.nvSignals1);
+			this.nvSequences = new global::Gtk.NodeView ();
+			this.nvSequences.CanFocus = true;
+			this.nvSequences.Name = "nvSequences";
+			this.GtkScrolledWindow4.Add (this.nvSequences);
 			this.hbox2.Add (this.GtkScrolledWindow4);
 			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.GtkScrolledWindow4]));
 			w59.Position = 1;

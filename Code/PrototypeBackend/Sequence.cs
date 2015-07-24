@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using Gdk;
 
 namespace PrototypeBackend
@@ -17,9 +18,9 @@ namespace PrototypeBackend
 
 		public string Name { get; set; }
 
-		public Gdk.Color Color { get; set; }
+		public Gdk.Color Color { get { return Pin.PlotColor; } private set { } }
 
-		public System.Collections.Generic.List<SequenceOperation> Chain { get; set; }
+		public List<SequenceOperation> Chain { get; set; }
 
 		public int Cycle { get; private set; }
 
@@ -44,8 +45,7 @@ namespace PrototypeBackend
 		{
 			Pin = null;
 			Name = "";
-			Color = Gdk.Color.Zero;
-			Chain = new System.Collections.Generic.List<SequenceOperation> ();
+			Chain = new List<SequenceOperation> ();
 			Repetitions = 0;
 			Cycle = 0;
 			CurrentOperation = 0;
@@ -97,14 +97,12 @@ namespace PrototypeBackend
 		public SequenceOperation? Next ()
 		{
 			lastOperation += Chain [CurrentOperation].Duration;
-			if (Cycle > Repetitions || Chain.Count == 0)
-			{
+			if (Cycle > Repetitions || Chain.Count == 0) {
 				CurrentState = SequenceState.Done;
 				return  null;
 			}
 			CurrentOperation += 1;
-			if (CurrentOperation == Chain.Count)
-			{
+			if (CurrentOperation == Chain.Count) {
 				CurrentOperation = 0;
 				Cycle += 1;
 			}
@@ -117,8 +115,7 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Current ()
 		{
-			if (Cycle > Repetitions || Chain.Count == 0)
-			{
+			if (Cycle > Repetitions || Chain.Count == 0) {
 				CurrentState = SequenceState.Done;
 				return  null;
 			}
@@ -129,9 +126,15 @@ namespace PrototypeBackend
 
 		public override string ToString ()
 		{
-			string res = String.Format ("Pin: {0}\tName: {1}", Pin, Name);
-			foreach (SequenceOperation seqop in Chain)
-			{
+			string res = String.Format ("Name: {0}\t[Pin: {1}]", Name, Pin);
+			return res;
+		}
+
+		public string ToStringLong ()
+		{
+			string res = String.Format ("Name: {0}\t[Pin: {1}]", Name, Pin);
+			res += "\nOperations:";
+			foreach (SequenceOperation seqop in Chain) {
 				res += string.Format ("\nDuration: {0}\tState: {1}", seqop.Duration, seqop.State);
 			}
 			return res;
