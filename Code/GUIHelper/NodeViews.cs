@@ -8,6 +8,7 @@ namespace GUIHelper
 
 	public class DPinTreeNode : Gtk.TreeNode
 	{
+		public int Index = -1;
 		[Gtk.TreeNodeValue (Column = 0)]
 		public string Name;
 		[Gtk.TreeNodeValue (Column = 1)]
@@ -17,11 +18,12 @@ namespace GUIHelper
 
 		public string RealName { get; private set; }
 
-		public DPinTreeNode (DPin pin)
+		public DPinTreeNode (DPin pin, int index = -1)
 		{
 			Name = pin.Name + "( D" + pin.Number + " )";
 			Color = ColorHelper.ColoredPixbuf (pin.PlotColor);
 			Sequence = "";
+			Index = index;
 
 			RealName = pin.Name;
 		}
@@ -81,9 +83,11 @@ namespace GUIHelper
 
 		public void ToggleButton (bool last = false)
 		{
-			if (last) {
+			if (last)
+			{
 				btnAddRemove.Label = "+";
-			} else {
+			} else
+			{
 				btnAddRemove.Label = "-";
 			}
 		}
@@ -92,28 +96,35 @@ namespace GUIHelper
 	public class SequenceOperationTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
-		public TimeSpan Duration;
+		public TimeSpan Duration{ get { return SeqOp.Duration; } private set { } }
+
 		[Gtk.TreeNodeValue (Column = 1)]
-		public DPinState State;
+		public DPinState State{ get { return SeqOp.State; } private set { } }
+
+		public SequenceOperation SeqOp{ get; private set; }
 
 		public SequenceOperationTreeNode (SequenceOperation seqop)
 		{
-			Duration = seqop.Duration;
-			State = seqop.State;
+			SeqOp = seqop;
 		}
 	}
 
 	public class SequenceTreeNode : Gtk.TreeNode
 	{
-		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name;
-		[Gtk.TreeNodeValue (Column = 1)]
-		public string Pins;
+		public int Index { get; private set; }
 
-		public SequenceTreeNode (Sequence seq)
+		[Gtk.TreeNodeValue (Column = 0)]
+		public string Name { get { return Seq.Name; } set { Seq.Name = value; } }
+
+		[Gtk.TreeNodeValue (Column = 1)]
+		public string Pins { get { return String.Format ("{0}({1})", Seq.Pin.Name, Seq.Pin.Number); } private set { } }
+
+		public Sequence Seq;
+
+		public SequenceTreeNode (Sequence seq, int index = -1)
 		{
-			Name = seq.Name;
-			Pins = String.Format ("{0}({1})", seq.Pin.Name, seq.Pin.Number);
+			Index = index;
+			Seq = seq;
 		}
 	}
 }

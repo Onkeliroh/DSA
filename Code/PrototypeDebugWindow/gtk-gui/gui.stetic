@@ -55,7 +55,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">1</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.Table" id="table1">
                 <property name="MemberName" />
@@ -303,7 +303,7 @@
                                 <property name="Icon">stock:gtk-clear Menu</property>
                                 <property name="Label" translatable="yes">Clear</property>
                                 <property name="UseUnderline">True</property>
-                                <signal name="Clicked" handler="OnBtnClearDPins1Clicked" />
+                                <signal name="Clicked" handler="OnBtnClearAPinsClicked" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">2</property>
@@ -328,7 +328,7 @@
                                 <property name="Icon">stock:gtk-remove Menu</property>
                                 <property name="Label" translatable="yes">Remove analog Input</property>
                                 <property name="UseUnderline">True</property>
-                                <signal name="Clicked" handler="OnBtnRemoveDPin1Clicked" />
+                                <signal name="Clicked" handler="OnBtnRemoveAPinClicked" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
@@ -637,7 +637,6 @@
                             <property name="Icon">stock:gtk-remove Menu</property>
                             <property name="Label" translatable="yes">Remove Signal</property>
                             <property name="UseUnderline">True</property>
-                            <signal name="Clicked" handler="OnBtnRemoveDPin1Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">1</property>
@@ -655,7 +654,6 @@
                             <property name="Icon">stock:gtk-clear Menu</property>
                             <property name="Label" translatable="yes">Clear</property>
                             <property name="UseUnderline">True</property>
-                            <signal name="Clicked" handler="OnBtnClearDPins1Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">2</property>
@@ -737,7 +735,6 @@
                             <property name="Icon">stock:gtk-remove Menu</property>
                             <property name="Label" translatable="yes">Remove Sequence</property>
                             <property name="UseUnderline">True</property>
-                            <signal name="Clicked" handler="OnBtnRemoveDPin1Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">1</property>
@@ -755,7 +752,6 @@
                             <property name="Icon">stock:gtk-clear Menu</property>
                             <property name="Label" translatable="yes">Clear</property>
                             <property name="UseUnderline">True</property>
-                            <signal name="Clicked" handler="OnBtnClearDPins1Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">2</property>

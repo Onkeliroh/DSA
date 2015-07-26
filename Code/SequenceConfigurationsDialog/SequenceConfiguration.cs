@@ -17,6 +17,9 @@ namespace SequenceConfigurationsDialog
 {
 	public partial class SequenceConfiguration : Gtk.Dialog
 	{
+
+		#region Member
+
 		public Sequence PinSequence{ get { return pinSequence; } set { pinSequence = value; } }
 
 		private Sequence pinSequence;
@@ -33,7 +36,9 @@ namespace SequenceConfigurationsDialog
 		private OxyPlot.Series.LineSeries sequenceSeries;
 
 		//NodeView
-		private NodeStore nvSequenceOptionsStore = new NodeStore (typeof(SequenceOperationTreeNode));
+		private NodeStore nvSequenceOptionsStore;
+
+		#endregion
 
 		public SequenceConfiguration (DPin[] Pins, Sequence seq = null)
 		{
@@ -42,17 +47,31 @@ namespace SequenceConfigurationsDialog
 			SetupNodeView ();
 			SetupOxyPlot ();
 
-			if (seq != null) {
+			if (seq != null)
+			{
 				PinSequence = seq;
 				SeqOps = seq.Chain;
-			} else {
+
+				DisplaySequenceInfos ();
+			} else
+			{
 				PinSequence = new Sequence ();
 			}
 
 			DPins = Pins;
 
-			for (int i = 0; i < DPins.Length; i++) {
-				cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
+			//no DPin no Sequence
+			if (DPins.Length > 0)
+			{
+				for (int i = 0; i < DPins.Length; i++)
+				{
+					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
+				}
+				cbPin.Active = 0;
+			} else
+			{
+				buttonOk.Sensitive = false;
+				buttonOk.TooltipText = "You need to first setup at least one digital Pin to define a Sequence.";
 			}
 		}
 
@@ -61,7 +80,8 @@ namespace SequenceConfigurationsDialog
 			var XAxis = new OxyPlot.Axes.TimeSpanAxis {
 				Position = AxisPosition.Bottom,
 				AbsoluteMinimum = -0.1,
-				LabelFormatter = x => {
+				LabelFormatter = x =>
+				{
 					if ((int)x == 0)
 						return "Start";
 					return TimeSpanAxis.ToTimeSpan (x).ToString ("c");
@@ -111,11 +131,66 @@ namespace SequenceConfigurationsDialog
 
 		private void SetupNodeView ()
 		{
+			nvSequenceOptionsStore = new NodeStore (typeof(ComboBoxEntry));
+
 			nvSequenceOptions.NodeStore = nvSequenceOptionsStore;
-			nvSequenceOptions.AppendColumn (new TreeViewColumn ("Duration", new CellRendererText (), "text", 0));
-			nvSequenceOptions.AppendColumn (new TreeViewColumn ("State", new CellRendererText (), "text", 1));
+			var tmp = new CellRendererCombo () {
+				Sensitive = true,
+			};
+			nvSequenceOptions.AppendColumn (new TreeViewColumn ("Duration", tmp));
+			nvSequenceOptions.AppendColumn (new TreeViewColumn ("State", tmp));
+//			nvSequenceOptions.AppendColumn (new TreeViewColumn ("State", new CellRendererCombo (), "comboboxentry", 1));
+
+			nvSequenceOptions.ButtonPressEvent += new ButtonPressEventHandler (OnSequenceOptionsButtonPress);
 
 			nvSequenceOptions.Show ();
+		}
+
+		private void DisplaySequenceInfos ()
+		{
+			for (int i = 0; i < PinSequence.Chain.Count; i++)
+			{
+				//last item
+				if (PinSequence.Chain.Count - i == 1)
+				{
+					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i]));
+				} else
+				{
+					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i]));
+				}
+			}
+			nvSequenceOptions.QueueDraw ();
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnSequenceOptionsButtonPress (object o, ButtonPressEventArgs args)
+		{
+			if (args.Event.Button == 3) /* right click */
+			{
+				Menu m = new Menu ();
+				MenuItem addItem = new MenuItem ("Append new Operation");
+				addItem.ButtonPressEvent += (obj, e) =>
+				{
+					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (new SequenceOperation () {
+						Duration = TimeSpan.FromSeconds (30),
+						State = DPinState.LOW
+					}));
+					DisplaySequenceInfos ();
+				};
+
+				MenuItem deleteItem = new MenuItem ("Delete this SequenceOperation");
+				deleteItem.ButtonPressEvent += (obj, e) =>
+				{
+					SequenceOperationTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
+					SeqOps.Remove (node.SeqOp);
+					DisplaySequenceInfos ();
+				};
+				m.Add (addItem);
+				m.Add (deleteItem);
+				m.ShowAll ();
+				m.Popup ();
+			}
+			
 		}
 
 		protected void OnCbPinChanged (object sender, EventArgs e)
@@ -123,11 +198,14 @@ namespace SequenceConfigurationsDialog
 			int nr = 0;
 			var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
 			reg = Regex.Match (reg.Value, @"\d");
-			if (reg.Success) {
+			if (reg.Success)
+			{
 				nr = Convert.ToInt32 (reg.Value);
 			
-				for (int i = 0; i < DPins.Length; i++) {
-					if (DPins [i].Number == nr) {
+				for (int i = 0; i < DPins.Length; i++)
+				{
+					if (DPins [i].Number == nr)
+					{
 						selectedPin = DPins [i];
 						sequenceSeries.Color = OxyPlot.OxyColor.FromUInt32 (ColorHelper.RGBAFromGdkColor (DPins [i].PlotColor));
 						plotView.ShowAll ();

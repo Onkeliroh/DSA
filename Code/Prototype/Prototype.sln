@@ -5,10 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prototype", "Prototype.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeBackend", "..\PrototypeBackend\PrototypeBackend.csproj", "{26212356-8A7B-454E-91B0-D3A325E53AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger", "..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj", "{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger.Transport.Serial", "..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj", "{00D85F0B-00A5-41FA-8A99-428C0199C663}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeTests", "..\PrototypeTests\PrototypeTests.csproj", "{7B3354E4-2100-496B-B15A-557FF10D9A2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeDebugWindow", "..\PrototypeDebugWindow\PrototypeDebugWindow.csproj", "{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}"
@@ -24,6 +20,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIHelper", "..\GUIHelper\GUIHelper.csproj", "{2B884C8B-58D1-4299-A844-6377FD6EDBEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequenceConfigurationsDialog", "..\SequenceConfigurationsDialog\SequenceConfigurationsDialog.csproj", "{2895E5CB-735D-4745-AF5F-40B9F3E7C1E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transport", "Transport", "{70D51A23-74C0-430D-92AF-2F0E881CB35A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger", "..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj", "{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger.Transport.Serial", "..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj", "{00D85F0B-00A5-41FA-8A99-428C0199C663}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,8 @@ Global
 		{8538A3C9-0CE5-497E-9B4B-4663B0464859} = {A12F99B0-3709-47FD-B8A9-6101257C8F16}
 		{2B884C8B-58D1-4299-A844-6377FD6EDBEE} = {A12F99B0-3709-47FD-B8A9-6101257C8F16}
 		{2895E5CB-735D-4745-AF5F-40B9F3E7C1E9} = {A12F99B0-3709-47FD-B8A9-6101257C8F16}
+		{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4} = {70D51A23-74C0-430D-92AF-2F0E881CB35A}
+		{00D85F0B-00A5-41FA-8A99-428C0199C663} = {70D51A23-74C0-430D-92AF-2F0E881CB35A}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

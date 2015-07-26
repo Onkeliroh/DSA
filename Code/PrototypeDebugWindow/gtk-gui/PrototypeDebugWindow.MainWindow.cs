@@ -166,7 +166,7 @@ namespace PrototypeDebugWindow
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 1;
+			this.notebook1.CurrentPage = 0;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
 			this.table1.Name = "table1";
@@ -726,18 +726,14 @@ namespace PrototypeDebugWindow
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
-			this.btnRemoveDPin1.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPin1Clicked);
-			this.btnClearDPins1.Clicked += new global::System.EventHandler (this.OnBtnClearDPins1Clicked);
+			this.btnRemoveDPin1.Clicked += new global::System.EventHandler (this.OnBtnRemoveAPinClicked);
+			this.btnClearDPins1.Clicked += new global::System.EventHandler (this.OnBtnClearAPinsClicked);
 			this.btnAddAPin.Clicked += new global::System.EventHandler (this.OnBtnAddAPinClicked);
 			this.btnRemoveDPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPinClicked);
 			this.btnClearDPins.Clicked += new global::System.EventHandler (this.OnBtnClearDPinsClicked);
 			this.btnAddDPins.Clicked += new global::System.EventHandler (this.OnBtnAddDPinClicked);
 			this.btnAddSequence.Clicked += new global::System.EventHandler (this.OnBtnAddSequenceClicked);
-			this.btnRemoveSignal1.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPin1Clicked);
-			this.btnClearSignals1.Clicked += new global::System.EventHandler (this.OnBtnClearDPins1Clicked);
 			this.btnAddSignal.Clicked += new global::System.EventHandler (this.OnBtnAddSignalClicked);
-			this.btnRemoveSignal.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPin1Clicked);
-			this.btnClearSignals.Clicked += new global::System.EventHandler (this.OnBtnClearDPins1Clicked);
 		}
 	}
 }

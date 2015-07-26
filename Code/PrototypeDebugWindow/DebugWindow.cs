@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Gtk;
 using PrototypeBackend;
 using System.Threading.Tasks;
@@ -27,11 +28,14 @@ namespace PrototypeDebugWindow
 		private void InitComponents ()
 		{
 			ArduinoController.Init ();
-			ArduinoController.OnConnectionChanged += (object sender, EventArgs e) => {
-				if (ArduinoController.IsConnected) {
+			ArduinoController.OnConnectionChanged += (object sender, EventArgs e) =>
+			{
+				if (ArduinoController.IsConnected)
+				{
 					lblConnectionStatus.Text = "connected";
 					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
-				} else {
+				} else
+				{
 					lblConnectionStatus.Text = "<b>NOT</b> connected";
 					lblConnectionStatus.UseMarkup = true;
 					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
@@ -41,41 +45,99 @@ namespace PrototypeDebugWindow
 			BuildMenu ();
 			BuildNodeViews ();
 
-			con.PinsUpdated += (o, a) => {
-				if (a.UpdateOperation == UpdateOperation.Add) {
+			con.PinsUpdated += (o, a) =>
+			{
+				if (a.UpdateOperation == UpdateOperation.Add)
+				{
 					tvLog.Buffer.Text += String.Format ("{0} | Added Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
-				} else if (a.UpdateOperation == UpdateOperation.Remove) {
+				} else if (a.UpdateOperation == UpdateOperation.Remove)
+				{
 					tvLog.Buffer.Text += String.Format ("{0} | Removed Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
 				}
-				if (a.Type == PinType.DIGITAL) {
+				if (a.Type == PinType.DIGITAL)
+				{
 					FillDigitalPinNodes ();
-				} else if (a.Type == PinType.ANALOG) {
+				} else if (a.Type == PinType.ANALOG)
+				{
 					FillAnalogPinNodes ();
 				}
 			};
 
-			con.SequencesUpdated += (o, a) => {
-				if (a.UpdateOperation == UpdateOperation.Add) {
+			con.SequencesUpdated += (o, a) =>
+			{
+				if (a.UpdateOperation == UpdateOperation.Add)
+				{
 					tvLog.Buffer.Text += String.Format ("{0} | Added Sequence -> {1}\n", DateTime.Now.ToString ("T"), a.Seq);
-				} else if (a.UpdateOperation == UpdateOperation.Remove) {
+				} else if (a.UpdateOperation == UpdateOperation.Remove)
+				{
 					tvLog.Buffer.Text += String.Format ("{0} | Removed Sequence -> {1}\n", DateTime.Now.ToString ("T"), a.Seq);
 				}
 				FillSequenceNodes ();
 			};
 
-			nvAnalogPins.NodeSelection.Changed += (o, a) => {
+			nvAnalogPins.NodeSelection.Changed += (o, a) =>
+			{
 				Gtk.NodeSelection selection = (Gtk.NodeSelection)o;
 				APinTreeNode node = (APinTreeNode)selection.SelectedNode;
 				Console.WriteLine (node.Name);
 			};
+
+			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnItemButtonPressed (object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3) /* right click */
+			{
+				Menu m = new Menu ();
+				MenuItem deleteItem = new MenuItem ("Delete this item");
+				deleteItem.ButtonPressEvent += new ButtonPressEventHandler (OnDeleteItemButtonPressed);
+				m.Add (deleteItem);
+				m.ShowAll ();
+				m.Popup ();
+			}
+		}
+
+		protected void OnDeleteItemButtonPressed (object sender, ButtonPressEventArgs e)
+		{
+			ITreeNode node = nvDigitalPins.NodeSelection.SelectedNode;
+
+			con.RemovePin ((node as DPinTreeNode).RealName);
+
+			nvDigitalPins.QueueDraw ();
+		}
+
+		private int GetNodeIndex (ITreeNode node, ref NodeView view)
+		{
+			int index = -1;
+			if (view.NodeStore.Data.Count > 0)
+			{
+				index = 0;
+				var iter = view.NodeStore.GetEnumerator ();
+
+				while (iter.Current != node)
+				{
+					if (!iter.MoveNext ())
+					{
+						return -1;
+					}
+					index++;
+				}
+			}
+			return index;
 		}
 
 		private void FillDigitalPinNodes ()
 		{
 			NodeStoreDigitalPins.Clear ();
-			foreach (IPin pin in con.ControllerPins) {
-				if (pin.Type == PinType.DIGITAL) {
-					NodeStoreDigitalPins.AddNode (new DPinTreeNode (pin as DPin));
+			int index = 0;
+			foreach (IPin pin in con.ControllerPins)
+			{
+				if (pin.Type == PinType.DIGITAL)
+				{
+					NodeStoreDigitalPins.AddNode (new DPinTreeNode (pin as DPin, index));
+					index++;
 				}
 			}
 			nvDigitalPins.QueueDraw ();
@@ -84,8 +146,10 @@ namespace PrototypeDebugWindow
 		private void FillAnalogPinNodes ()
 		{
 			NodeStoreAnalogPins.Clear ();
-			foreach (IPin pin in con.ControllerPins) {
-				if (pin.Type == PinType.ANALOG) {
+			foreach (IPin pin in con.ControllerPins)
+			{
+				if (pin.Type == PinType.ANALOG)
+				{
 					NodeStoreAnalogPins.AddNode (new APinTreeNode (pin as APin));
 				}
 			}
@@ -95,7 +159,8 @@ namespace PrototypeDebugWindow
 		private void FillSequenceNodes ()
 		{
 			NodeStoreSequences.Clear ();
-			foreach (Sequence seq in con.ControlSequences) {
+			foreach (Sequence seq in con.ControlSequences)
+			{
 				NodeStoreSequences.AddNode (new SequenceTreeNode (seq));
 			}
 			nvSequences.QueueDraw ();
@@ -154,21 +219,28 @@ namespace PrototypeDebugWindow
 			connectionmenu.Append (port);
 			port.Submenu = portmenu;
 
-			port.Activated += (object sender, EventArgs e) => {
-				foreach (MenuItem mi in portmenu.AllChildren) {
+			port.Activated += (object sender, EventArgs e) =>
+			{
+				foreach (MenuItem mi in portmenu.AllChildren)
+				{
 					portmenu.Remove (mi);
 				}
-				foreach (String s in System.IO.Ports.SerialPort.GetPortNames()) {
+				foreach (String s in System.IO.Ports.SerialPort.GetPortNames())
+				{
 					CheckMenuItem portname = new CheckMenuItem (s);
-					if (ArduinoController.SerialPortName.Equals (s)) {
+					if (ArduinoController.SerialPortName.Equals (s))
+					{
 						portname.Toggle ();
 					}
 
-					portname.Toggled += (object senderer, EventArgs ee) => {
-						if ((senderer as CheckMenuItem).Active) {
+					portname.Toggled += (object senderer, EventArgs ee) =>
+					{
+						if ((senderer as CheckMenuItem).Active)
+						{
 							ArduinoController.SerialPortName = ((senderer as CheckMenuItem).Child as Label).Text;
 							ArduinoController.Setup ();
-						} else {
+						} else
+						{
 							ArduinoController.Disconnect ();
 						}
 					};
@@ -192,20 +264,24 @@ namespace PrototypeDebugWindow
 		protected void OnKeyPressEvent (object obj, KeyPressEventArgs a)
 		{
 			//TODO shotcuts -> mask vergleich
-			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask) {
+			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask)
+			{
 				OnDeleteEvent (null, null);
 			}
 		}
 
 		protected async void OnBtnDigitalPingTestClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected) {
-				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
+			if (ArduinoController.IsConnected)
+			{
+				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
+				{
 					ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.HIGH);
 					await Task.Delay (500);
 				}
 				await Task.Delay (2000);
-				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
+				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
+				{
 					ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.LOW);
 					await Task.Delay (500);
 				}
@@ -214,7 +290,8 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnBlinkSequenceTestClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected) {
+			if (ArduinoController.IsConnected)
+			{
 				con.ControlSequences.Clear (); 
 				var scheduler = new Scheduler ();
 				con.AddScheduler (scheduler);
@@ -235,7 +312,8 @@ namespace PrototypeDebugWindow
 				con.ControlSequences.Add (sequence);
 
 				con.Start ();
-			} else {
+			} else
+			{
 				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
 				dialog.Close += (senderer, ee) => dialog.Dispose ();
 				dialog.ShowNow ();
@@ -244,7 +322,8 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnDoubleBlinkClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected) {
+			if (ArduinoController.IsConnected)
+			{
 				con.ControlSequences.Clear ();
 
 				var sequence = new Sequence () {
@@ -275,12 +354,14 @@ namespace PrototypeDebugWindow
 				});
 				con.ControlSequences.Add (sequence);
 
-				foreach (Sequence seq in con.ControlSequences) {
+				foreach (Sequence seq in con.ControlSequences)
+				{
 					Console.WriteLine (seq.ToString ());
 				}
 
 				con.Start ();
-			} else {
+			} else
+			{
 				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
 				dialog.Run ();
 				dialog.Destroy ();
@@ -290,7 +371,8 @@ namespace PrototypeDebugWindow
 		protected void OnBtnStopNResetClicked (object sender, EventArgs e)
 		{
 			con.Stop ();
-			for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
+			for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
+			{
 				ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.LOW);
 			}
 		}
@@ -300,8 +382,10 @@ namespace PrototypeDebugWindow
 			int[] dings = con.AvailableDigitalPins;
 
 			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration (dings);
-			dialog.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Apply) {
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Apply)
+				{
 					con.AddPin (dialog.Pin);
 				}
 			};
@@ -317,7 +401,8 @@ namespace PrototypeDebugWindow
 		protected void OnBtnRemoveDPinClicked (object sender, EventArgs e)
 		{
 			DPinTreeNode node = (DPinTreeNode)nvDigitalPins.NodeSelection.SelectedNode;
-			if (node != null) {
+			if (node != null)
+			{
 				con.RemovePin (node.RealName);
 			}
 		}
@@ -327,8 +412,10 @@ namespace PrototypeDebugWindow
 			int[] dings = con.AvailableAnalogPins;
 
 			var dialog = new AnalogPinConfigurationDialog.AnalogPinConfiguration (dings);
-			dialog.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Apply) {
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Apply)
+				{
 					con.AddPin (dialog.Pin);
 				}
 			};
@@ -336,15 +423,16 @@ namespace PrototypeDebugWindow
 			dialog.Destroy ();
 		}
 
-		protected void OnBtnRemoveDPin1Clicked (object sender, EventArgs e)
+		protected void OnBtnRemoveAPinClicked (object sender, EventArgs e)
 		{
 			APinTreeNode node = (APinTreeNode)nvAnalogPins.NodeSelection.SelectedNode;
-			if (node != null) {
+			if (node != null)
+			{
 				con.RemovePin (node.RealName);
 			}
 		}
 
-		protected void OnBtnClearDPins1Clicked (object sender, EventArgs e)
+		protected void OnBtnClearAPinsClicked (object sender, EventArgs e)
 		{
 			con.ClearPins (PinType.ANALOG);
 		}
@@ -352,7 +440,8 @@ namespace PrototypeDebugWindow
 		protected void OnBtnAddSignalClicked (object sender, EventArgs e)
 		{
 			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog ();
-			dialog.Response += (o, args) => {
+			dialog.Response += (o, args) =>
+			{
 			};
 			dialog.Run ();
 			dialog.Destroy ();
@@ -361,8 +450,10 @@ namespace PrototypeDebugWindow
 		protected void OnBtnAddSequenceClicked (object sender, EventArgs e)
 		{
 			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.GetDPinsWithoutSequence ());
-			dialog.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Apply) {
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Apply)
+				{
 					con.AddSequence (dialog.PinSequence);
 				}
 			};
