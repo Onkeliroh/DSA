@@ -11,6 +11,7 @@ using GLib;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Configuration;
+using System.Collections.ObjectModel;
 
 
 namespace SequenceConfigurationsDialog
@@ -24,16 +25,32 @@ namespace SequenceConfigurationsDialog
 
 		private Sequence pinSequence;
 
-		private List<SequenceOperation> SeqOps = new List<SequenceOperation> ();
+		//		private List<SequenceOperation> SeqOps = new List<SequenceOperation> ();
 
 		private DPin[] DPins;
 
 		private DPin selectedPin;
 
+		public TimeSpan Duration {
+			get {
+				return new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt);
+			}
+			set {
+				sbDays.Value = value.Days;
+				sbHours.Value = value.Hours;
+				sbMinutes.Value = value.Minutes;
+				sbSeconds.Value = value.Seconds;
+				sbMilliSec.Value = value.Milliseconds;
+			}
+		}
+
+		private SequenceOperationTreeNode ActiveNode = null;
+
 		//Oxyplot----
 		private OxyPlot.GtkSharp.PlotView plotView;
 		private OxyPlot.PlotModel plotModel;
 		private OxyPlot.Series.LineSeries sequenceSeries;
+		private LinearAxis XAxis;
 
 		//NodeView
 		private NodeStore nvSequenceOptionsStore;
@@ -50,7 +67,6 @@ namespace SequenceConfigurationsDialog
 			if (seq != null)
 			{
 				PinSequence = seq;
-				SeqOps = seq.Chain;
 
 				DisplaySequenceInfos ();
 			} else
@@ -77,20 +93,25 @@ namespace SequenceConfigurationsDialog
 
 		private void SetupOxyPlot ()
 		{
-			var XAxis = new OxyPlot.Axes.TimeSpanAxis {
+			XAxis = new OxyPlot.Axes.LinearAxis {
+				Key = "X",
 				Position = AxisPosition.Bottom,
-				AbsoluteMinimum = -0.1,
+				AbsoluteMinimum = 0.0,
 				LabelFormatter = x =>
 				{
-					if ((int)x == 0)
+					if (x <= 0.0)
+					{
 						return "Start";
-					return TimeSpanAxis.ToTimeSpan (x).ToString ("c");
+					}
+					return x.ToString ();// TimeSpanAxis.ToTimeSpan (x).ToString ("c");
 				},
 				MajorGridlineThickness = 1,
 				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 				MinorGridlineColor = OxyPlot.OxyColors.LightGray,
 				MinorGridlineStyle = OxyPlot.LineStyle.Dot,
-				MinorGridlineThickness = .5
+				MinorGridlineThickness = .5,
+				MinorStep = TimeSpan.FromSeconds (10).Ticks,
+				MajorStep = TimeSpan.FromSeconds (30).Ticks,
 			};
 
 			var YAxis = new OxyPlot.Axes.LinearAxis {
@@ -109,7 +130,9 @@ namespace SequenceConfigurationsDialog
 				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 			};
 
-			sequenceSeries = new OxyPlot.Series.LineSeries () {
+			sequenceSeries = new OxyPlot.Series.StairStepSeries () {
+				DataFieldX = "Time",
+				DataFieldY = "Value",
 			};
 
 			plotModel = new PlotModel {
@@ -131,35 +154,70 @@ namespace SequenceConfigurationsDialog
 
 		private void SetupNodeView ()
 		{
-			nvSequenceOptionsStore = new NodeStore (typeof(ComboBoxEntry));
+			nvSequenceOptionsStore = new NodeStore (typeof(SequenceOperationTreeNode));
 
 			nvSequenceOptions.NodeStore = nvSequenceOptionsStore;
-			var tmp = new CellRendererCombo () {
-				Sensitive = true,
-			};
-			nvSequenceOptions.AppendColumn (new TreeViewColumn ("Duration", tmp));
-			nvSequenceOptions.AppendColumn (new TreeViewColumn ("State", tmp));
-//			nvSequenceOptions.AppendColumn (new TreeViewColumn ("State", new CellRendererCombo (), "comboboxentry", 1));
+			nvSequenceOptions.AppendColumn (new TreeViewColumn ("Duration", new CellRendererText (), "text", 0));
+			nvSequenceOptions.AppendColumn (new TreeViewColumn ("State", new CellRendererText (), "text", 1));
 
 			nvSequenceOptions.ButtonPressEvent += new ButtonPressEventHandler (OnSequenceOptionsButtonPress);
+			nvSequenceOptions.RowActivated += (o, args) =>
+			{
+				var node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
+				ActiveNode = node;
+				sbDays.Value = node.SeqOp.Duration.Days;
+				sbHours.Value = node.SeqOp.Duration.Hours;
+				sbMinutes.Value = node.SeqOp.Duration.Minutes;
+				sbSeconds.Value = node.SeqOp.Duration.Seconds;
+				sbMilliSec.Value = node.SeqOp.Duration.Milliseconds;
+
+				btnRemoveOperation.Sensitive = true;
+			};
 
 			nvSequenceOptions.Show ();
 		}
 
 		private void DisplaySequenceInfos ()
 		{
+			btnRemoveOperation.Sensitive = false;
+
+			nvSequenceOptionsStore.Clear ();
 			for (int i = 0; i < PinSequence.Chain.Count; i++)
 			{
-				//last item
-				if (PinSequence.Chain.Count - i == 1)
-				{
-					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i]));
-				} else
-				{
-					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i]));
-				}
+				nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i], i));
 			}
 			nvSequenceOptions.QueueDraw ();
+			DisplayPlot ();
+		}
+
+		private void DisplayPlot ()
+		{
+			//TODO implement
+
+
+			var current = new TimeSpan (0);
+			var data = new Collection<TimeValue> ();
+			for (int i = 0; i < PinSequence.Chain.Count; i++)
+			{
+				Console.Write (current.Ticks);
+				data.Add (new TimeValue (){ Time = current, Value = ((PinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
+				current = current.Add (PinSequence.Chain [i].Duration);
+				Console.Write ("\t" + current.Ticks + "\n");
+				data.Add (new TimeValue (){ Time = current, Value = ((PinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
+			}
+
+			sequenceSeries = new OxyPlot.Series.LineSeries () {
+				DataFieldX = "Time",
+				DataFieldY = "Value",
+				ItemsSource = data,
+				Color = OxyPlot.OxyColor.FromUInt32 (ColorHelper.RGBAFromGdkColor (selectedPin.PlotColor))
+			};
+
+			plotView.Model.Series.Clear ();
+			plotView.Model.Series.Add (sequenceSeries);
+			plotView.InvalidatePlot (true);
+			plotView.Model.InvalidatePlot (true);
+			plotView.ShowAll ();
 		}
 
 		[GLib.ConnectBeforeAttribute]
@@ -168,24 +226,15 @@ namespace SequenceConfigurationsDialog
 			if (args.Event.Button == 3) /* right click */
 			{
 				Menu m = new Menu ();
-				MenuItem addItem = new MenuItem ("Append new Operation");
-				addItem.ButtonPressEvent += (obj, e) =>
-				{
-					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (new SequenceOperation () {
-						Duration = TimeSpan.FromSeconds (30),
-						State = DPinState.LOW
-					}));
-					DisplaySequenceInfos ();
-				};
 
 				MenuItem deleteItem = new MenuItem ("Delete this SequenceOperation");
 				deleteItem.ButtonPressEvent += (obj, e) =>
 				{
 					SequenceOperationTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
-					SeqOps.Remove (node.SeqOp);
+//					Console.WriteLine (node.Index);
+					PinSequence.Chain.RemoveAt (node.Index);
 					DisplaySequenceInfos ();
 				};
-				m.Add (addItem);
 				m.Add (deleteItem);
 				m.ShowAll ();
 				m.Popup ();
@@ -221,11 +270,40 @@ namespace SequenceConfigurationsDialog
 				Name = entryName.Text,
 				Pin = selectedPin,
 				Repetitions = (rbRepeateContinously.Active) ? -1 : sbRadioBtnStopAfter.ValueAsInt,
-				Chain = SeqOps 
 			};
 				
 			Respond (ResponseType.Apply);
 		}
+
+		protected void OnBtnApplyOperationClicked (object sender, EventArgs e)
+		{
+			AddOperation (new SequenceOperation () {
+				Duration = this.Duration,
+				State = (cbState.ActiveText == "HIGH") ? DPinState.HIGH : DPinState.LOW,
+			});
+			cbState.Active = (cbState.Active == 0) ? 1 : 0;
+		}
+
+		protected void OnBtnRemoveOperationClicked (object sender, EventArgs e)
+		{
+			PinSequence.Chain.RemoveAt (ActiveNode.Index);
+			DisplaySequenceInfos ();
+			btnRemoveOperation.Sensitive = false;
+		}
+
+		private void AddOperation (SequenceOperation SeqOp)
+		{
+			pinSequence.Chain.Add (SeqOp);
+			XAxis.AbsoluteMaximum = pinSequence.Chain.Sum (o => o.Duration.TotalMilliseconds);
+			DisplaySequenceInfos ();
+		}
+	}
+
+	struct TimeValue
+	{
+		public TimeSpan Time{ get; set; }
+
+		public double Value { get; set; }
 	}
 }
 

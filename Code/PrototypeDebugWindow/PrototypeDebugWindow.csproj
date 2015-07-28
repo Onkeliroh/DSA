@@ -74,6 +74,10 @@
       <Project>{2895E5CB-735D-4745-AF5F-40B9F3E7C1E9}</Project>
       <Name>SequenceConfigurationsDialog</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TimeChooserWidget\TimeChooserWidget.csproj">
+      <Project>{69378CF7-969E-4390-8436-BD6EB93E5A78}</Project>
+      <Name>TimeChooserWidget</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">

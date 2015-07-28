@@ -9,9 +9,10 @@
     <widget-library name="../../DigitalPinConfigurationDialog/bin/Debug/DigitalPinConfigurationDialog.dll" />
     <widget-library name="../../AnalogPinConfigurationDialog/bin/Debug/AnalogPinConfigurationDialog.dll" />
     <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
-    <widget-library name="../bin/Debug/PrototypeDebugWindow.exe" internal="true" />
     <widget-library name="../../SignalConfigurationDialog/bin/Debug/SignalConfigurationDialog.dll" />
     <widget-library name="../../SequenceConfigurationsDialog/bin/Debug/SequenceConfigurationsDialog.dll" />
+    <widget-library name="../../TimeChooserWidget/bin/Debug/TimeChooserWidget.dll" />
+    <widget-library name="../bin/Debug/PrototypeDebugWindow.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="PrototypeDebugWindow.MainWindow" design-size="800 600">
     <action-group name="Default" />
@@ -55,7 +56,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="CurrentPage">1</property>
             <child>
               <widget class="Gtk.Table" id="table1">
                 <property name="MemberName" />
