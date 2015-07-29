@@ -121,6 +121,7 @@
                                 <property name="HasLabel">True</property>
                                 <property name="UseUnderline">True</property>
                                 <property name="Group">group1</property>
+                                <signal name="Toggled" handler="OnRbRepeateContinouslyToggled" />
                               </widget>
                               <packing>
                                 <property name="RightAttach">3</property>
@@ -143,6 +144,7 @@
                                 <property name="HasLabel">True</property>
                                 <property name="UseUnderline">True</property>
                                 <property name="Group">group1</property>
+                                <signal name="Toggled" handler="OnRbStopAfterToggled" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
@@ -169,6 +171,7 @@
                                 <property name="ClimbRate">1</property>
                                 <property name="Numeric">True</property>
                                 <property name="Value">1</property>
+                                <signal name="ValueChanged" handler="OnSbRadioBtnStopAfterValueChanged" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>

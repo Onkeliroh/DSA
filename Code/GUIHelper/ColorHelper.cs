@@ -1,5 +1,6 @@
 ﻿using System;
 using Gdk;
+using OxyPlot;
 
 namespace PrototypeBackend
 {
@@ -17,6 +18,25 @@ namespace PrototypeBackend
 			    uintToByte (c.Green) << 16 |
 			    uintToByte (c.Blue) << 8
 			);
+		}
+
+		public static uint ARGBFromGdkColor (Gdk.Color c)
+		{
+			return (uint)(
+			    0x0f << 24 |
+			    uintToByte (c.Red) << 16 |
+			    uintToByte (c.Green) << 8 |
+			    uintToByte (c.Blue)
+			);
+		}
+
+		public static OxyColor GdkColorToOxyColor (Gdk.Color c)
+		{
+			return OxyPlot.OxyColor.FromArgb (
+				255, 
+				ColorHelper.uintToByte (c.Red),
+				ColorHelper.uintToByte (c.Green),
+				ColorHelper.uintToByte (c.Blue));
 		}
 
 		public static Pixbuf ColoredPixbuf (Gdk.Color c, int w = 24, int h = 24)

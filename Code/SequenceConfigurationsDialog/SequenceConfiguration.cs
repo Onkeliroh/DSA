@@ -1,17 +1,13 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using PrototypeBackend;
-using OxyPlot;
-using OxyPlot.GtkSharp;
-using OxyPlot.Axes;
-using Gdk;
+using System.Text.RegularExpressions;
 using Gtk;
 using GUIHelper;
-using GLib;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Configuration;
-using System.Collections.ObjectModel;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.GtkSharp;
+using PrototypeBackend;
 
 
 namespace SequenceConfigurationsDialog
@@ -84,6 +80,7 @@ namespace SequenceConfigurationsDialog
 					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
 				}
 				cbPin.Active = 0;
+				OnCbPinChanged (this, null);
 			} else
 			{
 				buttonOk.Sensitive = false;
@@ -96,22 +93,22 @@ namespace SequenceConfigurationsDialog
 			XAxis = new OxyPlot.Axes.LinearAxis {
 				Key = "X",
 				Position = AxisPosition.Bottom,
-				AbsoluteMinimum = 0.0,
+				AbsoluteMinimum = TimeSpan.FromSeconds (0).Ticks,
 				LabelFormatter = x =>
 				{
-					if (x <= 0.0)
+					if (x <= TimeSpan.FromSeconds (0).Ticks)
 					{
 						return "Start";
 					}
-					return x.ToString ();// TimeSpanAxis.ToTimeSpan (x).ToString ("c");
+					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("c"));
 				},
 				MajorGridlineThickness = 1,
 				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 				MinorGridlineColor = OxyPlot.OxyColors.LightGray,
 				MinorGridlineStyle = OxyPlot.LineStyle.Dot,
 				MinorGridlineThickness = .5,
-				MinorStep = TimeSpan.FromSeconds (10).Ticks,
-				MajorStep = TimeSpan.FromSeconds (30).Ticks,
+//				MinorStep = TimeSpan.FromSeconds (10).Ticks,
+//				MajorStep = TimeSpan.FromMinutes (1).Ticks,
 			};
 
 			var YAxis = new OxyPlot.Axes.LinearAxis {
@@ -125,9 +122,9 @@ namespace SequenceConfigurationsDialog
 				AbsoluteMinimum = -0.1,
 				MinorStep = 1,
 				MajorStep = 1,
-				MajorGridlineColor = OxyPlot.OxyColors.Gray,
-				MajorGridlineThickness = 1,
-				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
+//				MajorGridlineColor = OxyPlot.OxyColors.Gray,
+//				MajorGridlineThickness = 1,
+//				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 			};
 
 			sequenceSeries = new OxyPlot.Series.StairStepSeries () {
@@ -161,6 +158,7 @@ namespace SequenceConfigurationsDialog
 			nvSequenceOptions.AppendColumn (new TreeViewColumn ("State", new CellRendererText (), "text", 1));
 
 			nvSequenceOptions.ButtonPressEvent += new ButtonPressEventHandler (OnSequenceOptionsButtonPress);
+			nvSequenceOptions.KeyPressEvent += new KeyPressEventHandler (OnSequenceOptionsKeyPress);
 			nvSequenceOptions.RowActivated += (o, args) =>
 			{
 				var node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
@@ -192,17 +190,14 @@ namespace SequenceConfigurationsDialog
 
 		private void DisplayPlot ()
 		{
-			//TODO implement
-
+			plotView.Model.Series.Clear ();
 
 			var current = new TimeSpan (0);
 			var data = new Collection<TimeValue> ();
 			for (int i = 0; i < PinSequence.Chain.Count; i++)
 			{
-				Console.Write (current.Ticks);
 				data.Add (new TimeValue (){ Time = current, Value = ((PinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
 				current = current.Add (PinSequence.Chain [i].Duration);
-				Console.Write ("\t" + current.Ticks + "\n");
 				data.Add (new TimeValue (){ Time = current, Value = ((PinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
 			}
 
@@ -210,10 +205,35 @@ namespace SequenceConfigurationsDialog
 				DataFieldX = "Time",
 				DataFieldY = "Value",
 				ItemsSource = data,
-				Color = OxyPlot.OxyColor.FromUInt32 (ColorHelper.RGBAFromGdkColor (selectedPin.PlotColor))
+				StrokeThickness = 2,
+				Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor)
 			};
 
-			plotView.Model.Series.Clear ();
+			if (rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1))
+			{
+				var repeateSeries = new OxyPlot.Series.LineSeries () {
+					DataFieldX = "Time",
+					DataFieldY = "Value",
+					StrokeThickness = 2,
+					Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor),
+					LineStyle = LineStyle.Dot
+				};
+				var repeateData = new Collection<TimeValue> ();
+				repeateData.Add (data.Last ());
+				repeateData.Add (
+					new TimeValue {
+						Time = data.Last ().Time, 
+						Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
+					});
+				repeateData.Add (
+					new TimeValue {
+						Time = data.Last ().Time.Add (PinSequence.Chain [0].Duration),
+						Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
+					});
+				repeateSeries.ItemsSource = repeateData;
+				plotView.Model.Series.Add (repeateSeries);
+			}
+
 			plotView.Model.Series.Add (sequenceSeries);
 			plotView.InvalidatePlot (true);
 			plotView.Model.InvalidatePlot (true);
@@ -231,7 +251,6 @@ namespace SequenceConfigurationsDialog
 				deleteItem.ButtonPressEvent += (obj, e) =>
 				{
 					SequenceOperationTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
-//					Console.WriteLine (node.Index);
 					PinSequence.Chain.RemoveAt (node.Index);
 					DisplaySequenceInfos ();
 				};
@@ -239,7 +258,16 @@ namespace SequenceConfigurationsDialog
 				m.ShowAll ();
 				m.Popup ();
 			}
-			
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnSequenceOptionsKeyPress (object o, KeyPressEventArgs args)
+		{
+			if (args.Event.Key == Gdk.Key.Delete)
+			{
+				PinSequence.Chain.RemoveAt (((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode).Index);
+				DisplaySequenceInfos ();
+			}
 		}
 
 		protected void OnCbPinChanged (object sender, EventArgs e)
@@ -256,7 +284,8 @@ namespace SequenceConfigurationsDialog
 					if (DPins [i].Number == nr)
 					{
 						selectedPin = DPins [i];
-						sequenceSeries.Color = OxyPlot.OxyColor.FromUInt32 (ColorHelper.RGBAFromGdkColor (DPins [i].PlotColor));
+						sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+						plotView.InvalidatePlot (true);
 						plotView.ShowAll ();
 						break;
 					}
@@ -289,6 +318,21 @@ namespace SequenceConfigurationsDialog
 			PinSequence.Chain.RemoveAt (ActiveNode.Index);
 			DisplaySequenceInfos ();
 			btnRemoveOperation.Sensitive = false;
+		}
+
+		protected void OnRbRepeateContinouslyToggled (object sender, EventArgs e)
+		{
+			DisplayPlot ();
+		}
+
+		protected void OnRbStopAfterToggled (object sender, EventArgs e)
+		{
+			DisplayPlot ();
+		}
+
+		protected void OnSbRadioBtnStopAfterValueChanged (object sender, EventArgs e)
+		{
+			DisplayPlot ();
 		}
 
 		private void AddOperation (SequenceOperation SeqOp)

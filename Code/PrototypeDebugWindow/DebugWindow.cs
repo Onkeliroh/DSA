@@ -190,6 +190,10 @@ namespace PrototypeDebugWindow
 			nvAnalogPins.Show ();
 
 			nvSequences.NodeStore = NodeStoreSequences;
+			nvSequences.RowActivated += (o, args) =>
+			{
+				
+			};
 
 			nvSequences.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
 			nvSequences.AppendColumn (new TreeViewColumn ("Pins [Name(Pin)]", new CellRendererText (), "text", 1));
