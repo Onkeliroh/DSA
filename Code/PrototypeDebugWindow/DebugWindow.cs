@@ -4,6 +4,7 @@ using Gtk;
 using PrototypeBackend;
 using System.Threading.Tasks;
 using GUIHelper;
+using System.Threading;
 
 namespace PrototypeDebugWindow
 {
@@ -53,6 +54,9 @@ namespace PrototypeDebugWindow
 				} else if (a.UpdateOperation == UpdateOperation.Remove)
 				{
 					tvLog.Buffer.Text += String.Format ("{0} | Removed Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
+				} else if (a.UpdateOperation == UpdateOperation.Change)
+				{
+					tvLog.Buffer.Text += String.Format ("{0} | Changed Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
 				}
 				if (a.Type == PinType.DIGITAL)
 				{
@@ -110,6 +114,7 @@ namespace PrototypeDebugWindow
 
 		private int GetNodeIndex (ITreeNode node, ref NodeView view)
 		{
+			//TODO remove
 			int index = -1;
 			if (view.NodeStore.Data.Count > 0)
 			{
@@ -159,9 +164,9 @@ namespace PrototypeDebugWindow
 		private void FillSequenceNodes ()
 		{
 			NodeStoreSequences.Clear ();
-			foreach (Sequence seq in con.ControlSequences)
+			for (int i = 0; i < con.ControlSequences.Count; i++)
 			{
-				NodeStoreSequences.AddNode (new SequenceTreeNode (seq));
+				NodeStoreSequences.AddNode (new SequenceTreeNode (con.ControlSequences [i], i));
 			}
 			nvSequences.QueueDraw ();
 		}
@@ -169,6 +174,13 @@ namespace PrototypeDebugWindow
 		private void BuildNodeViews ()
 		{
 			nvDigitalPins.NodeStore = NodeStoreDigitalPins;
+			nvDigitalPins.RowActivated += (o, args) =>
+			{
+				var pin = con.ControllerPins
+					.Where (x => x.Type == PinType.DIGITAL)
+					.ToList () [((o as NodeView).NodeSelection.SelectedNode as DPinTreeNode).Index];
+				RunAddDPinDialog (pin as DPin);
+			};
 
 			nvDigitalPins.AppendColumn ("Name(Pin)", new Gtk.CellRendererText (), "text", 0);
 			nvDigitalPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 1);
@@ -192,7 +204,8 @@ namespace PrototypeDebugWindow
 			nvSequences.NodeStore = NodeStoreSequences;
 			nvSequences.RowActivated += (o, args) =>
 			{
-				
+				var Seq = con.ControlSequences [((o as NodeView).NodeSelection.SelectedNode as SequenceTreeNode).Index];
+				RunSequenceDialog (Seq);
 			};
 
 			nvSequences.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
@@ -267,7 +280,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnKeyPressEvent (object obj, KeyPressEventArgs a)
 		{
-			//TODO shotcuts -> mask vergleich
+			//TODO Speichern und so einbauen
 			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask)
 			{
 				OnDeleteEvent (null, null);
@@ -383,18 +396,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnAddDPinClicked (object sender, EventArgs e)
 		{
-			int[] dings = con.AvailableDigitalPins;
-
-			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration (dings);
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Apply)
-				{
-					con.AddPin (dialog.Pin);
-				}
-			};
-			dialog.Run ();
-			dialog.Destroy ();
+			RunAddDPinDialog ();
 		}
 
 		protected void OnBtnClearDPinsClicked (object sender, EventArgs e)
@@ -453,12 +455,63 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnAddSequenceClicked (object sender, EventArgs e)
 		{
-			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.GetDPinsWithoutSequence ());
+			RunSequenceDialog ();
+		}
+
+		protected void OnBtnStartControllerClicked (object sender, EventArgs e)
+		{
+			if (con.State () == ThreadState.Running)
+			{
+				con.Stop ();	
+			} else
+			{
+				con.Start ();
+			}
+		}
+
+		private void RunAddDPinDialog (DPin pin = null)
+		{
+			int[] dings = con.AvailableDigitalPins;
+
+			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration (dings, pin);
 			dialog.Response += (o, args) =>
 			{
 				if (args.ResponseId == ResponseType.Apply)
 				{
-					con.AddSequence (dialog.PinSequence);
+					if (pin == null)
+					{
+						con.AddPin (dialog.Pin);
+					} else
+					{
+						for (int i = 0; i < con.ControllerPins.Count; i++)
+						{
+							if (con.ControllerPins [i] == pin)
+							{
+								con.SetPin (i, dialog.Pin);
+								break;
+							}
+						}
+					}
+				}
+			};
+			dialog.Run ();
+			dialog.Destroy ();	
+		}
+
+		private void RunSequenceDialog (Sequence seq = null)
+		{
+			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.GetDPinsWithoutSequence (), seq);
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Apply)
+				{
+					if (seq == null)
+					{
+						con.AddSequence (dialog.PinSequence);
+					} else
+					{
+						con.ControlSequences.Where (x => x == seq).ToList () [0] = dialog.PinSequence;
+					}
 				}
 			};
 			dialog.Run ();

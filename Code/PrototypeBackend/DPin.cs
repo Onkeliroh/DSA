@@ -46,13 +46,14 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as DPin;
-			if (seq != null) {
-				return (seq.Number == Number
-				&& seq.Name.Equals (Name)
-				&& seq.State.Equals (State)
-				&& seq.PlotColor.Equals (PlotColor)
-				&& seq.Type.Equals (Type)
-				&& seq.Mode.Equals (Mode));
+			if (seq != null)
+			{
+				return (seq.Number == Number);
+//				&& seq.Name.Equals (Name)
+//				&& seq.State.Equals (State)
+//				&& seq.PlotColor.Equals (PlotColor)
+//				&& seq.Type.Equals (Type)
+//				&& seq.Mode.Equals (Mode));
 			}
 			return false;
 		}
@@ -79,7 +80,8 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			switch (Mode) {
+			switch (Mode)
+			{
 			case PrototypeBackend.PinMode.OUTPUT:
 				PrototypeBackend.ArduinoController.SetPin (Number, Mode, State);
 				break;

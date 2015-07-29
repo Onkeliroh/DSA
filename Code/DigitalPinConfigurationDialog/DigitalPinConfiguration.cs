@@ -14,8 +14,8 @@ namespace DigitalPinConfigurationDialog
 			set {
 				entryName.Text = value.Name;
 				cbColor.Color = value.PlotColor;
-				cbPin.AppendText ("D" + value.Number.ToString ());
-				cbPin.Active = cbPin.Data.Count - 1;
+				cbPin.InsertText (0, "D" + value.Number.ToString ());
+				cbPin.Active = 0;
 				pin = value;
 			}
 		}
@@ -25,6 +25,8 @@ namespace DigitalPinConfigurationDialog
 		public DigitalPinConfiguration (int[] availablePins, DPin dpin = null)
 		{
 			this.Build ();
+
+			this.FocusChain = new Widget[]{ entryName, cbPin, cbColor, buttonOk, buttonCancel };
 
 			for (int i = 0; i < availablePins.Length; i++)
 			{
@@ -39,18 +41,17 @@ namespace DigitalPinConfigurationDialog
 				Pin = dpin;
 			} else
 			{
-				pin = null;
+				pin = new DPin ();
 			}
 				
 		}
 
+		[GLib.ConnectBeforeAttribute]
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
-			pin = new DPin () {
-				Name = entryName.Text,
-				Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1)),
-				PlotColor = cbColor.Color,
-			};
+			pin.Name = entryName.Text;
+			pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
+			pin.PlotColor = cbColor.Color;
 
 			Respond (Gtk.ResponseType.Apply);
 		}
@@ -58,6 +59,26 @@ namespace DigitalPinConfigurationDialog
 		protected void OnButtonCancelClicked (object sender, EventArgs e)
 		{
 			Respond (Gtk.ResponseType.Cancel);
+		}
+
+		protected void OnEntryNameChanged (object sender, EventArgs e)
+		{
+			pin.Name = entryName.Text;
+		}
+
+		protected void OnCbPinChanged (object sender, EventArgs e)
+		{
+			try
+			{
+				pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
+			} catch (Exception ee)
+			{
+			}
+		}
+
+		protected void OnCbColorColorSet (object sender, EventArgs e)
+		{
+			pin.PlotColor = cbColor.Color;
 		}
 	}
 }

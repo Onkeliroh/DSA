@@ -535,12 +535,9 @@ namespace SequenceConfigurationsDialog
 			this.DefaultWidth = 996;
 			this.DefaultHeight = 598;
 			this.Show ();
-			this.sbRadioBtnStopAfter.ValueChanged += new global::System.EventHandler (this.OnSbRadioBtnStopAfterValueChanged);
-			this.rbStopAfter.Toggled += new global::System.EventHandler (this.OnRbStopAfterToggled);
-			this.rbRepeateContinously.Toggled += new global::System.EventHandler (this.OnRbRepeateContinouslyToggled);
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
-			this.btnRemoveOperation.Clicked += new global::System.EventHandler (this.OnBtnRemoveOperationClicked);
 			this.btnApplyOperation.Clicked += new global::System.EventHandler (this.OnBtnApplyOperationClicked);
+			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}

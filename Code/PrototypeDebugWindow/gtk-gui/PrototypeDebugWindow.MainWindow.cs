@@ -66,7 +66,7 @@ namespace PrototypeDebugWindow
 		
 		private global::Gtk.Button btnDoubleBlink;
 		
-		private global::Gtk.Button button70;
+		private global::Gtk.Button btnStartController;
 		
 		private global::Gtk.Button button71;
 		
@@ -166,7 +166,7 @@ namespace PrototypeDebugWindow
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 1;
+			this.notebook1.CurrentPage = 0;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
 			this.table1.Name = "table1";
@@ -410,13 +410,13 @@ namespace PrototypeDebugWindow
 			w31.Expand = false;
 			w31.Fill = false;
 			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
-			this.button70 = new global::Gtk.Button ();
-			this.button70.CanFocus = true;
-			this.button70.Name = "button70";
-			this.button70.UseUnderline = true;
-			this.button70.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
-			this.vbuttonbox1.Add (this.button70);
-			global::Gtk.ButtonBox.ButtonBoxChild w32 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.button70]));
+			this.btnStartController = new global::Gtk.Button ();
+			this.btnStartController.CanFocus = true;
+			this.btnStartController.Name = "btnStartController";
+			this.btnStartController.UseUnderline = true;
+			this.btnStartController.Label = global::Mono.Unix.Catalog.GetString ("Start/Stop Controller");
+			this.vbuttonbox1.Add (this.btnStartController);
+			global::Gtk.ButtonBox.ButtonBoxChild w32 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnStartController]));
 			w32.Position = 3;
 			w32.Expand = false;
 			w32.Fill = false;
@@ -726,6 +726,7 @@ namespace PrototypeDebugWindow
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
+			this.btnStartController.Clicked += new global::System.EventHandler (this.OnBtnStartControllerClicked);
 			this.btnRemoveDPin1.Clicked += new global::System.EventHandler (this.OnBtnRemoveAPinClicked);
 			this.btnClearDPins1.Clicked += new global::System.EventHandler (this.OnBtnClearAPinsClicked);
 			this.btnAddAPin.Clicked += new global::System.EventHandler (this.OnBtnAddAPinClicked);

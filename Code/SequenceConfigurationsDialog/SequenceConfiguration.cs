@@ -17,15 +17,23 @@ namespace SequenceConfigurationsDialog
 
 		#region Member
 
-		public Sequence PinSequence{ get { return pinSequence; } set { pinSequence = value; } }
+		public Sequence PinSequence { 
+			get { return pinSequence; } 
+			set { 
+				entryName.Text = value.Name;
+				cbPin.InsertText (0, string.Format ("{0}(D{1})", value.Pin.Name, value.Pin.Number));
+				cbPin.Active = 0;
+				pinSequence = value; 
+
+				DisplaySequenceInfos ();
+			} 
+		}
 
 		private Sequence pinSequence;
 
-		//		private List<SequenceOperation> SeqOps = new List<SequenceOperation> ();
-
 		private DPin[] DPins;
 
-		private DPin selectedPin;
+		private DPin selectedPin{ get { return pinSequence.Pin; } set { pinSequence.Pin = value; } }
 
 		public TimeSpan Duration {
 			get {
@@ -43,9 +51,10 @@ namespace SequenceConfigurationsDialog
 		private SequenceOperationTreeNode ActiveNode = null;
 
 		//Oxyplot----
-		private OxyPlot.GtkSharp.PlotView plotView;
-		private OxyPlot.PlotModel plotModel;
+		private PlotView plotView;
+		private PlotModel plotModel;
 		private OxyPlot.Series.LineSeries sequenceSeries;
+		private OxyPlot.Series.LineSeries repeateSeries;
 		private LinearAxis XAxis;
 
 		//NodeView
@@ -53,24 +62,14 @@ namespace SequenceConfigurationsDialog
 
 		#endregion
 
-		public SequenceConfiguration (DPin[] Pins, Sequence seq = null)
+		public SequenceConfiguration (DPin[] pins, Sequence seq = null)
 		{
 			this.Build ();
 
 			SetupNodeView ();
 			SetupOxyPlot ();
 
-			if (seq != null)
-			{
-				PinSequence = seq;
-
-				DisplaySequenceInfos ();
-			} else
-			{
-				PinSequence = new Sequence ();
-			}
-
-			DPins = Pins;
+			DPins = pins;
 
 			//no DPin no Sequence
 			if (DPins.Length > 0)
@@ -79,18 +78,21 @@ namespace SequenceConfigurationsDialog
 				{
 					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
 				}
-				cbPin.Active = 0;
-				OnCbPinChanged (this, null);
+			} 
+
+			if (seq != null)
+			{
+				PinSequence = seq;
 			} else
 			{
-				buttonOk.Sensitive = false;
-				buttonOk.TooltipText = "You need to first setup at least one digital Pin to define a Sequence.";
+				pinSequence = new Sequence ();
+				cbPin.Active = 0;
 			}
 		}
 
 		private void SetupOxyPlot ()
 		{
-			XAxis = new OxyPlot.Axes.LinearAxis {
+			XAxis = new LinearAxis {
 				Key = "X",
 				Position = AxisPosition.Bottom,
 				AbsoluteMinimum = TimeSpan.FromSeconds (0).Ticks,
@@ -103,15 +105,15 @@ namespace SequenceConfigurationsDialog
 					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("c"));
 				},
 				MajorGridlineThickness = 1,
-				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
-				MinorGridlineColor = OxyPlot.OxyColors.LightGray,
-				MinorGridlineStyle = OxyPlot.LineStyle.Dot,
+				MajorGridlineStyle = LineStyle.Solid,
+				MinorGridlineColor = OxyColors.LightGray,
+				MinorGridlineStyle = LineStyle.Dot,
 				MinorGridlineThickness = .5,
 //				MinorStep = TimeSpan.FromSeconds (10).Ticks,
 //				MajorStep = TimeSpan.FromMinutes (1).Ticks,
 			};
 
-			var YAxis = new OxyPlot.Axes.LinearAxis {
+			var YAxis = new LinearAxis {
 				Position = AxisPosition.Left,
 				Minimum = -0.1,
 				Maximum = 1.1,
@@ -130,6 +132,13 @@ namespace SequenceConfigurationsDialog
 			sequenceSeries = new OxyPlot.Series.StairStepSeries () {
 				DataFieldX = "Time",
 				DataFieldY = "Value",
+			};	
+
+			repeateSeries = new OxyPlot.Series.LineSeries () {
+				DataFieldX = "Time",
+				DataFieldY = "Value",
+				StrokeThickness = 2,
+				LineStyle = LineStyle.Dot
 			};
 
 			plotModel = new PlotModel {
@@ -211,13 +220,6 @@ namespace SequenceConfigurationsDialog
 
 			if (rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1))
 			{
-				var repeateSeries = new OxyPlot.Series.LineSeries () {
-					DataFieldX = "Time",
-					DataFieldY = "Value",
-					StrokeThickness = 2,
-					Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor),
-					LineStyle = LineStyle.Dot
-				};
 				var repeateData = new Collection<TimeValue> ();
 				repeateData.Add (data.Last ());
 				repeateData.Add (
@@ -272,22 +274,26 @@ namespace SequenceConfigurationsDialog
 
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			int nr = 0;
-			var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
-			reg = Regex.Match (reg.Value, @"\d");
-			if (reg.Success)
+			if (cbPin.ActiveText.Length > 0)
 			{
-				nr = Convert.ToInt32 (reg.Value);
-			
-				for (int i = 0; i < DPins.Length; i++)
+				int nr = 0;
+				var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
+				reg = Regex.Match (reg.Value, @"\d");
+				if (reg.Success)
 				{
-					if (DPins [i].Number == nr)
+					nr = Convert.ToInt32 (reg.Value);
+			
+					for (int i = 0; i < DPins.Length; i++)
 					{
-						selectedPin = DPins [i];
-						sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
-						plotView.InvalidatePlot (true);
-						plotView.ShowAll ();
-						break;
+						if (DPins [i].Number == nr)
+						{
+							selectedPin = DPins [i];
+							sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+							repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+							plotView.InvalidatePlot (true);
+							plotView.ShowAll ();
+							break;
+						}
 					}
 				}
 			}
@@ -295,13 +301,16 @@ namespace SequenceConfigurationsDialog
 
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
-			pinSequence = new Sequence {
-				Name = entryName.Text,
-				Pin = selectedPin,
-				Repetitions = (rbRepeateContinously.Active) ? -1 : sbRadioBtnStopAfter.ValueAsInt,
-			};
+			pinSequence.Name = entryName.Text;
+			pinSequence.Pin = selectedPin;
+			pinSequence.Repetitions = (rbRepeateContinously.Active) ? -1 : sbRadioBtnStopAfter.ValueAsInt;
 				
 			Respond (ResponseType.Apply);
+		}
+
+		protected void OnButtonCancelClicked (object sender, EventArgs e)
+		{
+			Respond (ResponseType.Cancel);
 		}
 
 		protected void OnBtnApplyOperationClicked (object sender, EventArgs e)

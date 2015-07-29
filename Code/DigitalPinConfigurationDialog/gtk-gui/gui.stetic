@@ -31,6 +31,7 @@
                 <property name="CanFocus">True</property>
                 <property name="Events">ButtonMotionMask, ButtonPressMask, ButtonReleaseMask</property>
                 <property name="Alpha">-1</property>
+                <signal name="ColorSet" handler="OnCbColorColorSet" />
               </widget>
               <packing>
                 <property name="TopAttach">2</property>
@@ -53,6 +54,7 @@
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
+                <signal name="Changed" handler="OnCbPinChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>

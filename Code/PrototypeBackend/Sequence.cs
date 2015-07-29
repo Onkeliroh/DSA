@@ -43,7 +43,7 @@ namespace PrototypeBackend
 		/// </summary>
 		public Sequence ()
 		{
-			Pin = null;
+			Pin = new DPin ();
 			Name = "";
 			Chain = new List<SequenceOperation> ();
 			Repetitions = 0;
@@ -97,12 +97,14 @@ namespace PrototypeBackend
 		public SequenceOperation? Next ()
 		{
 			lastOperation += Chain [CurrentOperation].Duration;
-			if (Cycle > Repetitions || Chain.Count == 0) {
+			if (Cycle > Repetitions || Chain.Count == 0)
+			{
 				CurrentState = SequenceState.Done;
 				return  null;
 			}
 			CurrentOperation += 1;
-			if (CurrentOperation == Chain.Count) {
+			if (CurrentOperation == Chain.Count)
+			{
 				CurrentOperation = 0;
 				Cycle += 1;
 			}
@@ -115,7 +117,8 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Current ()
 		{
-			if (Cycle > Repetitions || Chain.Count == 0) {
+			if (Cycle > Repetitions || Chain.Count == 0)
+			{
 				CurrentState = SequenceState.Done;
 				return  null;
 			}
@@ -134,7 +137,8 @@ namespace PrototypeBackend
 		{
 			string res = String.Format ("Name: {0}\t[Pin: {1}]", Name, Pin);
 			res += "\nOperations:";
-			foreach (SequenceOperation seqop in Chain) {
+			foreach (SequenceOperation seqop in Chain)
+			{
 				res += string.Format ("\nDuration: {0}\tState: {1}", seqop.Duration, seqop.State);
 			}
 			return res;

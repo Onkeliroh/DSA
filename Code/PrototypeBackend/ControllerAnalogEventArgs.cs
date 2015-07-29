@@ -49,6 +49,7 @@ namespace PrototypeBackend
 	{
 		Add,
 		Remove,
+		Change,
 		Clear,
 	}
 

@@ -121,7 +121,6 @@
                                 <property name="HasLabel">True</property>
                                 <property name="UseUnderline">True</property>
                                 <property name="Group">group1</property>
-                                <signal name="Toggled" handler="OnRbRepeateContinouslyToggled" />
                               </widget>
                               <packing>
                                 <property name="RightAttach">3</property>
@@ -144,7 +143,6 @@
                                 <property name="HasLabel">True</property>
                                 <property name="UseUnderline">True</property>
                                 <property name="Group">group1</property>
-                                <signal name="Toggled" handler="OnRbStopAfterToggled" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
@@ -171,7 +169,6 @@
                                 <property name="ClimbRate">1</property>
                                 <property name="Numeric">True</property>
                                 <property name="Value">1</property>
-                                <signal name="ValueChanged" handler="OnSbRadioBtnStopAfterValueChanged" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
@@ -367,7 +364,6 @@
                                 <property name="Icon">stock:gtk-remove Menu</property>
                                 <property name="Label" translatable="yes">Remove</property>
                                 <property name="UseUnderline">True</property>
-                                <signal name="Clicked" handler="OnBtnRemoveOperationClicked" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
@@ -746,6 +742,7 @@ LOW</property>
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-cancel</property>
             <property name="ResponseId">-6</property>
+            <signal name="Clicked" handler="OnButtonCancelClicked" />
             <property name="label">gtk-cancel</property>
           </widget>
           <packing>
