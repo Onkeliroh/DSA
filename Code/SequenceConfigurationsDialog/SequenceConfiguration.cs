@@ -23,6 +23,15 @@ namespace SequenceConfigurationsDialog
 				entryName.Text = value.Name;
 				cbPin.InsertText (0, string.Format ("{0}(D{1})", value.Pin.Name, value.Pin.Number));
 				cbPin.Active = 0;
+				if (value.Repetitions == -1)
+				{
+					rbRepeateContinously.Active = true;
+				} else
+				{
+					rbStopAfter.Active = true;
+					sbRadioBtnStopAfter.Value = value.Repetitions;
+				}
+
 				pinSequence = value; 
 
 				DisplaySequenceInfos ();
@@ -218,7 +227,7 @@ namespace SequenceConfigurationsDialog
 				Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor)
 			};
 
-			if (rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1))
+			if ((rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1)) && data.Count > 0)
 			{
 				var repeateData = new Collection<TimeValue> ();
 				repeateData.Add (data.Last ());
@@ -278,7 +287,7 @@ namespace SequenceConfigurationsDialog
 			{
 				int nr = 0;
 				var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
-				reg = Regex.Match (reg.Value, @"\d");
+				reg = Regex.Match (reg.Value, @"\d+");
 				if (reg.Success)
 				{
 					nr = Convert.ToInt32 (reg.Value);

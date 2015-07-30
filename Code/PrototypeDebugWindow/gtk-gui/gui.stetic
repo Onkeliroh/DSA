@@ -13,7 +13,7 @@
     <widget-library name="../../SequenceConfigurationsDialog/bin/Debug/SequenceConfigurationsDialog.dll" />
     <widget-library name="../bin/Debug/PrototypeDebugWindow.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="PrototypeDebugWindow.MainWindow" design-size="800 600">
+  <widget class="Gtk.Window" id="PrototypeDebugWindow.DebugWindow" design-size="800 600">
     <action-group name="Default" />
     <property name="MemberName" />
     <property name="WidthRequest">800</property>
@@ -437,6 +437,7 @@
                     <child>
                       <widget class="Gtk.Button" id="btnBlinkSequenceTest">
                         <property name="MemberName" />
+                        <property name="Sensitive">False</property>
                         <property name="CanFocus">True</property>
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">BlinkSequenceTest</property>
@@ -451,6 +452,7 @@
                     <child>
                       <widget class="Gtk.Button" id="btnDoubleBlink">
                         <property name="MemberName" />
+                        <property name="Sensitive">False</property>
                         <property name="CanFocus">True</property>
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">UberKewlPhaseShiftDoubleBlink</property>

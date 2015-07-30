@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SamplerLogger
+namespace Logger
 {
 	public class Logger : IDisposable
 	{

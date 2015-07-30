@@ -5,10 +5,11 @@ using PrototypeBackend;
 using System.Threading.Tasks;
 using GUIHelper;
 using System.Threading;
+using Logger;
 
 namespace PrototypeDebugWindow
 {
-	public partial class MainWindow : Gtk.Window
+	public partial class DebugWindow : Gtk.Window
 	{
 		Controller con = new Controller ();
 
@@ -17,7 +18,7 @@ namespace PrototypeDebugWindow
 		private Gtk.NodeStore NodeStoreSequences = new NodeStore (typeof(SequenceTreeNode));
 
 
-		public MainWindow () :
+		public DebugWindow () :
 			base (Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
@@ -46,18 +47,24 @@ namespace PrototypeDebugWindow
 			BuildMenu ();
 			BuildNodeViews ();
 
+			#if DEBUG
+			con.ConLogger.NewMessage += 
+				(sender, e) => tvLog.Buffer.Text += 
+					String.Format ("{0} | {1} | {2}\n", e.Time.ToString ("T"), e.Level, e.Message);
+			#endif
+			#if RELEASE
+			con.ConLogger.NewMessage += 
+			(sender, e) =>
+			{
+				if (e.Level == LogLevel.INFO)
+				{
+					tvLog.Buffer.Text += String.Format ("{0} | {1}| {2}\n", e.Time.ToString ("T"), e.Level, e.Message);
+				}
+			};
+			#endif
+
 			con.PinsUpdated += (o, a) =>
 			{
-				if (a.UpdateOperation == UpdateOperation.Add)
-				{
-					tvLog.Buffer.Text += String.Format ("{0} | Added Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
-				} else if (a.UpdateOperation == UpdateOperation.Remove)
-				{
-					tvLog.Buffer.Text += String.Format ("{0} | Removed Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
-				} else if (a.UpdateOperation == UpdateOperation.Change)
-				{
-					tvLog.Buffer.Text += String.Format ("{0} | Changed Pin -> {1}\n", DateTime.Now.ToString ("T"), a.Pin);
-				}
 				if (a.Type == PinType.DIGITAL)
 				{
 					FillDigitalPinNodes ();
@@ -67,26 +74,17 @@ namespace PrototypeDebugWindow
 				}
 			};
 
-			con.SequencesUpdated += (o, a) =>
-			{
-				if (a.UpdateOperation == UpdateOperation.Add)
-				{
-					tvLog.Buffer.Text += String.Format ("{0} | Added Sequence -> {1}\n", DateTime.Now.ToString ("T"), a.Seq);
-				} else if (a.UpdateOperation == UpdateOperation.Remove)
-				{
-					tvLog.Buffer.Text += String.Format ("{0} | Removed Sequence -> {1}\n", DateTime.Now.ToString ("T"), a.Seq);
-				}
-				FillSequenceNodes ();
-			};
+			con.SequencesUpdated += (o, a) => FillSequenceNodes ();
 
 			nvAnalogPins.NodeSelection.Changed += (o, a) =>
 			{
-				Gtk.NodeSelection selection = (Gtk.NodeSelection)o;
+				Gtk.NodeSelection selection = (NodeSelection)o;
 				APinTreeNode node = (APinTreeNode)selection.SelectedNode;
 				Console.WriteLine (node.Name);
 			};
 
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
+			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 		}
 
 		[GLib.ConnectBeforeAttribute]
@@ -96,20 +94,21 @@ namespace PrototypeDebugWindow
 			{
 				Menu m = new Menu ();
 				MenuItem deleteItem = new MenuItem ("Delete this item");
-				deleteItem.ButtonPressEvent += new ButtonPressEventHandler (OnDeleteItemButtonPressed);
+				deleteItem.ButtonPressEvent += (senderer, ee) =>
+				{
+					ITreeNode node = (sender as NodeView).NodeSelection.SelectedNode;
+					if (node is DPinTreeNode)
+					{
+						con.RemovePin ((node as DPinTreeNode).Index);
+					} else if (node is SequenceTreeNode)
+					{
+						con.RemoveSequence ((node as SequenceTreeNode).Index);
+					}
+				};
 				m.Add (deleteItem);
 				m.ShowAll ();
 				m.Popup ();
 			}
-		}
-
-		protected void OnDeleteItemButtonPressed (object sender, ButtonPressEventArgs e)
-		{
-			ITreeNode node = nvDigitalPins.NodeSelection.SelectedNode;
-
-			con.RemovePin ((node as DPinTreeNode).RealName);
-
-			nvDigitalPins.QueueDraw ();
 		}
 
 		private int GetNodeIndex (ITreeNode node, ref NodeView view)
@@ -460,7 +459,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnStartControllerClicked (object sender, EventArgs e)
 		{
-			if (con.State () == ThreadState.Running)
+			if (con.IsRunning)
 			{
 				con.Stop ();	
 			} else

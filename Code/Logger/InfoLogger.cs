@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace SamplerLogger
+namespace Logger
 {
 	public enum LogLevel
 	{
@@ -11,19 +11,17 @@ namespace SamplerLogger
 		ERROR,
 	}
 
-	//	public readonly string[] LogLevelNames = new string[]{
-	//		"DEBUG",
-	//		"ÏNFO",
-	//		"WARNING",
-	//		"ERROR",
-	//	}
-	
 	public class InfoLogger : Logger
 	{
 		//LogLevel
 		private LogLevel _LogLevel = LogLevel.INFO;
 
 		private bool loglevel{ get; set; }
+
+		public bool LogToFile = true;
+
+		public EventHandler<LogMessageArgs> NewMessage;
+
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Sampler.InfoLogger"/> class.
@@ -97,6 +95,10 @@ namespace SamplerLogger
 		public override void Log (string msg)
 		{
 			Log (msg, LogLevel.INFO);
+			if (NewMessage != null)
+			{
+				NewMessage.Invoke (this, new LogMessageArgs (msg, DateTime.Now, LogLevel.INFO));
+			}
 		}
 
 		/// <summary>
@@ -106,31 +108,15 @@ namespace SamplerLogger
 		/// <param name="loglvl">Loglvl.</param>
 		public void Log (string msg, LogLevel loglvl)
 		{
-			base.Log (GetTimeString () + "[" + getLogLevelName (loglvl) + "]" + Separator + msg);
-		}
-
-		/// <summary>
-		/// Translates numerical values to human readable strings for better a understanding of the log file.
-		/// </summary>
-		/// <param name="level"> loglevel value</param>
-		/// <returns> name of the loglevel value  (e.g. 0 = DEBUG)</returns>
-		private string getLogLevelName (LogLevel level)
-		{
-			switch (level)
+			if (LogToFile)
 			{
-			case LogLevel.DEBUG:
-				return "DEBUG";
-			case LogLevel.INFO:
-				return "INFO";
-			case LogLevel.WARNING:
-				return "WARNING";
-			case LogLevel.ERROR:
-				return "ERROR";
-			default:
-				return "";
+				base.Log (GetTimeString () + "[" + loglvl + "]" + Separator + msg);
+			}
+			if (NewMessage != null)
+			{
+				NewMessage.Invoke (this, new LogMessageArgs (msg, DateTime.Now, loglvl));
 			}
 		}
-	
 	}
 }
 

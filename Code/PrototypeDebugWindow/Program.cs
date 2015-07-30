@@ -8,7 +8,7 @@ namespace PrototypeDebugWindow
 		public static void Main (string[] args)
 		{
 			Application.Init ();
-			MainWindow win = new MainWindow ();
+			DebugWindow win = new DebugWindow ();
 			win.Show ();
 			Application.Run ();
 		}

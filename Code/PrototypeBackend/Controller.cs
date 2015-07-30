@@ -5,11 +5,15 @@ using System.Linq;
 using PrototypeBackend;
 using System.Xml;
 using System.Runtime.InteropServices;
+using Logger;
+using System.Diagnostics;
 
 namespace PrototypeBackend
 {
 	public class Controller
 	{
+		public InfoLogger ConLogger { get; private set; }
+
 		private Thread signalThread;
 
 		//		private Thread sequenceThread;
@@ -44,22 +48,22 @@ namespace PrototypeBackend
 		public EventHandler<ControllerPinUpdateArgs> PinsUpdated;
 		public EventHandler<ControllerSequenceUpdateArgs> SequencesUpdated;
 
-		private bool running = true;
+		private bool running = false;
+
+		public bool IsRunning { get { return running; } private set { } }
 
 		public Controller ()
 		{
-			ArduinoController.Init ();
+			ConLogger = new InfoLogger ("PrototypeBackendLog.txt", true, false, LogLevel.DEBUG);
+			ConLogger.LogToFile = false;
+
 			ControllerSchedulerList = new List<Scheduler> ();
 			ControllerPins = new List<IPin> ();
 			ControlSequences = new List<Sequence> ();
 
+			ArduinoController.Init ();
 			ArduinoController.NewAnalogValue += OnNewArduinoNewAnalogValue;
 			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
-
-			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
-
-//			sequenceThread = new Thread (new ThreadStart (ManageSequence)){ Name = "sequenceThread" };
-
 			ArduinoController.OnConnection += ((o, e) =>
 			{
 				ArduinoController.GetNumberAnalogPins ();
@@ -67,6 +71,8 @@ namespace PrototypeBackend
 				ArduinoController.GetVersion ();
 				ArduinoController.GetModel ();
 			});
+
+			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
 		}
 
 		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)
@@ -108,19 +114,27 @@ namespace PrototypeBackend
 				{
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ip, UpdateOperation.Add, ip.Type));
 				}
+				ConLogger.Log ("Added Pin: " + ip, LogLevel.DEBUG);
 			}
 		}
 
 		public void SetPin (int index, IPin ip)
 		{
-			if (PinsUpdated != null)
+			if (index >= 0 && index < ControllerPins.Count)
 			{
-				PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ControllerPins [index], UpdateOperation.Change, ip.Type));
-			}
-			ControllerPins [index] = ip;
-			if (PinsUpdated != null)
+				ConLogger.Log ("Changed Pin from: " + ControllerPins [index] + " to " + ip, LogLevel.DEBUG);
+				if (PinsUpdated != null)
+				{
+					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ControllerPins [index], UpdateOperation.Change, ip.Type));
+				}
+				ControllerPins [index] = ip;
+				if (PinsUpdated != null)
+				{
+					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ip, UpdateOperation.Change, ip.Type));
+				}
+			} else
 			{
-				PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ip, UpdateOperation.Change, ip.Type));
+				throw new IndexOutOfRangeException ();
 			}
 		}
 
@@ -128,10 +142,28 @@ namespace PrototypeBackend
 		{
 			if (!ControlSequences.Contains (seq))
 			{
+				ConLogger.Log ("Added Sequence: " + seq, LogLevel.DEBUG);
 				ControlSequences.Add (seq);
 				if (SequencesUpdated != null)
 				{
 					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Add, seq));
+				}
+			}
+		}
+
+		public void SetSequence (int index, Sequence seq)
+		{
+			if (index >= 0 && index < ControlSequences.Count)
+			{
+				ConLogger.Log ("Changed Sequence from: " + ControlSequences [index] + " to " + seq, LogLevel.DEBUG);
+				if (SequencesUpdated != null)
+				{
+					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Change, ControlSequences [index]));
+				}
+				ControlSequences [index] = seq;
+				if (SequencesUpdated != null)
+				{
+					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Change, ControlSequences [index]));
 				}
 			}
 		}
@@ -172,19 +204,47 @@ namespace PrototypeBackend
 				{
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (result [0], UpdateOperation.Remove, result [0].Type));
 				}
+				ConLogger.Log ("Removed Pin: " + result [0], LogLevel.DEBUG);
 			}
 		}
 
 		public void RemovePin (int index)
 		{
-			if (index > 0 && index < ControllerPins.Count)
+			if (index >= 0 && index < ControllerPins.Count)
 			{
-				var type = ControllerPins [index].Type;
-				ControllerPins.RemoveAt (index);
 				if (PinsUpdated != null)
 				{
-					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.Remove, type));
+					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ControllerPins [index], UpdateOperation.Remove, ControllerPins [index].Type));
 				}
+				ConLogger.Log ("Removed Pin: " + ControllerPins [index], LogLevel.DEBUG);
+				ControllerPins.RemoveAt (index);
+			}
+		}
+
+		public void RemoveSequence (string name)
+		{
+			var result = ControlSequences.Where (o => o.Name == name).ToList<Sequence> ();
+			if (result.Count > 0)
+			{
+				if (SequencesUpdated != null)
+				{
+					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Remove, result [0]));
+				}
+				ConLogger.Log ("Removed Sequence: " + result [0], LogLevel.DEBUG);
+				ControlSequences.Remove (result [0]);
+			}
+		}
+
+		public void RemoveSequence (int index)
+		{
+			if (index >= 0 && index < ControlSequences.Count)
+			{
+				if (SequencesUpdated != null)
+				{
+					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Remove, ControlSequences [index]));
+				}
+				ConLogger.Log ("Removed Sequence: " + ControlSequences [index], LogLevel.DEBUG);
+				ControlSequences.RemoveAt (index);
 			}
 		}
 
@@ -212,6 +272,7 @@ namespace PrototypeBackend
 		public void ClearPins (PinType type)
 		{
 			ControllerPins.RemoveAll (o => o.Type == type);
+			ConLogger.Log ("Cleared Pins", LogLevel.DEBUG);
 			if (PinsUpdated != null)
 			{
 				PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.Clear, type));
@@ -220,45 +281,59 @@ namespace PrototypeBackend
 
 		public void Stop ()
 		{
-			sequenceThreads.ForEach (o => o.Abort ());
 			running = false;
+
+			while (sequenceThreads.Any (o => o.ThreadState != System.Threading.ThreadState.Stopped))
+			{
+			}
+
+			sequenceThreads.Clear ();
+
+			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 		}
 
 		public void Start ()
 		{
+			var sw = new Stopwatch ();
+			sw.Start ();
 			if (CheckSignals ())
 			{
-				BuildSequenceList ();
 				running = true;
+				BuildSequenceList ();
 				StartTime = DateTime.Now;
 				sequenceThreads.ForEach (o => o.Start ());
-				signalThread.Start ();
+//				signalThread.Start ();
+				ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			}
+			ConLogger.Log ("Start took: " + sw.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
+			sw.Stop ();
 		}
 
-		public ThreadState State ()
+		public System.Threading.ThreadState State ()
 		{
-			if (sequenceThreads.Count == 0)
+			if (running)
 			{
-				return ThreadState.Unstarted;
+				return System.Threading.ThreadState.Running;
 			} else
 			{
-				return ThreadState.Running;
+				return System.Threading.ThreadState.Unstarted;
 			}
 		}
 
 		private void BuildSequenceList ()
 		{
+			var sw = new Stopwatch ();
+			sw.Start ();
+			sequenceThreads.ForEach (o => o.Abort ());
 			sequenceThreads.Clear ();
 			foreach (Sequence seq in ControlSequences)
 			{
 				var seqThread = new Thread (
 					                new ThreadStart (() =>
 					{
-						SequenceOperation op = (SequenceOperation)seq.Current ();
-						while (seq.Current () != null)
+						while (seq.Current () != null && running)
 						{
-							op = (SequenceOperation)seq.Current ();
+							SequenceOperation op = (SequenceOperation)seq.Current ();
 							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation))
 							{
 								//TODO Zeit messen
@@ -268,11 +343,14 @@ namespace PrototypeBackend
 								Thread.Sleep (op.Duration);
 							}
 						}	
+						seq.Reset ();
+						running &= sequenceThreads.Select (o => (int)o.ThreadState).ToList<int> ().Sum () != sequenceThreads.Count * (int)System.Threading.ThreadState.Stopped;
 					}
-					                )){ Name = seq.Name + "_Thread" };
-
+					                ));
 				sequenceThreads.Add (seqThread);
 			}
+			ConLogger.Log ("BuildSequenceList took " + sw.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
+			sw.Stop ();
 		}
 
 		public bool CheckSignals ()

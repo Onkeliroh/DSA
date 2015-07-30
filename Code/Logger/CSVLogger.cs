@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Text;
 using System.Collections.Generic;
 
-namespace SamplerLogger
+namespace Logger
 {
 	public sealed class CSVLogger : Logger
 	{
