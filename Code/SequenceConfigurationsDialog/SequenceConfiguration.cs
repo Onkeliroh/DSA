@@ -34,7 +34,7 @@ namespace SequenceConfigurationsDialog
 
 				pinSequence = value; 
 
-				DisplaySequenceInfos ();
+//				DisplaySequenceInfos ();
 			} 
 		}
 
@@ -97,6 +97,7 @@ namespace SequenceConfigurationsDialog
 				pinSequence = new Sequence ();
 				cbPin.Active = 0;
 			}
+			DisplaySequenceInfos ();
 		}
 
 		private void SetupOxyPlot ()
@@ -195,60 +196,66 @@ namespace SequenceConfigurationsDialog
 
 		private void DisplaySequenceInfos ()
 		{
-			btnRemoveOperation.Sensitive = false;
-
-			nvSequenceOptionsStore.Clear ();
-			for (int i = 0; i < PinSequence.Chain.Count; i++)
+			if (pinSequence != null)
 			{
-				nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i], i));
+				btnRemoveOperation.Sensitive = false;
+
+				nvSequenceOptionsStore.Clear ();
+				for (int i = 0; i < PinSequence.Chain.Count; i++)
+				{
+					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i], i));
+				}
+				nvSequenceOptions.QueueDraw ();
+				DisplayPlot ();
 			}
-			nvSequenceOptions.QueueDraw ();
-			DisplayPlot ();
 		}
 
 		private void DisplayPlot ()
 		{
-			plotView.Model.Series.Clear ();
-
-			var current = new TimeSpan (0);
-			var data = new Collection<TimeValue> ();
-			for (int i = 0; i < PinSequence.Chain.Count; i++)
+			if (pinSequence != null)
 			{
-				data.Add (new TimeValue (){ Time = current, Value = ((PinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
-				current = current.Add (PinSequence.Chain [i].Duration);
-				data.Add (new TimeValue (){ Time = current, Value = ((PinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
+				plotView.Model.Series.Clear ();
+
+				var current = new TimeSpan (0);
+				var data = new Collection<TimeValue> ();
+				for (int i = 0; i < pinSequence.Chain.Count; i++)
+				{
+					data.Add (new TimeValue (){ Time = current, Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
+					current = current.Add (pinSequence.Chain [i].Duration);
+					data.Add (new TimeValue (){ Time = current, Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
+				}
+
+				sequenceSeries = new OxyPlot.Series.LineSeries () {
+					DataFieldX = "Time",
+					DataFieldY = "Value",
+					ItemsSource = data,
+					StrokeThickness = 2,
+					Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor)
+				};
+
+				if ((rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1)) && data.Count > 0)
+				{
+					var repeateData = new Collection<TimeValue> ();
+					repeateData.Add (data.Last ());
+					repeateData.Add (
+						new TimeValue {
+							Time = data.Last ().Time, 
+							Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
+						});
+					repeateData.Add (
+						new TimeValue {
+							Time = data.Last ().Time.Add (pinSequence.Chain [0].Duration),
+							Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
+						});
+					repeateSeries.ItemsSource = repeateData;
+					plotView.Model.Series.Add (repeateSeries);
+				}
+
+				plotView.Model.Series.Add (sequenceSeries);
+				plotView.InvalidatePlot (true);
+				plotView.Model.InvalidatePlot (true);
+				plotView.ShowAll ();
 			}
-
-			sequenceSeries = new OxyPlot.Series.LineSeries () {
-				DataFieldX = "Time",
-				DataFieldY = "Value",
-				ItemsSource = data,
-				StrokeThickness = 2,
-				Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor)
-			};
-
-			if ((rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1)) && data.Count > 0)
-			{
-				var repeateData = new Collection<TimeValue> ();
-				repeateData.Add (data.Last ());
-				repeateData.Add (
-					new TimeValue {
-						Time = data.Last ().Time, 
-						Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
-					});
-				repeateData.Add (
-					new TimeValue {
-						Time = data.Last ().Time.Add (PinSequence.Chain [0].Duration),
-						Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
-					});
-				repeateSeries.ItemsSource = repeateData;
-				plotView.Model.Series.Add (repeateSeries);
-			}
-
-			plotView.Model.Series.Add (sequenceSeries);
-			plotView.InvalidatePlot (true);
-			plotView.Model.InvalidatePlot (true);
-			plotView.ShowAll ();
 		}
 
 		[GLib.ConnectBeforeAttribute]
@@ -358,6 +365,12 @@ namespace SequenceConfigurationsDialog
 			pinSequence.Chain.Add (SeqOp);
 			XAxis.AbsoluteMaximum = pinSequence.Chain.Sum (o => o.Duration.TotalMilliseconds);
 			DisplaySequenceInfos ();
+		}
+
+		protected void OnSbRadioBtnStopAfterChanged (object sender, EventArgs e)
+		{
+			rbStopAfter.Active = true;
+			DisplayPlot ();
 		}
 	}
 

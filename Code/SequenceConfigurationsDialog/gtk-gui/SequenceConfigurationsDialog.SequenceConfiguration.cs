@@ -535,6 +535,7 @@ namespace SequenceConfigurationsDialog
 			this.DefaultWidth = 996;
 			this.DefaultHeight = 598;
 			this.Show ();
+			this.sbRadioBtnStopAfter.Changed += new global::System.EventHandler (this.OnSbRadioBtnStopAfterChanged);
 			this.rbStopAfter.Toggled += new global::System.EventHandler (this.OnRbStopAfterToggled);
 			this.rbRepeateContinously.Toggled += new global::System.EventHandler (this.OnRbRepeateContinouslyToggled);
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);

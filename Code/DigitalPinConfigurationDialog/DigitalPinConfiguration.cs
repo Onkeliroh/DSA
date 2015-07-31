@@ -28,6 +28,14 @@ namespace DigitalPinConfigurationDialog
 
 			this.FocusChain = new Widget[]{ entryName, cbPin, cbColor, buttonOk, buttonCancel };
 
+			if (dpin != null)
+			{
+				Pin = dpin;
+			} else
+			{
+				pin = new DPin ();
+			}
+
 			for (int i = 0; i < availablePins.Length; i++)
 			{
 				cbPin.AppendText ("D" + availablePins [i].ToString ());
@@ -35,13 +43,6 @@ namespace DigitalPinConfigurationDialog
 			if (availablePins.Length > 0)
 			{
 				cbPin.Active = 0;
-			}
-			if (dpin != null)
-			{
-				Pin = dpin;
-			} else
-			{
-				pin = new DPin ();
 			}
 				
 		}
@@ -70,7 +71,10 @@ namespace DigitalPinConfigurationDialog
 		{
 			try
 			{
-				pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
+				if (pin != null)
+				{
+					pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
+				}
 			} catch (Exception ee)
 			{
 			}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using PrototypeBackend;
@@ -18,7 +19,7 @@ namespace PrototypeBackend
 
 		//		private Thread sequenceThread;
 
-		private List<Thread> sequenceThreads = new List<Thread> ();
+		private List<Task> sequenceThreads = new List<Task> ();
 
 		public List<IPin> ControllerPins{ private set; get; }
 
@@ -283,7 +284,7 @@ namespace PrototypeBackend
 		{
 			running = false;
 
-			while (sequenceThreads.Any (o => o.ThreadState != System.Threading.ThreadState.Stopped))
+			while (sequenceThreads.Any (o => o.Status != TaskStatus.RanToCompletion))
 			{
 			}
 
@@ -324,12 +325,11 @@ namespace PrototypeBackend
 		{
 			var sw = new Stopwatch ();
 			sw.Start ();
-			sequenceThreads.ForEach (o => o.Abort ());
 			sequenceThreads.Clear ();
 			foreach (Sequence seq in ControlSequences)
 			{
-				var seqThread = new Thread (
-					                new ThreadStart (() =>
+				var seqThread = new Task (
+					                () =>
 					{
 						while (seq.Current () != null && running)
 						{
@@ -344,9 +344,10 @@ namespace PrototypeBackend
 							}
 						}	
 						seq.Reset ();
-						running &= sequenceThreads.Select (o => (int)o.ThreadState).ToList<int> ().Sum () != sequenceThreads.Count * (int)System.Threading.ThreadState.Stopped;
+						bool res = sequenceThreads.Any (o => o.Status != TaskStatus.RanToCompletion);
+						running = !res;
 					}
-					                ));
+					, TaskCreationOptions.AttachedToParent);
 				sequenceThreads.Add (seqThread);
 			}
 			ConLogger.Log ("BuildSequenceList took " + sw.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
