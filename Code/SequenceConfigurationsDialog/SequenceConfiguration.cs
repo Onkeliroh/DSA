@@ -119,8 +119,6 @@ namespace SequenceConfigurationsDialog
 				MinorGridlineColor = OxyColors.LightGray,
 				MinorGridlineStyle = LineStyle.Dot,
 				MinorGridlineThickness = .5,
-//				MinorStep = TimeSpan.FromSeconds (10).Ticks,
-//				MajorStep = TimeSpan.FromMinutes (1).Ticks,
 			};
 
 			var YAxis = new LinearAxis {
@@ -134,9 +132,6 @@ namespace SequenceConfigurationsDialog
 				AbsoluteMinimum = -0.1,
 				MinorStep = 1,
 				MajorStep = 1,
-//				MajorGridlineColor = OxyPlot.OxyColors.Gray,
-//				MajorGridlineThickness = 1,
-//				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 			};
 
 			sequenceSeries = new OxyPlot.Series.StairStepSeries () {
@@ -187,11 +182,26 @@ namespace SequenceConfigurationsDialog
 				sbMinutes.Value = node.SeqOp.Duration.Minutes;
 				sbSeconds.Value = node.SeqOp.Duration.Seconds;
 				sbMilliSec.Value = node.SeqOp.Duration.Milliseconds;
+				cbState.Active = (node.SeqOp.State == DPinState.HIGH) ? 0 : 1;
 
 				btnRemoveOperation.Sensitive = true;
+
+				SwitchToApplyBtn ();
 			};
 
 			nvSequenceOptions.Show ();
+		}
+
+		private void SwitchToAddBtn ()
+		{
+			btnApplyOperation.Label = "Add";
+			btnApplyOperation.RenderIcon ("gtk-add", IconSize.Button, "");
+		}
+
+		private void SwitchToApplyBtn ()
+		{
+			btnApplyOperation.Label = "Apply";
+			btnApplyOperation.RenderIcon ("gtk-apply", IconSize.Button, "");
 		}
 
 		private void DisplaySequenceInfos ()
@@ -331,18 +341,31 @@ namespace SequenceConfigurationsDialog
 
 		protected void OnBtnApplyOperationClicked (object sender, EventArgs e)
 		{
-			AddOperation (new SequenceOperation () {
+			var op = new SequenceOperation () {
 				Duration = this.Duration,
 				State = (cbState.ActiveText == "HIGH") ? DPinState.HIGH : DPinState.LOW,
-			});
-			cbState.Active = (cbState.Active == 0) ? 1 : 0;
+			};
+			if (ActiveNode == null)
+			{
+				AddOperation (op);
+				cbState.Active = (cbState.Active == 0) ? 1 : 0;
+			} else
+			{
+				pinSequence.Chain [ActiveNode.Index] = op;
+				DisplaySequenceInfos ();
+				SwitchToAddBtn ();
+			}
 		}
 
 		protected void OnBtnRemoveOperationClicked (object sender, EventArgs e)
 		{
-			PinSequence.Chain.RemoveAt (ActiveNode.Index);
-			DisplaySequenceInfos ();
-			btnRemoveOperation.Sensitive = false;
+			if (ActiveNode != null)
+			{
+				PinSequence.Chain.RemoveAt (ActiveNode.Index);
+				DisplaySequenceInfos ();
+				btnRemoveOperation.Sensitive = false;
+				ActiveNode = null;
+			}
 		}
 
 		protected void OnRbRepeateContinouslyToggled (object sender, EventArgs e)

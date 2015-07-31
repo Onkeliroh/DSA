@@ -287,9 +287,9 @@ namespace SequenceConfigurationsDialog
 			this.btnApplyOperation.CanFocus = true;
 			this.btnApplyOperation.Name = "btnApplyOperation";
 			this.btnApplyOperation.UseUnderline = true;
-			this.btnApplyOperation.Label = global::Mono.Unix.Catalog.GetString ("Apply");
+			this.btnApplyOperation.Label = global::Mono.Unix.Catalog.GetString ("Add");
 			global::Gtk.Image w18 = new global::Gtk.Image ();
-			w18.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-apply", global::Gtk.IconSize.Menu);
+			w18.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
 			this.btnApplyOperation.Image = w18;
 			this.table5.Add (this.btnApplyOperation);
 			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table5 [this.btnApplyOperation]));
@@ -539,6 +539,7 @@ namespace SequenceConfigurationsDialog
 			this.rbStopAfter.Toggled += new global::System.EventHandler (this.OnRbStopAfterToggled);
 			this.rbRepeateContinously.Toggled += new global::System.EventHandler (this.OnRbRepeateContinouslyToggled);
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
+			this.btnRemoveOperation.Clicked += new global::System.EventHandler (this.OnBtnRemoveOperationClicked);
 			this.btnApplyOperation.Clicked += new global::System.EventHandler (this.OnBtnApplyOperationClicked);
 			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);

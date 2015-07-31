@@ -339,8 +339,8 @@
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
-                                <property name="Icon">stock:gtk-apply Menu</property>
-                                <property name="Label" translatable="yes">Apply</property>
+                                <property name="Icon">stock:gtk-add Menu</property>
+                                <property name="Label" translatable="yes">Add</property>
                                 <property name="UseUnderline">True</property>
                                 <signal name="Clicked" handler="OnBtnApplyOperationClicked" />
                               </widget>
@@ -367,6 +367,7 @@
                                 <property name="Icon">stock:gtk-remove Menu</property>
                                 <property name="Label" translatable="yes">Remove</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnRemoveOperationClicked" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
