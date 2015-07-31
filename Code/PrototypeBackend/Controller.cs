@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using PrototypeBackend;
-using System.Xml;
-using System.Runtime.InteropServices;
 using Logger;
 using System.Diagnostics;
 
@@ -23,7 +21,7 @@ namespace PrototypeBackend
 
 		public List<IPin> ControllerPins{ private set; get; }
 
-		public List<Scheduler> ControllerSchedulerList { private set; get; }
+		public List<Signal> ControllerSignalList { private set; get; }
 
 		public List<Sequence> ControlSequences;
 
@@ -45,7 +43,7 @@ namespace PrototypeBackend
 
 		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
-		public EventHandler SchedulerListUpdated;
+		public EventHandler SignalListUpdated;
 		public EventHandler<ControllerPinUpdateArgs> PinsUpdated;
 		public EventHandler<ControllerSequenceUpdateArgs> SequencesUpdated;
 
@@ -58,7 +56,7 @@ namespace PrototypeBackend
 			ConLogger = new InfoLogger ("PrototypeBackendLog.txt", true, false, LogLevel.DEBUG);
 			ConLogger.LogToFile = false;
 
-			ControllerSchedulerList = new List<Scheduler> ();
+			ControllerSignalList = new List<Signal> ();
 			ControllerPins = new List<IPin> ();
 			ControlSequences = new List<Sequence> ();
 
@@ -92,17 +90,16 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void AddScheduler (Scheduler s)
+		public void AddSignal (Signal s)
 		{
-			if (!ControllerSchedulerList.Contains (s))
+			if (!ControllerSignalList.Contains (s))
 			{
-				ControllerSchedulerList.Add (s);
-				ControllerSchedulerList = ControllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
+				ControllerSignalList.Add (s);
 			}
 
-			if (SchedulerListUpdated != null)
+			if (SignalListUpdated != null)
 			{
-				SchedulerListUpdated.Invoke (this, null);
+				SignalListUpdated.Invoke (this, null);
 			}
 		}
 
@@ -169,28 +166,27 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void AddSchedulerRange (Scheduler[] s)
+		public void AddSignalRange (Signal[] s)
 		{
-			foreach (Scheduler sc in s)
+			foreach (Signal sc in s)
 			{
-				if (!ControllerSchedulerList.Contains (sc))
+				if (!ControllerSignalList.Contains (sc))
 				{
-					ControllerSchedulerList.Add (sc);
+					ControllerSignalList.Add (sc);
 				}
 			}
-			ControllerSchedulerList = ControllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
-			if (SchedulerListUpdated != null)
+			if (SignalListUpdated != null)
 			{
-				SchedulerListUpdated.Invoke (this, null);
+				SignalListUpdated.Invoke (this, null);
 			}
 		}
 
-		public void RemoveScheduler (Scheduler s)
+		public void RemoveScheduler (Signal s)
 		{
-			ControllerSchedulerList.Remove (s);
-			if (SchedulerListUpdated != null)
+			ControllerSignalList.Remove (s);
+			if (SignalListUpdated != null)
 			{
-				SchedulerListUpdated.Invoke (this, null);
+				SignalListUpdated.Invoke (this, null);
 			}
 		}
 
@@ -249,24 +245,24 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void RemoveSchedulerRange (Scheduler[] s)
+		public void RemoveSchedulerRange (Signal[] s)
 		{
-			foreach (Scheduler sc in s)
+			foreach (Signal sc in s)
 			{
-				ControllerSchedulerList.Remove (sc);
+				ControllerSignalList.Remove (sc);
 			}
-			if (SchedulerListUpdated != null)
+			if (SignalListUpdated != null)
 			{
-				SchedulerListUpdated.Invoke (this, null);
+				SignalListUpdated.Invoke (this, null);
 			}
 		}
 
 		public void ClearScheduler ()
 		{
-			ControllerSchedulerList.Clear ();
-			if (SchedulerListUpdated != null)
+			ControllerSignalList.Clear ();
+			if (SignalListUpdated != null)
 			{
-				SchedulerListUpdated.Invoke (this, null);
+				SignalListUpdated.Invoke (this, null);
 			}
 		}
 
@@ -362,45 +358,8 @@ namespace PrototypeBackend
 
 		private void Run ()
 		{
-			//todo sequences berücksichtigen
-			while (running)
-			{
-				if (ControllerSchedulerList.Count > 0)
-				{
-					if (DateTime.Now.Subtract (ControllerSchedulerList [0].DueTime).TotalMilliseconds < 1)
-					{
-						if (ControllerSchedulerList [0].Run () == true)
-						{
-							ControllerSchedulerList.RemoveAt (0);
-						} else
-						{
-							ControllerSchedulerList = ControllerSchedulerList.OrderBy (o => o.DueTime).ToList ();
-						}
-					}
-				}
-			}
+			//TODO signal verarbeitung
 		}
-
-		//		private void ManageSequence ()
-		//		{
-		//			while (running)
-		//			{
-		//				foreach (Sequence seq in ControlSequences)
-		//				{
-		//					if (seq.Current () != null)
-		//					{
-		//						SequenceOperation op = (SequenceOperation)seq.Current ();
-		//						if (StartTime <= DateTime.Now.Subtract (op.Time))
-		//						{
-		//							Console.Write (DateTime.Now + "\t");
-		//							ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
-		//							seq.Next ();
-		//							Thread.Sleep (op.Duration);
-		//						}
-		//					}
-		//				}
-		//			}
-		//		}
 
 		public int[] GetUsedPins (PinType type)
 		{
@@ -409,7 +368,6 @@ namespace PrototypeBackend
 
 		public DPin[] GetDPinsWithoutSequence ()
 		{
-			//TODO Test schreiben
 			var pins = ControllerPins.Where (o => o.Type == PinType.DIGITAL).ToList<IPin> ();
 
 			pins.RemoveAll (o => ControlSequences.Select (s => s.Pin).Contains (o));
@@ -420,6 +378,19 @@ namespace PrototypeBackend
 				array [i] = (pins [i] as DPin);
 			}
 
+			return array;
+		}
+
+		public APin[] GetApinsWithoutSingal ()
+		{
+			var pins = ControllerPins.Where (o => o.Type == PinType.ANALOG).ToList<IPin> ();
+
+			APin[] array = new APin[pins.Count];
+
+			for (int i = 0; i < array.Length; i++)
+			{
+				array [i] = (pins [i] as APin);
+			}
 			return array;
 		}
 

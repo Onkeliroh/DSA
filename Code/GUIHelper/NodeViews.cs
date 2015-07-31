@@ -48,9 +48,11 @@ namespace GUIHelper
 		[Gtk.TreeNodeValue (Column = 7)]
 		public double Interval = 1;
 
+		public int Index { get; private set; }
+
 		public string RealName { get; private set; }
 
-		public APinTreeNode (APin pin)
+		public APinTreeNode (APin pin, int index = -1)
 		{
 			Name = pin.Name + "( A" + pin.Number + " )";
 			Color = ColorHelper.ColoredPixbuf (pin.PlotColor);
@@ -63,33 +65,46 @@ namespace GUIHelper
 			Unit = pin.Unit;
 
 			RealName = pin.Name;
+
+			Index = index;
 		}
-
-
 	}
 
 	public class SignalTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name;
-		[Gtk.TreeNodeValue (Column = 1)]
-		public Gtk.Button btnAddRemove;
+		public string Name { get { return AnalogSignal.SignalName; } private set { } }
 
-		public SignalTreeNode (Signal analogSignal)
+		public int Index{ get; private set; }
+
+		public Signal AnalogSignal{ get; private set; }
+
+		public SignalTreeNode (Signal analogSignal, int index = -1)
 		{
-			Name = analogSignal.SignalName;
-			btnAddRemove = new Button (){ WidthRequest = 24, HeightRequest = 24, Label = "-" };
+			Index = index;
+			AnalogSignal = analogSignal;
 		}
+	}
 
-		public void ToggleButton (bool last = false)
+	public class APinSignalDialogTreeNode : Gtk.TreeNode
+	{
+		[Gtk.TreeNodeValue (Column = 0)]
+		public string Name { get { return Pin.Name + "(" + Pin.Number + ")"; } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 1)]
+		public double Frequency { get { return Pin.Frequency; } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 2)]
+		public int Interval { get { return Pin.Interval; } private set { } }
+
+		public APin Pin{ get; private set; }
+
+		public int Index { get; private set; }
+
+		public APinSignalDialogTreeNode (APin pin, int index = -1)
 		{
-			if (last)
-			{
-				btnAddRemove.Label = "+";
-			} else
-			{
-				btnAddRemove.Label = "-";
-			}
+			Pin = pin;
+			Index = index;
 		}
 	}
 

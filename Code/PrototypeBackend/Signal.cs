@@ -15,6 +15,16 @@ namespace PrototypeBackend
 
 		public string Unit { get; set; }
 
+		public double Frequency {
+			get {
+				if (Pins.Count > 0)
+					return Pins [0].EffectiveFrequency;
+				else
+					return -1;
+			}
+			private set{ }
+		}
+
 		public Gdk.Color SignalColor { get; set; }
 
 		private Func<double[],double> SignalOperation { get; set; }
@@ -71,6 +81,9 @@ namespace PrototypeBackend
 					Pins.Add (pin);
 					return true;
 				}
+			} else
+			{
+				Pins.Add (pin);
 			}
 			return false;
 		}

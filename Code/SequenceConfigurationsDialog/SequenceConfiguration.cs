@@ -17,9 +17,9 @@ namespace SequenceConfigurationsDialog
 
 		#region Member
 
-		public Sequence PinSequence { 
-			get { return pinSequence; } 
-			set { 
+		public Sequence PinSequence {
+			get { return pinSequence; }
+			set {
 				entryName.Text = value.Name;
 				cbPin.InsertText (0, string.Format ("{0}(D{1})", value.Pin.Name, value.Pin.Number));
 				cbPin.Active = 0;
@@ -32,10 +32,10 @@ namespace SequenceConfigurationsDialog
 					sbRadioBtnStopAfter.Value = value.Repetitions;
 				}
 
-				pinSequence = value; 
+				pinSequence = value;
 
 //				DisplaySequenceInfos ();
-			} 
+			}
 		}
 
 		private Sequence pinSequence;
@@ -87,7 +87,7 @@ namespace SequenceConfigurationsDialog
 				{
 					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
 				}
-			} 
+			}
 
 			if (seq != null)
 			{
@@ -137,7 +137,7 @@ namespace SequenceConfigurationsDialog
 			sequenceSeries = new OxyPlot.Series.StairStepSeries () {
 				DataFieldX = "Time",
 				DataFieldY = "Value",
-			};	
+			};
 
 			repeateSeries = new OxyPlot.Series.LineSeries () {
 				DataFieldX = "Time",
@@ -249,7 +249,7 @@ namespace SequenceConfigurationsDialog
 					repeateData.Add (data.Last ());
 					repeateData.Add (
 						new TimeValue {
-							Time = data.Last ().Time, 
+							Time = data.Last ().Time,
 							Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
 						});
 					repeateData.Add (
@@ -308,7 +308,7 @@ namespace SequenceConfigurationsDialog
 				if (reg.Success)
 				{
 					nr = Convert.ToInt32 (reg.Value);
-			
+
 					for (int i = 0; i < DPins.Length; i++)
 					{
 						if (DPins [i].Number == nr)
@@ -330,7 +330,7 @@ namespace SequenceConfigurationsDialog
 			pinSequence.Name = entryName.Text;
 			pinSequence.Pin = selectedPin;
 			pinSequence.Repetitions = (rbRepeateContinously.Active) ? -1 : sbRadioBtnStopAfter.ValueAsInt;
-				
+
 			Respond (ResponseType.Apply);
 		}
 

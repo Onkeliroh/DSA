@@ -306,34 +306,34 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnBlinkSequenceTestClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected)
-			{
-				con.ControlSequences.Clear (); 
-				var scheduler = new Scheduler ();
-				con.AddScheduler (scheduler);
-
-				var dpin = new DPin ("D13", 13);
-				var sequence = new Sequence () {
-					Pin = dpin,
-					Repetitions = 10
-				};
-				sequence.AddSequenceOperation (new SequenceOperation () {
-					Duration = TimeSpan.FromSeconds (1),
-					State = DPinState.HIGH,
-				});
-				sequence.AddSequenceOperation (new SequenceOperation {
-					Duration = TimeSpan.FromSeconds (1),
-					State = DPinState.LOW,
-				});
-				con.ControlSequences.Add (sequence);
-
-				con.Start ();
-			} else
-			{
-				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
-				dialog.Close += (senderer, ee) => dialog.Dispose ();
-				dialog.ShowNow ();
-			}
+//			if (ArduinoController.IsConnected)
+//			{
+//				con.ControlSequences.Clear (); 
+//				var scheduler = new Scheduler ();
+//				con.AddScheduler (scheduler);
+//
+//				var dpin = new DPin ("D13", 13);
+//				var sequence = new Sequence () {
+//					Pin = dpin,
+//					Repetitions = 10
+//				};
+//				sequence.AddSequenceOperation (new SequenceOperation () {
+//					Duration = TimeSpan.FromSeconds (1),
+//					State = DPinState.HIGH,
+//				});
+//				sequence.AddSequenceOperation (new SequenceOperation {
+//					Duration = TimeSpan.FromSeconds (1),
+//					State = DPinState.LOW,
+//				});
+//				con.ControlSequences.Add (sequence);
+//
+//				con.Start ();
+//			} else
+//			{
+//				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
+//				dialog.Close += (senderer, ee) => dialog.Dispose ();
+//				dialog.ShowNow ();
+//			}
 		}
 
 		protected void OnBtnDoubleBlinkClicked (object sender, EventArgs e)
@@ -444,7 +444,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnAddSignalClicked (object sender, EventArgs e)
 		{
-			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog ();
+			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog (con.GetApinsWithoutSingal ());
 			dialog.Response += (o, args) =>
 			{
 			};
