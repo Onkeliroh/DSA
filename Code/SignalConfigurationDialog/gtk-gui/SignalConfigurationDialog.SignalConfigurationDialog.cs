@@ -125,7 +125,9 @@ namespace SignalConfigurationDialog
 			w5.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.cbPins = global::Gtk.ComboBox.NewText ();
+			this.cbPins.AppendText (global::Mono.Unix.Catalog.GetString ("kfludfludlfdludlc"));
 			this.cbPins.Name = "cbPins";
+			this.cbPins.Active = 0;
 			this.table1.Add (this.cbPins);
 			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.cbPins]));
 			w6.TopAttach = ((uint)(1));
@@ -383,13 +385,9 @@ namespace SignalConfigurationDialog
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 666;
+			this.DefaultWidth = 676;
 			this.DefaultHeight = 300;
 			this.Show ();
-			this.btnRemove.Clicked += new global::System.EventHandler (this.OnBtnRemoveClicked);
-			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
-			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);
-			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}
 }

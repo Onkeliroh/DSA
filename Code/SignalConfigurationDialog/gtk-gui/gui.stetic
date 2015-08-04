@@ -9,7 +9,7 @@
     <widget-library name="../bin/Debug/SignalConfigurationDialog.dll" internal="true" />
     <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
   </import>
-  <widget class="Gtk.Dialog" id="SignalConfigurationDialog.SignalConfigurationDialog" design-size="666 300">
+  <widget class="Gtk.Dialog" id="SignalConfigurationDialog.SignalConfigurationDialog" design-size="676 300">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
@@ -54,7 +54,6 @@
                             <property name="Icon">stock:gtk-add Menu</property>
                             <property name="Label" translatable="yes">Add</property>
                             <property name="UseUnderline">True</property>
-                            <signal name="Clicked" handler="OnBtnAddClicked" />
                           </widget>
                           <packing>
                             <property name="TopAttach">1</property>
@@ -81,7 +80,6 @@
                             <property name="Icon">stock:gtk-remove Menu</property>
                             <property name="Label" translatable="yes">Remove</property>
                             <property name="UseUnderline">True</property>
-                            <signal name="Clicked" handler="OnBtnRemoveClicked" />
                           </widget>
                           <packing>
                             <property name="TopAttach">2</property>
@@ -103,7 +101,8 @@
                           <widget class="Gtk.ComboBox" id="cbPins">
                             <property name="MemberName" />
                             <property name="IsTextCombo">True</property>
-                            <property name="Items" translatable="yes" />
+                            <property name="Items" translatable="yes">kfludfludlfdludlc</property>
+                            <property name="Active">0</property>
                           </widget>
                           <packing>
                             <property name="TopAttach">1</property>
@@ -532,7 +531,6 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-cancel</property>
             <property name="ResponseId">-6</property>
-            <signal name="Clicked" handler="OnButtonCancelClicked" />
             <property name="label">gtk-cancel</property>
           </widget>
           <packing>
@@ -549,7 +547,6 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-apply</property>
             <property name="ResponseId">-10</property>
-            <signal name="Clicked" handler="OnButtonOkClicked" />
             <property name="label">gtk-apply</property>
           </widget>
           <packing>

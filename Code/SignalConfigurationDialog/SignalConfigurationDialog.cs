@@ -51,6 +51,7 @@ namespace SignalConfigurationDialog
 			UpdateCBPins ();
 			SetupNodeView ();
 			DrawNodeView ();
+			ShowAll ();
 		}
 
 		private void SetupNodeView ()
@@ -114,10 +115,12 @@ namespace SignalConfigurationDialog
 
 		private void UpdateCBPins ()
 		{
-			cbPins.Clear ();
+			cbPins = new ComboBox ();
+//			cbPins.Clear ();
 
 			foreach (APin pin in APins)
 			{
+				// Analysis disable once CompareOfFloatsByEqualityOperator
 				if (AnalogSignal.Frequency != -1)
 				{
 					if (Math.Abs (pin.EffectiveFrequency - AnalogSignal.Frequency) < 0.0001 && !nvSignal.NodeStore.Data.Contains (pin))
@@ -133,11 +136,12 @@ namespace SignalConfigurationDialog
 			{
 				cbPins.Active = 0;
 			}
+			cbPins.ShowAll ();
 		}
 
 		private void AddPin ()
 		{
-			analogSignal.AddPin (APins [cbPins.Active]);
+//			analogSignal.AddPin (APins [cbPins.Active]);
 
 			UpdateCBPins ();
 

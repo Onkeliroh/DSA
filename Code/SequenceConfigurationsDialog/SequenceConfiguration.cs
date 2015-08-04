@@ -300,28 +300,33 @@ namespace SequenceConfigurationsDialog
 
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			if (cbPin.ActiveText.Length > 0)
+			try
 			{
-				int nr = 0;
-				var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
-				reg = Regex.Match (reg.Value, @"\d+");
-				if (reg.Success)
+				if (cbPin.ActiveText.Length > 0)
 				{
-					nr = Convert.ToInt32 (reg.Value);
-
-					for (int i = 0; i < DPins.Length; i++)
+					int nr = 0;
+					var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
+					reg = Regex.Match (reg.Value, @"\d+");
+					if (reg.Success)
 					{
-						if (DPins [i].Number == nr)
+						nr = Convert.ToInt32 (reg.Value);
+
+						for (int i = 0; i < DPins.Length; i++)
 						{
-							selectedPin = DPins [i];
-							sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
-							repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
-							plotView.InvalidatePlot (true);
-							plotView.ShowAll ();
-							break;
+							if (DPins [i].Number == nr)
+							{
+								selectedPin = DPins [i];
+								sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+								repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+								plotView.InvalidatePlot (true);
+								plotView.ShowAll ();
+								break;
+							}
 						}
 					}
 				}
+			} catch (Exception ex)
+			{
 			}
 		}
 
