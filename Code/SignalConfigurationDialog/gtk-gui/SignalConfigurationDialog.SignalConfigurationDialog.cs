@@ -200,7 +200,8 @@ namespace SignalConfigurationDialog
 			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.entry5 = new global::Gtk.Entry ();
-			this.entry5.TooltipMarkup = "The resulting frequency of this signal. Depending on the used analog inputs frequencies.";
+			this.entry5.TooltipMarkup = "The resulting frequency of this signal. Depending on the used analog inputs frequ" +
+			"encies.";
 			this.entry5.CanFocus = true;
 			this.entry5.Name = "entry5";
 			this.entry5.IsEditable = false;
@@ -228,7 +229,9 @@ namespace SignalConfigurationDialog
 			w16.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.entryOperation = new global::Gtk.Entry ();
-			this.entryOperation.TooltipMarkup = "The Operation you wish to be processed.\n\ne.g:\nGiven analog inputs A0 and A5.\nAdding those two would require you to type in: \"A0+A5\".\nAlternatively you could you the inputs name. (e.g. TemperatureSensor0 + TemperatureSensor5)";
+			this.entryOperation.TooltipMarkup = "The Operation you wish to be processed.\n\ne.g:\nGiven analog inputs A0 and A5.\nAddi" +
+			"ng those two would require you to type in: \"A0+A5\".\nAlternatively you could you " +
+			"the inputs name. (e.g. TemperatureSensor0 + TemperatureSensor5)";
 			this.entryOperation.CanFocus = true;
 			this.entryOperation.Name = "entryOperation";
 			this.entryOperation.IsEditable = true;

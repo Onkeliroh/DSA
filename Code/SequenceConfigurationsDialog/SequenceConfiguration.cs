@@ -23,11 +23,9 @@ namespace SequenceConfigurationsDialog
 				entryName.Text = value.Name;
 				cbPin.InsertText (0, string.Format ("{0}(D{1})", value.Pin.Name, value.Pin.Number));
 				cbPin.Active = 0;
-				if (value.Repetitions == -1)
-				{
+				if (value.Repetitions == -1) {
 					rbRepeateContinously.Active = true;
-				} else
-				{
+				} else {
 					rbStopAfter.Active = true;
 					sbRadioBtnStopAfter.Value = value.Repetitions;
 				}
@@ -71,7 +69,8 @@ namespace SequenceConfigurationsDialog
 
 		#endregion
 
-		public SequenceConfiguration (DPin[] pins, Sequence seq = null)
+		public SequenceConfiguration (DPin[] pins, Sequence seq = null, Gtk.Window parent = null)
+			: base ("Sequence Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
 
@@ -81,19 +80,15 @@ namespace SequenceConfigurationsDialog
 			DPins = pins;
 
 			//no DPin no Sequence
-			if (DPins.Length > 0)
-			{
-				for (int i = 0; i < DPins.Length; i++)
-				{
+			if (DPins.Length > 0) {
+				for (int i = 0; i < DPins.Length; i++) {
 					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
 				}
 			}
 
-			if (seq != null)
-			{
+			if (seq != null) {
 				PinSequence = seq;
-			} else
-			{
+			} else {
 				pinSequence = new Sequence ();
 				cbPin.Active = 0;
 			}
@@ -106,10 +101,8 @@ namespace SequenceConfigurationsDialog
 				Key = "X",
 				Position = AxisPosition.Bottom,
 				AbsoluteMinimum = TimeSpan.FromSeconds (0).Ticks,
-				LabelFormatter = x =>
-				{
-					if (x <= TimeSpan.FromSeconds (0).Ticks)
-					{
+				LabelFormatter = x => {
+					if (x <= TimeSpan.FromSeconds (0).Ticks) {
 						return "Start";
 					}
 					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("c"));
@@ -173,8 +166,7 @@ namespace SequenceConfigurationsDialog
 
 			nvSequenceOptions.ButtonPressEvent += new ButtonPressEventHandler (OnSequenceOptionsButtonPress);
 			nvSequenceOptions.KeyPressEvent += new KeyPressEventHandler (OnSequenceOptionsKeyPress);
-			nvSequenceOptions.RowActivated += (o, args) =>
-			{
+			nvSequenceOptions.RowActivated += (o, args) => {
 				var node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
 				ActiveNode = node;
 				sbDays.Value = node.SeqOp.Duration.Days;
@@ -206,13 +198,11 @@ namespace SequenceConfigurationsDialog
 
 		private void DisplaySequenceInfos ()
 		{
-			if (pinSequence != null)
-			{
+			if (pinSequence != null) {
 				btnRemoveOperation.Sensitive = false;
 
 				nvSequenceOptionsStore.Clear ();
-				for (int i = 0; i < PinSequence.Chain.Count; i++)
-				{
+				for (int i = 0; i < PinSequence.Chain.Count; i++) {
 					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i], i));
 				}
 				nvSequenceOptions.QueueDraw ();
@@ -222,14 +212,12 @@ namespace SequenceConfigurationsDialog
 
 		private void DisplayPlot ()
 		{
-			if (pinSequence != null)
-			{
+			if (pinSequence != null) {
 				plotView.Model.Series.Clear ();
 
 				var current = new TimeSpan (0);
 				var data = new Collection<TimeValue> ();
-				for (int i = 0; i < pinSequence.Chain.Count; i++)
-				{
+				for (int i = 0; i < pinSequence.Chain.Count; i++) {
 					data.Add (new TimeValue (){ Time = current, Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
 					current = current.Add (pinSequence.Chain [i].Duration);
 					data.Add (new TimeValue (){ Time = current, Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
@@ -243,8 +231,7 @@ namespace SequenceConfigurationsDialog
 					Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor)
 				};
 
-				if ((rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1)) && data.Count > 0)
-				{
+				if ((rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1)) && data.Count > 0) {
 					var repeateData = new Collection<TimeValue> ();
 					repeateData.Add (data.Last ());
 					repeateData.Add (
@@ -271,13 +258,11 @@ namespace SequenceConfigurationsDialog
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSequenceOptionsButtonPress (object o, ButtonPressEventArgs args)
 		{
-			if (args.Event.Button == 3) /* right click */
-			{
+			if (args.Event.Button == 3) { /* right click */
 				Menu m = new Menu ();
 
 				MenuItem deleteItem = new MenuItem ("Delete this SequenceOperation");
-				deleteItem.ButtonPressEvent += (obj, e) =>
-				{
+				deleteItem.ButtonPressEvent += (obj, e) => {
 					SequenceOperationTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
 					PinSequence.Chain.RemoveAt (node.Index);
 					DisplaySequenceInfos ();
@@ -291,8 +276,7 @@ namespace SequenceConfigurationsDialog
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSequenceOptionsKeyPress (object o, KeyPressEventArgs args)
 		{
-			if (args.Event.Key == Gdk.Key.Delete)
-			{
+			if (args.Event.Key == Gdk.Key.Delete) {
 				PinSequence.Chain.RemoveAt (((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode).Index);
 				DisplaySequenceInfos ();
 			}
@@ -300,21 +284,16 @@ namespace SequenceConfigurationsDialog
 
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			try
-			{
-				if (cbPin.ActiveText.Length > 0)
-				{
+			try {
+				if (cbPin.ActiveText.Length > 0) {
 					int nr = 0;
 					var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
 					reg = Regex.Match (reg.Value, @"\d+");
-					if (reg.Success)
-					{
+					if (reg.Success) {
 						nr = Convert.ToInt32 (reg.Value);
 
-						for (int i = 0; i < DPins.Length; i++)
-						{
-							if (DPins [i].Number == nr)
-							{
+						for (int i = 0; i < DPins.Length; i++) {
+							if (DPins [i].Number == nr) {
 								selectedPin = DPins [i];
 								sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
 								repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
@@ -325,8 +304,7 @@ namespace SequenceConfigurationsDialog
 						}
 					}
 				}
-			} catch (Exception ex)
-			{
+			} catch (Exception ex) {
 			}
 		}
 
@@ -350,12 +328,10 @@ namespace SequenceConfigurationsDialog
 				Duration = this.Duration,
 				State = (cbState.ActiveText == "HIGH") ? DPinState.HIGH : DPinState.LOW,
 			};
-			if (ActiveNode == null)
-			{
+			if (ActiveNode == null) {
 				AddOperation (op);
 				cbState.Active = (cbState.Active == 0) ? 1 : 0;
-			} else
-			{
+			} else {
 				pinSequence.Chain [ActiveNode.Index] = op;
 				DisplaySequenceInfos ();
 				SwitchToAddBtn ();
@@ -364,8 +340,7 @@ namespace SequenceConfigurationsDialog
 
 		protected void OnBtnRemoveOperationClicked (object sender, EventArgs e)
 		{
-			if (ActiveNode != null)
-			{
+			if (ActiveNode != null) {
 				PinSequence.Chain.RemoveAt (ActiveNode.Index);
 				DisplaySequenceInfos ();
 				btnRemoveOperation.Sensitive = false;

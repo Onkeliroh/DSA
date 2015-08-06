@@ -12,13 +12,12 @@ namespace AnalogPinConfigurationDialog
 			set {
 				entryName.Text = value.Name;
 				cbColor.Color = value.PlotColor;
-				cbPin.AppendText ("A" + value.Number.ToString ());
-				cbPin.Active = cbPin.Data.Count - 1;
+				cbPin.InsertText (0, "A" + value.Number.ToString ());
+				cbPin.Active = 0;
 
-				if (!cbUnit.Data.Contains (value.Unit))
-				{
-					cbUnit.AppendText (value.Unit);
-					cbUnit.Active = cbUnit.Data.Count - 1;
+				if (!cbUnit.Data.Contains (value.Unit)) {
+					cbUnit.InsertText (0, value.Unit);
+					cbUnit.Active = 0;
 				}
 
 				sbSlope.Value = value.Slope;
@@ -32,7 +31,8 @@ namespace AnalogPinConfigurationDialog
 
 		private APin pin;
 
-		public AnalogPinConfiguration (int[] availablePins, APin apin = null)
+		public AnalogPinConfiguration (int[] availablePins, APin apin = null, Gtk.Window parent = null)
+			: base ("Analog Pin Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
 
@@ -44,39 +44,42 @@ namespace AnalogPinConfigurationDialog
 			sbOffset.Adjustment.Upper = double.MaxValue;
 			sbInterval.Adjustment.Upper = int.MaxValue;
 
-			for (int i = 0; i < availablePins.Length; i++)
-			{
+			for (int i = 0; i < availablePins.Length; i++) {
 				cbPin.AppendText ("A" + availablePins [i].ToString ());
 			}
 
-			if (availablePins.Length > 0)
-			{
+			if (availablePins.Length > 0) {
 				cbPin.Active = 0;
 			}
 
-			if (apin != null)
-			{
+			if (apin != null) {
 				Pin = apin;
-			} else
-			{
-				pin = apin;
+			} else {
+				pin = new APin ();
 			}
 		}
 
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
-			Console.WriteLine (cbColor.Color);
-			pin = new APin () {
-				Name = entryName.Text,
-				Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1)),
-				PlotColor = cbColor.Color,
-
-				Unit = cbUnit.ActiveText,
-				Slope = sbSlope.Value,
-				Offset = sbOffset.Value,
-				Frequency = sbFrequency.Value,
-				Interval = sbInterval.ValueAsInt,
-			};
+//			pin = new APin () {
+//				Name = (entryName.Text == null) ? " " : entryName.Text,
+//				Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1)),
+//				PlotColor = cbColor.Color,
+//
+//				Unit = cbUnit.ActiveText,
+//				Slope = sbSlope.Value,
+//				Offset = sbOffset.Value,
+//				Frequency = sbFrequency.Value,
+//				Interval = sbInterval.ValueAsInt,
+//			};
+			pin.Name = entryName.Text;
+			pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
+			pin.PlotColor = cbColor.Color;
+			pin.Unit = cbUnit.ActiveText;
+			pin.Slope = sbSlope.Value;
+			pin.Offset = sbOffset.Value;
+			pin.Frequency = sbFrequency.Value;
+			pin.Interval = sbInterval.ValueAsInt;
 
 			Respond (Gtk.ResponseType.Apply);
 		}

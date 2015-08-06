@@ -63,12 +63,18 @@ namespace PrototypeBackend
 			ArduinoController.Init ();
 			ArduinoController.NewAnalogValue += OnNewArduinoNewAnalogValue;
 			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
-			ArduinoController.OnConnection += ((o, e) =>
-			{
-				ArduinoController.GetNumberAnalogPins ();
-				ArduinoController.GetNumberDigitalPins ();
-				ArduinoController.GetVersion ();
-				ArduinoController.GetModel ();
+			ArduinoController.OnConnectionChanged += ((o, e) => {
+				if (e.Connected) {
+					#if DEBUG
+					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.DEBUG);
+					#endif
+					#if RELEASE
+					ConLogger.Log("Connected to " + ArduinoController.SerialPortName);
+					#endif
+
+				} else {
+					ConLogger.Log ("Disconnected");
+				}
 			});
 
 			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
@@ -76,40 +82,34 @@ namespace PrototypeBackend
 
 		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)
 		{	
-			if (this.NewAnalogValue != null)
-			{
+			if (this.NewAnalogValue != null) {
 				this.NewAnalogValue.Invoke (this, args);
 			}
 		}
 
 		private void OnNewArduinoNewDigitalValue (object sender, ControllerDigitalEventArgs args)
 		{
-			if (this.NewDigitalValue != null)
-			{
+			if (this.NewDigitalValue != null) {
 				this.NewDigitalValue.Invoke (this, args);
 			}
 		}
 
 		public void AddSignal (Signal s)
 		{
-			if (!ControllerSignalList.Contains (s))
-			{
+			if (!ControllerSignalList.Contains (s)) {
 				ControllerSignalList.Add (s);
 			}
 
-			if (SignalListUpdated != null)
-			{
+			if (SignalListUpdated != null) {
 				SignalListUpdated.Invoke (this, null);
 			}
 		}
 
 		public void AddPin (IPin ip)
 		{
-			if (!ControllerPins.Contains (ip) && ip != null)
-			{
+			if (!ControllerPins.Contains (ip) && ip != null) {
 				ControllerPins.Add (ip);
-				if (PinsUpdated != null)
-				{
+				if (PinsUpdated != null) {
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ip, UpdateOperation.Add, ip.Type));
 				}
 				ConLogger.Log ("Added Pin: " + ip, LogLevel.DEBUG);
@@ -118,32 +118,26 @@ namespace PrototypeBackend
 
 		public void SetPin (int index, IPin ip)
 		{
-			if (index >= 0 && index < ControllerPins.Count)
-			{
+			if (index >= 0 && index < ControllerPins.Count) {
 				ConLogger.Log ("Changed Pin from: " + ControllerPins [index] + " to " + ip, LogLevel.DEBUG);
-				if (PinsUpdated != null)
-				{
+				if (PinsUpdated != null) {
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ControllerPins [index], UpdateOperation.Change, ip.Type));
 				}
 				ControllerPins [index] = ip;
-				if (PinsUpdated != null)
-				{
+				if (PinsUpdated != null) {
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ip, UpdateOperation.Change, ip.Type));
 				}
-			} else
-			{
+			} else {
 				throw new IndexOutOfRangeException ();
 			}
 		}
 
 		public void AddSequence (Sequence seq)
 		{
-			if (!ControlSequences.Contains (seq))
-			{
+			if (!ControlSequences.Contains (seq)) {
 				ConLogger.Log ("Added Sequence: " + seq, LogLevel.DEBUG);
 				ControlSequences.Add (seq);
-				if (SequencesUpdated != null)
-				{
+				if (SequencesUpdated != null) {
 					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Add, seq));
 				}
 			}
@@ -151,16 +145,13 @@ namespace PrototypeBackend
 
 		public void SetSequence (int index, Sequence seq)
 		{
-			if (index >= 0 && index < ControlSequences.Count)
-			{
+			if (index >= 0 && index < ControlSequences.Count) {
 				ConLogger.Log ("Changed Sequence from: " + ControlSequences [index] + " to " + seq, LogLevel.DEBUG);
-				if (SequencesUpdated != null)
-				{
+				if (SequencesUpdated != null) {
 					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Change, ControlSequences [index]));
 				}
 				ControlSequences [index] = seq;
-				if (SequencesUpdated != null)
-				{
+				if (SequencesUpdated != null) {
 					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Change, ControlSequences [index]));
 				}
 			}
@@ -168,15 +159,12 @@ namespace PrototypeBackend
 
 		public void AddSignalRange (Signal[] s)
 		{
-			foreach (Signal sc in s)
-			{
-				if (!ControllerSignalList.Contains (sc))
-				{
+			foreach (Signal sc in s) {
+				if (!ControllerSignalList.Contains (sc)) {
 					ControllerSignalList.Add (sc);
 				}
 			}
-			if (SignalListUpdated != null)
-			{
+			if (SignalListUpdated != null) {
 				SignalListUpdated.Invoke (this, null);
 			}
 		}
@@ -184,8 +172,7 @@ namespace PrototypeBackend
 		public void RemoveScheduler (Signal s)
 		{
 			ControllerSignalList.Remove (s);
-			if (SignalListUpdated != null)
-			{
+			if (SignalListUpdated != null) {
 				SignalListUpdated.Invoke (this, null);
 			}
 		}
@@ -194,11 +181,9 @@ namespace PrototypeBackend
 		{
 			var result = ControllerPins.Where (o => o.Name == name).ToList<IPin> ();
 
-			if (result.Count > 0)
-			{
+			if (result.Count > 0) {
 				ControllerPins.Remove (result [0]);
-				if (PinsUpdated != null)
-				{
+				if (PinsUpdated != null) {
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (result [0], UpdateOperation.Remove, result [0].Type));
 				}
 				ConLogger.Log ("Removed Pin: " + result [0], LogLevel.DEBUG);
@@ -207,10 +192,8 @@ namespace PrototypeBackend
 
 		public void RemovePin (int index)
 		{
-			if (index >= 0 && index < ControllerPins.Count)
-			{
-				if (PinsUpdated != null)
-				{
+			if (index >= 0 && index < ControllerPins.Count) {
+				if (PinsUpdated != null) {
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ControllerPins [index], UpdateOperation.Remove, ControllerPins [index].Type));
 				}
 				ConLogger.Log ("Removed Pin: " + ControllerPins [index], LogLevel.DEBUG);
@@ -221,10 +204,8 @@ namespace PrototypeBackend
 		public void RemoveSequence (string name)
 		{
 			var result = ControlSequences.Where (o => o.Name == name).ToList<Sequence> ();
-			if (result.Count > 0)
-			{
-				if (SequencesUpdated != null)
-				{
+			if (result.Count > 0) {
+				if (SequencesUpdated != null) {
 					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Remove, result [0]));
 				}
 				ConLogger.Log ("Removed Sequence: " + result [0], LogLevel.DEBUG);
@@ -234,10 +215,8 @@ namespace PrototypeBackend
 
 		public void RemoveSequence (int index)
 		{
-			if (index >= 0 && index < ControlSequences.Count)
-			{
-				if (SequencesUpdated != null)
-				{
+			if (index >= 0 && index < ControlSequences.Count) {
+				if (SequencesUpdated != null) {
 					SequencesUpdated.Invoke (this, new ControllerSequenceUpdateArgs (UpdateOperation.Remove, ControlSequences [index]));
 				}
 				ConLogger.Log ("Removed Sequence: " + ControlSequences [index], LogLevel.DEBUG);
@@ -247,12 +226,10 @@ namespace PrototypeBackend
 
 		public void RemoveSchedulerRange (Signal[] s)
 		{
-			foreach (Signal sc in s)
-			{
+			foreach (Signal sc in s) {
 				ControllerSignalList.Remove (sc);
 			}
-			if (SignalListUpdated != null)
-			{
+			if (SignalListUpdated != null) {
 				SignalListUpdated.Invoke (this, null);
 			}
 		}
@@ -260,8 +237,7 @@ namespace PrototypeBackend
 		public void ClearScheduler ()
 		{
 			ControllerSignalList.Clear ();
-			if (SignalListUpdated != null)
-			{
+			if (SignalListUpdated != null) {
 				SignalListUpdated.Invoke (this, null);
 			}
 		}
@@ -270,8 +246,7 @@ namespace PrototypeBackend
 		{
 			ControllerPins.RemoveAll (o => o.Type == type);
 			ConLogger.Log ("Cleared Pins", LogLevel.DEBUG);
-			if (PinsUpdated != null)
-			{
+			if (PinsUpdated != null) {
 				PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.Clear, type));
 			}
 		}
@@ -280,8 +255,7 @@ namespace PrototypeBackend
 		{
 			running = false;
 
-			while (sequenceThreads.Any (o => o.Status != TaskStatus.RanToCompletion))
-			{
+			while (sequenceThreads.Any (o => o.Status != TaskStatus.RanToCompletion)) {
 			}
 
 			sequenceThreads.Clear ();
@@ -293,8 +267,7 @@ namespace PrototypeBackend
 		{
 			var sw = new Stopwatch ();
 			sw.Start ();
-			if (CheckSignals ())
-			{
+			if (CheckSignals ()) {
 				running = true;
 				BuildSequenceList ();
 				StartTime = DateTime.Now;
@@ -308,11 +281,9 @@ namespace PrototypeBackend
 
 		public System.Threading.ThreadState State ()
 		{
-			if (running)
-			{
+			if (running) {
 				return System.Threading.ThreadState.Running;
-			} else
-			{
+			} else {
 				return System.Threading.ThreadState.Unstarted;
 			}
 		}
@@ -322,16 +293,12 @@ namespace PrototypeBackend
 			var sw = new Stopwatch ();
 			sw.Start ();
 			sequenceThreads.Clear ();
-			foreach (Sequence seq in ControlSequences)
-			{
+			foreach (Sequence seq in ControlSequences) {
 				var seqThread = new Task (
-					                () =>
-					{
-						while (seq.Current () != null && running)
-						{
+					                () => {
+						while (seq.Current () != null && running) {
 							SequenceOperation op = (SequenceOperation)seq.Current ();
-							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation))
-							{
+							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation)) {
 								//TODO Zeit messen
 
 								ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
@@ -373,8 +340,7 @@ namespace PrototypeBackend
 			pins.RemoveAll (o => ControlSequences.Select (s => s.Pin).Contains (o));
 
 			DPin[] array = new DPin[pins.Count ];
-			for (int i = 0; i < array.Length; i++)
-			{
+			for (int i = 0; i < array.Length; i++) {
 				array [i] = (pins [i] as DPin);
 			}
 
@@ -387,8 +353,7 @@ namespace PrototypeBackend
 
 			APin[] array = new APin[pins.Count];
 
-			for (int i = 0; i < array.Length; i++)
-			{
+			for (int i = 0; i < array.Length; i++) {
 				array [i] = (pins [i] as APin);
 			}
 			return array;
@@ -399,26 +364,20 @@ namespace PrototypeBackend
 			uint numpins = 0;
 			List<int> unusedpins = new List<int> ();
 
-			if (type.Equals (PrototypeBackend.PinType.ANALOG))
-			{
+			if (type.Equals (PrototypeBackend.PinType.ANALOG)) {
 				numpins = ArduinoController.NumberOfAnalogPins; 
-				for (int i = 0; i < numpins; i++)
-				{
+				for (int i = 0; i < numpins; i++) {
 					unusedpins.Add (i);
 				}
-			} else if (type.Equals (PrototypeBackend.PinType.DIGITAL))
-			{
+			} else if (type.Equals (PrototypeBackend.PinType.DIGITAL)) {
 				numpins = ArduinoController.NumberOfDigitalPins;
-				for (int i = 0; i < numpins; i++)
-				{
+				for (int i = 0; i < numpins; i++) {
 					unusedpins.Add (i);
 				}
 			}
 
-			foreach (IPin ip in ControllerPins)
-			{
-				if (ip.Type == type)
-				{
+			foreach (IPin ip in ControllerPins) {
+				if (ip.Type == type) {
 					unusedpins.Remove (ip.Number);
 				}
 			}

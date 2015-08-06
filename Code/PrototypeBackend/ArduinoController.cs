@@ -11,6 +11,7 @@ namespace PrototypeBackend
 	{
 		Acknowledge,
 		Error,
+		Ready,
 		SetPinMode,
 		SetPinState,
 		SetAnalogPin,
@@ -62,15 +63,22 @@ namespace PrototypeBackend
 
 	public static class ArduinoController
 	{
-		private static CmdMessenger _cmdMessenger;
-		private static Board _board = new Board ();
+		#region Events
 
-		public static event EventHandler<EventArgs> OnConnection;
-		public static event EventHandler<EventArgs> OnConnectionChanged;
+		public static event EventHandler<ConnectionChangedArgs> OnConnectionChanged;
 		public static event EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public static event EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 
+		#endregion
+
 		#region Properies and Member
+
+		private static CmdMessenger _cmdMessenger;
+		private static Board _board = new Board ();
+
+		public static Board @Board { get { return _board; } private set { } }
+
+		private static System.Timers.Timer AutoConnectTimer = new System.Timers.Timer (5000);
 
 		public static bool IsConnected {
 			#if FAKESERIAL
@@ -140,11 +148,13 @@ namespace PrototypeBackend
 			NumberOfAnalogPins = apins;
 			NumberOfDigitalPins = dpins;
 
-			OnConnection += (sender, e) => {
-				GetVersion ();
-				GetModel ();
-				GetNumberAnalogPins ();
-				GetNumberDigitalPins ();
+			OnConnectionChanged += (sender, e) => {
+				if (e.Connected) {
+					GetVersion ();
+					GetModel ();
+					GetNumberAnalogPins ();
+					GetNumberDigitalPins ();
+				}
 			};
 
 			SerialPortName = "";
@@ -153,51 +163,45 @@ namespace PrototypeBackend
 			#else
 			IsConnected = false;
 			#endif
+
+			AutoConnectTimer.Elapsed += (sender, e) => {
+				if (!IsConnected) {
+					foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+						Console.WriteLine ("attemting auto connect to " + s);
+						SerialPortName = s;
+						Setup ();
+						System.Threading.Thread.Sleep (500);
+					}
+				}
+			};
+			AutoConnectTimer.Start ();
 		}
 
 		public static void Setup ()
 		{
-			try {
-				Disconnect ();
-				// Analysis disable once EmptyGeneralCatchClause
-			} catch (Exception) {
+			if (SerialPortName != null) {
+				_cmdMessenger = new CmdMessenger (new SerialTransport () {
+					CurrentSerialSettings = {
+						PortName = SerialPortName,
+						BaudRate = 115200,
+						DtrEnable = true  //bei UNO auf false ändern 
+					}
+				}, BoardType.Bit16);
+
+				// Attach the callbacks to the Command Messenger
+				AttachCommandCallBacks ();
+
+				// Attach to NewLinesReceived for logging purposes
+				_cmdMessenger.NewLineReceived += NewLineReceived;
+
+				// Attach to NewLineSent for logging purposes
+				_cmdMessenger.NewLineSent += NewLineSent;                       
+
+				#if !FAKESERIAL
+				// Start listening
+//				IsConnected = _cmdMessenger.Connect ();
+				_cmdMessenger.Connect ();
 			}
-			_cmdMessenger = new CmdMessenger (new SerialTransport () {
-				CurrentSerialSettings = {
-					PortName = SerialPortName,
-					BaudRate = 115200,
-					DtrEnable = true  //bei UNO auf false ändern 
-				}
-			}, BoardType.Bit16);
-
-			// Attach the callbacks to the Command Messenger
-			AttachCommandCallBacks ();
-
-			// Attach to NewLinesReceived for logging purposes
-			_cmdMessenger.NewLineReceived += NewLineReceived;
-
-			// Attach to NewLineSent for logging purposes
-			_cmdMessenger.NewLineSent += NewLineSent;                       
-
-			#if !FAKESERIAL
-			// Start listening
-			IsConnected = _cmdMessenger.Connect ();
-//			if (IsConnected)
-//			{
-//				if (OnConnection != null)
-//				{
-//					try
-//					{
-//						OnConnection.Invoke (null, null);
-//					} catch (Exception e)
-//					{
-//						Console.WriteLine (e);
-//					}
-//				}
-//			} 
-		
-//			OnConnectionChanged.Invoke (null, null);
-			
 			#endif
 		}
 
@@ -221,8 +225,9 @@ namespace PrototypeBackend
 				_cmdMessenger.Disconnect ();
 				#endif
 				if (OnConnectionChanged != null) {
-					OnConnectionChanged.Invoke (null, null);
+					OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (false, null));
 				}
+				AutoConnectTimer.Start ();
 			}
 
 		}
@@ -253,11 +258,9 @@ namespace PrototypeBackend
 			#if DEBUG
 			Console.WriteLine (@" Arduino is ready");
 			#endif
-			if (OnConnection != null) {
-				OnConnection.Invoke (null, null);
-			}
+			IsConnected = true;
 			if (OnConnectionChanged != null) {
-				OnConnectionChanged.Invoke (null, null);
+				OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (true, SerialPortName));
 			}
 		}
 
@@ -471,7 +474,6 @@ namespace PrototypeBackend
 			get{ return AnalogReferenceVoltage_; }
 			set {
 				AnalogReferenceVoltage_ = value;
-				
 			}
 		}
 
@@ -500,6 +502,17 @@ namespace PrototypeBackend
 			this.Model = model;
 			this.Name = name;
 			this.UseDTR = dtr;
+		}
+
+		public string ToString ()
+		{
+			return String.Format (
+				"Name: {0}\nModel: {1}\nNumber of analog Pins: {2}\nNumber of digital Pins: {3}\nAnalog reference voltage: {4}",
+				Name, 
+				Model, 
+				NumberOfAnalogPins, 
+				NumberOfDigitalPins, 
+				AnalogReferenceVoltage);
 		}
 	}
 }

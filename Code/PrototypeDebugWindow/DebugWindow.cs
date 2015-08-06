@@ -29,10 +29,9 @@ namespace PrototypeDebugWindow
 
 		private void InitComponents ()
 		{
-			ArduinoController.Init ();
-			ArduinoController.OnConnectionChanged += (object sender, EventArgs e) => {
-				if (ArduinoController.IsConnected) {
-					lblConnectionStatus.Text = "connected";
+			ArduinoController.OnConnectionChanged += (object sender, ConnectionChangedArgs e) => {
+				if (e.Connected) {
+					lblConnectionStatus.Text = "connected to " + e.Port;
 					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
 				} else {
 					lblConnectionStatus.Text = "<b>NOT</b> connected";
@@ -100,24 +99,6 @@ namespace PrototypeDebugWindow
 			}
 		}
 
-		private int GetNodeIndex (ITreeNode node, ref NodeView view)
-		{
-			//TODO remove
-			int index = -1;
-			if (view.NodeStore.Data.Count > 0) {
-				index = 0;
-				var iter = view.NodeStore.GetEnumerator ();
-
-				while (iter.Current != node) {
-					if (!iter.MoveNext ()) {
-						return -1;
-					}
-					index++;
-				}
-			}
-			return index;
-		}
-
 		private void FillDigitalPinNodes ()
 		{
 			NodeStoreDigitalPins.Clear ();
@@ -134,9 +115,11 @@ namespace PrototypeDebugWindow
 		private void FillAnalogPinNodes ()
 		{
 			NodeStoreAnalogPins.Clear ();
+			int index = 0;
 			foreach (IPin pin in con.ControllerPins) {
 				if (pin.Type == PinType.ANALOG) {
-					NodeStoreAnalogPins.AddNode (new APinTreeNode (pin as APin));
+					NodeStoreAnalogPins.AddNode (new APinTreeNode (pin as APin, index));
+					index++;
 				}
 			}
 			nvAnalogPins.QueueDraw ();
@@ -168,6 +151,12 @@ namespace PrototypeDebugWindow
 			nvDigitalPins.Show ();
 
 			nvAnalogPins.NodeStore = NodeStoreAnalogPins;
+			nvAnalogPins.RowActivated += (o, args) => {
+				var pin = con.ControllerPins
+					.Where (x => x.Type == PinType.ANALOG)
+					.ToList () [((o as NodeView).NodeSelection.SelectedNode as APinTreeNode).Index];
+				RunAddAPinDialog (pin as APin);
+			};
 
 			nvAnalogPins.AppendColumn ("Name(Pin)", new Gtk.CellRendererText (), "text", 0);
 			nvAnalogPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 1);
@@ -220,8 +209,10 @@ namespace PrototypeDebugWindow
 				}
 				foreach (String s in System.IO.Ports.SerialPort.GetPortNames()) {
 					CheckMenuItem portname = new CheckMenuItem (s);
-					if (ArduinoController.SerialPortName.Equals (s)) {
-						portname.Toggle ();
+					if (ArduinoController.SerialPortName != null) {
+						if (ArduinoController.SerialPortName.Equals (s)) {
+							portname.Toggle ();
+						}
 					}
 
 					portname.Toggled += (object senderer, EventArgs ee) => {
@@ -362,6 +353,22 @@ namespace PrototypeDebugWindow
 			RunAddDPinDialog ();
 		}
 
+		protected void OnBtnAddAPinClicked (object sender, EventArgs e)
+		{
+			RunAddAPinDialog ();
+		}
+
+		protected void OnBtnEditDPinClicked (object sender, EventArgs e)
+		{
+			DPinTreeNode node = (DPinTreeNode)nvDigitalPins.NodeSelection.SelectedNode;
+			if (node != null) {
+				var pin = con.ControllerPins
+					.Where (x => x.Type == PinType.DIGITAL)
+					.ToList () [(nvDigitalPins.NodeSelection.SelectedNode as DPinTreeNode).Index];
+				RunAddDPinDialog (pin as DPin);
+			}
+		}
+
 		protected void OnBtnClearDPinsClicked (object sender, EventArgs e)
 		{
 			con.ClearPins (PinType.DIGITAL);
@@ -375,19 +382,6 @@ namespace PrototypeDebugWindow
 			}
 		}
 
-		protected void OnBtnAddAPinClicked (object sender, EventArgs e)
-		{
-			int[] dings = con.AvailableAnalogPins;
-
-			var dialog = new AnalogPinConfigurationDialog.AnalogPinConfiguration (dings);
-			dialog.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Apply) {
-					con.AddPin (dialog.Pin);
-				}
-			};
-			dialog.Run ();
-			dialog.Destroy ();
-		}
 
 		protected void OnBtnRemoveAPinClicked (object sender, EventArgs e)
 		{
@@ -404,11 +398,7 @@ namespace PrototypeDebugWindow
 
 		protected void OnBtnAddSignalClicked (object sender, EventArgs e)
 		{
-			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog (con.GetApinsWithoutSingal ());
-			dialog.Response += (o, args) => {
-			};
-			dialog.Run ();
-			dialog.Destroy ();
+			RunSignalDialog ();
 		}
 
 		protected void OnBtnAddSequenceClicked (object sender, EventArgs e)
@@ -425,11 +415,16 @@ namespace PrototypeDebugWindow
 			}
 		}
 
+		protected void OnMediaPlayActionToggled (object sender, EventArgs e)
+		{
+			StartStopController ();
+		}
+
 		private void RunAddDPinDialog (DPin pin = null)
 		{
 			int[] dings = con.AvailableDigitalPins;
 
-			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration (dings, pin);
+			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration (dings, pin, this);
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					if (pin == null) {
@@ -448,9 +443,23 @@ namespace PrototypeDebugWindow
 			dialog.Destroy ();	
 		}
 
+		private void RunAddAPinDialog (APin pin = null)
+		{
+			int[] dings = con.AvailableAnalogPins;
+
+			var dialog = new AnalogPinConfigurationDialog.AnalogPinConfiguration (dings, pin, this);
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Apply) {
+					con.AddPin (dialog.Pin);
+				}
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
 		private void RunSequenceDialog (Sequence seq = null)
 		{
-			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.GetDPinsWithoutSequence (), seq);
+			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.GetDPinsWithoutSequence (), seq, this);
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					if (seq == null) {
@@ -463,5 +472,56 @@ namespace PrototypeDebugWindow
 			dialog.Run ();
 			dialog.Destroy ();
 		}
+
+		private void RunSignalDialog (Signal sig = null)
+		{
+			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog (con.GetApinsWithoutSingal (), sig, this);
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Apply) {
+					if (sig == null) {
+						con.AddSignal (dialog.AnalogSignal);
+					} else {
+						con.ControllerSignalList.Where (x => x == sig).ToList () [0] = dialog.AnalogSignal;
+					}
+				}
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		private void StartStopController ()
+		{
+			if (con.IsRunning) {
+				con.Stop ();
+			} else {
+				con.Start ();
+			}
+		}
+
+		#region DEBUGHelperly
+
+		protected void OnBtnFillAnalogInputsClicked (object sender, EventArgs e)
+		{
+			var rng = new Random ();
+			foreach (int i in con.AvailableAnalogPins) {
+				con.AddPin (new APin () {
+					Number = i,
+					PlotColor = new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ()),
+				});
+			}
+		}
+
+		protected void OnBtnFillDigitalOutputsClicked (object sender, EventArgs e)
+		{
+			var rng = new Random ();
+			foreach (int i in  con.AvailableDigitalPins) {
+				con.AddPin (new DPin () {
+					Number = i,
+					PlotColor = new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ()),
+				});
+			}
+		}
+
+		#endregion
 	}
 }

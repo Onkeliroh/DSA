@@ -45,6 +45,19 @@ namespace PrototypeBackend
 		}
 	}
 
+	public class ConnectionChangedArgs
+	{
+		public bool Connected { get; private set; }
+
+		public string Port { get ; private set; }
+
+		public ConnectionChangedArgs (bool connected, string port = null)
+		{
+			Connected = connected;
+			Port = port;
+		}
+	}
+
 	public enum UpdateOperation
 	{
 		Add,

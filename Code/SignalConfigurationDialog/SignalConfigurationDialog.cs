@@ -15,8 +15,7 @@ namespace SignalConfigurationDialog
 			set {
 				entryName.Text = value.SignalName;
 				entryOperation.Text = value.SignalOperationString;
-				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit))
-				{
+				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit)) {
 					cbeUnit.AppendText (value.Unit);
 				}
 					
@@ -34,17 +33,16 @@ namespace SignalConfigurationDialog
 
 		#endregion
 
-		public SignalConfigurationDialog (APin[] pins, Signal signal = null)
+		public SignalConfigurationDialog (APin[] pins, Signal signal = null, Gtk.Window parent = null)
+			: base ("Signal Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
 
 			APins = pins;
 
-			if (signal == null)
-			{
+			if (signal == null) {
 				analogSignal = new Signal ();
-			} else
-			{
+			} else {
 				analogSignal = signal;
 			}
 
@@ -63,8 +61,7 @@ namespace SignalConfigurationDialog
 
 			nvSignal.ButtonPressEvent += new ButtonPressEventHandler (OnSignalButtonPress);
 			nvSignal.KeyPressEvent += new KeyPressEventHandler (OnSignalKeyPress);
-			nvSignal.RowActivated += (o, args) =>
-			{
+			nvSignal.RowActivated += (o, args) => {
 				var node = ((o as NodeView).NodeSelection.SelectedNode as APinSignalDialogTreeNode).Pin;
 				ActiveNode = node;
 
@@ -75,13 +72,11 @@ namespace SignalConfigurationDialog
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalButtonPress (object o, ButtonPressEventArgs args)
 		{
-			if (args.Event.Button == 3)
-			{
+			if (args.Event.Button == 3) {
 				Menu m = new Menu ();
 
 				MenuItem deleteItem = new MenuItem ("Delete this SequenceOperation");
-				deleteItem.ButtonPressEvent += (obj, e) =>
-				{
+				deleteItem.ButtonPressEvent += (obj, e) => {
 					SequenceOperationTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
 					AnalogSignal.Pins.RemoveAt (node.Index);
 					DrawNodeView ();
@@ -95,8 +90,7 @@ namespace SignalConfigurationDialog
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalKeyPress (object o, KeyPressEventArgs args)
 		{
-			if (args.Event.Key == Gdk.Key.Delete)
-			{
+			if (args.Event.Key == Gdk.Key.Delete) {
 				AnalogSignal.Pins.RemoveAt (((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode).Index);
 				DrawNodeView ();
 			}
@@ -106,8 +100,7 @@ namespace SignalConfigurationDialog
 		{
 			nvSignal.NodeStore.Clear ();
 			btnRemove.Sensitive = false;
-			for (int i = 0; i < analogSignal.Pins.Count; i++)
-			{
+			for (int i = 0; i < analogSignal.Pins.Count; i++) {
 				nvSignal.NodeStore.AddNode (new APinSignalDialogTreeNode (analogSignal.Pins [i], i));
 			}
 			nvSignal.QueueDraw ();
@@ -118,22 +111,17 @@ namespace SignalConfigurationDialog
 			cbPins = new ComboBox ();
 //			cbPins.Clear ();
 
-			foreach (APin pin in APins)
-			{
+			foreach (APin pin in APins) {
 				// Analysis disable once CompareOfFloatsByEqualityOperator
-				if (AnalogSignal.Frequency != -1)
-				{
-					if (Math.Abs (pin.EffectiveFrequency - AnalogSignal.Frequency) < 0.0001 && !nvSignal.NodeStore.Data.Contains (pin))
-					{
+				if (AnalogSignal.Frequency != -1) {
+					if (Math.Abs (pin.EffectiveFrequency - AnalogSignal.Frequency) < 0.0001 && !nvSignal.NodeStore.Data.Contains (pin)) {
 						cbPins.AppendText (pin.Name + "(" + pin.Number + ")");
 					}
-				} else
-				{
+				} else {
 					cbPins.AppendText (pin.Name + "(" + pin.Number + ")");
 				}
 			}
-			if (cbPins.Data.Count > 0)
-			{
+			if (cbPins.Data.Count > 0) {
 				cbPins.Active = 0;
 			}
 			cbPins.ShowAll ();
@@ -171,8 +159,7 @@ namespace SignalConfigurationDialog
 
 		protected void OnBtnRemoveClicked (object sender, EventArgs e)
 		{
-			if (ActiveNode != null)
-			{
+			if (ActiveNode != null) {
 				AnalogSignal.Pins.Remove (ActiveNode);
 				btnRemove.Sensitive = false;
 				DrawNodeView ();

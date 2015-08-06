@@ -13,7 +13,7 @@
     <widget-library name="../../SequenceConfigurationsDialog/bin/Debug/SequenceConfigurationsDialog.dll" />
     <widget-library name="../bin/Debug/PrototypeDebugWindow.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="PrototypeDebugWindow.DebugWindow" design-size="800 600">
+  <widget class="Gtk.Window" id="PrototypeDebugWindow.DebugWindow" design-size="801 600">
     <action-group name="Default">
       <action id="mediaPlayAction">
         <property name="Type">Action</property>
@@ -21,6 +21,7 @@
         <property name="ShortLabel" translatable="yes">Start</property>
         <property name="StockId">gtk-media-play</property>
         <property name="Tooltip" translatable="yes">Start Measurements and Controlsequences</property>
+        <signal name="Activated" handler="OnMediaPlayActionToggled" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -65,7 +66,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">2</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.Table" id="table1">
                 <property name="MemberName" />
@@ -116,7 +117,7 @@
                         <child>
                           <widget class="Gtk.Table" id="table2">
                             <property name="MemberName" />
-                            <property name="NRows">4</property>
+                            <property name="NRows">5</property>
                             <property name="NColumns">2</property>
                             <property name="RowSpacing">6</property>
                             <property name="ColumnSpacing">6</property>
@@ -155,16 +156,40 @@
                                 <signal name="Clicked" handler="OnBtnClearDPinsClicked" />
                               </widget>
                               <packing>
-                                <property name="TopAttach">2</property>
-                                <property name="BottomAttach">3</property>
-                                <property name="AutoSize">False</property>
+                                <property name="TopAttach">3</property>
+                                <property name="BottomAttach">4</property>
+                                <property name="AutoSize">True</property>
                                 <property name="XOptions">Fill</property>
-                                <property name="YOptions">0</property>
+                                <property name="YOptions">Fill</property>
                                 <property name="XExpand">False</property>
                                 <property name="XFill">True</property>
                                 <property name="XShrink">False</property>
                                 <property name="YExpand">False</property>
-                                <property name="YFill">False</property>
+                                <property name="YFill">True</property>
+                                <property name="YShrink">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Button" id="btnEditDPin">
+                                <property name="MemberName" />
+                                <property name="CanFocus">True</property>
+                                <property name="Type">TextAndIcon</property>
+                                <property name="Icon">stock:gtk-edit Menu</property>
+                                <property name="Label" translatable="yes">Edit digital Output...</property>
+                                <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnEditDPinClicked" />
+                              </widget>
+                              <packing>
+                                <property name="TopAttach">1</property>
+                                <property name="BottomAttach">2</property>
+                                <property name="AutoSize">True</property>
+                                <property name="XOptions">Fill</property>
+                                <property name="YOptions">Fill</property>
+                                <property name="XExpand">False</property>
+                                <property name="XFill">True</property>
+                                <property name="XShrink">False</property>
+                                <property name="YExpand">False</property>
+                                <property name="YFill">True</property>
                                 <property name="YShrink">False</property>
                               </packing>
                             </child>
@@ -180,16 +205,16 @@
                                 <signal name="Clicked" handler="OnBtnRemoveDPinClicked" />
                               </widget>
                               <packing>
-                                <property name="TopAttach">1</property>
-                                <property name="BottomAttach">2</property>
-                                <property name="AutoSize">False</property>
+                                <property name="TopAttach">2</property>
+                                <property name="BottomAttach">3</property>
+                                <property name="AutoSize">True</property>
                                 <property name="XOptions">Fill</property>
-                                <property name="YOptions">0</property>
+                                <property name="YOptions">Fill</property>
                                 <property name="XExpand">False</property>
                                 <property name="XFill">True</property>
                                 <property name="XShrink">False</property>
                                 <property name="YExpand">False</property>
-                                <property name="YFill">False</property>
+                                <property name="YFill">True</property>
                                 <property name="YShrink">False</property>
                               </packing>
                             </child>
@@ -206,7 +231,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="BottomAttach">4</property>
+                                <property name="BottomAttach">5</property>
                                 <property name="LeftAttach">1</property>
                                 <property name="RightAttach">2</property>
                                 <property name="AutoSize">False</property>
@@ -223,8 +248,8 @@
                                 <property name="MemberName" />
                               </widget>
                               <packing>
-                                <property name="TopAttach">3</property>
-                                <property name="BottomAttach">4</property>
+                                <property name="TopAttach">4</property>
+                                <property name="BottomAttach">5</property>
                                 <property name="AutoSize">False</property>
                                 <property name="XOptions">Fill</property>
                                 <property name="XExpand">False</property>
@@ -240,7 +265,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="GtkLabel18">
+                      <widget class="Gtk.Label" id="GtkLabel19">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">&lt;b&gt;Digital Outputs&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
@@ -277,7 +302,7 @@
                         <child>
                           <widget class="Gtk.Table" id="table3">
                             <property name="MemberName" />
-                            <property name="NRows">4</property>
+                            <property name="NRows">5</property>
                             <property name="NColumns">2</property>
                             <property name="RowSpacing">6</property>
                             <property name="ColumnSpacing">6</property>
@@ -288,7 +313,7 @@
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
                                 <property name="Icon">stock:gtk-add Menu</property>
-                                <property name="Label" translatable="yes">Add analog Input...</property>
+                                <property name="Label" translatable="yes">Add analog input...</property>
                                 <property name="UseUnderline">True</property>
                                 <signal name="Clicked" handler="OnBtnAddAPinClicked" />
                               </widget>
@@ -316,16 +341,39 @@
                                 <signal name="Clicked" handler="OnBtnClearAPinsClicked" />
                               </widget>
                               <packing>
-                                <property name="TopAttach">2</property>
-                                <property name="BottomAttach">3</property>
-                                <property name="AutoSize">False</property>
+                                <property name="TopAttach">3</property>
+                                <property name="BottomAttach">4</property>
+                                <property name="AutoSize">True</property>
                                 <property name="XOptions">Fill</property>
-                                <property name="YOptions">0</property>
+                                <property name="YOptions">Fill</property>
                                 <property name="XExpand">False</property>
                                 <property name="XFill">True</property>
                                 <property name="XShrink">False</property>
                                 <property name="YExpand">False</property>
-                                <property name="YFill">False</property>
+                                <property name="YFill">True</property>
+                                <property name="YShrink">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Button" id="btnEditAPin">
+                                <property name="MemberName" />
+                                <property name="CanFocus">True</property>
+                                <property name="Type">TextAndIcon</property>
+                                <property name="Icon">stock:gtk-edit Menu</property>
+                                <property name="Label" translatable="yes">Edit analog input...</property>
+                                <property name="UseUnderline">True</property>
+                              </widget>
+                              <packing>
+                                <property name="TopAttach">1</property>
+                                <property name="BottomAttach">2</property>
+                                <property name="AutoSize">True</property>
+                                <property name="XOptions">Fill</property>
+                                <property name="YOptions">Fill</property>
+                                <property name="XExpand">False</property>
+                                <property name="XFill">True</property>
+                                <property name="XShrink">False</property>
+                                <property name="YExpand">False</property>
+                                <property name="YFill">True</property>
                                 <property name="YShrink">False</property>
                               </packing>
                             </child>
@@ -336,21 +384,21 @@
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
                                 <property name="Icon">stock:gtk-remove Menu</property>
-                                <property name="Label" translatable="yes">Remove analog Input</property>
+                                <property name="Label" translatable="yes">Remove analog input</property>
                                 <property name="UseUnderline">True</property>
                                 <signal name="Clicked" handler="OnBtnRemoveAPinClicked" />
                               </widget>
                               <packing>
-                                <property name="TopAttach">1</property>
-                                <property name="BottomAttach">2</property>
-                                <property name="AutoSize">False</property>
+                                <property name="TopAttach">2</property>
+                                <property name="BottomAttach">3</property>
+                                <property name="AutoSize">True</property>
                                 <property name="XOptions">Fill</property>
-                                <property name="YOptions">0</property>
+                                <property name="YOptions">Fill</property>
                                 <property name="XExpand">False</property>
                                 <property name="XFill">True</property>
                                 <property name="XShrink">False</property>
                                 <property name="YExpand">False</property>
-                                <property name="YFill">False</property>
+                                <property name="YFill">True</property>
                                 <property name="YShrink">False</property>
                               </packing>
                             </child>
@@ -369,7 +417,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="BottomAttach">4</property>
+                                <property name="BottomAttach">5</property>
                                 <property name="LeftAttach">1</property>
                                 <property name="RightAttach">2</property>
                                 <property name="AutoSize">False</property>
@@ -386,8 +434,8 @@
                                 <property name="MemberName" />
                               </widget>
                               <packing>
-                                <property name="TopAttach">3</property>
-                                <property name="BottomAttach">4</property>
+                                <property name="TopAttach">4</property>
+                                <property name="BottomAttach">5</property>
                                 <property name="AutoSize">False</property>
                                 <property name="XOptions">Fill</property>
                                 <property name="XExpand">False</property>
@@ -496,6 +544,7 @@
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Fill Analog Inputs</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnFillAnalogInputsClicked" />
                       </widget>
                       <packing>
                         <property name="Position">4</property>
@@ -510,6 +559,7 @@
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Fill Digital Outputs</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnFillDigitalOutputsClicked" />
                       </widget>
                       <packing>
                         <property name="Position">5</property>
