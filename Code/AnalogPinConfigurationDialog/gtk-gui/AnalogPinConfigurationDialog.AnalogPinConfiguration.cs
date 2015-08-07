@@ -218,13 +218,13 @@ namespace AnalogPinConfigurationDialog
 			w15.XOptions = ((global::Gtk.AttachOptions)(4));
 			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.sbFrequency = new global::Gtk.SpinButton (0D, 100D, 1D);
+			this.sbFrequency = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbFrequency.CanFocus = true;
 			this.sbFrequency.Name = "sbFrequency";
-			this.sbFrequency.Adjustment.PageIncrement = 10D;
-			this.sbFrequency.ClimbRate = 1D;
+			this.sbFrequency.Adjustment.PageIncrement = 10;
+			this.sbFrequency.ClimbRate = 1;
 			this.sbFrequency.Numeric = true;
-			this.sbFrequency.Value = 1D;
+			this.sbFrequency.Value = 1;
 			this.table3.Add (this.sbFrequency);
 			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbFrequency]));
 			w16.TopAttach = ((uint)(7));
@@ -234,13 +234,13 @@ namespace AnalogPinConfigurationDialog
 			w16.XOptions = ((global::Gtk.AttachOptions)(4));
 			w16.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.sbInterval = new global::Gtk.SpinButton (1D, 100D, 1D);
+			this.sbInterval = new global::Gtk.SpinButton (1, 100, 1);
 			this.sbInterval.CanFocus = true;
 			this.sbInterval.Name = "sbInterval";
-			this.sbInterval.Adjustment.PageIncrement = 10D;
-			this.sbInterval.ClimbRate = 1D;
+			this.sbInterval.Adjustment.PageIncrement = 10;
+			this.sbInterval.ClimbRate = 1;
 			this.sbInterval.Numeric = true;
-			this.sbInterval.Value = 1D;
+			this.sbInterval.Value = 1;
 			this.table3.Add (this.sbInterval);
 			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbInterval]));
 			w17.TopAttach = ((uint)(8));
@@ -250,11 +250,11 @@ namespace AnalogPinConfigurationDialog
 			w17.XOptions = ((global::Gtk.AttachOptions)(4));
 			w17.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.sbOffset = new global::Gtk.SpinButton (0D, 100D, 1D);
+			this.sbOffset = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbOffset.CanFocus = true;
 			this.sbOffset.Name = "sbOffset";
-			this.sbOffset.Adjustment.PageIncrement = 10D;
-			this.sbOffset.ClimbRate = 1D;
+			this.sbOffset.Adjustment.PageIncrement = 10;
+			this.sbOffset.ClimbRate = 1;
 			this.sbOffset.Digits = ((uint)(2));
 			this.sbOffset.Numeric = true;
 			this.table3.Add (this.sbOffset);
@@ -266,14 +266,14 @@ namespace AnalogPinConfigurationDialog
 			w18.XOptions = ((global::Gtk.AttachOptions)(4));
 			w18.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.sbSlope = new global::Gtk.SpinButton (0D, 100D, 1D);
+			this.sbSlope = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbSlope.CanFocus = true;
 			this.sbSlope.Name = "sbSlope";
-			this.sbSlope.Adjustment.PageIncrement = 10D;
-			this.sbSlope.ClimbRate = 1D;
+			this.sbSlope.Adjustment.PageIncrement = 10;
+			this.sbSlope.ClimbRate = 1;
 			this.sbSlope.Digits = ((uint)(2));
 			this.sbSlope.Numeric = true;
-			this.sbSlope.Value = 1D;
+			this.sbSlope.Value = 1;
 			this.table3.Add (this.sbSlope);
 			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbSlope]));
 			w19.TopAttach = ((uint)(5));
@@ -322,6 +322,14 @@ namespace AnalogPinConfigurationDialog
 			this.DefaultWidth = 276;
 			this.DefaultHeight = 308;
 			this.Show ();
+			this.sbSlope.Changed += new global::System.EventHandler (this.OnSbSlopeChanged);
+			this.sbOffset.Changed += new global::System.EventHandler (this.OnSbOffsetChanged);
+			this.sbInterval.Changed += new global::System.EventHandler (this.OnSbIntervalChanged);
+			this.sbFrequency.Changed += new global::System.EventHandler (this.OnSbFrequencyChanged);
+			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
+			this.cbUnit.Changed += new global::System.EventHandler (this.OnCbUnitChanged);
+			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
+			this.cbColor.Clicked += new global::System.EventHandler (this.OnCbColorClicked);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}

@@ -147,6 +147,7 @@ namespace DigitalPinConfigurationDialog
 			this.DefaultWidth = 210;
 			this.DefaultHeight = 130;
 			this.Show ();
+			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
 			this.cbColor.ColorSet += new global::System.EventHandler (this.OnCbColorColorSet);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);

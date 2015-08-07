@@ -78,6 +78,7 @@
                 <property name="CanFocus">True</property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
+                <signal name="Changed" handler="OnEntryNameChanged" />
               </widget>
               <packing>
                 <property name="LeftAttach">1</property>

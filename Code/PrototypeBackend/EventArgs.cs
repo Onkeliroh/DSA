@@ -82,16 +82,29 @@ namespace PrototypeBackend
 		}
 	}
 
-	public class ControllerSequenceUpdateArgs
+	public class SequencesUpdatedArgs
 	{
 		public Sequence Seq { get; private set; }
 
 		public UpdateOperation UpdateOperation { get; private set; }
 
-		public ControllerSequenceUpdateArgs (UpdateOperation seqUpdateOperation, Sequence seq = null)
+		public SequencesUpdatedArgs (UpdateOperation seqUpdateOperation, Sequence seq = null)
 		{
 			Seq = seq;
 			UpdateOperation = seqUpdateOperation;
+		}
+	}
+
+	public class SignalsUpdatedArgs
+	{
+		public Signal Sig { get; private set; }
+
+		public UpdateOperation UpdateOperation{ get; private set; }
+
+		public SignalsUpdatedArgs (UpdateOperation sigUpdateOperation, Signal sig = null)
+		{
+			Sig = sig;
+			UpdateOperation = sigUpdateOperation;
 		}
 	}
 }

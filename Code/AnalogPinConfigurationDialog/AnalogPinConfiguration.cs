@@ -15,7 +15,8 @@ namespace AnalogPinConfigurationDialog
 				cbPin.InsertText (0, "A" + value.Number.ToString ());
 				cbPin.Active = 0;
 
-				if (!cbUnit.Data.Contains (value.Unit)) {
+				if (!cbUnit.Data.Contains (value.Unit))
+				{
 					cbUnit.InsertText (0, value.Unit);
 					cbUnit.Active = 0;
 				}
@@ -44,34 +45,27 @@ namespace AnalogPinConfigurationDialog
 			sbOffset.Adjustment.Upper = double.MaxValue;
 			sbInterval.Adjustment.Upper = int.MaxValue;
 
-			for (int i = 0; i < availablePins.Length; i++) {
+			for (int i = 0; i < availablePins.Length; i++)
+			{
 				cbPin.AppendText ("A" + availablePins [i].ToString ());
 			}
 
-			if (availablePins.Length > 0) {
-				cbPin.Active = 0;
+			if (apin != null)
+			{
+				Pin = apin;
+			} else
+			{
+				pin = new APin ();
 			}
 
-			if (apin != null) {
-				Pin = apin;
-			} else {
-				pin = new APin ();
+			if (availablePins.Length > 0)
+			{
+				cbPin.Active = 0;
 			}
 		}
 
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
-//			pin = new APin () {
-//				Name = (entryName.Text == null) ? " " : entryName.Text,
-//				Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1)),
-//				PlotColor = cbColor.Color,
-//
-//				Unit = cbUnit.ActiveText,
-//				Slope = sbSlope.Value,
-//				Offset = sbOffset.Value,
-//				Frequency = sbFrequency.Value,
-//				Interval = sbInterval.ValueAsInt,
-//			};
 			pin.Name = entryName.Text;
 			pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
 			pin.PlotColor = cbColor.Color;
@@ -82,6 +76,70 @@ namespace AnalogPinConfigurationDialog
 			pin.Interval = sbInterval.ValueAsInt;
 
 			Respond (Gtk.ResponseType.Apply);
+		}
+
+		protected void OnEntryNameChanged (object sender, EventArgs e)
+		{
+			if (pin != null)
+			{
+				pin.Name = entryName.Text;
+			}
+		}
+
+		protected void OnCbPinChanged (object sender, EventArgs e)
+		{
+			if (pin != null)
+			{
+				pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
+			}
+		}
+
+		protected void OnCbColorClicked (object sender, EventArgs e)
+		{
+			if (pin != null)
+			{
+				pin.PlotColor = cbColor.Color;
+			}
+		}
+
+		protected void OnCbUnitChanged (object sender, EventArgs e)
+		{
+			if (pin != null)
+			{
+				pin.Unit = cbUnit.ActiveText;	
+			}
+		}
+
+		protected void OnSbSlopeChanged (object sender, EventArgs e)
+		{
+			if (pin != null)
+			{
+				pin.Slope = sbSlope.Value;
+			}	
+		}
+
+		protected void OnSbOffsetChanged (object sender, EventArgs e)
+		{
+			if (pin != null)
+			{
+				pin.Offset = sbOffset.Value;
+			}
+		}
+
+		protected void OnSbFrequencyChanged (object sender, EventArgs e)
+		{
+			if (pin != null)
+			{
+				pin.Frequency = sbFrequency.Value;	
+			}
+		}
+
+		protected void OnSbIntervalChanged (object sender, EventArgs e)
+		{
+			if (pin != null)
+			{
+				pin.Interval = sbInterval.ValueAsInt;
+			}
 		}
 	}
 }

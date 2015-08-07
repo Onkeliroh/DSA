@@ -51,6 +51,7 @@
           <widget class="Gtk.Toolbar" id="toolbar1">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
+            <property name="IconSize">Button</property>
             <node name="toolbar1" type="Toolbar">
               <node type="Toolitem" action="mediaPlayAction" />
             </node>
@@ -66,7 +67,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="CurrentPage">1</property>
             <child>
               <widget class="Gtk.Table" id="table1">
                 <property name="MemberName" />
@@ -109,7 +110,7 @@
                     <property name="MemberName" />
                     <property name="ShadowType">None</property>
                     <child>
-                      <widget class="Gtk.Alignment" id="GtkAlignment3">
+                      <widget class="Gtk.Alignment" id="GtkAlignment5">
                         <property name="MemberName" />
                         <property name="Xalign">0</property>
                         <property name="Yalign">0</property>
@@ -265,7 +266,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="GtkLabel19">
+                      <widget class="Gtk.Label" id="GtkLabel20">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">&lt;b&gt;Digital Outputs&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
@@ -362,6 +363,7 @@
                                 <property name="Icon">stock:gtk-edit Menu</property>
                                 <property name="Label" translatable="yes">Edit analog input...</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnEditAPinClicked" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
@@ -728,6 +730,23 @@
                       </packing>
                     </child>
                     <child>
+                      <widget class="Gtk.Button" id="btnEditSignal">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextAndIcon</property>
+                        <property name="Icon">stock:gtk-edit Menu</property>
+                        <property name="Label" translatable="yes">EditSignal...</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnEditDPinClicked" />
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
                       <widget class="Gtk.Button" id="btnRemoveSignal">
                         <property name="MemberName" />
                         <property name="HeightRequest">26</property>
@@ -736,9 +755,10 @@
                         <property name="Icon">stock:gtk-remove Menu</property>
                         <property name="Label" translatable="yes">Remove Signal</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnRemoveSignalClicked" />
                       </widget>
                       <packing>
-                        <property name="Position">1</property>
+                        <property name="Position">2</property>
                         <property name="AutoSize">True</property>
                         <property name="Expand">False</property>
                         <property name="Fill">False</property>
@@ -753,9 +773,10 @@
                         <property name="Icon">stock:gtk-clear Menu</property>
                         <property name="Label" translatable="yes">Clear</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnClearSignalsClicked" />
                       </widget>
                       <packing>
-                        <property name="Position">2</property>
+                        <property name="Position">3</property>
                         <property name="AutoSize">True</property>
                         <property name="Expand">False</property>
                         <property name="Fill">False</property>
@@ -797,14 +818,14 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.Button" id="btnRemoveSignal1">
+                      <widget class="Gtk.Button" id="btnEditSequence">
                         <property name="MemberName" />
-                        <property name="HeightRequest">26</property>
                         <property name="CanFocus">True</property>
                         <property name="Type">TextAndIcon</property>
-                        <property name="Icon">stock:gtk-remove Menu</property>
-                        <property name="Label" translatable="yes">Remove Sequence</property>
+                        <property name="Icon">stock:gtk-edit Menu</property>
+                        <property name="Label" translatable="yes">Edit Sequence...</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnEditSequenceClicked" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>
@@ -814,7 +835,25 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.Button" id="btnClearSignals1">
+                      <widget class="Gtk.Button" id="btnRemoveSequence">
+                        <property name="MemberName" />
+                        <property name="HeightRequest">26</property>
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextAndIcon</property>
+                        <property name="Icon">stock:gtk-remove Menu</property>
+                        <property name="Label" translatable="yes">Remove Sequence</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnRemoveSequenceClicked" />
+                      </widget>
+                      <packing>
+                        <property name="Position">2</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Button" id="btnClearSequence">
                         <property name="MemberName" />
                         <property name="HeightRequest">26</property>
                         <property name="CanFocus">True</property>
@@ -822,9 +861,10 @@
                         <property name="Icon">stock:gtk-clear Menu</property>
                         <property name="Label" translatable="yes">Clear</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnClearSequenceClicked" />
                       </widget>
                       <packing>
-                        <property name="Position">2</property>
+                        <property name="Position">3</property>
                         <property name="AutoSize">True</property>
                         <property name="Expand">False</property>
                         <property name="Fill">False</property>

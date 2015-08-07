@@ -15,7 +15,6 @@ namespace DigitalPinConfigurationDialog
 				entryName.Text = value.Name;
 				cbColor.Color = value.PlotColor;
 				cbPin.InsertText (0, "D" + value.Number.ToString ());
-				cbPin.Active = 0;
 				pin = value;
 			}
 		}
@@ -29,19 +28,22 @@ namespace DigitalPinConfigurationDialog
 
 			this.FocusChain = new Widget[]{ entryName, cbPin, cbColor, buttonOk, buttonCancel };
 
-			if (dpin != null) {
+			if (dpin != null)
+			{
 				Pin = dpin;
-			} else {
+			} else
+			{
 				pin = new DPin ();
 			}
 
-			for (int i = 0; i < availablePins.Length; i++) {
+			for (int i = 0; i < availablePins.Length; i++)
+			{
 				cbPin.AppendText ("D" + availablePins [i].ToString ());
 			}
-			if (availablePins.Length > 0) {
+			if (availablePins.Length > 0)
+			{
 				cbPin.Active = 0;
 			}
-				
 		}
 
 		[GLib.ConnectBeforeAttribute]
@@ -61,16 +63,22 @@ namespace DigitalPinConfigurationDialog
 
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
-			pin.Name = entryName.Text;
+			if (pin != null)
+			{
+				pin.Name = entryName.Text;
+			}
 		}
 
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			try {
-				if (pin != null) {
+			try
+			{
+				if (pin != null)
+				{
 					pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
 				}
-			} catch (Exception ee) {
+			} catch (Exception ee)
+			{
 			}
 		}
 

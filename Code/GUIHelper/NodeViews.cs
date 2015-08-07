@@ -75,6 +75,23 @@ namespace GUIHelper
 		[Gtk.TreeNodeValue (Column = 0)]
 		public string Name { get { return AnalogSignal.SignalName; } private set { } }
 
+		[Gtk.TreeNodeValue (Column = 1)]
+		public string Pins {
+			get {
+				var s = "";
+				foreach (APin pin in AnalogSignal.Pins)
+					s += pin.Name + "(A" + pin.Number + ")";
+				return s;
+			}
+			private set{ }
+		}
+
+		[Gtk.TreeNodeValue (Column = 2)]
+		public double Frequency { get { return AnalogSignal.Frequency; } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 3)]
+		public string Operation { get { return AnalogSignal.SignalOperationString; } private set { } }
+
 		public int Index{ get; private set; }
 
 		public Signal AnalogSignal{ get; private set; }
