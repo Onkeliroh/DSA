@@ -128,19 +128,30 @@ namespace GUIHelper
 	public class SequenceOperationTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Duration{ get { return SeqOp.Duration.ToString ("c"); } private set { } }
+		public string TotalTime{ get; private set; }
 
 		[Gtk.TreeNodeValue (Column = 1)]
+		public string Duration{ get { return SeqOp.Duration.ToString ("c"); } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 2)]
 		public string State{ get { return SeqOp.State.ToString (); } private set { } }
 
 		public SequenceOperation SeqOp{ get; private set; }
 
 		public int Index{ get; private set; }
 
-		public SequenceOperationTreeNode (SequenceOperation seqop, int index = -1)
+		public SequenceOperationTreeNode (SequenceOperation seqop, int index = -1, double totalTime = -1)
 		{
 			SeqOp = seqop;
 			Index = index;
+
+			if (totalTime < 0)
+			{
+				TotalTime = "";
+			} else
+			{
+				TotalTime = "+" + TimeSpan.FromTicks ((long)totalTime).ToString ("g");
+			}
 		}
 	}
 
