@@ -76,20 +76,29 @@ namespace GUIHelper
 		public string Name { get { return AnalogSignal.SignalName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
+		public Pixbuf Color;
+
+		[Gtk.TreeNodeValue (Column = 2)]
 		public string Pins {
 			get {
 				var s = "";
-				foreach (APin pin in AnalogSignal.Pins)
-					s += pin.Name + "(A" + pin.Number + ")";
+				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
+				{
+					s += AnalogSignal.Pins [i].Name + "(A" + AnalogSignal.Pins [i].Number + ")";
+					if (i < AnalogSignal.Pins.Count - 1)
+					{
+						s += ", ";
+					}
+				}
 				return s;
 			}
 			private set{ }
 		}
 
-		[Gtk.TreeNodeValue (Column = 2)]
+		[Gtk.TreeNodeValue (Column = 3)]
 		public double Frequency { get { return AnalogSignal.Frequency; } private set { } }
 
-		[Gtk.TreeNodeValue (Column = 3)]
+		[Gtk.TreeNodeValue (Column = 4)]
 		public string Operation { get { return AnalogSignal.SignalOperationString; } private set { } }
 
 		public int Index{ get; private set; }
@@ -100,13 +109,14 @@ namespace GUIHelper
 		{
 			Index = index;
 			AnalogSignal = analogSignal;
+			Color = ColorHelper.ColoredPixbuf (AnalogSignal.SignalColor);
 		}
 	}
 
 	public class APinSignalDialogTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name { get { return Pin.Name + "(" + Pin.Number + ")"; } private set { } }
+		public string Name { get { return Pin.Name + "(A" + Pin.Number + ")"; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
 		public double Frequency { get { return Pin.Frequency; } private set { } }
@@ -119,6 +129,25 @@ namespace GUIHelper
 		public int Index { get; private set; }
 
 		public APinSignalDialogTreeNode (APin pin, int index = -1)
+		{
+			Pin = pin;
+			Index = index;
+		}
+	}
+
+	public class APinListStoreNode : Gtk.TreeNode
+	{
+		[Gtk.TreeNodeValue (Column = 0)]
+		public string Label { get { return Pin.Name + "(" + Pin.Number + ")"; } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 1)]
+		public string Frequency { get { return Pin.EffectiveFrequency.ToString (); } private set { } }
+
+		public APin Pin{ get; private set; }
+
+		public int Index{ get; private set; }
+
+		public APinListStoreNode (APin pin, int index = -1)
 		{
 			Pin = pin;
 			Index = index;
@@ -164,6 +193,9 @@ namespace GUIHelper
 
 		[Gtk.TreeNodeValue (Column = 1)]
 		public string Pins { get { return String.Format ("{0}({1})", Seq.Pin.Name, Seq.Pin.Number); } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 2)]
+		public string Runtime { get { return Seq.Runtime.ToString ("g"); } private set { } }
 
 		public Sequence Seq;
 

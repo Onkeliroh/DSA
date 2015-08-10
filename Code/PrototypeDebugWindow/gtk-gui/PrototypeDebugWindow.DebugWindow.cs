@@ -178,7 +178,7 @@ namespace PrototypeDebugWindow
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 0;
+			this.notebook1.CurrentPage = 1;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
 			this.table1.Name = "table1";
@@ -812,7 +812,7 @@ namespace PrototypeDebugWindow
 			this.btnRemoveSequence.Clicked += new global::System.EventHandler (this.OnBtnRemoveSequenceClicked);
 			this.btnClearSequence.Clicked += new global::System.EventHandler (this.OnBtnClearSequenceClicked);
 			this.btnAddSignal.Clicked += new global::System.EventHandler (this.OnBtnAddSignalClicked);
-			this.btnEditSignal.Clicked += new global::System.EventHandler (this.OnBtnEditDPinClicked);
+			this.btnEditSignal.Clicked += new global::System.EventHandler (this.OnBtnEditSignalClicked);
 			this.btnRemoveSignal.Clicked += new global::System.EventHandler (this.OnBtnRemoveSignalClicked);
 			this.btnClearSignals.Clicked += new global::System.EventHandler (this.OnBtnClearSignalsClicked);
 		}

@@ -74,16 +74,20 @@ namespace PrototypeBackend
 
 		public bool AddPin (APin pin)
 		{
-			if (Pins.Count > 0)
+			if (!Pins.Contains (pin))
 			{
-				if (Math.Abs (Pins [0].Frequency - pin.Frequency) < 0.0001)
+				if (Pins.Count > 0)
+				{
+					if (Math.Abs (Pins [0].Frequency - pin.Frequency) < 0.0001)
+					{
+						Pins.Add (pin);
+						return true;
+					}
+				} else
 				{
 					Pins.Add (pin);
 					return true;
 				}
-			} else
-			{
-				Pins.Add (pin);
 			}
 			return false;
 		}

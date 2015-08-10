@@ -22,6 +22,13 @@ namespace PrototypeBackend
 
 		public List<SequenceOperation> Chain { get; set; }
 
+		public TimeSpan Runtime { 
+			get { 
+				return TimeSpan.FromTicks (Chain.Select (x => x.Duration.Ticks).ToList ().Sum ()); 
+			}
+			private set{ }
+		}
+
 		public int Cycle { get; private set; }
 
 		public int CurrentOperation { get; private set; }

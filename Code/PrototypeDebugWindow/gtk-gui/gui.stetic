@@ -67,7 +67,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="CurrentPage">1</property>
             <child>
               <widget class="Gtk.Table" id="table1">
                 <property name="MemberName" />
@@ -737,7 +737,7 @@
                         <property name="Icon">stock:gtk-edit Menu</property>
                         <property name="Label" translatable="yes">EditSignal...</property>
                         <property name="UseUnderline">True</property>
-                        <signal name="Clicked" handler="OnBtnEditDPinClicked" />
+                        <signal name="Clicked" handler="OnBtnEditSignalClicked" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>

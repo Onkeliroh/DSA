@@ -32,8 +32,6 @@ namespace SignalConfigurationDialog
 		
 		private global::Gtk.ComboBoxEntry cbeUnit;
 		
-		private global::Gtk.Entry entry5;
-		
 		private global::Gtk.Entry entryName;
 		
 		private global::Gtk.Entry entryOperation;
@@ -47,10 +45,6 @@ namespace SignalConfigurationDialog
 		private global::Gtk.Label label4;
 		
 		private global::Gtk.Label label5;
-		
-		private global::Gtk.Label label6;
-		
-		private global::Gtk.Label label7;
 		
 		private global::Gtk.Label label8;
 		
@@ -125,9 +119,7 @@ namespace SignalConfigurationDialog
 			w5.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.cbPins = global::Gtk.ComboBox.NewText ();
-			this.cbPins.AppendText (global::Mono.Unix.Catalog.GetString ("kfludfludlfdludlc"));
 			this.cbPins.Name = "cbPins";
-			this.cbPins.Active = 0;
 			this.table1.Add (this.cbPins);
 			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.cbPins]));
 			w6.TopAttach = ((uint)(1));
@@ -199,22 +191,6 @@ namespace SignalConfigurationDialog
 			w14.XOptions = ((global::Gtk.AttachOptions)(4));
 			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.entry5 = new global::Gtk.Entry ();
-			this.entry5.TooltipMarkup = "The resulting frequency of this signal. Depending on the used analog inputs frequ" +
-			"encies.";
-			this.entry5.CanFocus = true;
-			this.entry5.Name = "entry5";
-			this.entry5.IsEditable = false;
-			this.entry5.InvisibleChar = '●';
-			this.table2.Add (this.entry5);
-			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2 [this.entry5]));
-			w15.TopAttach = ((uint)(5));
-			w15.BottomAttach = ((uint)(6));
-			w15.LeftAttach = ((uint)(2));
-			w15.RightAttach = ((uint)(3));
-			w15.XOptions = ((global::Gtk.AttachOptions)(4));
-			w15.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
 			this.entryName = new global::Gtk.Entry ();
 			this.entryName.TooltipMarkup = "The name the result will by logged under.";
 			this.entryName.CanFocus = true;
@@ -222,144 +198,115 @@ namespace SignalConfigurationDialog
 			this.entryName.IsEditable = true;
 			this.entryName.InvisibleChar = '●';
 			this.table2.Add (this.entryName);
-			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table2 [this.entryName]));
-			w16.LeftAttach = ((uint)(2));
-			w16.RightAttach = ((uint)(4));
-			w16.XOptions = ((global::Gtk.AttachOptions)(4));
-			w16.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2 [this.entryName]));
+			w15.LeftAttach = ((uint)(2));
+			w15.RightAttach = ((uint)(4));
+			w15.XOptions = ((global::Gtk.AttachOptions)(4));
+			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.entryOperation = new global::Gtk.Entry ();
-			this.entryOperation.TooltipMarkup = "The Operation you wish to be processed.\n\ne.g:\nGiven analog inputs A0 and A5.\nAddi" +
-			"ng those two would require you to type in: \"A0+A5\".\nAlternatively you could you " +
-			"the inputs name. (e.g. TemperatureSensor0 + TemperatureSensor5)";
+			this.entryOperation.TooltipMarkup = "The Operation you wish to be processed.\n\ne.g:\nGiven analog inputs A0 and A5.\nAdding those two would require you to type in: \"A0+A5\".\nAlternatively you could you the inputs name. (e.g. TemperatureSensor0 + TemperatureSensor5)";
 			this.entryOperation.CanFocus = true;
 			this.entryOperation.Name = "entryOperation";
 			this.entryOperation.IsEditable = true;
 			this.entryOperation.InvisibleChar = '●';
 			this.table2.Add (this.entryOperation);
-			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table2 [this.entryOperation]));
-			w17.TopAttach = ((uint)(1));
-			w17.BottomAttach = ((uint)(2));
-			w17.LeftAttach = ((uint)(2));
-			w17.RightAttach = ((uint)(4));
-			w17.XOptions = ((global::Gtk.AttachOptions)(4));
-			w17.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table2 [this.entryOperation]));
+			w16.TopAttach = ((uint)(1));
+			w16.BottomAttach = ((uint)(2));
+			w16.LeftAttach = ((uint)(2));
+			w16.RightAttach = ((uint)(4));
+			w16.XOptions = ((global::Gtk.AttachOptions)(4));
+			w16.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.hseparator2 = new global::Gtk.HSeparator ();
 			this.hseparator2.Name = "hseparator2";
 			this.table2.Add (this.hseparator2);
-			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table2 [this.hseparator2]));
-			w18.TopAttach = ((uint)(4));
-			w18.BottomAttach = ((uint)(5));
-			w18.LeftAttach = ((uint)(1));
-			w18.RightAttach = ((uint)(4));
-			w18.XOptions = ((global::Gtk.AttachOptions)(4));
-			w18.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table2 [this.hseparator2]));
+			w17.TopAttach = ((uint)(4));
+			w17.BottomAttach = ((uint)(5));
+			w17.LeftAttach = ((uint)(1));
+			w17.RightAttach = ((uint)(4));
+			w17.XOptions = ((global::Gtk.AttachOptions)(4));
+			w17.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
 			this.label2.Xalign = 0F;
 			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Name:");
 			this.table2.Add (this.label2);
-			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table2 [this.label2]));
-			w19.LeftAttach = ((uint)(1));
-			w19.RightAttach = ((uint)(2));
-			w19.XOptions = ((global::Gtk.AttachOptions)(4));
-			w19.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table2 [this.label2]));
+			w18.LeftAttach = ((uint)(1));
+			w18.RightAttach = ((uint)(2));
+			w18.XOptions = ((global::Gtk.AttachOptions)(4));
+			w18.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label3 = new global::Gtk.Label ();
 			this.label3.Name = "label3";
 			this.label3.Xalign = 0F;
 			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Operation:");
 			this.table2.Add (this.label3);
-			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table2 [this.label3]));
-			w20.TopAttach = ((uint)(1));
-			w20.BottomAttach = ((uint)(2));
-			w20.LeftAttach = ((uint)(1));
-			w20.RightAttach = ((uint)(2));
-			w20.XOptions = ((global::Gtk.AttachOptions)(4));
-			w20.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table2 [this.label3]));
+			w19.TopAttach = ((uint)(1));
+			w19.BottomAttach = ((uint)(2));
+			w19.LeftAttach = ((uint)(1));
+			w19.RightAttach = ((uint)(2));
+			w19.XOptions = ((global::Gtk.AttachOptions)(4));
+			w19.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label4 = new global::Gtk.Label ();
 			this.label4.Name = "label4";
 			this.label4.Xalign = 0F;
 			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Unit:");
 			this.table2.Add (this.label4);
-			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table2 [this.label4]));
-			w21.TopAttach = ((uint)(2));
-			w21.BottomAttach = ((uint)(3));
-			w21.LeftAttach = ((uint)(1));
-			w21.RightAttach = ((uint)(2));
-			w21.XOptions = ((global::Gtk.AttachOptions)(4));
-			w21.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table2 [this.label4]));
+			w20.TopAttach = ((uint)(2));
+			w20.BottomAttach = ((uint)(3));
+			w20.LeftAttach = ((uint)(1));
+			w20.RightAttach = ((uint)(2));
+			w20.XOptions = ((global::Gtk.AttachOptions)(4));
+			w20.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label5 = new global::Gtk.Label ();
 			this.label5.Name = "label5";
 			this.label5.Xalign = 0F;
 			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Color:");
 			this.table2.Add (this.label5);
-			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table2 [this.label5]));
-			w22.TopAttach = ((uint)(3));
-			w22.BottomAttach = ((uint)(4));
-			w22.LeftAttach = ((uint)(1));
-			w22.RightAttach = ((uint)(2));
-			w22.XOptions = ((global::Gtk.AttachOptions)(4));
-			w22.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
-			this.label6 = new global::Gtk.Label ();
-			this.label6.Name = "label6";
-			this.label6.Xalign = 0F;
-			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Collective Frequency:");
-			this.table2.Add (this.label6);
-			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table2 [this.label6]));
-			w23.TopAttach = ((uint)(5));
-			w23.BottomAttach = ((uint)(6));
-			w23.LeftAttach = ((uint)(1));
-			w23.RightAttach = ((uint)(2));
-			w23.XOptions = ((global::Gtk.AttachOptions)(4));
-			w23.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
-			this.label7 = new global::Gtk.Label ();
-			this.label7.Name = "label7";
-			this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("s");
-			this.table2.Add (this.label7);
-			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table2 [this.label7]));
-			w24.TopAttach = ((uint)(5));
-			w24.BottomAttach = ((uint)(6));
-			w24.LeftAttach = ((uint)(3));
-			w24.RightAttach = ((uint)(4));
-			w24.XOptions = ((global::Gtk.AttachOptions)(4));
-			w24.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table2 [this.label5]));
+			w21.TopAttach = ((uint)(3));
+			w21.BottomAttach = ((uint)(4));
+			w21.LeftAttach = ((uint)(1));
+			w21.RightAttach = ((uint)(2));
+			w21.XOptions = ((global::Gtk.AttachOptions)(4));
+			w21.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label8 = new global::Gtk.Label ();
 			this.label8.Name = "label8";
 			this.table2.Add (this.label8);
-			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table2 [this.label8]));
-			w25.TopAttach = ((uint)(6));
-			w25.BottomAttach = ((uint)(7));
-			w25.LeftAttach = ((uint)(2));
-			w25.RightAttach = ((uint)(3));
+			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table2 [this.label8]));
+			w22.TopAttach = ((uint)(6));
+			w22.BottomAttach = ((uint)(7));
+			w22.LeftAttach = ((uint)(2));
+			w22.RightAttach = ((uint)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.vseparator1 = new global::Gtk.VSeparator ();
 			this.vseparator1.Name = "vseparator1";
 			this.table2.Add (this.vseparator1);
-			global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.table2 [this.vseparator1]));
-			w26.BottomAttach = ((uint)(7));
-			w26.XOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table2 [this.vseparator1]));
+			w23.BottomAttach = ((uint)(7));
+			w23.XOptions = ((global::Gtk.AttachOptions)(4));
 			this.hbox1.Add (this.table2);
-			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.table2]));
-			w27.Position = 1;
-			w27.Expand = false;
-			w27.Fill = false;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.table2]));
+			w24.Position = 1;
 			w1.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(w1 [this.hbox1]));
-			w28.Position = 0;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(w1 [this.hbox1]));
+			w25.Position = 0;
 			// Internal child SignalConfigurationDialog.SignalConfigurationDialog.ActionArea
-			global::Gtk.HButtonBox w29 = this.ActionArea;
-			w29.Name = "dialog1_ActionArea";
-			w29.Spacing = 10;
-			w29.BorderWidth = ((uint)(5));
-			w29.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
+			global::Gtk.HButtonBox w26 = this.ActionArea;
+			w26.Name = "dialog1_ActionArea";
+			w26.Spacing = 10;
+			w26.BorderWidth = ((uint)(5));
+			w26.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonCancel = new global::Gtk.Button ();
 			this.buttonCancel.CanDefault = true;
@@ -369,9 +316,9 @@ namespace SignalConfigurationDialog
 			this.buttonCancel.UseUnderline = true;
 			this.buttonCancel.Label = "gtk-cancel";
 			this.AddActionWidget (this.buttonCancel, -6);
-			global::Gtk.ButtonBox.ButtonBoxChild w30 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w29 [this.buttonCancel]));
-			w30.Expand = false;
-			w30.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w27 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w26 [this.buttonCancel]));
+			w27.Expand = false;
+			w27.Fill = false;
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonOk = new global::Gtk.Button ();
 			this.buttonOk.CanDefault = true;
@@ -381,16 +328,22 @@ namespace SignalConfigurationDialog
 			this.buttonOk.UseUnderline = true;
 			this.buttonOk.Label = "gtk-apply";
 			this.AddActionWidget (this.buttonOk, -10);
-			global::Gtk.ButtonBox.ButtonBoxChild w31 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w29 [this.buttonOk]));
-			w31.Position = 1;
-			w31.Expand = false;
-			w31.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w28 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w26 [this.buttonOk]));
+			w28.Position = 1;
+			w28.Expand = false;
+			w28.Fill = false;
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 676;
 			this.DefaultHeight = 300;
 			this.Show ();
+			this.btnRemove.Clicked += new global::System.EventHandler (this.OnBtnRemoveClicked);
+			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
+			this.entryOperation.Changed += new global::System.EventHandler (this.OnEntryOperationChanged);
+			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
+			this.cbeUnit.Changed += new global::System.EventHandler (this.OnCbeUnitChanged);
+			this.cbColor.ColorSet += new global::System.EventHandler (this.OnCbColorColorSet);
 		}
 	}
 }

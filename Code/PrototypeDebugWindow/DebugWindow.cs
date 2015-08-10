@@ -213,11 +213,13 @@ namespace PrototypeDebugWindow
 				RunSequenceDialog (Seq);
 			};
 
-			nvSequences.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
+			nvSequences.AppendColumn (new TreeViewColumn ("Sequence-Name", new CellRendererText (), "text", 0));
 			nvSequences.AppendColumn (new TreeViewColumn ("Pin [Name(Pin)]", new CellRendererText (), "text", 1));
+			nvSequences.AppendColumn (new TreeViewColumn ("Runtime", new CellRendererText (), "text", 2));
 
 			nvSequences.Show ();
 			#endregion
+
 			#region Signals
 
 			nvSignals.NodeStore = NodeStoreSignals;
@@ -227,9 +229,10 @@ namespace PrototypeDebugWindow
 				RunSignalDialog (sig);
 			};
 			nvSignals.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
-			nvSignals.AppendColumn (new TreeViewColumn ("Pin(s)", new CellRendererText (), "text", 1));
-			nvSignals.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 2));
-			nvSignals.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 3));
+			nvSignals.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
+			nvSignals.AppendColumn (new TreeViewColumn ("Pin(s)", new CellRendererText (), "text", 2));
+			nvSignals.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 3));
+			nvSignals.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 4));
 			#endregion
 		}
 
@@ -457,6 +460,16 @@ namespace PrototypeDebugWindow
 			{
 				var seq = con.ControllerSequences [node.Index];
 				RunSequenceDialog (seq);
+			}
+		}
+
+		protected void OnBtnEditSignalClicked (object sender, EventArgs e)
+		{
+			SignalTreeNode node = (SignalTreeNode)nvSignals.NodeSelection.SelectedNode;
+			if (node != null)
+			{
+				var seq = con.ControllerSignals [node.Index];
+				RunSignalDialog (seq);
 			}
 		}
 

@@ -3,6 +3,7 @@ using System.Drawing;
 using PrototypeBackend;
 using Gtk;
 using GUIHelper;
+using System.Text.RegularExpressions;
 
 namespace SignalConfigurationDialog
 {
@@ -15,8 +16,12 @@ namespace SignalConfigurationDialog
 			set {
 				entryName.Text = value.SignalName;
 				entryOperation.Text = value.SignalOperationString;
-				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit)) {
-					cbeUnit.AppendText (value.Unit);
+				cbColor.Color = value.SignalColor;
+
+				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit))
+				{
+					cbeUnit.InsertText (0, value.Unit);
+					cbeUnit.Active = 0;
 				}
 					
 				analogSignal = value;
@@ -40,16 +45,18 @@ namespace SignalConfigurationDialog
 
 			APins = pins;
 
-			if (signal == null) {
+			if (signal == null)
+			{
 				analogSignal = new Signal ();
-			} else {
-				analogSignal = signal;
+			} else
+			{
+				AnalogSignal = signal;
 			}
 
-			UpdateCBPins ();
 			SetupNodeView ();
 			DrawNodeView ();
-			ShowAll ();
+			UpdateCBPins ();
+//			ShowAll ();
 		}
 
 		private void SetupNodeView ()
@@ -61,7 +68,8 @@ namespace SignalConfigurationDialog
 
 			nvSignal.ButtonPressEvent += new ButtonPressEventHandler (OnSignalButtonPress);
 			nvSignal.KeyPressEvent += new KeyPressEventHandler (OnSignalKeyPress);
-			nvSignal.RowActivated += (o, args) => {
+			nvSignal.RowActivated += (o, args) =>
+			{
 				var node = ((o as NodeView).NodeSelection.SelectedNode as APinSignalDialogTreeNode).Pin;
 				ActiveNode = node;
 
@@ -72,14 +80,17 @@ namespace SignalConfigurationDialog
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalButtonPress (object o, ButtonPressEventArgs args)
 		{
-			if (args.Event.Button == 3) {
+			if (args.Event.Button == 3)
+			{
 				Menu m = new Menu ();
 
 				MenuItem deleteItem = new MenuItem ("Delete this SequenceOperation");
-				deleteItem.ButtonPressEvent += (obj, e) => {
-					SequenceOperationTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
+				deleteItem.ButtonPressEvent += (obj, e) =>
+				{
+					APinSignalDialogTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as APinSignalDialogTreeNode);
 					AnalogSignal.Pins.RemoveAt (node.Index);
 					DrawNodeView ();
+					UpdateCBPins ();
 				};
 				m.Add (deleteItem);
 				m.ShowAll ();
@@ -90,7 +101,8 @@ namespace SignalConfigurationDialog
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalKeyPress (object o, KeyPressEventArgs args)
 		{
-			if (args.Event.Key == Gdk.Key.Delete) {
+			if (args.Event.Key == Gdk.Key.Delete)
+			{
 				AnalogSignal.Pins.RemoveAt (((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode).Index);
 				DrawNodeView ();
 			}
@@ -100,7 +112,8 @@ namespace SignalConfigurationDialog
 		{
 			nvSignal.NodeStore.Clear ();
 			btnRemove.Sensitive = false;
-			for (int i = 0; i < analogSignal.Pins.Count; i++) {
+			for (int i = 0; i < analogSignal.Pins.Count; i++)
+			{
 				nvSignal.NodeStore.AddNode (new APinSignalDialogTreeNode (analogSignal.Pins [i], i));
 			}
 			nvSignal.QueueDraw ();
@@ -108,20 +121,28 @@ namespace SignalConfigurationDialog
 
 		private void UpdateCBPins ()
 		{
-			cbPins = new ComboBox ();
-//			cbPins.Clear ();
+			var store = new Gtk.ListStore (typeof(string), typeof(double));
 
-			foreach (APin pin in APins) {
-				// Analysis disable once CompareOfFloatsByEqualityOperator
-				if (AnalogSignal.Frequency != -1) {
-					if (Math.Abs (pin.EffectiveFrequency - AnalogSignal.Frequency) < 0.0001 && !nvSignal.NodeStore.Data.Contains (pin)) {
-						cbPins.AppendText (pin.Name + "(" + pin.Number + ")");
+			foreach (APin pin in APins)
+			{
+				if (!analogSignal.Pins.Contains (pin))
+				{
+					// Analysis disable once CompareOfFloatsByEqualityOperator
+					if (AnalogSignal.Frequency != -1)
+					{
+						if (Math.Abs (pin.EffectiveFrequency - AnalogSignal.Frequency) < 0.0001 && !nvSignal.NodeStore.Data.Contains (pin))
+						{
+							store.AppendValues (new object[]{ pin.Name + "(" + pin.Number + ")", pin.EffectiveFrequency });
+						}
+					} else
+					{
+						store.AppendValues (new object[]{ pin.Name + "(" + pin.Number + ")", pin.EffectiveFrequency });
 					}
-				} else {
-					cbPins.AppendText (pin.Name + "(" + pin.Number + ")");
 				}
 			}
-			if (cbPins.Data.Count > 0) {
+			cbPins.Model = store;
+			if (cbPins.Cells.Length > 0)
+			{
 				cbPins.Active = 0;
 			}
 			cbPins.ShowAll ();
@@ -129,11 +150,30 @@ namespace SignalConfigurationDialog
 
 		private void AddPin ()
 		{
-//			analogSignal.AddPin (APins [cbPins.Active]);
+			//if one item is selected
+			if (cbPins.Active != -1)
+			{
+				var reg = Regex.Match (cbPins.ActiveText, @"\(([0-9]+)\)");
+				reg = Regex.Match (reg.Value, @"\d+");
+				if (reg.Success)
+				{
+					analogSignal.AddPin (GetPins (Convert.ToInt32 (reg.Value)));
+				}
+			}
 
 			UpdateCBPins ();
 
 			DrawNodeView ();
+		}
+
+		private APin GetPins (int index)
+		{
+			foreach (APin pin in APins)
+			{
+				if (pin.Number == index)
+					return pin;
+			}
+			return null;
 		}
 
 		[GLib.ConnectBeforeAttribute]
@@ -159,10 +199,50 @@ namespace SignalConfigurationDialog
 
 		protected void OnBtnRemoveClicked (object sender, EventArgs e)
 		{
-			if (ActiveNode != null) {
-				AnalogSignal.Pins.Remove (ActiveNode);
+			if (ActiveNode != null)
+			{
+				analogSignal.Pins.Remove (ActiveNode);
 				btnRemove.Sensitive = false;
 				DrawNodeView ();
+			}
+			UpdateCBPins ();
+		}
+
+		protected void OnEntryNameChanged (object sender, EventArgs e)
+		{
+			if (analogSignal != null)
+			{
+				analogSignal.SignalName = entryName.Text;
+			}
+		}
+
+		protected void OnCbeUnitChanged (object sender, EventArgs e)
+		{
+			if (analogSignal != null)
+			{
+				analogSignal.Unit = cbeUnit.ActiveText;
+			}
+		}
+
+		protected void OnCbColorColorSet (object sender, EventArgs e)
+		{
+			if (analogSignal != null)
+			{
+				analogSignal.SignalColor = cbColor.Color;
+			}
+		}
+
+		protected void OnEntryOperationChanged (object sender, EventArgs e)
+		{
+			try
+			{
+				if (analogSignal != null)
+				{
+					analogSignal.SignalOperationString = entryOperation.Text;
+				}
+			} catch (Exception ex)
+			{
+				Console.Error.WriteLine (ex);
 			}
 		}
 	}

@@ -54,6 +54,7 @@
                             <property name="Icon">stock:gtk-add Menu</property>
                             <property name="Label" translatable="yes">Add</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnAddClicked" />
                           </widget>
                           <packing>
                             <property name="TopAttach">1</property>
@@ -80,6 +81,7 @@
                             <property name="Icon">stock:gtk-remove Menu</property>
                             <property name="Label" translatable="yes">Remove</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnRemoveClicked" />
                           </widget>
                           <packing>
                             <property name="TopAttach">2</property>
@@ -101,8 +103,7 @@
                           <widget class="Gtk.ComboBox" id="cbPins">
                             <property name="MemberName" />
                             <property name="IsTextCombo">True</property>
-                            <property name="Items" translatable="yes">kfludfludlfdludlc</property>
-                            <property name="Active">0</property>
+                            <property name="Items" translatable="yes" />
                           </widget>
                           <packing>
                             <property name="TopAttach">1</property>
@@ -195,12 +196,19 @@
                   <placeholder />
                 </child>
                 <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
                   <widget class="Gtk.ColorButton" id="cbColor">
                     <property name="MemberName" />
                     <property name="Tooltip" translatable="yes">This is the color: this signals value colored in the plot.</property>
                     <property name="CanFocus">True</property>
                     <property name="Events">ButtonMotionMask, ButtonPressMask, ButtonReleaseMask</property>
                     <property name="Alpha">-1</property>
+                    <signal name="ColorSet" handler="OnCbColorColorSet" />
                   </widget>
                   <packing>
                     <property name="TopAttach">3</property>
@@ -224,6 +232,7 @@
                     <property name="Tooltip" translatable="yes">The Unit of the Result.</property>
                     <property name="IsTextCombo">True</property>
                     <property name="Items" translatable="yes" />
+                    <signal name="Changed" handler="OnCbeUnitChanged" />
                   </widget>
                   <packing>
                     <property name="TopAttach">2</property>
@@ -242,36 +251,13 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Entry" id="entry5">
-                    <property name="MemberName" />
-                    <property name="Tooltip" translatable="yes">The resulting frequency of this signal. Depending on the used analog inputs frequencies.</property>
-                    <property name="CanFocus">True</property>
-                    <property name="IsEditable">False</property>
-                    <property name="InvisibleChar">●</property>
-                  </widget>
-                  <packing>
-                    <property name="TopAttach">5</property>
-                    <property name="BottomAttach">6</property>
-                    <property name="LeftAttach">2</property>
-                    <property name="RightAttach">3</property>
-                    <property name="AutoSize">True</property>
-                    <property name="XOptions">Fill</property>
-                    <property name="YOptions">Fill</property>
-                    <property name="XExpand">False</property>
-                    <property name="XFill">True</property>
-                    <property name="XShrink">False</property>
-                    <property name="YExpand">False</property>
-                    <property name="YFill">True</property>
-                    <property name="YShrink">False</property>
-                  </packing>
-                </child>
-                <child>
                   <widget class="Gtk.Entry" id="entryName">
                     <property name="MemberName" />
                     <property name="Tooltip" translatable="yes">The name the result will by logged under.</property>
                     <property name="CanFocus">True</property>
                     <property name="IsEditable">True</property>
                     <property name="InvisibleChar">●</property>
+                    <signal name="Changed" handler="OnEntryNameChanged" />
                   </widget>
                   <packing>
                     <property name="LeftAttach">2</property>
@@ -299,6 +285,7 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                     <property name="CanFocus">True</property>
                     <property name="IsEditable">True</property>
                     <property name="InvisibleChar">●</property>
+                    <signal name="Changed" handler="OnEntryOperationChanged" />
                   </widget>
                   <packing>
                     <property name="TopAttach">1</property>
@@ -423,49 +410,6 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Label" id="label6">
-                    <property name="MemberName" />
-                    <property name="Xalign">0</property>
-                    <property name="LabelProp" translatable="yes">Collective Frequency:</property>
-                  </widget>
-                  <packing>
-                    <property name="TopAttach">5</property>
-                    <property name="BottomAttach">6</property>
-                    <property name="LeftAttach">1</property>
-                    <property name="RightAttach">2</property>
-                    <property name="AutoSize">True</property>
-                    <property name="XOptions">Fill</property>
-                    <property name="YOptions">Fill</property>
-                    <property name="XExpand">False</property>
-                    <property name="XFill">True</property>
-                    <property name="XShrink">False</property>
-                    <property name="YExpand">False</property>
-                    <property name="YFill">True</property>
-                    <property name="YShrink">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="Gtk.Label" id="label7">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">s</property>
-                  </widget>
-                  <packing>
-                    <property name="TopAttach">5</property>
-                    <property name="BottomAttach">6</property>
-                    <property name="LeftAttach">3</property>
-                    <property name="RightAttach">4</property>
-                    <property name="AutoSize">True</property>
-                    <property name="XOptions">Fill</property>
-                    <property name="YOptions">Fill</property>
-                    <property name="XExpand">False</property>
-                    <property name="XFill">True</property>
-                    <property name="XShrink">False</property>
-                    <property name="YExpand">False</property>
-                    <property name="YFill">True</property>
-                    <property name="YShrink">False</property>
-                  </packing>
-                </child>
-                <child>
                   <widget class="Gtk.Label" id="label8">
                     <property name="MemberName" />
                   </widget>
@@ -473,7 +417,7 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                     <property name="TopAttach">6</property>
                     <property name="BottomAttach">7</property>
                     <property name="LeftAttach">2</property>
-                    <property name="RightAttach">3</property>
+                    <property name="RightAttach">4</property>
                     <property name="AutoSize">False</property>
                     <property name="XExpand">True</property>
                     <property name="XFill">True</property>
@@ -502,9 +446,7 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
               </widget>
               <packing>
                 <property name="Position">1</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
+                <property name="AutoSize">False</property>
               </packing>
             </child>
           </widget>
