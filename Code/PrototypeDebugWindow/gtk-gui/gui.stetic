@@ -67,7 +67,7 @@
           <widget class="Gtk.Notebook" id="notebook1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">1</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.Table" id="table1">
                 <property name="MemberName" />
@@ -75,12 +75,6 @@
                 <property name="NColumns">3</property>
                 <property name="RowSpacing">6</property>
                 <property name="ColumnSpacing">6</property>
-                <child>
-                  <placeholder />
-                </child>
-                <child>
-                  <placeholder />
-                </child>
                 <child>
                   <widget class="Gtk.Button" id="btnStopNReset">
                     <property name="MemberName" />
@@ -201,7 +195,7 @@
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
                                 <property name="Icon">stock:gtk-remove Menu</property>
-                                <property name="Label" translatable="yes">Remove digital Output</property>
+                                <property name="Label" translatable="yes">Delete digital Output</property>
                                 <property name="UseUnderline">True</property>
                                 <signal name="Clicked" handler="OnBtnRemoveDPinClicked" />
                               </widget>
@@ -386,7 +380,7 @@
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
                                 <property name="Icon">stock:gtk-remove Menu</property>
-                                <property name="Label" translatable="yes">Remove analog input</property>
+                                <property name="Label" translatable="yes">Delete analog input</property>
                                 <property name="UseUnderline">True</property>
                                 <signal name="Clicked" handler="OnBtnRemoveAPinClicked" />
                               </widget>
@@ -638,6 +632,25 @@
                     <property name="YShrink">False</property>
                   </packing>
                 </child>
+                <child>
+                  <widget class="Gtk.VSeparator" id="vseparator2">
+                    <property name="MemberName" />
+                  </widget>
+                  <packing>
+                    <property name="BottomAttach">2</property>
+                    <property name="LeftAttach">1</property>
+                    <property name="RightAttach">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="XOptions">Fill</property>
+                    <property name="YOptions">Fill</property>
+                    <property name="XExpand">False</property>
+                    <property name="XFill">True</property>
+                    <property name="XShrink">False</property>
+                    <property name="YExpand">False</property>
+                    <property name="YFill">True</property>
+                    <property name="YShrink">False</property>
+                  </packing>
+                </child>
               </widget>
             </child>
             <child>
@@ -753,7 +766,7 @@
                         <property name="CanFocus">True</property>
                         <property name="Type">TextAndIcon</property>
                         <property name="Icon">stock:gtk-remove Menu</property>
-                        <property name="Label" translatable="yes">Remove Signal</property>
+                        <property name="Label" translatable="yes">Delete Signal</property>
                         <property name="UseUnderline">True</property>
                         <signal name="Clicked" handler="OnBtnRemoveSignalClicked" />
                       </widget>
@@ -841,7 +854,7 @@
                         <property name="CanFocus">True</property>
                         <property name="Type">TextAndIcon</property>
                         <property name="Icon">stock:gtk-remove Menu</property>
-                        <property name="Label" translatable="yes">Remove Sequence</property>
+                        <property name="Label" translatable="yes">Delete Sequence</property>
                         <property name="UseUnderline">True</property>
                         <signal name="Clicked" handler="OnBtnRemoveSequenceClicked" />
                       </widget>

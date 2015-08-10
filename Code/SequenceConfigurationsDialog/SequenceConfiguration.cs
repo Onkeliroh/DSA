@@ -22,7 +22,6 @@ namespace SequenceConfigurationsDialog
 			set {
 				entryName.Text = value.Name;
 				cbPin.InsertText (0, string.Format ("{0}(D{1})", value.Pin.Name, value.Pin.Number));
-				cbPin.Active = 0;
 				if (value.Repetitions == -1)
 				{
 					rbRepeateContinously.Active = true;
@@ -71,7 +70,7 @@ namespace SequenceConfigurationsDialog
 
 		#endregion
 
-		public SequenceConfiguration (DPin[] pins, Sequence seq = null, Gtk.Window parent = null)
+		public SequenceConfiguration (DPin[] pins, Sequence seq = null, DPin RefPin = null, Gtk.Window parent = null)
 			: base ("Sequence Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
@@ -96,7 +95,13 @@ namespace SequenceConfigurationsDialog
 			} else
 			{
 				pinSequence = new Sequence ();
+			}
+			if (RefPin == null)
+			{
 				cbPin.Active = 0;
+			} else
+			{
+				cbPin.Active = pins.ToList ().IndexOf (RefPin);
 			}
 			DisplaySequenceInfos ();
 		}
@@ -306,7 +311,7 @@ namespace SequenceConfigurationsDialog
 		{
 			try
 			{
-				if (cbPin.ActiveText.Length > 0)
+				if (cbPin.ActiveText.Length > 0 && cbPin.ActiveText != null)
 				{
 					int nr = 0;
 					var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
@@ -329,6 +334,7 @@ namespace SequenceConfigurationsDialog
 						}
 					}
 				}
+				// Analysis disable once EmptyGeneralCatchClause
 			} catch (Exception ex)
 			{
 			}

@@ -56,7 +56,6 @@ namespace SignalConfigurationDialog
 			SetupNodeView ();
 			DrawNodeView ();
 			UpdateCBPins ();
-//			ShowAll ();
 		}
 
 		private void SetupNodeView ()

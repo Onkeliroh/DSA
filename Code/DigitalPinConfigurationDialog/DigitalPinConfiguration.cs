@@ -15,6 +15,7 @@ namespace DigitalPinConfigurationDialog
 				entryName.Text = value.Name;
 				cbColor.Color = value.PlotColor;
 				cbPin.InsertText (0, "D" + value.Number.ToString ());
+				cbPin.Active = 0;
 				pin = value;
 			}
 		}

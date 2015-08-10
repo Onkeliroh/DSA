@@ -40,12 +40,24 @@ namespace PrototypeDebugWindow
 				if (e.Connected)
 				{
 					lblConnectionStatus.Text = "connected to " + e.Port;
-					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
+					try
+					{
+						ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
+					} catch (Exception ex)
+					{
+						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
+					}
 				} else
 				{
 					lblConnectionStatus.Text = "<b>NOT</b> connected";
 					lblConnectionStatus.UseMarkup = true;
-					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
+					try
+					{
+						ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
+					} catch (Exception ex)
+					{
+						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
+					}
 				}
 			};
 
@@ -82,8 +94,10 @@ namespace PrototypeDebugWindow
 			con.SequencesUpdated += (o, a) => FillSequenceNodes ();
 			con.SignalsUpdated += (o, a) => FillSignalNodes ();
 
-			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
+			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
+			nvSignals.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
+			nvAnalogPins.ButtonPressEvent += new ButtonPressEventHandler (OnAnalogPinNodePressed);
 		}
 
 		[GLib.ConnectBeforeAttribute]
@@ -102,6 +116,12 @@ namespace PrototypeDebugWindow
 					} else if (node is SequenceTreeNode)
 					{
 						con.RemoveSequence ((node as SequenceTreeNode).Index);
+					} else if (node is APinTreeNode)
+					{
+						con.RemovePin ((node as APinTreeNode).Index);
+					} else if (node is SignalTreeNode)
+					{
+						con.RemoveSignal ((node as SignalTreeNode).Index);
 					}
 				};
 				m.Add (deleteItem);
@@ -109,6 +129,80 @@ namespace PrototypeDebugWindow
 
 				m.ShowAll ();
 				m.Popup ();
+			}
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnAnalogPinNodePressed (object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3)
+			{
+				Menu m = new Menu ();
+				MenuItem deleteItem = new MenuItem ("Delete this analog input");
+				APinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as APinTreeNode;
+
+				if (pin != null)
+				{
+
+					deleteItem.ButtonPressEvent += (o, args) =>
+					con.RemovePin (pin.Index);
+
+					MenuItem addSignal = new MenuItem ("Add new Signal");
+					MenuItem editSignal = new MenuItem ("Edit Signal");
+					if (pin.PinSignal == null)
+					{
+						editSignal.Sensitive = false;
+						addSignal.ButtonPressEvent += (o, args) => RunSignalDialog ();
+					} else
+					{
+						addSignal.Sensitive = false;
+						editSignal.ButtonPressEvent += (o, args) => RunSignalDialog (pin.PinSignal);
+					}
+
+					m.Add (addSignal);
+					m.Add (editSignal);
+					m.Add (deleteItem);
+
+					m.ShowAll ();
+					m.Popup ();
+				}
+			}
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnDigitalPinNodePressed (object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3)
+			{
+				Menu m = new Menu ();
+				MenuItem deleteItem = new MenuItem ("Delete this digital output");
+				DPinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as DPinTreeNode;
+
+				if (pin != null)
+				{
+
+					deleteItem.ButtonPressEvent += (o, args) =>
+					con.RemovePin (pin.Index);
+
+					MenuItem addSignal = new MenuItem ("Add new Sequence");
+					MenuItem editSignal = new MenuItem ("Edit Sequence");
+					if (pin.Sequence == null)
+					{
+						editSignal.Sensitive = false;
+						addSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (null, pin.Pin);
+					} else
+					{
+						addSignal.Sensitive = false;
+						editSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (pin.Sequence);
+					}
+
+					m.Add (addSignal);
+					m.Add (editSignal);
+					m.Add (deleteItem);
+
+					m.ShowAll ();
+					m.Popup ();
+				}
 			}
 		}
 
@@ -120,7 +214,7 @@ namespace PrototypeDebugWindow
 			{
 				if (pin.Type == PinType.DIGITAL)
 				{
-					NodeStoreDigitalPins.AddNode (new DPinTreeNode (pin as DPin, index));
+					NodeStoreDigitalPins.AddNode (new DPinTreeNode (pin as DPin, index, con.GetCorespondingSequence (pin as DPin)));
 					index++;
 				}
 			}
@@ -135,7 +229,7 @@ namespace PrototypeDebugWindow
 			{
 				if (pin.Type == PinType.ANALOG)
 				{
-					NodeStoreAnalogPins.AddNode (new APinTreeNode (pin as APin, index));
+					NodeStoreAnalogPins.AddNode (new APinTreeNode (pin as APin, index, con.GetCorespondingSignal (pin as APin)));
 					index++;
 				}
 			}
@@ -144,6 +238,7 @@ namespace PrototypeDebugWindow
 
 		private void FillSequenceNodes ()
 		{
+			FillDigitalPinNodes ();
 			NodeStoreSequences.Clear ();
 			for (int i = 0; i < con.ControllerSequences.Count; i++)
 			{
@@ -154,6 +249,7 @@ namespace PrototypeDebugWindow
 
 		private void FillSignalNodes ()
 		{
+			FillAnalogPinNodes ();
 			NodeStoreSignals.Clear ();
 			for (int i = 0; i < con.ControllerSignals.Count; i++)
 			{
@@ -214,8 +310,9 @@ namespace PrototypeDebugWindow
 			};
 
 			nvSequences.AppendColumn (new TreeViewColumn ("Sequence-Name", new CellRendererText (), "text", 0));
-			nvSequences.AppendColumn (new TreeViewColumn ("Pin [Name(Pin)]", new CellRendererText (), "text", 1));
-			nvSequences.AppendColumn (new TreeViewColumn ("Runtime", new CellRendererText (), "text", 2));
+			nvSequences.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
+			nvSequences.AppendColumn (new TreeViewColumn ("Pin [Name(Pin)]", new CellRendererText (), "text", 2));
+			nvSequences.AppendColumn (new TreeViewColumn ("Runtime", new CellRendererText (), "text", 3));
 
 			nvSequences.Show ();
 			#endregion
@@ -295,6 +392,8 @@ namespace PrototypeDebugWindow
 			mbar.ShowAll ();
 			
 		}
+
+		#region Events
 
 		protected void OnDeleteEvent (object obj, DeleteEventArgs a)
 		{
@@ -487,13 +586,12 @@ namespace PrototypeDebugWindow
 			}
 		}
 
-
 		protected void OnBtnRemoveAPinClicked (object sender, EventArgs e)
 		{
 			APinTreeNode node = (APinTreeNode)nvAnalogPins.NodeSelection.SelectedNode;
 			if (node != null)
 			{
-				con.RemovePin (node.RealName);
+				con.RemovePin (node.Pin.Name);
 			}
 		}
 
@@ -556,6 +654,8 @@ namespace PrototypeDebugWindow
 			StartStopController ();
 		}
 
+		#endregion
+
 		private void RunAddDPinDialog (DPin pin = null)
 		{
 			int[] dings = con.AvailableDigitalPins;
@@ -614,9 +714,9 @@ namespace PrototypeDebugWindow
 			dialog.Destroy ();
 		}
 
-		private void RunSequenceDialog (Sequence seq = null)
+		private void RunSequenceDialog (Sequence seq = null, DPin RefPin = null)
 		{
-			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.GetDPinsWithoutSequence (), seq, this);
+			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.GetDPinsWithoutSequence (), seq, RefPin, this);
 			dialog.Response += (o, args) =>
 			{
 				if (args.ResponseId == ResponseType.Apply)
@@ -626,7 +726,7 @@ namespace PrototypeDebugWindow
 						con.AddSequence (dialog.PinSequence);
 					} else
 					{
-						con.ControllerSequences.Where (x => x == seq).ToList () [0] = dialog.PinSequence;
+						con.SetSequence (con.ControllerSequences.IndexOf (seq), dialog.PinSequence);
 					}
 				}
 			};
@@ -646,7 +746,7 @@ namespace PrototypeDebugWindow
 						con.AddSignal (dialog.AnalogSignal);
 					} else
 					{
-						con.ControllerSignals.Where (x => x == sig).ToList () [0] = dialog.AnalogSignal;
+						con.SetSignal (con.ControllerSignals.IndexOf (sig), dialog.AnalogSignal);
 					}
 				}
 			};

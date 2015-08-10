@@ -99,35 +99,6 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void AddSignal (Signal s)
-		{
-			if (!ControllerSignals.Contains (s))
-			{
-				ControllerSignals.Add (s);
-			}
-
-			if (SignalsUpdated != null)
-			{
-				SignalsUpdated.Invoke (this, new SignalsUpdatedArgs (UpdateOperation.Add, s));
-			}
-		}
-
-		public void SetSignal (int index, Signal s)
-		{
-			if (!ControllerSignals.Contains (s))
-			{
-				AddSignal (s);
-			} else
-			{
-				if (s != null)
-				{
-					SignalsUpdated.Invoke (this, new SignalsUpdatedArgs (UpdateOperation.Change, s));
-				}
-				ConLogger.Log ("Changed Signal from: " + ControllerPins [index] + " to " + s, LogLevel.DEBUG);
-				ControllerSignals [index] = s;
-			}
-		}
-
 		public void AddPin (IPin ip)
 		{
 			if (!ControllerPins.Contains (ip) && ip != null)
@@ -139,6 +110,40 @@ namespace PrototypeBackend
 					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ip, UpdateOperation.Add, ip.Type));
 				}
 				ConLogger.Log ("Added Pin: " + ip, LogLevel.DEBUG);
+			}
+		}
+
+		public void AddSignal (Signal s)
+		{
+			if (!ControllerSignals.Contains (s))
+			{
+				if (s.SignalName == null || s.SignalName.Equals (string.Empty))
+				{
+					s.SignalName = "Signal" + (ControllerSignals.Count + 1);
+				}
+				ControllerSignals.Add (s);
+			}
+
+			if (SignalsUpdated != null)
+			{
+				SignalsUpdated.Invoke (this, new SignalsUpdatedArgs (UpdateOperation.Add, s));
+			}
+		}
+
+		public void AddSequence (Sequence seq)
+		{
+			if (!ControllerSequences.Contains (seq))
+			{
+				if (seq.Name.Equals (string.Empty))
+				{
+					seq.Name = "Squence(" + seq.Pin.Name + " D" + seq.Pin.Number + " )";
+				}
+				ConLogger.Log ("Added Sequence: " + seq, LogLevel.DEBUG);
+				ControllerSequences.Add (seq);
+				if (SequencesUpdated != null)
+				{
+					SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Add, seq));
+				}
 			}
 		}
 
@@ -162,16 +167,19 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void AddSequence (Sequence seq)
+		public void SetSignal (int index, Signal s)
 		{
-			if (!ControllerSequences.Contains (seq))
+			if (!ControllerSignals.Contains (s))
 			{
-				ConLogger.Log ("Added Sequence: " + seq, LogLevel.DEBUG);
-				ControllerSequences.Add (seq);
-				if (SequencesUpdated != null)
+				AddSignal (s);
+			} else
+			{
+				if (s != null)
 				{
-					SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Add, seq));
+					SignalsUpdated.Invoke (this, new SignalsUpdatedArgs (UpdateOperation.Change, s));
 				}
+				ConLogger.Log ("Changed Signal from: " + ControllerPins [index] + " to " + s, LogLevel.DEBUG);
+				ControllerSignals [index] = s;
 			}
 		}
 
@@ -486,6 +494,30 @@ namespace PrototypeBackend
 			}
 
 			return unusedpins.ToArray ();
+		}
+
+		public Signal GetCorespondingSignal (APin pin)
+		{
+			foreach (Signal sig in ControllerSignals)
+			{
+				if (sig.Pins.Contains (pin))
+				{
+					return sig;
+				}
+			}
+			return null;
+		}
+
+		public Sequence GetCorespondingSequence (DPin pin)
+		{
+			foreach (Sequence seq in ControllerSequences)
+			{
+				if (seq.Pin == pin)
+				{
+					return seq;
+				}
+			}
+			return null;
 		}
 	}
 }
