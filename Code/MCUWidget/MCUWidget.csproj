@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{2B5C102C-9792-418C-80B9-1824E1BDCCC7}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>SVGTest1</RootNamespace>
-    <AssemblyName>SVGTest1</AssemblyName>
+    <ProjectGuid>{F22CE198-8197-4031-9583-F7CCB7F147F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MCUWidget</RootNamespace>
+    <AssemblyName>MCUWidget</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -48,10 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="MainWindow.cs" />
-    <Compile Include="gtk-gui\MainWindow.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MCUWidget.cs" />
+    <Compile Include="gtk-gui\MCUWidget.MCUWidget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

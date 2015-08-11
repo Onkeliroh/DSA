@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{2B5C102C-9792-418C-80B9-1824E1BDCCC7}</ProjectGuid>
+    <ProjectGuid>{4D4A7400-9F18-4654-9D10-AAB2B2311F34}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SVGTest1</RootNamespace>
-    <AssemblyName>SVGTest1</AssemblyName>
+    <RootNamespace>MCUWidgetTest</RootNamespace>
+    <AssemblyName>MCUWidgetTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -38,8 +38,6 @@
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="Mono.Cairo" />
-    <Reference Include="rsvg2-sharp, Version=2.18.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -54,4 +52,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\MCUWidget\MCUWidget.csproj">
+      <Project>{F22CE198-8197-4031-9583-F7CCB7F147F2}</Project>
+      <Name>MCUWidget</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

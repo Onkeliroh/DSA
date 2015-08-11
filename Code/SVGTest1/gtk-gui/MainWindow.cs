@@ -3,6 +3,10 @@
 
 public partial class MainWindow
 {
+	private global::Gtk.Table table1;
+	
+	private global::Gtk.ComboBox combobox1;
+	
 	private global::Gtk.DrawingArea drawingarea1;
 
 	protected virtual void Build ()
@@ -13,9 +17,25 @@ public partial class MainWindow
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
+		this.table1 = new global::Gtk.Table (((uint)(2)), ((uint)(1)), false);
+		this.table1.Name = "table1";
+		this.table1.RowSpacing = ((uint)(6));
+		this.table1.ColumnSpacing = ((uint)(6));
+		// Container child table1.Gtk.Table+TableChild
+		this.combobox1 = global::Gtk.ComboBox.NewText ();
+		this.combobox1.AppendText (global::Mono.Unix.Catalog.GetString ("Draw1"));
+		this.combobox1.AppendText (global::Mono.Unix.Catalog.GetString ("Draw2"));
+		this.combobox1.Name = "combobox1";
+		this.table1.Add (this.combobox1);
+		global::Gtk.Table.TableChild w1 = ((global::Gtk.Table.TableChild)(this.table1 [this.combobox1]));
+		w1.TopAttach = ((uint)(1));
+		w1.BottomAttach = ((uint)(2));
+		w1.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table1.Gtk.Table+TableChild
 		this.drawingarea1 = new global::Gtk.DrawingArea ();
 		this.drawingarea1.Name = "drawingarea1";
-		this.Add (this.drawingarea1);
+		this.table1.Add (this.drawingarea1);
+		this.Add (this.table1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
@@ -23,5 +43,6 @@ public partial class MainWindow
 		this.DefaultHeight = 300;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+		this.combobox1.Changed += new global::System.EventHandler (this.OnCombobox1Changed);
 	}
 }
