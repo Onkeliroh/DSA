@@ -9,13 +9,22 @@ namespace MCUWidget
 	{
 		public string MCUImagepath{ get; set; }
 
+		public ListStore BoardTypes{ get; set; }
+
+		public ListStore AREFTypes { get; set; }
+
 		public MCUWidget ()
 		{
 			this.Build ();
 
-			MCUImagepath = "/home/onkeliroh/Bachelorarbeit/Resources/arduino_uno.svg";
+//			MCUImagepath = "/home/onkeliroh/Bachelorarbeit/Resources/arduino_uno.svg";
 
 			this.drawingarea1.ExposeEvent += Draw;
+		}
+
+		public void Redraw ()
+		{
+			
 		}
 
 		void Draw (object o, ExposeEventArgs args)
@@ -24,24 +33,28 @@ namespace MCUWidget
 			context.SetSource (Compose ());
 			context.Paint ();
 			var MCUImage = MCUSurface ();
-			context.SetSource (MCUImage, this.drawingarea1.Allocation.Width / 2 - MCUImage.Width / 2, 10);
+			context.SetSource (
+				MCUImage, 
+				this.drawingarea1.Allocation.Width / 2 - MCUImage.Width / 2, 
+				this.drawingarea1.Allocation.Height / 3 - MCUImage.Height / 2
+			);
 			context.Paint ();
+			SetSizeRequest (MCUImage.Width, MCUImage.Height + 200);
 		}
 
 		private Cairo.ImageSurface  Compose (params Pixbuf[] Bufs)
 		{
 			var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, 100, 100);
-			var context = new Cairo.Context (surf);
-			context.SetSourceColor (new Cairo.Color (255, 0, 0));
-			context.Rectangle (new Cairo.Rectangle (0, 0, 50, 50));
-			context.Fill ();
+//			var context = new Cairo.Context (surf);
+//			context.SetSourceColor (new Cairo.Color (255, 0, 0));
+//			context.Rectangle (new Cairo.Rectangle (0, 0, 50, 50));
+//			context.Fill ();
 
 			return surf;
 		}
 
-		private Cairo.ImageSurface MCUSurface ()
+		protected Cairo.ImageSurface MCUSurface ()
 		{
-
 			if (MCUImagepath != null)
 			{
 				if (!MCUImagepath.Equals (string.Empty))
@@ -57,13 +70,11 @@ namespace MCUWidget
 						return surf;
 					} catch (Exception ex)
 					{
-					
-					} finally
-					{
-						return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
+						Console.Error.WriteLine (ex);
 					}
 				}
 			}
+			return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
 		}
 
 		private Cairo.ImageSurface MCULabelLeft ()

@@ -8,25 +8,31 @@ namespace MCUWidget
 		
 		private global::Gtk.DrawingArea drawingarea1;
 		
-		private global::Gtk.Frame frame1;
+		private global::Gtk.Frame frame2;
 		
-		private global::Gtk.Alignment GtkAlignment;
+		private global::Gtk.Alignment GtkAlignment1;
 		
-		private global::Gtk.Table table2;
+		private global::Gtk.VBox vbox6;
 		
-		private global::Gtk.ComboBox cbAREF;
-		
-		private global::Gtk.ComboBox cbBoardType;
+		private global::Gtk.HBox hbox2;
 		
 		private global::Gtk.Label label1;
 		
+		private global::Gtk.ComboBox cbBoardType;
+		
+		private global::Gtk.HBox hbox3;
+		
 		private global::Gtk.Label label2;
+		
+		private global::Gtk.ComboBox cbAREF;
+		
+		private global::Gtk.HBox hbox4;
 		
 		private global::Gtk.Label label3;
 		
 		private global::Gtk.SpinButton sbAREFExternal;
 		
-		private global::Gtk.Label GtkLabel;
+		private global::Gtk.Label GtkLabel1;
 
 		protected virtual void Build ()
 		{
@@ -45,95 +51,110 @@ namespace MCUWidget
 			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.drawingarea1]));
 			w1.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.frame1 = new global::Gtk.Frame ();
-			this.frame1.Name = "frame1";
-			this.frame1.ShadowType = ((global::Gtk.ShadowType)(1));
-			// Container child frame1.Gtk.Container+ContainerChild
-			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.GtkAlignment.Name = "GtkAlignment";
-			this.GtkAlignment.LeftPadding = ((uint)(12));
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			this.table2 = new global::Gtk.Table (((uint)(3)), ((uint)(5)), false);
-			this.table2.Name = "table2";
-			this.table2.RowSpacing = ((uint)(6));
-			this.table2.ColumnSpacing = ((uint)(6));
-			// Container child table2.Gtk.Table+TableChild
-			this.cbAREF = global::Gtk.ComboBox.NewText ();
-			this.cbAREF.Name = "cbAREF";
-			this.table2.Add (this.cbAREF);
-			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table2 [this.cbAREF]));
-			w2.TopAttach = ((uint)(1));
-			w2.BottomAttach = ((uint)(2));
-			w2.LeftAttach = ((uint)(2));
-			w2.RightAttach = ((uint)(5));
-			w2.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
-			this.cbBoardType = global::Gtk.ComboBox.NewText ();
-			this.cbBoardType.Name = "cbBoardType";
-			this.table2.Add (this.cbBoardType);
-			global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table2 [this.cbBoardType]));
-			w3.LeftAttach = ((uint)(1));
-			w3.RightAttach = ((uint)(5));
-			w3.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
+			this.frame2 = new global::Gtk.Frame ();
+			this.frame2.Name = "frame2";
+			this.frame2.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child frame2.Gtk.Container+ContainerChild
+			this.GtkAlignment1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.GtkAlignment1.Name = "GtkAlignment1";
+			this.GtkAlignment1.LeftPadding = ((uint)(5));
+			this.GtkAlignment1.RightPadding = ((uint)(5));
+			this.GtkAlignment1.BottomPadding = ((uint)(5));
+			// Container child GtkAlignment1.Gtk.Container+ContainerChild
+			this.vbox6 = new global::Gtk.VBox ();
+			this.vbox6.Name = "vbox6";
+			this.vbox6.Spacing = 6;
+			// Container child vbox6.Gtk.Box+BoxChild
+			this.hbox2 = new global::Gtk.HBox ();
+			this.hbox2.Name = "hbox2";
+			this.hbox2.Spacing = 6;
+			// Container child hbox2.Gtk.Box+BoxChild
 			this.label1 = new global::Gtk.Label ();
 			this.label1.Name = "label1";
 			this.label1.Xalign = 0F;
 			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("Boardtype:");
-			this.table2.Add (this.label1);
-			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table2 [this.label1]));
-			w4.XOptions = ((global::Gtk.AttachOptions)(6));
-			w4.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
+			this.hbox2.Add (this.label1);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.label1]));
+			w2.Position = 0;
+			w2.Expand = false;
+			w2.Fill = false;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.cbBoardType = global::Gtk.ComboBox.NewText ();
+			this.cbBoardType.Name = "cbBoardType";
+			this.hbox2.Add (this.cbBoardType);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.cbBoardType]));
+			w3.Position = 1;
+			this.vbox6.Add (this.hbox2);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.hbox2]));
+			w4.Position = 0;
+			w4.Expand = false;
+			w4.Fill = false;
+			// Container child vbox6.Gtk.Box+BoxChild
+			this.hbox3 = new global::Gtk.HBox ();
+			this.hbox3.Name = "hbox3";
+			this.hbox3.Spacing = 6;
+			// Container child hbox3.Gtk.Box+BoxChild
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
 			this.label2.Xalign = 0F;
 			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Analogreference Voltage Source:");
-			this.table2.Add (this.label2);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table2 [this.label2]));
-			w5.TopAttach = ((uint)(1));
-			w5.BottomAttach = ((uint)(2));
-			w5.RightAttach = ((uint)(2));
-			w5.XOptions = ((global::Gtk.AttachOptions)(4));
-			w5.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
+			this.hbox3.Add (this.label2);
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.label2]));
+			w5.Position = 0;
+			w5.Expand = false;
+			w5.Fill = false;
+			// Container child hbox3.Gtk.Box+BoxChild
+			this.cbAREF = global::Gtk.ComboBox.NewText ();
+			this.cbAREF.Name = "cbAREF";
+			this.hbox3.Add (this.cbAREF);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.cbAREF]));
+			w6.Position = 1;
+			this.vbox6.Add (this.hbox3);
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.hbox3]));
+			w7.Position = 1;
+			w7.Expand = false;
+			w7.Fill = false;
+			// Container child vbox6.Gtk.Box+BoxChild
+			this.hbox4 = new global::Gtk.HBox ();
+			this.hbox4.Name = "hbox4";
+			this.hbox4.Spacing = 6;
+			// Container child hbox4.Gtk.Box+BoxChild
 			this.label3 = new global::Gtk.Label ();
 			this.label3.Name = "label3";
 			this.label3.Xalign = 0F;
 			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("External Analogreference Voltage;");
-			this.table2.Add (this.label3);
-			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table2 [this.label3]));
-			w6.TopAttach = ((uint)(2));
-			w6.BottomAttach = ((uint)(3));
-			w6.RightAttach = ((uint)(2));
-			w6.XOptions = ((global::Gtk.AttachOptions)(6));
-			w6.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
+			this.hbox4.Add (this.label3);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.label3]));
+			w8.Position = 0;
+			w8.Expand = false;
+			w8.Fill = false;
+			// Container child hbox4.Gtk.Box+BoxChild
 			this.sbAREFExternal = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbAREFExternal.CanFocus = true;
 			this.sbAREFExternal.Name = "sbAREFExternal";
 			this.sbAREFExternal.Adjustment.PageIncrement = 10;
 			this.sbAREFExternal.ClimbRate = 1;
 			this.sbAREFExternal.Numeric = true;
-			this.table2.Add (this.sbAREFExternal);
-			global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbAREFExternal]));
-			w7.TopAttach = ((uint)(2));
-			w7.BottomAttach = ((uint)(3));
-			w7.LeftAttach = ((uint)(2));
-			w7.RightAttach = ((uint)(5));
-			w7.YOptions = ((global::Gtk.AttachOptions)(4));
-			this.GtkAlignment.Add (this.table2);
-			this.frame1.Add (this.GtkAlignment);
-			this.GtkLabel = new global::Gtk.Label ();
-			this.GtkLabel.Name = "GtkLabel";
-			this.GtkLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>MCUProperties</b>");
-			this.GtkLabel.UseMarkup = true;
-			this.frame1.LabelWidget = this.GtkLabel;
-			this.vbox1.Add (this.frame1);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
-			w10.Position = 1;
+			this.hbox4.Add (this.sbAREFExternal);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.sbAREFExternal]));
+			w9.Position = 1;
+			this.vbox6.Add (this.hbox4);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.hbox4]));
+			w10.Position = 2;
 			w10.Expand = false;
 			w10.Fill = false;
+			this.GtkAlignment1.Add (this.vbox6);
+			this.frame2.Add (this.GtkAlignment1);
+			this.GtkLabel1 = new global::Gtk.Label ();
+			this.GtkLabel1.Name = "GtkLabel1";
+			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Board Properties</b>");
+			this.GtkLabel1.UseMarkup = true;
+			this.frame2.LabelWidget = this.GtkLabel1;
+			this.vbox1.Add (this.frame2);
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
+			w13.Position = 1;
+			w13.Expand = false;
+			w13.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

@@ -77,6 +77,10 @@
       <Project>{DAF25932-C4D6-4619-BDA6-9CF7D8684340}</Project>
       <Name>Logger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MCUWidget\MCUWidget.csproj">
+      <Project>{F22CE198-8197-4031-9583-F7CCB7F147F2}</Project>
+      <Name>MCUWidget</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">

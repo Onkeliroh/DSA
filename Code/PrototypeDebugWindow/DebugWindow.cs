@@ -28,6 +28,10 @@ namespace PrototypeDebugWindow
 			this.Build ();
 			InitComponents ();
 
+			#if !DEBUG
+			this.notebook1.GetNthPage (3).Visible = false;
+			#endif
+
 			this.Maximize ();
 		}
 
@@ -790,7 +794,6 @@ namespace PrototypeDebugWindow
 				});
 			}
 		}
-
 
 		#endregion
 	}
