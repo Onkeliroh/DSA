@@ -16,8 +16,8 @@ namespace PrototypeTests
 			Assert.AreEqual (PrototypeBackend.PinType.ANALOG, pin.Type);
 			Assert.AreEqual (PrototypeBackend.PinMode.INPUT, pin.Mode);
 
-			pin.PlotColor = System.Drawing.Color.Red;
-			Assert.AreEqual (System.Drawing.Color.Red, pin.PlotColor);
+			pin.PlotColor = Gdk.Color.Red;
+			Assert.AreEqual (Gdk.Color.Red, pin.PlotColor);
 		}
 
 		[Test ()]

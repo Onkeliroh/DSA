@@ -106,8 +106,8 @@ namespace PrototypeBackend
 		}
 
 		public static string Model {
-			private set{ _board.Model = Model; }
-			get{ return _board.Model; }
+			private set{ _board.MCU = Model; }
+			get{ return _board.MCU; }
 		}
 
 		public static uint NumberOfDigitalPins {
@@ -148,8 +148,10 @@ namespace PrototypeBackend
 			NumberOfAnalogPins = apins;
 			NumberOfDigitalPins = dpins;
 
-			OnConnectionChanged += (sender, e) => {
-				if (e.Connected) {
+			OnConnectionChanged += (sender, e) =>
+			{
+				if (e.Connected)
+				{
 					GetVersion ();
 					GetModel ();
 					GetNumberAnalogPins ();
@@ -164,9 +166,12 @@ namespace PrototypeBackend
 			IsConnected = false;
 			#endif
 
-			AutoConnectTimer.Elapsed += (sender, e) => {
-				if (!IsConnected) {
-					foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+			AutoConnectTimer.Elapsed += (sender, e) =>
+			{
+				if (!IsConnected)
+				{
+					foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+					{
 						Console.WriteLine ("attemting auto connect to " + s);
 						SerialPortName = s;
 						Setup ();
@@ -179,7 +184,8 @@ namespace PrototypeBackend
 
 		public static void Setup ()
 		{
-			if (SerialPortName != null) {
+			if (SerialPortName != null)
+			{
 				_cmdMessenger = new CmdMessenger (new SerialTransport () {
 					CurrentSerialSettings = {
 						PortName = SerialPortName,
@@ -219,12 +225,14 @@ namespace PrototypeBackend
 
 		public static void Disconnect ()
 		{
-			if (IsConnected) {
+			if (IsConnected)
+			{
 				IsConnected = false;
 				#if !FAKESERIAL
 				_cmdMessenger.Disconnect ();
 				#endif
-				if (OnConnectionChanged != null) {
+				if (OnConnectionChanged != null)
+				{
 					OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (false, null));
 				}
 				AutoConnectTimer.Start ();
@@ -259,7 +267,8 @@ namespace PrototypeBackend
 			Console.WriteLine (@" Arduino is ready");
 			#endif
 			IsConnected = true;
-			if (OnConnectionChanged != null) {
+			if (OnConnectionChanged != null)
+			{
 				OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (true, SerialPortName));
 			}
 		}
@@ -349,13 +358,16 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 500);
 			command.AddArgument (nr.Length);
-			foreach (int i in nr) {
+			foreach (int i in nr)
+			{
 				command.AddArgument (i);
 			}
 			var result = _cmdMessenger.SendCommand (command);
-			if (result.Ok) {
+			if (result.Ok)
+			{
 				int[] results = new int[nr.Length];
-				for (int i = 0; i < nr.Length; i++) {
+				for (int i = 0; i < nr.Length; i++)
+				{
 					results [i] = result.ReadBinInt32Arg ();
 				}
 				NewAnalogValue.Invoke (null, new ControllerAnalogEventArgs (nr, results));
@@ -369,7 +381,8 @@ namespace PrototypeBackend
 			var command = new SendCommand ((int)Command.ReadPin, (int)Command.ReadPin, 500);
 			command.AddArgument (nr);
 			var result = _cmdMessenger.SendCommand (command);
-			if (result.Ok) {
+			if (result.Ok)
+			{
 				return (result.ReadBinInt16Arg () == (int)DPinState.HIGH) ? DPinState.HIGH : DPinState.LOW;
 			}
 			return DPinState.LOW;
@@ -379,7 +392,8 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetVersion, (int)Command.GetVersion, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				Version = returnVal.ReadStringArg ();
 			}
 		}
@@ -388,9 +402,11 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetAnalogReference, (int)Command.GetAnalogReference, 500);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				AnalogReferences.Clear ();
-				for (int i = 0; i < (returnVal.Arguments.Length / 2); i++) {
+				for (int i = 0; i < (returnVal.Arguments.Length / 2); i++)
+				{
 					AnalogReferences.Add (returnVal.ReadStringArg (), returnVal.ReadInt16Arg ());
 				}
 			}
@@ -400,7 +416,8 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetModel, (int)Command.GetModel, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				Model = returnVal.ReadBinStringArg ();
 			}
 		}
@@ -409,9 +426,11 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetNumberDigitalPins, (int)Command.GetNumberDigitalPins, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				NumberOfDigitalPins = returnVal.ReadUInt32Arg ();
-			} else {
+			} else
+			{
 				//in case the arduino did not respond
 				NumberOfDigitalPins = uint.MaxValue;
 			}
@@ -421,9 +440,11 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetNumberAnalogPins, (int)Command.GetNumberAnalogPins, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				NumberOfAnalogPins = returnVal.ReadUInt32Arg ();
-			} else {
+			} else
+			{
 				NumberOfAnalogPins = uint.MaxValue;
 			}
 		}
@@ -432,9 +453,11 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetDigitalBitMask, (int)Command.GetDigitalBitMask, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				DigitalBitMask = returnVal.ReadBinUInt32Arg ();
-			} else {
+			} else
+			{
 				DigitalBitMask = 0x0;
 			}
 		}
@@ -443,9 +466,11 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetPinOutputMask, (int)Command.GetPinOutputMask, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				PinOutputMask = returnVal.ReadBinUInt32Arg ();
-			} else {
+			} else
+			{
 				PinOutputMask = 0x0;
 			}
 		}
@@ -454,9 +479,11 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetPinModeMask, (int)Command.GetPinModeMask, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				PinModeMask = returnVal.ReadBinUInt32Arg ();
-			} else {
+			} else
+			{
 				PinModeMask = 0x0;
 			}
 		}
@@ -479,7 +506,7 @@ namespace PrototypeBackend
 
 		private double AnalogReferenceVoltage_;
 		public string Version = "";
-		public string Model = "";
+		public string MCU = "";
 		public string Name = "";
 
 		//default with Arduino UNO
@@ -499,7 +526,7 @@ namespace PrototypeBackend
 			this.NumberOfDigitalPins = numberOfDigitalPins;
 			this.AnalogReferences = analogReferences;
 			this.Version = version;
-			this.Model = model;
+			this.MCU = model;
 			this.Name = name;
 			this.UseDTR = dtr;
 		}
@@ -509,7 +536,7 @@ namespace PrototypeBackend
 			return String.Format (
 				"Name: {0}\nModel: {1}\nNumber of analog Pins: {2}\nNumber of digital Pins: {3}\nAnalog reference voltage: {4}",
 				Name, 
-				Model, 
+				MCU, 
 				NumberOfAnalogPins, 
 				NumberOfDigitalPins, 
 				AnalogReferenceVoltage);

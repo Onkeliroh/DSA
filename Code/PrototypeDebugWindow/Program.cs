@@ -2,7 +2,7 @@
 using Gtk;
 using GLib;
 
-namespace PrototypeDebugWindow
+namespace Frontend
 {
 	class MainClass
 	{
@@ -12,7 +12,7 @@ namespace PrototypeDebugWindow
 			GLib.ExceptionManager.UnhandledException += h;
 
 			Application.Init ();
-			DebugWindow win = new DebugWindow ();
+			MainWindow win = new MainWindow ();
 			win.Show ();
 			Application.Run ();
 		}

@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prototype", "Prototype.csproj", "{2531EB2F-A361-4560-9F5F-9B2E2BF96067}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeBackend", "..\PrototypeBackend\PrototypeBackend.csproj", "{26212356-8A7B-454E-91B0-D3A325E53AA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "..\PrototypeBackend\Backend.csproj", "{26212356-8A7B-454E-91B0-D3A325E53AA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeTests", "..\PrototypeTests\PrototypeTests.csproj", "{7B3354E4-2100-496B-B15A-557FF10D9A2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeDebugWindow", "..\PrototypeDebugWindow\PrototypeDebugWindow.csproj", "{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "..\PrototypeDebugWindow\Frontend.csproj", "{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUIElements", "GUIElements", "{A12F99B0-3709-47FD-B8A9-6101257C8F16}"
 EndProject
@@ -50,12 +48,6 @@ Global
 		{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}.FakeSerial|Any CPU.Build.0 = Debug|x86
 		{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}.Release|x86.ActiveCfg = Release|x86
 		{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}.Release|x86.Build.0 = Release|x86
-		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.Debug|x86.ActiveCfg = Debug|x86
-		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.Debug|x86.Build.0 = Debug|x86
-		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
-		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.FakeSerial|Any CPU.Build.0 = FakeSerial|Any CPU
-		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.Release|x86.ActiveCfg = Release|x86
-		{2531EB2F-A361-4560-9F5F-9B2E2BF96067}.Release|x86.Build.0 = Release|x86
 		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Debug|x86.ActiveCfg = Debug|x86
 		{26212356-8A7B-454E-91B0-D3A325E53AA5}.Debug|x86.Build.0 = Debug|x86
 		{26212356-8A7B-454E-91B0-D3A325E53AA5}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU

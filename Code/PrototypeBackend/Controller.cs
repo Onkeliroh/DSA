@@ -13,6 +13,8 @@ namespace PrototypeBackend
 	{
 		public InfoLogger ConLogger { get; private set; }
 
+		public ConfigurationManager ConfigManager { get; private set; }
+
 		private Thread signalThread;
 
 		//		private Thread sequenceThread;
@@ -53,8 +55,16 @@ namespace PrototypeBackend
 
 		public Controller ()
 		{
+
+			#if DEBUG
 			ConLogger = new InfoLogger ("PrototypeBackendLog.txt", true, false, LogLevel.DEBUG);
 			ConLogger.LogToFile = false;
+			ConfigManager = new ConfigurationManager ("/home/onkeliroh/Bachelorarbeit/Resources/Config.ini");
+			#else
+			ConLogger = new InfoLogger ("PrototypeBackendLog.txt", true, false, LogLevel.DEBUG);
+			ConLogger.LogToFile = true;
+			ConfigManager = new ConfigurationManager ();
+			#endif
 
 			ControllerSignals = new List<Signal> ();
 			ControllerPins = new List<IPin> ();
@@ -83,6 +93,8 @@ namespace PrototypeBackend
 			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
 		}
 
+		#region EventDelegates
+
 		private void OnNewArduinoNewAnalogValue (object sender, ControllerAnalogEventArgs args)
 		{	
 			if (this.NewAnalogValue != null)
@@ -98,6 +110,10 @@ namespace PrototypeBackend
 				this.NewDigitalValue.Invoke (this, args);
 			}
 		}
+
+		#endregion
+
+		#region Add
 
 		public void AddPin (IPin ip)
 		{
@@ -130,6 +146,21 @@ namespace PrototypeBackend
 			}
 		}
 
+		public void AddSignalRange (Signal[] s)
+		{
+			foreach (Signal sc in s)
+			{
+				if (!ControllerSignals.Contains (sc))
+				{
+					ControllerSignals.Add (sc);
+				}
+			}
+			if (SignalsUpdated != null)
+			{
+				SignalsUpdated.Invoke (this, null);
+			}
+		}
+
 		public void AddSequence (Sequence seq)
 		{
 			if (!ControllerSequences.Contains (seq))
@@ -146,6 +177,10 @@ namespace PrototypeBackend
 				}
 			}
 		}
+
+		#endregion
+
+		#region Set
 
 		public void SetPin (int index, IPin ip)
 		{
@@ -200,20 +235,9 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void AddSignalRange (Signal[] s)
-		{
-			foreach (Signal sc in s)
-			{
-				if (!ControllerSignals.Contains (sc))
-				{
-					ControllerSignals.Add (sc);
-				}
-			}
-			if (SignalsUpdated != null)
-			{
-				SignalsUpdated.Invoke (this, null);
-			}
-		}
+		#endregion
+
+		#region Remove
 
 		public void RemoveScheduler (Signal s)
 		{
@@ -308,6 +332,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		#endregion
+
+		#region Clear
+
 		public void ClearScheduler ()
 		{
 			ControllerSignals.Clear ();
@@ -345,6 +373,8 @@ namespace PrototypeBackend
 				SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Clear));
 			}
 		}
+
+		#endregion
 
 		public void Stop ()
 		{
@@ -430,6 +460,8 @@ namespace PrototypeBackend
 		{
 			//TODO signal verarbeitung
 		}
+
+		#region IntelMethos
 
 		public int[] GetUsedPins (PinType type)
 		{
@@ -519,6 +551,8 @@ namespace PrototypeBackend
 			}
 			return null;
 		}
+
+		#endregion
 	}
 }
 

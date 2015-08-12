@@ -24,7 +24,7 @@ namespace PrototypeTests
 			Assert.AreEqual (43, tmp.NumberOfDigitalPins);
 			Assert.AreEqual ("TestBoard", tmp.Name);
 			Assert.AreEqual ("10", tmp.Version);
-			Assert.AreEqual ("SuperModel", tmp.Model);
+			Assert.AreEqual ("SuperModel", tmp.MCU);
 			Assert.AreEqual (true, tmp.UseDTR);
 		}
 	}

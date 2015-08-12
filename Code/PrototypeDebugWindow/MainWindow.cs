@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using GUIHelper;
 using System.Threading;
 using Logger;
+using IniParser;
 
-namespace PrototypeDebugWindow
+namespace Frontend
 {
-	public partial class DebugWindow : Gtk.Window
+	public partial class MainWindow : Gtk.Window
 	{
 
 		#region Member
@@ -22,7 +23,7 @@ namespace PrototypeDebugWindow
 		private Gtk.NodeStore NodeStoreSignals = new NodeStore (typeof(SignalTreeNode));
 
 
-		public DebugWindow () :
+		public MainWindow () :
 			base (Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
@@ -67,6 +68,7 @@ namespace PrototypeDebugWindow
 
 			BuildMenu ();
 			BuildNodeViews ();
+			BuildMCUWidget ();
 
 			#if DEBUG
 			con.ConLogger.NewMessage += 
@@ -94,7 +96,6 @@ namespace PrototypeDebugWindow
 					FillAnalogPinNodes ();
 				}
 			};
-
 			con.SequencesUpdated += (o, a) => FillSequenceNodes ();
 			con.SignalsUpdated += (o, a) => FillSignalNodes ();
 
@@ -260,6 +261,17 @@ namespace PrototypeDebugWindow
 				NodeStoreSignals.AddNode (new SignalTreeNode (con.ControllerSignals [i], i));
 			}
 			nvSignals.QueueDraw ();
+		}
+
+		private void BuildMCUWidget ()
+		{
+			string[] boardImgPaths = new string[0];
+			var boarddata = con.ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value;
+			var boards = con.ConfigManager.ParseBoards (boarddata, ref boardImgPaths);
+
+			mcuW.Boards = boards;
+			mcuW.BoardsImages = boardImgPaths;
+
 		}
 
 		private void BuildNodeViews ()

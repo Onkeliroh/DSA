@@ -8,111 +8,111 @@ namespace PrototypeTests
 	[TestFixture ()]
 	public class ControllerTests
 	{
-		[Test ()]
-		public void AddTestScheduler ()
-		{
-			var tmp = new Controller ();
-
-			Assert.AreEqual (0, tmp.ControllerSignals.Count);
-
-			var sched = new Scheduler (){ DueTime = new DateTime (1) };
-			tmp.AddScheduler (sched);
-			Assert.AreEqual (1, tmp.ControllerSignals.Count);
-
-			tmp.AddScheduler (new PrototypeBackend.Scheduler () {
-				DueTime = new DateTime (42),
-			});
-			Assert.AreEqual (2, tmp.ControllerSignals.Count);
-
-			tmp.AddScheduler (new Scheduler () {
-				DueTime = new DateTime (3),
-			});
-
-			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
-			Assert.AreEqual (new DateTime (3), tmp.ControllerSignals [1].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
-
-			tmp.AddScheduler (new Scheduler () {
-				DueTime = new DateTime (13),
-			});
-
-			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
-			Assert.AreEqual (new DateTime (3), tmp.ControllerSignals [1].DueTime);
-			Assert.AreEqual (new DateTime (13), tmp.ControllerSignals [2].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [3].DueTime);
-		}
-
-		[Test ()]
-		public void AddScheduleRangeTest ()
-		{
-			var tmp = new PrototypeBackend.Controller ();
-
-			var dates = new Scheduler[4];
-			dates [0] = new Scheduler (){ DueTime = new DateTime (4) };
-			dates [1] = new Scheduler (){ DueTime = new DateTime (1) };
-			dates [2] = new Scheduler (){ DueTime = new DateTime (88) };
-			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
-
-			tmp.AddSchedulerRange (dates);
-			Assert.AreEqual (4, tmp.ControllerSignals.Count);
-
-			Assert.AreEqual (true, tmp.ControllerSignals [0].DueTime.Equals (new DateTime (1)));
-			Assert.AreEqual (new DateTime (4), tmp.ControllerSignals [1].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
-			Assert.AreEqual (new DateTime (88), tmp.ControllerSignals [3].DueTime);
-		}
-
-		[Test ()]
-		public void RemoveSchedulerTest ()
-		{
-			var tmp = new PrototypeBackend.Controller ();
-
-			var dates = new Scheduler[5];
-			dates [0] = new Scheduler (){ DueTime = new DateTime (2) };
-			dates [1] = new Scheduler (){ DueTime = new DateTime (4) };
-			dates [2] = new Scheduler (){ DueTime = new DateTime (1) };
-			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
-			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
-
-			tmp.AddSchedulerRange (dates);
-			Assert.AreEqual (5, tmp.ControllerSignals.Count);
-
-			tmp.RemoveScheduler (dates [1]);
-			Assert.AreEqual (4, tmp.ControllerSignals.Count);
-
-			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
-			Assert.AreEqual (new DateTime (2), tmp.ControllerSignals [1].DueTime);
-			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
-			Assert.AreEqual (new DateTime (88), tmp.ControllerSignals [3].DueTime);
-		}
-
-		[Test ()]
-		public void RemoveSchedulerRangeTest ()
-		{
-			var tmp = new PrototypeBackend.Controller ();
-
-			var dates = new Scheduler[5];
-			dates [0] = new Scheduler (){ DueTime = new DateTime (2) };
-			dates [1] = new Scheduler (){ DueTime = new DateTime (4) };
-			dates [2] = new Scheduler (){ DueTime = new DateTime (1) };
-			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
-			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
-
-			tmp.AddSchedulerRange (dates);
-			Assert.AreEqual (5, tmp.ControllerSignals.Count);
-
-			var deletedates = new Scheduler[4];
-			deletedates [0] = dates [1];
-			deletedates [1] = dates [3];
-			deletedates [2] = dates [4];
-			deletedates [3] = new Scheduler (){ DueTime = new DateTime (43) };
-
-			tmp.RemoveSchedulerRange (deletedates);
-			Assert.AreEqual (2, tmp.ControllerSignals.Count);
-
-			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
-			Assert.AreEqual (new DateTime (2), tmp.ControllerSignals [1].DueTime);
-		}
+		//		[Test ()]
+		//		public void AddTestScheduler ()
+		//		{
+		//			var tmp = new Controller ();
+		//
+		//			Assert.AreEqual (0, tmp.ControllerSignals.Count);
+		//
+		//			var sched = new Scheduler (){ DueTime = new DateTime (1) };
+		//			tmp.AddScheduler (sched);
+		//			Assert.AreEqual (1, tmp.ControllerSignals.Count);
+		//
+		//			tmp.AddScheduler (new PrototypeBackend.Scheduler () {
+		//				DueTime = new DateTime (42),
+		//			});
+		//			Assert.AreEqual (2, tmp.ControllerSignals.Count);
+		//
+		//			tmp.AddScheduler (new Scheduler () {
+		//				DueTime = new DateTime (3),
+		//			});
+		//
+		//			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
+		//			Assert.AreEqual (new DateTime (3), tmp.ControllerSignals [1].DueTime);
+		//			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
+		//
+		//			tmp.AddScheduler (new Scheduler () {
+		//				DueTime = new DateTime (13),
+		//			});
+		//
+		//			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
+		//			Assert.AreEqual (new DateTime (3), tmp.ControllerSignals [1].DueTime);
+		//			Assert.AreEqual (new DateTime (13), tmp.ControllerSignals [2].DueTime);
+		//			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [3].DueTime);
+		//		}
+		//
+		//		[Test ()]
+		//		public void AddScheduleRangeTest ()
+		//		{
+		//			var tmp = new PrototypeBackend.Controller ();
+		//
+		//			var dates = new Scheduler[4];
+		//			dates [0] = new Scheduler (){ DueTime = new DateTime (4) };
+		//			dates [1] = new Scheduler (){ DueTime = new DateTime (1) };
+		//			dates [2] = new Scheduler (){ DueTime = new DateTime (88) };
+		//			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
+		//
+		//			tmp.AddSchedulerRange (dates);
+		//			Assert.AreEqual (4, tmp.ControllerSignals.Count);
+		//
+		//			Assert.AreEqual (true, tmp.ControllerSignals [0].DueTime.Equals (new DateTime (1)));
+		//			Assert.AreEqual (new DateTime (4), tmp.ControllerSignals [1].DueTime);
+		//			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
+		//			Assert.AreEqual (new DateTime (88), tmp.ControllerSignals [3].DueTime);
+		//		}
+		//
+		//		[Test ()]
+		//		public void RemoveSchedulerTest ()
+		//		{
+		//			var tmp = new PrototypeBackend.Controller ();
+		//
+		//			var dates = new Scheduler[5];
+		//			dates [0] = new Scheduler (){ DueTime = new DateTime (2) };
+		//			dates [1] = new Scheduler (){ DueTime = new DateTime (4) };
+		//			dates [2] = new Scheduler (){ DueTime = new DateTime (1) };
+		//			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
+		//			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
+		//
+		//			tmp.AddSchedulerRange (dates);
+		//			Assert.AreEqual (5, tmp.ControllerSignals.Count);
+		//
+		//			tmp.RemoveScheduler (dates [1]);
+		//			Assert.AreEqual (4, tmp.ControllerSignals.Count);
+		//
+		//			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
+		//			Assert.AreEqual (new DateTime (2), tmp.ControllerSignals [1].DueTime);
+		//			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
+		//			Assert.AreEqual (new DateTime (88), tmp.ControllerSignals [3].DueTime);
+		//		}
+		//
+		//		[Test ()]
+		//		public void RemoveSchedulerRangeTest ()
+		//		{
+		//			var tmp = new PrototypeBackend.Controller ();
+		//
+		//			var dates = new Scheduler[5];
+		//			dates [0] = new Scheduler (){ DueTime = new DateTime (2) };
+		//			dates [1] = new Scheduler (){ DueTime = new DateTime (4) };
+		//			dates [2] = new Scheduler (){ DueTime = new DateTime (1) };
+		//			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
+		//			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
+		//
+		//			tmp.AddSchedulerRange (dates);
+		//			Assert.AreEqual (5, tmp.ControllerSignals.Count);
+		//
+		//			var deletedates = new Scheduler[4];
+		//			deletedates [0] = dates [1];
+		//			deletedates [1] = dates [3];
+		//			deletedates [2] = dates [4];
+		//			deletedates [3] = new Scheduler (){ DueTime = new DateTime (43) };
+		//
+		//			tmp.RemoveSchedulerRange (deletedates);
+		//			Assert.AreEqual (2, tmp.ControllerSignals.Count);
+		//
+		//			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
+		//			Assert.AreEqual (new DateTime (2), tmp.ControllerSignals [1].DueTime);
+		//		}
 
 		[Test ()]
 		public void EventTest ()
@@ -210,7 +210,7 @@ namespace PrototypeTests
 		}
 
 		[Test]
-		public void GetUnusedPinsTest2()
+		public void GetUnusedPinsTest2 ()
 		{
 			var con = new Controller ();
 			con.AddPin (new DPin (){ Name = "Pin1", Number = 0 });

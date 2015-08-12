@@ -3,59 +3,43 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7B3354E4-2100-496B-B15A-557FF10D9A2E}</ProjectGuid>
+    <ProjectGuid>{19E0D8A3-4360-4A10-8A71-0099681BCDD4}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>PrototypeTests</RootNamespace>
-    <AssemblyName>PrototypeTests</AssemblyName>
+    <RootNamespace>IniParserTest</RootNamespace>
+    <AssemblyName>Ini-Parser-Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'FakeSerial|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <OutputPath>bin\FakeSerial</OutputPath>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
-      <HintPath>..\Prototype\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\INIFileLoader\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="System.Drawing" />
+    <Reference Include="INIFileParser">
+      <HintPath>..\INIFileLoader\packages\ini-parser.2.2.2\lib\net20\INIFileParser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllerTests.cs" />
-    <Compile Include="BoardTests.cs" />
-    <Compile Include="APinTests.cs" />
-    <Compile Include="DPinTests.cs" />
-    <Compile Include="SignalTests.cs" />
-    <Compile Include="SignalOperationCompilertests.cs" />
-    <Compile Include="SequenceTests.cs" />
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\PrototypeBackend\Backend.csproj">
-      <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
-      <Name>Backend</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

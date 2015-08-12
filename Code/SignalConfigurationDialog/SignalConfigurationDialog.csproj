@@ -53,13 +53,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\PrototypeBackend\PrototypeBackend.csproj">
-      <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
-      <Name>PrototypeBackend</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GUIHelper\GUIHelper.csproj">
       <Project>{2B884C8B-58D1-4299-A844-6377FD6EDBEE}</Project>
       <Name>GUIHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrototypeBackend\Backend.csproj">
+      <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
+      <Name>Backend</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

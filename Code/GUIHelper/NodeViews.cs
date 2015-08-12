@@ -5,7 +5,6 @@ using Gtk;
 
 namespace GUIHelper
 {
-
 	public class DPinTreeNode : Gtk.TreeNode
 	{
 		public int Index = -1;

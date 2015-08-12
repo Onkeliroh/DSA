@@ -160,6 +160,7 @@ namespace MCUWidget
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
+			this.cbBoardType.Changed += new global::System.EventHandler (this.OnCbBoardTypeChanged);
 		}
 	}
 }

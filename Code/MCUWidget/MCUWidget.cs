@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using PrototypeBackend;
 using Gtk;
 using Gdk;
 
@@ -9,15 +11,29 @@ namespace MCUWidget
 	{
 		public string MCUImagepath{ get; set; }
 
-		public ListStore BoardTypes{ get; set; }
+		public Board[] Boards {
+			get { return _Boards; }
+			set {
+				_Boards = value;
+				var store = new ListStore (typeof(string));
+				foreach (Board b in _Boards)
+				{
+					store.AppendValues (new object[]{ b.Name });
+				}
+				cbBoardType.Model = store;
+				cbBoardType.Show ();
+			}
+		}
+
+		private Board[] _Boards;
+
+		public string[] BoardsImages;
 
 		public ListStore AREFTypes { get; set; }
 
 		public MCUWidget ()
 		{
 			this.Build ();
-
-//			MCUImagepath = "/home/onkeliroh/Bachelorarbeit/Resources/arduino_uno.svg";
 
 			this.drawingarea1.ExposeEvent += Draw;
 		}
@@ -55,7 +71,7 @@ namespace MCUWidget
 
 		protected Cairo.ImageSurface MCUSurface ()
 		{
-			if (MCUImagepath != null)
+			if (MCUImagepath != null && System.IO.File.Exists (MCUImagepath))
 			{
 				if (!MCUImagepath.Equals (string.Empty))
 				{
@@ -80,6 +96,15 @@ namespace MCUWidget
 		private Cairo.ImageSurface MCULabelLeft ()
 		{
 			return new Cairo.ImageSurface (Cairo.Format.ARGB32, 0, 0);	
+		}
+
+		protected void OnCbBoardTypeChanged (object sender, EventArgs e)
+		{
+			if (BoardsImages.Length > 0 && BoardsImages.Length > cbBoardType.Active)
+			{
+				MCUImagepath = BoardsImages [cbBoardType.Active];
+				drawingarea1.QueueDraw ();
+			}
 		}
 	}
 }
