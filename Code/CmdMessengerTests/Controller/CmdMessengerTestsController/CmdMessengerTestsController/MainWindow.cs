@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Timers;
 using Gtk;
-using SamplerLogger;
+using Logger;
 using System.Collections.Generic;
 using PrototypeBackend;
 
@@ -10,7 +10,7 @@ public partial class MainWindow: Gtk.Window
 	//	private ArduinoController _arduinoController;
 	private Timer AnalogTimer;
 
-	private CSVLogger logger = new CSVLogger ("test.csv", new List<string>{ "A0", "A1", "A2", "A3", "A4", "A5" }, false, false);
+	private CSVLogger logger = new CSVLogger ("test.csv", new List<object>{ "A0", "A1", "A2", "A3", "A4", "A5" }, false, false);
 
 	public MainWindow () : base (Gtk.WindowType.Toplevel)
 	{

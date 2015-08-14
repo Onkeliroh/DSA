@@ -34,15 +34,18 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
-    <Reference Include="Logger">
-      <HintPath>..\..\..\..\Logger.dll</HintPath>
-    </Reference>
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Logger">
+      <HintPath>..\..\..\..\Logger\bin\Debug\Logger.dll</HintPath>
+    </Reference>
+    <Reference Include="PrototypeBackend">
+      <HintPath>..\..\..\..\PrototypeBackend\bin\Debug\PrototypeBackend.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -65,10 +68,6 @@
     <ProjectReference Include="..\..\..\..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj">
       <Project>{00D85F0B-00A5-41FA-8A99-428C0199C663}</Project>
       <Name>CommandMessenger.Transport.Serial</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\PrototypeBackend\PrototypeBackend.csproj">
-      <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
-      <Name>PrototypeBackend</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

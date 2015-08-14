@@ -37,6 +37,7 @@ namespace PrototypeBackend
 		GetPinOutputMask,
 		GetPinModeMask,
 		GetAnalogReference,
+		GetAnalogPinNumbers,
 	};
 
 	public enum PinMode
@@ -76,9 +77,28 @@ namespace PrototypeBackend
 		private static CmdMessenger _cmdMessenger;
 		private static Board _board = new Board ();
 
-		public static Board @Board { get { return _board; } private set { } }
+		public static Board @Board { get { return _board; } set { _board = value; } }
 
-		private static System.Timers.Timer AutoConnectTimer = new System.Timers.Timer (5000);
+		public static bool AutoConnect {
+			get{ return _autoconnect; }
+			set {
+				_autoconnect = value;
+				if (AutoConnectTimer != null)
+				{
+					if (_autoconnect)
+					{
+						AutoConnectTimer.Start ();
+					} else
+					{
+						AutoConnectTimer.Abort ();
+					}
+				}
+			}
+		}
+
+		private static bool _autoconnect = true;
+
+		private static System.Threading.Thread AutoConnectTimer = null;
 
 		public static bool IsConnected {
 			#if FAKESERIAL
@@ -105,8 +125,8 @@ namespace PrototypeBackend
 			get{ return _board.Version; }
 		}
 
-		public static string Model {
-			private set{ _board.MCU = Model; }
+		public static string MCU {
+			private set{ _board.MCU = MCU; }
 			get{ return _board.MCU; }
 		}
 
@@ -118,6 +138,11 @@ namespace PrototypeBackend
 		public static uint NumberOfAnalogPins {
 			private set { _board.NumberOfAnalogPins = value; }
 			get{ return _board.NumberOfAnalogPins; }
+		}
+
+		public static uint[] HardwareAnalogPinNumbers {
+			private set{ _board.HardwareAnalogPins = value; }
+			get{ return _board.HardwareAnalogPins; }
 		}
 
 		public static UInt32 DigitalBitMask {
@@ -156,6 +181,7 @@ namespace PrototypeBackend
 					GetModel ();
 					GetNumberAnalogPins ();
 					GetNumberDigitalPins ();
+					GetAnalogPinNumbers ();
 				}
 			};
 
@@ -166,23 +192,32 @@ namespace PrototypeBackend
 			IsConnected = false;
 			#endif
 
-			AutoConnectTimer.Elapsed += (sender, e) =>
+			AutoConnectTimer = new System.Threading.Thread (() =>
 			{
-				if (!IsConnected)
+				while (!IsConnected)
 				{
 					foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
 					{
 						Console.WriteLine ("attemting auto connect to " + s);
 						SerialPortName = s;
-						Setup ();
-						System.Threading.Thread.Sleep (500);
+
+						Setup (false);
+						System.Threading.Thread.Sleep (1000);
+						if (IsConnected)
+							break;
+						Setup (true);
+						System.Threading.Thread.Sleep (1000);
+						
 					}
 				}
-			};
-			AutoConnectTimer.Start ();
+			});
+			if (AutoConnect)
+			{
+				AutoConnectTimer.Start ();
+			}
 		}
 
-		public static void Setup ()
+		public static void Setup (bool Dtr = false)
 		{
 			if (SerialPortName != null)
 			{
@@ -190,7 +225,7 @@ namespace PrototypeBackend
 					CurrentSerialSettings = {
 						PortName = SerialPortName,
 						BaudRate = 115200,
-						DtrEnable = true  //bei UNO auf false ändern 
+						DtrEnable = Dtr//bei UNO auf false ändern 
 					}
 				}, BoardType.Bit16);
 
@@ -235,7 +270,10 @@ namespace PrototypeBackend
 				{
 					OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (false, null));
 				}
-				AutoConnectTimer.Start ();
+				if (AutoConnect && AutoConnectTimer.ThreadState != System.Threading.ThreadState.Running)
+				{
+					AutoConnectTimer.Start ();
+				}
 			}
 
 		}
@@ -418,7 +456,7 @@ namespace PrototypeBackend
 			var returnVal = _cmdMessenger.SendCommand (command);
 			if (returnVal.Ok)
 			{
-				Model = returnVal.ReadBinStringArg ();
+				MCU = returnVal.ReadStringArg ().ToLower ();
 			}
 		}
 
@@ -446,6 +484,26 @@ namespace PrototypeBackend
 			} else
 			{
 				NumberOfAnalogPins = uint.MaxValue;
+			}
+		}
+
+		public static void GetAnalogPinNumbers ()
+		{
+			var command = new SendCommand ((int)Command.GetAnalogPinNumbers, (int)Command.GetAnalogPinNumbers, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+
+			if (returnVal.Ok)
+			{
+				uint[] tmp = new uint[returnVal.Arguments.Length];
+				for (int i = 0; i < returnVal.Arguments.Length; i++)
+				{
+					tmp [i] = Convert.ToUInt32 (returnVal.Arguments [i]);
+				}
+				_board.HardwareAnalogPins = tmp;
+
+			} else
+			{
+				_board.HardwareAnalogPins = null;
 			}
 		}
 
@@ -495,6 +553,14 @@ namespace PrototypeBackend
 	{
 		public uint NumberOfAnalogPins = 0;
 		public uint NumberOfDigitalPins = 0;
+
+		public uint[] HardwareAnalogPins { get ; set; }
+
+		public uint SDA;
+		public uint SDC;
+		public uint RX = 0;
+		public uint TX = 1;
+
 		public Dictionary<string,int> AnalogReferences = new Dictionary<string, int> ();
 
 		public double AnalogReferenceVoltage {
@@ -505,9 +571,11 @@ namespace PrototypeBackend
 		}
 
 		private double AnalogReferenceVoltage_;
+
 		public string Version = "";
 		public string MCU = "";
 		public string Name = "";
+		public string ImageFilePath = "";
 
 		//default with Arduino UNO
 		public bool UseDTR = false;
@@ -518,20 +586,32 @@ namespace PrototypeBackend
 			AnalogReferenceVoltage_ = 5;
 			NumberOfAnalogPins = 6;
 			NumberOfDigitalPins = 20;
+			HardwareAnalogPins = new uint[]{ 15, 16, 17, 18, 19, 20 };
 		}
 
-		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, Dictionary<string,int> analogReferences, string name = "", string version = "", string model = "", bool dtr = false)
+		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, uint[] hardwareAnalogPins = null, Dictionary<string,int> analogReferences = null, string name = "", string version = "", string model = "", bool dtr = false)
 		{
 			this.NumberOfAnalogPins = numberOfAnalogPins;
 			this.NumberOfDigitalPins = numberOfDigitalPins;
-			this.AnalogReferences = analogReferences;
+			if (analogReferences != null)
+				this.AnalogReferences = analogReferences;
+
+			if (hardwareAnalogPins != null)
+			{
+				if (hardwareAnalogPins.Length == numberOfAnalogPins)
+				{
+					HardwareAnalogPins = hardwareAnalogPins;
+				}
+			}
+
+
 			this.Version = version;
 			this.MCU = model;
 			this.Name = name;
 			this.UseDTR = dtr;
 		}
 
-		public string ToString ()
+		public override string ToString ()
 		{
 			return String.Format (
 				"Name: {0}\nModel: {1}\nNumber of analog Pins: {2}\nNumber of digital Pins: {3}\nAnalog reference voltage: {4}",

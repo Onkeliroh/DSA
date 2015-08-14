@@ -43,6 +43,8 @@ namespace PrototypeBackend
 			}
 		}
 
+		public Board[] BoardConfigs;
+
 		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 		public EventHandler<SignalsUpdatedArgs> SignalsUpdated;
@@ -55,11 +57,12 @@ namespace PrototypeBackend
 
 		public Controller ()
 		{
-
 			#if DEBUG
-			ConLogger = new InfoLogger ("PrototypeBackendLog.txt", true, false, LogLevel.DEBUG);
-			ConLogger.LogToFile = false;
 			ConfigManager = new ConfigurationManager ("/home/onkeliroh/Bachelorarbeit/Resources/Config.ini");
+			BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
+			ConLogger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, true, false, LogLevel.DEBUG);
+			ConLogger.LogToFile = true;
+			ConLogger.Start ();
 			#else
 			ConLogger = new InfoLogger ("PrototypeBackendLog.txt", true, false, LogLevel.DEBUG);
 			ConLogger.LogToFile = true;
@@ -70,6 +73,9 @@ namespace PrototypeBackend
 			ControllerPins = new List<IPin> ();
 			ControllerSequences = new List<Sequence> ();
 
+			bool ConfigAutoConnect = Convert.ToBoolean (ConfigManager.GeneralData.Sections ["General"] ["AutoConnect"]);
+
+			ArduinoController.AutoConnect = ConfigAutoConnect;
 			ArduinoController.Init ();
 			ArduinoController.NewAnalogValue += OnNewArduinoNewAnalogValue;
 			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
@@ -91,6 +97,11 @@ namespace PrototypeBackend
 			});
 
 			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
+		}
+
+		~Controller ()
+		{
+			ConLogger.Stop ();
 		}
 
 		#region EventDelegates
@@ -387,6 +398,7 @@ namespace PrototypeBackend
 			sequenceThreads.Clear ();
 
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
+			ConLogger.Stop ();
 		}
 
 		public void Start ()

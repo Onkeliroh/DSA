@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logger
 {
-	public class Logger : IDisposable
+	public class Logger
 	{
 		#region Config
 
@@ -59,7 +59,7 @@ namespace Logger
 
 		private bool IsLogging_ = true;
 
-		public string Linebreak = "/r/n";
+		public string Linebreak = @"\r\n";
 
 		public string Separator = ",";
 
@@ -138,37 +138,7 @@ namespace Logger
 		/// </summary>
 		~Logger ()
 		{           
-			Dispose (true);
-		}
-
-		/// <summary>
-		/// Dispose method 
-		/// </summary>
-		/// <param name="disposing">If set to <c>true</c> then dispose instance</param>
-		protected virtual void Dispose (bool disposing)
-		{
-			if (!disposed)
-			{
-				if (disposing)
-				{
-					Stop ();
-					GC.Collect ();
-				}
-				disposed = true;
-			}
-		}
-
-		/// <summary>
-		/// Releases all resource used by the <see cref="SamplerLogger.Logger"/> object.
-		/// </summary>
-		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="SamplerLogger.Logger"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="SamplerLogger.Logger"/> in an unusable state. After calling
-		/// <see cref="Dispose"/>, you must release all references to the <see cref="SamplerLogger.Logger"/> so the garbage
-		/// collector can reclaim the memory that the <see cref="SamplerLogger.Logger"/> was occupying.</remarks>
-		public void Dispose ()
-		{
-			Dispose (true);
-			GC.SuppressFinalize (this);
+			Stop ();
 		}
 
 		public void Init ()
@@ -177,7 +147,13 @@ namespace Logger
 			{
 				try
 				{
-					LogWriter = new StreamWriter (FileName_, true, FileEncoding);
+					if (File.Exists (FileName_))
+					{
+						LogWriter = new StreamWriter (FileName_, true, FileEncoding);
+					} else
+					{
+						LogWriter = new StreamWriter (FileName_, false, FileEncoding);
+					}
 					LogThread.Name = FileName_ + "_thread";
 				} catch (Exception)
 				{
@@ -225,13 +201,11 @@ namespace Logger
 		/// Stop the internal thread for logging to the file. 
 		/// Therefore all pending LogQueue items will be written befor stopping.
 		/// </summary>
-		public async void Stop ()
+		public void Stop ()
 		{
-			IsLogging_ = false;
-			while (LogQueue.Count > 0 && LogThread.ThreadState.Equals (ThreadState.Running))
-			{
-				await Task.Delay (10);
-			}
+			LogToFile ();
+			LogThread.Abort ();
+			LogWriter.Close ();
 		}
 
 		/// <summary>
@@ -359,14 +333,17 @@ namespace Logger
 		/// </summary>
 		protected virtual void LogToFile ()
 		{
-			while (this.LogQueue.Count > 0)
+			lock (LogWriter)
 			{
-				lock (LogQueue)
+				while (this.LogQueue.Count > 0)
 				{
-					LogWriter.Write (this.LogQueue.Dequeue () + Linebreak);
+					lock (LogQueue)
+					{
+						LogWriter.Write (this.LogQueue.Dequeue () + Linebreak);
+						LogWriter.Flush ();
+					}
 				}
 			}
-			LogWriter.Flush ();
 		}
 	}
 }

@@ -1,6 +1,10 @@
 ﻿<Properties StartupItem="CmdMessengerTestsController/CmdMessengerTestsController.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CmdMessengerTestsController/MainWindow.cs">
+    <Files>
+      <File FileName="CmdMessengerTestsController/MainWindow.cs" Line="9" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -25,9 +25,9 @@ namespace MCUWidget
 			}
 		}
 
-		private Board[] _Boards;
+		public Board SelectedBoard { get { return (cbBoardType.Active != -1) ? _Boards [cbBoardType.Active] : null; } set { } }
 
-		public string[] BoardsImages;
+		private Board[] _Boards;
 
 		public ListStore AREFTypes { get; set; }
 
@@ -38,9 +38,19 @@ namespace MCUWidget
 			this.drawingarea1.ExposeEvent += Draw;
 		}
 
-		public void Redraw ()
+		public void Select (string mcu)
 		{
-			
+			for (int i = 0; i < _Boards.Length; i++)
+			{
+				if (_Boards [i].MCU != "")
+				{
+					if (_Boards [i].MCU.ToLower () == mcu.ToLower ())
+					{
+						cbBoardType.Active = i;
+						break;
+					}
+				}
+			}
 		}
 
 		void Draw (object o, ExposeEventArgs args)
@@ -100,11 +110,8 @@ namespace MCUWidget
 
 		protected void OnCbBoardTypeChanged (object sender, EventArgs e)
 		{
-			if (BoardsImages.Length > 0 && BoardsImages.Length > cbBoardType.Active)
-			{
-				MCUImagepath = BoardsImages [cbBoardType.Active];
-				drawingarea1.QueueDraw ();
-			}
+			MCUImagepath = Boards [cbBoardType.Active].ImageFilePath;
+			drawingarea1.QueueDraw ();
 		}
 	}
 }

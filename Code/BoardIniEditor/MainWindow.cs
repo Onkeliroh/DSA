@@ -121,11 +121,24 @@ namespace BoardIniEditor
 
 			if (node != null)
 			{
-				entryName.Text = section.GetKeyData ("Name").Value;
-				sbNumDPins.Value = Convert.ToInt32 (section.GetKeyData ("NumberOfDigitalPins").Value);
-				sbNumAPins.Value = Convert.ToInt32 (section.GetKeyData ("NumberOfAnalogPins").Value);
-				entryMCU.Text = section.GetKeyData ("MCU").Value;
-				btnImagePath.Label = section.GetKeyData ("ImagePath").Value;
+				try
+				{
+					
+					entryName.Text = section.GetKeyData ("Name").Value;
+					sbNumDPins.Value = Convert.ToInt32 (section.GetKeyData ("NumberOfDigitalPins").Value);
+					sbNumAPins.Value = Convert.ToInt32 (section.GetKeyData ("NumberOfAnalogPins").Value);
+					entryMCU.Text = section.GetKeyData ("MCU").Value;
+					btnImagePath.Label = section.GetKeyData ("ImagePath").Value;
+					sbNumSDA.Value = Convert.ToInt32 (section.GetKeyData ("SDA").Value);
+					sbNumSDC.Value = Convert.ToInt32 (section.GetKeyData ("SDC").Value);
+					sbNumRX.Value = Convert.ToInt32 (section.GetKeyData ("RX").Value);
+					sbNumTX.Value = Convert.ToInt32 (section.GetKeyData ("TX").Value);
+					entryHWAnalogPins.Text = section.GetKeyData ("HWAPinsAddrs").Value;
+					cbtnDtr.Active = Convert.ToBoolean (section.GetKeyData ("DTR").Value);
+				} catch (Exception)
+				{
+				}
+
 			}
 		}
 
@@ -137,6 +150,12 @@ namespace BoardIniEditor
 			Data.Sections [entryName.Text].AddKey ("NumberOfAnalogPins", sbNumAPins.ValueAsInt.ToString ());
 			Data.Sections [entryName.Text].AddKey ("MCU", entryMCU.Text);
 			Data.Sections [entryName.Text].AddKey ("ImagePath", btnImagePath.Label);
+			Data.Sections [entryName.Text].AddKey ("SDA", sbNumSDA.Value.ToString ());
+			Data.Sections [entryName.Text].AddKey ("SDC", sbNumSDC.Value.ToString ());
+			Data.Sections [entryName.Text].AddKey ("RX", sbNumRX.Value.ToString ());
+			Data.Sections [entryName.Text].AddKey ("TX", sbNumTX.Value.ToString ());
+			Data.Sections [entryName.Text].AddKey ("HWAPinsAddrs", entryHWAnalogPins.Text);
+			Data.Sections [entryName.Text].AddKey ("DTR", cbtnDtr.Active.ToString ());
 
 			ShowNodeView ();
 			ShowFilePreview ();

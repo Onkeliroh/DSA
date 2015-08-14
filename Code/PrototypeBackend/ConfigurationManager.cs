@@ -40,7 +40,7 @@ namespace PrototypeBackend
 		{
 			if (UserFolder != null)
 			{
-				var Parser = new IniParser.FileIniDataParser ();
+				var Parser = new FileIniDataParser ();
 				Parser.WriteFile (UserFolder, GeneralData, System.Text.Encoding.UTF8);
 			}
 		}
@@ -49,35 +49,58 @@ namespace PrototypeBackend
 		{
 			if (File.Exists (Path))
 			{
-				var Parser = new IniParser.FileIniDataParser ();
+				var Parser = new FileIniDataParser ();
 				return Parser.ReadFile (Path);
 			}
 			return null;
 		}
 
-		public Board[] ParseBoards (string Path, ref string[] ImgPaths)
+		public Board[] ParseBoards (string Path)
 		{
 			if (File.Exists (Path))
 			{
 				var Parser = new IniParser.FileIniDataParser ();
 				IniData Data = Parser.ReadFile (Path);
 				var Boards = new System.Collections.Generic.List<Board> ();
-				var Imgs = new System.Collections.Generic.List<string> ();
 				foreach (SectionData sd in Data.Sections)
 				{
-					Boards.Add (new Board () {
-						Name = sd.Keys.GetKeyData ("Name").Value,
-						NumberOfAnalogPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfAnalogPins").Value),
-						NumberOfDigitalPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfDigitalPins").Value),
-						MCU = sd.Keys.GetKeyData ("MCU").Value
-					});
-					Imgs.Add (sd.Keys ["ImagePath"]);
+					try
+					{
+						Boards.Add (new Board () {
+							Name = sd.Keys.GetKeyData ("Name").Value,
+							NumberOfAnalogPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfAnalogPins").Value),
+							NumberOfDigitalPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfDigitalPins").Value),
+							MCU = sd.Keys.GetKeyData ("MCU").Value,
+							ImageFilePath = sd.Keys.GetKeyData ("ImagePath").Value,
+							SDA = Convert.ToUInt32 (sd.Keys.GetKeyData ("SDA").Value),
+							SDC = Convert.ToUInt32 (sd.Keys.GetKeyData ("SDC").Value),
+							RX = Convert.ToUInt32 (sd.Keys.GetKeyData ("RX").Value),
+							TX = Convert.ToUInt32 (sd.Keys.GetKeyData ("TX").Value),
+							UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
+							HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value)
+						});
+					} catch (Exception ex)
+					{
+						Console.WriteLine (ex);
+					}
 
 				}
-				ImgPaths = Imgs.ToArray ();
 				return Boards.ToArray ();
 			}
 			return null;
+		}
+
+		private uint[] StringToArray (string str)
+		{
+			var stra = str.Split (new char[]{ ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
+			var ints = new System.Collections.Generic.List<uint> ();
+			foreach (string s in stra)
+			{
+				uint i;
+				uint.TryParse (s, out i);
+				ints.Add (i);
+			}
+			return ints.ToArray ();
 		}
 	}
 }

@@ -12,7 +12,7 @@
     <widget-library name="../../SignalConfigurationDialog/bin/Debug/SignalConfigurationDialog.dll" />
     <widget-library name="../../SequenceConfigurationsDialog/bin/Debug/SequenceConfigurationsDialog.dll" />
     <widget-library name="../../MCUWidget/bin/Debug/MCUWidget.dll" />
-    <widget-library name="../bin/Debug/PrototypeDebugWindow.exe" internal="true" />
+    <widget-library name="../../../Tools/Frontend/PrototypeDebugWindow.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Frontend.MainWindow" design-size="801 600">
     <action-group name="Default">
@@ -83,42 +83,19 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">2</property>
+                <property name="CurrentPage">0</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
-                    <property name="NRows">3</property>
+                    <property name="NRows">2</property>
                     <property name="RowSpacing">6</property>
                     <property name="ColumnSpacing">6</property>
-                    <child>
-                      <widget class="Gtk.Button" id="btnStopNReset">
-                        <property name="MemberName" />
-                        <property name="HeightRequest">26</property>
-                        <property name="CanFocus">True</property>
-                        <property name="Type">TextOnly</property>
-                        <property name="Label" translatable="yes">Stop and Reset
-</property>
-                        <property name="UseUnderline">True</property>
-                      </widget>
-                      <packing>
-                        <property name="TopAttach">2</property>
-                        <property name="BottomAttach">3</property>
-                        <property name="AutoSize">False</property>
-                        <property name="YOptions">0</property>
-                        <property name="XExpand">True</property>
-                        <property name="XFill">True</property>
-                        <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
-                        <property name="YFill">False</property>
-                        <property name="YShrink">False</property>
-                      </packing>
-                    </child>
                     <child>
                       <widget class="Gtk.Frame" id="frame3">
                         <property name="MemberName" />
                         <property name="ShadowType">In</property>
                         <child>
-                          <widget class="Gtk.Alignment" id="GtkAlignment4">
+                          <widget class="Gtk.Alignment" id="GtkAlignment5">
                             <property name="MemberName" />
                             <property name="Xalign">0</property>
                             <property name="Yalign">0</property>
@@ -194,7 +171,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.Button" id="btnRemoveDPin1">
+                                      <widget class="Gtk.Button" id="btnRemoveAPin">
                                         <property name="MemberName" />
                                         <property name="HeightRequest">26</property>
                                         <property name="CanFocus">True</property>
@@ -211,7 +188,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.Button" id="btnClearDPins1">
+                                      <widget class="Gtk.Button" id="btnClearAPins">
                                         <property name="MemberName" />
                                         <property name="HeightRequest">26</property>
                                         <property name="CanFocus">True</property>
@@ -311,7 +288,7 @@
                                     <property name="WidthRequest">165</property>
                                     <property name="Spacing">6</property>
                                     <child>
-                                      <widget class="Gtk.Button" id="btnAddDPins">
+                                      <widget class="Gtk.Button" id="btnAddDPin">
                                         <property name="MemberName" />
                                         <property name="HeightRequest">26</property>
                                         <property name="CanFocus">True</property>

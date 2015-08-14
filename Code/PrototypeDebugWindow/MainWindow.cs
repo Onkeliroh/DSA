@@ -52,6 +52,32 @@ namespace Frontend
 					{
 						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 					}
+					if (ArduinoController.MCU != null || ArduinoController.MCU != "")
+					{
+						if (this.mcuW.SelectedBoard == null)
+						{
+							this.mcuW.Select (ArduinoController.MCU);
+						} else
+						{
+							if (mcuW.SelectedBoard.MCU != ArduinoController.MCU)
+							{
+								var dialog = new MessageDialog (
+									             this, 
+									             DialogFlags.Modal, 
+									             MessageType.Info, 
+									             ButtonsType.YesNo, 
+									             "Apparently a connection was established to a Board, " +
+									             "which does not meet the selected Board by you.\n " +
+									             "Do you want to replace you selection with the connected Board?");
+								dialog.Response += (o, args) =>
+								{
+									mcuW.Select (ArduinoController.MCU);
+								};
+								dialog.Run ();
+								dialog.Destroy ();
+							}
+						}
+					}
 				} else
 				{
 					lblConnectionStatus.Text = "<b>NOT</b> connected";
@@ -265,13 +291,7 @@ namespace Frontend
 
 		private void BuildMCUWidget ()
 		{
-			string[] boardImgPaths = new string[0];
-			var boarddata = con.ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value;
-			var boards = con.ConfigManager.ParseBoards (boarddata, ref boardImgPaths);
-
-			mcuW.Boards = boards;
-			mcuW.BoardsImages = boardImgPaths;
-
+			mcuW.Boards = con.BoardConfigs;
 		}
 
 		private void BuildNodeViews ()
@@ -382,7 +402,7 @@ namespace Frontend
 					CheckMenuItem portname = new CheckMenuItem (s);
 					if (ArduinoController.SerialPortName != null)
 					{
-						if (ArduinoController.SerialPortName.Equals (s))
+						if (ArduinoController.SerialPortName.Equals (s) && ArduinoController.IsConnected)
 						{
 							portname.Toggle ();
 						}
@@ -805,6 +825,12 @@ namespace Frontend
 					PlotColor = new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ()),
 				});
 			}
+		}
+
+
+		protected void OnBtnAddDPinsClicked (object sender, EventArgs e)
+		{
+			throw new NotImplementedException ();
 		}
 
 		#endregion
