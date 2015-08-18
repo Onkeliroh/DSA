@@ -223,6 +223,7 @@ namespace AnalogPinConfigurationDialog
 			this.sbFrequency.Name = "sbFrequency";
 			this.sbFrequency.Adjustment.PageIncrement = 10;
 			this.sbFrequency.ClimbRate = 1;
+			this.sbFrequency.Digits = ((uint)(2));
 			this.sbFrequency.Numeric = true;
 			this.sbFrequency.Value = 1;
 			this.table3.Add (this.sbFrequency);
@@ -255,7 +256,7 @@ namespace AnalogPinConfigurationDialog
 			this.sbOffset.Name = "sbOffset";
 			this.sbOffset.Adjustment.PageIncrement = 10;
 			this.sbOffset.ClimbRate = 1;
-			this.sbOffset.Digits = ((uint)(2));
+			this.sbOffset.Digits = ((uint)(10));
 			this.sbOffset.Numeric = true;
 			this.table3.Add (this.sbOffset);
 			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbOffset]));
@@ -271,7 +272,7 @@ namespace AnalogPinConfigurationDialog
 			this.sbSlope.Name = "sbSlope";
 			this.sbSlope.Adjustment.PageIncrement = 10;
 			this.sbSlope.ClimbRate = 1;
-			this.sbSlope.Digits = ((uint)(2));
+			this.sbSlope.Digits = ((uint)(10));
 			this.sbSlope.Numeric = true;
 			this.sbSlope.Value = 1;
 			this.table3.Add (this.sbSlope);

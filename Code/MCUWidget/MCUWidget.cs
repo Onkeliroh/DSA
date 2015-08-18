@@ -21,6 +21,7 @@ namespace MCUWidget
 					store.AppendValues (new object[]{ b.Name });
 				}
 				cbBoardType.Model = store;
+				cbBoardType.Active = 0;
 				cbBoardType.Show ();
 			}
 		}

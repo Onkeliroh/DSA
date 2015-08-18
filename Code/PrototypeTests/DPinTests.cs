@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using PrototypeBackend;
-using System.Drawing;
+using Gdk;
 
 namespace PrototypeTests
 {
@@ -16,9 +16,9 @@ namespace PrototypeTests
 			Assert.AreEqual (PrototypeBackend.PinType.DIGITAL, pin.Type);
 			Assert.AreEqual (PrototypeBackend.PinMode.OUTPUT, pin.Mode);
 
-			Assert.AreEqual (Color.Empty, pin.PlotColor);
-			pin.PlotColor = System.Drawing.Color.Red;
-			Assert.AreEqual (Color.Red, pin.PlotColor);
+			Assert.AreEqual (Color.Zero, pin.PlotColor);
+			pin.PlotColor = new Gdk.Color (255, 0, 0);
+			Assert.AreEqual (new Gdk.Color (255, 0, 0), pin.PlotColor);
 		}
 
 		[Test ()]
@@ -29,7 +29,7 @@ namespace PrototypeTests
 
 			Assert.AreEqual (true, pin1.Equals (pin2));
 
-			pin1.PlotColor = Color.LimeGreen;
+			pin1.PlotColor = new Color (0, 255, 0);
 
 			Assert.AreEqual (false, pin1.Equals (pin2));
 		}

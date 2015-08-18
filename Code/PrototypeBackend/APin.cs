@@ -22,6 +22,16 @@ namespace PrototypeBackend
 
 		public int Number{ get; set; }
 
+		public int DigitalNumber { get; set; }
+
+		public bool SDA { get ; set ; }
+
+		public bool SDC { get; set; }
+
+		public bool RX { get; set; }
+
+		public bool TX { get; set; }
+
 		public Gdk.Color PlotColor { get; set; }
 
 		public double Slope{ get; set; }
@@ -69,6 +79,10 @@ namespace PrototypeBackend
 
 		public int Interval { get; set; }
 
+		/// <summary>
+		/// Gets or sets the frequency in milliseconds.
+		/// </summary>
+		/// <value>The frequency in ms.</value>
 		public double Frequency { get; set; }
 
 		public double EffectiveFrequency { get { return Frequency * Interval; } private set { } }

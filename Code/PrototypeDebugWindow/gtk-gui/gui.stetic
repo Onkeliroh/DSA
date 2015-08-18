@@ -146,6 +146,7 @@
                                         <property name="Icon">stock:gtk-add Menu</property>
                                         <property name="Label" translatable="yes">Add analog input...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnAddAPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
@@ -162,6 +163,7 @@
                                         <property name="Icon">stock:gtk-edit Menu</property>
                                         <property name="Label" translatable="yes">Edit analog input...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnEditAPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -179,6 +181,7 @@
                                         <property name="Icon">stock:gtk-remove Menu</property>
                                         <property name="Label" translatable="yes">Delete analog input</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnRemoveAPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -196,6 +199,7 @@
                                         <property name="Icon">stock:gtk-clear Menu</property>
                                         <property name="Label" translatable="yes">Clear</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnClearAPinsClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">3</property>
@@ -296,6 +300,7 @@
                                         <property name="Icon">stock:gtk-add Menu</property>
                                         <property name="Label" translatable="yes">Add digital Output...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnAddDPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
@@ -312,6 +317,7 @@
                                         <property name="Icon">stock:gtk-edit Menu</property>
                                         <property name="Label" translatable="yes">Edit digital Output...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnEditDPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -329,6 +335,7 @@
                                         <property name="Icon">stock:gtk-remove Menu</property>
                                         <property name="Label" translatable="yes">Delete digital Output</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnRemoveDPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -346,6 +353,7 @@
                                         <property name="Icon">stock:gtk-clear Menu</property>
                                         <property name="Label" translatable="yes">Clear</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnClearDPinsClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">3</property>
@@ -433,6 +441,7 @@
                                     <property name="Icon">stock:gtk-add Menu</property>
                                     <property name="Label" translatable="yes">Add Signal...</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnAddSignalClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">0</property>
@@ -449,6 +458,7 @@
                                     <property name="Icon">stock:gtk-edit Menu</property>
                                     <property name="Label" translatable="yes">EditSignal...</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnEditSignalClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">1</property>
@@ -466,6 +476,7 @@
                                     <property name="Icon">stock:gtk-remove Menu</property>
                                     <property name="Label" translatable="yes">Delete Signal</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnRemoveSignalClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">2</property>
@@ -483,6 +494,7 @@
                                     <property name="Icon">stock:gtk-clear Menu</property>
                                     <property name="Label" translatable="yes">Clear</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnClearSignalsClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">3</property>
@@ -577,6 +589,7 @@
                                         <property name="Icon">stock:gtk-add Menu</property>
                                         <property name="Label" translatable="yes">Add Sequence...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnAddSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
@@ -593,6 +606,7 @@
                                         <property name="Icon">stock:gtk-edit Menu</property>
                                         <property name="Label" translatable="yes">Edit Sequence...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnEditSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -610,6 +624,7 @@
                                         <property name="Icon">stock:gtk-remove Menu</property>
                                         <property name="Label" translatable="yes">Delete Sequence</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnRemoveSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -627,6 +642,7 @@
                                         <property name="Icon">stock:gtk-clear Menu</property>
                                         <property name="Label" translatable="yes">Clear</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnClearSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">3</property>
@@ -727,6 +743,7 @@
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">DigitalPingTest</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnDigitalPingTestClicked" />
                           </widget>
                           <packing>
                             <property name="Expand">False</property>
@@ -770,6 +787,7 @@
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Start/Stop Controller</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnStartControllerClicked" />
                           </widget>
                           <packing>
                             <property name="Position">3</property>
@@ -784,6 +802,7 @@
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Fill Analog Inputs</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnFillAnalogInputsClicked" />
                           </widget>
                           <packing>
                             <property name="Position">4</property>
@@ -798,6 +817,7 @@
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Fill Digital Outputs</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnFillDigitalOutputsClicked" />
                           </widget>
                           <packing>
                             <property name="Position">5</property>

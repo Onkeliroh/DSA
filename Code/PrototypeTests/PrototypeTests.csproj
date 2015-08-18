@@ -39,6 +39,7 @@
       <HintPath>..\Prototype\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerTests.cs" />
@@ -54,6 +55,10 @@
     <ProjectReference Include="..\PrototypeBackend\Backend.csproj">
       <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
       <Name>Backend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GUIHelper\GUIHelper.csproj">
+      <Project>{2B884C8B-58D1-4299-A844-6377FD6EDBEE}</Project>
+      <Name>GUIHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

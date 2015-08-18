@@ -13,9 +13,12 @@ namespace GUIHelper
 		public string Name;
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public Pixbuf Color;
+		public string Number;
 
 		[Gtk.TreeNodeValue (Column = 2)]
+		public Pixbuf Color;
+
+		[Gtk.TreeNodeValue (Column = 3)]
 		public string SequenceName { get { return (Sequence != null) ? Sequence.Name : ""; } private set { } }
 
 		public string RealName { get; private set; }
@@ -26,7 +29,8 @@ namespace GUIHelper
 
 		public DPinTreeNode (DPin pin, int index = -1, Sequence seq = null)
 		{
-			Name = pin.Name + "( D" + pin.Number + " )";
+			Name = pin.Name;
+			Number = Convert.ToString (pin.Number).PadLeft (2, '0');
 			Color = ColorHelper.ColoredPixbuf (pin.PlotColor);
 			Sequence = seq;
 			Index = index;
@@ -40,28 +44,31 @@ namespace GUIHelper
 	public class APinTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name { get { return Pin.Name + "( A" + Pin.Number + " )"; } private set { } }
+		public string Name { get { return Pin.Name; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public Gdk.Pixbuf Color{ get { return ColorHelper.ColoredPixbuf (Pin.PlotColor); } private set { } }
+		public string Number { get { return Convert.ToString (Pin.Number).PadLeft (2, '0'); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 2)]
-		public string SignalName { get { return (PinSignal != null) ? PinSignal.SignalName : ""; } private set { } }
+		public Gdk.Pixbuf Color{ get { return ColorHelper.ColoredPixbuf (Pin.PlotColor); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 3)]
-		public double Slope { get { return Pin.Slope; } private set { } }
+		public string Slope { get { return FormatHelper.ConvertToString (Pin.Slope); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 4)]
-		public double Offset { get { return Pin.Offset; } private set { } }
+		public string Offset { get { return FormatHelper.ConvertToString (Pin.Offset); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 5)]
 		public string Unit { get { return Pin.Unit; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 6)]
-		public double Frequency { get { return Pin.Frequency; } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Frequency).ToString ("g"); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 7)]
 		public double Interval { get { return Pin.Interval; } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 8)]
+		public string SignalName { get { return (PinSignal != null) ? PinSignal.SignalName : ""; } private set { } }
 
 		public int Index { get; private set; }
 
@@ -91,10 +98,10 @@ namespace GUIHelper
 				var s = "";
 				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
 				{
-					s += AnalogSignal.Pins [i].Name + "(A" + AnalogSignal.Pins [i].Number + ")";
-					if (i < AnalogSignal.Pins.Count - 1)
+					s += AnalogSignal.Pins [i].Name;
+					if (i != AnalogSignal.Pins.Count - 1)
 					{
-						s += ", ";
+						s += "\n";	
 					}
 				}
 				return s;
@@ -103,9 +110,29 @@ namespace GUIHelper
 		}
 
 		[Gtk.TreeNodeValue (Column = 3)]
-		public double Frequency { get { return AnalogSignal.Frequency; } private set { } }
+		public string PinNumbers {
+			get {
+				var s = "";
+				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
+				{
+					s += AnalogSignal.Pins [i].Number.ToString ().PadLeft (2, '0');
+					if (i != AnalogSignal.Pins.Count - 1)
+					{
+						s += "\n";	
+					}
+				}
+				return s;
+			}
+			private set{ }
+		}
 
 		[Gtk.TreeNodeValue (Column = 4)]
+		public string Frequency { get { return TimeSpan.FromMilliseconds (AnalogSignal.Frequency).ToString ("g"); } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 5)]
+		public string Interval { get { return AnalogSignal.Interval.ToString (); } }
+
+		[Gtk.TreeNodeValue (Column = 6)]
 		public string Operation { get { return AnalogSignal.SignalOperationString; } private set { } }
 
 		public int Index{ get; private set; }
@@ -126,7 +153,7 @@ namespace GUIHelper
 		public string Name { get { return Pin.Name + "(A" + Pin.Number + ")"; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public double Frequency { get { return Pin.Frequency; } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Frequency).ToString ("g"); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 2)]
 		public int Interval { get { return Pin.Interval; } private set { } }
@@ -148,7 +175,7 @@ namespace GUIHelper
 		public string Label { get { return Pin.Name + "(A" + Pin.Number + ")"; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public string Frequency { get { return Pin.EffectiveFrequency.ToString (); } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.EffectiveFrequency).ToString ("g"); } private set { } }
 
 		public APin Pin{ get; private set; }
 
@@ -202,10 +229,16 @@ namespace GUIHelper
 		public Pixbuf Color { get { return ColorHelper.ColoredPixbuf (Seq.Pin.PlotColor); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 2)]
-		public string Pins { get { return String.Format ("{0}({1})", Seq.Pin.Name, Seq.Pin.Number); } private set { } }
+		public string Pins { get { return Seq.Pin.Name; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 3)]
+		public string Number { get { return Convert.ToString (Seq.Pin.Number).PadLeft (2, '0'); } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 4)]
 		public string Runtime { get { return Seq.Runtime.ToString ("g"); } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 5)]
+		public string Repetitions { get { return (Seq.Repetitions != -1) ? Seq.Repetitions + " Cycle(s)" : "\u221E Cycles"; } private set { } }
 
 		public Sequence Seq;
 

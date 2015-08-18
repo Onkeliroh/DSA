@@ -18,7 +18,7 @@ namespace PrototypeBackend
 
 		public string Name { get; set; }
 
-		public Gdk.Color Color { get { return Pin.PlotColor; } private set { } }
+		public Gdk.Color Color { get { return Pin.PlotColor; } set { } }
 
 		public List<SequenceOperation> Chain { get; set; }
 

@@ -14,6 +14,14 @@ namespace PrototypeBackend
 
 		PrototypeBackend.PinMode Mode { get; set; }
 
+		bool SDA { get; set; }
+
+		bool SDC{ get; set; }
+
+		bool RX{ get; set; }
+
+		bool TX{ get; set; }
+
 		//Methods
 
 		string ToString ();

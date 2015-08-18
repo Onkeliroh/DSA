@@ -323,6 +323,7 @@
                 <property name="PageIncrement">10</property>
                 <property name="StepIncrement">1</property>
                 <property name="ClimbRate">1</property>
+                <property name="Digits">2</property>
                 <property name="Numeric">True</property>
                 <property name="Value">1</property>
                 <signal name="Changed" handler="OnSbFrequencyChanged" />
@@ -380,7 +381,7 @@
                 <property name="PageIncrement">10</property>
                 <property name="StepIncrement">1</property>
                 <property name="ClimbRate">1</property>
-                <property name="Digits">2</property>
+                <property name="Digits">10</property>
                 <property name="Numeric">True</property>
                 <signal name="Changed" handler="OnSbOffsetChanged" />
               </widget>
@@ -408,7 +409,7 @@
                 <property name="PageIncrement">10</property>
                 <property name="StepIncrement">1</property>
                 <property name="ClimbRate">1</property>
-                <property name="Digits">2</property>
+                <property name="Digits">10</property>
                 <property name="Numeric">True</property>
                 <property name="Value">1</property>
                 <signal name="Changed" handler="OnSbSlopeChanged" />

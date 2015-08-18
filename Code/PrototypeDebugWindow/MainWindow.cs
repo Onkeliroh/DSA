@@ -71,7 +71,10 @@ namespace Frontend
 									             "Do you want to replace you selection with the connected Board?");
 								dialog.Response += (o, args) =>
 								{
-									mcuW.Select (ArduinoController.MCU);
+									if (args.ResponseId == ResponseType.Yes)
+									{
+										mcuW.Select (ArduinoController.MCU);
+									}
 								};
 								dialog.Run ();
 								dialog.Destroy ();
@@ -130,6 +133,8 @@ namespace Frontend
 			nvSignals.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 			nvAnalogPins.ButtonPressEvent += new ButtonPressEventHandler (OnAnalogPinNodePressed);
 		}
+
+		#region NodeViewMouseActions
 
 		[GLib.ConnectBeforeAttribute]
 		protected void OnItemButtonPressed (object sender, ButtonPressEventArgs e)
@@ -237,6 +242,10 @@ namespace Frontend
 			}
 		}
 
+		#endregion
+
+		#region FillNodes
+
 		private void FillDigitalPinNodes ()
 		{
 			NodeStoreDigitalPins.Clear ();
@@ -289,6 +298,10 @@ namespace Frontend
 			nvSignals.QueueDraw ();
 		}
 
+		#endregion
+
+		#region BuildElements
+
 		private void BuildMCUWidget ()
 		{
 			mcuW.Boards = con.BoardConfigs;
@@ -307,8 +320,9 @@ namespace Frontend
 			};
 
 			nvDigitalPins.AppendColumn ("Name(Pin)", new Gtk.CellRendererText (), "text", 0);
-			nvDigitalPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 1);
-			nvDigitalPins.AppendColumn ("Seqeuence", new Gtk.CellRendererText (), "text", 2);
+			nvDigitalPins.AppendColumn ("Pin Number", new Gtk.CellRendererText (), "text", 1);
+			nvDigitalPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 2);
+			nvDigitalPins.AppendColumn ("Seqeuence", new Gtk.CellRendererText (), "text", 3);
 
 			nvDigitalPins.Show ();
 			#endregion
@@ -324,14 +338,15 @@ namespace Frontend
 				RunAddAPinDialog (pin as APin);
 			};
 
-			nvAnalogPins.AppendColumn ("Name(Pin)", new Gtk.CellRendererText (), "text", 0);
-			nvAnalogPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 1);
-			nvAnalogPins.AppendColumn ("Signal", new Gtk.CellRendererText (), "text", 2);
+			nvAnalogPins.AppendColumn ("Name", new Gtk.CellRendererText (), "text", 0);
+			nvAnalogPins.AppendColumn ("Pin Number", new Gtk.CellRendererText (), "text", 1);
+			nvAnalogPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 2);
 			nvAnalogPins.AppendColumn ("Slope", new Gtk.CellRendererText (), "text", 3);
 			nvAnalogPins.AppendColumn ("Offset", new Gtk.CellRendererText (), "text", 4);
 			nvAnalogPins.AppendColumn ("Unit", new Gtk.CellRendererText (), "text", 5);
 			nvAnalogPins.AppendColumn ("Frequency", new Gtk.CellRendererText (), "text", 6);
 			nvAnalogPins.AppendColumn ("Interval", new Gtk.CellRendererText (), "text", 7);
+			nvAnalogPins.AppendColumn ("Signal", new Gtk.CellRendererText (), "text", 8);
 
 			nvAnalogPins.Show ();
 			#endregion
@@ -347,8 +362,10 @@ namespace Frontend
 
 			nvSequences.AppendColumn (new TreeViewColumn ("Sequence-Name", new CellRendererText (), "text", 0));
 			nvSequences.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
-			nvSequences.AppendColumn (new TreeViewColumn ("Pin [Name(Pin)]", new CellRendererText (), "text", 2));
-			nvSequences.AppendColumn (new TreeViewColumn ("Runtime", new CellRendererText (), "text", 3));
+			nvSequences.AppendColumn (new TreeViewColumn ("Pin-Name", new CellRendererText (), "text", 2));
+			nvSequences.AppendColumn (new TreeViewColumn ("Pin-Number", new CellRendererText (), "text", 3));
+			nvSequences.AppendColumn (new TreeViewColumn ("Runtime", new CellRendererText (), "text", 4));
+			nvSequences.AppendColumn (new TreeViewColumn ("Repetitions", new CellRendererText (), "text", 5));
 
 			nvSequences.Show ();
 			#endregion
@@ -363,9 +380,11 @@ namespace Frontend
 			};
 			nvSignals.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
 			nvSignals.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
-			nvSignals.AppendColumn (new TreeViewColumn ("Pin(s)", new CellRendererText (), "text", 2));
-			nvSignals.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 3));
-			nvSignals.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 4));
+			nvSignals.AppendColumn (new TreeViewColumn ("Pin-Name", new CellRendererText (), "text", 2));
+			nvSignals.AppendColumn (new TreeViewColumn ("Pin-Number", new CellRendererText (), "text", 3));
+			nvSignals.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 4));
+			nvSignals.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 5));
+			nvSignals.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 6));
 			#endregion
 		}
 
@@ -428,6 +447,8 @@ namespace Frontend
 			mbar.ShowAll ();
 			
 		}
+
+		#endregion
 
 		#region Events
 
@@ -692,6 +713,8 @@ namespace Frontend
 
 		#endregion
 
+		#region RunDialogs
+
 		private void RunAddDPinDialog (DPin pin = null)
 		{
 			int[] dings = con.AvailableDigitalPins;
@@ -789,6 +812,8 @@ namespace Frontend
 			dialog.Run ();
 			dialog.Destroy ();
 		}
+
+		#endregion
 
 		private void StartStopController ()
 		{

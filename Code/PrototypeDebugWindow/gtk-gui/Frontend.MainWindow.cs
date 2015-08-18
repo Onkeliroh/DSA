@@ -871,6 +871,26 @@ namespace Frontend
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
 			this.mediaPlayAction.Activated += new global::System.EventHandler (this.OnMediaPlayActionToggled);
+			this.btnAddDPin.Clicked += new global::System.EventHandler (this.OnBtnAddDPinClicked);
+			this.btnEditDPin.Clicked += new global::System.EventHandler (this.OnBtnEditDPinClicked);
+			this.btnRemoveDPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPinClicked);
+			this.btnClearDPins.Clicked += new global::System.EventHandler (this.OnBtnClearDPinsClicked);
+			this.btnAddAPin.Clicked += new global::System.EventHandler (this.OnBtnAddAPinClicked);
+			this.btnEditAPin.Clicked += new global::System.EventHandler (this.OnBtnEditAPinClicked);
+			this.btnRemoveAPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveAPinClicked);
+			this.btnClearAPins.Clicked += new global::System.EventHandler (this.OnBtnClearAPinsClicked);
+			this.btnAddSignal.Clicked += new global::System.EventHandler (this.OnBtnAddSignalClicked);
+			this.btnEditSignal.Clicked += new global::System.EventHandler (this.OnBtnEditSignalClicked);
+			this.btnRemoveSignal.Clicked += new global::System.EventHandler (this.OnBtnRemoveSignalClicked);
+			this.btnClearSignals.Clicked += new global::System.EventHandler (this.OnBtnClearSignalsClicked);
+			this.btnAddSequence.Clicked += new global::System.EventHandler (this.OnBtnAddSequenceClicked);
+			this.btnEditSequence.Clicked += new global::System.EventHandler (this.OnBtnEditSequenceClicked);
+			this.btnRemoveSequence.Clicked += new global::System.EventHandler (this.OnBtnRemoveSequenceClicked);
+			this.btnClearSequence.Clicked += new global::System.EventHandler (this.OnBtnClearSequenceClicked);
+			this.btnDigitalPingTest.Clicked += new global::System.EventHandler (this.OnBtnDigitalPingTestClicked);
+			this.btnStartController.Clicked += new global::System.EventHandler (this.OnBtnStartControllerClicked);
+			this.btnFillAnalogInputs.Clicked += new global::System.EventHandler (this.OnBtnFillAnalogInputsClicked);
+			this.btnFillDigitalOutputs.Clicked += new global::System.EventHandler (this.OnBtnFillDigitalOutputsClicked);
 		}
 	}
 }

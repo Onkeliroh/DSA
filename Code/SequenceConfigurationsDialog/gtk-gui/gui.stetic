@@ -197,7 +197,7 @@
                       <widget class="Gtk.Label" id="GtkLabel2">
                         <property name="MemberName" />
                         <property name="Xalign">1</property>
-                        <property name="LabelProp" translatable="yes">End of Sequence:</property>
+                        <property name="LabelProp" translatable="yes">Sequence Mode:</property>
                         <property name="UseMarkup">True</property>
                       </widget>
                       <packing>

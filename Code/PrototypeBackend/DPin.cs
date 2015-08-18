@@ -16,6 +16,16 @@ namespace PrototypeBackend
 
 		public int Number { get ; set; }
 
+		public int AnalogNumber { get; set; }
+
+		public bool SDA { get ;	set ; }
+
+		public bool SDC { get ; set ; }
+
+		public bool RX { get; set; }
+
+		public bool TX { get; set; }
+
 		public Gdk.Color PlotColor { get; set; }
 
 		public PrototypeBackend.DPinState State = PrototypeBackend.DPinState.LOW;
@@ -28,6 +38,7 @@ namespace PrototypeBackend
 			Mode = PrototypeBackend.PinMode.OUTPUT;
 			Name = "";
 			Number = -1;
+			AnalogNumber = -1;
 			PlotColor = Gdk.Color.Zero;
 		}
 

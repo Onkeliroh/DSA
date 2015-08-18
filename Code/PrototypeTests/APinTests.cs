@@ -2,6 +2,7 @@
 
 using PrototypeBackend;
 using NUnit.Framework;
+using Gdk;
 
 namespace PrototypeTests
 {
@@ -16,8 +17,8 @@ namespace PrototypeTests
 			Assert.AreEqual (PrototypeBackend.PinType.ANALOG, pin.Type);
 			Assert.AreEqual (PrototypeBackend.PinMode.INPUT, pin.Mode);
 
-			pin.PlotColor = Gdk.Color.Red;
-			Assert.AreEqual (Gdk.Color.Red, pin.PlotColor);
+			pin.PlotColor = new Gdk.Color (255, 0, 0);
+			Assert.AreEqual (new Gdk.Color (255, 0, 0), pin.PlotColor);
 		}
 
 		[Test ()]
@@ -28,8 +29,8 @@ namespace PrototypeTests
 
 			Assert.AreEqual (true, pin1.Equals (pin2));
 
-			pin1.PlotColor = System.Drawing.Color.Green;
-			pin2.PlotColor = System.Drawing.Color.Yellow;
+			pin1.PlotColor = new Color (0, 255, 0);
+			pin2.PlotColor = new Color (0, 255, 255);
 
 			Assert.AreEqual (false, pin1.Equals (pin2));
 		}

@@ -25,6 +25,8 @@ namespace PrototypeBackend
 			private set{ }
 		}
 
+		public int Interval { get; set; }
+
 		public Gdk.Color SignalColor { get; set; }
 
 		private Func<double[],double> SignalOperation { get; set; }

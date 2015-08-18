@@ -159,6 +159,7 @@ namespace SequenceConfigurationsDialog
 			this.rbRepeateContinously = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Repeate continously"));
 			this.rbRepeateContinously.CanFocus = true;
 			this.rbRepeateContinously.Name = "rbRepeateContinously";
+			this.rbRepeateContinously.Active = true;
 			this.rbRepeateContinously.DrawIndicator = true;
 			this.rbRepeateContinously.UseUnderline = true;
 			this.rbRepeateContinously.Group = new global::GLib.SList (global::System.IntPtr.Zero);
@@ -200,7 +201,7 @@ namespace SequenceConfigurationsDialog
 			this.GtkLabel2 = new global::Gtk.Label ();
 			this.GtkLabel2.Name = "GtkLabel2";
 			this.GtkLabel2.Xalign = 1F;
-			this.GtkLabel2.LabelProp = global::Mono.Unix.Catalog.GetString ("End of Sequence:");
+			this.GtkLabel2.LabelProp = global::Mono.Unix.Catalog.GetString ("Sequence Mode:");
 			this.GtkLabel2.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel2;
 			this.table3.Add (this.frame1);

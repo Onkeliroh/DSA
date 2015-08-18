@@ -27,12 +27,12 @@ namespace PrototypeTests
 				Pin = new DPin () {
 					Name = "Pin of Awesome",
 					Number = 13,
-					PlotColor = System.Drawing.Color.Yellow,
+					PlotColor = new Gdk.Color (0, 255, 255),
 					State = DPinState.HIGH
 				},
 				Name = "Sequence of Awesome",
 				Repetitions = 3,
-				Color = System.Drawing.Color.AliceBlue
+				Color = new Gdk.Color (0, 0, 255),
 			};
 
 			Assert.AreNotEqual (null, seq.Pin);

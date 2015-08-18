@@ -2,7 +2,7 @@
 using Gdk;
 using OxyPlot;
 
-namespace PrototypeBackend
+namespace GUIHelper
 {
 	public static class ColorHelper
 	{

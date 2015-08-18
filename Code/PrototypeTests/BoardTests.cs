@@ -19,7 +19,12 @@ namespace PrototypeTests
 		[Test ()]
 		public void Constructor2Test ()
 		{
-			var tmp = new Board (42, 43, null, "TestBoard", "10", "SuperModel", true);
+			var tmp = new Board (42, 43) {
+				Name = "TestBoard",
+				Version = "10",
+				MCU = "SuperModel",
+				UseDTR = true
+			};
 			Assert.AreEqual (42, tmp.NumberOfAnalogPins);
 			Assert.AreEqual (43, tmp.NumberOfDigitalPins);
 			Assert.AreEqual ("TestBoard", tmp.Name);
