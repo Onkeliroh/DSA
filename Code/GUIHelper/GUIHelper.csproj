@@ -53,6 +53,7 @@
     <Compile Include="ColorHelper.cs" />
     <Compile Include="NodeViews.cs" />
     <Compile Include="FormatHelper.cs" />
+    <Compile Include="TimeValue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

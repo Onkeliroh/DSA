@@ -236,12 +236,18 @@ namespace SequenceConfigurationsDialog
 				plotView.Model.Series.Clear ();
 
 				var current = new TimeSpan (0);
-				var data = new Collection<TimeValue> ();
+				var data = new Collection<GUIHelper.TimeValue> ();
 				for (int i = 0; i < pinSequence.Chain.Count; i++)
 				{
-					data.Add (new TimeValue (){ Time = current, Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
+					data.Add (new GUIHelper.TimeValue () {
+						Time = current,
+						Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0)
+					});
 					current = current.Add (pinSequence.Chain [i].Duration);
-					data.Add (new TimeValue (){ Time = current, Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0) });
+					data.Add (new GUIHelper.TimeValue () {
+						Time = current,
+						Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0)
+					});
 				}
 
 				sequenceSeries = new OxyPlot.Series.LineSeries () {
@@ -415,11 +421,11 @@ namespace SequenceConfigurationsDialog
 		}
 	}
 
-	struct TimeValue
-	{
-		public TimeSpan Time{ get; set; }
-
-		public double Value { get; set; }
-	}
+	//	struct TimeValue
+	//	{
+	//		public TimeSpan Time{ get; set; }
+	//
+	//		public double Value { get; set; }
+	//	}
 }
 

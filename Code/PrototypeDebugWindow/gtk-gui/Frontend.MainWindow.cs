@@ -8,6 +8,14 @@ namespace Frontend
 		
 		private global::Gtk.Action mediaPlayAction;
 		
+		private global::Gtk.Action mediaStopAction;
+		
+		private global::Gtk.Action saveAsAction;
+		
+		private global::Gtk.Action saveAction;
+		
+		private global::Gtk.Action openAction;
+		
 		private global::Gtk.VBox vbox1;
 		
 		private global::Gtk.MenuBar menubarMain;
@@ -44,28 +52,6 @@ namespace Frontend
 		
 		private global::Gtk.Label GtkLabel21;
 		
-		private global::Gtk.Frame frame4;
-		
-		private global::Gtk.Alignment GtkAlignment6;
-		
-		private global::Gtk.Table table4;
-		
-		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
-		
-		private global::Gtk.NodeView nvDigitalPins;
-		
-		private global::Gtk.VBox vbox7;
-		
-		private global::Gtk.Button btnAddDPin;
-		
-		private global::Gtk.Button btnEditDPin;
-		
-		private global::Gtk.Button btnRemoveDPin;
-		
-		private global::Gtk.Button btnClearDPins;
-		
-		private global::Gtk.Label GtkLabel22;
-		
 		private global::Gtk.Label label6;
 		
 		private global::Gtk.Frame frame1;
@@ -92,13 +78,39 @@ namespace Frontend
 		
 		private global::Gtk.Label label7;
 		
+		private global::Gtk.VBox vbox7;
+		
+		private global::Gtk.Frame frame4;
+		
+		private global::Gtk.Alignment GtkAlignment10;
+		
+		private global::Gtk.Table table4;
+		
+		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
+		
+		private global::Gtk.NodeView nvDigitalPins;
+		
+		private global::Gtk.VBox vbox10;
+		
+		private global::Gtk.Button btnAddDPin;
+		
+		private global::Gtk.Button btnEditDPin;
+		
+		private global::Gtk.Button btnRemoveDPin;
+		
+		private global::Gtk.Button btnClearDPins;
+		
+		private global::Gtk.Label GtkLabel22;
+		
+		private global::Gtk.Label label4;
+		
 		private global::Gtk.Frame frame5;
 		
 		private global::Gtk.Alignment GtkAlignment20;
 		
-		private global::Gtk.VBox vbox9;
+		private global::Gtk.VPaned vpanedSequences;
 		
-		private global::Gtk.HBox hbox6;
+		private global::Gtk.HBox hbSequences;
 		
 		private global::Gtk.VBox vbox3;
 		
@@ -113,8 +125,6 @@ namespace Frontend
 		private global::Gtk.ScrolledWindow GtkScrolledWindow4;
 		
 		private global::Gtk.NodeView nvSequences;
-		
-		private global::Gtk.HSeparator hseparator1;
 		
 		private global::Gtk.Label GtkLabel35;
 		
@@ -157,6 +167,16 @@ namespace Frontend
 		private global::Gtk.Label lblConnectionStatus;
 		
 		private global::Gtk.VSeparator vseparator1;
+		
+		private global::Gtk.Label label5;
+		
+		private global::Gtk.Label lblStartTime;
+		
+		private global::Gtk.VSeparator vseparator2;
+		
+		private global::Gtk.Label label11;
+		
+		private global::Gtk.Label lblTimePassed;
 
 		protected virtual void Build ()
 		{
@@ -167,6 +187,14 @@ namespace Frontend
 			this.mediaPlayAction = new global::Gtk.Action ("mediaPlayAction", global::Mono.Unix.Catalog.GetString ("Start"), global::Mono.Unix.Catalog.GetString ("Start Measurements and Controlsequences"), "gtk-media-play");
 			this.mediaPlayAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Start");
 			w1.Add (this.mediaPlayAction, null);
+			this.mediaStopAction = new global::Gtk.Action ("mediaStopAction", null, null, "gtk-media-stop");
+			w1.Add (this.mediaStopAction, null);
+			this.saveAsAction = new global::Gtk.Action ("saveAsAction", null, null, "gtk-save-as");
+			w1.Add (this.saveAsAction, null);
+			this.saveAction = new global::Gtk.Action ("saveAction", null, null, "gtk-save");
+			w1.Add (this.saveAction, null);
+			this.openAction = new global::Gtk.Action ("openAction", null, null, "gtk-open");
+			w1.Add (this.openAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.WidthRequest = 800;
@@ -188,7 +216,7 @@ namespace Frontend
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar1'><toolitem name='mediaPlayAction' action='mediaPlayAction'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar1'><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><separator/><toolitem name='mediaPlayAction' action='mediaPlayAction'/><toolitem name='mediaStopAction' action='mediaStopAction'/></toolbar></ui>");
 			this.toolbar1 = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar1")));
 			this.toolbar1.Name = "toolbar1";
 			this.toolbar1.ShowArrow = false;
@@ -215,16 +243,16 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 0;
+			this.notebook1.CurrentPage = 3;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
-			this.table1 = new global::Gtk.Table (((uint)(2)), ((uint)(1)), false);
+			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
 			this.table1.RowSpacing = ((uint)(6));
 			this.table1.ColumnSpacing = ((uint)(6));
 			// Container child table1.Gtk.Table+TableChild
 			this.frame3 = new global::Gtk.Frame ();
 			this.frame3.Name = "frame3";
-			this.frame3.ShadowType = ((global::Gtk.ShadowType)(1));
+			this.frame3.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child frame3.Gtk.Container+ContainerChild
 			this.GtkAlignment5 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment5.Name = "GtkAlignment5";
@@ -325,122 +353,17 @@ namespace Frontend
 			this.GtkLabel21.UseMarkup = true;
 			this.frame3.LabelWidget = this.GtkLabel21;
 			this.table1.Add (this.frame3);
-			// Container child table1.Gtk.Table+TableChild
-			this.frame4 = new global::Gtk.Frame ();
-			this.frame4.Name = "frame4";
-			this.frame4.ShadowType = ((global::Gtk.ShadowType)(1));
-			// Container child frame4.Gtk.Container+ContainerChild
-			this.GtkAlignment6 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.GtkAlignment6.Name = "GtkAlignment6";
-			this.GtkAlignment6.LeftPadding = ((uint)(12));
-			// Container child GtkAlignment6.Gtk.Container+ContainerChild
-			this.table4 = new global::Gtk.Table (((uint)(1)), ((uint)(2)), false);
-			this.table4.Name = "table4";
-			this.table4.RowSpacing = ((uint)(6));
-			this.table4.ColumnSpacing = ((uint)(6));
-			// Container child table4.Gtk.Table+TableChild
-			this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow ();
-			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
-			this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
-			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
-			this.nvDigitalPins = new global::Gtk.NodeView ();
-			this.nvDigitalPins.CanFocus = true;
-			this.nvDigitalPins.Name = "nvDigitalPins";
-			this.GtkScrolledWindow2.Add (this.nvDigitalPins);
-			this.table4.Add (this.GtkScrolledWindow2);
-			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table4 [this.GtkScrolledWindow2]));
-			w20.LeftAttach = ((uint)(1));
-			w20.RightAttach = ((uint)(2));
-			// Container child table4.Gtk.Table+TableChild
-			this.vbox7 = new global::Gtk.VBox ();
-			this.vbox7.WidthRequest = 165;
-			this.vbox7.Name = "vbox7";
-			this.vbox7.Spacing = 6;
-			// Container child vbox7.Gtk.Box+BoxChild
-			this.btnAddDPin = new global::Gtk.Button ();
-			this.btnAddDPin.HeightRequest = 26;
-			this.btnAddDPin.CanFocus = true;
-			this.btnAddDPin.Name = "btnAddDPin";
-			this.btnAddDPin.UseUnderline = true;
-			this.btnAddDPin.Label = global::Mono.Unix.Catalog.GetString ("Add digital Output...");
-			global::Gtk.Image w21 = new global::Gtk.Image ();
-			w21.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
-			this.btnAddDPin.Image = w21;
-			this.vbox7.Add (this.btnAddDPin);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.btnAddDPin]));
-			w22.Position = 0;
-			w22.Expand = false;
-			w22.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
-			this.btnEditDPin = new global::Gtk.Button ();
-			this.btnEditDPin.CanFocus = true;
-			this.btnEditDPin.Name = "btnEditDPin";
-			this.btnEditDPin.UseUnderline = true;
-			this.btnEditDPin.Label = global::Mono.Unix.Catalog.GetString ("Edit digital Output...");
-			global::Gtk.Image w23 = new global::Gtk.Image ();
-			w23.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-edit", global::Gtk.IconSize.Menu);
-			this.btnEditDPin.Image = w23;
-			this.vbox7.Add (this.btnEditDPin);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.btnEditDPin]));
-			w24.Position = 1;
-			w24.Expand = false;
-			w24.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
-			this.btnRemoveDPin = new global::Gtk.Button ();
-			this.btnRemoveDPin.HeightRequest = 26;
-			this.btnRemoveDPin.CanFocus = true;
-			this.btnRemoveDPin.Name = "btnRemoveDPin";
-			this.btnRemoveDPin.UseUnderline = true;
-			this.btnRemoveDPin.Label = global::Mono.Unix.Catalog.GetString ("Delete digital Output");
-			global::Gtk.Image w25 = new global::Gtk.Image ();
-			w25.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
-			this.btnRemoveDPin.Image = w25;
-			this.vbox7.Add (this.btnRemoveDPin);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.btnRemoveDPin]));
-			w26.Position = 2;
-			w26.Expand = false;
-			w26.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
-			this.btnClearDPins = new global::Gtk.Button ();
-			this.btnClearDPins.HeightRequest = 26;
-			this.btnClearDPins.CanFocus = true;
-			this.btnClearDPins.Name = "btnClearDPins";
-			this.btnClearDPins.UseUnderline = true;
-			this.btnClearDPins.Label = global::Mono.Unix.Catalog.GetString ("Clear");
-			global::Gtk.Image w27 = new global::Gtk.Image ();
-			w27.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-clear", global::Gtk.IconSize.Menu);
-			this.btnClearDPins.Image = w27;
-			this.vbox7.Add (this.btnClearDPins);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.btnClearDPins]));
-			w28.Position = 3;
-			w28.Expand = false;
-			w28.Fill = false;
-			this.table4.Add (this.vbox7);
-			global::Gtk.Table.TableChild w29 = ((global::Gtk.Table.TableChild)(this.table4 [this.vbox7]));
-			w29.XOptions = ((global::Gtk.AttachOptions)(4));
-			w29.YOptions = ((global::Gtk.AttachOptions)(4));
-			this.GtkAlignment6.Add (this.table4);
-			this.frame4.Add (this.GtkAlignment6);
-			this.GtkLabel22 = new global::Gtk.Label ();
-			this.GtkLabel22.Name = "GtkLabel22";
-			this.GtkLabel22.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Digital Outputs</b>");
-			this.GtkLabel22.UseMarkup = true;
-			this.frame4.LabelWidget = this.GtkLabel22;
-			this.table1.Add (this.frame4);
-			global::Gtk.Table.TableChild w32 = ((global::Gtk.Table.TableChild)(this.table1 [this.frame4]));
-			w32.TopAttach = ((uint)(1));
-			w32.BottomAttach = ((uint)(2));
 			this.notebook1.Add (this.table1);
 			// Notebook tab
 			this.label6 = new global::Gtk.Label ();
 			this.label6.Name = "label6";
-			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Input/Output");
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Input");
 			this.notebook1.SetTabLabel (this.table1, this.label6);
 			this.label6.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.frame1 = new global::Gtk.Frame ();
 			this.frame1.Name = "frame1";
-			this.frame1.ShadowType = ((global::Gtk.ShadowType)(1));
+			this.frame1.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child frame1.Gtk.Container+ContainerChild
 			this.GtkAlignment19 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment19.Name = "GtkAlignment19";
@@ -461,28 +384,28 @@ namespace Frontend
 			this.btnAddSignal.Name = "btnAddSignal";
 			this.btnAddSignal.UseUnderline = true;
 			this.btnAddSignal.Label = global::Mono.Unix.Catalog.GetString ("Add Signal...");
-			global::Gtk.Image w34 = new global::Gtk.Image ();
-			w34.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
-			this.btnAddSignal.Image = w34;
+			global::Gtk.Image w20 = new global::Gtk.Image ();
+			w20.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
+			this.btnAddSignal.Image = w20;
 			this.vbox4.Add (this.btnAddSignal);
-			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btnAddSignal]));
-			w35.Position = 0;
-			w35.Expand = false;
-			w35.Fill = false;
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btnAddSignal]));
+			w21.Position = 0;
+			w21.Expand = false;
+			w21.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.btnEditSignal = new global::Gtk.Button ();
 			this.btnEditSignal.CanFocus = true;
 			this.btnEditSignal.Name = "btnEditSignal";
 			this.btnEditSignal.UseUnderline = true;
 			this.btnEditSignal.Label = global::Mono.Unix.Catalog.GetString ("EditSignal...");
-			global::Gtk.Image w36 = new global::Gtk.Image ();
-			w36.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-edit", global::Gtk.IconSize.Menu);
-			this.btnEditSignal.Image = w36;
+			global::Gtk.Image w22 = new global::Gtk.Image ();
+			w22.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-edit", global::Gtk.IconSize.Menu);
+			this.btnEditSignal.Image = w22;
 			this.vbox4.Add (this.btnEditSignal);
-			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btnEditSignal]));
-			w37.Position = 1;
-			w37.Expand = false;
-			w37.Fill = false;
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btnEditSignal]));
+			w23.Position = 1;
+			w23.Expand = false;
+			w23.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.btnRemoveSignal = new global::Gtk.Button ();
 			this.btnRemoveSignal.HeightRequest = 26;
@@ -490,14 +413,14 @@ namespace Frontend
 			this.btnRemoveSignal.Name = "btnRemoveSignal";
 			this.btnRemoveSignal.UseUnderline = true;
 			this.btnRemoveSignal.Label = global::Mono.Unix.Catalog.GetString ("Delete Signal");
-			global::Gtk.Image w38 = new global::Gtk.Image ();
-			w38.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
-			this.btnRemoveSignal.Image = w38;
+			global::Gtk.Image w24 = new global::Gtk.Image ();
+			w24.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
+			this.btnRemoveSignal.Image = w24;
 			this.vbox4.Add (this.btnRemoveSignal);
-			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btnRemoveSignal]));
-			w39.Position = 2;
-			w39.Expand = false;
-			w39.Fill = false;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btnRemoveSignal]));
+			w25.Position = 2;
+			w25.Expand = false;
+			w25.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.btnClearSignals = new global::Gtk.Button ();
 			this.btnClearSignals.HeightRequest = 26;
@@ -505,19 +428,19 @@ namespace Frontend
 			this.btnClearSignals.Name = "btnClearSignals";
 			this.btnClearSignals.UseUnderline = true;
 			this.btnClearSignals.Label = global::Mono.Unix.Catalog.GetString ("Clear");
-			global::Gtk.Image w40 = new global::Gtk.Image ();
-			w40.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-clear", global::Gtk.IconSize.Menu);
-			this.btnClearSignals.Image = w40;
+			global::Gtk.Image w26 = new global::Gtk.Image ();
+			w26.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-clear", global::Gtk.IconSize.Menu);
+			this.btnClearSignals.Image = w26;
 			this.vbox4.Add (this.btnClearSignals);
-			global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btnClearSignals]));
-			w41.Position = 3;
-			w41.Expand = false;
-			w41.Fill = false;
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.btnClearSignals]));
+			w27.Position = 3;
+			w27.Expand = false;
+			w27.Fill = false;
 			this.hbox5.Add (this.vbox4);
-			global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.vbox4]));
-			w42.Position = 0;
-			w42.Expand = false;
-			w42.Fill = false;
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.vbox4]));
+			w28.Position = 0;
+			w28.Expand = false;
+			w28.Fill = false;
 			// Container child hbox5.Gtk.Box+BoxChild
 			this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
@@ -528,8 +451,8 @@ namespace Frontend
 			this.nvSignals.Name = "nvSignals";
 			this.GtkScrolledWindow1.Add (this.nvSignals);
 			this.hbox5.Add (this.GtkScrolledWindow1);
-			global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.GtkScrolledWindow1]));
-			w44.Position = 1;
+			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.GtkScrolledWindow1]));
+			w30.Position = 1;
 			this.GtkAlignment19.Add (this.hbox5);
 			this.frame1.Add (this.GtkAlignment19);
 			this.GtkLabel34 = new global::Gtk.Label ();
@@ -538,9 +461,9 @@ namespace Frontend
 			this.GtkLabel34.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel34;
 			this.notebook1.Add (this.frame1);
-			global::Gtk.Notebook.NotebookChild w47 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.frame1]));
-			w47.Position = 1;
-			w47.MenuLabel = "";
+			global::Gtk.Notebook.NotebookChild w33 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.frame1]));
+			w33.Position = 1;
+			w33.MenuLabel = "";
 			// Notebook tab
 			this.label7 = new global::Gtk.Label ();
 			this.label7.Name = "label7";
@@ -548,22 +471,140 @@ namespace Frontend
 			this.notebook1.SetTabLabel (this.frame1, this.label7);
 			this.label7.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
+			this.vbox7 = new global::Gtk.VBox ();
+			this.vbox7.Name = "vbox7";
+			this.vbox7.Spacing = 6;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.frame4 = new global::Gtk.Frame ();
+			this.frame4.Name = "frame4";
+			this.frame4.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child frame4.Gtk.Container+ContainerChild
+			this.GtkAlignment10 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.GtkAlignment10.Name = "GtkAlignment10";
+			this.GtkAlignment10.LeftPadding = ((uint)(12));
+			// Container child GtkAlignment10.Gtk.Container+ContainerChild
+			this.table4 = new global::Gtk.Table (((uint)(1)), ((uint)(2)), false);
+			this.table4.Name = "table4";
+			this.table4.RowSpacing = ((uint)(6));
+			this.table4.ColumnSpacing = ((uint)(6));
+			// Container child table4.Gtk.Table+TableChild
+			this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow ();
+			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
+			this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
+			this.nvDigitalPins = new global::Gtk.NodeView ();
+			this.nvDigitalPins.CanFocus = true;
+			this.nvDigitalPins.Name = "nvDigitalPins";
+			this.GtkScrolledWindow2.Add (this.nvDigitalPins);
+			this.table4.Add (this.GtkScrolledWindow2);
+			global::Gtk.Table.TableChild w35 = ((global::Gtk.Table.TableChild)(this.table4 [this.GtkScrolledWindow2]));
+			w35.LeftAttach = ((uint)(1));
+			w35.RightAttach = ((uint)(2));
+			// Container child table4.Gtk.Table+TableChild
+			this.vbox10 = new global::Gtk.VBox ();
+			this.vbox10.WidthRequest = 165;
+			this.vbox10.Name = "vbox10";
+			this.vbox10.Spacing = 6;
+			// Container child vbox10.Gtk.Box+BoxChild
+			this.btnAddDPin = new global::Gtk.Button ();
+			this.btnAddDPin.HeightRequest = 26;
+			this.btnAddDPin.CanFocus = true;
+			this.btnAddDPin.Name = "btnAddDPin";
+			this.btnAddDPin.UseUnderline = true;
+			this.btnAddDPin.Label = global::Mono.Unix.Catalog.GetString ("Add digital Output...");
+			global::Gtk.Image w36 = new global::Gtk.Image ();
+			w36.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
+			this.btnAddDPin.Image = w36;
+			this.vbox10.Add (this.btnAddDPin);
+			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.btnAddDPin]));
+			w37.Position = 0;
+			w37.Expand = false;
+			w37.Fill = false;
+			// Container child vbox10.Gtk.Box+BoxChild
+			this.btnEditDPin = new global::Gtk.Button ();
+			this.btnEditDPin.CanFocus = true;
+			this.btnEditDPin.Name = "btnEditDPin";
+			this.btnEditDPin.UseUnderline = true;
+			this.btnEditDPin.Label = global::Mono.Unix.Catalog.GetString ("Edit digital Output...");
+			global::Gtk.Image w38 = new global::Gtk.Image ();
+			w38.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-edit", global::Gtk.IconSize.Menu);
+			this.btnEditDPin.Image = w38;
+			this.vbox10.Add (this.btnEditDPin);
+			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.btnEditDPin]));
+			w39.Position = 1;
+			w39.Expand = false;
+			w39.Fill = false;
+			// Container child vbox10.Gtk.Box+BoxChild
+			this.btnRemoveDPin = new global::Gtk.Button ();
+			this.btnRemoveDPin.HeightRequest = 26;
+			this.btnRemoveDPin.CanFocus = true;
+			this.btnRemoveDPin.Name = "btnRemoveDPin";
+			this.btnRemoveDPin.UseUnderline = true;
+			this.btnRemoveDPin.Label = global::Mono.Unix.Catalog.GetString ("Delete digital Output");
+			global::Gtk.Image w40 = new global::Gtk.Image ();
+			w40.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
+			this.btnRemoveDPin.Image = w40;
+			this.vbox10.Add (this.btnRemoveDPin);
+			global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.btnRemoveDPin]));
+			w41.Position = 2;
+			w41.Expand = false;
+			w41.Fill = false;
+			// Container child vbox10.Gtk.Box+BoxChild
+			this.btnClearDPins = new global::Gtk.Button ();
+			this.btnClearDPins.HeightRequest = 26;
+			this.btnClearDPins.CanFocus = true;
+			this.btnClearDPins.Name = "btnClearDPins";
+			this.btnClearDPins.UseUnderline = true;
+			this.btnClearDPins.Label = global::Mono.Unix.Catalog.GetString ("Clear");
+			global::Gtk.Image w42 = new global::Gtk.Image ();
+			w42.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-clear", global::Gtk.IconSize.Menu);
+			this.btnClearDPins.Image = w42;
+			this.vbox10.Add (this.btnClearDPins);
+			global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.btnClearDPins]));
+			w43.Position = 3;
+			w43.Expand = false;
+			w43.Fill = false;
+			this.table4.Add (this.vbox10);
+			global::Gtk.Table.TableChild w44 = ((global::Gtk.Table.TableChild)(this.table4 [this.vbox10]));
+			w44.XOptions = ((global::Gtk.AttachOptions)(4));
+			w44.YOptions = ((global::Gtk.AttachOptions)(4));
+			this.GtkAlignment10.Add (this.table4);
+			this.frame4.Add (this.GtkAlignment10);
+			this.GtkLabel22 = new global::Gtk.Label ();
+			this.GtkLabel22.Name = "GtkLabel22";
+			this.GtkLabel22.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Digital Outputs</b>");
+			this.GtkLabel22.UseMarkup = true;
+			this.frame4.LabelWidget = this.GtkLabel22;
+			this.vbox7.Add (this.frame4);
+			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.frame4]));
+			w47.Position = 0;
+			this.notebook1.Add (this.vbox7);
+			global::Gtk.Notebook.NotebookChild w48 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.vbox7]));
+			w48.Position = 2;
+			// Notebook tab
+			this.label4 = new global::Gtk.Label ();
+			this.label4.Name = "label4";
+			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Output");
+			this.notebook1.SetTabLabel (this.vbox7, this.label4);
+			this.label4.ShowAll ();
+			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.frame5 = new global::Gtk.Frame ();
 			this.frame5.Name = "frame5";
-			this.frame5.ShadowType = ((global::Gtk.ShadowType)(1));
+			this.frame5.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child frame5.Gtk.Container+ContainerChild
 			this.GtkAlignment20 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment20.Name = "GtkAlignment20";
 			this.GtkAlignment20.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment20.Gtk.Container+ContainerChild
-			this.vbox9 = new global::Gtk.VBox ();
-			this.vbox9.Name = "vbox9";
-			this.vbox9.Spacing = 6;
-			// Container child vbox9.Gtk.Box+BoxChild
-			this.hbox6 = new global::Gtk.HBox ();
-			this.hbox6.Name = "hbox6";
-			this.hbox6.Spacing = 6;
-			// Container child hbox6.Gtk.Box+BoxChild
+			this.vpanedSequences = new global::Gtk.VPaned ();
+			this.vpanedSequences.CanFocus = true;
+			this.vpanedSequences.Name = "vpanedSequences";
+			this.vpanedSequences.Position = 124;
+			// Container child vpanedSequences.Gtk.Paned+PanedChild
+			this.hbSequences = new global::Gtk.HBox ();
+			this.hbSequences.Name = "hbSequences";
+			this.hbSequences.Spacing = 6;
+			// Container child hbSequences.Gtk.Box+BoxChild
 			this.vbox3 = new global::Gtk.VBox ();
 			this.vbox3.WidthRequest = 165;
 			this.vbox3.Name = "vbox3";
@@ -575,28 +616,28 @@ namespace Frontend
 			this.btnAddSequence.Name = "btnAddSequence";
 			this.btnAddSequence.UseUnderline = true;
 			this.btnAddSequence.Label = global::Mono.Unix.Catalog.GetString ("Add Sequence...");
-			global::Gtk.Image w48 = new global::Gtk.Image ();
-			w48.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
-			this.btnAddSequence.Image = w48;
+			global::Gtk.Image w49 = new global::Gtk.Image ();
+			w49.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
+			this.btnAddSequence.Image = w49;
 			this.vbox3.Add (this.btnAddSequence);
-			global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.btnAddSequence]));
-			w49.Position = 0;
-			w49.Expand = false;
-			w49.Fill = false;
+			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.btnAddSequence]));
+			w50.Position = 0;
+			w50.Expand = false;
+			w50.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.btnEditSequence = new global::Gtk.Button ();
 			this.btnEditSequence.CanFocus = true;
 			this.btnEditSequence.Name = "btnEditSequence";
 			this.btnEditSequence.UseUnderline = true;
 			this.btnEditSequence.Label = global::Mono.Unix.Catalog.GetString ("Edit Sequence...");
-			global::Gtk.Image w50 = new global::Gtk.Image ();
-			w50.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-edit", global::Gtk.IconSize.Menu);
-			this.btnEditSequence.Image = w50;
+			global::Gtk.Image w51 = new global::Gtk.Image ();
+			w51.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-edit", global::Gtk.IconSize.Menu);
+			this.btnEditSequence.Image = w51;
 			this.vbox3.Add (this.btnEditSequence);
-			global::Gtk.Box.BoxChild w51 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.btnEditSequence]));
-			w51.Position = 1;
-			w51.Expand = false;
-			w51.Fill = false;
+			global::Gtk.Box.BoxChild w52 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.btnEditSequence]));
+			w52.Position = 1;
+			w52.Expand = false;
+			w52.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.btnRemoveSequence = new global::Gtk.Button ();
 			this.btnRemoveSequence.HeightRequest = 26;
@@ -604,14 +645,14 @@ namespace Frontend
 			this.btnRemoveSequence.Name = "btnRemoveSequence";
 			this.btnRemoveSequence.UseUnderline = true;
 			this.btnRemoveSequence.Label = global::Mono.Unix.Catalog.GetString ("Delete Sequence");
-			global::Gtk.Image w52 = new global::Gtk.Image ();
-			w52.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
-			this.btnRemoveSequence.Image = w52;
+			global::Gtk.Image w53 = new global::Gtk.Image ();
+			w53.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
+			this.btnRemoveSequence.Image = w53;
 			this.vbox3.Add (this.btnRemoveSequence);
-			global::Gtk.Box.BoxChild w53 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.btnRemoveSequence]));
-			w53.Position = 2;
-			w53.Expand = false;
-			w53.Fill = false;
+			global::Gtk.Box.BoxChild w54 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.btnRemoveSequence]));
+			w54.Position = 2;
+			w54.Expand = false;
+			w54.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.btnClearSequence = new global::Gtk.Button ();
 			this.btnClearSequence.HeightRequest = 26;
@@ -619,20 +660,20 @@ namespace Frontend
 			this.btnClearSequence.Name = "btnClearSequence";
 			this.btnClearSequence.UseUnderline = true;
 			this.btnClearSequence.Label = global::Mono.Unix.Catalog.GetString ("Clear");
-			global::Gtk.Image w54 = new global::Gtk.Image ();
-			w54.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-clear", global::Gtk.IconSize.Menu);
-			this.btnClearSequence.Image = w54;
+			global::Gtk.Image w55 = new global::Gtk.Image ();
+			w55.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-clear", global::Gtk.IconSize.Menu);
+			this.btnClearSequence.Image = w55;
 			this.vbox3.Add (this.btnClearSequence);
-			global::Gtk.Box.BoxChild w55 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.btnClearSequence]));
-			w55.Position = 3;
-			w55.Expand = false;
-			w55.Fill = false;
-			this.hbox6.Add (this.vbox3);
-			global::Gtk.Box.BoxChild w56 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.vbox3]));
-			w56.Position = 0;
+			global::Gtk.Box.BoxChild w56 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.btnClearSequence]));
+			w56.Position = 3;
 			w56.Expand = false;
 			w56.Fill = false;
-			// Container child hbox6.Gtk.Box+BoxChild
+			this.hbSequences.Add (this.vbox3);
+			global::Gtk.Box.BoxChild w57 = ((global::Gtk.Box.BoxChild)(this.hbSequences [this.vbox3]));
+			w57.Position = 0;
+			w57.Expand = false;
+			w57.Fill = false;
+			// Container child hbSequences.Gtk.Box+BoxChild
 			this.GtkScrolledWindow4 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow4.Name = "GtkScrolledWindow4";
 			this.GtkScrolledWindow4.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -641,23 +682,13 @@ namespace Frontend
 			this.nvSequences.CanFocus = true;
 			this.nvSequences.Name = "nvSequences";
 			this.GtkScrolledWindow4.Add (this.nvSequences);
-			this.hbox6.Add (this.GtkScrolledWindow4);
-			global::Gtk.Box.BoxChild w58 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.GtkScrolledWindow4]));
-			w58.Position = 1;
-			this.vbox9.Add (this.hbox6);
-			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.hbox6]));
-			w59.Position = 0;
-			w59.Expand = false;
-			w59.Fill = false;
-			// Container child vbox9.Gtk.Box+BoxChild
-			this.hseparator1 = new global::Gtk.HSeparator ();
-			this.hseparator1.Name = "hseparator1";
-			this.vbox9.Add (this.hseparator1);
-			global::Gtk.Box.BoxChild w60 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.hseparator1]));
-			w60.Position = 1;
-			w60.Expand = false;
-			w60.Fill = false;
-			this.GtkAlignment20.Add (this.vbox9);
+			this.hbSequences.Add (this.GtkScrolledWindow4);
+			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.hbSequences [this.GtkScrolledWindow4]));
+			w59.Position = 1;
+			this.vpanedSequences.Add (this.hbSequences);
+			global::Gtk.Paned.PanedChild w60 = ((global::Gtk.Paned.PanedChild)(this.vpanedSequences [this.hbSequences]));
+			w60.Resize = false;
+			this.GtkAlignment20.Add (this.vpanedSequences);
 			this.frame5.Add (this.GtkAlignment20);
 			this.GtkLabel35 = new global::Gtk.Label ();
 			this.GtkLabel35.Name = "GtkLabel35";
@@ -666,7 +697,7 @@ namespace Frontend
 			this.frame5.LabelWidget = this.GtkLabel35;
 			this.notebook1.Add (this.frame5);
 			global::Gtk.Notebook.NotebookChild w63 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.frame5]));
-			w63.Position = 2;
+			w63.Position = 3;
 			// Notebook tab
 			this.label8 = new global::Gtk.Label ();
 			this.label8.Name = "label8";
@@ -811,7 +842,7 @@ namespace Frontend
 			w76.Position = 1;
 			this.notebook1.Add (this.vbox5);
 			global::Gtk.Notebook.NotebookChild w77 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.vbox5]));
-			w77.Position = 3;
+			w77.Position = 4;
 			// Notebook tab
 			this.label9 = new global::Gtk.Label ();
 			this.label9.Name = "label9";
@@ -856,11 +887,53 @@ namespace Frontend
 			w82.Position = 2;
 			w82.Expand = false;
 			w82.Fill = false;
-			this.vbox1.Add (this.statusbar1);
-			global::Gtk.Box.BoxChild w83 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
+			// Container child statusbar1.Gtk.Box+BoxChild
+			this.label5 = new global::Gtk.Label ();
+			this.label5.Name = "label5";
+			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Start Time:");
+			this.statusbar1.Add (this.label5);
+			global::Gtk.Box.BoxChild w83 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.label5]));
 			w83.Position = 3;
 			w83.Expand = false;
 			w83.Fill = false;
+			// Container child statusbar1.Gtk.Box+BoxChild
+			this.lblStartTime = new global::Gtk.Label ();
+			this.lblStartTime.Name = "lblStartTime";
+			this.statusbar1.Add (this.lblStartTime);
+			global::Gtk.Box.BoxChild w84 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.lblStartTime]));
+			w84.Position = 4;
+			w84.Expand = false;
+			w84.Fill = false;
+			// Container child statusbar1.Gtk.Box+BoxChild
+			this.vseparator2 = new global::Gtk.VSeparator ();
+			this.vseparator2.Name = "vseparator2";
+			this.statusbar1.Add (this.vseparator2);
+			global::Gtk.Box.BoxChild w85 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.vseparator2]));
+			w85.Position = 5;
+			w85.Expand = false;
+			w85.Fill = false;
+			// Container child statusbar1.Gtk.Box+BoxChild
+			this.label11 = new global::Gtk.Label ();
+			this.label11.Name = "label11";
+			this.label11.LabelProp = global::Mono.Unix.Catalog.GetString ("Time Passed:");
+			this.statusbar1.Add (this.label11);
+			global::Gtk.Box.BoxChild w86 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.label11]));
+			w86.Position = 6;
+			w86.Expand = false;
+			w86.Fill = false;
+			// Container child statusbar1.Gtk.Box+BoxChild
+			this.lblTimePassed = new global::Gtk.Label ();
+			this.lblTimePassed.Name = "lblTimePassed";
+			this.statusbar1.Add (this.lblTimePassed);
+			global::Gtk.Box.BoxChild w87 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.lblTimePassed]));
+			w87.Position = 7;
+			w87.Expand = false;
+			w87.Fill = false;
+			this.vbox1.Add (this.statusbar1);
+			global::Gtk.Box.BoxChild w88 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
+			w88.Position = 3;
+			w88.Expand = false;
+			w88.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -871,10 +944,6 @@ namespace Frontend
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
 			this.mediaPlayAction.Activated += new global::System.EventHandler (this.OnMediaPlayActionToggled);
-			this.btnAddDPin.Clicked += new global::System.EventHandler (this.OnBtnAddDPinClicked);
-			this.btnEditDPin.Clicked += new global::System.EventHandler (this.OnBtnEditDPinClicked);
-			this.btnRemoveDPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPinClicked);
-			this.btnClearDPins.Clicked += new global::System.EventHandler (this.OnBtnClearDPinsClicked);
 			this.btnAddAPin.Clicked += new global::System.EventHandler (this.OnBtnAddAPinClicked);
 			this.btnEditAPin.Clicked += new global::System.EventHandler (this.OnBtnEditAPinClicked);
 			this.btnRemoveAPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveAPinClicked);
@@ -883,6 +952,10 @@ namespace Frontend
 			this.btnEditSignal.Clicked += new global::System.EventHandler (this.OnBtnEditSignalClicked);
 			this.btnRemoveSignal.Clicked += new global::System.EventHandler (this.OnBtnRemoveSignalClicked);
 			this.btnClearSignals.Clicked += new global::System.EventHandler (this.OnBtnClearSignalsClicked);
+			this.btnAddDPin.Clicked += new global::System.EventHandler (this.OnBtnAddDPinClicked);
+			this.btnEditDPin.Clicked += new global::System.EventHandler (this.OnBtnEditDPinClicked);
+			this.btnRemoveDPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPinClicked);
+			this.btnClearDPins.Clicked += new global::System.EventHandler (this.OnBtnClearDPinsClicked);
 			this.btnAddSequence.Clicked += new global::System.EventHandler (this.OnBtnAddSequenceClicked);
 			this.btnEditSequence.Clicked += new global::System.EventHandler (this.OnBtnEditSequenceClicked);
 			this.btnRemoveSequence.Clicked += new global::System.EventHandler (this.OnBtnRemoveSequenceClicked);

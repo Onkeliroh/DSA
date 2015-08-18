@@ -27,7 +27,22 @@ namespace PrototypeBackend
 
 		public List<Sequence> ControllerSequences;
 
-		private DateTime StartTime;
+		public DateTime StartTime;
+
+		public TimeSpan TimePassed { 
+			get {
+				if (TimeKeeper != null)
+				{
+					return TimeKeeper.Elapsed;
+				} else
+				{
+					return new TimeSpan (0);
+				}
+			}
+			private set{ }
+		}
+
+		private Stopwatch TimeKeeper;
 
 		public int[] AvailableAnalogPins {
 			private set{ }
@@ -97,6 +112,8 @@ namespace PrototypeBackend
 			});
 
 			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
+
+			TimeKeeper = new Stopwatch ();
 		}
 
 		~Controller ()
@@ -399,12 +416,13 @@ namespace PrototypeBackend
 
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 			ConLogger.Stop ();
+			TimeKeeper.Stop ();
 		}
 
 		public void Start ()
 		{
-			var sw = new Stopwatch ();
-			sw.Start ();
+			TimeKeeper.Restart ();
+
 			if (CheckSignals ())
 			{
 				running = true;
@@ -414,8 +432,7 @@ namespace PrototypeBackend
 //				signalThread.Start ();
 				ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			}
-			ConLogger.Log ("Start took: " + sw.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
-			sw.Stop ();
+			ConLogger.Log ("Start took: " + TimeKeeper.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 		}
 
 		public System.Threading.ThreadState State ()

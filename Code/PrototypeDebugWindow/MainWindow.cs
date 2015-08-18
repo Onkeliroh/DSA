@@ -7,6 +7,11 @@ using GUIHelper;
 using System.Threading;
 using Logger;
 using IniParser;
+using OxyPlot;
+using OxyPlot.GtkSharp;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using System.Collections.ObjectModel;
 
 namespace Frontend
 {
@@ -22,6 +27,11 @@ namespace Frontend
 		private Gtk.NodeStore NodeStoreSequences = new NodeStore (typeof(SequenceTreeNode));
 		private Gtk.NodeStore NodeStoreSignals = new NodeStore (typeof(SignalTreeNode));
 
+		private PlotView SequencePreviewPlotView;
+		private PlotModel SequencePreviewPlotModel;
+		private LinearAxis XAxis;
+
+		private System.Timers.Timer TimeKeeperPresenter;
 
 		public MainWindow () :
 			base (Gtk.WindowType.Toplevel)
@@ -40,6 +50,7 @@ namespace Frontend
 
 		private void InitComponents ()
 		{
+			#region Connection
 			ArduinoController.OnConnectionChanged += (object sender, ConnectionChangedArgs e) =>
 			{
 				if (e.Connected)
@@ -94,10 +105,12 @@ namespace Frontend
 					}
 				}
 			};
+			#endregion
 
 			BuildMenu ();
 			BuildNodeViews ();
 			BuildMCUWidget ();
+			BuildSequencePreviewPlot ();
 
 			#if DEBUG
 			con.ConLogger.NewMessage += 
@@ -125,13 +138,23 @@ namespace Frontend
 					FillAnalogPinNodes ();
 				}
 			};
-			con.SequencesUpdated += (o, a) => FillSequenceNodes ();
+			con.SequencesUpdated += (o, a) =>
+			{
+				FillSequenceNodes ();
+				FillSequencePreviewPlot ();
+			};
 			con.SignalsUpdated += (o, a) => FillSignalNodes ();
 
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 			nvSignals.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 			nvAnalogPins.ButtonPressEvent += new ButtonPressEventHandler (OnAnalogPinNodePressed);
+
+			TimeKeeperPresenter = new System.Timers.Timer (500);
+			TimeKeeperPresenter.Elapsed += (sender, e) =>
+			{
+				lblTimePassed.Text = con.TimePassed.ToString ();
+			};
 		}
 
 		#region NodeViewMouseActions
@@ -300,6 +323,73 @@ namespace Frontend
 
 		#endregion
 
+		private void FillSequencePreviewPlot ()
+		{
+			SequencePreviewPlotModel.Axes.Clear ();
+			SequencePreviewPlotModel.Series.Clear ();
+			SequencePreviewPlotModel.Axes.Add (XAxis);
+
+
+			double size = 1 / (double)con.ControllerSequences.Count;
+			double startPos = 1;
+
+			for (int i = 0; i < con.ControllerSequences.Count; i++)
+			{
+				var seq = con.ControllerSequences [i];
+
+				var YAxis = new LinearAxis {
+					Key = seq.Pin.ToString (),
+					Title = seq.Name,
+					Position = AxisPosition.Left,
+					Minimum = -0.1,
+					Maximum = 1.1,
+					LabelFormatter = x => ((int)x == 0) ? "LOW" : "HIGH",
+					IsPanEnabled = false,
+					IsZoomEnabled = false,
+					AbsoluteMaximum = 1.1,
+					AbsoluteMinimum = -0.1,
+					MinorStep = 1,
+					MajorStep = 1,
+					StartPosition = startPos,
+					EndPosition = startPos - size,
+				};
+
+				startPos -= size;
+
+				SequencePreviewPlotModel.Axes.Add (YAxis);
+
+				var data = new Collection<GUIHelper.TimeValue> ();
+				var current = new TimeSpan (0);
+				for (int j = 0; j < seq.Chain.Count; j++)
+				{
+					data.Add (new GUIHelper.TimeValue () {
+						Time = current,
+						Value = ((seq.Chain [j].State == DPinState.HIGH) ? 1 : 0)
+					});
+					current = current.Add (seq.Chain [j].Duration);
+
+					data.Add (new GUIHelper.TimeValue () {
+						Time = current,
+						Value = ((seq.Chain [j].State == DPinState.HIGH) ? 1 : 0)
+					});
+				}
+
+				var series = new LineSeries () {
+					DataFieldX = "Time",
+					DataFieldY = "Value",
+					YAxisKey = seq.Pin.ToString (),
+					ItemsSource = data,
+					StrokeThickness = 2,
+					Color = ColorHelper.GdkColorToOxyColor (seq.Color),
+				};
+
+				SequencePreviewPlotModel.Series.Add (series);
+			}
+			SequencePreviewPlotModel.InvalidatePlot (true);
+			SequencePreviewPlotView.InvalidatePlot (true);
+			SequencePreviewPlotView.ShowAll ();
+		}
+
 		#region BuildElements
 
 		private void BuildMCUWidget ()
@@ -390,14 +480,27 @@ namespace Frontend
 
 		private void BuildMenu ()
 		{
+			//TODO Add icons
+			//TODO Add events
 			MenuBar mbar = (this.UIManager.GetWidget ("/menubarMain") as MenuBar);
 
 			//FileMenu
 			Menu filemenu = new Menu ();
 			MenuItem file = new MenuItem ("File");
 			file.Submenu = filemenu;
+			MenuItem newoption = new MenuItem ("New");
+			MenuItem openoption = new MenuItem ("Open");
+			MenuItem saveoption = new MenuItem ("Save");
+			MenuItem saveasoption = new MenuItem ("Save as...");
+
 			MenuItem exit = new MenuItem ("Exit");
 			exit.Activated += (sender, e) => OnDeleteEvent (null, null);
+
+			filemenu.Append (newoption);
+			filemenu.Append (openoption);
+			filemenu.Append (saveoption);
+			filemenu.Append (saveasoption);
+			filemenu.Append (new SeparatorMenuItem ());
 			filemenu.Append (exit);
 			mbar.Append (file);
 
@@ -446,6 +549,55 @@ namespace Frontend
 			mbar.Append (connection);
 			mbar.ShowAll ();
 			
+		}
+
+		private void BuildSequencePreviewPlot ()
+		{
+			XAxis = new LinearAxis {
+				Key = "X",
+				Position = AxisPosition.Bottom,
+				AbsoluteMinimum = TimeSpan.FromSeconds (0).Ticks,
+				LabelFormatter = x =>
+				{
+					if (x <= TimeSpan.FromSeconds (0).Ticks)
+					{
+						return "Start";
+					}
+					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("c"));
+				},
+				MajorGridlineThickness = 1,
+				MajorGridlineStyle = LineStyle.Solid,
+				MinorGridlineColor = OxyColors.LightGray,
+				MinorGridlineStyle = LineStyle.Dot,
+				MinorGridlineThickness = .5,
+			};
+
+			var YAxis = new LinearAxis {
+				Position = AxisPosition.Left,
+				Minimum = -0.1,
+				Maximum = 1.1,
+				LabelFormatter = x => ((int)x == 0) ? "LOW" : "HIGH",
+				IsPanEnabled = false,
+				IsZoomEnabled = false,
+				AbsoluteMaximum = 1.1,
+				AbsoluteMinimum = -0.1,
+				MinorStep = 1,
+				MajorStep = 1,
+			};
+
+			SequencePreviewPlotModel = new PlotModel {
+				PlotType = PlotType.XY,
+				Background = OxyPlot.OxyColors.White,
+			};
+			SequencePreviewPlotModel.Axes.Add (YAxis);
+			SequencePreviewPlotModel.Axes.Add (XAxis);
+			SequencePreviewPlotView = new PlotView (){ Name = "", Model = SequencePreviewPlotModel  };
+
+			vpanedSequences.Add (SequencePreviewPlotView);
+
+			SequencePreviewPlotView.SetSizeRequest (hbSequences.Allocation.Width, hbSequences.HeightRequest / 2);
+
+			SequencePreviewPlotView.ShowAll ();
 		}
 
 		#endregion
@@ -820,9 +972,12 @@ namespace Frontend
 			if (con.IsRunning)
 			{
 				con.Stop ();
+				TimeKeeperPresenter.Stop ();
 			} else
 			{
 				con.Start ();
+				lblStartTime.Text = con.StartTime.ToString ("G");
+				TimeKeeperPresenter.Start ();
 			}
 		}
 
