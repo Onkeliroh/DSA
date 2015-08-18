@@ -258,6 +258,8 @@ namespace SequenceConfigurationsDialog
 					Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor)
 				};
 
+				repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+
 				if ((rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1)) && data.Count > 0)
 				{
 					var repeateData = new Collection<TimeValue> ();

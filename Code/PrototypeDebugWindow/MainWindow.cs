@@ -133,9 +133,12 @@ namespace Frontend
 				if (a.Type == PinType.DIGITAL)
 				{
 					FillDigitalPinNodes ();
+					FillSequencePreviewPlot ();
+					FillSignalNodes ();
 				} else if (a.Type == PinType.ANALOG)
 				{
 					FillAnalogPinNodes ();
+					FillSignalNodes ();
 				}
 			};
 			con.SequencesUpdated += (o, a) =>
@@ -350,14 +353,15 @@ namespace Frontend
 					AbsoluteMinimum = -0.1,
 					MinorStep = 1,
 					MajorStep = 1,
-					StartPosition = startPos,
-					EndPosition = startPos - size,
+					StartPosition = startPos - size,
+					EndPosition = startPos,
 				};
 
 				startPos -= size;
 
 				SequencePreviewPlotModel.Axes.Add (YAxis);
 
+				//generate collection with operation data
 				var data = new Collection<GUIHelper.TimeValue> ();
 				var current = new TimeSpan (0);
 				for (int j = 0; j < seq.Chain.Count; j++)
@@ -381,6 +385,50 @@ namespace Frontend
 					ItemsSource = data,
 					StrokeThickness = 2,
 					Color = ColorHelper.GdkColorToOxyColor (seq.Color),
+				};
+
+				//generate followup series
+				if (seq.Repetitions != 0)
+				{
+					var followupData = new Collection<TimeValue> ();
+					followupData.Add (data.Last ());	
+					followupData.Add (new TimeValue () {
+						Time = data.Last ().Time,
+						Value = ((seq.Chain [0].State == DPinState.HIGH) ? 1 : 0)			
+					});	
+
+					followupData.Add (new TimeValue () {
+						Time = data.Last ().Time.Add (seq.Chain [0].Duration),
+						Value = ((seq.Chain [0].State == DPinState.HIGH) ? 1 : 0)			
+					});	
+
+					var followupSeries = new LineSeries () {
+						DataFieldX = "Time",
+						DataFieldY = "Value",
+						YAxisKey = seq.Pin.ToString (),
+						ItemsSource = followupData,
+						StrokeThickness = 2,
+						LineStyle = LineStyle.Dash,
+						Color = ColorHelper.GdkColorToOxyColor (seq.Color),
+					};
+
+					followupSeries.MouseDown += (sender, e) =>
+					{
+						if (e.ChangedButton == OxyMouseButton.Left)
+						{
+							RunSequenceDialog (seq);
+						}
+					};
+
+					SequencePreviewPlotModel.Series.Add (followupSeries);
+				}
+
+				series.MouseDown += (sender, e) =>
+				{
+					if (e.ChangedButton == OxyMouseButton.Left)
+					{
+						RunSequenceDialog (seq);
+					}
 				};
 
 				SequencePreviewPlotModel.Series.Add (series);
@@ -563,7 +611,7 @@ namespace Frontend
 					{
 						return "Start";
 					}
-					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("c"));
+					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("g"));
 				},
 				MajorGridlineThickness = 1,
 				MajorGridlineStyle = LineStyle.Solid,
@@ -594,6 +642,8 @@ namespace Frontend
 			SequencePreviewPlotView = new PlotView (){ Name = "", Model = SequencePreviewPlotModel  };
 
 			vpanedSequences.Add (SequencePreviewPlotView);
+
+//			SequencePreviewPlotView.
 
 			SequencePreviewPlotView.SetSizeRequest (hbSequences.Allocation.Width, hbSequences.HeightRequest / 2);
 
