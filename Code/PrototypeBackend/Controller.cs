@@ -65,6 +65,8 @@ namespace PrototypeBackend
 		public EventHandler<SignalsUpdatedArgs> SignalsUpdated;
 		public EventHandler<ControllerPinUpdateArgs> PinsUpdated;
 		public EventHandler<SequencesUpdatedArgs> SequencesUpdated;
+		public EventHandler OnControllerStarted;
+		public EventHandler OnControllerStoped;
 
 		private bool running = false;
 
@@ -203,6 +205,7 @@ namespace PrototypeBackend
 				{
 					SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Add, seq));
 				}
+				BuildSequenceList ();
 			}
 		}
 
@@ -260,6 +263,7 @@ namespace PrototypeBackend
 				{
 					SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Change, ControllerSequences [index]));
 				}
+				BuildSequenceList ();
 			}
 		}
 
@@ -383,6 +387,11 @@ namespace PrototypeBackend
 			}
 		}
 
+		public void ClearPins ()
+		{
+			ControllerPins.Clear ();
+		}
+
 		public void ClearSignals ()
 		{
 			ControllerSignals.Clear ();
@@ -404,19 +413,35 @@ namespace PrototypeBackend
 
 		#endregion
 
+		/// <summary>
+		/// Closes and stops all Member
+		/// </summary>
+		public void Quit ()
+		{
+			running = false;
+
+			sequenceThreads.Clear ();
+
+			ConLogger.Stop ();
+			TimeKeeper.Stop ();
+		}
+
+		/// <summary>
+		/// Stop Measurement ans Sequencer.
+		/// </summary>
 		public void Stop ()
 		{
 			running = false;
 
-			while (sequenceThreads.Any (o => o.Status != TaskStatus.RanToCompletion))
-			{
-			}
-
-			sequenceThreads.Clear ();
-
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
-			ConLogger.Stop ();
 			TimeKeeper.Stop ();
+
+			if (OnControllerStoped != null)
+			{
+				OnControllerStoped.Invoke (this, null);
+			}
+//			sequenceThreads.ForEach (x => x.Wait (new CancellationToken (true)));
+			BuildSequenceList ();
 		}
 
 		public void Start ()
@@ -426,23 +451,17 @@ namespace PrototypeBackend
 			if (CheckSignals ())
 			{
 				running = true;
-				BuildSequenceList ();
+//				BuildSequenceList ();
 				StartTime = DateTime.Now;
 				sequenceThreads.ForEach (o => o.Start ());
 //				signalThread.Start ();
 				ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			}
 			ConLogger.Log ("Start took: " + TimeKeeper.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
-		}
 
-		public System.Threading.ThreadState State ()
-		{
-			if (running)
+			if (OnControllerStarted != null)
 			{
-				return System.Threading.ThreadState.Running;
-			} else
-			{
-				return System.Threading.ThreadState.Unstarted;
+				OnControllerStarted.Invoke (this, null);
 			}
 		}
 
@@ -456,23 +475,21 @@ namespace PrototypeBackend
 				var seqThread = new Task (
 					                () =>
 					{
-						while (seq.Current () != null && running)
+						SequenceOperation op = (SequenceOperation)seq.Current ();
+						while (seq.CurrentState != SequenceState.Done && running)
 						{
-							SequenceOperation op = (SequenceOperation)seq.Current ();
 							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation))
 							{
 								//TODO Zeit messen
-
 								ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
-								seq.Next ();
 								Thread.Sleep (op.Duration);
+								op = (SequenceOperation)seq.Next ();
 							}
 						}	
 						seq.Reset ();
 						bool res = sequenceThreads.Any (o => o.Status != TaskStatus.RanToCompletion);
 						running = !res;
-					}
-					, TaskCreationOptions.AttachedToParent);
+					});
 				sequenceThreads.Add (seqThread);
 			}
 			ConLogger.Log ("BuildSequenceList took " + sw.ElapsedMilliseconds + "ms", LogLevel.DEBUG);

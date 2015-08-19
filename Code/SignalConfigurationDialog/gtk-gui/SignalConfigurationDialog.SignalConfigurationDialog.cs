@@ -36,8 +36,6 @@ namespace SignalConfigurationDialog
 		
 		private global::Gtk.Entry entryOperation;
 		
-		private global::Gtk.HSeparator hseparator2;
-		
 		private global::Gtk.Label label2;
 		
 		private global::Gtk.Label label3;
@@ -46,7 +44,11 @@ namespace SignalConfigurationDialog
 		
 		private global::Gtk.Label label5;
 		
+		private global::Gtk.Label label6;
+		
 		private global::Gtk.Label label8;
+		
+		private global::Gtk.SpinButton sbInterval;
 		
 		private global::Gtk.VSeparator vseparator1;
 		
@@ -160,7 +162,7 @@ namespace SignalConfigurationDialog
 			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.frame1]));
 			w12.Position = 0;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.table2 = new global::Gtk.Table (((uint)(7)), ((uint)(4)), false);
+			this.table2 = new global::Gtk.Table (((uint)(8)), ((uint)(3)), false);
 			this.table2.Name = "table2";
 			this.table2.RowSpacing = ((uint)(6));
 			this.table2.ColumnSpacing = ((uint)(6));
@@ -172,10 +174,10 @@ namespace SignalConfigurationDialog
 			this.cbColor.Name = "cbColor";
 			this.table2.Add (this.cbColor);
 			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table2 [this.cbColor]));
-			w13.TopAttach = ((uint)(3));
-			w13.BottomAttach = ((uint)(4));
+			w13.TopAttach = ((uint)(4));
+			w13.BottomAttach = ((uint)(5));
 			w13.LeftAttach = ((uint)(2));
-			w13.RightAttach = ((uint)(4));
+			w13.RightAttach = ((uint)(3));
 			w13.XOptions = ((global::Gtk.AttachOptions)(4));
 			w13.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
@@ -187,7 +189,7 @@ namespace SignalConfigurationDialog
 			w14.TopAttach = ((uint)(2));
 			w14.BottomAttach = ((uint)(3));
 			w14.LeftAttach = ((uint)(2));
-			w14.RightAttach = ((uint)(4));
+			w14.RightAttach = ((uint)(3));
 			w14.XOptions = ((global::Gtk.AttachOptions)(4));
 			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
@@ -200,7 +202,7 @@ namespace SignalConfigurationDialog
 			this.table2.Add (this.entryName);
 			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2 [this.entryName]));
 			w15.LeftAttach = ((uint)(2));
-			w15.RightAttach = ((uint)(4));
+			w15.RightAttach = ((uint)(3));
 			w15.XOptions = ((global::Gtk.AttachOptions)(4));
 			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
@@ -215,64 +217,66 @@ namespace SignalConfigurationDialog
 			w16.TopAttach = ((uint)(1));
 			w16.BottomAttach = ((uint)(2));
 			w16.LeftAttach = ((uint)(2));
-			w16.RightAttach = ((uint)(4));
+			w16.RightAttach = ((uint)(3));
 			w16.XOptions = ((global::Gtk.AttachOptions)(4));
 			w16.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
-			this.hseparator2 = new global::Gtk.HSeparator ();
-			this.hseparator2.Name = "hseparator2";
-			this.table2.Add (this.hseparator2);
-			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table2 [this.hseparator2]));
-			w17.TopAttach = ((uint)(4));
-			w17.BottomAttach = ((uint)(5));
-			w17.LeftAttach = ((uint)(1));
-			w17.RightAttach = ((uint)(4));
-			w17.XOptions = ((global::Gtk.AttachOptions)(4));
-			w17.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
 			this.label2.Xalign = 0F;
 			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Name:");
 			this.table2.Add (this.label2);
-			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table2 [this.label2]));
-			w18.LeftAttach = ((uint)(1));
-			w18.RightAttach = ((uint)(2));
-			w18.XOptions = ((global::Gtk.AttachOptions)(4));
-			w18.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table2 [this.label2]));
+			w17.LeftAttach = ((uint)(1));
+			w17.RightAttach = ((uint)(2));
+			w17.XOptions = ((global::Gtk.AttachOptions)(4));
+			w17.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label3 = new global::Gtk.Label ();
 			this.label3.Name = "label3";
 			this.label3.Xalign = 0F;
 			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Operation:");
 			this.table2.Add (this.label3);
-			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table2 [this.label3]));
-			w19.TopAttach = ((uint)(1));
-			w19.BottomAttach = ((uint)(2));
-			w19.LeftAttach = ((uint)(1));
-			w19.RightAttach = ((uint)(2));
-			w19.XOptions = ((global::Gtk.AttachOptions)(4));
-			w19.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table2 [this.label3]));
+			w18.TopAttach = ((uint)(1));
+			w18.BottomAttach = ((uint)(2));
+			w18.LeftAttach = ((uint)(1));
+			w18.RightAttach = ((uint)(2));
+			w18.XOptions = ((global::Gtk.AttachOptions)(4));
+			w18.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label4 = new global::Gtk.Label ();
 			this.label4.Name = "label4";
 			this.label4.Xalign = 0F;
 			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Unit:");
 			this.table2.Add (this.label4);
-			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table2 [this.label4]));
-			w20.TopAttach = ((uint)(2));
-			w20.BottomAttach = ((uint)(3));
-			w20.LeftAttach = ((uint)(1));
-			w20.RightAttach = ((uint)(2));
-			w20.XOptions = ((global::Gtk.AttachOptions)(4));
-			w20.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table2 [this.label4]));
+			w19.TopAttach = ((uint)(2));
+			w19.BottomAttach = ((uint)(3));
+			w19.LeftAttach = ((uint)(1));
+			w19.RightAttach = ((uint)(2));
+			w19.XOptions = ((global::Gtk.AttachOptions)(4));
+			w19.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.label5 = new global::Gtk.Label ();
 			this.label5.Name = "label5";
 			this.label5.Xalign = 0F;
 			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Color:");
 			this.table2.Add (this.label5);
-			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table2 [this.label5]));
+			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table2 [this.label5]));
+			w20.TopAttach = ((uint)(4));
+			w20.BottomAttach = ((uint)(5));
+			w20.LeftAttach = ((uint)(1));
+			w20.RightAttach = ((uint)(2));
+			w20.XOptions = ((global::Gtk.AttachOptions)(4));
+			w20.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.label6 = new global::Gtk.Label ();
+			this.label6.Name = "label6";
+			this.label6.Xalign = 0F;
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Unit:");
+			this.table2.Add (this.label6);
+			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table2 [this.label6]));
 			w21.TopAttach = ((uint)(3));
 			w21.BottomAttach = ((uint)(4));
 			w21.LeftAttach = ((uint)(1));
@@ -284,29 +288,44 @@ namespace SignalConfigurationDialog
 			this.label8.Name = "label8";
 			this.table2.Add (this.label8);
 			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table2 [this.label8]));
-			w22.TopAttach = ((uint)(6));
-			w22.BottomAttach = ((uint)(7));
+			w22.TopAttach = ((uint)(7));
+			w22.BottomAttach = ((uint)(8));
 			w22.LeftAttach = ((uint)(2));
-			w22.RightAttach = ((uint)(4));
+			w22.RightAttach = ((uint)(3));
+			// Container child table2.Gtk.Table+TableChild
+			this.sbInterval = new global::Gtk.SpinButton (0, 100, 1);
+			this.sbInterval.CanFocus = true;
+			this.sbInterval.Name = "sbInterval";
+			this.sbInterval.Adjustment.PageIncrement = 10;
+			this.sbInterval.ClimbRate = 1;
+			this.sbInterval.Numeric = true;
+			this.table2.Add (this.sbInterval);
+			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbInterval]));
+			w23.TopAttach = ((uint)(3));
+			w23.BottomAttach = ((uint)(4));
+			w23.LeftAttach = ((uint)(2));
+			w23.RightAttach = ((uint)(3));
+			w23.XOptions = ((global::Gtk.AttachOptions)(4));
+			w23.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.vseparator1 = new global::Gtk.VSeparator ();
 			this.vseparator1.Name = "vseparator1";
 			this.table2.Add (this.vseparator1);
-			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table2 [this.vseparator1]));
-			w23.BottomAttach = ((uint)(7));
-			w23.XOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table2 [this.vseparator1]));
+			w24.BottomAttach = ((uint)(8));
+			w24.XOptions = ((global::Gtk.AttachOptions)(4));
 			this.hbox1.Add (this.table2);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.table2]));
-			w24.Position = 1;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.table2]));
+			w25.Position = 1;
 			w1.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(w1 [this.hbox1]));
-			w25.Position = 0;
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(w1 [this.hbox1]));
+			w26.Position = 0;
 			// Internal child SignalConfigurationDialog.SignalConfigurationDialog.ActionArea
-			global::Gtk.HButtonBox w26 = this.ActionArea;
-			w26.Name = "dialog1_ActionArea";
-			w26.Spacing = 10;
-			w26.BorderWidth = ((uint)(5));
-			w26.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
+			global::Gtk.HButtonBox w27 = this.ActionArea;
+			w27.Name = "dialog1_ActionArea";
+			w27.Spacing = 10;
+			w27.BorderWidth = ((uint)(5));
+			w27.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonCancel = new global::Gtk.Button ();
 			this.buttonCancel.CanDefault = true;
@@ -316,9 +335,9 @@ namespace SignalConfigurationDialog
 			this.buttonCancel.UseUnderline = true;
 			this.buttonCancel.Label = "gtk-cancel";
 			this.AddActionWidget (this.buttonCancel, -6);
-			global::Gtk.ButtonBox.ButtonBoxChild w27 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w26 [this.buttonCancel]));
-			w27.Expand = false;
-			w27.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w28 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w27 [this.buttonCancel]));
+			w28.Expand = false;
+			w28.Fill = false;
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonOk = new global::Gtk.Button ();
 			this.buttonOk.CanDefault = true;
@@ -328,10 +347,10 @@ namespace SignalConfigurationDialog
 			this.buttonOk.UseUnderline = true;
 			this.buttonOk.Label = "gtk-apply";
 			this.AddActionWidget (this.buttonOk, -10);
-			global::Gtk.ButtonBox.ButtonBoxChild w28 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w26 [this.buttonOk]));
-			w28.Position = 1;
-			w28.Expand = false;
-			w28.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w29 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w27 [this.buttonOk]));
+			w29.Position = 1;
+			w29.Expand = false;
+			w29.Fill = false;
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
@@ -340,6 +359,7 @@ namespace SignalConfigurationDialog
 			this.Show ();
 			this.btnRemove.Clicked += new global::System.EventHandler (this.OnBtnRemoveClicked);
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
+			this.sbInterval.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnSbIntervalChangeValue);
 			this.entryOperation.Changed += new global::System.EventHandler (this.OnEntryOperationChanged);
 			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
 			this.cbeUnit.Changed += new global::System.EventHandler (this.OnCbeUnitChanged);

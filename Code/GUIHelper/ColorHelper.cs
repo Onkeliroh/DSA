@@ -45,6 +45,12 @@ namespace GUIHelper
 			pixbuf.Fill (RGBAFromGdkColor (c));
 			return pixbuf;
 		}
+
+		public static Gdk.Color GetRandomGdkColor ()
+		{
+			var rng = new Random ();
+			return new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ());
+		}
 	}
 }
 

@@ -96,6 +96,7 @@ namespace PrototypeBackend
 		{
 			Cycle = 0;
 			CurrentOperation = 0;
+			CurrentState = SequenceState.New;
 		}
 
 		/// <summary>
@@ -103,12 +104,17 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Next ()
 		{
+			if (CurrentState != SequenceState.Done)
+			{
+				CurrentState = SequenceState.Running;
+			}
 			lastOperation += Chain [CurrentOperation].Duration;
-			if (Cycle > Repetitions || Chain.Count == 0)
+			if (Cycle > Repetitions && Chain.Count == 0 && Repetitions != -1)
 			{
 				CurrentState = SequenceState.Done;
 				return  null;
 			}
+
 			CurrentOperation += 1;
 			if (CurrentOperation == Chain.Count)
 			{
@@ -124,13 +130,7 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Current ()
 		{
-			if (Cycle > Repetitions || Chain.Count == 0)
-			{
-				CurrentState = SequenceState.Done;
-				return  null;
-			}
 			SequenceOperation op = Chain [CurrentOperation];
-			CurrentState = SequenceState.Running;
 			return op;
 		}
 

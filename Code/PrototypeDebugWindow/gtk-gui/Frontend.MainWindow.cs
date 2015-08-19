@@ -104,7 +104,7 @@ namespace Frontend
 		
 		private global::Gtk.Label label4;
 		
-		private global::Gtk.Frame frame5;
+		private global::Gtk.Frame fSequences;
 		
 		private global::Gtk.Alignment GtkAlignment20;
 		
@@ -150,7 +150,7 @@ namespace Frontend
 		
 		private global::Gtk.Button btnFillSignals;
 		
-		private global::Gtk.Button button75;
+		private global::Gtk.Button btnAlternateBlinkSetup;
 		
 		private global::Gtk.Button button76;
 		
@@ -271,6 +271,8 @@ namespace Frontend
 			this.nvAnalogPins.CanFocus = true;
 			this.nvAnalogPins.Name = "nvAnalogPins";
 			this.nvAnalogPins.Reorderable = true;
+			this.nvAnalogPins.SearchColumn = 1;
+			this.nvAnalogPins.HoverSelection = true;
 			this.nvAnalogPins.HoverExpand = true;
 			this.GtkScrolledWindow3.Add (this.nvAnalogPins);
 			this.table3.Add (this.GtkScrolledWindow3);
@@ -449,6 +451,7 @@ namespace Frontend
 			this.nvSignals = new global::Gtk.NodeView ();
 			this.nvSignals.CanFocus = true;
 			this.nvSignals.Name = "nvSignals";
+			this.nvSignals.HoverSelection = true;
 			this.GtkScrolledWindow1.Add (this.nvSignals);
 			this.hbox5.Add (this.GtkScrolledWindow1);
 			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.GtkScrolledWindow1]));
@@ -495,6 +498,7 @@ namespace Frontend
 			this.nvDigitalPins = new global::Gtk.NodeView ();
 			this.nvDigitalPins.CanFocus = true;
 			this.nvDigitalPins.Name = "nvDigitalPins";
+			this.nvDigitalPins.HoverSelection = true;
 			this.GtkScrolledWindow2.Add (this.nvDigitalPins);
 			this.table4.Add (this.GtkScrolledWindow2);
 			global::Gtk.Table.TableChild w35 = ((global::Gtk.Table.TableChild)(this.table4 [this.GtkScrolledWindow2]));
@@ -588,10 +592,10 @@ namespace Frontend
 			this.notebook1.SetTabLabel (this.vbox7, this.label4);
 			this.label4.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
-			this.frame5 = new global::Gtk.Frame ();
-			this.frame5.Name = "frame5";
-			this.frame5.ShadowType = ((global::Gtk.ShadowType)(0));
-			// Container child frame5.Gtk.Container+ContainerChild
+			this.fSequences = new global::Gtk.Frame ();
+			this.fSequences.Name = "fSequences";
+			this.fSequences.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child fSequences.Gtk.Container+ContainerChild
 			this.GtkAlignment20 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment20.Name = "GtkAlignment20";
 			this.GtkAlignment20.LeftPadding = ((uint)(12));
@@ -599,7 +603,7 @@ namespace Frontend
 			this.vpanedSequences = new global::Gtk.VPaned ();
 			this.vpanedSequences.CanFocus = true;
 			this.vpanedSequences.Name = "vpanedSequences";
-			this.vpanedSequences.Position = 124;
+			this.vpanedSequences.Position = 157;
 			// Container child vpanedSequences.Gtk.Paned+PanedChild
 			this.hbSequences = new global::Gtk.HBox ();
 			this.hbSequences.Name = "hbSequences";
@@ -681,6 +685,8 @@ namespace Frontend
 			this.nvSequences = new global::Gtk.NodeView ();
 			this.nvSequences.CanFocus = true;
 			this.nvSequences.Name = "nvSequences";
+			this.nvSequences.Reorderable = true;
+			this.nvSequences.HoverSelection = true;
 			this.GtkScrolledWindow4.Add (this.nvSequences);
 			this.hbSequences.Add (this.GtkScrolledWindow4);
 			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.hbSequences [this.GtkScrolledWindow4]));
@@ -689,20 +695,20 @@ namespace Frontend
 			global::Gtk.Paned.PanedChild w60 = ((global::Gtk.Paned.PanedChild)(this.vpanedSequences [this.hbSequences]));
 			w60.Resize = false;
 			this.GtkAlignment20.Add (this.vpanedSequences);
-			this.frame5.Add (this.GtkAlignment20);
+			this.fSequences.Add (this.GtkAlignment20);
 			this.GtkLabel35 = new global::Gtk.Label ();
 			this.GtkLabel35.Name = "GtkLabel35";
 			this.GtkLabel35.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Digital Sequences</b>");
 			this.GtkLabel35.UseMarkup = true;
-			this.frame5.LabelWidget = this.GtkLabel35;
-			this.notebook1.Add (this.frame5);
-			global::Gtk.Notebook.NotebookChild w63 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.frame5]));
+			this.fSequences.LabelWidget = this.GtkLabel35;
+			this.notebook1.Add (this.fSequences);
+			global::Gtk.Notebook.NotebookChild w63 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.fSequences]));
 			w63.Position = 3;
 			// Notebook tab
 			this.label8 = new global::Gtk.Label ();
 			this.label8.Name = "label8";
 			this.label8.LabelProp = global::Mono.Unix.Catalog.GetString ("Digital Sequences");
-			this.notebook1.SetTabLabel (this.frame5, this.label8);
+			this.notebook1.SetTabLabel (this.fSequences, this.label8);
 			this.label8.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.vbox5 = new global::Gtk.VBox ();
@@ -803,13 +809,13 @@ namespace Frontend
 			w71.Expand = false;
 			w71.Fill = false;
 			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
-			this.button75 = new global::Gtk.Button ();
-			this.button75.CanFocus = true;
-			this.button75.Name = "button75";
-			this.button75.UseUnderline = true;
-			this.button75.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
-			this.vbuttonbox1.Add (this.button75);
-			global::Gtk.ButtonBox.ButtonBoxChild w72 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.button75]));
+			this.btnAlternateBlinkSetup = new global::Gtk.Button ();
+			this.btnAlternateBlinkSetup.CanFocus = true;
+			this.btnAlternateBlinkSetup.Name = "btnAlternateBlinkSetup";
+			this.btnAlternateBlinkSetup.UseUnderline = true;
+			this.btnAlternateBlinkSetup.Label = global::Mono.Unix.Catalog.GetString ("Alternate Blink Setup");
+			this.vbuttonbox1.Add (this.btnAlternateBlinkSetup);
+			global::Gtk.ButtonBox.ButtonBoxChild w72 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnAlternateBlinkSetup]));
 			w72.Position = 8;
 			w72.Expand = false;
 			w72.Fill = false;
@@ -944,6 +950,7 @@ namespace Frontend
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
 			this.mediaPlayAction.Activated += new global::System.EventHandler (this.OnMediaPlayActionToggled);
+			this.mediaStopAction.Activated += new global::System.EventHandler (this.OnMediaStopActionActivated);
 			this.btnAddAPin.Clicked += new global::System.EventHandler (this.OnBtnAddAPinClicked);
 			this.btnEditAPin.Clicked += new global::System.EventHandler (this.OnBtnEditAPinClicked);
 			this.btnRemoveAPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveAPinClicked);
@@ -961,9 +968,9 @@ namespace Frontend
 			this.btnRemoveSequence.Clicked += new global::System.EventHandler (this.OnBtnRemoveSequenceClicked);
 			this.btnClearSequence.Clicked += new global::System.EventHandler (this.OnBtnClearSequenceClicked);
 			this.btnDigitalPingTest.Clicked += new global::System.EventHandler (this.OnBtnDigitalPingTestClicked);
-			this.btnStartController.Clicked += new global::System.EventHandler (this.OnBtnStartControllerClicked);
 			this.btnFillAnalogInputs.Clicked += new global::System.EventHandler (this.OnBtnFillAnalogInputsClicked);
 			this.btnFillDigitalOutputs.Clicked += new global::System.EventHandler (this.OnBtnFillDigitalOutputsClicked);
+			this.btnAlternateBlinkSetup.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetupClicked);
 		}
 	}
 }

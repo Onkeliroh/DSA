@@ -24,7 +24,7 @@ namespace Logger
 			}
 		}
 
-		public Encoding FileEncoding = Encoding.ASCII;
+		public Encoding FileEncoding = Encoding.UTF8;
 
 		private Thread LogThread;
 
@@ -59,7 +59,7 @@ namespace Logger
 
 		private bool IsLogging_ = true;
 
-		public string Linebreak = @"\r\n";
+		public string Linebreak = "\r\n";
 
 		public string Separator = ",";
 
@@ -127,9 +127,11 @@ namespace Logger
 		/// Initializes a new instance of the <see cref="Sampler.Logger"/> class.
 		/// </summary>
 		/// <param name="filename">Name of the new Log file. May also include a path.</param>
-		public Logger (string filename) : this ()
+		public Logger (string filename, bool local = true, bool utc = false) : this ()
 		{
 			FileName_ = filename;
+			LogTimeLocal = local;
+			LogTimeUTC = utc;
 		}
 
 		/// <summary>
@@ -204,7 +206,12 @@ namespace Logger
 		public void Stop ()
 		{
 			LogToFile ();
+			while (LogQueue.Count != 0)
+			{
+				Thread.Sleep (10);
+			}
 			LogThread.Abort ();
+
 			LogWriter.Close ();
 		}
 

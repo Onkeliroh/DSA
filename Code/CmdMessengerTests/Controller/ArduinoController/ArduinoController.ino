@@ -722,10 +722,16 @@ void OnGetAnalogReference()
 void OnGetAnalogPinNumbers()
 {
   cmdMessenger.sendCmdStart(kGetAnalogPinNumbers);
-  for(int i=0; i<NUM_ANALOG_INPUTS;++i)
+  //for(int i=0; i<NUM_ANALOG_INPUTS;i++)
+  //{
+    //int num = analogInputToDigitalPin(i);
+    //cmdMessenger.sendCmdArg(num);
+  //}
+  int i = 0;
+  while(i <=NUM_ANALOG_INPUTS)
   {
-    int num = analogInputToDigitalPin(i);
-    cmdMessenger.sendCmdArg(num);
+    cmdMessenger.sendCmdArg( analogInputToDigitalPin( i ) );
+    i += 1;
   }
   cmdMessenger.sendCmdEnd();
 }

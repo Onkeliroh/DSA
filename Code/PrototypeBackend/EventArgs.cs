@@ -107,5 +107,15 @@ namespace PrototypeBackend
 			UpdateOperation = sigUpdateOperation;
 		}
 	}
+
+	public class BoardSelectionArgs
+	{
+		public PrototypeBackend.Board @Board{ get; private set; }
+
+		public BoardSelectionArgs (Board board)
+		{
+			Board = board;
+		}
+	}
 }
 

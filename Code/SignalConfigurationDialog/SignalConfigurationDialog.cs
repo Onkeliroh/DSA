@@ -17,6 +17,7 @@ namespace SignalConfigurationDialog
 				entryName.Text = value.SignalName;
 				entryOperation.Text = value.SignalOperationString;
 				cbColor.Color = value.SignalColor;
+				sbInterval.Value = value.Interval;
 
 				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit))
 				{
@@ -38,7 +39,7 @@ namespace SignalConfigurationDialog
 
 		#endregion
 
-		public SignalConfigurationDialog (APin[] pins, Signal signal = null, Gtk.Window parent = null)
+		public SignalConfigurationDialog (APin[] pins, Signal signal = null, APin pin = null, Gtk.Window parent = null)
 			: base ("Signal Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
@@ -51,6 +52,11 @@ namespace SignalConfigurationDialog
 			} else
 			{
 				AnalogSignal = signal;
+			}
+	
+			if (pin != null)
+			{
+				analogSignal.AddPin (pin);
 			}
 
 			SetupNodeView ();
@@ -242,6 +248,14 @@ namespace SignalConfigurationDialog
 			} catch (Exception ex)
 			{
 				Console.Error.WriteLine (ex);
+			}
+		}
+
+		protected void OnSbIntervalChangeValue (object o, ChangeValueArgs args)
+		{
+			if (analogSignal != null)
+			{
+				analogSignal.Interval = sbInterval.ValueAsInt;
 			}
 		}
 	}

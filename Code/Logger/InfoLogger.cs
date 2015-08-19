@@ -63,7 +63,7 @@ namespace Logger
 		/// <param name="loglvl">The default LogLevel. Determens to mimium Level for a message to be logged.</param>
 		/// <param name="location">Location.</param>
 		public InfoLogger (string filename, bool localtime, bool utc, LogLevel loglvl, string location)
-			: base (location + filename)
+			: base (location + filename, localtime, utc)
 		{
 			this._LogLevel = loglvl;
 			Separator = "\t";

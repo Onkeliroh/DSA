@@ -202,12 +202,13 @@ namespace PrototypeBackend
 						SerialPortName = s;
 
 						Setup (false);
-						System.Threading.Thread.Sleep (1000);
+						System.Threading.Thread.Sleep (2000);
 						if (IsConnected)
 							break;
 						Setup (true);
-						System.Threading.Thread.Sleep (1000);
-						
+						System.Threading.Thread.Sleep (2000);
+						if (IsConnected)
+							break;
 					}
 				}
 			});
@@ -251,6 +252,7 @@ namespace PrototypeBackend
 		{
 			#if !FAKESERIAL
 			// Stop listening
+			AutoConnect = false;
 			_cmdMessenger.Disconnect ();
 
 			#endif
@@ -494,10 +496,16 @@ namespace PrototypeBackend
 
 			if (returnVal.Ok)
 			{
-				uint[] tmp = new uint[returnVal.Arguments.Length];
-				for (int i = 0; i < returnVal.Arguments.Length; i++)
+				uint[] tmp = new uint[returnVal.Arguments.Length - 1];
+				for (int i = 0; i < returnVal.Arguments.Length - 1; i++)
 				{
-					tmp [i] = Convert.ToUInt32 (returnVal.Arguments [i]);
+//					tmp [i] = Convert.ToUInt32 (returnVal.Arguments [i]);
+
+//					uint res;
+//					uint.TryParse (returnVal.Arguments [i], out res);
+//					tmp [i] = res;
+
+					tmp [i] = returnVal.ReadUInt32Arg ();
 				}
 				_board.HardwareAnalogPins = tmp;
 

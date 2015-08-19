@@ -63,7 +63,7 @@ namespace Frontend
 					{
 						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 					}
-					if (ArduinoController.MCU != null || ArduinoController.MCU != "")
+					if (ArduinoController.MCU != null && ArduinoController.MCU != "")
 					{
 						if (this.mcuW.SelectedBoard == null)
 						{
@@ -77,9 +77,7 @@ namespace Frontend
 									             DialogFlags.Modal, 
 									             MessageType.Info, 
 									             ButtonsType.YesNo, 
-									             "Apparently a connection was established to a Board, " +
-									             "which does not meet the selected Board by you.\n " +
-									             "Do you want to replace you selection with the connected Board?");
+									             "Apparently a connection was established to a Board, which does not meet the selected Board by you.\nDo you want to replace you selection with the connected Board?");
 								dialog.Response += (o, args) =>
 								{
 									if (args.ResponseId == ResponseType.Yes)
@@ -148,6 +146,9 @@ namespace Frontend
 			};
 			con.SignalsUpdated += (o, a) => FillSignalNodes ();
 
+			con.OnControllerStarted += (o, a) => LockControlls (false);
+			con.OnControllerStoped += (o, a) => LockControlls (true);
+
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 			nvSignals.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
@@ -214,7 +215,7 @@ namespace Frontend
 					if (pin.PinSignal == null)
 					{
 						editSignal.Sensitive = false;
-						addSignal.ButtonPressEvent += (o, args) => RunSignalDialog ();
+						addSignal.ButtonPressEvent += (o, args) => RunSignalDialog (null, pin.Pin);
 					} else
 					{
 						addSignal.Sensitive = false;
@@ -388,7 +389,7 @@ namespace Frontend
 				};
 
 				//generate followup series
-				if (seq.Repetitions != 0)
+				if (seq.Repetitions != 0 && seq.Chain.Count > 0)
 				{
 					var followupData = new Collection<TimeValue> ();
 					followupData.Add (data.Last ());	
@@ -641,11 +642,12 @@ namespace Frontend
 			SequencePreviewPlotModel.Axes.Add (XAxis);
 			SequencePreviewPlotView = new PlotView (){ Name = "", Model = SequencePreviewPlotModel  };
 
-			vpanedSequences.Add (SequencePreviewPlotView);
+			vpanedSequences.Pack2 (SequencePreviewPlotView, true, true);
 
-//			SequencePreviewPlotView.
 
-			SequencePreviewPlotView.SetSizeRequest (hbSequences.Allocation.Width, hbSequences.HeightRequest / 2);
+			SequencePreviewPlotView.SetSizeRequest (hbSequences.Allocation.Width, fSequences.Allocation.Height / 2);
+			vpanedSequences.Position = fSequences.Allocation.Height / 2;
+
 
 			SequencePreviewPlotView.ShowAll ();
 		}
@@ -656,8 +658,8 @@ namespace Frontend
 
 		protected void OnDeleteEvent (object obj, DeleteEventArgs a)
 		{
-			con.Stop ();
-			ArduinoController.Disconnect ();
+			con.Quit ();
+			ArduinoController.Exit ();
 			Application.Quit ();
 		}
 
@@ -913,6 +915,11 @@ namespace Frontend
 			StartStopController ();
 		}
 
+		protected void OnMediaStopActionActivated (object sender, EventArgs e)
+		{
+			StartStopController ();
+		}
+
 		#endregion
 
 		#region RunDialogs
@@ -995,9 +1002,9 @@ namespace Frontend
 			dialog.Destroy ();
 		}
 
-		private void RunSignalDialog (Signal sig = null)
+		private void RunSignalDialog (Signal sig = null, APin refPin = null)
 		{
-			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog (con.GetApinsWithoutSingal (), sig, this);
+			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog (con.GetApinsWithoutSingal (), sig, refPin, this);
 			dialog.Response += (o, args) =>
 			{
 				if (args.ResponseId == ResponseType.Apply)
@@ -1031,36 +1038,97 @@ namespace Frontend
 			}
 		}
 
+		protected void LockControlls (bool sensitive)
+		{
+			btnAddAPin.Sensitive = sensitive;
+			btnAddDPin.Sensitive = sensitive;
+			btnAddSequence.Sensitive = sensitive;
+			btnAddSignal.Sensitive = sensitive;
+			btnEditAPin.Sensitive = sensitive;
+			btnEditDPin.Sensitive = sensitive;
+			btnEditSequence.Sensitive = sensitive;
+			btnEditSignal.Sensitive = sensitive;
+			btnRemoveAPin.Sensitive = sensitive;
+			btnRemoveDPin.Sensitive = sensitive;
+			btnRemoveSequence.Sensitive = sensitive;
+			btnRemoveSignal.Sensitive = sensitive;
+			btnClearAPins.Sensitive = sensitive;
+			btnClearDPins.Sensitive = sensitive;
+			btnClearSequence.Sensitive = sensitive;
+			btnClearSignals.Sensitive = sensitive;
+
+			nvAnalogPins.Sensitive = sensitive;
+			nvDigitalPins.Sensitive = sensitive;
+			nvSequences.Sensitive = sensitive;
+			nvSignals.Sensitive = sensitive;
+
+			SequencePreviewPlotView.Sensitive = sensitive;
+		}
+
 		#region DEBUGHelperly
 
 		protected void OnBtnFillAnalogInputsClicked (object sender, EventArgs e)
 		{
-			var rng = new Random ();
 			foreach (int i in con.AvailableAnalogPins)
 			{
 				con.AddPin (new APin () {
 					Number = i,
-					PlotColor = new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ()),
+					PlotColor = ColorHelper.GetRandomGdkColor ()
 				});
 			}
 		}
 
 		protected void OnBtnFillDigitalOutputsClicked (object sender, EventArgs e)
 		{
-			var rng = new Random ();
 			foreach (int i in  con.AvailableDigitalPins)
 			{
 				con.AddPin (new DPin () {
 					Number = i,
-					PlotColor = new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ()),
+					PlotColor = ColorHelper.GetRandomGdkColor ()
 				});
 			}
 		}
 
-
-		protected void OnBtnAddDPinsClicked (object sender, EventArgs e)
+		protected void OnBtnAlternateBlinkSetupClicked (object sender, EventArgs e)
 		{
-			throw new NotImplementedException ();
+			con.ClearPins ();
+			con.ClearSequences ();
+
+			OnBtnFillDigitalOutputsClicked (null, null);
+
+			int i = 0;
+			while (i < con.ControllerPins.Count)
+			{
+				con.AddSequence (new Sequence () {
+					Pin = (DPin)con.ControllerPins [i],
+					Repetitions = -1,
+					Chain = new System.Collections.Generic.List<SequenceOperation> () {
+						new SequenceOperation () {
+							Duration = TimeSpan.FromMilliseconds (1000),
+							State = DPinState.HIGH
+						},
+						new SequenceOperation () {
+							Duration = TimeSpan.FromMilliseconds (1000),
+							State = DPinState.LOW
+						}
+					}
+				});
+				con.AddSequence (new Sequence () {
+					Pin = (DPin)con.ControllerPins [i + 1],
+					Repetitions = -1,
+					Chain = new System.Collections.Generic.List<SequenceOperation> () {
+						new SequenceOperation () {
+							Duration = TimeSpan.FromMilliseconds (1000),
+							State = DPinState.LOW
+						},
+						new SequenceOperation () {
+							Duration = TimeSpan.FromMilliseconds (1000),
+							State = DPinState.HIGH
+						}
+					}
+				});
+				i += 2;
+			}
 		}
 
 		#endregion

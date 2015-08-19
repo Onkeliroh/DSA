@@ -309,6 +309,7 @@
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="ShowScrollbars">True</property>
+                        <property name="HoverSelection">True</property>
                       </widget>
                     </child>
                   </widget>

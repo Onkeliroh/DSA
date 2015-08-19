@@ -32,6 +32,8 @@ namespace MCUWidget
 
 		public ListStore AREFTypes { get; set; }
 
+		public EventHandler<BoardSelectionArgs> OnBoardSelected;
+
 		public MCUWidget ()
 		{
 			this.Build ();
@@ -68,6 +70,8 @@ namespace MCUWidget
 			context.Paint ();
 			SetSizeRequest (MCUImage.Width, MCUImage.Height + 200);
 		}
+
+		#region Drawing
 
 		private Cairo.ImageSurface  Compose (params Pixbuf[] Bufs)
 		{
@@ -109,10 +113,17 @@ namespace MCUWidget
 			return new Cairo.ImageSurface (Cairo.Format.ARGB32, 0, 0);	
 		}
 
+		#endregion
+
 		protected void OnCbBoardTypeChanged (object sender, EventArgs e)
 		{
 			MCUImagepath = Boards [cbBoardType.Active].ImageFilePath;
 			drawingarea1.QueueDraw ();
+
+			if (OnBoardSelected != null)
+			{
+				OnBoardSelected.Invoke (this, new BoardSelectionArgs (Boards [cbBoardType.Active]));
+			}
 		}
 	}
 }
