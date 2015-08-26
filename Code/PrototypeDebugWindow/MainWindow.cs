@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Linq;
-using Gtk;
-using PrototypeBackend;
-using System.Threading.Tasks;
-using GUIHelper;
-using System.Threading;
-using Logger;
-using IniParser;
-using OxyPlot;
-using OxyPlot.GtkSharp;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using Gtk;
+using GUIHelper;
+using Logger;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.GtkSharp;
+using OxyPlot.Series;
+using PrototypeBackend;
 
 namespace Frontend
 {
@@ -25,7 +23,7 @@ namespace Frontend
 		private Gtk.NodeStore NodeStoreDigitalPins = new NodeStore (typeof(DPinTreeNode));
 		private Gtk.NodeStore NodeStoreAnalogPins = new NodeStore (typeof(APinTreeNode));
 		private Gtk.NodeStore NodeStoreSequences = new NodeStore (typeof(SequenceTreeNode));
-		private Gtk.NodeStore NodeStoreSignals = new NodeStore (typeof(SignalTreeNode));
+		private Gtk.NodeStore NodeStoreMeasurementCombinations = new NodeStore (typeof(MeasurementCombinationTreeNode));
 
 		private PlotView SequencePreviewPlotView;
 		private PlotModel SequencePreviewPlotModel;
@@ -72,21 +70,7 @@ namespace Frontend
 						{
 							if (mcuW.SelectedBoard.MCU != ArduinoController.MCU)
 							{
-								var dialog = new MessageDialog (
-									             this, 
-									             DialogFlags.Modal, 
-									             MessageType.Info, 
-									             ButtonsType.YesNo, 
-									             "Apparently a connection was established to a Board, which does not meet the selected Board by you.\nDo you want to replace you selection with the connected Board?");
-								dialog.Response += (o, args) =>
-								{
-									if (args.ResponseId == ResponseType.Yes)
-									{
-										mcuW.Select (ArduinoController.MCU);
-									}
-								};
-								dialog.Run ();
-								dialog.Destroy ();
+								Application.Invoke (RunMCUMessageDialog);
 							}
 						}
 					}
@@ -111,9 +95,20 @@ namespace Frontend
 			BuildSequencePreviewPlot ();
 
 			#if DEBUG
-			con.ConLogger.NewMessage += 
-				(sender, e) => tvLog.Buffer.Text += 
-					String.Format ("{0} | {1} | {2}\n", e.Time.ToString ("T"), e.Level, e.Message);
+//			con.ConLogger.NewMessage += 
+//				(sender, e) =>
+//			{
+//				try
+//				{
+//					if (tvLog.Buffer != null)
+//					{
+//						tvLog.Buffer.Text += 
+//					String.Format ("{0} | {1} | {2}\n", e.Time.ToString ("T"), e.Level, e.Message);
+//					}
+//				} catch (Exception)
+//				{
+//				}
+//			};
 			#endif
 			#if RELEASE
 			con.ConLogger.NewMessage += 
@@ -151,7 +146,7 @@ namespace Frontend
 
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
-			nvSignals.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
+			nvMeasurementCombinations.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 			nvAnalogPins.ButtonPressEvent += new ButtonPressEventHandler (OnAnalogPinNodePressed);
 
 			TimeKeeperPresenter = new System.Timers.Timer (500);
@@ -182,9 +177,9 @@ namespace Frontend
 					} else if (node is APinTreeNode)
 					{
 						con.RemovePin ((node as APinTreeNode).Index);
-					} else if (node is SignalTreeNode)
+					} else if (node is MeasurementCombinationTreeNode)
 					{
-						con.RemoveSignal ((node as SignalTreeNode).Index);
+						con.RemoveMeasurementCombination ((node as MeasurementCombinationTreeNode).Index);
 					}
 				};
 				m.Add (deleteItem);
@@ -212,14 +207,14 @@ namespace Frontend
 
 					MenuItem addSignal = new MenuItem ("Add new Signal");
 					MenuItem editSignal = new MenuItem ("Edit Signal");
-					if (pin.PinSignal == null)
+					if (pin.Combination == null)
 					{
 						editSignal.Sensitive = false;
 						addSignal.ButtonPressEvent += (o, args) => RunSignalDialog (null, pin.Pin);
 					} else
 					{
 						addSignal.Sensitive = false;
-						editSignal.ButtonPressEvent += (o, args) => RunSignalDialog (pin.PinSignal);
+						editSignal.ButtonPressEvent += (o, args) => RunSignalDialog (pin.Combination);
 					}
 
 					m.Add (addSignal);
@@ -296,7 +291,7 @@ namespace Frontend
 			{
 				if (pin.Type == PinType.ANALOG)
 				{
-					NodeStoreAnalogPins.AddNode (new APinTreeNode (pin as APin, index, con.GetCorespondingSignal (pin as APin)));
+					NodeStoreAnalogPins.AddNode (new APinTreeNode (pin as APin, index, con.GetCorespondingCombination (pin as APin)));
 					index++;
 				}
 			}
@@ -317,12 +312,12 @@ namespace Frontend
 		private void FillSignalNodes ()
 		{
 			FillAnalogPinNodes ();
-			NodeStoreSignals.Clear ();
-			for (int i = 0; i < con.ControllerSignals.Count; i++)
+			NodeStoreMeasurementCombinations.Clear ();
+			for (int i = 0; i < con.ControllerMeasurementCombinations.Count; i++)
 			{
-				NodeStoreSignals.AddNode (new SignalTreeNode (con.ControllerSignals [i], i));
+				NodeStoreMeasurementCombinations.AddNode (new MeasurementCombinationTreeNode (con.ControllerMeasurementCombinations [i], i));
 			}
-			nvSignals.QueueDraw ();
+			nvMeasurementCombinations.QueueDraw ();
 		}
 
 		#endregion
@@ -466,8 +461,7 @@ namespace Frontend
 			nvDigitalPins.Show ();
 			#endregion
 
-			#region Analog
-
+			#region Measurment
 			nvAnalogPins.NodeStore = NodeStoreAnalogPins;
 			nvAnalogPins.RowActivated += (o, args) =>
 			{
@@ -485,7 +479,7 @@ namespace Frontend
 			nvAnalogPins.AppendColumn ("Unit", new Gtk.CellRendererText (), "text", 5);
 			nvAnalogPins.AppendColumn ("Frequency", new Gtk.CellRendererText (), "text", 6);
 			nvAnalogPins.AppendColumn ("Interval", new Gtk.CellRendererText (), "text", 7);
-			nvAnalogPins.AppendColumn ("Signal", new Gtk.CellRendererText (), "text", 8);
+			nvAnalogPins.AppendColumn ("Combination", new Gtk.CellRendererText (), "text", 8);
 
 			nvAnalogPins.Show ();
 			#endregion
@@ -509,21 +503,20 @@ namespace Frontend
 			nvSequences.Show ();
 			#endregion
 
-			#region Signals
-
-			nvSignals.NodeStore = NodeStoreSignals;
-			nvSignals.RowActivated += (o, args) =>
+			#region MeasurementCombinations
+			nvMeasurementCombinations.NodeStore = NodeStoreMeasurementCombinations;
+			nvMeasurementCombinations.RowActivated += (o, args) =>
 			{
-				var sig = con.ControllerSignals [((o as NodeView).NodeSelection.SelectedNode as SignalTreeNode).Index];
+				var sig = con.ControllerMeasurementCombinations [((o as NodeView).NodeSelection.SelectedNode as MeasurementCombinationTreeNode).Index];
 				RunSignalDialog (sig);
 			};
-			nvSignals.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
-			nvSignals.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
-			nvSignals.AppendColumn (new TreeViewColumn ("Pin-Name", new CellRendererText (), "text", 2));
-			nvSignals.AppendColumn (new TreeViewColumn ("Pin-Number", new CellRendererText (), "text", 3));
-			nvSignals.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 4));
-			nvSignals.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 5));
-			nvSignals.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 6));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin-Name", new CellRendererText (), "text", 2));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin-Number", new CellRendererText (), "text", 3));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 4));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 5));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 6));
 			#endregion
 		}
 
@@ -825,10 +818,10 @@ namespace Frontend
 
 		protected void OnBtnEditSignalClicked (object sender, EventArgs e)
 		{
-			SignalTreeNode node = (SignalTreeNode)nvSignals.NodeSelection.SelectedNode;
+			MeasurementCombinationTreeNode node = (MeasurementCombinationTreeNode)nvMeasurementCombinations.NodeSelection.SelectedNode;
 			if (node != null)
 			{
-				var seq = con.ControllerSignals [node.Index];
+				var seq = con.ControllerMeasurementCombinations [node.Index];
 				RunSignalDialog (seq);
 			}
 		}
@@ -858,10 +851,10 @@ namespace Frontend
 
 		protected void OnBtnRemoveSignalClicked (object sender, EventArgs e)
 		{
-			SignalTreeNode node = (SignalTreeNode)nvSignals.NodeSelection.SelectedNode;
+			MeasurementCombinationTreeNode node = (MeasurementCombinationTreeNode)nvMeasurementCombinations.NodeSelection.SelectedNode;
 			if (node != null)
 			{
-				con.RemoveSignal (node.Index);
+				con.RemoveMeasurementCombination (node.Index);
 			}
 		}
 
@@ -876,7 +869,7 @@ namespace Frontend
 
 		protected void OnBtnClearSignalsClicked (object sender, EventArgs e)
 		{
-			con.ClearSignals ();
+			con.ClearMeasurementCombinations ();
 		}
 
 		protected void OnBtnClearAPinsClicked (object sender, EventArgs e)
@@ -1002,20 +995,39 @@ namespace Frontend
 			dialog.Destroy ();
 		}
 
-		private void RunSignalDialog (Signal sig = null, APin refPin = null)
+		private void RunSignalDialog (MeasurementCombination sig = null, APin refPin = null)
 		{
-			var dialog = new SignalConfigurationDialog.SignalConfigurationDialog (con.GetApinsWithoutSingal (), sig, refPin, this);
+			var dialog = new SignalConfigurationDialog.MeasurementCombinationDialog (con.GetApinsWithoutCombination (), sig, refPin, this);
 			dialog.Response += (o, args) =>
 			{
 				if (args.ResponseId == ResponseType.Apply)
 				{
 					if (sig == null)
 					{
-						con.AddSignal (dialog.AnalogSignal);
+						con.AddMeasurementCombination (dialog.Combination);
 					} else
 					{
-						con.SetSignal (con.ControllerSignals.IndexOf (sig), dialog.AnalogSignal);
+						con.SetMeasurmentCombination (con.ControllerMeasurementCombinations.IndexOf (sig), dialog.Combination);
 					}
+				}
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		protected void RunMCUMessageDialog (object sender = null, EventArgs e = null)
+		{
+			var dialog = new MessageDialog (
+				             this, 
+				             DialogFlags.Modal, 
+				             MessageType.Info, 
+				             ButtonsType.YesNo, 
+				             "Apparently a connection was established to a Board, which does not meet the selected Board by you.\nDo you want to replace you selection with the connected Board?");
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Yes)
+				{
+					mcuW.Select (ArduinoController.MCU);
 				}
 			};
 			dialog.Run ();
@@ -1034,7 +1046,7 @@ namespace Frontend
 			{
 				con.Start ();
 				lblStartTime.Text = con.StartTime.ToString ("G");
-				TimeKeeperPresenter.Start ();
+//				TimeKeeperPresenter.Start ();
 			}
 		}
 
@@ -1060,7 +1072,7 @@ namespace Frontend
 			nvAnalogPins.Sensitive = sensitive;
 			nvDigitalPins.Sensitive = sensitive;
 			nvSequences.Sensitive = sensitive;
-			nvSignals.Sensitive = sensitive;
+			nvMeasurementCombinations.Sensitive = sensitive;
 
 			SequencePreviewPlotView.Sensitive = sensitive;
 		}
@@ -1128,6 +1140,44 @@ namespace Frontend
 					}
 				});
 				i += 2;
+			}
+		}
+
+
+		protected void OnBtnAlternateBlinkSetup2Clicked (object sender, EventArgs e)
+		{
+			con.ClearPins ();
+			con.ClearSequences ();
+
+			OnBtnFillDigitalOutputsClicked (null, null);
+
+			int i = 0;
+			while (i < con.ControllerPins.Count)
+			{
+				var seq = new Sequence () {
+					Pin = (DPin)con.ControllerPins [i],
+					Repetitions = 0,
+				};
+				seq.Chain.Add (new SequenceOperation () {
+					Duration = TimeSpan.FromSeconds (i),
+					State = DPinState.LOW
+				});
+
+				for (int j = 0; j < 50; j++)
+				{
+					seq.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromSeconds (con.ControllerPins.Count),
+						State = DPinState.HIGH
+					});
+					seq.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromSeconds (con.ControllerPins.Count),
+						State = DPinState.LOW
+					});
+				}
+
+				con.ControllerSequences.Add (seq);
+
+				i += 1;
 			}
 		}
 

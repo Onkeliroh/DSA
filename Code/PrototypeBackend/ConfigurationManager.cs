@@ -73,7 +73,7 @@ namespace PrototypeBackend
 							MCU = sd.Keys.GetKeyData ("MCU").Value,
 							ImageFilePath = sd.Keys.GetKeyData ("ImagePath").Value,
 							SDA = Convert.ToUInt32 (sd.Keys.GetKeyData ("SDA").Value),
-							SDC = Convert.ToUInt32 (sd.Keys.GetKeyData ("SDC").Value),
+							SCL = Convert.ToUInt32 (sd.Keys.GetKeyData ("SCL").Value),
 							RX = Convert.ToUInt32 (sd.Keys.GetKeyData ("RX").Value),
 							TX = Convert.ToUInt32 (sd.Keys.GetKeyData ("TX").Value),
 							UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),

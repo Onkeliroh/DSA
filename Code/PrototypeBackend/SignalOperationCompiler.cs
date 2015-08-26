@@ -7,7 +7,7 @@ using System.Reflection;
 namespace PrototypeBackend
 {
 
-	public static class SignalOperationCompiler
+	public static class OperationCompiler
 	{
 		/// <summary>
 		/// Compiles a mathematical operation given by a string and constrained by the available parameters.

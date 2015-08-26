@@ -51,7 +51,7 @@ namespace AnalogPinConfigurationDialog
 			global::Stetic.Gui.Initialize (this);
 			// Widget AnalogPinConfigurationDialog.AnalogPinConfiguration
 			this.Name = "AnalogPinConfigurationDialog.AnalogPinConfiguration";
-			this.Title = global::Mono.Unix.Catalog.GetString ("Analog Input Configuration Dialog");
+			this.Title = global::Mono.Unix.Catalog.GetString ("Measurment Configuration Dialog");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Internal child AnalogPinConfigurationDialog.AnalogPinConfiguration.VBox
 			global::Gtk.VBox w1 = this.VBox;

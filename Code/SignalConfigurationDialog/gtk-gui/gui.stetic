@@ -9,7 +9,7 @@
     <widget-library name="../bin/Debug/SignalConfigurationDialog.dll" internal="true" />
     <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
   </import>
-  <widget class="Gtk.Dialog" id="SignalConfigurationDialog.SignalConfigurationDialog" design-size="676 300">
+  <widget class="Gtk.Dialog" id="SignalConfigurationDialog.MeasurementCombinationDialog" design-size="739 300">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
@@ -147,7 +147,7 @@
                         <child>
                           <widget class="Gtk.Label" id="label1">
                             <property name="MemberName" />
-                            <property name="LabelProp" translatable="yes">Available Inputs:</property>
+                            <property name="LabelProp" translatable="yes">Available Measurements:</property>
                           </widget>
                           <packing>
                             <property name="TopAttach">1</property>
@@ -186,22 +186,10 @@
             <child>
               <widget class="Gtk.Table" id="table2">
                 <property name="MemberName" />
-                <property name="NRows">8</property>
+                <property name="NRows">7</property>
                 <property name="NColumns">3</property>
                 <property name="RowSpacing">6</property>
                 <property name="ColumnSpacing">6</property>
-                <child>
-                  <placeholder />
-                </child>
-                <child>
-                  <placeholder />
-                </child>
-                <child>
-                  <placeholder />
-                </child>
-                <child>
-                  <placeholder />
-                </child>
                 <child>
                   <placeholder />
                 </child>
@@ -219,10 +207,9 @@
                     <property name="BottomAttach">5</property>
                     <property name="LeftAttach">2</property>
                     <property name="RightAttach">3</property>
-                    <property name="AutoSize">True</property>
-                    <property name="XOptions">Fill</property>
+                    <property name="AutoSize">False</property>
                     <property name="YOptions">Fill</property>
-                    <property name="XExpand">False</property>
+                    <property name="XExpand">True</property>
                     <property name="XFill">True</property>
                     <property name="XShrink">False</property>
                     <property name="YExpand">False</property>
@@ -243,10 +230,9 @@
                     <property name="BottomAttach">3</property>
                     <property name="LeftAttach">2</property>
                     <property name="RightAttach">3</property>
-                    <property name="AutoSize">True</property>
-                    <property name="XOptions">Fill</property>
+                    <property name="AutoSize">False</property>
                     <property name="YOptions">Fill</property>
-                    <property name="XExpand">False</property>
+                    <property name="XExpand">True</property>
                     <property name="XFill">True</property>
                     <property name="XShrink">False</property>
                     <property name="YExpand">False</property>
@@ -266,10 +252,9 @@
                   <packing>
                     <property name="LeftAttach">2</property>
                     <property name="RightAttach">3</property>
-                    <property name="AutoSize">True</property>
-                    <property name="XOptions">Fill</property>
+                    <property name="AutoSize">False</property>
                     <property name="YOptions">Fill</property>
-                    <property name="XExpand">False</property>
+                    <property name="XExpand">True</property>
                     <property name="XFill">True</property>
                     <property name="XShrink">False</property>
                     <property name="YExpand">False</property>
@@ -296,10 +281,9 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                     <property name="BottomAttach">2</property>
                     <property name="LeftAttach">2</property>
                     <property name="RightAttach">3</property>
-                    <property name="AutoSize">True</property>
-                    <property name="XOptions">Fill</property>
+                    <property name="AutoSize">False</property>
                     <property name="YOptions">Fill</property>
-                    <property name="XExpand">False</property>
+                    <property name="XExpand">True</property>
                     <property name="XFill">True</property>
                     <property name="XShrink">False</property>
                     <property name="YExpand">False</property>
@@ -397,7 +381,7 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                   <widget class="Gtk.Label" id="label6">
                     <property name="MemberName" />
                     <property name="Xalign">0</property>
-                    <property name="LabelProp" translatable="yes">Unit:</property>
+                    <property name="LabelProp" translatable="yes">Interval:</property>
                   </widget>
                   <packing>
                     <property name="TopAttach">3</property>
@@ -416,13 +400,37 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Label" id="label8">
+                  <widget class="Gtk.Label" id="label7">
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="TopAttach">7</property>
-                    <property name="BottomAttach">8</property>
+                    <property name="TopAttach">6</property>
+                    <property name="BottomAttach">7</property>
                     <property name="LeftAttach">2</property>
+                    <property name="RightAttach">3</property>
+                    <property name="AutoSize">False</property>
+                    <property name="XExpand">True</property>
+                    <property name="XFill">True</property>
+                    <property name="XShrink">False</property>
+                    <property name="YExpand">True</property>
+                    <property name="YFill">True</property>
+                    <property name="YShrink">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="lblWarning">
+                    <property name="MemberName" />
+                    <property name="Visible">False</property>
+                    <property name="LabelProp" translatable="yes">&lt;b&gt;Please note:&lt;/b&gt;
+You have selected measurements, who's frequency and/or interval are not compatible.
+In order to apply the operation, the last available measurement-data will be used.</property>
+                    <property name="UseMarkup">True</property>
+                    <property name="Wrap">True</property>
+                  </widget>
+                  <packing>
+                    <property name="TopAttach">5</property>
+                    <property name="BottomAttach">6</property>
+                    <property name="LeftAttach">1</property>
                     <property name="RightAttach">3</property>
                     <property name="AutoSize">False</property>
                     <property name="XExpand">True</property>
@@ -449,10 +457,9 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                     <property name="BottomAttach">4</property>
                     <property name="LeftAttach">2</property>
                     <property name="RightAttach">3</property>
-                    <property name="AutoSize">True</property>
-                    <property name="XOptions">Fill</property>
+                    <property name="AutoSize">False</property>
                     <property name="YOptions">Fill</property>
-                    <property name="XExpand">False</property>
+                    <property name="XExpand">True</property>
                     <property name="XFill">True</property>
                     <property name="XShrink">False</property>
                     <property name="YExpand">False</property>
@@ -465,7 +472,7 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="BottomAttach">8</property>
+                    <property name="BottomAttach">7</property>
                     <property name="AutoSize">True</property>
                     <property name="XOptions">Fill</property>
                     <property name="XExpand">False</property>

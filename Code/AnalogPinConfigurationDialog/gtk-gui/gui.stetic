@@ -10,7 +10,7 @@
   </import>
   <widget class="Gtk.Dialog" id="AnalogPinConfigurationDialog.AnalogPinConfiguration" design-size="276 308">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">Analog Input Configuration Dialog</property>
+    <property name="Title" translatable="yes">Measurment Configuration Dialog</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>

@@ -48,8 +48,8 @@
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignalConfigurationDialog.cs" />
-    <Compile Include="gtk-gui\SignalConfigurationDialog.SignalConfigurationDialog.cs" />
+    <Compile Include="MeasurementCombinationDialog.cs" />
+    <Compile Include="gtk-gui\SignalConfigurationDialog.MeasurementCombinationDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

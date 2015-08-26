@@ -38,6 +38,7 @@ namespace PrototypeBackend
 		GetPinModeMask,
 		GetAnalogReference,
 		GetAnalogPinNumbers,
+		GetSDASCL,
 	};
 
 	public enum PinMode
@@ -69,6 +70,8 @@ namespace PrototypeBackend
 		public static event EventHandler<ConnectionChangedArgs> OnConnectionChanged;
 		public static event EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public static event EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
+		public static event EventHandler<CommunicationArgs> OnSendMessage;
+		public static event EventHandler<CommunicationArgs> OnReceiveMessage;
 
 		#endregion
 
@@ -126,7 +129,7 @@ namespace PrototypeBackend
 		}
 
 		public static string MCU {
-			private set{ _board.MCU = MCU; }
+			private set{ _board.MCU = value; }
 			get{ return _board.MCU; }
 		}
 
@@ -182,6 +185,7 @@ namespace PrototypeBackend
 					GetNumberAnalogPins ();
 					GetNumberDigitalPins ();
 					GetAnalogPinNumbers ();
+					GetSDASCLRXTX ();
 				}
 			};
 
@@ -205,10 +209,12 @@ namespace PrototypeBackend
 						System.Threading.Thread.Sleep (2000);
 						if (IsConnected)
 							break;
+						Disconnect ();
 						Setup (true);
 						System.Threading.Thread.Sleep (2000);
 						if (IsConnected)
 							break;
+						Disconnect ();
 					}
 				}
 			});
@@ -243,8 +249,8 @@ namespace PrototypeBackend
 				// Start listening
 //				IsConnected = _cmdMessenger.Connect ();
 				_cmdMessenger.Connect ();
+				#endif
 			}
-			#endif
 		}
 
 		// Exit function
@@ -253,11 +259,17 @@ namespace PrototypeBackend
 			#if !FAKESERIAL
 			// Stop listening
 			AutoConnect = false;
-			_cmdMessenger.Disconnect ();
+			if (IsConnected)
+			{
+				_cmdMessenger.Disconnect ();
+			}
 
-			#endif
 			// Dispose Command Messenger
-			_cmdMessenger.Dispose ();
+			if (_cmdMessenger != null)
+			{
+				_cmdMessenger.Dispose ();
+			}
+			#endif
 		}
 
 		public static void Disconnect ()
@@ -332,6 +344,11 @@ namespace PrototypeBackend
 			#if DEBUG
 			Console.WriteLine (@"Received > " + e.Command.CommandString ());
 			#endif
+
+			if (OnReceiveMessage != null)
+			{
+				OnReceiveMessage.Invoke (null, new CommunicationArgs (e.Command.CommandString ()));
+			}
 		}
 
 		// Log sent line to console
@@ -340,6 +357,10 @@ namespace PrototypeBackend
 			#if DEBUG
 			Console.WriteLine (DateTime.Now + @": Sent > " + e.Command.CommandString ());
 			#endif
+			if (OnSendMessage != null)
+			{
+				OnSendMessage.Invoke (null, new CommunicationArgs (e.Command.CommandString ()));
+			}
 		}
 
 		#endregion
@@ -458,7 +479,9 @@ namespace PrototypeBackend
 			var returnVal = _cmdMessenger.SendCommand (command);
 			if (returnVal.Ok)
 			{
+//				var tmp = returnVal.ReadStringArg ();
 				MCU = returnVal.ReadStringArg ().ToLower ();
+//				Console.WriteLine (MCU);
 			}
 		}
 
@@ -554,6 +577,19 @@ namespace PrototypeBackend
 			}
 		}
 
+		public static void GetSDASCLRXTX ()
+		{
+			var command = new SendCommand ((int)Command.GetSDASCL, (int)Command.GetSDASCL, 1000);
+			var returnVal = _cmdMessenger.SendCommand (command);
+			if (returnVal.Ok)
+			{
+				Board.SDA = returnVal.ReadUInt32Arg ();
+				Board.SCL = returnVal.ReadUInt32Arg ();
+				Board.RX = returnVal.ReadUInt32Arg ();
+				Board.TX = returnVal.ReadUInt32Arg ();
+			}
+		}
+
 		#endregion
 	}
 
@@ -564,21 +600,15 @@ namespace PrototypeBackend
 
 		public uint[] HardwareAnalogPins { get ; set; }
 
-		public uint SDA;
-		public uint SDC;
+		public uint SDA = 18;
+		public uint SCL = 19;
 		public uint RX = 0;
 		public uint TX = 1;
 
 		public Dictionary<string,int> AnalogReferences = new Dictionary<string, int> ();
 
-		public double AnalogReferenceVoltage {
-			get{ return AnalogReferenceVoltage_; }
-			set {
-				AnalogReferenceVoltage_ = value;
-			}
-		}
+		public double AnalogReferenceVoltage;
 
-		private double AnalogReferenceVoltage_;
 
 		public string Version = "";
 		public string MCU = "";
@@ -591,7 +621,7 @@ namespace PrototypeBackend
 		public Board ()
 		{
 			AnalogReferences = new Dictionary<string,int> ();
-			AnalogReferenceVoltage_ = 5;
+			AnalogReferenceVoltage = 5;
 			NumberOfAnalogPins = 6;
 			NumberOfDigitalPins = 20;
 			HardwareAnalogPins = new uint[]{ 15, 16, 17, 18, 19, 20 };
@@ -622,12 +652,23 @@ namespace PrototypeBackend
 		public override string ToString ()
 		{
 			return String.Format (
-				"Name: {0}\nModel: {1}\nNumber of analog Pins: {2}\nNumber of digital Pins: {3}\nAnalog reference voltage: {4}",
+				"Name: {0}\n" +
+				"Model: {1}\n" +
+				"Number of analog Pins: {2}\n" +
+				"Number of digital Pins: {3}\n" +
+				"Analog reference voltage: {4}\n" +
+				"Analog pin hardware numbers: {5}\n" +
+				"SDA: {6}\n" +
+				"SDC: {7}",
 				Name, 
 				MCU, 
 				NumberOfAnalogPins, 
 				NumberOfDigitalPins, 
-				AnalogReferenceVoltage);
+				AnalogReferenceVoltage,
+				NumberOfAnalogPins,
+				SDA,
+				SCL
+			);
 		}
 	}
 }

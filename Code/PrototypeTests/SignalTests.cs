@@ -10,7 +10,7 @@ namespace PrototypeTests
 		[Test ()]
 		public void SignalConstructorTest ()
 		{
-			Signal signal = new Signal ();
+			MeasurementCombination signal = new MeasurementCombination ();
 
 			Assert.AreEqual (0, signal.Pins.Count);
 			Assert.AreEqual (string.Empty, signal.SignalName);
@@ -21,7 +21,7 @@ namespace PrototypeTests
 		[Test ()]
 		public void SignalPinsTest ()
 		{
-			Signal signal = new Signal ();
+			MeasurementCombination signal = new MeasurementCombination ();
 
 			signal.Pins.Add (new APin () {
 				Name = "Temp1"

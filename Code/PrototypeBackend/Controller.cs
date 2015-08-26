@@ -19,11 +19,11 @@ namespace PrototypeBackend
 
 		//		private Thread sequenceThread;
 
-		private List<Task> sequenceThreads = new List<Task> ();
+		private List<Thread> sequenceThreads = new List<Thread> ();
 
 		public List<IPin> ControllerPins{ private set; get; }
 
-		public List<Signal> ControllerSignals { private set; get; }
+		public List<MeasurementCombination> ControllerMeasurementCombinations { private set; get; }
 
 		public List<Sequence> ControllerSequences;
 
@@ -62,7 +62,7 @@ namespace PrototypeBackend
 
 		public EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
 		public EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
-		public EventHandler<SignalsUpdatedArgs> SignalsUpdated;
+		public EventHandler<MeasurementCombinationsUpdatedArgs> SignalsUpdated;
 		public EventHandler<ControllerPinUpdateArgs> PinsUpdated;
 		public EventHandler<SequencesUpdatedArgs> SequencesUpdated;
 		public EventHandler OnControllerStarted;
@@ -74,19 +74,23 @@ namespace PrototypeBackend
 
 		public Controller ()
 		{
-			#if DEBUG
 			ConfigManager = new ConfigurationManager ("/home/onkeliroh/Bachelorarbeit/Resources/Config.ini");
+			#if DEBUG
 			BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
 			ConLogger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, true, false, LogLevel.DEBUG);
 			ConLogger.LogToFile = true;
 			ConLogger.Start ();
 			#else
-			ConLogger = new InfoLogger ("PrototypeBackendLog.txt", true, false, LogLevel.DEBUG);
-			ConLogger.LogToFile = true;
+			ConLogger = new InfoLogger (
+				ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, 
+				true, 
+				false
+			);
+			ConLogger.LogToFile = Convert.ToBoolean (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("LogToFile"));
 			ConfigManager = new ConfigurationManager ();
 			#endif
 
-			ControllerSignals = new List<Signal> ();
+			ControllerMeasurementCombinations = new List<MeasurementCombination> ();
 			ControllerPins = new List<IPin> ();
 			ControllerSequences = new List<Sequence> ();
 
@@ -96,6 +100,8 @@ namespace PrototypeBackend
 			ArduinoController.Init ();
 			ArduinoController.NewAnalogValue += OnNewArduinoNewAnalogValue;
 			ArduinoController.NewDigitalValue += OnNewArduinoNewDigitalValue;
+			ArduinoController.OnReceiveMessage += (sender, e) => ConLogger.Log ("IN < " + e.Message, LogLevel.DEBUG);
+			ArduinoController.OnSendMessage += (sender, e) => ConLogger.Log ("OUT > " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnConnectionChanged += ((o, e) =>
 			{
 				if (e.Connected)
@@ -104,7 +110,7 @@ namespace PrototypeBackend
 					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.DEBUG);
 					#endif
 					#if RELEASE
-					ConLogger.Log("Connected to " + ArduinoController.SerialPortName);
+					ConLogger.Log ("Connected to " + ArduinoController.SerialPortName);
 					#endif
 
 				} else
@@ -159,35 +165,16 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void AddSignal (Signal s)
+		public void AddMeasurementCombination (MeasurementCombination s)
 		{
-			if (!ControllerSignals.Contains (s))
+			if (!ControllerMeasurementCombinations.Contains (s))
 			{
-				if (s.SignalName == null || s.SignalName.Equals (string.Empty))
-				{
-					s.SignalName = "Signal" + (ControllerSignals.Count + 1);
-				}
-				ControllerSignals.Add (s);
+				ControllerMeasurementCombinations.Add (s);
 			}
 
 			if (SignalsUpdated != null)
 			{
-				SignalsUpdated.Invoke (this, new SignalsUpdatedArgs (UpdateOperation.Add, s));
-			}
-		}
-
-		public void AddSignalRange (Signal[] s)
-		{
-			foreach (Signal sc in s)
-			{
-				if (!ControllerSignals.Contains (sc))
-				{
-					ControllerSignals.Add (sc);
-				}
-			}
-			if (SignalsUpdated != null)
-			{
-				SignalsUpdated.Invoke (this, null);
+				SignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Add, s));
 			}
 		}
 
@@ -233,19 +220,19 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void SetSignal (int index, Signal s)
+		public void SetMeasurmentCombination (int index, MeasurementCombination s)
 		{
-			if (!ControllerSignals.Contains (s))
+			if (index >= 0 && index < ControllerMeasurementCombinations.Count)
 			{
-				AddSignal (s);
+				AddMeasurementCombination (s);
 			} else
 			{
 				if (s != null)
 				{
-					SignalsUpdated.Invoke (this, new SignalsUpdatedArgs (UpdateOperation.Change, s));
+					SignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Change, s));
 				}
-				ConLogger.Log ("Changed Signal from: " + ControllerPins [index] + " to " + s, LogLevel.DEBUG);
-				ControllerSignals [index] = s;
+				ConLogger.Log ("Changed Measurement Combination from: " + ControllerMeasurementCombinations [index] + " to " + s, LogLevel.DEBUG);
+				ControllerMeasurementCombinations [index] = s;
 			}
 		}
 
@@ -259,10 +246,6 @@ namespace PrototypeBackend
 					SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Change, ControllerSequences [index]));
 				}
 				ControllerSequences [index] = seq;
-				if (SequencesUpdated != null)
-				{
-					SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Change, ControllerSequences [index]));
-				}
 				BuildSequenceList ();
 			}
 		}
@@ -270,15 +253,6 @@ namespace PrototypeBackend
 		#endregion
 
 		#region Remove
-
-		public void RemoveScheduler (Signal s)
-		{
-			ControllerSignals.Remove (s);
-			if (SignalsUpdated != null)
-			{
-				SignalsUpdated.Invoke (this, null);
-			}
-		}
 
 		public void RemovePin (string name)
 		{
@@ -308,18 +282,16 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void RemoveSignal (int index)
+		public void RemoveMeasurementCombination (int index)
 		{
-			if (index >= 0 && index < ControllerSignals.Count)
+			var sig = new MeasurementCombination ();
+			sig = ControllerMeasurementCombinations [index];
+			ControllerMeasurementCombinations.RemoveAt (index);
+
+			ConLogger.Log ("Removed Measurement Combination: " + sig, LogLevel.DEBUG);
+			if (SignalsUpdated != null)
 			{
-				ConLogger.Log ("Removed Sequence: " + ControllerSignals [index], LogLevel.DEBUG);
-				var sig = new Signal ();
-				sig = ControllerSignals [index];
-				ControllerSignals.RemoveAt (index);
-				if (SignalsUpdated != null)
-				{
-					SignalsUpdated.Invoke (this, new SignalsUpdatedArgs (UpdateOperation.Remove, sig));
-				}
+				SignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Remove, sig));
 			}
 		}
 
@@ -352,25 +324,13 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void RemoveSchedulerRange (Signal[] s)
-		{
-			foreach (Signal sc in s)
-			{
-				ControllerSignals.Remove (sc);
-			}
-			if (SignalsUpdated != null)
-			{
-				SignalsUpdated.Invoke (this, null);
-			}
-		}
-
 		#endregion
 
 		#region Clear
 
 		public void ClearScheduler ()
 		{
-			ControllerSignals.Clear ();
+			ControllerMeasurementCombinations.Clear ();
 			if (SignalsUpdated != null)
 			{
 				SignalsUpdated.Invoke (this, null);
@@ -392,13 +352,13 @@ namespace PrototypeBackend
 			ControllerPins.Clear ();
 		}
 
-		public void ClearSignals ()
+		public void ClearMeasurementCombinations ()
 		{
-			ControllerSignals.Clear ();
+			ControllerMeasurementCombinations.Clear ();
 
 			if (SignalsUpdated != null)
 			{
-				SignalsUpdated.Invoke (this, new SignalsUpdatedArgs (UpdateOperation.Clear, null));
+				SignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Clear, null));
 			}
 		}
 
@@ -469,10 +429,24 @@ namespace PrototypeBackend
 		{
 			var sw = new Stopwatch ();
 			sw.Start ();
+			try
+			{
+				foreach (Thread th in sequenceThreads)
+				{
+					if (th.ThreadState != System.Threading.ThreadState.Unstarted)
+					{
+						th.Join ();
+					}
+				}
+			} catch (Exception ex)
+			{
+				ConLogger.Log (ex.ToString ());
+			}
 			sequenceThreads.Clear ();
+			GC.Collect ();
 			foreach (Sequence seq in ControllerSequences)
 			{
-				var seqThread = new Task (
+				var seqThread = new Thread (
 					                () =>
 					{
 						SequenceOperation op = (SequenceOperation)seq.Current ();
@@ -480,16 +454,19 @@ namespace PrototypeBackend
 						{
 							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation))
 							{
+								ConLogger.Log (seq.Name, LogLevel.DEBUG);
 								//TODO Zeit messen
 								ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
 								Thread.Sleep (op.Duration);
 								op = (SequenceOperation)seq.Next ();
 							}
 						}	
+						ConLogger.Log (seq.Name + "exiting", LogLevel.DEBUG);
 						seq.Reset ();
-						bool res = sequenceThreads.Any (o => o.Status != TaskStatus.RanToCompletion);
+						bool res = sequenceThreads.Any (o => o.ThreadState != System.Threading.ThreadState.Stopped);
 						running = !res;
 					});
+				seqThread.Priority = ThreadPriority.Highest;
 				sequenceThreads.Add (seqThread);
 			}
 			ConLogger.Log ("BuildSequenceList took " + sw.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
@@ -507,7 +484,7 @@ namespace PrototypeBackend
 			//TODO signal verarbeitung
 		}
 
-		#region IntelMethos
+		#region IntelMethods
 
 		public int[] GetUsedPins (PinType type)
 		{
@@ -529,7 +506,7 @@ namespace PrototypeBackend
 			return array;
 		}
 
-		public APin[] GetApinsWithoutSingal ()
+		public APin[] GetApinsWithoutCombination ()
 		{
 			var pins = ControllerPins.Where (o => o.Type == PinType.ANALOG).ToList<IPin> ();
 
@@ -574,9 +551,9 @@ namespace PrototypeBackend
 			return unusedpins.ToArray ();
 		}
 
-		public Signal GetCorespondingSignal (APin pin)
+		public MeasurementCombination GetCorespondingCombination (APin pin)
 		{
-			foreach (Signal sig in ControllerSignals)
+			foreach (MeasurementCombination sig in ControllerMeasurementCombinations)
 			{
 				if (sig.Pins.Contains (pin))
 				{

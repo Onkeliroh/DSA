@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "..\PrototypeDeb
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUIElements", "GUIElements", "{A12F99B0-3709-47FD-B8A9-6101257C8F16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalogPinConfigurationDialog", "..\AnalogPinConfigurationDialog\AnalogPinConfigurationDialog.csproj", "{FFC2AF04-F784-438D-83A2-6467A27248E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasurmentConfigurationDialog", "..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj", "{FFC2AF04-F784-438D-83A2-6467A27248E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalPinConfigurationDialog", "..\DigitalPinConfigurationDialog\DigitalPinConfigurationDialog.csproj", "{6CB4019B-7C2D-4009-95A4-DAE460252C04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalConfigurationDialog", "..\SignalConfigurationDialog\SignalConfigurationDialog.csproj", "{8538A3C9-0CE5-497E-9B4B-4663B0464859}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasurementCombinationDialog", "..\SignalConfigurationDialog\MeasurementCombinationDialog.csproj", "{8538A3C9-0CE5-497E-9B4B-4663B0464859}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIHelper", "..\GUIHelper\GUIHelper.csproj", "{2B884C8B-58D1-4299-A844-6377FD6EDBEE}"
 EndProject

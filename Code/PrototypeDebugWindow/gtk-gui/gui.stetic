@@ -109,7 +109,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">4</property>
+                <property name="CurrentPage">1</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -171,7 +171,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-add Menu</property>
-                                        <property name="Label" translatable="yes">Add analog input...</property>
+                                        <property name="Label" translatable="yes">Add Measurement...</property>
                                         <property name="UseUnderline">True</property>
                                         <signal name="Clicked" handler="OnBtnAddAPinClicked" />
                                       </widget>
@@ -188,7 +188,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-edit Menu</property>
-                                        <property name="Label" translatable="yes">Edit analog input...</property>
+                                        <property name="Label" translatable="yes">Edit Measurement...</property>
                                         <property name="UseUnderline">True</property>
                                         <signal name="Clicked" handler="OnBtnEditAPinClicked" />
                                       </widget>
@@ -206,7 +206,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-remove Menu</property>
-                                        <property name="Label" translatable="yes">Delete analog input</property>
+                                        <property name="Label" translatable="yes">Delete Measurement</property>
                                         <property name="UseUnderline">True</property>
                                         <signal name="Clicked" handler="OnBtnRemoveAPinClicked" />
                                       </widget>
@@ -278,7 +278,7 @@
                 <child>
                   <widget class="Gtk.Label" id="label6">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Input</property>
+                    <property name="LabelProp" translatable="yes">Measurements</property>
                   </widget>
                   <packing>
                     <property name="type">tab</property>
@@ -310,7 +310,7 @@
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-add Menu</property>
-                                    <property name="Label" translatable="yes">Add Signal...</property>
+                                    <property name="Label" translatable="yes">Add Combination...</property>
                                     <property name="UseUnderline">True</property>
                                     <signal name="Clicked" handler="OnBtnAddSignalClicked" />
                                   </widget>
@@ -327,7 +327,7 @@
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-edit Menu</property>
-                                    <property name="Label" translatable="yes">EditSignal...</property>
+                                    <property name="Label" translatable="yes">Edit Combination...</property>
                                     <property name="UseUnderline">True</property>
                                     <signal name="Clicked" handler="OnBtnEditSignalClicked" />
                                   </widget>
@@ -345,7 +345,7 @@
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-remove Menu</property>
-                                    <property name="Label" translatable="yes">Delete Signal</property>
+                                    <property name="Label" translatable="yes">Delete Combination</property>
                                     <property name="UseUnderline">True</property>
                                     <signal name="Clicked" handler="OnBtnRemoveSignalClicked" />
                                   </widget>
@@ -387,7 +387,7 @@
                                 <property name="MemberName" />
                                 <property name="ShadowType">In</property>
                                 <child>
-                                  <widget class="Gtk.NodeView" id="nvSignals">
+                                  <widget class="Gtk.NodeView" id="nvMeasurementCombinations">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="ShowScrollbars">True</property>
@@ -423,7 +423,7 @@
                 <child>
                   <widget class="Gtk.Label" id="label7">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Analog Signals</property>
+                    <property name="LabelProp" translatable="yes">Measurement Combinations</property>
                   </widget>
                   <packing>
                     <property name="type">tab</property>
@@ -897,12 +897,13 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="button76">
+                          <widget class="Gtk.Button" id="btnAlternateBlinkSetup2">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">GtkButton</property>
+                            <property name="Label" translatable="yes">Alternate Blink Setup 2</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnAlternateBlinkSetup2Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">9</property>

@@ -64,12 +64,12 @@
     <Compile Include="IPin.cs" />
     <Compile Include="DPin.cs" />
     <Compile Include="APin.cs" />
-    <Compile Include="Signal.cs" />
     <Compile Include="SignalOperationCompiler.cs" />
     <Compile Include="SequenceOperation.cs" />
     <Compile Include="Sequence.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="MeasurementCombination.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

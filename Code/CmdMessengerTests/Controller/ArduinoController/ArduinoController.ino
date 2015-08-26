@@ -36,6 +36,7 @@ enum
   kGetPinModeMask,
   kGetAnalogReference,
   kGetAnalogPinNumbers,
+  kGetSDASCLRXTX,
 };
 
 //DEFINITIONS-------------------------------------------------------------------
@@ -65,6 +66,7 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kGetPinModeMask, OnGetPinModeMask);
   cmdMessenger.attach(kGetAnalogReference, OnGetAnalogReference);
   cmdMessenger.attach(kGetAnalogPinNumbers, OnGetAnalogPinNumbers);
+  cmdMessenger.attach(kGetSDASCLRXTX,OnGetSDASCLRXTX);
 }
 
 // Called when a received command has no attached function
@@ -722,17 +724,24 @@ void OnGetAnalogReference()
 void OnGetAnalogPinNumbers()
 {
   cmdMessenger.sendCmdStart(kGetAnalogPinNumbers);
-  //for(int i=0; i<NUM_ANALOG_INPUTS;i++)
-  //{
-    //int num = analogInputToDigitalPin(i);
-    //cmdMessenger.sendCmdArg(num);
-  //}
   int i = 0;
   while(i <=NUM_ANALOG_INPUTS)
   {
     cmdMessenger.sendCmdArg( analogInputToDigitalPin( i ) );
     i += 1;
   }
+  cmdMessenger.sendCmdEnd();
+}
+
+void OnGetSDASCLRXTX()
+{
+  cmdMessenger.sendCmdStart(kGetSDASCLRXTX);
+  cmdMessenger.sendCmdArg(SDA);
+  cmdMessenger.sendCmdArg(SCL);
+  //cmdMessenger.sendCmdArg(RX);
+  //cmdMessenger.sendCmdArg(TX);
+  cmdMessenger.sendCmdArg(0);
+  cmdMessenger.sendCmdArg(0);
   cmdMessenger.sendCmdEnd();
 }
 //---------------------ARDUINO--------------------------------------------------

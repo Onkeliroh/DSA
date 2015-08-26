@@ -48,8 +48,8 @@
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AnalogPinConfiguration.cs" />
     <Compile Include="gtk-gui\AnalogPinConfigurationDialog.AnalogPinConfiguration.cs" />
+    <Compile Include="MeasurmentConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

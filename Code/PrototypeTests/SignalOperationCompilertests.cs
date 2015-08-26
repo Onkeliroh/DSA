@@ -14,7 +14,7 @@ namespace PrototypeTests
 			string[] paramnames = new string[]{ "val1" };
 			double[] paramvalues = new double[]{ 42 };
 
-			var method = SignalOperationCompiler.CompileOperation (func, paramnames);
+			var method = OperationCompiler.CompileOperation (func, paramnames);
 
 			Assert.AreNotEqual (null, method);
 
@@ -25,7 +25,7 @@ namespace PrototypeTests
 		public void SignalOperationCompilerTest2 ()
 		{
 			string func = "2+3";
-			var method = SignalOperationCompiler.CompileOperation (func, new string[]{ });
+			var method = OperationCompiler.CompileOperation (func, new string[]{ });
 			Assert.AreNotEqual (null, method);
 			Assert.AreEqual (5, method (new double[]{ }));
 		}
@@ -34,7 +34,7 @@ namespace PrototypeTests
 		public void SignalOperationCompilerTest3 ()
 		{
 			string func = "val1 + val2 / 5";
-			var method = SignalOperationCompiler.CompileOperation (func, new string[]{ "val1", "val2" });
+			var method = OperationCompiler.CompileOperation (func, new string[]{ "val1", "val2" });
 			Assert.AreNotEqual (null, method);
 			Assert.AreEqual (43 + 4 / 5.0, method (new double[]{ 43, 4 }), 0.0001);
 		}
@@ -47,8 +47,8 @@ namespace PrototypeTests
 			string[] valuesnames = new string[]{ "val1", "val2" };
 
 			double[] values = new double[]{ 24.4, 20.9 };
-			var method1 = SignalOperationCompiler.CompileOperation (func1, valuesnames);
-			var method2 = SignalOperationCompiler.CompileOperation (func2, valuesnames);
+			var method1 = OperationCompiler.CompileOperation (func1, valuesnames);
+			var method2 = OperationCompiler.CompileOperation (func2, valuesnames);
 
 			Assert.AreNotEqual (null, method1);
 			Assert.AreNotEqual (null, method2);

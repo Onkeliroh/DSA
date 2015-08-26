@@ -68,26 +68,26 @@ namespace GUIHelper
 		public double Interval { get { return Pin.Interval; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 8)]
-		public string SignalName { get { return (PinSignal != null) ? PinSignal.SignalName : ""; } private set { } }
+		public string CombinationName { get { return (Combination != null) ? Combination.Name : ""; } private set { } }
 
 		public int Index { get; private set; }
 
-		public Signal PinSignal { get; private set; }
+		public MeasurementCombination Combination { get; private set; }
 
 		public APin Pin { get; private set; }
 
-		public APinTreeNode (APin pin, int index = -1, Signal signal = null)
+		public APinTreeNode (APin pin, int index = -1, MeasurementCombination combination = null)
 		{
 			Pin = pin;
-			PinSignal = signal;
+			Combination = combination;
 			Index = index;
 		}
 	}
 
-	public class SignalTreeNode : Gtk.TreeNode
+	public class MeasurementCombinationTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name { get { return AnalogSignal.SignalName; } private set { } }
+		public string Name { get { return AnalogSignal.Name; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
 		public Pixbuf Color;
@@ -133,17 +133,17 @@ namespace GUIHelper
 		public string Interval { get { return AnalogSignal.Interval.ToString (); } }
 
 		[Gtk.TreeNodeValue (Column = 6)]
-		public string Operation { get { return AnalogSignal.SignalOperationString; } private set { } }
+		public string Operation { get { return AnalogSignal.OperationString; } private set { } }
 
 		public int Index{ get; private set; }
 
-		public Signal AnalogSignal{ get; private set; }
+		public MeasurementCombination AnalogSignal{ get; private set; }
 
-		public SignalTreeNode (Signal analogSignal, int index = -1)
+		public MeasurementCombinationTreeNode (MeasurementCombination analogSignal, int index = -1)
 		{
 			Index = index;
 			AnalogSignal = analogSignal;
-			Color = ColorHelper.ColoredPixbuf (AnalogSignal.SignalColor);
+			Color = ColorHelper.ColoredPixbuf (AnalogSignal.Color);
 		}
 	}
 

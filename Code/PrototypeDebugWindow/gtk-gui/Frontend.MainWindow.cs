@@ -72,7 +72,7 @@ namespace Frontend
 		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
 		
-		private global::Gtk.NodeView nvSignals;
+		private global::Gtk.NodeView nvMeasurementCombinations;
 		
 		private global::Gtk.Label GtkLabel34;
 		
@@ -152,7 +152,7 @@ namespace Frontend
 		
 		private global::Gtk.Button btnAlternateBlinkSetup;
 		
-		private global::Gtk.Button button76;
+		private global::Gtk.Button btnAlternateBlinkSetup2;
 		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		
@@ -243,7 +243,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 4;
+			this.notebook1.CurrentPage = 1;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -290,7 +290,7 @@ namespace Frontend
 			this.btnAddAPin.CanFocus = true;
 			this.btnAddAPin.Name = "btnAddAPin";
 			this.btnAddAPin.UseUnderline = true;
-			this.btnAddAPin.Label = global::Mono.Unix.Catalog.GetString ("Add analog input...");
+			this.btnAddAPin.Label = global::Mono.Unix.Catalog.GetString ("Add Measurement...");
 			global::Gtk.Image w7 = new global::Gtk.Image ();
 			w7.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
 			this.btnAddAPin.Image = w7;
@@ -304,7 +304,7 @@ namespace Frontend
 			this.btnEditAPin.CanFocus = true;
 			this.btnEditAPin.Name = "btnEditAPin";
 			this.btnEditAPin.UseUnderline = true;
-			this.btnEditAPin.Label = global::Mono.Unix.Catalog.GetString ("Edit analog input...");
+			this.btnEditAPin.Label = global::Mono.Unix.Catalog.GetString ("Edit Measurement...");
 			global::Gtk.Image w9 = new global::Gtk.Image ();
 			w9.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-edit", global::Gtk.IconSize.Menu);
 			this.btnEditAPin.Image = w9;
@@ -319,7 +319,7 @@ namespace Frontend
 			this.btnRemoveAPin.CanFocus = true;
 			this.btnRemoveAPin.Name = "btnRemoveAPin";
 			this.btnRemoveAPin.UseUnderline = true;
-			this.btnRemoveAPin.Label = global::Mono.Unix.Catalog.GetString ("Delete analog input");
+			this.btnRemoveAPin.Label = global::Mono.Unix.Catalog.GetString ("Delete Measurement");
 			global::Gtk.Image w11 = new global::Gtk.Image ();
 			w11.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
 			this.btnRemoveAPin.Image = w11;
@@ -359,7 +359,7 @@ namespace Frontend
 			// Notebook tab
 			this.label6 = new global::Gtk.Label ();
 			this.label6.Name = "label6";
-			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Input");
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Measurements");
 			this.notebook1.SetTabLabel (this.table1, this.label6);
 			this.label6.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
@@ -385,7 +385,7 @@ namespace Frontend
 			this.btnAddSignal.CanFocus = true;
 			this.btnAddSignal.Name = "btnAddSignal";
 			this.btnAddSignal.UseUnderline = true;
-			this.btnAddSignal.Label = global::Mono.Unix.Catalog.GetString ("Add Signal...");
+			this.btnAddSignal.Label = global::Mono.Unix.Catalog.GetString ("Add Combination...");
 			global::Gtk.Image w20 = new global::Gtk.Image ();
 			w20.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
 			this.btnAddSignal.Image = w20;
@@ -399,7 +399,7 @@ namespace Frontend
 			this.btnEditSignal.CanFocus = true;
 			this.btnEditSignal.Name = "btnEditSignal";
 			this.btnEditSignal.UseUnderline = true;
-			this.btnEditSignal.Label = global::Mono.Unix.Catalog.GetString ("EditSignal...");
+			this.btnEditSignal.Label = global::Mono.Unix.Catalog.GetString ("Edit Combination...");
 			global::Gtk.Image w22 = new global::Gtk.Image ();
 			w22.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-edit", global::Gtk.IconSize.Menu);
 			this.btnEditSignal.Image = w22;
@@ -414,7 +414,7 @@ namespace Frontend
 			this.btnRemoveSignal.CanFocus = true;
 			this.btnRemoveSignal.Name = "btnRemoveSignal";
 			this.btnRemoveSignal.UseUnderline = true;
-			this.btnRemoveSignal.Label = global::Mono.Unix.Catalog.GetString ("Delete Signal");
+			this.btnRemoveSignal.Label = global::Mono.Unix.Catalog.GetString ("Delete Combination");
 			global::Gtk.Image w24 = new global::Gtk.Image ();
 			w24.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
 			this.btnRemoveSignal.Image = w24;
@@ -448,11 +448,11 @@ namespace Frontend
 			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
 			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
-			this.nvSignals = new global::Gtk.NodeView ();
-			this.nvSignals.CanFocus = true;
-			this.nvSignals.Name = "nvSignals";
-			this.nvSignals.HoverSelection = true;
-			this.GtkScrolledWindow1.Add (this.nvSignals);
+			this.nvMeasurementCombinations = new global::Gtk.NodeView ();
+			this.nvMeasurementCombinations.CanFocus = true;
+			this.nvMeasurementCombinations.Name = "nvMeasurementCombinations";
+			this.nvMeasurementCombinations.HoverSelection = true;
+			this.GtkScrolledWindow1.Add (this.nvMeasurementCombinations);
 			this.hbox5.Add (this.GtkScrolledWindow1);
 			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.GtkScrolledWindow1]));
 			w30.Position = 1;
@@ -470,7 +470,7 @@ namespace Frontend
 			// Notebook tab
 			this.label7 = new global::Gtk.Label ();
 			this.label7.Name = "label7";
-			this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("Analog Signals");
+			this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("Measurement Combinations");
 			this.notebook1.SetTabLabel (this.frame1, this.label7);
 			this.label7.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
@@ -820,13 +820,13 @@ namespace Frontend
 			w72.Expand = false;
 			w72.Fill = false;
 			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
-			this.button76 = new global::Gtk.Button ();
-			this.button76.CanFocus = true;
-			this.button76.Name = "button76";
-			this.button76.UseUnderline = true;
-			this.button76.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
-			this.vbuttonbox1.Add (this.button76);
-			global::Gtk.ButtonBox.ButtonBoxChild w73 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.button76]));
+			this.btnAlternateBlinkSetup2 = new global::Gtk.Button ();
+			this.btnAlternateBlinkSetup2.CanFocus = true;
+			this.btnAlternateBlinkSetup2.Name = "btnAlternateBlinkSetup2";
+			this.btnAlternateBlinkSetup2.UseUnderline = true;
+			this.btnAlternateBlinkSetup2.Label = global::Mono.Unix.Catalog.GetString ("Alternate Blink Setup 2");
+			this.vbuttonbox1.Add (this.btnAlternateBlinkSetup2);
+			global::Gtk.ButtonBox.ButtonBoxChild w73 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnAlternateBlinkSetup2]));
 			w73.Position = 9;
 			w73.Expand = false;
 			w73.Fill = false;
@@ -971,6 +971,7 @@ namespace Frontend
 			this.btnFillAnalogInputs.Clicked += new global::System.EventHandler (this.OnBtnFillAnalogInputsClicked);
 			this.btnFillDigitalOutputs.Clicked += new global::System.EventHandler (this.OnBtnFillDigitalOutputsClicked);
 			this.btnAlternateBlinkSetup.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetupClicked);
+			this.btnAlternateBlinkSetup2.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetup2Clicked);
 		}
 	}
 }

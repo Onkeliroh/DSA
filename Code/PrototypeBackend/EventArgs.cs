@@ -95,13 +95,13 @@ namespace PrototypeBackend
 		}
 	}
 
-	public class SignalsUpdatedArgs
+	public class MeasurementCombinationsUpdatedArgs
 	{
-		public Signal Sig { get; private set; }
+		public MeasurementCombination Sig { get; private set; }
 
 		public UpdateOperation UpdateOperation{ get; private set; }
 
-		public SignalsUpdatedArgs (UpdateOperation sigUpdateOperation, Signal sig = null)
+		public MeasurementCombinationsUpdatedArgs (UpdateOperation sigUpdateOperation, MeasurementCombination sig = null)
 		{
 			Sig = sig;
 			UpdateOperation = sigUpdateOperation;
@@ -115,6 +115,16 @@ namespace PrototypeBackend
 		public BoardSelectionArgs (Board board)
 		{
 			Board = board;
+		}
+	}
+
+	public class CommunicationArgs
+	{
+		public string Message{ get; private set; }
+
+		public CommunicationArgs (string msg)
+		{
+			Message = msg;
 		}
 	}
 }

@@ -7,16 +7,16 @@ using System.Text.RegularExpressions;
 
 namespace SignalConfigurationDialog
 {
-	public partial class SignalConfigurationDialog : Gtk.Dialog
+	public partial class MeasurementCombinationDialog : Gtk.Dialog
 	{
 		#region Memeber
 
-		public Signal AnalogSignal {
-			get{ return analogSignal; }
+		public MeasurementCombination Combination {
+			get{ return Combination_; }
 			set {
-				entryName.Text = value.SignalName;
-				entryOperation.Text = value.SignalOperationString;
-				cbColor.Color = value.SignalColor;
+				entryName.Text = value.Name;
+				entryOperation.Text = value.OperationString;
+				cbColor.Color = value.Color;
 				sbInterval.Value = value.Interval;
 
 				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit))
@@ -25,11 +25,11 @@ namespace SignalConfigurationDialog
 					cbeUnit.Active = 0;
 				}
 					
-				analogSignal = value;
+				Combination_ = value;
 			}
 		}
 
-		private Signal analogSignal;
+		private MeasurementCombination Combination_;
 
 		private APin ActiveNode = null;
 
@@ -39,7 +39,7 @@ namespace SignalConfigurationDialog
 
 		#endregion
 
-		public SignalConfigurationDialog (APin[] pins, Signal signal = null, APin pin = null, Gtk.Window parent = null)
+		public MeasurementCombinationDialog (APin[] pins, MeasurementCombination signal = null, APin pin = null, Gtk.Window parent = null)
 			: base ("Signal Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
@@ -48,15 +48,15 @@ namespace SignalConfigurationDialog
 
 			if (signal == null)
 			{
-				analogSignal = new Signal ();
+				Combination_ = new MeasurementCombination ();
 			} else
 			{
-				AnalogSignal = signal;
+				Combination = signal;
 			}
 	
 			if (pin != null)
 			{
-				analogSignal.AddPin (pin);
+				Combination_.AddPin (pin);
 			}
 
 			SetupNodeView ();
@@ -82,6 +82,92 @@ namespace SignalConfigurationDialog
 			};
 		}
 
+
+		private void DrawNodeView ()
+		{
+			nvSignal.NodeStore.Clear ();
+			btnRemove.Sensitive = false;
+			for (int i = 0; i < Combination_.Pins.Count; i++)
+			{
+				nvSignal.NodeStore.AddNode (new APinSignalDialogTreeNode (Combination_.Pins [i], i));
+			}
+			nvSignal.QueueDraw ();
+		}
+
+		private void UpdateCBPins ()
+		{
+			var store = new Gtk.ListStore (typeof(string), typeof(double));
+
+			foreach (APin pin in APins)
+			{
+				if (!Combination_.Pins.Contains (pin))
+				{
+					// Analysis disable once CompareOfFloatsByEqualityOperator
+					store.AppendValues (new object[]{ pin.Name + "(A" + pin.Number + ")", pin.Frequency });
+				}
+			}
+			cbPins.Model = store;
+			if (cbPins.Cells.Length > 0)
+			{
+				cbPins.Active = 0;
+			}
+
+			if (!CheckMeasurementsOnFrequency ())
+			{
+				lblWarning.Visible = true;
+			} else
+			{
+				lblWarning.Visible = false;
+			}
+
+			cbPins.ShowAll ();
+		}
+
+		private void AddPin ()
+		{
+			//if one item is selected
+			if (cbPins.Active != -1)
+			{
+				var reg = Regex.Match (cbPins.ActiveText, @"\(A([0-9]+)\)");
+				reg = Regex.Match (reg.Value, @"\d+");
+				if (reg.Success)
+				{
+					Combination_.AddPin (GetPins (Convert.ToInt32 (reg.Value)));
+				}
+			}
+
+			UpdateCBPins ();
+
+			DrawNodeView ();
+		}
+
+		private bool CheckMeasurementsOnFrequency ()
+		{
+			foreach (APin i in Combination_.Pins)
+			{
+				foreach (APin j in Combination_.Pins)
+				{
+					if (i.Frequency - j.Frequency > 0.00000000000000000000001)
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		private APin GetPins (int index)
+		{
+			foreach (APin pin in APins)
+			{
+				if (pin.Number == index)
+					return pin;
+			}
+			return null;
+		}
+
+		#region On...Stuff
+
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalButtonPress (object o, ButtonPressEventArgs args)
 		{
@@ -93,7 +179,7 @@ namespace SignalConfigurationDialog
 				deleteItem.ButtonPressEvent += (obj, e) =>
 				{
 					APinSignalDialogTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as APinSignalDialogTreeNode);
-					AnalogSignal.Pins.RemoveAt (node.Index);
+					Combination.Pins.RemoveAt (node.Index);
 					DrawNodeView ();
 					UpdateCBPins ();
 				};
@@ -108,86 +194,18 @@ namespace SignalConfigurationDialog
 		{
 			if (args.Event.Key == Gdk.Key.Delete)
 			{
-				AnalogSignal.Pins.RemoveAt (((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode).Index);
+				Combination.Pins.RemoveAt (((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode).Index);
 				DrawNodeView ();
 			}
-		}
-
-		private void DrawNodeView ()
-		{
-			nvSignal.NodeStore.Clear ();
-			btnRemove.Sensitive = false;
-			for (int i = 0; i < analogSignal.Pins.Count; i++)
-			{
-				nvSignal.NodeStore.AddNode (new APinSignalDialogTreeNode (analogSignal.Pins [i], i));
-			}
-			nvSignal.QueueDraw ();
-		}
-
-		private void UpdateCBPins ()
-		{
-			var store = new Gtk.ListStore (typeof(string), typeof(double));
-
-			foreach (APin pin in APins)
-			{
-				if (!analogSignal.Pins.Contains (pin))
-				{
-					// Analysis disable once CompareOfFloatsByEqualityOperator
-					if (AnalogSignal.Frequency != -1)
-					{
-						if (Math.Abs (pin.EffectiveFrequency - AnalogSignal.Frequency) < 0.0001 && !nvSignal.NodeStore.Data.Contains (pin))
-						{
-							store.AppendValues (new object[]{ pin.Name + "(" + pin.Number + ")", pin.EffectiveFrequency });
-						}
-					} else
-					{
-						store.AppendValues (new object[]{ pin.Name + "(" + pin.Number + ")", pin.EffectiveFrequency });
-					}
-				}
-			}
-			cbPins.Model = store;
-			if (cbPins.Cells.Length > 0)
-			{
-				cbPins.Active = 0;
-			}
-			cbPins.ShowAll ();
-		}
-
-		private void AddPin ()
-		{
-			//if one item is selected
-			if (cbPins.Active != -1)
-			{
-				var reg = Regex.Match (cbPins.ActiveText, @"\(([0-9]+)\)");
-				reg = Regex.Match (reg.Value, @"\d+");
-				if (reg.Success)
-				{
-					analogSignal.AddPin (GetPins (Convert.ToInt32 (reg.Value)));
-				}
-			}
-
-			UpdateCBPins ();
-
-			DrawNodeView ();
-		}
-
-		private APin GetPins (int index)
-		{
-			foreach (APin pin in APins)
-			{
-				if (pin.Number == index)
-					return pin;
-			}
-			return null;
 		}
 
 		[GLib.ConnectBeforeAttribute]
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
-			AnalogSignal.SignalName = entryName.Text;
-			AnalogSignal.Unit = cbeUnit.ActiveText;
-			AnalogSignal.SignalColor = cbColor.Color;
-			AnalogSignal.SignalOperationString = entryOperation.Text;
+			Combination.Name = entryName.Text;
+			Combination.Unit = cbeUnit.ActiveText;
+			Combination.Color = cbColor.Color;
+			Combination.OperationString = entryOperation.Text;
 
 			Respond (ResponseType.Apply);
 		}
@@ -206,7 +224,7 @@ namespace SignalConfigurationDialog
 		{
 			if (ActiveNode != null)
 			{
-				analogSignal.Pins.Remove (ActiveNode);
+				Combination_.Pins.Remove (ActiveNode);
 				btnRemove.Sensitive = false;
 				DrawNodeView ();
 			}
@@ -215,25 +233,25 @@ namespace SignalConfigurationDialog
 
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
-			if (analogSignal != null)
+			if (Combination_ != null)
 			{
-				analogSignal.SignalName = entryName.Text;
+				Combination_.Name = entryName.Text;
 			}
 		}
 
 		protected void OnCbeUnitChanged (object sender, EventArgs e)
 		{
-			if (analogSignal != null)
+			if (Combination_ != null)
 			{
-				analogSignal.Unit = cbeUnit.ActiveText;
+				Combination_.Unit = cbeUnit.ActiveText;
 			}
 		}
 
 		protected void OnCbColorColorSet (object sender, EventArgs e)
 		{
-			if (analogSignal != null)
+			if (Combination_ != null)
 			{
-				analogSignal.SignalColor = cbColor.Color;
+				Combination_.Color = cbColor.Color;
 			}
 		}
 
@@ -241,9 +259,9 @@ namespace SignalConfigurationDialog
 		{
 			try
 			{
-				if (analogSignal != null)
+				if (Combination_ != null)
 				{
-					analogSignal.SignalOperationString = entryOperation.Text;
+					Combination_.OperationString = entryOperation.Text;
 				}
 			} catch (Exception ex)
 			{
@@ -253,11 +271,13 @@ namespace SignalConfigurationDialog
 
 		protected void OnSbIntervalChangeValue (object o, ChangeValueArgs args)
 		{
-			if (analogSignal != null)
+			if (Combination_ != null)
 			{
-				analogSignal.Interval = sbInterval.ValueAsInt;
+				Combination_.Interval = sbInterval.ValueAsInt;
 			}
 		}
+
+		#endregion
 	}
 }
 

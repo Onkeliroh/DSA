@@ -63,17 +63,9 @@
       <Project>{6CB4019B-7C2D-4009-95A4-DAE460252C04}</Project>
       <Name>DigitalPinConfigurationDialog</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AnalogPinConfigurationDialog\AnalogPinConfigurationDialog.csproj">
-      <Project>{FFC2AF04-F784-438D-83A2-6467A27248E0}</Project>
-      <Name>AnalogPinConfigurationDialog</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GUIHelper\GUIHelper.csproj">
       <Project>{2B884C8B-58D1-4299-A844-6377FD6EDBEE}</Project>
       <Name>GUIHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SignalConfigurationDialog\SignalConfigurationDialog.csproj">
-      <Project>{8538A3C9-0CE5-497E-9B4B-4663B0464859}</Project>
-      <Name>SignalConfigurationDialog</Name>
     </ProjectReference>
     <ProjectReference Include="..\SequenceConfigurationsDialog\SequenceConfigurationsDialog.csproj">
       <Project>{2895E5CB-735D-4745-AF5F-40B9F3E7C1E9}</Project>
@@ -90,6 +82,14 @@
     <ProjectReference Include="..\PrototypeBackend\Backend.csproj">
       <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
       <Name>Backend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SignalConfigurationDialog\MeasurementCombinationDialog.csproj">
+      <Project>{8538A3C9-0CE5-497E-9B4B-4663B0464859}</Project>
+      <Name>MeasurementCombinationDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj">
+      <Project>{FFC2AF04-F784-438D-83A2-6467A27248E0}</Project>
+      <Name>MeasurmentConfigurationDialog</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
