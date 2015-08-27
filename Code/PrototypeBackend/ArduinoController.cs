@@ -228,6 +228,11 @@ namespace PrototypeBackend
 		{
 			if (SerialPortName != null)
 			{
+				if (_cmdMessenger != null)
+				{
+					_cmdMessenger.Disconnect ();
+					_cmdMessenger.Dispose ();
+				}
 				_cmdMessenger = new CmdMessenger (new SerialTransport () {
 					CurrentSerialSettings = {
 						PortName = SerialPortName,
@@ -290,6 +295,29 @@ namespace PrototypeBackend
 				}
 			}
 
+		}
+
+		public static bool AttemdAutoConnect ()
+		{
+			while (!IsConnected)
+			{
+				foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+				{
+					SerialPortName = s;
+
+					Setup (false);
+					System.Threading.Thread.Sleep (1000);
+					if (IsConnected)
+						return true;
+					Disconnect ();
+					Setup (true);
+					System.Threading.Thread.Sleep (1000);
+					if (IsConnected)
+						return true;
+					Disconnect ();
+				}
+			}	
+			return false;
 		}
 
 		/// Attach command call backs. 
@@ -381,7 +409,7 @@ namespace PrototypeBackend
 			_cmdMessenger.SendCommand (command);
 		}
 
-		public static void SetPin (int nr, PinMode mode, DPinState state)
+		public static async void SetPin (int nr, PinMode mode, DPinState state)
 		{
 			#if !FAKESERIAL
 			var command = new SendCommand ((int)Command.SetPin, nr);

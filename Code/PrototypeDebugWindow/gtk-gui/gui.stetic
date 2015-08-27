@@ -7,11 +7,11 @@
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../../DigitalPinConfigurationDialog/bin/Debug/DigitalPinConfigurationDialog.dll" />
-    <widget-library name="../../AnalogPinConfigurationDialog/bin/Debug/AnalogPinConfigurationDialog.dll" />
     <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
-    <widget-library name="../../SignalConfigurationDialog/bin/Debug/SignalConfigurationDialog.dll" />
     <widget-library name="../../SequenceConfigurationsDialog/bin/Debug/SequenceConfigurationsDialog.dll" />
     <widget-library name="../../MCUWidget/bin/Debug/MCUWidget.dll" />
+    <widget-library name="../../SignalConfigurationDialog/bin/Debug/SignalConfigurationDialog.dll" />
+    <widget-library name="../../AnalogPinConfigurationDialog/bin/Debug/AnalogPinConfigurationDialog.dll" />
     <widget-library name="../../../Tools/Frontend/PrototypeDebugWindow.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Frontend.MainWindow" design-size="801 600">
@@ -109,7 +109,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">1</property>
+                <property name="CurrentPage">4</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />

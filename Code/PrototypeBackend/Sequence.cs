@@ -104,25 +104,25 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Next ()
 		{
-			if (CurrentState != SequenceState.Done)
-			{
-				CurrentState = SequenceState.Running;
-			}
-			lastOperation += Chain [CurrentOperation].Duration;
-			if (Cycle > Repetitions && Chain.Count == 0 && Repetitions != -1)
-			{
-				CurrentState = SequenceState.Done;
-				return  null;
-			}
-
 			CurrentOperation += 1;
 			if (CurrentOperation == Chain.Count)
 			{
 				CurrentOperation = 0;
 				Cycle += 1;
 			}
-			SequenceOperation op = Chain [CurrentOperation];
-			return op;
+
+			if (CurrentState == SequenceState.Done || ((Cycle > Repetitions || Chain.Count == 0) && Repetitions != -1))
+			{
+				CurrentState = SequenceState.Done;
+				return  null;
+			} else
+			{
+				CurrentState = SequenceState.Running;
+				lastOperation += Chain [CurrentOperation].Duration;
+
+				SequenceOperation op = Chain [CurrentOperation];
+				return op;
+			}
 		}
 
 		/// <summary>
@@ -130,8 +130,14 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Current ()
 		{
-			SequenceOperation op = Chain [CurrentOperation];
-			return op;
+			if (Chain.Count > 0)
+			{
+				SequenceOperation op = Chain [CurrentOperation];
+				return op;
+			} else
+			{
+				return null;
+			}
 		}
 
 		public override string ToString ()

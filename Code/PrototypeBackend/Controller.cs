@@ -79,6 +79,7 @@ namespace PrototypeBackend
 			BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
 			ConLogger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, true, false, LogLevel.DEBUG);
 			ConLogger.LogToFile = true;
+			ConLogger.DateTimeFormat = "{0:mm:ss.fffff}";
 			ConLogger.Start ();
 			#else
 			ConLogger = new InfoLogger (
@@ -401,7 +402,7 @@ namespace PrototypeBackend
 				OnControllerStoped.Invoke (this, null);
 			}
 //			sequenceThreads.ForEach (x => x.Wait (new CancellationToken (true)));
-			BuildSequenceList ();
+//			BuildSequenceList ();
 		}
 
 		public void Start ()
@@ -411,7 +412,7 @@ namespace PrototypeBackend
 			if (CheckSignals ())
 			{
 				running = true;
-//				BuildSequenceList ();
+				BuildSequenceList ();
 				StartTime = DateTime.Now;
 				sequenceThreads.ForEach (o => o.Start ());
 //				signalThread.Start ();
@@ -427,21 +428,6 @@ namespace PrototypeBackend
 
 		private void BuildSequenceList ()
 		{
-			var sw = new Stopwatch ();
-			sw.Start ();
-			try
-			{
-				foreach (Thread th in sequenceThreads)
-				{
-					if (th.ThreadState != System.Threading.ThreadState.Unstarted)
-					{
-						th.Join ();
-					}
-				}
-			} catch (Exception ex)
-			{
-				ConLogger.Log (ex.ToString ());
-			}
 			sequenceThreads.Clear ();
 			GC.Collect ();
 			foreach (Sequence seq in ControllerSequences)
@@ -449,28 +435,20 @@ namespace PrototypeBackend
 				var seqThread = new Thread (
 					                () =>
 					{
-						SequenceOperation op = (SequenceOperation)seq.Current ();
-						while (seq.CurrentState != SequenceState.Done && running)
+						var op = seq.Current ();
+						while (seq.CurrentState != SequenceState.Done && running && op != null)
 						{
-							if (StartTime <= DateTime.Now.Subtract (seq.lastOperation))
-							{
-								ConLogger.Log (seq.Name, LogLevel.DEBUG);
-								//TODO Zeit messen
-								ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, op.State);
-								Thread.Sleep (op.Duration);
-								op = (SequenceOperation)seq.Next ();
-							}
+							ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, ((SequenceOperation)op).State);
+							Thread.Sleep (((SequenceOperation)op).Duration);
+							op = seq.Next ();
 						}	
 						ConLogger.Log (seq.Name + "exiting", LogLevel.DEBUG);
 						seq.Reset ();
-						bool res = sequenceThreads.Any (o => o.ThreadState != System.Threading.ThreadState.Stopped);
-						running = !res;
 					});
 				seqThread.Priority = ThreadPriority.Highest;
+				seqThread.Name = seq.Name + "(" + seq.Pin + ")";
 				sequenceThreads.Add (seqThread);
 			}
-			ConLogger.Log ("BuildSequenceList took " + sw.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
-			sw.Stop ();
 		}
 
 		public bool CheckSignals ()

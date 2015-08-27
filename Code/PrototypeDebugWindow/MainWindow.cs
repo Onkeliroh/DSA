@@ -913,6 +913,24 @@ namespace Frontend
 			StartStopController ();
 		}
 
+		protected void OnAutoConnectActionActivated (object sender, EventArgs e)
+		{
+			if (!ArduinoController.AttemdAutoConnect ())
+			{
+				var dialog = new MessageDialog (
+					             this, 
+					             DialogFlags.Modal, 
+					             MessageType.Info, 
+					             ButtonsType.Ok, 
+					             "The attemd to automaticly connect to a controller failed.\n " +
+					             "Please make shure to have a controller connected and uploaded " +
+					             "with the provided software."
+				             );
+				dialog.Run ();
+				dialog.Destroy ();
+			}
+		}
+
 		#endregion
 
 		#region RunDialogs
@@ -1046,7 +1064,7 @@ namespace Frontend
 			{
 				con.Start ();
 				lblStartTime.Text = con.StartTime.ToString ("G");
-//				TimeKeeperPresenter.Start ();
+				TimeKeeperPresenter.Start ();
 			}
 		}
 
@@ -1111,38 +1129,39 @@ namespace Frontend
 			int i = 0;
 			while (i < con.ControllerPins.Count)
 			{
-				con.AddSequence (new Sequence () {
+				var seq1 = new Sequence () {
 					Pin = (DPin)con.ControllerPins [i],
-					Repetitions = -1,
-					Chain = new System.Collections.Generic.List<SequenceOperation> () {
-						new SequenceOperation () {
-							Duration = TimeSpan.FromMilliseconds (1000),
-							State = DPinState.HIGH
-						},
-						new SequenceOperation () {
-							Duration = TimeSpan.FromMilliseconds (1000),
-							State = DPinState.LOW
-						}
-					}
-				});
-				con.AddSequence (new Sequence () {
+					Repetitions = 0
+				};
+				var seq2 = new Sequence () {
 					Pin = (DPin)con.ControllerPins [i + 1],
-					Repetitions = -1,
-					Chain = new System.Collections.Generic.List<SequenceOperation> () {
-						new SequenceOperation () {
-							Duration = TimeSpan.FromMilliseconds (1000),
-							State = DPinState.LOW
-						},
-						new SequenceOperation () {
-							Duration = TimeSpan.FromMilliseconds (1000),
-							State = DPinState.HIGH
-						}
-					}
-				});
+					Repetitions = 0
+				};
+				for (int j = 0; j < 100; j++)
+				{
+					
+					seq1.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromMilliseconds (1000),
+						State = DPinState.HIGH
+					});
+					seq1.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromMilliseconds (1000),
+						State = DPinState.LOW
+					});
+					seq2.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromMilliseconds (1000),
+						State = DPinState.LOW
+					});
+					seq2.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromMilliseconds (1000),
+						State = DPinState.HIGH
+					});
+				}
+				con.AddSequence (seq1);
+				con.AddSequence (seq2);
 				i += 2;
 			}
 		}
-
 
 		protected void OnBtnAlternateBlinkSetup2Clicked (object sender, EventArgs e)
 		{
@@ -1159,23 +1178,23 @@ namespace Frontend
 					Repetitions = 0,
 				};
 				seq.Chain.Add (new SequenceOperation () {
-					Duration = TimeSpan.FromSeconds (i),
+					Duration = TimeSpan.FromSeconds (i / 100.0),
 					State = DPinState.LOW
 				});
 
-				for (int j = 0; j < 50; j++)
+				for (int j = 0; j < 100; j++)
 				{
 					seq.Chain.Add (new SequenceOperation () {
-						Duration = TimeSpan.FromSeconds (con.ControllerPins.Count),
+						Duration = TimeSpan.FromSeconds (con.ControllerPins.Count / 100.0),
 						State = DPinState.HIGH
 					});
 					seq.Chain.Add (new SequenceOperation () {
-						Duration = TimeSpan.FromSeconds (con.ControllerPins.Count),
+						Duration = TimeSpan.FromSeconds (con.ControllerPins.Count / 100.0),
 						State = DPinState.LOW
 					});
 				}
 
-				con.ControllerSequences.Add (seq);
+				con.AddSequence (seq);
 
 				i += 1;
 			}
