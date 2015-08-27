@@ -4,6 +4,8 @@
 *.*~
 *.cs~
 *.exe
+*.dll
+*.mdb
 *.userprefs
 
 #begin latex
