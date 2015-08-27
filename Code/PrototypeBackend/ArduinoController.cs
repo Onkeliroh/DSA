@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
 using PrototypeBackend;
+using System.IO.Ports;
 
 namespace PrototypeBackend
 {
@@ -237,9 +238,11 @@ namespace PrototypeBackend
 					CurrentSerialSettings = {
 						PortName = SerialPortName,
 						BaudRate = 115200,
+						DataBits = 8,
+						Parity = Parity.None,
 						DtrEnable = Dtr//bei UNO auf false ändern 
 					}
-				}, BoardType.Bit16);
+				}, 512, BoardType.Bit32);
 
 				// Attach the callbacks to the Command Messenger
 				AttachCommandCallBacks ();
@@ -299,24 +302,30 @@ namespace PrototypeBackend
 
 		public static bool AttemdAutoConnect ()
 		{
-			while (!IsConnected)
+			foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
 			{
-				foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
-				{
-					SerialPortName = s;
+				SerialPortName = s;
 
-					Setup (false);
-					System.Threading.Thread.Sleep (1000);
-					if (IsConnected)
-						return true;
-					Disconnect ();
-					Setup (true);
-					System.Threading.Thread.Sleep (1000);
-					if (IsConnected)
-						return true;
-					Disconnect ();
+				Setup (false);
+				System.Threading.Thread.Sleep (2000);
+//				await System.Threading.Tasks.Task.Delay (1000);
+				if (IsConnected)
+				{
+					return true;
+//					break;
 				}
-			}	
+				Disconnect ();
+				Setup (true);
+				System.Threading.Thread.Sleep (2000);
+//				await System.Threading.Tasks.Task.Delay (1000);
+				if (IsConnected)
+				{
+					return true;
+//					break;
+				}
+				Disconnect ();
+			}
+			Disconnect ();
 			return false;
 		}
 
@@ -409,13 +418,16 @@ namespace PrototypeBackend
 			_cmdMessenger.SendCommand (command);
 		}
 
-		public static async void SetPin (int nr, PinMode mode, DPinState state)
+		public static void SetPin (int nr, PinMode mode, DPinState state)
 		{
 			#if !FAKESERIAL
 			var command = new SendCommand ((int)Command.SetPin, nr);
 			command.AddArgument ((Int16)mode);
 			command.AddArgument ((Int16)state);
-			_cmdMessenger.SendCommand (command);
+			lock (_cmdMessenger)
+			{
+				_cmdMessenger.SendCommand (command, SendQueue.WaitForEmptyQueue, ReceiveQueue.Default);
+			}
 			#endif
 		}
 

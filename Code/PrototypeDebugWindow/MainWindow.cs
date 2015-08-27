@@ -54,6 +54,9 @@ namespace Frontend
 				if (e.Connected)
 				{
 					lblConnectionStatus.Text = "connected to " + e.Port;
+					autoConnectAction.Sensitive = false;
+					mediaPlayAction.Sensitive = true;
+					mediaStopAction.Sensitive = true;
 					try
 					{
 						ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
@@ -78,6 +81,9 @@ namespace Frontend
 				{
 					lblConnectionStatus.Text = "<b>NOT</b> connected";
 					lblConnectionStatus.UseMarkup = true;
+					autoConnectAction.Sensitive = true;
+					mediaPlayAction.Sensitive = false;
+					mediaStopAction.Sensitive = false;
 					try
 					{
 						ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
@@ -152,7 +158,7 @@ namespace Frontend
 			TimeKeeperPresenter = new System.Timers.Timer (500);
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
 			{
-				lblTimePassed.Text = con.TimePassed.ToString ();
+				lblTimePassed.Text = con.TimePassed.ToString ("g");
 			};
 		}
 
@@ -320,8 +326,6 @@ namespace Frontend
 			nvMeasurementCombinations.QueueDraw ();
 		}
 
-		#endregion
-
 		private void FillSequencePreviewPlot ()
 		{
 			SequencePreviewPlotModel.Axes.Clear ();
@@ -434,6 +438,9 @@ namespace Frontend
 			SequencePreviewPlotView.ShowAll ();
 		}
 
+		#endregion
+
+
 		#region BuildElements
 
 		private void BuildMCUWidget ()
@@ -526,7 +533,7 @@ namespace Frontend
 			//TODO Add events
 			MenuBar mbar = (this.UIManager.GetWidget ("/menubarMain") as MenuBar);
 
-			//FileMenu
+			#region FileMenu
 			Menu filemenu = new Menu ();
 			MenuItem file = new MenuItem ("File");
 			file.Submenu = filemenu;
@@ -545,8 +552,20 @@ namespace Frontend
 			filemenu.Append (new SeparatorMenuItem ());
 			filemenu.Append (exit);
 			mbar.Append (file);
+			#endregion
 
-			//ConnectionMenu
+			#region Edit
+			Menu editmenu = new Menu ();
+			MenuItem edit = new MenuItem ("Edit");
+			edit.Submenu = editmenu;
+			MenuItem preferences = new MenuItem ("Preferences");
+			preferences.Activated += (o, e) => RunPreferencesDialog ();
+			editmenu.Append (preferences);
+
+			mbar.Append (edit);
+			#endregion
+
+			#region ConnectionMenu
 			Menu connectionmenu = new Menu ();
 			MenuItem connection = new MenuItem ("Connection");
 			connection.Submenu = connectionmenu;
@@ -589,6 +608,29 @@ namespace Frontend
 			};
 
 			mbar.Append (connection);
+			#endregion
+
+			#region Help
+			Menu helpmenu = new Menu ();
+			MenuItem help = new MenuItem ("Help");
+			help.Submenu = helpmenu;
+			MenuItem about = new MenuItem ("About");
+			about.Activated += (sender, e) =>
+			{
+				var dialog = new AboutDialog () {
+					Authors = new string[]{ "Daniel Pollack" },
+					Documenters = new string[]{ "Daniel Pollack" },
+					License = "not yet"
+				};
+				dialog.Run ();
+				dialog.Destroy ();
+			};
+
+			helpmenu.Append (about);
+
+			mbar.Append (help);
+			#endregion
+
 			mbar.ShowAll ();
 			
 		}
@@ -915,20 +957,26 @@ namespace Frontend
 
 		protected void OnAutoConnectActionActivated (object sender, EventArgs e)
 		{
-			if (!ArduinoController.AttemdAutoConnect ())
+			Task.Run (() =>
 			{
-				var dialog = new MessageDialog (
-					             this, 
-					             DialogFlags.Modal, 
-					             MessageType.Info, 
-					             ButtonsType.Ok, 
-					             "The attemd to automaticly connect to a controller failed.\n " +
-					             "Please make shure to have a controller connected and uploaded " +
-					             "with the provided software."
-				             );
-				dialog.Run ();
-				dialog.Destroy ();
-			}
+				if (!ArduinoController.AttemdAutoConnect ())
+				{
+					Application.Invoke ((o, ee) =>
+					{
+						var dialog = new MessageDialog (
+							             this, 
+							             DialogFlags.Modal, 
+							             MessageType.Info, 
+							             ButtonsType.Ok, 
+							             "The attemd to automaticly connect to a controller failed.\n " +
+							             "Please make shure to have a controller connected and uploaded " +
+							             "with the provided software."
+						             );
+						dialog.Run ();
+						dialog.Destroy ();
+					});
+				}
+			});
 		}
 
 		#endregion
@@ -1048,6 +1096,13 @@ namespace Frontend
 					mcuW.Select (ArduinoController.MCU);
 				}
 			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		protected  void RunPreferencesDialog (object sernder = null, EventArgs e = null)
+		{
+			var dialog = new PreferencesDialog.PreferencesDialog ();
 			dialog.Run ();
 			dialog.Destroy ();
 		}
@@ -1197,6 +1252,120 @@ namespace Frontend
 				con.AddSequence (seq);
 
 				i += 1;
+			}
+		}
+
+
+		protected void OnButton359Clicked (object sender, EventArgs e)
+		{
+			con.ClearPins ();
+			con.ClearSequences ();
+
+			OnBtnFillDigitalOutputsClicked (null, null);
+
+			int i = 0;
+			while (i < con.ControllerPins.Count)
+			{
+				var seq1 = new Sequence () {
+					Pin = (DPin)con.ControllerPins [i],
+					Repetitions = -1
+				};
+				var seq2 = new Sequence () {
+					Pin = (DPin)con.ControllerPins [i + 1],
+					Repetitions = -1
+				};
+				for (int j = 0; j < 1; j++)
+				{
+					
+					seq1.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromMilliseconds (1000),
+						State = DPinState.HIGH
+					});
+					seq1.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromMilliseconds (1000),
+						State = DPinState.LOW
+					});
+					seq2.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromMilliseconds (1000),
+						State = DPinState.LOW
+					});
+					seq2.Chain.Add (new SequenceOperation () {
+						Duration = TimeSpan.FromMilliseconds (1000),
+						State = DPinState.HIGH
+					});
+				}
+				con.AddSequence (seq1);
+				con.AddSequence (seq2);
+				i += 2;
+			}
+		}
+
+		protected void OnButton360Clicked (object sender, EventArgs e)
+		{
+			con.ClearPins ();
+			con.ClearSequences ();
+
+			OnBtnFillDigitalOutputsClicked (null, null);
+
+			int i = 0;
+			while (i < con.ControllerPins.Count)
+			{
+				var seq = new Sequence () {
+					Pin = (DPin)con.ControllerPins [i],
+					Repetitions = -1,
+				};
+
+				seq.Chain.Add (new SequenceOperation () {
+					Duration = TimeSpan.FromSeconds (i / 100.0),
+					State = DPinState.LOW
+				});
+				seq.Chain.Add (new SequenceOperation () {
+					Duration = TimeSpan.FromSeconds (.2),
+					State = DPinState.HIGH
+				});
+//				seq.Chain.Add (new SequenceOperation () {
+//					Duration = TimeSpan.FromSeconds (.2),
+//					State = DPinState.LOW
+//				});
+				seq.Chain.Add (new SequenceOperation () {
+					Duration = TimeSpan.FromSeconds (.2 * (1 - (i / 100.0))),
+					State = DPinState.LOW
+				});
+
+				con.AddSequence (seq);
+
+				i += 1;
+			}
+		}
+
+
+		protected void OnButton1125Clicked (object sender, EventArgs e)
+		{
+			con.ClearPins ();
+			con.ClearSequences ();
+
+			OnBtnFillDigitalOutputsClicked (null, null);
+
+			int i = 2;
+			while (i < con.ControllerPins.Count)
+			{
+				var seq = new Sequence () {
+					Pin = (DPin)con.ControllerPins [i],
+					Repetitions = -1
+				};
+
+				seq.Chain.Add (new SequenceOperation {
+					Duration = TimeSpan.FromMilliseconds (1000 + i),
+					State = DPinState.HIGH
+				});
+				seq.Chain.Add (new SequenceOperation {
+					Duration = TimeSpan.FromMilliseconds (1000 + i),
+					State = DPinState.LOW
+				});
+
+				con.AddSequence (seq);
+
+				i++;
 			}
 		}
 

@@ -91,6 +91,10 @@
       <Project>{FFC2AF04-F784-438D-83A2-6467A27248E0}</Project>
       <Name>MeasurmentConfigurationDialog</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PreferencesDialog\PreferencesDialog.csproj">
+      <Project>{54BDED94-021A-473B-8782-DD04AF1F443F}</Project>
+      <Name>PreferencesDialog</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">

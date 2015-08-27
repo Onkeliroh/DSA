@@ -274,53 +274,103 @@ namespace PrototypeBackend
 		{
 			if (index >= 0 && index < ControllerPins.Count)
 			{
+				IPin pin = ControllerPins [index];
+				if (pin is DPin)
+				{
+					var tmp = GetCorespondingSequence (pin as DPin);
+					if (tmp != null)
+						RemoveSequence (tmp.Name);
+				} else if (pin is APin)
+				{
+					var tmp = GetCorespondingCombination (pin as APin);
+					if (tmp != null)
+						RemoveMeasurementCombination (tmp);
+				}
+				ControllerPins.RemoveAt (index);
 				if (PinsUpdated != null)
 				{
-					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (ControllerPins [index], UpdateOperation.Remove, ControllerPins [index].Type));
+					PinsUpdated.Invoke (this, new ControllerPinUpdateArgs (pin, UpdateOperation.Remove, pin.Type));
 				}
-				ConLogger.Log ("Removed Pin: " + ControllerPins [index], LogLevel.DEBUG);
-				ControllerPins.RemoveAt (index);
+				ConLogger.Log ("Removed Pin: " + pin, LogLevel.DEBUG);
 			}
 		}
 
 		public void RemoveMeasurementCombination (int index)
 		{
-			var sig = new MeasurementCombination ();
-			sig = ControllerMeasurementCombinations [index];
-			ControllerMeasurementCombinations.RemoveAt (index);
-
-			ConLogger.Log ("Removed Measurement Combination: " + sig, LogLevel.DEBUG);
-			if (SignalsUpdated != null)
+			if (index > -1)
 			{
-				SignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Remove, sig));
+				var sig = new MeasurementCombination ();
+				sig = ControllerMeasurementCombinations [index];
+				ControllerMeasurementCombinations.RemoveAt (index);
+
+				ConLogger.Log ("Removed Measurement Combination: " + sig, LogLevel.DEBUG);
+				if (SignalsUpdated != null)
+				{
+					SignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Remove, sig));
+				}
+			}
+		}
+
+		public void RemoveMeasurementCombination (string index)
+		{
+			if (index != null)
+			{
+				var MeCom = new MeasurementCombination ();
+				MeCom = ControllerMeasurementCombinations.Where (o => o.Name == index).ToList<MeasurementCombination> () [0];
+
+				ConLogger.Log ("Removed Measurement Combination: " + MeCom, LogLevel.DEBUG);
+				if (SignalsUpdated != null)
+				{
+					SignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Remove, MeCom));
+				}
+				ControllerMeasurementCombinations.Remove (MeCom);
+			}
+		}
+
+		public void RemoveMeasurementCombination (MeasurementCombination index)
+		{
+			if (index != null)
+			{
+				ConLogger.Log ("Removed Measurement Combination: " + index, LogLevel.DEBUG);
+				if (SignalsUpdated != null)
+				{
+					SignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Remove, index));
+				}
+				ControllerMeasurementCombinations.Remove (index);
 			}
 		}
 
 		public void RemoveSequence (string name)
 		{
-			var result = ControllerSequences.Where (o => o.Name == name).ToList<Sequence> ();
-			if (result.Count > 0)
+			if (name != null)
 			{
-				ConLogger.Log ("Removed Sequence: " + result [0], LogLevel.DEBUG);
-				ControllerSequences.Remove (result [0]);
-				if (SequencesUpdated != null)
+				var result = ControllerSequences.Where (o => o.Name == name).ToList<Sequence> ();
+				if (result.Count > 0)
 				{
-					SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, result [0]));
+					ConLogger.Log ("Removed Sequence: " + result [0], LogLevel.DEBUG);
+					ControllerSequences.Remove (result [0]);
+					if (SequencesUpdated != null)
+					{
+						SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, result [0]));
+					}
 				}
 			}
 		}
 
 		public void RemoveSequence (int index)
 		{
-			if (index >= 0 && index < ControllerSequences.Count)
+			if (index > -1)
 			{
-				ConLogger.Log ("Removed Sequence: " + ControllerSequences [index], LogLevel.DEBUG);
-				var seq = new Sequence ();
-				seq = ControllerSequences [index];
-				ControllerSequences.RemoveAt (index);
-				if (SequencesUpdated != null)
+				if (index >= 0 && index < ControllerSequences.Count)
 				{
-					SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, seq));
+					ConLogger.Log ("Removed Sequence: " + ControllerSequences [index], LogLevel.DEBUG);
+					var seq = new Sequence ();
+					seq = ControllerSequences [index];
+					ControllerSequences.RemoveAt (index);
+					if (SequencesUpdated != null)
+					{
+						SequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, seq));
+					}
 				}
 			}
 		}
@@ -435,15 +485,28 @@ namespace PrototypeBackend
 				var seqThread = new Thread (
 					                () =>
 					{
+						var logger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value + seq.Pin.Number, true, false);
+						logger.LogToFile = true;
+						logger.Start ();
+						Stopwatch sw = new Stopwatch ();
+						sw.Start ();
+
+						int pin = seq.Pin.Number;
+						PinMode mode = seq.Pin.Mode;
 						var op = seq.Current ();
 						while (seq.CurrentState != SequenceState.Done && running && op != null)
 						{
-							ArduinoController.SetPin (seq.Pin.Number, seq.Pin.Mode, ((SequenceOperation)op).State);
+							logger.Log (sw.ElapsedMilliseconds.ToString () + "; begin");
+							ArduinoController.SetPin (pin, mode, ((SequenceOperation)op).State);
+							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after send");
 							Thread.Sleep (((SequenceOperation)op).Duration);
+							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after sleep");
 							op = seq.Next ();
+							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after next");
 						}	
 						ConLogger.Log (seq.Name + "exiting", LogLevel.DEBUG);
 						seq.Reset ();
+						logger.Stop ();
 					});
 				seqThread.Priority = ThreadPriority.Highest;
 				seqThread.Name = seq.Name + "(" + seq.Pin + ")";

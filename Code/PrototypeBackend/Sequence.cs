@@ -132,8 +132,7 @@ namespace PrototypeBackend
 		{
 			if (Chain.Count > 0)
 			{
-				SequenceOperation op = Chain [CurrentOperation];
-				return op;
+				return Chain [CurrentOperation];
 			} else
 			{
 				return null;
