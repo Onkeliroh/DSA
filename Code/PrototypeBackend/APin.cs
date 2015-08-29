@@ -88,14 +88,11 @@ namespace PrototypeBackend
 
 		public APin ()
 		{
-			var rng = new Random ();
 			Type = PrototypeBackend.PinType.ANALOG;
 			Mode = PrototypeBackend.PinMode.INPUT;
 			Name = "";
 			Number = 0;
-			PlotColor = 
-			new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ());
-
+			PlotColor = new Gdk.Color (0, 0, 0);
 			Slope = 1;
 			Offset = 0;
 			Interval = 1;

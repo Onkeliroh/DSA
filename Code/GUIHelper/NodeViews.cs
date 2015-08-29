@@ -104,7 +104,7 @@ namespace GUIHelper
 			get {
 				var s = "";
 				for (int i = 0; i < AnalogSignal.Pins.Count; i++) {
-					s += AnalogSignal.Pins [i].Number.ToString ().PadLeft (2, '0');
+					s += AnalogSignal.Pins [i].DisplayNumber;
 					if (i != AnalogSignal.Pins.Count - 1) {
 						s += "\n";	
 					}
@@ -138,7 +138,7 @@ namespace GUIHelper
 	public class APinSignalDialogTreeNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name { get { return Pin.Name + "(A" + Pin.Number + ")"; } private set { } }
+		public string Name { get { return Pin.DisplayName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
 		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Frequency).ToString ("g"); } private set { } }
@@ -160,7 +160,7 @@ namespace GUIHelper
 	public class APinListStoreNode : Gtk.TreeNode
 	{
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Label { get { return Pin.Name + "(A" + Pin.Number + ")"; } private set { } }
+		public string Label { get { return Pin.DisplayName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
 		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.EffectiveFrequency).ToString ("g"); } private set { } }
@@ -218,7 +218,7 @@ namespace GUIHelper
 		public string Pins { get { return Seq.Pin.Name; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 3)]
-		public string Number { get { return Convert.ToString (Seq.Pin.Number).PadLeft (2, '0'); } private set { } }
+		public string Number { get { return Seq.Pin.DisplayNumber; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 4)]
 		public string Runtime { get { return Seq.Runtime.ToString ("g"); } private set { } }

@@ -81,6 +81,7 @@ namespace PrototypeBackend
 			for (uint i = 0; i < numpins; i++) {
 				unusedpins.Add (new DPin () {
 					Number = i,
+					AnalogNumber = ((Array.IndexOf (Board.HardwareAnalogPins, i) > -1) ? (uint?)Array.IndexOf (Board.HardwareAnalogPins, i) : null),
 					RX = (Board.RX == i),
 					TX = (Board.TX == i),
 					SDA = (Board.SDA == i),

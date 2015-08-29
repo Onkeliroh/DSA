@@ -123,17 +123,22 @@ namespace Frontend
 				if (a.Pin is DPin) {
 					FillDigitalPinNodes ();
 					FillSequencePreviewPlot ();
-					FillSignalNodes ();
+					FillMeasurementCombinationNodes ();
 				} else if (a.Pin is APin) {
 					FillAnalogPinNodes ();
-					FillSignalNodes ();
+					FillMeasurementCombinationNodes ();
+				} else {
+					FillAnalogPinNodes ();
+					FillDigitalPinNodes ();
+					FillSequenceNodes ();
+					FillMeasurementCombinationNodes ();
 				}
 			};
 			con.Configuration.OnSequencesUpdated += (o, a) => {
 				FillSequenceNodes ();
 				FillSequencePreviewPlot ();
 			};
-			con.Configuration.OnSignalsUpdated += (o, a) => FillSignalNodes ();
+			con.Configuration.OnSignalsUpdated += (o, a) => FillMeasurementCombinationNodes ();
 
 			con.OnControllerStarted += (o, a) => LockControlls (false);
 			con.OnControllerStoped += (o, a) => LockControlls (true);
@@ -283,7 +288,7 @@ namespace Frontend
 			nvSequences.QueueDraw ();
 		}
 
-		private void FillSignalNodes ()
+		private void FillMeasurementCombinationNodes ()
 		{
 			FillAnalogPinNodes ();
 			NodeStoreMeasurementCombinations.Clear ();
@@ -810,7 +815,7 @@ namespace Frontend
 		{
 			DPinTreeNode node = (DPinTreeNode)nvDigitalPins.NodeSelection.SelectedNode;
 			if (node != null) {
-				con.Configuration.RemovePin (node.RealName);
+				con.Configuration.RemovePin (node.Pin.Name);
 			}
 		}
 
@@ -1065,17 +1070,16 @@ namespace Frontend
 		{
 			var list = con.Configuration.AvailableAnalogPins.ToList ();
 			foreach (APin pin in list) {
+				pin.PlotColor = ColorHelper.GetRandomGdkColor ();
 				con.Configuration.AddPin (pin);
 			}
 		}
 
 		protected void OnBtnFillDigitalOutputsClicked (object sender, EventArgs e)
 		{
-			foreach (uint i in  con.Configuration.AvailableDigitalPins.ToList().Select(o=>o.Number)) {
-				con.Configuration.AddPin (new DPin () {
-					Number = i,
-					PlotColor = ColorHelper.GetRandomGdkColor ()
-				});
+			foreach (DPin i in  con.Configuration.AvailableDigitalPins.ToList()) {
+				i.PlotColor = ColorHelper.GetRandomGdkColor ();
+				con.Configuration.AddPin (i);
 			}
 		}
 

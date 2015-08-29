@@ -39,7 +39,15 @@ namespace AnalogPinConfigurationDialog
 		{
 			this.Build ();
 
-			AvailablePins = availablePins;
+
+			if (apin != null) {
+				AvailablePins = new APin[availablePins.Length + 1];
+				Array.Copy (availablePins, AvailablePins, availablePins.Length);
+				AvailablePins [availablePins.Length] = apin;
+			} else {
+				AvailablePins = availablePins;
+			}
+
 
 			sbFrequency.Adjustment.Lower = double.MinValue;
 			sbFrequency.Adjustment.Upper = double.MaxValue;
@@ -69,7 +77,7 @@ namespace AnalogPinConfigurationDialog
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
 			pin.Name = entryName.Text;
-//			pin.Number = Convert.ToUInt32 (cbPin.ActiveText.Remove (0, 1));
+			pin.Number = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].Number;
 			pin.PlotColor = cbColor.Color;
 			pin.Unit = cbUnit.ActiveText;
 			pin.Slope = sbSlope.Value;

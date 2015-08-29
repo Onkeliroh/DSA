@@ -14,13 +14,15 @@ namespace DigitalPinConfigurationDialog
 			set {
 				entryName.Text = value.Name;
 				cbColor.Color = value.PlotColor;
-				cbPin.InsertText (0, "D" + value.Number.ToString ());
+				cbPin.InsertText (0, value.DisplayNumber);
 				cbPin.Active = 0;
 				pin = value;
 			}
 		}
 
 		private DPin pin;
+
+		private DPin[] AvailablePins;
 
 		public DigitalPinConfiguration (DPin[] availablePins, DPin dpin = null, Gtk.Window parent = null)
 			: base ("Digital Pin Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
@@ -30,13 +32,21 @@ namespace DigitalPinConfigurationDialog
 			this.FocusChain = new Widget[]{ entryName, cbPin, cbColor, buttonOk, buttonCancel };
 
 			if (dpin != null) {
+				AvailablePins = new DPin[availablePins.Length + 1];
+				Array.Copy (availablePins, AvailablePins, availablePins.Length);
+				AvailablePins [availablePins.Length] = dpin;
+			} else {
+				AvailablePins = availablePins;
+			}
+
+			if (dpin != null) {
 				Pin = dpin;
 			} else {
 				pin = new DPin ();
 			}
 
 			for (int i = 0; i < availablePins.Length; i++) {
-				cbPin.AppendText (availablePins [i].DisplayName);
+				cbPin.AppendText (availablePins [i].DisplayNumber);
 			}
 			if (availablePins.Length > 0) {
 				cbPin.Active = 0;
@@ -47,7 +57,7 @@ namespace DigitalPinConfigurationDialog
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
 			pin.Name = entryName.Text;
-			pin.Number = Convert.ToUInt32 (cbPin.ActiveText.Remove (0, 1));
+			pin.Number = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].Number;
 			pin.PlotColor = cbColor.Color;
 
 			Respond (Gtk.ResponseType.Apply);

@@ -16,7 +16,15 @@ namespace PrototypeBackend
 
 		public string DisplayName { get { return string.Format ("{0} (D{1})", Name, Number); } set { } }
 
-		public string DisplayNumber { get { return string.Format ("D{0}", Number); } set { } }
+		public string DisplayNumber {
+			get {
+				if (AnalogNumber != null)
+					return string.Format ("D{0} | A{1}", Number, AnalogNumber);
+				else
+					return string.Format ("D{0}", Number);
+			}
+			set { }
+		}
 
 		public uint Number { get ; set; }
 
@@ -52,6 +60,7 @@ namespace PrototypeBackend
 			Number = pinnr;
 			Type = PrototypeBackend.PinType.DIGITAL;
 			Mode = PrototypeBackend.PinMode.OUTPUT;
+			AnalogNumber = null;
 			PlotColor = Gdk.Color.Zero;
 		}
 
@@ -61,11 +70,11 @@ namespace PrototypeBackend
 		{
 			var seq = obj as DPin;
 			if (seq != null) {
-				return (seq.Number == Number);
+				return (seq.Number == Number)
 //				&& seq.Name.Equals (Name)
 //				&& seq.State.Equals (State)
 //				&& seq.PlotColor.Equals (PlotColor)
-//				&& seq.Type.Equals (Type)
+				&& seq.Type.Equals (Type);
 //				&& seq.Mode.Equals (Mode));
 			}
 			return false;
