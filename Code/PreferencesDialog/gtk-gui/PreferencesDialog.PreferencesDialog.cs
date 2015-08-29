@@ -10,10 +10,8 @@ namespace PreferencesDialog
 		
 		private global::Gtk.Label label1;
 		
-		private global::Gtk.Label label2;
-		
-		private global::Gtk.Label label3;
-		
+		private global::Gtk.Label label4;
+
 		private global::Gtk.Button buttonCancel;
 		
 		private global::Gtk.Button buttonOk;
@@ -53,20 +51,20 @@ namespace PreferencesDialog
 			global::Gtk.Label w3 = new global::Gtk.Label ();
 			w3.Visible = true;
 			this.notebook1.Add (w3);
-			this.label2 = new global::Gtk.Label ();
-			this.label2.Name = "label2";
-			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("CSV Logger");
-			this.notebook1.SetTabLabel (w3, this.label2);
-			this.label2.ShowAll ();
+			this.label4 = new global::Gtk.Label ();
+			this.label4.Name = "label2";
+			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("CSV Logger");
+			this.notebook1.SetTabLabel (w3, this.label4);
+			this.label4.ShowAll ();
 			// Notebook tab
 			global::Gtk.Label w4 = new global::Gtk.Label ();
 			w4.Visible = true;
 			this.notebook1.Add (w4);
-			this.label3 = new global::Gtk.Label ();
-			this.label3.Name = "label3";
-			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Plot");
-			this.notebook1.SetTabLabel (w4, this.label3);
-			this.label3.ShowAll ();
+			this.label4 = new global::Gtk.Label ();
+			this.label4.Name = "label3";
+			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Plot");
+			this.notebook1.SetTabLabel (w4, this.label4);
+			this.label4.ShowAll ();
 			w1.Add (this.notebook1);
 			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(w1 [this.notebook1]));
 			w5.Position = 0;
@@ -101,7 +99,8 @@ namespace PreferencesDialog
 			w8.Position = 1;
 			w8.Expand = false;
 			w8.Fill = false;
-			if ((this.Child != null)) {
+			if ((this.Child != null))
+			{
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 400;
