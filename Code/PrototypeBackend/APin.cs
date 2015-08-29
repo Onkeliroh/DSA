@@ -18,15 +18,19 @@ namespace PrototypeBackend
 
 		public string Name { get; set; }
 
+		public string DisplayName { get { return string.Format ("{0} ({1})", Name, DisplayNumber); } set { } }
+
+		public string DisplayNumber { get { return string.Format ("A{0} | D{1}", Number, DigitalNumber); } set { } }
+
 		public string Unit { get; set; }
 
-		public int Number{ get; set; }
+		public uint Number{ get; set; }
 
-		public int DigitalNumber { get; set; }
+		public uint DigitalNumber { get; set; }
 
 		public bool SDA { get ; set ; }
 
-		public bool SDC { get; set; }
+		public bool SCL { get; set; }
 
 		public bool RX { get; set; }
 
@@ -43,35 +47,26 @@ namespace PrototypeBackend
 		public double Value {
 			private set{ }
 			get {
-				if (Values.Count >= Interval)
-				{
-					if (Interval == 1)
-					{
-						if (!double.IsNaN (Values.Last ()))
-						{
+				if (Values.Count >= Interval) {
+					if (Interval == 1) {
+						if (!double.IsNaN (Values.Last ())) {
 							return ((Values.Last () * Slope) + Offset);
 						}
 						return double.NaN;
-					} else
-					{
-						if (Values.Count >= Interval)
-						{
+					} else {
+						if (Values.Count >= Interval) {
 							double result = 0;
-							for (int i = Values.Count - Interval; i < Values.Count; i++)
-							{
-								if (!double.IsNaN (Values [i]))
-								{
+							for (int i = Values.Count - Interval; i < Values.Count; i++) {
+								if (!double.IsNaN (Values [i])) {
 									result += (Values [i] * Slope) + Offset;
 								}
 							}
 							return result / Interval;
-						} else
-						{
+						} else {
 							return double.NaN;
 						}
 					}
-				} else
-				{
+				} else {
 					return double.NaN;
 				}
 			}
@@ -93,12 +88,14 @@ namespace PrototypeBackend
 
 		public APin ()
 		{
+			var rng = new Random ();
 			Type = PrototypeBackend.PinType.ANALOG;
 			Mode = PrototypeBackend.PinMode.INPUT;
 			Name = "";
-			Number = -1;
-			PlotColor = new Gdk.Color (0, 0, 0);
-			Unit = "";
+			Number = 0;
+			PlotColor = 
+			new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ());
+
 			Slope = 1;
 			Offset = 0;
 			Interval = 1;
@@ -108,10 +105,8 @@ namespace PrototypeBackend
 
 		public override bool Equals (object obj)
 		{
-			if (obj != null)
-			{
-				if (obj is APin)
-				{
+			if (obj != null) {
+				if (obj is APin) {
 					return (obj as APin).Type == Type &&
 					(obj as APin).Mode == Mode &&
 					(obj as APin).Name.Equals (Name) &&
@@ -141,11 +136,6 @@ namespace PrototypeBackend
 			tmp.Serialize (tw, this);
 			tw.Close ();
 			return returnstring;
-		}
-
-		public void Run ()
-		{
-			Values.Add (PrototypeBackend.ArduinoController.ReadAnalogPin (Number));
 		}
 
 		#endregion

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using PrototypeBackend;
 using Gtk;
 
@@ -12,11 +13,10 @@ namespace AnalogPinConfigurationDialog
 			set {
 				entryName.Text = value.Name;
 				cbColor.Color = value.PlotColor;
-				cbPin.InsertText (0, "A" + value.Number.ToString ());
+				cbPin.InsertText (0, value.DisplayNumber);
 				cbPin.Active = 0;
 
-				if (!cbUnit.Data.Contains (value.Unit))
-				{
+				if (!cbUnit.Data.Contains (value.Unit)) {
 					cbUnit.InsertText (0, value.Unit);
 					cbUnit.Active = 0;
 				}
@@ -32,10 +32,14 @@ namespace AnalogPinConfigurationDialog
 
 		private APin pin;
 
-		public AnalogPinConfiguration (int[] availablePins, APin apin = null, Gtk.Window parent = null)
+		private APin[] AvailablePins;
+
+		public AnalogPinConfiguration (APin[] availablePins, APin apin = null, Gtk.Window parent = null)
 			: base ("Analog Pin Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
+
+			AvailablePins = availablePins;
 
 			sbFrequency.Adjustment.Lower = double.MinValue;
 			sbFrequency.Adjustment.Upper = double.MaxValue;
@@ -45,21 +49,19 @@ namespace AnalogPinConfigurationDialog
 			sbOffset.Adjustment.Upper = double.MaxValue;
 			sbInterval.Adjustment.Upper = int.MaxValue;
 
-			for (int i = 0; i < availablePins.Length; i++)
-			{
-				cbPin.AppendText ("A" + availablePins [i].ToString ());
+			cbColor.Color = GUIHelper.ColorHelper.GetRandomGdkColor ();
+
+			for (int i = 0; i < availablePins.Length; i++) {
+				cbPin.AppendText (availablePins [i].DisplayNumber);
 			}
 
-			if (apin != null)
-			{
+			if (apin != null) {
 				Pin = apin;
-			} else
-			{
+			} else {
 				pin = new APin ();
 			}
 
-			if (availablePins.Length > 0)
-			{
+			if (availablePins.Length > 0) {
 				cbPin.Active = 0;
 			}
 		}
@@ -67,7 +69,7 @@ namespace AnalogPinConfigurationDialog
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
 			pin.Name = entryName.Text;
-			pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
+//			pin.Number = Convert.ToUInt32 (cbPin.ActiveText.Remove (0, 1));
 			pin.PlotColor = cbColor.Color;
 			pin.Unit = cbUnit.ActiveText;
 			pin.Slope = sbSlope.Value;
@@ -80,64 +82,58 @@ namespace AnalogPinConfigurationDialog
 
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Name = entryName.Text;
 			}
 		}
 
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
-				pin.Number = Convert.ToInt32 (cbPin.ActiveText.Remove (0, 1));
+			if (pin != null) {
+				var selector = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0];
+				pin.Number = selector.Number;
+				pin.DigitalNumber = selector.DigitalNumber;
 			}
 		}
 
 		protected void OnCbColorClicked (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.PlotColor = cbColor.Color;
 			}
 		}
 
 		protected void OnCbUnitChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Unit = cbUnit.ActiveText;	
 			}
 		}
 
 		protected void OnSbSlopeChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Slope = sbSlope.Value;
 			}	
 		}
 
 		protected void OnSbOffsetChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Offset = sbOffset.Value;
 			}
 		}
 
 		protected void OnSbFrequencyChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Frequency = sbFrequency.Value;	
 			}
 		}
 
 		protected void OnSbIntervalChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Interval = sbInterval.ValueAsInt;
 			}
 		}

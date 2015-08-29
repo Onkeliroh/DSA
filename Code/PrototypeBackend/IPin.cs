@@ -6,7 +6,11 @@ namespace PrototypeBackend
 	{
 		string Name{ get; set; }
 
-		int Number{ get; set; }
+		string DisplayName{ get; set; }
+
+		string DisplayNumber { get; set; }
+
+		uint Number{ get; set; }
 
 		Gdk.Color PlotColor{ get; set; }
 
@@ -16,7 +20,7 @@ namespace PrototypeBackend
 
 		bool SDA { get; set; }
 
-		bool SDC{ get; set; }
+		bool SCL{ get; set; }
 
 		bool RX{ get; set; }
 

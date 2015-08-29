@@ -14,13 +14,17 @@ namespace PrototypeBackend
 
 		public string Name { get; set; }
 
-		public int Number { get ; set; }
+		public string DisplayName { get { return string.Format ("{0} (D{1})", Name, Number); } set { } }
 
-		public int AnalogNumber { get; set; }
+		public string DisplayNumber { get { return string.Format ("D{0}", Number); } set { } }
+
+		public uint Number { get ; set; }
+
+		public uint? AnalogNumber { get; set; }
 
 		public bool SDA { get ;	set ; }
 
-		public bool SDC { get ; set ; }
+		public bool SCL { get ; set ; }
 
 		public bool RX { get; set; }
 
@@ -37,12 +41,12 @@ namespace PrototypeBackend
 			Type = PrototypeBackend.PinType.DIGITAL;
 			Mode = PrototypeBackend.PinMode.OUTPUT;
 			Name = "";
-			Number = -1;
-			AnalogNumber = -1;
+			Number = 0;
+			AnalogNumber = null;
 			PlotColor = Gdk.Color.Zero;
 		}
 
-		public DPin (string label, int pinnr)
+		public DPin (string label, uint pinnr)
 		{
 			Name = label;
 			Number = pinnr;
@@ -56,8 +60,7 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as DPin;
-			if (seq != null)
-			{
+			if (seq != null) {
 				return (seq.Number == Number);
 //				&& seq.Name.Equals (Name)
 //				&& seq.State.Equals (State)
@@ -90,8 +93,7 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			switch (Mode)
-			{
+			switch (Mode) {
 			case PrototypeBackend.PinMode.OUTPUT:
 				PrototypeBackend.ArduinoController.SetPin (Number, Mode, State);
 				break;

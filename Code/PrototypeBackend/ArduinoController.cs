@@ -87,13 +87,10 @@ namespace PrototypeBackend
 			get{ return _autoconnect; }
 			set {
 				_autoconnect = value;
-				if (AutoConnectTimer != null)
-				{
-					if (_autoconnect)
-					{
+				if (AutoConnectTimer != null) {
+					if (_autoconnect) {
 						AutoConnectTimer.Start ();
-					} else
-					{
+					} else {
 						AutoConnectTimer.Abort ();
 					}
 				}
@@ -177,10 +174,8 @@ namespace PrototypeBackend
 			NumberOfAnalogPins = apins;
 			NumberOfDigitalPins = dpins;
 
-			OnConnectionChanged += (sender, e) =>
-			{
-				if (e.Connected)
-				{
+			OnConnectionChanged += (sender, e) => {
+				if (e.Connected) {
 					GetVersion ();
 					GetModel ();
 					GetNumberAnalogPins ();
@@ -197,12 +192,9 @@ namespace PrototypeBackend
 			IsConnected = false;
 			#endif
 
-			AutoConnectTimer = new System.Threading.Thread (() =>
-			{
-				while (!IsConnected)
-				{
-					foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
-					{
+			AutoConnectTimer = new System.Threading.Thread (() => {
+				while (!IsConnected) {
+					foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
 						Console.WriteLine ("attemting auto connect to " + s);
 						SerialPortName = s;
 
@@ -219,18 +211,15 @@ namespace PrototypeBackend
 					}
 				}
 			});
-			if (AutoConnect)
-			{
+			if (AutoConnect) {
 				AutoConnectTimer.Start ();
 			}
 		}
 
 		public static void Setup (bool Dtr = false)
 		{
-			if (SerialPortName != null)
-			{
-				if (_cmdMessenger != null)
-				{
+			if (SerialPortName != null) {
+				if (_cmdMessenger != null) {
 					_cmdMessenger.Disconnect ();
 					_cmdMessenger.Dispose ();
 				}
@@ -267,14 +256,12 @@ namespace PrototypeBackend
 			#if !FAKESERIAL
 			// Stop listening
 			AutoConnect = false;
-			if (IsConnected)
-			{
+			if (IsConnected) {
 				_cmdMessenger.Disconnect ();
 			}
 
 			// Dispose Command Messenger
-			if (_cmdMessenger != null)
-			{
+			if (_cmdMessenger != null) {
 				_cmdMessenger.Dispose ();
 			}
 			#endif
@@ -282,18 +269,15 @@ namespace PrototypeBackend
 
 		public static void Disconnect ()
 		{
-			if (IsConnected)
-			{
+			if (IsConnected) {
 				IsConnected = false;
 				#if !FAKESERIAL
 				_cmdMessenger.Disconnect ();
 				#endif
-				if (OnConnectionChanged != null)
-				{
+				if (OnConnectionChanged != null) {
 					OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (false, null));
 				}
-				if (AutoConnect && AutoConnectTimer.ThreadState != System.Threading.ThreadState.Running)
-				{
+				if (AutoConnect && AutoConnectTimer.ThreadState != System.Threading.ThreadState.Running) {
 					AutoConnectTimer.Start ();
 				}
 			}
@@ -302,15 +286,13 @@ namespace PrototypeBackend
 
 		public static bool AttemdAutoConnect ()
 		{
-			foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
-			{
+			foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
 				SerialPortName = s;
 
 				Setup (false);
 				System.Threading.Thread.Sleep (2000);
 //				await System.Threading.Tasks.Task.Delay (1000);
-				if (IsConnected)
-				{
+				if (IsConnected) {
 					return true;
 //					break;
 				}
@@ -318,8 +300,7 @@ namespace PrototypeBackend
 				Setup (true);
 				System.Threading.Thread.Sleep (2000);
 //				await System.Threading.Tasks.Task.Delay (1000);
-				if (IsConnected)
-				{
+				if (IsConnected) {
 					return true;
 //					break;
 				}
@@ -356,8 +337,7 @@ namespace PrototypeBackend
 			Console.WriteLine (@" Arduino is ready");
 			#endif
 			IsConnected = true;
-			if (OnConnectionChanged != null)
-			{
+			if (OnConnectionChanged != null) {
 				OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (true, SerialPortName));
 			}
 		}
@@ -382,8 +362,7 @@ namespace PrototypeBackend
 			Console.WriteLine (@"Received > " + e.Command.CommandString ());
 			#endif
 
-			if (OnReceiveMessage != null)
-			{
+			if (OnReceiveMessage != null) {
 				OnReceiveMessage.Invoke (null, new CommunicationArgs (e.Command.CommandString ()));
 			}
 		}
@@ -394,8 +373,7 @@ namespace PrototypeBackend
 			#if DEBUG
 			Console.WriteLine (DateTime.Now + @": Sent > " + e.Command.CommandString ());
 			#endif
-			if (OnSendMessage != null)
-			{
+			if (OnSendMessage != null) {
 				OnSendMessage.Invoke (null, new CommunicationArgs (e.Command.CommandString ()));
 			}
 		}
@@ -418,14 +396,13 @@ namespace PrototypeBackend
 			_cmdMessenger.SendCommand (command);
 		}
 
-		public static void SetPin (int nr, PinMode mode, DPinState state)
+		public static void SetPin (uint nr, PinMode mode, DPinState state)
 		{
 			#if !FAKESERIAL
 			var command = new SendCommand ((int)Command.SetPin, nr);
 			command.AddArgument ((Int16)mode);
 			command.AddArgument ((Int16)state);
-			lock (_cmdMessenger)
-			{
+			lock (_cmdMessenger) {
 				_cmdMessenger.SendCommand (command, SendQueue.WaitForEmptyQueue, ReceiveQueue.Default);
 			}
 			#endif
@@ -459,16 +436,13 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 500);
 			command.AddArgument (nr.Length);
-			foreach (int i in nr)
-			{
+			foreach (int i in nr) {
 				command.AddArgument (i);
 			}
 			var result = _cmdMessenger.SendCommand (command);
-			if (result.Ok)
-			{
+			if (result.Ok) {
 				int[] results = new int[nr.Length];
-				for (int i = 0; i < nr.Length; i++)
-				{
+				for (int i = 0; i < nr.Length; i++) {
 					results [i] = result.ReadBinInt32Arg ();
 				}
 				NewAnalogValue.Invoke (null, new ControllerAnalogEventArgs (nr, results));
@@ -477,13 +451,12 @@ namespace PrototypeBackend
 			return new int[0];
 		}
 
-		public static DPinState ReadPin (int nr)
+		public static DPinState ReadPin (uint nr)
 		{
 			var command = new SendCommand ((int)Command.ReadPin, (int)Command.ReadPin, 500);
 			command.AddArgument (nr);
 			var result = _cmdMessenger.SendCommand (command);
-			if (result.Ok)
-			{
+			if (result.Ok) {
 				return (result.ReadBinInt16Arg () == (int)DPinState.HIGH) ? DPinState.HIGH : DPinState.LOW;
 			}
 			return DPinState.LOW;
@@ -493,8 +466,7 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetVersion, (int)Command.GetVersion, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				Version = returnVal.ReadStringArg ();
 			}
 		}
@@ -503,11 +475,9 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetAnalogReference, (int)Command.GetAnalogReference, 500);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				AnalogReferences.Clear ();
-				for (int i = 0; i < (returnVal.Arguments.Length / 2); i++)
-				{
+				for (int i = 0; i < (returnVal.Arguments.Length / 2); i++) {
 					AnalogReferences.Add (returnVal.ReadStringArg (), returnVal.ReadInt16Arg ());
 				}
 			}
@@ -517,8 +487,7 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetModel, (int)Command.GetModel, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 //				var tmp = returnVal.ReadStringArg ();
 				MCU = returnVal.ReadStringArg ().ToLower ();
 //				Console.WriteLine (MCU);
@@ -529,11 +498,9 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetNumberDigitalPins, (int)Command.GetNumberDigitalPins, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				NumberOfDigitalPins = returnVal.ReadUInt32Arg ();
-			} else
-			{
+			} else {
 				//in case the arduino did not respond
 				NumberOfDigitalPins = uint.MaxValue;
 			}
@@ -543,11 +510,9 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetNumberAnalogPins, (int)Command.GetNumberAnalogPins, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				NumberOfAnalogPins = returnVal.ReadUInt32Arg ();
-			} else
-			{
+			} else {
 				NumberOfAnalogPins = uint.MaxValue;
 			}
 		}
@@ -557,11 +522,9 @@ namespace PrototypeBackend
 			var command = new SendCommand ((int)Command.GetAnalogPinNumbers, (int)Command.GetAnalogPinNumbers, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
 
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				uint[] tmp = new uint[returnVal.Arguments.Length - 1];
-				for (int i = 0; i < returnVal.Arguments.Length - 1; i++)
-				{
+				for (int i = 0; i < returnVal.Arguments.Length - 1; i++) {
 //					tmp [i] = Convert.ToUInt32 (returnVal.Arguments [i]);
 
 //					uint res;
@@ -572,8 +535,7 @@ namespace PrototypeBackend
 				}
 				_board.HardwareAnalogPins = tmp;
 
-			} else
-			{
+			} else {
 				_board.HardwareAnalogPins = null;
 			}
 		}
@@ -582,11 +544,9 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetDigitalBitMask, (int)Command.GetDigitalBitMask, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				DigitalBitMask = returnVal.ReadBinUInt32Arg ();
-			} else
-			{
+			} else {
 				DigitalBitMask = 0x0;
 			}
 		}
@@ -595,11 +555,9 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetPinOutputMask, (int)Command.GetPinOutputMask, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				PinOutputMask = returnVal.ReadBinUInt32Arg ();
-			} else
-			{
+			} else {
 				PinOutputMask = 0x0;
 			}
 		}
@@ -608,11 +566,9 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetPinModeMask, (int)Command.GetPinModeMask, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				PinModeMask = returnVal.ReadBinUInt32Arg ();
-			} else
-			{
+			} else {
 				PinModeMask = 0x0;
 			}
 		}
@@ -621,8 +577,7 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetSDASCL, (int)Command.GetSDASCL, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
+			if (returnVal.Ok) {
 				Board.SDA = returnVal.ReadUInt32Arg ();
 				Board.SCL = returnVal.ReadUInt32Arg ();
 				Board.RX = returnVal.ReadUInt32Arg ();
@@ -664,7 +619,9 @@ namespace PrototypeBackend
 			AnalogReferenceVoltage = 5;
 			NumberOfAnalogPins = 6;
 			NumberOfDigitalPins = 20;
-			HardwareAnalogPins = new uint[]{ 15, 16, 17, 18, 19, 20 };
+			HardwareAnalogPins = new uint[]{ 14, 15, 16, 17, 18, 19 };
+			RX = 0;
+			TX = 1;
 		}
 
 		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, uint[] hardwareAnalogPins = null, Dictionary<string,int> analogReferences = null, string name = "", string version = "", string model = "", bool dtr = false)
@@ -674,10 +631,8 @@ namespace PrototypeBackend
 			if (analogReferences != null)
 				this.AnalogReferences = analogReferences;
 
-			if (hardwareAnalogPins != null)
-			{
-				if (hardwareAnalogPins.Length == numberOfAnalogPins)
-				{
+			if (hardwareAnalogPins != null) {
+				if (hardwareAnalogPins.Length == numberOfAnalogPins) {
 					HardwareAnalogPins = hardwareAnalogPins;
 				}
 			}

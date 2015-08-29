@@ -33,8 +33,7 @@ namespace PrototypeBackend
 
 		public double Value {
 			get {
-				if (Operation != null)
-				{
+				if (Operation != null) {
 					return (Operation (Pins.Select (o => o.Value).ToArray ()));
 				}
 				return double.NaN;
@@ -48,11 +47,9 @@ namespace PrototypeBackend
 			} 
 			set { 
 				Operation = OperationCompiler.CompileOperation (value, Pins.Select (o => o.Name).ToArray ());
-				if (Operation != null)
-				{
+				if (Operation != null) {
 					OperationString_ = value; 
-				} else
-				{
+				} else {
 					OperationString_ = string.Empty;
 				}
 			} 
@@ -76,20 +73,11 @@ namespace PrototypeBackend
 
 		public bool AddPin (APin pin)
 		{
-			if (!Pins.Contains (pin))
-			{
+			if (!Pins.Contains (pin)) {
 				Pins.Add (pin);
 				return true;
 			}
 			return false;
-		}
-
-		public void Run ()
-		{
-			foreach (APin ap in Pins)
-			{
-				ap.Run ();
-			}
 		}
 
 		#endregion

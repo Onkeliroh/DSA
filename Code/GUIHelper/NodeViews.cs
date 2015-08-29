@@ -10,18 +10,16 @@ namespace GUIHelper
 		public int Index = -1;
 
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name;
+		public string Name { get { return Pin.Name; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public string Number;
+		public string Number { get { return Pin.DisplayNumber; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 2)]
-		public Pixbuf Color;
+		public Pixbuf Color{ get { return ColorHelper.ColoredPixbuf (Pin.PlotColor); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 3)]
 		public string SequenceName { get { return (Sequence != null) ? Sequence.Name : ""; } private set { } }
-
-		public string RealName { get; private set; }
 
 		public Sequence @Sequence { get; private set; }
 
@@ -29,14 +27,8 @@ namespace GUIHelper
 
 		public DPinTreeNode (DPin pin, int index = -1, Sequence seq = null)
 		{
-			Name = pin.Name;
-			Number = Convert.ToString (pin.Number).PadLeft (2, '0');
-			Color = ColorHelper.ColoredPixbuf (pin.PlotColor);
 			Sequence = seq;
 			Index = index;
-
-			RealName = pin.Name;
-
 			Pin = pin;
 		}
 	}
@@ -47,7 +39,7 @@ namespace GUIHelper
 		public string Name { get { return Pin.Name; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public string Number { get { return Convert.ToString (Pin.Number).PadLeft (2, '0'); } private set { } }
+		public string Number { get { return Pin.DisplayNumber; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 2)]
 		public Gdk.Pixbuf Color{ get { return ColorHelper.ColoredPixbuf (Pin.PlotColor); } private set { } }
@@ -96,11 +88,9 @@ namespace GUIHelper
 		public string Pins {
 			get {
 				var s = "";
-				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
-				{
+				for (int i = 0; i < AnalogSignal.Pins.Count; i++) {
 					s += AnalogSignal.Pins [i].Name;
-					if (i != AnalogSignal.Pins.Count - 1)
-					{
+					if (i != AnalogSignal.Pins.Count - 1) {
 						s += "\n";	
 					}
 				}
@@ -113,11 +103,9 @@ namespace GUIHelper
 		public string PinNumbers {
 			get {
 				var s = "";
-				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
-				{
+				for (int i = 0; i < AnalogSignal.Pins.Count; i++) {
 					s += AnalogSignal.Pins [i].Number.ToString ().PadLeft (2, '0');
-					if (i != AnalogSignal.Pins.Count - 1)
-					{
+					if (i != AnalogSignal.Pins.Count - 1) {
 						s += "\n";	
 					}
 				}
@@ -208,11 +196,9 @@ namespace GUIHelper
 			SeqOp = seqop;
 			Index = index;
 
-			if (totalTime < 0)
-			{
+			if (totalTime < 0) {
 				TotalTime = "";
-			} else
-			{
+			} else {
 				TotalTime = "+" + TimeSpan.FromTicks ((long)totalTime).ToString ("g");
 			}
 		}

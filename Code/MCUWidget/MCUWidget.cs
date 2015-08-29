@@ -21,8 +21,11 @@ namespace MCUWidget
 					store.AppendValues (new object[]{ b.Name });
 				}
 				cbBoardType.Model = store;
-				cbBoardType.Active = 0;
 				cbBoardType.Show ();
+
+			if (OnBoardSelected != null) {
+				OnBoardSelected.Invoke (this, null);
+			}
 			}
 		}
 
@@ -56,6 +59,8 @@ namespace MCUWidget
 			}
 		}
 
+		#region Drawing
+
 		void Draw (object o, ExposeEventArgs args)
 		{
 			var context = CairoHelper.Create (this.drawingarea1.GdkWindow);
@@ -70,8 +75,6 @@ namespace MCUWidget
 			context.Paint ();
 			SetSizeRequest (MCUImage.Width, MCUImage.Height + 200);
 		}
-
-		#region Drawing
 
 		private Cairo.ImageSurface  Compose (params Pixbuf[] Bufs)
 		{
@@ -122,7 +125,10 @@ namespace MCUWidget
 
 			if (OnBoardSelected != null)
 			{
-				OnBoardSelected.Invoke (this, new BoardSelectionArgs (Boards [cbBoardType.Active]));
+				if (cbBoardType.Active != -1)
+					OnBoardSelected.Invoke (this, new BoardSelectionArgs (Boards [cbBoardType.Active]));
+				else
+					OnBoardSelected.Invoke (this, null);
 			}
 		}
 	}

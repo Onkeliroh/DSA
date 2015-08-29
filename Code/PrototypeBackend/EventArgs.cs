@@ -70,15 +70,15 @@ namespace PrototypeBackend
 	{
 		public IPin Pin { get; private set; }
 
+		public IPin Pin2 { get; private set; }
+
 		public UpdateOperation UpdateOperation { get; private set; }
 
-		public PinType Type { get; private set; }
-
-		public ControllerPinUpdateArgs (IPin pin, UpdateOperation pinUpdateOperation, PinType pinType)
+		public ControllerPinUpdateArgs (IPin pin, UpdateOperation pinUpdateOperation, IPin pin2 = null)
 		{
 			Pin = pin;
+			Pin2 = pin2;
 			UpdateOperation = pinUpdateOperation;
-			Type = pinType;
 		}
 	}
 
@@ -86,24 +86,30 @@ namespace PrototypeBackend
 	{
 		public Sequence Seq { get; private set; }
 
+		public Sequence Seq2 { get; private set; }
+
 		public UpdateOperation UpdateOperation { get; private set; }
 
-		public SequencesUpdatedArgs (UpdateOperation seqUpdateOperation, Sequence seq = null)
+		public SequencesUpdatedArgs (UpdateOperation seqUpdateOperation, Sequence seq = null, Sequence seq2 = null)
 		{
 			Seq = seq;
+			Seq2 = seq2;
 			UpdateOperation = seqUpdateOperation;
 		}
 	}
 
 	public class MeasurementCombinationsUpdatedArgs
 	{
-		public MeasurementCombination Sig { get; private set; }
+		public MeasurementCombination MC { get; private set; }
+
+		public MeasurementCombination MC2 { get; private set; }
 
 		public UpdateOperation UpdateOperation{ get; private set; }
 
-		public MeasurementCombinationsUpdatedArgs (UpdateOperation sigUpdateOperation, MeasurementCombination sig = null)
+		public MeasurementCombinationsUpdatedArgs (UpdateOperation sigUpdateOperation, MeasurementCombination mc = null, MeasurementCombination mc2 = null)
 		{
-			Sig = sig;
+			MC = mc;
+			MC2 = mc2;
 			UpdateOperation = sigUpdateOperation;
 		}
 	}
