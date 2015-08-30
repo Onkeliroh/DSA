@@ -877,7 +877,7 @@
                       <widget class="Gtk.VButtonBox" id="vbuttonbox1">
                         <property name="MemberName" />
                         <property name="Homogeneous">True</property>
-                        <property name="Size">13</property>
+                        <property name="Size">11</property>
                         <property name="LayoutStyle">Start</property>
                         <child>
                           <widget class="Gtk.Button" id="btnDigitalPingTest">
@@ -894,50 +894,6 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="btnBlinkSequenceTest">
-                            <property name="MemberName" />
-                            <property name="Sensitive">False</property>
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">BlinkSequenceTest</property>
-                            <property name="UseUnderline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">1</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="Gtk.Button" id="btnDoubleBlink">
-                            <property name="MemberName" />
-                            <property name="Sensitive">False</property>
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">UberKewlPhaseShiftDoubleBlink</property>
-                            <property name="UseUnderline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">2</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="Gtk.Button" id="btnStartController">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Start/Stop Controller</property>
-                            <property name="UseUnderline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">3</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
                           <widget class="Gtk.Button" id="btnFillAnalogInputs">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
@@ -947,7 +903,7 @@
                             <signal name="Clicked" handler="OnBtnFillAnalogInputsClicked" />
                           </widget>
                           <packing>
-                            <property name="Position">4</property>
+                            <property name="Position">1</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -962,7 +918,7 @@
                             <signal name="Clicked" handler="OnBtnFillDigitalOutputsClicked" />
                           </widget>
                           <packing>
-                            <property name="Position">5</property>
+                            <property name="Position">2</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -976,7 +932,7 @@
                             <property name="UseUnderline">True</property>
                           </widget>
                           <packing>
-                            <property name="Position">6</property>
+                            <property name="Position">3</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -990,7 +946,7 @@
                             <property name="UseUnderline">True</property>
                           </widget>
                           <packing>
-                            <property name="Position">7</property>
+                            <property name="Position">4</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -1005,7 +961,7 @@
                             <signal name="Clicked" handler="OnBtnAlternateBlinkSetupClicked" />
                           </widget>
                           <packing>
-                            <property name="Position">8</property>
+                            <property name="Position">5</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -1020,7 +976,7 @@
                             <signal name="Clicked" handler="OnBtnAlternateBlinkSetup2Clicked" />
                           </widget>
                           <packing>
-                            <property name="Position">9</property>
+                            <property name="Position">6</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -1035,7 +991,7 @@
                             <signal name="Clicked" handler="OnButton359Clicked" />
                           </widget>
                           <packing>
-                            <property name="Position">10</property>
+                            <property name="Position">7</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -1050,7 +1006,7 @@
                             <signal name="Clicked" handler="OnButton360Clicked" />
                           </widget>
                           <packing>
-                            <property name="Position">11</property>
+                            <property name="Position">8</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -1065,7 +1021,22 @@
                             <signal name="Clicked" handler="OnButton1125Clicked" />
                           </widget>
                           <packing>
-                            <property name="Position">12</property>
+                            <property name="Position">9</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="Gtk.Button" id="btnBoardDifferenceTest">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="Type">TextOnly</property>
+                            <property name="Label" translatable="yes">SetBoardDifferenceTest</property>
+                            <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnBoardDifferenceTestClicked" />
+                          </widget>
+                          <packing>
+                            <property name="Position">10</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>

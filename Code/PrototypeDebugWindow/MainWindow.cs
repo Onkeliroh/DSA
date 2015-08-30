@@ -63,8 +63,9 @@ namespace Frontend
 					if (ArduinoController.MCU != null && ArduinoController.MCU != "") {
 						if (this.mcuW.SelectedBoard == null) {
 							this.mcuW.Select (ArduinoController.MCU);
+							this.con.Configuration.Board = Array.Find (con.BoardConfigs, o => o.MCU == ArduinoController.MCU);
 						} else {
-							if (mcuW.SelectedBoard.MCU != ArduinoController.MCU) {
+							if (mcuW.SelectedBoard.MCU != con.Configuration.Board.MCU && con.Configuration.Board != null) {
 								Application.Invoke (RunMCUMessageDialog);
 							}
 						}
@@ -199,10 +200,10 @@ namespace Frontend
 					MenuItem editSignal = new MenuItem ("Edit Signal");
 					if (pin.Combination == null) {
 						editSignal.Sensitive = false;
-						addSignal.ButtonPressEvent += (o, args) => RunSignalDialog (null, pin.Pin);
+						addSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (null, pin.Pin);
 					} else {
 						addSignal.Sensitive = false;
-						editSignal.ButtonPressEvent += (o, args) => RunSignalDialog (pin.Combination);
+						editSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
 					}
 
 					m.Add (addSignal);
@@ -405,7 +406,6 @@ namespace Frontend
 
 		#endregion
 
-
 		#region BuildElements
 
 		private void BuildMCUWidget ()
@@ -476,7 +476,7 @@ namespace Frontend
 			nvMeasurementCombinations.NodeStore = NodeStoreMeasurementCombinations;
 			nvMeasurementCombinations.RowActivated += (o, args) => {
 				var sig = con.Configuration.MeasurementCombinations [((o as NodeView).NodeSelection.SelectedNode as MeasurementCombinationTreeNode).Index];
-				RunSignalDialog (sig);
+				RunMeasurementCombinationDialog (sig);
 			};
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
@@ -802,7 +802,7 @@ namespace Frontend
 			MeasurementCombinationTreeNode node = (MeasurementCombinationTreeNode)nvMeasurementCombinations.NodeSelection.SelectedNode;
 			if (node != null) {
 				var seq = con.Configuration.MeasurementCombinations [node.Index];
-				RunSignalDialog (seq);
+				RunMeasurementCombinationDialog (seq);
 			}
 		}
 
@@ -860,7 +860,7 @@ namespace Frontend
 
 		protected void OnBtnAddSignalClicked (object sender, EventArgs e)
 		{
-			RunSignalDialog ();
+			RunMeasurementCombinationDialog ();
 		}
 
 		protected void OnBtnAddSequenceClicked (object sender, EventArgs e)
@@ -910,8 +910,28 @@ namespace Frontend
 
 		protected void EnableConfig (object sender, BoardSelectionArgs e)
 		{
+			//TODO englisch prüfen
 			if (e != null) {
 				notebook1.Foreach (o => o.Sensitive = true);
+				if (e.Board != con.Configuration.Board && ArduinoController.IsConnected) {
+					var dialog = new MessageDialog (
+						             this,
+						             DialogFlags.Modal,
+						             MessageType.Question,
+						             ButtonsType.YesNo,
+						             "The selected Board Type does not match the connected one. Do you wish to change the selected Board Type to the detected Board Type?\n" +
+						             "Beware: This may alter you configuration!"
+					             );
+					dialog.Response += (o, args) => {
+						if (args.ResponseId == ResponseType.Yes) {
+							con.Configuration.Board = e.Board;
+						}
+					};
+					dialog.Run ();
+					dialog.Destroy ();
+				} else {
+					con.Configuration.Board = e.Board;
+				}
 			} else {
 				notebook1.Foreach (o => o.Sensitive = false);
 			}
@@ -983,7 +1003,7 @@ namespace Frontend
 			dialog.Destroy ();
 		}
 
-		private void RunSignalDialog (MeasurementCombination sig = null, APin refPin = null)
+		private void RunMeasurementCombinationDialog (MeasurementCombination sig = null, APin refPin = null)
 		{
 			var dialog = new SignalConfigurationDialog.MeasurementCombinationDialog (con.Configuration.GetPinsWithoutCombinations (), sig, refPin, this);
 			dialog.Response += (o, args) => {
@@ -1039,6 +1059,7 @@ namespace Frontend
 
 		protected void LockControlls (bool sensitive)
 		{
+			//TODO rekursiv machen
 			btnAddAPin.Sensitive = sensitive;
 			btnAddDPin.Sensitive = sensitive;
 			btnAddSequence.Sensitive = sensitive;
@@ -1268,6 +1289,11 @@ namespace Frontend
 
 				i++;
 			}
+		}
+
+		protected void OnBtnBoardDifferenceTestClicked (object sender, EventArgs e)
+		{
+			con.Configuration.Board = con.BoardConfigs [1];
 		}
 
 		#endregion

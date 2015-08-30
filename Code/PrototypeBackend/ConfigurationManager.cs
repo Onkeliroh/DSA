@@ -13,23 +13,19 @@ namespace PrototypeBackend
 
 		public ConfigurationManager (string UserFolderPath = null)
 		{
-			if (UserFolderPath == null)
-			{
+			if (UserFolderPath == null) {
 					
 				//Linux|Mac
-				if (Environment.OSVersion.Platform == PlatformID.Unix)
-				{
+				if (Environment.OSVersion.Platform == PlatformID.Unix) {
 					UserFolder = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile);
 					UserFolder += @"/.config/.micrologger";
 				}
 				//Windows
-				else
-				{
+				else {
 					UserFolder = Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData);
 					UserFolder += @"\micrologger";
 				}
-			} else
-			{
+			} else {
 				UserFolder = UserFolderPath;
 			}
 
@@ -38,8 +34,7 @@ namespace PrototypeBackend
 
 		public void SaveGeneralSettings ()
 		{
-			if (UserFolder != null)
-			{
+			if (UserFolder != null) {
 				var Parser = new FileIniDataParser ();
 				Parser.WriteFile (UserFolder, GeneralData, System.Text.Encoding.UTF8);
 			}
@@ -47,8 +42,7 @@ namespace PrototypeBackend
 
 		public IniData ParseSettings (string Path)
 		{
-			if (File.Exists (Path))
-			{
+			if (File.Exists (Path)) {
 				var Parser = new FileIniDataParser ();
 				return Parser.ReadFile (Path);
 			}
@@ -57,30 +51,26 @@ namespace PrototypeBackend
 
 		public Board[] ParseBoards (string Path)
 		{
-			if (File.Exists (Path))
-			{
+			if (File.Exists (Path)) {
 				var Parser = new IniParser.FileIniDataParser ();
 				IniData Data = Parser.ReadFile (Path);
 				var Boards = new System.Collections.Generic.List<Board> ();
-				foreach (SectionData sd in Data.Sections)
-				{
-					try
-					{
+				foreach (SectionData sd in Data.Sections) {
+					try {
 						Boards.Add (new Board () {
 							Name = sd.Keys.GetKeyData ("Name").Value,
 							NumberOfAnalogPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfAnalogPins").Value),
 							NumberOfDigitalPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfDigitalPins").Value),
 							MCU = sd.Keys.GetKeyData ("MCU").Value,
 							ImageFilePath = sd.Keys.GetKeyData ("ImagePath").Value,
-							SDA = Convert.ToUInt32 (sd.Keys.GetKeyData ("SDA").Value),
-							SCL = Convert.ToUInt32 (sd.Keys.GetKeyData ("SCL").Value),
-							RX = Convert.ToUInt32 (sd.Keys.GetKeyData ("RX").Value),
-							TX = Convert.ToUInt32 (sd.Keys.GetKeyData ("TX").Value),
+							SDA = StringToArray (sd.Keys.GetKeyData ("SDA").Value),
+							SCL = StringToArray (sd.Keys.GetKeyData ("SCL").Value),
+							RX = StringToArray (sd.Keys.GetKeyData ("RX").Value),
+							TX = StringToArray (sd.Keys.GetKeyData ("TX").Value),
 							UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
 							HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value)
 						});
-					} catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						Console.WriteLine (ex);
 					}
 
@@ -94,8 +84,7 @@ namespace PrototypeBackend
 		{
 			var stra = str.Split (new char[]{ ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
 			var ints = new System.Collections.Generic.List<uint> ();
-			foreach (string s in stra)
-			{
+			foreach (string s in stra) {
 				uint i;
 				uint.TryParse (s, out i);
 				ints.Add (i);

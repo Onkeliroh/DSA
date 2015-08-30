@@ -181,7 +181,7 @@ namespace PrototypeBackend
 					GetNumberAnalogPins ();
 					GetNumberDigitalPins ();
 					GetAnalogPinNumbers ();
-					GetSDASCLRXTX ();
+					GetSDASCL ();
 				}
 			};
 
@@ -525,12 +525,6 @@ namespace PrototypeBackend
 			if (returnVal.Ok) {
 				uint[] tmp = new uint[returnVal.Arguments.Length - 1];
 				for (int i = 0; i < returnVal.Arguments.Length - 1; i++) {
-//					tmp [i] = Convert.ToUInt32 (returnVal.Arguments [i]);
-
-//					uint res;
-//					uint.TryParse (returnVal.Arguments [i], out res);
-//					tmp [i] = res;
-
 					tmp [i] = returnVal.ReadUInt32Arg ();
 				}
 				_board.HardwareAnalogPins = tmp;
@@ -573,15 +567,13 @@ namespace PrototypeBackend
 			}
 		}
 
-		public static void GetSDASCLRXTX ()
+		public static void GetSDASCL ()
 		{
 			var command = new SendCommand ((int)Command.GetSDASCL, (int)Command.GetSDASCL, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
 			if (returnVal.Ok) {
-				Board.SDA = returnVal.ReadUInt32Arg ();
-				Board.SCL = returnVal.ReadUInt32Arg ();
-				Board.RX = returnVal.ReadUInt32Arg ();
-				Board.TX = returnVal.ReadUInt32Arg ();
+				Board.SDA = new uint[]{ returnVal.ReadUInt32Arg () };
+				Board.SCL = new uint[]{ returnVal.ReadUInt32Arg () };
 			}
 		}
 
@@ -595,10 +587,10 @@ namespace PrototypeBackend
 
 		public uint[] HardwareAnalogPins { get ; set; }
 
-		public uint SDA = 18;
-		public uint SCL = 19;
-		public uint RX = 0;
-		public uint TX = 1;
+		public uint[] SDA;
+		public uint[] SCL;
+		public uint[] RX;
+		public uint[] TX;
 
 		public Dictionary<string,int> AnalogReferences = new Dictionary<string, int> ();
 
@@ -620,8 +612,10 @@ namespace PrototypeBackend
 			NumberOfAnalogPins = 6;
 			NumberOfDigitalPins = 20;
 			HardwareAnalogPins = new uint[]{ 14, 15, 16, 17, 18, 19 };
-			RX = 0;
-			TX = 1;
+			SDA = new uint[]{ 18 };
+			SCL = new uint[]{ 19 };
+			RX = new uint[]{ 0 };
+			TX = new uint[]{ 1 };
 		}
 
 		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, uint[] hardwareAnalogPins = null, Dictionary<string,int> analogReferences = null, string name = "", string version = "", string model = "", bool dtr = false)

@@ -110,7 +110,7 @@ namespace PrototypeBackend
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.MC);
 			};
 
-			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
+//			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
 
 			TimeKeeper = new Stopwatch ();
 		}
@@ -146,22 +146,17 @@ namespace PrototypeBackend
 			if (OnControllerStoped != null) {
 				OnControllerStoped.Invoke (this, null);
 			}
-//			sequenceThreads.ForEach (x => x.Wait (new CancellationToken (true)));
-//			BuildSequenceList ();
 		}
 
 		public void Start ()
 		{
 			TimeKeeper.Restart ();
 
-			if (CheckSignals ()) {
-				running = true;
-				BuildSequenceList ();
-				StartTime = DateTime.Now;
-				sequenceThreads.ForEach (o => o.Start ());
-//				signalThread.Start ();
-				ConLogger.Log ("Controller Started", LogLevel.DEBUG);
-			}
+			running = true;
+			BuildSequenceList ();
+			StartTime = DateTime.Now;
+			sequenceThreads.ForEach (o => o.Start ());
+			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + TimeKeeper.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 
 			if (OnControllerStarted != null) {
@@ -204,16 +199,6 @@ namespace PrototypeBackend
 			}
 		}
 
-		public bool CheckSignals ()
-		{
-			//TODO implement
-			return true;
-		}
-
-		private void Run ()
-		{
-			//TODO signal verarbeitung
-		}
 	}
 }
 

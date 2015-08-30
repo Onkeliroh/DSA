@@ -9,7 +9,26 @@ namespace PrototypeBackend
 	{
 		#region Member
 
-		public Board @Board;
+		public Board @Board {
+			get{ return board; }
+			set {
+				//TODO versuchen zu verschieben?
+				if (board != null) {
+					if (value.NumberOfAnalogPins < board.NumberOfAnalogPins) {
+						Pins.Where (o => o is APin).ToList ().RemoveAll (x => x.Number >= value.NumberOfAnalogPins);
+					}
+					if (value.NumberOfDigitalPins < board.NumberOfDigitalPins) {
+						Pins.Where (o => o is DPin).ToList ().RemoveAll (x => x.Number >= value.NumberOfDigitalPins);
+					}
+				}
+
+				board = value;
+
+				CheckPins ();
+			}
+		}
+
+		private Board board;
 
 		public APin[] AvailableAnalogPins{ get { return GetUnusedAnalogPins (); } private set { } }
 
@@ -43,7 +62,7 @@ namespace PrototypeBackend
 
 		public BoardConfiguration ()
 		{
-			Board = new Board ();
+			board = null;
 			Pins = new List<IPin> ();
 			MeasurementCombinations = new List<MeasurementCombination> ();
 			Sequences = new List<Sequence> ();
@@ -57,10 +76,10 @@ namespace PrototypeBackend
 				unusedpins.Add (new APin () {
 					Number = i,
 					DigitalNumber = Board.HardwareAnalogPins [i],
-					RX = (Board.RX == i),
-					TX = (Board.TX == i),
-					SDA = (Board.SDA == i),
-					SCL = (Board.SCL == i)
+					RX = (Board.RX [0] == i),
+					TX = (Board.TX [0] == i),
+					SDA = (Board.SDA [0] == i),
+					SCL = (Board.SCL [0] == i)
 				});
 			}
 
@@ -82,10 +101,10 @@ namespace PrototypeBackend
 				unusedpins.Add (new DPin () {
 					Number = i,
 					AnalogNumber = ((Array.IndexOf (Board.HardwareAnalogPins, i) > -1) ? (uint?)Array.IndexOf (Board.HardwareAnalogPins, i) : null),
-					RX = (Board.RX == i),
-					TX = (Board.TX == i),
-					SDA = (Board.SDA == i),
-					SCL = (Board.SCL == i)
+					RX = (Board.RX [0] == i),
+					TX = (Board.TX [0] == i),
+					SDA = (Board.SDA [0] == i),
+					SCL = (Board.SCL [0] == i)
 				});
 			}
 
@@ -304,6 +323,11 @@ namespace PrototypeBackend
 			if (OnPinsUpdated != null) {
 				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.Clear));
 			}
+			if (type == PinType.DIGITAL) {
+				ClearSequences ();
+			} else if (type == PinType.ANALOG) {
+				ClearMeasurementCombinations ();
+			}
 		}
 
 		public void ClearPins ()
@@ -332,6 +356,16 @@ namespace PrototypeBackend
 		}
 
 		#endregion
+
+		private void CheckPins ()
+		{
+			foreach (APin pin in AnalogPins) {
+				pin.DigitalNumber = board.HardwareAnalogPins [pin.Number];
+			}
+			foreach (DPin pin in DigitalPins) {
+				pin.AnalogNumber = ((Array.IndexOf (Board.HardwareAnalogPins, pin.Number) > -1) ? (uint?)Array.IndexOf (Board.HardwareAnalogPins, pin.Number) : null);
+			}
+		}
 	}
 }
 

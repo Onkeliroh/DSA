@@ -16,16 +16,15 @@ namespace MCUWidget
 			set {
 				_Boards = value;
 				var store = new ListStore (typeof(string));
-				foreach (Board b in _Boards)
-				{
+				foreach (Board b in _Boards) {
 					store.AppendValues (new object[]{ b.Name });
 				}
 				cbBoardType.Model = store;
 				cbBoardType.Show ();
 
-			if (OnBoardSelected != null) {
-				OnBoardSelected.Invoke (this, null);
-			}
+				if (OnBoardSelected != null) {
+					OnBoardSelected.Invoke (this, null);
+				}
 			}
 		}
 
@@ -40,18 +39,16 @@ namespace MCUWidget
 		public MCUWidget ()
 		{
 			this.Build ();
+			SelectedBoard = null;
 
 			this.drawingarea1.ExposeEvent += Draw;
 		}
 
 		public void Select (string mcu)
 		{
-			for (int i = 0; i < _Boards.Length; i++)
-			{
-				if (_Boards [i].MCU != "")
-				{
-					if (_Boards [i].MCU.ToLower () == mcu.ToLower ())
-					{
+			for (int i = 0; i < _Boards.Length; i++) {
+				if (_Boards [i].MCU != "") {
+					if (_Boards [i].MCU.ToLower () == mcu.ToLower ()) {
 						cbBoardType.Active = i;
 						break;
 					}
@@ -89,12 +86,9 @@ namespace MCUWidget
 
 		protected Cairo.ImageSurface MCUSurface ()
 		{
-			if (MCUImagepath != null && System.IO.File.Exists (MCUImagepath))
-			{
-				if (!MCUImagepath.Equals (string.Empty))
-				{
-					try
-					{
+			if (MCUImagepath != null && System.IO.File.Exists (MCUImagepath)) {
+				if (!MCUImagepath.Equals (string.Empty)) {
+					try {
 						var MCUImage = new Rsvg.Handle (MCUImagepath);
 						var buf = MCUImage.Pixbuf;
 						var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, buf.Width, buf.Height);
@@ -102,8 +96,7 @@ namespace MCUWidget
 
 						MCUImage.RenderCairo (context);
 						return surf;
-					} catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						Console.Error.WriteLine (ex);
 					}
 				}
@@ -120,15 +113,25 @@ namespace MCUWidget
 
 		protected void OnCbBoardTypeChanged (object sender, EventArgs e)
 		{
-			MCUImagepath = Boards [cbBoardType.Active].ImageFilePath;
-			drawingarea1.QueueDraw ();
+			//TODO englisch prüfen
+			if (SelectedBoard != null) {
+				var dialog = new MessageDialog (this.Toplevel as Gtk.Window, DialogFlags.Modal, MessageType.Info, ButtonsType.YesNo,
+					             "The Board Type was changed. If you procede parts of your configuration could get lost, due to incompatibility with the new Board Type.\n Do you wish to procede?");
+				dialog.Response += (o, args) => {
+					if (args.ResponseId == ResponseType.Yes) {
+						MCUImagepath = Boards [cbBoardType.Active].ImageFilePath;
+						drawingarea1.QueueDraw ();
 
-			if (OnBoardSelected != null)
-			{
-				if (cbBoardType.Active != -1)
-					OnBoardSelected.Invoke (this, new BoardSelectionArgs (Boards [cbBoardType.Active]));
-				else
-					OnBoardSelected.Invoke (this, null);
+						if (OnBoardSelected != null) {
+							if (cbBoardType.Active != -1)
+								OnBoardSelected.Invoke (this, new BoardSelectionArgs (Boards [cbBoardType.Active]));
+							else
+								OnBoardSelected.Invoke (this, null);
+						}
+					}
+				};
+				dialog.Run ();
+				dialog.Destroy ();
 			}
 		}
 	}
