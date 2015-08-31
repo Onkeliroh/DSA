@@ -28,8 +28,7 @@ namespace MCUWidget
 			}
 		}
 
-		public Board SelectedBoard { get { return (cbBoardType.Active != -1) ? _Boards [cbBoardType.Active] : null; } set { } }
-
+		public Board SelectedBoard;
 		private Board[] _Boards;
 
 		public ListStore AREFTypes { get; set; }
@@ -86,23 +85,24 @@ namespace MCUWidget
 
 		protected Cairo.ImageSurface MCUSurface ()
 		{
-			#if !WIN
-				if (MCUImagepath != null && System.IO.File.Exists (MCUImagepath)) {
-					if (!MCUImagepath.Equals (string.Empty)) {
-						try {
-							var MCUImage = new Rsvg.Handle (MCUImagepath);
-							var buf = MCUImage.Pixbuf;
-							var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, buf.Width, buf.Height);
-							var context = new Cairo.Context (surf);
+//			#if !WIN
+			if (MCUImagepath != null && System.IO.File.Exists (MCUImagepath)) {
+				if (!MCUImagepath.Equals (string.Empty)) {
+					try {
+						var MCUImage = new Rsvg.Handle (MCUImagepath);
+						var buf = MCUImage.Pixbuf;
+						var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, buf.Width, buf.Height);
+						var context = new Cairo.Context (surf);
 
-							MCUImage.RenderCairo (context);
-							return surf;
-						} catch (Exception ex) {
-							Console.Error.WriteLine (ex);
-						}
+						MCUImage.RenderCairo (context);
+						return surf;
+					} catch (Exception ex) {
+						Console.Error.WriteLine (ex);
 					}
 				}
-			#endif
+			}
+//			#endif
+
 			return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
 
 		}
@@ -135,6 +135,8 @@ namespace MCUWidget
 				};
 				dialog.Run ();
 				dialog.Destroy ();
+			} else {
+				SelectedBoard = Boards [cbBoardType.Active];
 			}
 		}
 	}
