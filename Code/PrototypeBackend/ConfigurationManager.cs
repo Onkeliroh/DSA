@@ -9,7 +9,7 @@ namespace PrototypeBackend
 	{
 		public IniParser.Model.IniData GeneralData = new IniParser.Model.IniData ();
 
-		public string UserFolder { get; set; }
+		public string UserFolder = "";
 
 		public ConfigurationManager (string UserFolderPath = null)
 		{
@@ -23,7 +23,8 @@ namespace PrototypeBackend
 				//Windows
 				else {
 					UserFolder = Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData);
-					UserFolder += @"\micrologger";
+					UserFolder += @"\micrologger\Config.ini";
+					Console.WriteLine (UserFolder);
 				}
 			} else {
 				UserFolder = UserFolderPath;
@@ -51,33 +52,35 @@ namespace PrototypeBackend
 
 		public Board[] ParseBoards (string Path)
 		{
-			if (File.Exists (Path)) {
-				var Parser = new IniParser.FileIniDataParser ();
-				IniData Data = Parser.ReadFile (Path);
-				var Boards = new System.Collections.Generic.List<Board> ();
-				foreach (SectionData sd in Data.Sections) {
-					try {
-						Boards.Add (new Board () {
-							Name = sd.Keys.GetKeyData ("Name").Value,
-							NumberOfAnalogPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfAnalogPins").Value),
-							NumberOfDigitalPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfDigitalPins").Value),
-							MCU = sd.Keys.GetKeyData ("MCU").Value,
-							ImageFilePath = sd.Keys.GetKeyData ("ImagePath").Value,
-							SDA = StringToArray (sd.Keys.GetKeyData ("SDA").Value),
-							SCL = StringToArray (sd.Keys.GetKeyData ("SCL").Value),
-							RX = StringToArray (sd.Keys.GetKeyData ("RX").Value),
-							TX = StringToArray (sd.Keys.GetKeyData ("TX").Value),
-							UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
-							HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value)
-						});
-					} catch (Exception ex) {
-						Console.WriteLine (ex);
-					}
+			if (Path != null && !Path.Equals (string.Empty)) {
+				if (File.Exists (Path)) {
+					var Parser = new IniParser.FileIniDataParser ();
+					IniData Data = Parser.ReadFile (Path);
+					var Boards = new System.Collections.Generic.List<Board> ();
+					foreach (SectionData sd in Data.Sections) {
+						try {
+							Boards.Add (new Board () {
+								Name = sd.Keys.GetKeyData ("Name").Value,
+								NumberOfAnalogPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfAnalogPins").Value),
+								NumberOfDigitalPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfDigitalPins").Value),
+								MCU = sd.Keys.GetKeyData ("MCU").Value,
+								ImageFilePath = sd.Keys.GetKeyData ("ImagePath").Value,
+								SDA = StringToArray (sd.Keys.GetKeyData ("SDA").Value),
+								SCL = StringToArray (sd.Keys.GetKeyData ("SCL").Value),
+								RX = StringToArray (sd.Keys.GetKeyData ("RX").Value),
+								TX = StringToArray (sd.Keys.GetKeyData ("TX").Value),
+								UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
+								HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value)
+							});
+						} catch (Exception ex) {
+							Console.WriteLine (ex);
+						}
 
+					}
+					return Boards.ToArray ();
 				}
-				return Boards.ToArray ();
 			}
-			return null;
+			return new Board[]{ };
 		}
 
 		private uint[] StringToArray (string str)

@@ -86,22 +86,25 @@ namespace MCUWidget
 
 		protected Cairo.ImageSurface MCUSurface ()
 		{
-			if (MCUImagepath != null && System.IO.File.Exists (MCUImagepath)) {
-				if (!MCUImagepath.Equals (string.Empty)) {
-					try {
-						var MCUImage = new Rsvg.Handle (MCUImagepath);
-						var buf = MCUImage.Pixbuf;
-						var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, buf.Width, buf.Height);
-						var context = new Cairo.Context (surf);
+			#if !WIN
+				if (MCUImagepath != null && System.IO.File.Exists (MCUImagepath)) {
+					if (!MCUImagepath.Equals (string.Empty)) {
+						try {
+							var MCUImage = new Rsvg.Handle (MCUImagepath);
+							var buf = MCUImage.Pixbuf;
+							var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, buf.Width, buf.Height);
+							var context = new Cairo.Context (surf);
 
-						MCUImage.RenderCairo (context);
-						return surf;
-					} catch (Exception ex) {
-						Console.Error.WriteLine (ex);
+							MCUImage.RenderCairo (context);
+							return surf;
+						} catch (Exception ex) {
+							Console.Error.WriteLine (ex);
+						}
 					}
 				}
-			}
+			#endif
 			return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
+
 		}
 
 		private Cairo.ImageSurface MCULabelLeft ()
