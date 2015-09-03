@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using PrototypeBackend;
 using Gtk;
@@ -107,8 +107,7 @@ namespace MCUWidget
 
 						MCUImage.RenderCairo (context);
 						return surf;
-					} catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						Console.Error.WriteLine (ex);
 					}
 				}

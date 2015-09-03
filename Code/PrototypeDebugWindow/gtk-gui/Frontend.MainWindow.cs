@@ -258,7 +258,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 0;
+			this.notebook1.CurrentPage = 5;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -615,7 +615,7 @@ namespace Frontend
 			this.vpanedSequences = new global::Gtk.VPaned ();
 			this.vpanedSequences.CanFocus = true;
 			this.vpanedSequences.Name = "vpanedSequences";
-			this.vpanedSequences.Position = 1;
+			this.vpanedSequences.Position = 205;
 			// Container child vpanedSequences.Gtk.Paned+PanedChild
 			this.hbSequences = new global::Gtk.HBox ();
 			this.hbSequences.Name = "hbSequences";
