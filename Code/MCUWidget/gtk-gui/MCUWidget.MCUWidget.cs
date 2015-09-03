@@ -129,11 +129,11 @@ namespace MCUWidget
 			w8.Expand = false;
 			w8.Fill = false;
 			// Container child hbox4.Gtk.Box+BoxChild
-			this.sbAREFExternal = new global::Gtk.SpinButton (0D, 100D, 1D);
+			this.sbAREFExternal = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbAREFExternal.CanFocus = true;
 			this.sbAREFExternal.Name = "sbAREFExternal";
-			this.sbAREFExternal.Adjustment.PageIncrement = 10D;
-			this.sbAREFExternal.ClimbRate = 1D;
+			this.sbAREFExternal.Adjustment.PageIncrement = 10;
+			this.sbAREFExternal.ClimbRate = 1;
 			this.sbAREFExternal.Numeric = true;
 			this.hbox4.Add (this.sbAREFExternal);
 			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.sbAREFExternal]));

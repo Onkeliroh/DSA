@@ -27,9 +27,11 @@ namespace PrototypeBackend
 
 		public TimeSpan TimePassed { 
 			get {
-				if (TimeKeeper != null) {
+				if (TimeKeeper != null)
+				{
 					return TimeKeeper.Elapsed;
-				} else {
+				} else
+				{
 					return new TimeSpan (0);
 				}
 			}
@@ -75,8 +77,10 @@ namespace PrototypeBackend
 			ArduinoController.Init ();
 			ArduinoController.OnReceiveMessage += (sender, e) => ConLogger.Log ("IN < " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnSendMessage += (sender, e) => ConLogger.Log ("OUT > " + e.Message, LogLevel.DEBUG);
-			ArduinoController.OnConnectionChanged += ((o, e) => {
-				if (e.Connected) {
+			ArduinoController.OnConnectionChanged += ((o, e) =>
+			{
+				if (e.Connected)
+				{
 					#if DEBUG
 					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.DEBUG);
 					#endif
@@ -84,19 +88,22 @@ namespace PrototypeBackend
 					ConLogger.Log ("Connected to " + ArduinoController.SerialPortName);
 					#endif
 
-				} else {
+				} else
+				{
 					ConLogger.Log ("Disconnected");
 				}
 			});
 
-			Configuration.OnPinsUpdated += (o, e) => {
+			Configuration.OnPinsUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.Pin + " to " + e.Pin2);
 				else
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.Pin);
 			};
 
-			Configuration.OnSequencesUpdated += (o, e) => {
+			Configuration.OnSequencesUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.Seq + " to " + e.Seq);
 				else
@@ -104,7 +111,8 @@ namespace PrototypeBackend
 
 				BuildSequenceList ();
 			};
-			Configuration.OnSignalsUpdated += (o, e) => {
+			Configuration.OnSignalsUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.MC + " to " + e.MC2);
 				else
@@ -144,7 +152,8 @@ namespace PrototypeBackend
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 			TimeKeeper.Stop ();
 
-			if (OnControllerStoped != null) {
+			if (OnControllerStoped != null)
+			{
 				OnControllerStoped.Invoke (this, null);
 			}
 		}
@@ -154,13 +163,16 @@ namespace PrototypeBackend
 			TimeKeeper.Restart ();
 
 			running = true;
+
+			ArduinoController.SetPinModes (Configuration.AnalogPins.Select (o => o.DigitalNumber).ToArray<uint> (), Configuration.DigitalPins.Select (o => o.Number).ToArray<uint> ());
 			BuildSequenceList ();
 			StartTime = DateTime.Now;
 			sequenceThreads.ForEach (o => o.Start ());
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + TimeKeeper.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 
-			if (OnControllerStarted != null) {
+			if (OnControllerStarted != null)
+			{
 				OnControllerStarted.Invoke (this, null);
 			}
 		}
@@ -169,30 +181,34 @@ namespace PrototypeBackend
 		{
 			sequenceThreads.Clear ();
 			GC.Collect ();
-			foreach (Sequence seq in Configuration.Sequences) {
+			foreach (Sequence seq in Configuration.Sequences)
+			{
 				var seqThread = new Thread (
-					                () => {
-						var logger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value + seq.Pin.Number, true, false);
-						logger.LogToFile = true;
-						logger.Start ();
+					                () =>
+					{
+//						var logger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value + seq.Pin.Number, true, false);
+//						logger.LogToFile = true;
+//						logger.Start ();
 						Stopwatch sw = new Stopwatch ();
 						sw.Start ();
 
 						uint pin = seq.Pin.Number;
 						PinMode mode = seq.Pin.Mode;
 						var op = seq.Current ();
-						while (seq.CurrentState != SequenceState.Done && running && op != null) {
-							logger.Log (sw.ElapsedMilliseconds.ToString () + "; begin");
-							ArduinoController.SetPin (pin, mode, ((SequenceOperation)op).State);
-							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after send");
+						while (seq.CurrentState != SequenceState.Done && running && op != null)
+						{
+//							logger.Log (sw.ElapsedMilliseconds.ToString () + "; begin");
+//							ArduinoController.SetPin (pin, mode, ((SequenceOperation)op).State);
+							ArduinoController.SetPinState (pin, ((SequenceOperation)op).State);
+//							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after send");
 							Thread.Sleep (((SequenceOperation)op).Duration);
-							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after sleep");
+//							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after sleep");
 							op = seq.Next ();
-							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after next");
+//							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after next");
 						}	
-						ConLogger.Log (seq.Name + "exiting", LogLevel.DEBUG);
+//						ConLogger.Log (seq.Name + "exiting", LogLevel.DEBUG);
 						seq.Reset ();
-						logger.Stop ();
+//						logger.Stop ();
 					});
 				seqThread.Priority = ThreadPriority.Highest;
 				seqThread.Name = seq.Name + "(" + seq.Pin + ")";
