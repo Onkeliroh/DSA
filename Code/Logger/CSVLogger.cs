@@ -4,11 +4,16 @@ using System.IO;
 using System.Globalization;
 using System.Text;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Logger
 {
 	public sealed class CSVLogger : Logger
 	{
+		public IDictionary<string,int> Mapping{ get; set; }
+
+		public string EmptySpaceFillin = " ";
+
 		/// <summary>
 		/// Default Constructor
 		/// </summary>
@@ -81,7 +86,6 @@ namespace Logger
 		/// </summary>
 		/// <returns>The string.</returns>
 		/// <param name="row">A row of values.</param>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
 		public string CreateString<T> (List<T> row)
 		{
 			StringBuilder sb = new StringBuilder ();
@@ -103,12 +107,43 @@ namespace Logger
 		/// Log the specified row.
 		/// </summary>
 		/// <param name="row">A row of values.</param>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
 		public void Log<T> (List<T> row)
 		{
 			Log (GetTimeString () + CreateString (row));
 		}
 
+		/// <summary>
+		/// Log the specified properties depending on the provided mapping
+		/// </summary>
+		/// <param name="properties">Properties</param>
+		/// <param name="row">Values</param>
+		public void Log<T> (List<string> properties, List<T> row)
+		{
+			Log (SortValues (properties, row));
+			
+		}
+
+		/// <summary>
+		/// Sorts the values acroding to the provided mapping.
+		/// </summary>
+		/// <returns>Sorted values</returns>
+		/// <param name="properties">Properies</param>
+		/// <param name="row">Values</param>
+		private List<string> SortValues<T> (List<string> properties, List<T> row)
+		{
+			var list = new string[Mapping.Count];
+			foreach (string property in Mapping.Keys)
+			{
+				if (properties.Contains (property))
+				{
+					list [Mapping [property]] = row [properties.FindIndex (o => o == property)].ToString ();
+				} else
+				{
+					list [Mapping [property]] = EmptySpaceFillin;
+				}
+			}
+			return list.ToList<string> ();
+		}
 
 		/// <summary>
 		/// Writes the header.

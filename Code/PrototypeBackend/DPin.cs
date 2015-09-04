@@ -28,6 +28,8 @@ namespace PrototypeBackend
 
 		public uint Number { get ; set; }
 
+		public uint RealNumber { get { return Number; } set { } }
+
 		public uint? AnalogNumber { get; set; }
 
 		public bool SDA { get ;	set ; }
@@ -69,7 +71,8 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as DPin;
-			if (seq != null) {
+			if (seq != null)
+			{
 				return (seq.Number == Number)
 //				&& seq.Name.Equals (Name)
 //				&& seq.State.Equals (State)
@@ -102,7 +105,8 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			switch (Mode) {
+			switch (Mode)
+			{
 			case PrototypeBackend.PinMode.OUTPUT:
 				PrototypeBackend.ArduinoController.SetPin (Number, Mode, State);
 				break;

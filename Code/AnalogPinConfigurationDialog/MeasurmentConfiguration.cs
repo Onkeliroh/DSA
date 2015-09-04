@@ -94,7 +94,7 @@ namespace AnalogPinConfigurationDialog
 			pin.Unit = cbUnit.ActiveText;
 			pin.Slope = sbSlope.Value;
 			pin.Offset = sbOffset.Value;
-			pin.Frequency = sbFrequency.Value;
+			pin.Frequency = sbFrequency.ValueAsInt;
 			pin.Interval = sbInterval.ValueAsInt;
 
 			Respond (Gtk.ResponseType.Apply);
@@ -154,7 +154,7 @@ namespace AnalogPinConfigurationDialog
 		{
 			if (pin != null)
 			{
-				pin.Frequency = sbFrequency.Value;	
+				pin.Frequency = sbFrequency.ValueAsInt;	
 			}
 		}
 

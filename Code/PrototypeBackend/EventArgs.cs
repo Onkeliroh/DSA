@@ -4,17 +4,17 @@ namespace PrototypeBackend
 {
 	public class ControllerAnalogEventArgs
 	{
-		public int[] PinNr { get; set; }
+		public uint[] PinNr { get; set; }
 
 		public int[] PinValue { get; private set; }
 
 		public DateTime TimeStamp { get; private set; }
 
-		public ControllerAnalogEventArgs (int[] pinNr, int[] pinValue) : this (pinNr, pinValue, DateTime.Now)
+		public ControllerAnalogEventArgs (uint[] pinNr, int[] pinValue) : this (pinNr, pinValue, DateTime.Now)
 		{
 		}
 
-		public ControllerAnalogEventArgs (int[] pinNr, int[] pinValue, DateTime timeStamp)
+		public ControllerAnalogEventArgs (uint[] pinNr, int[] pinValue, DateTime timeStamp)
 		{
 			PinNr = pinNr;
 			PinValue = pinValue;

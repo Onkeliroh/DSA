@@ -4,6 +4,7 @@ using CommandMessenger;
 using CommandMessenger.Transport.Serial;
 using PrototypeBackend;
 using System.IO.Ports;
+using System.Linq;
 
 namespace PrototypeBackend
 {
@@ -117,11 +118,6 @@ namespace PrototypeBackend
 		public static string SerialPortName {
 			get;
 			set;
-		}
-
-		public static List<List<float>> AnalogValues {
-			get;
-			private set;
 		}
 
 		public static string Version {
@@ -472,14 +468,32 @@ namespace PrototypeBackend
 
 		#region GETTER
 
-		public static int ReadAnalogPin (int nr)
+		public static float ReadAnalogPin (uint nr)
 		{
-			return ReadAnalogPin (new int[]{ nr }) [0];
+			return ReadAnalogPin (new uint[]{ nr }) [0];
 		}
 
-		public static int[] ReadAnalogPin (int[] nr)
+		public static float[] GetAnalogValues (uint[] pins)
 		{
 			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 500);
+			command.AddArguments (pins.Cast<string> ().ToArray ());
+			var ret = _cmdMessenger.SendCommand (command);
+			if (ret.Ok)
+			{
+				object[] objarr = new object[ret.Arguments.Length];
+				objarr = ret.Arguments;
+
+				return objarr.Cast<float> ().ToArray ();
+			} else
+			{
+				//TODO werfe exception
+				return null;
+			}
+		}
+
+		public static float[] ReadAnalogPin (uint[] nr)
+		{
+			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 1000);
 			command.AddArgument (nr.Length);
 			foreach (int i in nr)
 			{
@@ -488,15 +502,22 @@ namespace PrototypeBackend
 			var result = _cmdMessenger.SendCommand (command);
 			if (result.Ok)
 			{
-				int[] results = new int[nr.Length];
+				float[] results = new float[nr.Length];
 				for (int i = 0; i < nr.Length; i++)
 				{
-					results [i] = result.ReadBinInt32Arg ();
+					results [i] = result.ReadFloatArg ();
 				}
-				NewAnalogValue.Invoke (null, new ControllerAnalogEventArgs (nr, results));
+
+//				if (NewAnalogValue != null)
+//				{
+//					NewAnalogValue.Invoke (null, new ControllerAnalogEventArgs (nr, results));
+//				}
 				return results;
+			} else
+			{
+				//TODO throw exception
+				return null;
 			}
-			return new int[0];
 		}
 
 		public static DPinState ReadPin (uint nr)

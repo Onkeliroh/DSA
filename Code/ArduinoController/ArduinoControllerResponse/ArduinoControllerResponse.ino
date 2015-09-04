@@ -122,7 +122,7 @@ void OnReadAnalogPin()
   for ( int i = 0; i < NrOfValues; i++)
   {
     Pins[i] = analogRead(Pins[i]);
-    cmdMessenger.sendCmdSciArg(Pins[i]);
+    cmdMessenger.sendCmdArg(Pins[i]);
   }
 
   cmdMessenger.sendCmdEnd();

@@ -15,11 +15,11 @@ namespace PrototypeBackend
 
 		public ConfigurationManager ConfigManager { get; private set; }
 
-		private Thread signalThread;
 
 		//		private Thread sequenceThread;
 
 		private List<Thread> sequenceThreads = new List<Thread> ();
+		private List<System.Timers.Timer> measurementTimers = new List<System.Timers.Timer> ();
 
 		public BoardConfiguration Configuration;
 
@@ -59,7 +59,7 @@ namespace PrototypeBackend
 			BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
 			ConLogger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, true, false, LogLevel.DEBUG);
 			ConLogger.LogToFile = true;
-			ConLogger.DateTimeFormat = "{0:mm:ss.fffff}";
+//			ConLogger.DateTimeFormat = "{0:mm:ss.fffff}";
 			ConLogger.Start ();
 			#else
 			ConLogger = new InfoLogger (
@@ -166,8 +166,10 @@ namespace PrototypeBackend
 
 			ArduinoController.SetPinModes (Configuration.AnalogPins.Select (o => o.DigitalNumber).ToArray<uint> (), Configuration.DigitalPins.Select (o => o.Number).ToArray<uint> ());
 			BuildSequenceList ();
+			MeasurementPreProcessing ();
 			StartTime = DateTime.Now;
 			sequenceThreads.ForEach (o => o.Start ());
+			measurementTimers.ForEach (o => o.Start ());
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + TimeKeeper.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 
@@ -186,9 +188,6 @@ namespace PrototypeBackend
 				var seqThread = new Thread (
 					                () =>
 					{
-//						var logger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value + seq.Pin.Number, true, false);
-//						logger.LogToFile = true;
-//						logger.Start ();
 						Stopwatch sw = new Stopwatch ();
 						sw.Start ();
 
@@ -197,23 +196,78 @@ namespace PrototypeBackend
 						var op = seq.Current ();
 						while (seq.CurrentState != SequenceState.Done && running && op != null)
 						{
-//							logger.Log (sw.ElapsedMilliseconds.ToString () + "; begin");
-//							ArduinoController.SetPin (pin, mode, ((SequenceOperation)op).State);
 							ArduinoController.SetPinState (pin, ((SequenceOperation)op).State);
-//							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after send");
 							Thread.Sleep (((SequenceOperation)op).Duration);
-//							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after sleep");
 							op = seq.Next ();
-//							logger.Log (sw.ElapsedMilliseconds.ToString () + "; after next");
 						}	
-//						ConLogger.Log (seq.Name + "exiting", LogLevel.DEBUG);
 						seq.Reset ();
-//						logger.Stop ();
 					});
 				seqThread.Priority = ThreadPriority.Highest;
 				seqThread.Name = seq.Name + "(" + seq.Pin + ")";
 				sequenceThreads.Add (seqThread);
 			}
+		}
+
+		//Version1
+		private void MeasurementPreProcessing ()
+		{
+			var logger = new CSVLogger ("csv.csv", new List<string> () {
+				"A0",
+				"A1",
+				"A2",
+				"A3",
+				"A4",
+				"A5"
+			}, true, false, ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value);
+			logger.Mapping = CreateMapping ();
+			logger.DateTimeFormat = "{0:mm:ss.ffff}"; 
+			logger.Start ();
+			measurementTimers.ForEach (o => o.Dispose ());
+			measurementTimers.Clear ();
+			var list = new List<APin> ();
+			list = Configuration.AnalogPins.OrderBy (o => o.Frequency).ToList<APin> ();
+
+			while (list.Count > 0)
+			{
+				var query = Configuration.AnalogPins.Where (o => o.Frequency == list.First ().Frequency).ToList<APin> ();
+				if (query.Count > 0)
+				{
+					list.RemoveAll (o => o.Frequency == query.First ().Frequency);
+					var timer = new System.Timers.Timer (query.First ().Frequency);
+					timer.Elapsed += (o, e) =>
+					{
+						if (running)
+						{
+							var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.Number).ToArray<uint> ());
+							for (int i = 0; i < vals.Length; i++)
+							{
+								query [i].Value = vals [i];
+							}
+							logger.Log (query.Select (x => x.DisplayName).ToList<string> (), vals.ToList ());
+						} else
+						{
+							logger.Stop ();
+							(o as System.Timers.Timer).Stop ();
+						}
+					};
+					measurementTimers.Add (timer);
+				}
+			}
+		}
+
+		private IDictionary<string,int> CreateMapping ()
+		{
+			var dict = new Dictionary<string,int> ();
+
+			for (int i = 0; i < Configuration.Pins.Count; i++)
+			{
+				dict.Add (Configuration.Pins [i].DisplayName, i);
+			}
+			for (int i = Configuration.Pins.Count; i < (Configuration.MeasurementCombinations.Count + Configuration.Pins.Count); i++)
+			{
+				dict.Add (Configuration.MeasurementCombinations [i].Name, i);
+			}
+			return dict;
 		}
 
 	}

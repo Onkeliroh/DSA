@@ -12,6 +12,8 @@ namespace PrototypeBackend
 
 		uint Number{ get; set; }
 
+		uint RealNumber { get; set; }
+
 		Gdk.Color PlotColor{ get; set; }
 
 		PrototypeBackend.PinType Type { get; set; }
