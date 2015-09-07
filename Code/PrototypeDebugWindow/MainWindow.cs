@@ -10,6 +10,7 @@ using OxyPlot.Axes;
 using OxyPlot.GtkSharp;
 using OxyPlot.Series;
 using PrototypeBackend;
+using System.Collections.Generic;
 
 namespace Frontend
 {
@@ -18,7 +19,7 @@ namespace Frontend
 
 		#region Member
 
-		Controller con = new Controller ();
+		Controller con;
 
 		private Gtk.NodeStore NodeStoreDigitalPins = new NodeStore (typeof(DPinTreeNode));
 		private Gtk.NodeStore NodeStoreAnalogPins = new NodeStore (typeof(APinTreeNode));
@@ -29,12 +30,24 @@ namespace Frontend
 		private PlotModel SequencePreviewPlotModel;
 		private LinearAxis XAxis;
 
+		private PlotView RealTimePlotView;
+		private PlotModel RealTimePlotModel;
+		private LinearAxis RealTimeXAxis;
+		private Dictionary<string,Collection<DateTimeValue>> RealTimeDictionary;
+
 		private System.Timers.Timer TimeKeeperPresenter;
 
-		public MainWindow () :
+		public MainWindow (Controller controller = null) :
 			base (Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
+
+			if (controller != null) {
+				con = controller;
+			} else {
+				con = new Controller ();
+			}
+
 			InitComponents ();
 
 			#if !DEBUG
@@ -92,6 +105,7 @@ namespace Frontend
 			BuildNodeViews ();
 			BuildMCUWidget ();
 			BuildSequencePreviewPlot ();
+			BuildRealTimePlot ();
 
 			#if DEBUG
 //			con.ConLogger.NewMessage += 
@@ -305,7 +319,6 @@ namespace Frontend
 			SequencePreviewPlotModel.Series.Clear ();
 			SequencePreviewPlotModel.Axes.Add (XAxis);
 
-
 			double size = 1 / (double)con.Configuration.Sequences.Count;
 			double startPos = 1;
 
@@ -402,6 +415,21 @@ namespace Frontend
 			SequencePreviewPlotModel.InvalidatePlot (true);
 			SequencePreviewPlotView.InvalidatePlot (true);
 			SequencePreviewPlotView.ShowAll ();
+		}
+
+		private void UpdateRealTimePlot (object obj, NewMeasurementValue e)
+		{
+			if (obj is APin) {
+				var tmp = obj as APin;
+				if (RealTimeDictionary.Keys.Contains (tmp.DisplayName)) {
+					RealTimeDictionary [tmp.DisplayName].Add (new DateTimeValue (){ Time = e.Time, Value = e.Value });
+				}
+			} else if (obj is MeasurementCombination) {
+				var tmp = obj as MeasurementCombination;
+				if (RealTimeDictionary.Keys.Contains (tmp.DisplayName)) {
+					RealTimeDictionary [tmp.DisplayName].Add (new DateTimeValue (){ Time = e.Time, Value = e.Value });
+				}
+			}
 		}
 
 		#endregion
@@ -635,6 +663,53 @@ namespace Frontend
 
 
 			SequencePreviewPlotView.ShowAll ();
+		}
+
+		private void BuildRealTimePlot ()
+		{
+			RealTimeXAxis = new LinearAxis {
+				Key = "X",
+				Position = AxisPosition.Bottom,
+				AbsoluteMinimum = TimeSpan.FromSeconds (0).Ticks,
+				LabelFormatter = x => {
+					if (con != null && x == con.StartTime.Ticks) {
+						return string.Format ("Start\n{0}", TimeSpan.FromSeconds (x).ToString ("g"));
+					}
+					return string.Format ("{0}", TimeSpan.FromSeconds (x).ToString ("g"));
+				},
+				MajorGridlineThickness = 1,
+				MajorGridlineStyle = LineStyle.Solid,
+				MinorGridlineColor = OxyColors.LightGray,
+				MinorGridlineStyle = LineStyle.Dot,
+				MinorGridlineThickness = .5,
+			};
+
+			var YAxis = new LinearAxis {
+				Position = AxisPosition.Left,
+				IsPanEnabled = false,
+				IsZoomEnabled = false,
+				MajorGridlineThickness = 1,
+				MajorGridlineStyle = LineStyle.Solid,
+				MinorGridlineColor = OxyColors.LightGray,
+				MinorGridlineStyle = LineStyle.Dot,
+				MinorGridlineThickness = .5,
+			};
+
+			RealTimePlotModel = new PlotModel {
+				PlotType = PlotType.XY,
+				Background = OxyPlot.OxyColors.White,
+			};
+			RealTimePlotModel.Axes.Add (YAxis);
+			RealTimePlotModel.Axes.Add (RealTimeXAxis);
+			RealTimePlotView = new PlotView (){ Name = "", Model = RealTimePlotModel  };
+
+			vboxRealTimePlot.PackStart (RealTimePlotView, true, true, 0);
+			(vboxRealTimePlot [RealTimePlotView] as Box.BoxChild).Position = 0;
+
+			RealTimePlotView.SetSizeRequest (hbSequences.Allocation.Width, fSequences.Allocation.Height / 2);
+			vpanedSequences.Position = fSequences.Allocation.Height / 2;
+
+			RealTimePlotView.ShowAll ();	
 		}
 
 		#endregion

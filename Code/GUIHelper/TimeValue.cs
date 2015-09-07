@@ -8,5 +8,12 @@ namespace GUIHelper
 
 		public double Value { get; set; }
 	}
+
+	public struct DateTimeValue
+	{
+		public DateTime Time{ get; set; }
+
+		public double Value { get; set; }
+	}
 }
 

@@ -44,15 +44,19 @@ namespace PreferencesDialog
 		
 		private global::Gtk.Table table4;
 		
-		private global::Gtk.Button button7;
+		private global::Gtk.Button btnCSVFilePathOpen;
 		
-		private global::Gtk.CheckButton checkbutton3;
+		private global::Gtk.CheckButton cbCSVLocaltime;
 		
-		private global::Gtk.CheckButton checkbutton4;
+		private global::Gtk.CheckButton cbCSVUTC;
 		
-		private global::Gtk.Entry entry3;
+		private global::Gtk.ComboBoxEntry cbeCSVEmptyValueFilling;
 		
-		private global::Gtk.HSeparator hseparator2;
+		private global::Gtk.ComboBoxEntry cbeCSVSeparator;
+		
+		private global::Gtk.ComboBoxEntry cbeCSVTimeFormat;
+		
+		private global::Gtk.Entry eCSVFilePath;
 		
 		private global::Gtk.Label label11;
 		
@@ -60,7 +64,23 @@ namespace PreferencesDialog
 		
 		private global::Gtk.Label label13;
 		
+		private global::Gtk.Label label14;
+		
+		private global::Gtk.Label label17;
+		
+		private global::Gtk.Label label18;
+		
 		private global::Gtk.Label label2;
+		
+		private global::Gtk.Table table5;
+		
+		private global::Gtk.CheckButton cbPlotUseMarker;
+		
+		private global::Gtk.Label label15;
+		
+		private global::Gtk.Label label16;
+		
+		private global::Gtk.SpinButton spinbutton1;
 		
 		private global::Gtk.Label label3;
 		
@@ -85,7 +105,7 @@ namespace PreferencesDialog
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 1;
+			this.notebook1.CurrentPage = 0;
 			this.notebook1.TabPos = ((global::Gtk.PositionType)(0));
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table2 = new global::Gtk.Table (((uint)(5)), ((uint)(3)), false);
@@ -279,127 +299,243 @@ namespace PreferencesDialog
 			this.notebook1.SetTabLabel (this.table3, this.label5);
 			this.label5.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
-			this.table4 = new global::Gtk.Table (((uint)(7)), ((uint)(3)), false);
+			this.table4 = new global::Gtk.Table (((uint)(8)), ((uint)(3)), false);
 			this.table4.Name = "table4";
 			this.table4.RowSpacing = ((uint)(6));
 			this.table4.ColumnSpacing = ((uint)(6));
+			this.table4.BorderWidth = ((uint)(6));
 			// Container child table4.Gtk.Table+TableChild
-			this.button7 = new global::Gtk.Button ();
-			this.button7.CanFocus = true;
-			this.button7.Name = "button7";
-			this.button7.UseUnderline = true;
-			this.button7.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
-			this.table4.Add (this.button7);
-			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table4 [this.button7]));
-			w20.TopAttach = ((uint)(2));
-			w20.BottomAttach = ((uint)(3));
-			w20.LeftAttach = ((uint)(2));
-			w20.RightAttach = ((uint)(3));
-			w20.XOptions = ((global::Gtk.AttachOptions)(4));
-			w20.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table4.Gtk.Table+TableChild
-			this.checkbutton3 = new global::Gtk.CheckButton ();
-			this.checkbutton3.CanFocus = true;
-			this.checkbutton3.Name = "checkbutton3";
-			this.checkbutton3.Label = global::Mono.Unix.Catalog.GetString ("checkbutton3");
-			this.checkbutton3.DrawIndicator = true;
-			this.checkbutton3.UseUnderline = true;
-			this.table4.Add (this.checkbutton3);
-			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table4 [this.checkbutton3]));
-			w21.LeftAttach = ((uint)(1));
+			this.btnCSVFilePathOpen = new global::Gtk.Button ();
+			this.btnCSVFilePathOpen.CanFocus = true;
+			this.btnCSVFilePathOpen.Name = "btnCSVFilePathOpen";
+			this.btnCSVFilePathOpen.UseUnderline = true;
+			global::Gtk.Image w20 = new global::Gtk.Image ();
+			w20.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-open", global::Gtk.IconSize.Menu);
+			this.btnCSVFilePathOpen.Image = w20;
+			this.table4.Add (this.btnCSVFilePathOpen);
+			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table4 [this.btnCSVFilePathOpen]));
+			w21.LeftAttach = ((uint)(2));
 			w21.RightAttach = ((uint)(3));
+			w21.XOptions = ((global::Gtk.AttachOptions)(0));
 			w21.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
-			this.checkbutton4 = new global::Gtk.CheckButton ();
-			this.checkbutton4.CanFocus = true;
-			this.checkbutton4.Name = "checkbutton4";
-			this.checkbutton4.Label = global::Mono.Unix.Catalog.GetString ("checkbutton4");
-			this.checkbutton4.DrawIndicator = true;
-			this.checkbutton4.UseUnderline = true;
-			this.table4.Add (this.checkbutton4);
-			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table4 [this.checkbutton4]));
-			w22.TopAttach = ((uint)(1));
-			w22.BottomAttach = ((uint)(2));
+			this.cbCSVLocaltime = new global::Gtk.CheckButton ();
+			this.cbCSVLocaltime.CanFocus = true;
+			this.cbCSVLocaltime.Name = "cbCSVLocaltime";
+			this.cbCSVLocaltime.Label = "";
+			this.cbCSVLocaltime.DrawIndicator = true;
+			this.cbCSVLocaltime.UseUnderline = true;
+			this.table4.Add (this.cbCSVLocaltime);
+			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table4 [this.cbCSVLocaltime]));
+			w22.TopAttach = ((uint)(4));
+			w22.BottomAttach = ((uint)(5));
 			w22.LeftAttach = ((uint)(1));
 			w22.RightAttach = ((uint)(3));
+			w22.XOptions = ((global::Gtk.AttachOptions)(4));
 			w22.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
-			this.entry3 = new global::Gtk.Entry ();
-			this.entry3.CanFocus = true;
-			this.entry3.Name = "entry3";
-			this.entry3.IsEditable = true;
-			this.entry3.InvisibleChar = '●';
-			this.table4.Add (this.entry3);
-			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table4 [this.entry3]));
-			w23.TopAttach = ((uint)(2));
-			w23.BottomAttach = ((uint)(3));
+			this.cbCSVUTC = new global::Gtk.CheckButton ();
+			this.cbCSVUTC.CanFocus = true;
+			this.cbCSVUTC.Name = "cbCSVUTC";
+			this.cbCSVUTC.Label = "";
+			this.cbCSVUTC.DrawIndicator = true;
+			this.cbCSVUTC.UseUnderline = true;
+			this.table4.Add (this.cbCSVUTC);
+			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table4 [this.cbCSVUTC]));
+			w23.TopAttach = ((uint)(3));
+			w23.BottomAttach = ((uint)(4));
 			w23.LeftAttach = ((uint)(1));
-			w23.RightAttach = ((uint)(2));
+			w23.RightAttach = ((uint)(3));
+			w23.XOptions = ((global::Gtk.AttachOptions)(4));
 			w23.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
-			this.hseparator2 = new global::Gtk.HSeparator ();
-			this.hseparator2.Name = "hseparator2";
-			this.table4.Add (this.hseparator2);
-			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table4 [this.hseparator2]));
-			w24.TopAttach = ((uint)(3));
-			w24.BottomAttach = ((uint)(4));
+			this.cbeCSVEmptyValueFilling = global::Gtk.ComboBoxEntry.NewText ();
+			this.cbeCSVEmptyValueFilling.Name = "cbeCSVEmptyValueFilling";
+			this.table4.Add (this.cbeCSVEmptyValueFilling);
+			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table4 [this.cbeCSVEmptyValueFilling]));
+			w24.TopAttach = ((uint)(2));
+			w24.BottomAttach = ((uint)(3));
+			w24.LeftAttach = ((uint)(1));
 			w24.RightAttach = ((uint)(3));
+			w24.XOptions = ((global::Gtk.AttachOptions)(4));
 			w24.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
-			this.label11 = new global::Gtk.Label ();
-			this.label11.Name = "label11";
-			this.label11.LabelProp = global::Mono.Unix.Catalog.GetString ("label10");
-			this.table4.Add (this.label11);
-			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table4 [this.label11]));
-			w25.XOptions = ((global::Gtk.AttachOptions)(4));
+			this.cbeCSVSeparator = global::Gtk.ComboBoxEntry.NewText ();
+			this.cbeCSVSeparator.Name = "cbeCSVSeparator";
+			this.table4.Add (this.cbeCSVSeparator);
+			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table4 [this.cbeCSVSeparator]));
+			w25.TopAttach = ((uint)(1));
+			w25.BottomAttach = ((uint)(2));
+			w25.LeftAttach = ((uint)(1));
+			w25.RightAttach = ((uint)(3));
 			w25.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
-			this.label12 = new global::Gtk.Label ();
-			this.label12.Name = "label12";
-			this.label12.LabelProp = global::Mono.Unix.Catalog.GetString ("label11");
-			this.table4.Add (this.label12);
-			global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.table4 [this.label12]));
-			w26.TopAttach = ((uint)(1));
-			w26.BottomAttach = ((uint)(2));
+			this.cbeCSVTimeFormat = global::Gtk.ComboBoxEntry.NewText ();
+			this.cbeCSVTimeFormat.Name = "cbeCSVTimeFormat";
+			this.table4.Add (this.cbeCSVTimeFormat);
+			global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.table4 [this.cbeCSVTimeFormat]));
+			w26.TopAttach = ((uint)(5));
+			w26.BottomAttach = ((uint)(6));
+			w26.LeftAttach = ((uint)(1));
+			w26.RightAttach = ((uint)(3));
 			w26.XOptions = ((global::Gtk.AttachOptions)(4));
 			w26.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
+			this.eCSVFilePath = new global::Gtk.Entry ();
+			this.eCSVFilePath.CanFocus = true;
+			this.eCSVFilePath.Name = "eCSVFilePath";
+			this.eCSVFilePath.IsEditable = true;
+			this.eCSVFilePath.InvisibleChar = '●';
+			this.table4.Add (this.eCSVFilePath);
+			global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.table4 [this.eCSVFilePath]));
+			w27.LeftAttach = ((uint)(1));
+			w27.RightAttach = ((uint)(2));
+			w27.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table4.Gtk.Table+TableChild
+			this.label11 = new global::Gtk.Label ();
+			this.label11.Name = "label11";
+			this.label11.Xalign = 0F;
+			this.label11.LabelProp = global::Mono.Unix.Catalog.GetString ("Separator:");
+			this.table4.Add (this.label11);
+			global::Gtk.Table.TableChild w28 = ((global::Gtk.Table.TableChild)(this.table4 [this.label11]));
+			w28.TopAttach = ((uint)(1));
+			w28.BottomAttach = ((uint)(2));
+			w28.XOptions = ((global::Gtk.AttachOptions)(4));
+			w28.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table4.Gtk.Table+TableChild
+			this.label12 = new global::Gtk.Label ();
+			this.label12.Name = "label12";
+			this.label12.Xalign = 0F;
+			this.label12.LabelProp = global::Mono.Unix.Catalog.GetString ("Empty Value Filling:");
+			this.table4.Add (this.label12);
+			global::Gtk.Table.TableChild w29 = ((global::Gtk.Table.TableChild)(this.table4 [this.label12]));
+			w29.TopAttach = ((uint)(2));
+			w29.BottomAttach = ((uint)(3));
+			w29.XOptions = ((global::Gtk.AttachOptions)(4));
+			w29.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table4.Gtk.Table+TableChild
 			this.label13 = new global::Gtk.Label ();
 			this.label13.Name = "label13";
-			this.label13.LabelProp = global::Mono.Unix.Catalog.GetString ("label12");
+			this.label13.Xalign = 0F;
+			this.label13.LabelProp = global::Mono.Unix.Catalog.GetString ("CSV File Path:");
 			this.table4.Add (this.label13);
-			global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.table4 [this.label13]));
-			w27.TopAttach = ((uint)(2));
-			w27.BottomAttach = ((uint)(3));
-			w27.XOptions = ((global::Gtk.AttachOptions)(4));
-			w27.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w30 = ((global::Gtk.Table.TableChild)(this.table4 [this.label13]));
+			w30.XOptions = ((global::Gtk.AttachOptions)(4));
+			w30.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table4.Gtk.Table+TableChild
+			this.label14 = new global::Gtk.Label ();
+			this.label14.Name = "label14";
+			this.label14.Xalign = 0F;
+			this.label14.LabelProp = global::Mono.Unix.Catalog.GetString ("Localtime Timestamp:");
+			this.table4.Add (this.label14);
+			global::Gtk.Table.TableChild w31 = ((global::Gtk.Table.TableChild)(this.table4 [this.label14]));
+			w31.TopAttach = ((uint)(4));
+			w31.BottomAttach = ((uint)(5));
+			w31.XOptions = ((global::Gtk.AttachOptions)(4));
+			w31.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table4.Gtk.Table+TableChild
+			this.label17 = new global::Gtk.Label ();
+			this.label17.Name = "label17";
+			this.label17.Xalign = 0F;
+			this.label17.LabelProp = global::Mono.Unix.Catalog.GetString ("UTC Timestamp:");
+			this.table4.Add (this.label17);
+			global::Gtk.Table.TableChild w32 = ((global::Gtk.Table.TableChild)(this.table4 [this.label17]));
+			w32.TopAttach = ((uint)(3));
+			w32.BottomAttach = ((uint)(4));
+			w32.XOptions = ((global::Gtk.AttachOptions)(4));
+			w32.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table4.Gtk.Table+TableChild
+			this.label18 = new global::Gtk.Label ();
+			this.label18.Name = "label18";
+			this.label18.Xalign = 0F;
+			this.label18.LabelProp = global::Mono.Unix.Catalog.GetString ("Time Format:");
+			this.table4.Add (this.label18);
+			global::Gtk.Table.TableChild w33 = ((global::Gtk.Table.TableChild)(this.table4 [this.label18]));
+			w33.TopAttach = ((uint)(5));
+			w33.BottomAttach = ((uint)(6));
+			w33.XOptions = ((global::Gtk.AttachOptions)(4));
+			w33.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.notebook1.Add (this.table4);
-			global::Gtk.Notebook.NotebookChild w28 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table4]));
-			w28.Position = 2;
+			global::Gtk.Notebook.NotebookChild w34 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table4]));
+			w34.Position = 2;
 			// Notebook tab
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
 			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("CSV Logger");
 			this.notebook1.SetTabLabel (this.table4, this.label2);
 			this.label2.ShowAll ();
+			// Container child notebook1.Gtk.Notebook+NotebookChild
+			this.table5 = new global::Gtk.Table (((uint)(7)), ((uint)(3)), false);
+			this.table5.Name = "table5";
+			this.table5.RowSpacing = ((uint)(6));
+			this.table5.ColumnSpacing = ((uint)(6));
+			this.table5.BorderWidth = ((uint)(6));
+			// Container child table5.Gtk.Table+TableChild
+			this.cbPlotUseMarker = new global::Gtk.CheckButton ();
+			this.cbPlotUseMarker.CanFocus = true;
+			this.cbPlotUseMarker.Name = "cbPlotUseMarker";
+			this.cbPlotUseMarker.Label = "";
+			this.cbPlotUseMarker.Active = true;
+			this.cbPlotUseMarker.DrawIndicator = true;
+			this.cbPlotUseMarker.UseUnderline = true;
+			this.table5.Add (this.cbPlotUseMarker);
+			global::Gtk.Table.TableChild w35 = ((global::Gtk.Table.TableChild)(this.table5 [this.cbPlotUseMarker]));
+			w35.LeftAttach = ((uint)(1));
+			w35.RightAttach = ((uint)(2));
+			w35.XOptions = ((global::Gtk.AttachOptions)(4));
+			w35.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table5.Gtk.Table+TableChild
+			this.label15 = new global::Gtk.Label ();
+			this.label15.Name = "label15";
+			this.label15.LabelProp = global::Mono.Unix.Catalog.GetString ("Maximum Count of Values per Signal:");
+			this.table5.Add (this.label15);
+			global::Gtk.Table.TableChild w36 = ((global::Gtk.Table.TableChild)(this.table5 [this.label15]));
+			w36.TopAttach = ((uint)(1));
+			w36.BottomAttach = ((uint)(2));
+			w36.XOptions = ((global::Gtk.AttachOptions)(4));
+			w36.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table5.Gtk.Table+TableChild
+			this.label16 = new global::Gtk.Label ();
+			this.label16.Name = "label16";
+			this.label16.Xalign = 0F;
+			this.label16.LabelProp = global::Mono.Unix.Catalog.GetString ("Use Marker:");
+			this.table5.Add (this.label16);
+			global::Gtk.Table.TableChild w37 = ((global::Gtk.Table.TableChild)(this.table5 [this.label16]));
+			w37.XOptions = ((global::Gtk.AttachOptions)(4));
+			w37.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table5.Gtk.Table+TableChild
+			this.spinbutton1 = new global::Gtk.SpinButton (1, 10000, 1);
+			this.spinbutton1.CanFocus = true;
+			this.spinbutton1.Name = "spinbutton1";
+			this.spinbutton1.Adjustment.PageIncrement = 10;
+			this.spinbutton1.ClimbRate = 1;
+			this.spinbutton1.Numeric = true;
+			this.spinbutton1.Value = 1000;
+			this.table5.Add (this.spinbutton1);
+			global::Gtk.Table.TableChild w38 = ((global::Gtk.Table.TableChild)(this.table5 [this.spinbutton1]));
+			w38.TopAttach = ((uint)(1));
+			w38.BottomAttach = ((uint)(2));
+			w38.LeftAttach = ((uint)(1));
+			w38.RightAttach = ((uint)(2));
+			w38.YOptions = ((global::Gtk.AttachOptions)(4));
+			this.notebook1.Add (this.table5);
+			global::Gtk.Notebook.NotebookChild w39 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table5]));
+			w39.Position = 3;
 			// Notebook tab
-			global::Gtk.Label w29 = new global::Gtk.Label ();
-			w29.Visible = true;
-			this.notebook1.Add (w29);
 			this.label3 = new global::Gtk.Label ();
 			this.label3.Name = "label3";
 			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Plot");
-			this.notebook1.SetTabLabel (w29, this.label3);
+			this.notebook1.SetTabLabel (this.table5, this.label3);
 			this.label3.ShowAll ();
 			w1.Add (this.notebook1);
-			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(w1 [this.notebook1]));
-			w30.Position = 0;
+			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(w1 [this.notebook1]));
+			w40.Position = 0;
 			// Internal child PreferencesDialog.PreferencesDialog.ActionArea
-			global::Gtk.HButtonBox w31 = this.ActionArea;
-			w31.Name = "dialog1_ActionArea";
-			w31.Spacing = 10;
-			w31.BorderWidth = ((uint)(5));
-			w31.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
+			global::Gtk.HButtonBox w41 = this.ActionArea;
+			w41.Name = "dialog1_ActionArea";
+			w41.Spacing = 10;
+			w41.BorderWidth = ((uint)(5));
+			w41.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonCancel = new global::Gtk.Button ();
 			this.buttonCancel.CanDefault = true;
@@ -409,9 +545,9 @@ namespace PreferencesDialog
 			this.buttonCancel.UseUnderline = true;
 			this.buttonCancel.Label = "gtk-cancel";
 			this.AddActionWidget (this.buttonCancel, -6);
-			global::Gtk.ButtonBox.ButtonBoxChild w32 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w31 [this.buttonCancel]));
-			w32.Expand = false;
-			w32.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w42 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w41 [this.buttonCancel]));
+			w42.Expand = false;
+			w42.Fill = false;
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonOk = new global::Gtk.Button ();
 			this.buttonOk.CanDefault = true;
@@ -419,12 +555,12 @@ namespace PreferencesDialog
 			this.buttonOk.Name = "buttonOk";
 			this.buttonOk.UseStock = true;
 			this.buttonOk.UseUnderline = true;
-			this.buttonOk.Label = "gtk-ok";
-			this.AddActionWidget (this.buttonOk, -5);
-			global::Gtk.ButtonBox.ButtonBoxChild w33 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w31 [this.buttonOk]));
-			w33.Position = 1;
-			w33.Expand = false;
-			w33.Fill = false;
+			this.buttonOk.Label = "gtk-apply";
+			this.AddActionWidget (this.buttonOk, -10);
+			global::Gtk.ButtonBox.ButtonBoxChild w43 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w41 [this.buttonOk]));
+			w43.Position = 1;
+			w43.Expand = false;
+			w43.Fill = false;
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}

@@ -133,5 +133,12 @@ namespace PrototypeBackend
 			Message = msg;
 		}
 	}
+
+	public class NewMeasurementValue
+	{
+		public double RAW;
+		public double Value;
+		public DateTime Time;
+	}
 }
 

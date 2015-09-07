@@ -47,39 +47,15 @@ namespace PrototypeBackend
 		public List<double> Values{ get; private set; }
 
 		public double Value {
-			set{ Values.Add (value); }
-			get {
-				if (Values.Count >= Interval)
-				{
-					if (Interval == 1)
-					{
-						if (!double.IsNaN (Values.Last ()))
-						{
-							return ((Values.Last () * Slope) + Offset);
-						}
-						return double.NaN;
-					} else
-					{
-						if (Values.Count >= Interval)
-						{
-							double result = 0;
-							for (int i = Values.Count - Interval; i < Values.Count; i++)
-							{
-								if (!double.IsNaN (Values [i]))
-								{
-									result += (Values [i] * Slope) + Offset;
-								}
-							}
-							return result / Interval;
-						} else
-						{
-							return double.NaN;
-						}
-					}
-				} else
-				{
-					return double.NaN;
+			set { 
+				Values.Add (value); 
+				if (OnNewValue != null) {
+					OnNewValue.Invoke (this, new NewMeasurementValue (){ RAW = value, Value = CalcValue (), Time = DateTime.Now });
 				}
+			}
+
+			get {
+				return CalcValue ();	
 			}
 		}
 
@@ -97,8 +73,8 @@ namespace PrototypeBackend
 
 		#region Events
 
-		public EventHandler OnNewValue;
-		public EventHandler OnNewRAWValue;
+		public EventHandler<NewMeasurementValue> OnNewValue;
+		public EventHandler<NewMeasurementValue> OnNewRAWValue;
 
 		#endregion
 
@@ -120,10 +96,8 @@ namespace PrototypeBackend
 
 		public override bool Equals (object obj)
 		{
-			if (obj != null)
-			{
-				if (obj is APin)
-				{
+			if (obj != null) {
+				if (obj is APin) {
 					return (obj as APin).Type == Type &&
 					(obj as APin).Mode == Mode &&
 					(obj as APin).Name.Equals (Name) &&
@@ -153,6 +127,32 @@ namespace PrototypeBackend
 			tmp.Serialize (tw, this);
 			tw.Close ();
 			return returnstring;
+		}
+
+		public double CalcValue ()
+		{
+			if (Values.Count >= Interval) {
+				if (Interval == 1) {
+					if (!double.IsNaN (Values.Last ())) {
+						return ((Values.Last () * Slope) + Offset);
+					}
+					return double.NaN;
+				} else {
+					if (Values.Count >= Interval) {
+						double result = 0;
+						for (int i = Values.Count - Interval; i < Values.Count; i++) {
+							if (!double.IsNaN (Values [i])) {
+								result += (Values [i] * Slope) + Offset;
+							}
+						}
+						return result / Interval;
+					} else {
+						return double.NaN;
+					}
+				}
+			} else {
+				return double.NaN;
+			}
 		}
 
 		#endregion

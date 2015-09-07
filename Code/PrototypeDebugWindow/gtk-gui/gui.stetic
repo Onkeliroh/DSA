@@ -13,7 +13,7 @@
     <widget-library name="../../SignalConfigurationDialog/bin/Debug/SignalConfigurationDialog.dll" />
     <widget-library name="../../AnalogPinConfigurationDialog/bin/Debug/AnalogPinConfigurationDialog.dll" />
     <widget-library name="../../PreferencesDialog/bin/Debug/PreferencesDialog.dll" />
-    <widget-library name="../../../Tools/Frontend/PrototypeDebugWindow.exe" internal="true" />
+    <widget-library name="../../../Tools/Frontend/PrototypeDebugWindow.dll" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Frontend.MainWindow" design-size="1207 600">
     <action-group name="Default">
@@ -121,7 +121,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">5</property>
+                <property name="CurrentPage">4</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -764,7 +764,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.VBox" id="vbox5">
+                  <widget class="Gtk.VBox" id="vboxRealTimePlot">
                     <property name="MemberName" />
                     <property name="Spacing">6</property>
                     <child>
@@ -802,7 +802,24 @@
                           <placeholder />
                         </child>
                         <child>
-                          <placeholder />
+                          <widget class="Gtk.Button" id="button122">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="Type">TextOnly</property>
+                            <property name="Label" translatable="yes">GtkButton</property>
+                            <property name="UseUnderline">True</property>
+                          </widget>
+                          <packing>
+                            <property name="AutoSize">True</property>
+                            <property name="XOptions">Fill</property>
+                            <property name="YOptions">Fill</property>
+                            <property name="XExpand">False</property>
+                            <property name="XFill">True</property>
+                            <property name="XShrink">False</property>
+                            <property name="YExpand">False</property>
+                            <property name="YFill">True</property>
+                            <property name="YShrink">False</property>
+                          </packing>
                         </child>
                       </widget>
                       <packing>

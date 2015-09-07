@@ -35,8 +35,7 @@ namespace PrototypeBackend
 
 		public double Value {
 			get {
-				if (Operation != null)
-				{
+				if (Operation != null) {
 					return (Operation (Pins.Select (o => o.Value).ToArray ()));
 				}
 				return double.NaN;
@@ -50,17 +49,21 @@ namespace PrototypeBackend
 			} 
 			set { 
 				Operation = OperationCompiler.CompileOperation (value, Pins.Select (o => o.Name).ToArray ());
-				if (Operation != null)
-				{
+				if (Operation != null) {
 					OperationString_ = value; 
-				} else
-				{
+				} else {
 					OperationString_ = string.Empty;
 				}
 			} 
 		}
 
 		private string OperationString_;
+
+		#endregion
+
+		#region Events
+
+		EventHandler<NewMeasurementValue> OnNewValue;
 
 		#endregion
 
@@ -78,12 +81,22 @@ namespace PrototypeBackend
 
 		public bool AddPin (APin pin)
 		{
-			if (!Pins.Contains (pin))
-			{
+			if (!Pins.Contains (pin)) {
 				Pins.Add (pin);
+				ManagePins ();
 				return true;
 			}
 			return false;
+		}
+
+		private void ManagePins ()
+		{
+			var list = Pins.OrderByDescending (o => o.Frequency);
+			list.First ().OnNewValue += (o, e) => {
+				if (OnNewValue != null) {
+					OnNewValue.Invoke (this, new NewMeasurementValue (){ Value = this.Value, Time = e.Time });
+				}
+			};
 		}
 
 		#endregion
