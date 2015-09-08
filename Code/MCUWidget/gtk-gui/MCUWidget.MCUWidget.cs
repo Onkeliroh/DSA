@@ -32,6 +32,8 @@ namespace MCUWidget
 		
 		private global::Gtk.SpinButton sbAREFExternal;
 		
+		private global::Gtk.Label label4;
+		
 		private global::Gtk.Label GtkLabel1;
 
 		protected virtual void Build ()
@@ -134,15 +136,25 @@ namespace MCUWidget
 			this.sbAREFExternal.Name = "sbAREFExternal";
 			this.sbAREFExternal.Adjustment.PageIncrement = 10;
 			this.sbAREFExternal.ClimbRate = 1;
+			this.sbAREFExternal.Digits = ((uint)(3));
 			this.sbAREFExternal.Numeric = true;
 			this.hbox4.Add (this.sbAREFExternal);
 			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.sbAREFExternal]));
 			w9.Position = 1;
-			this.vbox6.Add (this.hbox4);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.hbox4]));
+			// Container child hbox4.Gtk.Box+BoxChild
+			this.label4 = new global::Gtk.Label ();
+			this.label4.Name = "label4";
+			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("V");
+			this.hbox4.Add (this.label4);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.label4]));
 			w10.Position = 2;
 			w10.Expand = false;
 			w10.Fill = false;
+			this.vbox6.Add (this.hbox4);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.hbox4]));
+			w11.Position = 2;
+			w11.Expand = false;
+			w11.Fill = false;
 			this.GtkAlignment1.Add (this.vbox6);
 			this.frame2.Add (this.GtkAlignment1);
 			this.GtkLabel1 = new global::Gtk.Label ();
@@ -151,16 +163,17 @@ namespace MCUWidget
 			this.GtkLabel1.UseMarkup = true;
 			this.frame2.LabelWidget = this.GtkLabel1;
 			this.vbox1.Add (this.frame2);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
-			w13.Position = 1;
-			w13.Expand = false;
-			w13.Fill = false;
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
+			w14.Position = 1;
+			w14.Expand = false;
+			w14.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
 			this.cbBoardType.Changed += new global::System.EventHandler (this.OnCbBoardTypeChanged);
+			this.cbAREF.Changed += new global::System.EventHandler (this.OnCbAREFChanged);
 		}
 	}
 }

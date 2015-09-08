@@ -265,6 +265,7 @@ namespace SequenceConfigurationsDialog
 			this.nvSequenceOptions = new global::Gtk.NodeView ();
 			this.nvSequenceOptions.CanFocus = true;
 			this.nvSequenceOptions.Name = "nvSequenceOptions";
+			this.nvSequenceOptions.HoverSelection = true;
 			this.GtkScrolledWindow.Add (this.nvSequenceOptions);
 			this.vboxOptions.Add (this.GtkScrolledWindow);
 			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vboxOptions [this.GtkScrolledWindow]));

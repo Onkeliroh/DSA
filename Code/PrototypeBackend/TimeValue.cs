@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GUIHelper
+namespace PrototypeBackend
 {
 	public struct TimeValue
 	{
@@ -14,6 +14,17 @@ namespace GUIHelper
 		public DateTime Time{ get; set; }
 
 		public double Value { get; set; }
+
+		public DateTimeValue (double value, DateTime time)
+		{
+			Value = value;
+			Time = time;
+		}
+
+		public override string ToString ()
+		{
+			return string.Format ("{0}", Value);
+		}
 	}
 }
 

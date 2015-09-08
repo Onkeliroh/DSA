@@ -103,7 +103,7 @@ namespace SignalConfigurationDialog
 				if (!Combination_.Pins.Contains (pin))
 				{
 					// Analysis disable once CompareOfFloatsByEqualityOperator
-					store.AppendValues (new object[]{ pin.Name + "(A" + pin.Number + ")", pin.Frequency });
+					store.AppendValues (new object[]{ pin.Name + "(A" + pin.Number + ")", pin.Period });
 				}
 			}
 			cbPins.Model = store;
@@ -147,7 +147,7 @@ namespace SignalConfigurationDialog
 			{
 				foreach (APin j in Combination_.Pins)
 				{
-					if (i.Frequency - j.Frequency > 0.00000000000000000000001)
+					if (i.Period - j.Period > 0.00000000000000000000001)
 					{
 						return false;
 					}

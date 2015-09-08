@@ -160,7 +160,7 @@ namespace PrototypeBackend
 			get;
 		}
 
-		public static Dictionary<string,int> AnalogReferences {
+		public static Dictionary<string,double> AnalogReferences {
 			private set{ _board.AnalogReferences = value; }
 			get { return _board.AnalogReferences; }
 		}
@@ -491,7 +491,7 @@ namespace PrototypeBackend
 			}
 		}
 
-		public static float[] ReadAnalogPin (uint[] nr)
+		public static int[] ReadAnalogPin (uint[] nr)
 		{
 			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 1000);
 			command.AddArgument (nr.Length);
@@ -502,16 +502,18 @@ namespace PrototypeBackend
 			var result = _cmdMessenger.SendCommand (command);
 			if (result.Ok)
 			{
-				float[] results = new float[nr.Length];
-				for (int i = 0; i < nr.Length; i++)
+				int[] results = new int[nr.Length];
+				try
 				{
-					results [i] = result.ReadFloatArg ();
-				}
+					for (int i = 0; i < nr.Length; i++)
+					{
+						results [i] = (int)result.ReadFloatArg ();
+					}
 
-//				if (NewAnalogValue != null)
-//				{
-//					NewAnalogValue.Invoke (null, new ControllerAnalogEventArgs (nr, results));
-//				}
+				} catch (Exception ex)
+				{
+					Console.Error.WriteLine ();
+				}
 				return results;
 			} else
 			{
@@ -680,9 +682,9 @@ namespace PrototypeBackend
 		public uint[] RX;
 		public uint[] TX;
 
-		public Dictionary<string,int> AnalogReferences = new Dictionary<string, int> ();
+		public Dictionary<string,double> AnalogReferences = new Dictionary<string, double> ();
 
-		public double AnalogReferenceVoltage;
+		public double AnalogReferenceVoltage = -1;
 
 
 		public string Version = "";
@@ -695,7 +697,7 @@ namespace PrototypeBackend
 
 		public Board ()
 		{
-			AnalogReferences = new Dictionary<string,int> ();
+			AnalogReferences = new Dictionary<string,double> ();
 			AnalogReferenceVoltage = 5;
 			NumberOfAnalogPins = 6;
 			NumberOfDigitalPins = 20;
@@ -706,7 +708,7 @@ namespace PrototypeBackend
 			TX = new uint[]{ 1 };
 		}
 
-		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, uint[] hardwareAnalogPins = null, Dictionary<string,int> analogReferences = null, string name = "", string version = "", string model = "", bool dtr = false)
+		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, uint[] hardwareAnalogPins = null, Dictionary<string,double> analogReferences = null, string name = "", string version = "", string model = "", bool dtr = false)
 		{
 			this.NumberOfAnalogPins = numberOfAnalogPins;
 			this.NumberOfDigitalPins = numberOfDigitalPins;
@@ -726,6 +728,11 @@ namespace PrototypeBackend
 			this.MCU = model;
 			this.Name = name;
 			this.UseDTR = dtr;
+		}
+
+		public double RAWToVolt (int rawVal)
+		{
+			return (rawVal / 1023.0) * AnalogReferenceVoltage;
 		}
 
 		public override string ToString ()

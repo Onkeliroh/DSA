@@ -236,15 +236,15 @@ namespace SequenceConfigurationsDialog
 				plotView.Model.Series.Clear ();
 
 				var current = new TimeSpan (0);
-				var data = new Collection<GUIHelper.TimeValue> ();
+				var data = new Collection<TimeValue> ();
 				for (int i = 0; i < pinSequence.Chain.Count; i++)
 				{
-					data.Add (new GUIHelper.TimeValue () {
+					data.Add (new TimeValue () {
 						Time = current,
 						Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0)
 					});
 					current = current.Add (pinSequence.Chain [i].Duration);
-					data.Add (new GUIHelper.TimeValue () {
+					data.Add (new TimeValue () {
 						Time = current,
 						Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0)
 					});
@@ -422,12 +422,5 @@ namespace SequenceConfigurationsDialog
 			DisplayPlot ();
 		}
 	}
-
-	//	struct TimeValue
-	//	{
-	//		public TimeSpan Time{ get; set; }
-	//
-	//		public double Value { get; set; }
-	//	}
 }
 

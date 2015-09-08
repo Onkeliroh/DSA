@@ -53,6 +53,12 @@ namespace PrototypeBackend
 
 		public List<Sequence> Sequences{ get; private set; }
 
+
+		public string LogFilePath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile) + @"/micrologger/";
+
+		public bool UseMarker = false;
+		public bool LogRAWValues = false;
+
 		#endregion
 
 		#region EventHandler
@@ -252,7 +258,19 @@ namespace PrototypeBackend
 
 			if (result.Count > 0)
 			{
-				Pins.Remove (result [0]);
+				var pin = result.First ();
+				if (pin is DPin)
+				{
+					var tmp = GetCorespondingSequence (pin as DPin);
+					if (tmp != null)
+						RemoveSequence (tmp.Name);
+				} else if (pin is APin)
+				{
+					var tmp = GetCorespondingCombination (pin as APin);
+					if (tmp != null)
+						RemoveMeasurementCombination (tmp);
+				}
+				Pins.Remove (result.First ());
 				if (OnPinsUpdated != null)
 				{
 					OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (result [0], UpdateOperation.Remove));

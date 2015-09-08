@@ -99,6 +99,7 @@
                             <property name="MemberName" />
                             <property name="IsTextCombo">True</property>
                             <property name="Items" translatable="yes" />
+                            <signal name="Changed" handler="OnCbAREFChanged" />
                           </widget>
                           <packing>
                             <property name="Position">1</property>
@@ -138,11 +139,24 @@
                             <property name="PageIncrement">10</property>
                             <property name="StepIncrement">1</property>
                             <property name="ClimbRate">1</property>
+                            <property name="Digits">3</property>
                             <property name="Numeric">True</property>
                           </widget>
                           <packing>
                             <property name="Position">1</property>
                             <property name="AutoSize">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="Gtk.Label" id="label4">
+                            <property name="MemberName" />
+                            <property name="LabelProp" translatable="yes">V</property>
+                          </widget>
+                          <packing>
+                            <property name="Position">2</property>
+                            <property name="AutoSize">True</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
                           </packing>
                         </child>
                       </widget>

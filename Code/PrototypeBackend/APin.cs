@@ -44,36 +44,67 @@ namespace PrototypeBackend
 
 		public double Offset{ get; set; }
 
-		public List<double> Values{ get; private set; }
+		/// <summary>
+		/// Gets the values (raw).
+		/// </summary>
+		/// <value>The values.</value>
+		public List<DateTimeValue> Values{ get; private set; }
 
-		public double Value {
+		/// <summary>
+		/// Set: Adds a new value to the list of values.
+		///	Get: Returns the last value converted acording to the offset slope and relative voltage.
+		/// </summary>
+		/// <value>The value.</value>
+		public DateTimeValue Value {
 			set { 
 				Values.Add (value); 
-				if (OnNewValue != null) {
-					OnNewValue.Invoke (this, new NewMeasurementValue (){ RAW = value, Value = CalcValue (), Time = DateTime.Now });
+				if (OnNewValue != null)
+				{
+					OnNewValue.Invoke (this, new NewMeasurementValue (){ RAW = value.Value, Value = CalcValue (), Time = value.Time });
 				}
 			}
 
 			get {
-				return CalcValue ();	
+				return new DateTimeValue (CalcValue (), Values.Last ().Time);	
 			}
 		}
 
-		public int Interval { get; set; }
+		/// <summary>
+		/// Gets or sets the interval.
+		/// The Number of samlpes to build a mean value from.
+		/// </summary>
+		/// <value>The interval.</value>
+		public UInt64 Interval { get; set; }
 
 		/// <summary>
-		/// Gets or sets the frequency in milliseconds.
+		/// Gets or sets the period in milliseconds.
+		/// </summary>
+		/// <value>The period in ms.</value>
+		public UInt64 Period { get; set; }
+
+		/// <summary>
+		/// Gets the frequency in milliseconds.
 		/// </summary>
 		/// <value>The frequency in ms.</value>
-		public Int64 Frequency { get; set; }
+		public UInt64 Frequency { get { return 1 / Period; } private set { } }
 
-		public double EffectiveFrequency { get { return Frequency * Interval; } private set { } }
+		/// <summary>
+		/// Gets the effective period (Period * Interval).
+		/// </summary>
+		/// <value>The effective period.</value>
+		public double EffectivePeriod { get { return Period * Interval; } private set { } }
 
 		#endregion
 
 		#region Events
 
+		/// <summary>
+		/// Is invoked, if new value is added
+		/// </summary>
 		public EventHandler<NewMeasurementValue> OnNewValue;
+		/// <summary>
+		/// Is invoked, if new value is added
+		/// </summary>
 		public EventHandler<NewMeasurementValue> OnNewRAWValue;
 
 		#endregion
@@ -90,14 +121,16 @@ namespace PrototypeBackend
 			Slope = 1;
 			Offset = 0;
 			Interval = 1;
-			Frequency = 1000;
-			Values = new List<double> ();
+			Period = 1000;
+			Values = new List<DateTimeValue> ();
 		}
 
 		public override bool Equals (object obj)
 		{
-			if (obj != null) {
-				if (obj is APin) {
+			if (obj != null)
+			{
+				if (obj is APin)
+				{
 					return (obj as APin).Type == Type &&
 					(obj as APin).Mode == Mode &&
 					(obj as APin).Name.Equals (Name) &&
@@ -131,26 +164,35 @@ namespace PrototypeBackend
 
 		public double CalcValue ()
 		{
-			if (Values.Count >= Interval) {
-				if (Interval == 1) {
-					if (!double.IsNaN (Values.Last ())) {
-						return ((Values.Last () * Slope) + Offset);
+			if (Values.Count >= (int)Interval)
+			{
+				if (Interval == 1)
+				{
+					if (!double.IsNaN (Values.Last ().Value))
+					{
+						return ((Values.Last ().Value * Slope) + Offset);
 					}
 					return double.NaN;
-				} else {
-					if (Values.Count >= Interval) {
+				} else
+				{
+					if (Values.Count >= (int)Interval)
+					{
 						double result = 0;
-						for (int i = Values.Count - Interval; i < Values.Count; i++) {
-							if (!double.IsNaN (Values [i])) {
-								result += (Values [i] * Slope) + Offset;
+						for (int i = Values.Count - (int)Interval; i < Values.Count; i++)
+						{
+							if (!double.IsNaN (Values [i].Value))
+							{
+								result += (Values [i].Value * Slope) + Offset;
 							}
 						}
 						return result / Interval;
-					} else {
+					} else
+					{
 						return double.NaN;
 					}
 				}
-			} else {
+			} else
+			{
 				return double.NaN;
 			}
 		}

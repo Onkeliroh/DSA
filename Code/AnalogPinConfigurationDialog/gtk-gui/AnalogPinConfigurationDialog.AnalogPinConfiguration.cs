@@ -26,21 +26,39 @@ namespace AnalogPinConfigurationDialog
 		
 		private global::Gtk.Label label5;
 		
-		private global::Gtk.Label label6;
-		
 		private global::Gtk.Label lblColor;
 		
 		private global::Gtk.Label lblName;
 		
 		private global::Gtk.Label lblPin;
 		
-		private global::Gtk.SpinButton sbFrequency;
-		
 		private global::Gtk.SpinButton sbInterval;
 		
 		private global::Gtk.SpinButton sbOffset;
 		
 		private global::Gtk.SpinButton sbSlope;
+		
+		private global::Gtk.Table table2;
+		
+		private global::Gtk.Label label6;
+		
+		private global::Gtk.Label label7;
+		
+		private global::Gtk.Label lblHours;
+		
+		private global::Gtk.Label lblMilliSec;
+		
+		private global::Gtk.Label lblSeconds;
+		
+		private global::Gtk.SpinButton sbDays;
+		
+		private global::Gtk.SpinButton sbHours;
+		
+		private global::Gtk.SpinButton sbMilliSec;
+		
+		private global::Gtk.SpinButton sbMinutes;
+		
+		private global::Gtk.SpinButton sbSeconds;
 		
 		private global::Gtk.Button buttonCancel;
 		
@@ -58,7 +76,7 @@ namespace AnalogPinConfigurationDialog
 			w1.Name = "dialog1_VBox";
 			w1.BorderWidth = ((uint)(2));
 			// Container child dialog1_VBox.Gtk.Box+BoxChild
-			this.table3 = new global::Gtk.Table (((uint)(9)), ((uint)(3)), false);
+			this.table3 = new global::Gtk.Table (((uint)(9)), ((uint)(2)), false);
 			this.table3.Name = "table3";
 			this.table3.RowSpacing = ((uint)(6));
 			this.table3.ColumnSpacing = ((uint)(6));
@@ -72,7 +90,7 @@ namespace AnalogPinConfigurationDialog
 			w2.TopAttach = ((uint)(2));
 			w2.BottomAttach = ((uint)(3));
 			w2.LeftAttach = ((uint)(1));
-			w2.RightAttach = ((uint)(3));
+			w2.RightAttach = ((uint)(2));
 			w2.XOptions = ((global::Gtk.AttachOptions)(4));
 			w2.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
@@ -83,7 +101,7 @@ namespace AnalogPinConfigurationDialog
 			w3.TopAttach = ((uint)(1));
 			w3.BottomAttach = ((uint)(2));
 			w3.LeftAttach = ((uint)(1));
-			w3.RightAttach = ((uint)(3));
+			w3.RightAttach = ((uint)(2));
 			w3.XOptions = ((global::Gtk.AttachOptions)(4));
 			w3.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
@@ -94,7 +112,7 @@ namespace AnalogPinConfigurationDialog
 			w4.TopAttach = ((uint)(4));
 			w4.BottomAttach = ((uint)(5));
 			w4.LeftAttach = ((uint)(1));
-			w4.RightAttach = ((uint)(3));
+			w4.RightAttach = ((uint)(2));
 			w4.XOptions = ((global::Gtk.AttachOptions)(4));
 			w4.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
@@ -106,7 +124,7 @@ namespace AnalogPinConfigurationDialog
 			this.table3.Add (this.entryName);
 			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table3 [this.entryName]));
 			w5.LeftAttach = ((uint)(1));
-			w5.RightAttach = ((uint)(3));
+			w5.RightAttach = ((uint)(2));
 			w5.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.hseparator1 = new global::Gtk.HSeparator ();
@@ -115,7 +133,7 @@ namespace AnalogPinConfigurationDialog
 			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table3 [this.hseparator1]));
 			w6.TopAttach = ((uint)(3));
 			w6.BottomAttach = ((uint)(4));
-			w6.RightAttach = ((uint)(3));
+			w6.RightAttach = ((uint)(2));
 			w6.XOptions = ((global::Gtk.AttachOptions)(4));
 			w6.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
@@ -155,7 +173,7 @@ namespace AnalogPinConfigurationDialog
 			this.label4 = new global::Gtk.Label ();
 			this.label4.Name = "label4";
 			this.label4.Xalign = 0F;
-			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Frequency:");
+			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Period:");
 			this.table3.Add (this.label4);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table3 [this.label4]));
 			w10.TopAttach = ((uint)(7));
@@ -174,66 +192,36 @@ namespace AnalogPinConfigurationDialog
 			w11.XOptions = ((global::Gtk.AttachOptions)(4));
 			w11.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.label6 = new global::Gtk.Label ();
-			this.label6.Name = "label6";
-			this.label6.Xalign = 0F;
-			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("s");
-			this.table3.Add (this.label6);
-			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table3 [this.label6]));
-			w12.TopAttach = ((uint)(7));
-			w12.BottomAttach = ((uint)(8));
-			w12.LeftAttach = ((uint)(2));
-			w12.RightAttach = ((uint)(3));
-			w12.XOptions = ((global::Gtk.AttachOptions)(6));
-			w12.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table3.Gtk.Table+TableChild
 			this.lblColor = new global::Gtk.Label ();
 			this.lblColor.Name = "lblColor";
 			this.lblColor.Xalign = 0F;
 			this.lblColor.LabelProp = global::Mono.Unix.Catalog.GetString ("Color:");
 			this.table3.Add (this.lblColor);
-			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table3 [this.lblColor]));
-			w13.TopAttach = ((uint)(2));
-			w13.BottomAttach = ((uint)(3));
-			w13.XOptions = ((global::Gtk.AttachOptions)(4));
-			w13.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table3 [this.lblColor]));
+			w12.TopAttach = ((uint)(2));
+			w12.BottomAttach = ((uint)(3));
+			w12.XOptions = ((global::Gtk.AttachOptions)(4));
+			w12.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.lblName = new global::Gtk.Label ();
 			this.lblName.Name = "lblName";
 			this.lblName.Xalign = 0F;
 			this.lblName.LabelProp = global::Mono.Unix.Catalog.GetString ("Name:");
 			this.table3.Add (this.lblName);
-			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table3 [this.lblName]));
-			w14.XOptions = ((global::Gtk.AttachOptions)(4));
-			w14.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table3 [this.lblName]));
+			w13.XOptions = ((global::Gtk.AttachOptions)(4));
+			w13.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.lblPin = new global::Gtk.Label ();
 			this.lblPin.Name = "lblPin";
 			this.lblPin.Xalign = 0F;
 			this.lblPin.LabelProp = global::Mono.Unix.Catalog.GetString ("Pin:");
 			this.table3.Add (this.lblPin);
-			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table3 [this.lblPin]));
-			w15.TopAttach = ((uint)(1));
-			w15.BottomAttach = ((uint)(2));
-			w15.XOptions = ((global::Gtk.AttachOptions)(4));
-			w15.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table3.Gtk.Table+TableChild
-			this.sbFrequency = new global::Gtk.SpinButton (0, 100, 1);
-			this.sbFrequency.CanFocus = true;
-			this.sbFrequency.Name = "sbFrequency";
-			this.sbFrequency.Adjustment.PageIncrement = 10;
-			this.sbFrequency.ClimbRate = 1;
-			this.sbFrequency.Digits = ((uint)(2));
-			this.sbFrequency.Numeric = true;
-			this.sbFrequency.Value = 1;
-			this.table3.Add (this.sbFrequency);
-			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbFrequency]));
-			w16.TopAttach = ((uint)(7));
-			w16.BottomAttach = ((uint)(8));
-			w16.LeftAttach = ((uint)(1));
-			w16.RightAttach = ((uint)(2));
-			w16.XOptions = ((global::Gtk.AttachOptions)(4));
-			w16.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table3 [this.lblPin]));
+			w14.TopAttach = ((uint)(1));
+			w14.BottomAttach = ((uint)(2));
+			w14.XOptions = ((global::Gtk.AttachOptions)(4));
+			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.sbInterval = new global::Gtk.SpinButton (1, 100, 1);
 			this.sbInterval.CanFocus = true;
@@ -243,13 +231,13 @@ namespace AnalogPinConfigurationDialog
 			this.sbInterval.Numeric = true;
 			this.sbInterval.Value = 1;
 			this.table3.Add (this.sbInterval);
-			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbInterval]));
-			w17.TopAttach = ((uint)(8));
-			w17.BottomAttach = ((uint)(9));
-			w17.LeftAttach = ((uint)(1));
-			w17.RightAttach = ((uint)(3));
-			w17.XOptions = ((global::Gtk.AttachOptions)(4));
-			w17.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbInterval]));
+			w15.TopAttach = ((uint)(8));
+			w15.BottomAttach = ((uint)(9));
+			w15.LeftAttach = ((uint)(1));
+			w15.RightAttach = ((uint)(2));
+			w15.XOptions = ((global::Gtk.AttachOptions)(4));
+			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.sbOffset = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbOffset.CanFocus = true;
@@ -259,13 +247,13 @@ namespace AnalogPinConfigurationDialog
 			this.sbOffset.Digits = ((uint)(10));
 			this.sbOffset.Numeric = true;
 			this.table3.Add (this.sbOffset);
-			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbOffset]));
-			w18.TopAttach = ((uint)(6));
-			w18.BottomAttach = ((uint)(7));
-			w18.LeftAttach = ((uint)(1));
-			w18.RightAttach = ((uint)(3));
-			w18.XOptions = ((global::Gtk.AttachOptions)(4));
-			w18.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbOffset]));
+			w16.TopAttach = ((uint)(6));
+			w16.BottomAttach = ((uint)(7));
+			w16.LeftAttach = ((uint)(1));
+			w16.RightAttach = ((uint)(2));
+			w16.XOptions = ((global::Gtk.AttachOptions)(4));
+			w16.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.sbSlope = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbSlope.CanFocus = true;
@@ -276,22 +264,144 @@ namespace AnalogPinConfigurationDialog
 			this.sbSlope.Numeric = true;
 			this.sbSlope.Value = 1;
 			this.table3.Add (this.sbSlope);
-			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbSlope]));
-			w19.TopAttach = ((uint)(5));
-			w19.BottomAttach = ((uint)(6));
-			w19.LeftAttach = ((uint)(1));
-			w19.RightAttach = ((uint)(3));
+			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbSlope]));
+			w17.TopAttach = ((uint)(5));
+			w17.BottomAttach = ((uint)(6));
+			w17.LeftAttach = ((uint)(1));
+			w17.RightAttach = ((uint)(2));
+			w17.XOptions = ((global::Gtk.AttachOptions)(4));
+			w17.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table3.Gtk.Table+TableChild
+			this.table2 = new global::Gtk.Table (((uint)(1)), ((uint)(10)), false);
+			this.table2.Name = "table2";
+			this.table2.RowSpacing = ((uint)(6));
+			this.table2.ColumnSpacing = ((uint)(6));
+			// Container child table2.Gtk.Table+TableChild
+			this.label6 = new global::Gtk.Label ();
+			this.label6.Name = "label6";
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("d:");
+			this.table2.Add (this.label6);
+			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table2 [this.label6]));
+			w18.XOptions = ((global::Gtk.AttachOptions)(4));
+			w18.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.label7 = new global::Gtk.Label ();
+			this.label7.Name = "label7";
+			this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("m:");
+			this.table2.Add (this.label7);
+			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table2 [this.label7]));
+			w19.LeftAttach = ((uint)(4));
+			w19.RightAttach = ((uint)(5));
 			w19.XOptions = ((global::Gtk.AttachOptions)(4));
 			w19.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.lblHours = new global::Gtk.Label ();
+			this.lblHours.Name = "lblHours";
+			this.lblHours.LabelProp = global::Mono.Unix.Catalog.GetString ("h:");
+			this.table2.Add (this.lblHours);
+			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table2 [this.lblHours]));
+			w20.LeftAttach = ((uint)(2));
+			w20.RightAttach = ((uint)(3));
+			w20.XOptions = ((global::Gtk.AttachOptions)(4));
+			w20.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.lblMilliSec = new global::Gtk.Label ();
+			this.lblMilliSec.Name = "lblMilliSec";
+			this.lblMilliSec.LabelProp = global::Mono.Unix.Catalog.GetString ("m:");
+			this.table2.Add (this.lblMilliSec);
+			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table2 [this.lblMilliSec]));
+			w21.LeftAttach = ((uint)(8));
+			w21.RightAttach = ((uint)(9));
+			w21.XOptions = ((global::Gtk.AttachOptions)(4));
+			w21.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.lblSeconds = new global::Gtk.Label ();
+			this.lblSeconds.Name = "lblSeconds";
+			this.lblSeconds.LabelProp = global::Mono.Unix.Catalog.GetString ("s:");
+			this.table2.Add (this.lblSeconds);
+			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table2 [this.lblSeconds]));
+			w22.LeftAttach = ((uint)(6));
+			w22.RightAttach = ((uint)(7));
+			w22.XOptions = ((global::Gtk.AttachOptions)(4));
+			w22.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.sbDays = new global::Gtk.SpinButton (0, 111111, 1);
+			this.sbDays.CanFocus = true;
+			this.sbDays.Name = "sbDays";
+			this.sbDays.Adjustment.PageIncrement = 10;
+			this.sbDays.ClimbRate = 1;
+			this.sbDays.Numeric = true;
+			this.table2.Add (this.sbDays);
+			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbDays]));
+			w23.LeftAttach = ((uint)(1));
+			w23.RightAttach = ((uint)(2));
+			w23.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.sbHours = new global::Gtk.SpinButton (0, 24, 1);
+			this.sbHours.CanFocus = true;
+			this.sbHours.Name = "sbHours";
+			this.sbHours.Adjustment.PageIncrement = 10;
+			this.sbHours.ClimbRate = 1;
+			this.sbHours.Numeric = true;
+			this.table2.Add (this.sbHours);
+			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbHours]));
+			w24.LeftAttach = ((uint)(3));
+			w24.RightAttach = ((uint)(4));
+			w24.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.sbMilliSec = new global::Gtk.SpinButton (0, 1000, 1);
+			this.sbMilliSec.CanFocus = true;
+			this.sbMilliSec.Name = "sbMilliSec";
+			this.sbMilliSec.Adjustment.PageIncrement = 10;
+			this.sbMilliSec.ClimbRate = 1;
+			this.sbMilliSec.Numeric = true;
+			this.table2.Add (this.sbMilliSec);
+			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbMilliSec]));
+			w25.LeftAttach = ((uint)(9));
+			w25.RightAttach = ((uint)(10));
+			w25.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.sbMinutes = new global::Gtk.SpinButton (0, 60, 1);
+			this.sbMinutes.CanFocus = true;
+			this.sbMinutes.Name = "sbMinutes";
+			this.sbMinutes.Adjustment.PageIncrement = 10;
+			this.sbMinutes.ClimbRate = 1;
+			this.sbMinutes.Numeric = true;
+			this.table2.Add (this.sbMinutes);
+			global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbMinutes]));
+			w26.LeftAttach = ((uint)(5));
+			w26.RightAttach = ((uint)(6));
+			w26.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.sbSeconds = new global::Gtk.SpinButton (0, 60, 1);
+			this.sbSeconds.CanFocus = true;
+			this.sbSeconds.Name = "sbSeconds";
+			this.sbSeconds.Adjustment.PageIncrement = 10;
+			this.sbSeconds.ClimbRate = 1;
+			this.sbSeconds.Numeric = true;
+			this.sbSeconds.Value = 1;
+			this.table2.Add (this.sbSeconds);
+			global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbSeconds]));
+			w27.LeftAttach = ((uint)(7));
+			w27.RightAttach = ((uint)(8));
+			w27.YOptions = ((global::Gtk.AttachOptions)(4));
+			this.table3.Add (this.table2);
+			global::Gtk.Table.TableChild w28 = ((global::Gtk.Table.TableChild)(this.table3 [this.table2]));
+			w28.TopAttach = ((uint)(7));
+			w28.BottomAttach = ((uint)(8));
+			w28.LeftAttach = ((uint)(1));
+			w28.RightAttach = ((uint)(2));
+			w28.XOptions = ((global::Gtk.AttachOptions)(4));
+			w28.YOptions = ((global::Gtk.AttachOptions)(4));
 			w1.Add (this.table3);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(w1 [this.table3]));
-			w20.Position = 0;
+			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(w1 [this.table3]));
+			w29.Position = 0;
 			// Internal child AnalogPinConfigurationDialog.AnalogPinConfiguration.ActionArea
-			global::Gtk.HButtonBox w21 = this.ActionArea;
-			w21.Name = "dialog1_ActionArea";
-			w21.Spacing = 10;
-			w21.BorderWidth = ((uint)(5));
-			w21.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
+			global::Gtk.HButtonBox w30 = this.ActionArea;
+			w30.Name = "dialog1_ActionArea";
+			w30.Spacing = 10;
+			w30.BorderWidth = ((uint)(5));
+			w30.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonCancel = new global::Gtk.Button ();
 			this.buttonCancel.CanDefault = true;
@@ -301,9 +411,9 @@ namespace AnalogPinConfigurationDialog
 			this.buttonCancel.UseUnderline = true;
 			this.buttonCancel.Label = "gtk-cancel";
 			this.AddActionWidget (this.buttonCancel, -6);
-			global::Gtk.ButtonBox.ButtonBoxChild w22 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w21 [this.buttonCancel]));
-			w22.Expand = false;
-			w22.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w31 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w30 [this.buttonCancel]));
+			w31.Expand = false;
+			w31.Fill = false;
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonOk = new global::Gtk.Button ();
 			this.buttonOk.CanDefault = true;
@@ -313,20 +423,19 @@ namespace AnalogPinConfigurationDialog
 			this.buttonOk.UseUnderline = true;
 			this.buttonOk.Label = "gtk-apply";
 			this.AddActionWidget (this.buttonOk, -10);
-			global::Gtk.ButtonBox.ButtonBoxChild w23 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w21 [this.buttonOk]));
-			w23.Position = 1;
-			w23.Expand = false;
-			w23.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w32 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w30 [this.buttonOk]));
+			w32.Position = 1;
+			w32.Expand = false;
+			w32.Fill = false;
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 276;
+			this.DefaultWidth = 648;
 			this.DefaultHeight = 308;
 			this.Show ();
 			this.sbSlope.Changed += new global::System.EventHandler (this.OnSbSlopeChanged);
 			this.sbOffset.Changed += new global::System.EventHandler (this.OnSbOffsetChanged);
 			this.sbInterval.Changed += new global::System.EventHandler (this.OnSbIntervalChanged);
-			this.sbFrequency.Changed += new global::System.EventHandler (this.OnSbFrequencyChanged);
 			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
 			this.cbUnit.Changed += new global::System.EventHandler (this.OnCbUnitChanged);
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);

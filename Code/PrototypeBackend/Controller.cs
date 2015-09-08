@@ -29,9 +29,11 @@ namespace PrototypeBackend
 
 		public TimeSpan TimePassed { 
 			get {
-				if (TimeKeeper != null) {
+				if (TimeKeeper != null)
+				{
 					return TimeKeeper.Elapsed;
-				} else {
+				} else
+				{
 					return new TimeSpan (0);
 				}
 			}
@@ -78,8 +80,10 @@ namespace PrototypeBackend
 			ArduinoController.Init ();
 			ArduinoController.OnReceiveMessage += (sender, e) => ConLogger.Log ("IN < " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnSendMessage += (sender, e) => ConLogger.Log ("OUT > " + e.Message, LogLevel.DEBUG);
-			ArduinoController.OnConnectionChanged += ((o, e) => {
-				if (e.Connected) {
+			ArduinoController.OnConnectionChanged += ((o, e) =>
+			{
+				if (e.Connected)
+				{
 					#if DEBUG
 					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.DEBUG);
 					#endif
@@ -87,18 +91,21 @@ namespace PrototypeBackend
 					ConLogger.Log ("Connected to " + ArduinoController.SerialPortName);
 					#endif
 
-				} else {
+				} else
+				{
 					ConLogger.Log ("Disconnected");
 				}
 			});
 
-			Configuration.OnPinsUpdated += (o, e) => {
+			Configuration.OnPinsUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.Pin + " to " + e.Pin2);
 				else
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.Pin);
 			};
-			Configuration.OnSequencesUpdated += (o, e) => {
+			Configuration.OnSequencesUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.Seq + " to " + e.Seq);
 				else
@@ -106,7 +113,8 @@ namespace PrototypeBackend
 
 				BuildSequenceList ();
 			};
-			Configuration.OnSignalsUpdated += (o, e) => {
+			Configuration.OnSignalsUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.MC + " to " + e.MC2);
 				else
@@ -146,7 +154,8 @@ namespace PrototypeBackend
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 			TimeKeeper.Stop ();
 
-			if (OnControllerStoped != null) {
+			if (OnControllerStoped != null)
+			{
 				OnControllerStoped.Invoke (this, null);
 			}
 		}
@@ -166,7 +175,8 @@ namespace PrototypeBackend
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + TimeKeeper.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 
-			if (OnControllerStarted != null) {
+			if (OnControllerStarted != null)
+			{
 				OnControllerStarted.Invoke (this, null);
 			}
 		}
@@ -175,16 +185,19 @@ namespace PrototypeBackend
 		{
 			sequenceThreads.Clear ();
 			GC.Collect ();
-			foreach (Sequence seq in Configuration.Sequences) {
+			foreach (Sequence seq in Configuration.Sequences)
+			{
 				var seqThread = new Thread (
-					                () => {
+					                () =>
+					{
 						Stopwatch sw = new Stopwatch ();
 						sw.Start ();
 
 						uint pin = seq.Pin.Number;
 						PinMode mode = seq.Pin.Mode;
 						var op = seq.Current ();
-						while (seq.CurrentState != SequenceState.Done && running && op != null) {
+						while (seq.CurrentState != SequenceState.Done && running && op != null)
+						{
 							ArduinoController.SetPinState (pin, ((SequenceOperation)op).State);
 							Thread.Sleep (((SequenceOperation)op).Duration);
 							op = seq.Next ();
@@ -200,35 +213,41 @@ namespace PrototypeBackend
 		//Version1
 		private void MeasurementPreProcessing ()
 		{
-			var logger = new CSVLogger ("csv.csv", new List<string> () {
-				"A0",
-				"A1",
-				"A2",
-				"A3",
-				"A4",
-				"A5"
-			}, true, false, ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value);
+			var logger = new CSVLogger (string.Format ("{0}_{1}.csv", DateTime.Now.ToShortTimeString (), "csv"), true, false, Configuration.LogFilePath);
 			logger.Mapping = CreateMapping ();
 			logger.DateTimeFormat = "{0:mm:ss.ffff}"; 
+			logger.FileName = "/home/onkeliroh/Bachelorarbeit/Resources/Logs/" + string.Format ("{0}_{1}.csv", DateTime.Now.ToShortTimeString (), "csv");
+			logger.WriteHeader (logger.Mapping.Keys.ToList<string> ());
 			logger.Start ();
+
 			measurementTimers.ForEach (o => o.Dispose ());
 			measurementTimers.Clear ();
 			var list = new List<APin> ();
-			list = Configuration.AnalogPins.OrderBy (o => o.Frequency).ToList<APin> ();
+			list = Configuration.AnalogPins.OrderBy (o => o.Period).ToList<APin> ();
 
-			while (list.Count > 0) {
-				var query = Configuration.AnalogPins.Where (o => o.Frequency == list.First ().Frequency).ToList<APin> ();
-				if (query.Count > 0) {
-					list.RemoveAll (o => o.Frequency == query.First ().Frequency);
-					var timer = new System.Timers.Timer (query.First ().Frequency);
-					timer.Elapsed += (o, e) => {
-						if (running) {
+			while (list.Count > 0)
+			{
+				var query = Configuration.AnalogPins.Where (o => o.Period == list.First ().Period).ToList<APin> ();
+				if (query.Count > 0)
+				{
+					list.RemoveAll (o => o.Period == query.First ().Period);
+					var timer = new System.Timers.Timer (query.First ().Period);
+					timer.Elapsed += (o, e) =>
+					{
+						if (running)
+						{
 							var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.Number).ToArray<uint> ());
-							for (int i = 0; i < vals.Length; i++) {
-								query [i].Value = vals [i];
+							if (vals != null)
+							{
+								var now = DateTime.Now;
+								for (int i = 0; i < vals.Length; i++)
+								{
+									query [i].Value = new DateTimeValue () { Value = Configuration.Board.RAWToVolt (vals [i]), Time = now };
+								}
+								logger.Log (query.Select (x => x.DisplayName).ToList<string> (), query.Select (x => x.Value).ToList ());
 							}
-							logger.Log (query.Select (x => x.DisplayName).ToList<string> (), vals.ToList ());
-						} else {
+						} else
+						{
 							logger.Stop ();
 							(o as System.Timers.Timer).Stop ();
 						}
@@ -238,14 +257,20 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Creates the parameter mapping for the csv logger
+		/// </summary>
+		/// <returns>The mapping.</returns>
 		private IDictionary<string,int> CreateMapping ()
 		{
 			var dict = new Dictionary<string,int> ();
 
-			for (int i = 0; i < Configuration.Pins.Count; i++) {
-				dict.Add (Configuration.Pins [i].DisplayName, i);
+			for (int i = 0; i < Configuration.AnalogPins.Count; i++)
+			{
+				dict.Add (Configuration.AnalogPins [i].DisplayName, i);
 			}
-			for (int i = Configuration.Pins.Count; i < (Configuration.MeasurementCombinations.Count + Configuration.Pins.Count); i++) {
+			for (int i = Configuration.AnalogPins.Count; i < (Configuration.MeasurementCombinations.Count + Configuration.Pins.Count); i++)
+			{
 				dict.Add (Configuration.MeasurementCombinations [i].Name, i);
 			}
 			return dict;

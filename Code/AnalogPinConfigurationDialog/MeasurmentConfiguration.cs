@@ -29,8 +29,13 @@ namespace AnalogPinConfigurationDialog
 
 				sbSlope.Value = value.Slope;
 				sbOffset.Value = value.Offset;
-				sbFrequency.Value = value.Frequency;
 				sbInterval.Value = value.Interval;
+
+				sbDays.Value = TimeSpan.FromMilliseconds (value.Period).Days;
+				sbHours.Value = TimeSpan.FromMilliseconds (value.Period).Hours;
+				sbMinutes.Value = TimeSpan.FromMilliseconds (value.Period).Minutes;
+				sbSeconds.Value = TimeSpan.FromMilliseconds (value.Period).Seconds;
+				sbMilliSec.Value = TimeSpan.FromMilliseconds (value.Period).Milliseconds;
 
 				pin = value;
 			}
@@ -57,8 +62,6 @@ namespace AnalogPinConfigurationDialog
 			}
 
 
-			sbFrequency.Adjustment.Lower = double.MinValue;
-			sbFrequency.Adjustment.Upper = double.MaxValue;
 			sbSlope.Adjustment.Lower = double.MinValue;
 			sbSlope.Adjustment.Upper = double.MaxValue;
 			sbOffset.Adjustment.Lower = double.MinValue;
@@ -94,8 +97,8 @@ namespace AnalogPinConfigurationDialog
 			pin.Unit = cbUnit.ActiveText;
 			pin.Slope = sbSlope.Value;
 			pin.Offset = sbOffset.Value;
-			pin.Frequency = sbFrequency.ValueAsInt;
-			pin.Interval = sbInterval.ValueAsInt;
+			pin.Period = Convert.ToUInt64 (new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt).TotalMilliseconds);
+			pin.Interval = Convert.ToUInt64 (sbInterval.ValueAsInt);
 
 			Respond (Gtk.ResponseType.Apply);
 		}
@@ -150,19 +153,11 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
-		protected void OnSbFrequencyChanged (object sender, EventArgs e)
-		{
-			if (pin != null)
-			{
-				pin.Frequency = sbFrequency.ValueAsInt;	
-			}
-		}
-
 		protected void OnSbIntervalChanged (object sender, EventArgs e)
 		{
 			if (pin != null)
 			{
-				pin.Interval = sbInterval.ValueAsInt;
+				pin.Interval = Convert.ToUInt64 (sbInterval.ValueAsInt);
 			}
 		}
 	}

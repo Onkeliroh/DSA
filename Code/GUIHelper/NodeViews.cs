@@ -54,7 +54,7 @@ namespace GUIHelper
 		public string Unit { get { return Pin.Unit; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 6)]
-		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Frequency).ToString ("g"); } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Period).ToString ("g"); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 7)]
 		public double Interval { get { return Pin.Interval; } private set { } }
@@ -88,9 +88,11 @@ namespace GUIHelper
 		public string Pins {
 			get {
 				var s = "";
-				for (int i = 0; i < AnalogSignal.Pins.Count; i++) {
+				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
+				{
 					s += AnalogSignal.Pins [i].Name;
-					if (i != AnalogSignal.Pins.Count - 1) {
+					if (i != AnalogSignal.Pins.Count - 1)
+					{
 						s += "\n";	
 					}
 				}
@@ -103,9 +105,11 @@ namespace GUIHelper
 		public string PinNumbers {
 			get {
 				var s = "";
-				for (int i = 0; i < AnalogSignal.Pins.Count; i++) {
+				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
+				{
 					s += AnalogSignal.Pins [i].DisplayNumber;
-					if (i != AnalogSignal.Pins.Count - 1) {
+					if (i != AnalogSignal.Pins.Count - 1)
+					{
 						s += "\n";	
 					}
 				}
@@ -141,10 +145,10 @@ namespace GUIHelper
 		public string Name { get { return Pin.DisplayName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Frequency).ToString ("g"); } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Period).ToString ("g"); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 2)]
-		public int Interval { get { return Pin.Interval; } private set { } }
+		public int Interval { get { return (int)Pin.Interval; } private set { } }
 
 		public APin Pin{ get; private set; }
 
@@ -163,7 +167,7 @@ namespace GUIHelper
 		public string Label { get { return Pin.DisplayName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.EffectiveFrequency).ToString ("g"); } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.EffectivePeriod).ToString ("g"); } private set { } }
 
 		public APin Pin{ get; private set; }
 
@@ -196,9 +200,11 @@ namespace GUIHelper
 			SeqOp = seqop;
 			Index = index;
 
-			if (totalTime < 0) {
+			if (totalTime < 0)
+			{
 				TotalTime = "";
-			} else {
+			} else
+			{
 				TotalTime = "+" + TimeSpan.FromTicks ((long)totalTime).ToString ("g");
 			}
 		}
