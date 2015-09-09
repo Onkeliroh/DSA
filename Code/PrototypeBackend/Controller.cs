@@ -213,39 +213,78 @@ namespace PrototypeBackend
 		//Version1
 		private void MeasurementPreProcessing ()
 		{
-			var logger = new CSVLogger (string.Format ("{0}_{1}.csv", DateTime.Now.ToShortTimeString (), "csv"), true, false, Configuration.LogFilePath);
+
+			#region Build Logger
+			//build logger
+			var logger = new CSVLogger (
+				             string.Format (
+					             "{0}_{1}.csv", 
+					             DateTime.Now.ToShortTimeString (), 
+					             "csv"),
+				             true, 
+				             false,
+				             Configuration.LogFilePath
+			             );
 			logger.Mapping = CreateMapping ();
 			logger.DateTimeFormat = "{0:mm:ss.ffff}"; 
-			logger.FileName = "/home/onkeliroh/Bachelorarbeit/Resources/Logs/" + string.Format ("{0}_{1}.csv", DateTime.Now.ToShortTimeString (), "csv");
+			logger.FileName = 
+				"/home/onkeliroh/Bachelorarbeit/Resources/Logs/" +
+			string.Format ("{0}_{1}.csv", DateTime.Now.ToShortTimeString (), "csv");
 			logger.WriteHeader (logger.Mapping.Keys.ToList<string> ());
 			logger.Start ();
+			#endregion
 
+			//remove old timer
 			measurementTimers.ForEach (o => o.Dispose ());
 			measurementTimers.Clear ();
+
 			var list = new List<APin> ();
 			list = Configuration.AnalogPins.OrderBy (o => o.Period).ToList<APin> ();
+			var comblist = new List<MeasurementCombination> ();
+			comblist = Configuration.MeasurementCombinations;
 
 			while (list.Count > 0)
 			{
-				var query = Configuration.AnalogPins.Where (o => o.Period == list.First ().Period).ToList<APin> ();
+				//take every pin with the same period as the first one
+				var query = list.Where (o => o.Period == list.First ().Period).ToList<APin> ();
+				var combquery = comblist.Where (o => o.Period == query.First ().Period).ToList<MeasurementCombination> ();
+
 				if (query.Count > 0)
 				{
+					//remove every pin with as certain period. so that it can not be added again
 					list.RemoveAll (o => o.Period == query.First ().Period);
+					comblist.RemoveAll (o => o.Period == query.First ().Period);
+
 					var timer = new System.Timers.Timer (query.First ().Period);
 					timer.Elapsed += (o, e) =>
 					{
+						//as long as running is true: collect data. otherwise go to sleep
 						if (running)
 						{
 							var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.Number).ToArray<uint> ());
-							if (vals != null)
+
+							//in order to append to all values the same time stamp, otherwise every individual timestamp would be a little bit of
+							var now = DateTime.Now; //what time is it?
+
+							for (int i = 0; i < vals.Length; i++)
 							{
-								var now = DateTime.Now;
-								for (int i = 0; i < vals.Length; i++)
-								{
-									query [i].Value = new DateTimeValue () { Value = Configuration.Board.RAWToVolt (vals [i]), Time = now };
-								}
-								logger.Log (query.Select (x => x.DisplayName).ToList<string> (), query.Select (x => x.Value).ToList ());
+								//add values, scaled to the AREF to their pin
+								query [i].Value = new DateTimeValue () {
+									Value = Configuration.Board.RAWToVolt (vals [i]),
+									Time = now 
+								};
 							}
+
+							//pass values to logger
+							var keys = new List<string> ();
+							keys.AddRange (query.Select (x => x.DisplayName));
+							keys.AddRange (combquery.Select (x => x.DisplayName));
+
+							var values = new List<DateTimeValue> ();
+							values.AddRange (query.Select (x => x.Value));
+							values.AddRange (combquery.Select (x => x.Value));
+
+							logger.Log (keys, values);
 						} else
 						{
 							logger.Stop ();

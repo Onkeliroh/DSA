@@ -37,6 +37,8 @@ namespace PrototypeBackend
 
 			//replace parameternames with representation in the array
 			int pos = 0;
+//			func = func.Replace ("A", "");
+//			func = func.Replace ("a", "");
 			foreach (string s in parameterNames)
 			{
 				func = func.Replace (s, "parameters[" + pos + "]");

@@ -17,29 +17,37 @@ namespace PrototypeBackend
 
 		public string Unit { get; set; }
 
-		public double Frequency {
-			get {
-				if (Pins.Count > 0)
-					return Pins [0].EffectivePeriod;
-				else
-					return -1;
-			}
-			private set{ }
+		public double Frequency { 
+			get { 
+				return Pins.OrderByDescending (o => o.Period).First ().Frequency; 
+			} 
+			private set { } 
+		}
+
+		public UInt64 Period {
+			get { 
+				return Pins.OrderByDescending (o => o.Period).First ().Period;
+			} 
+			private set { }
 		}
 
 		public int Interval { get; set; }
 
 		public Gdk.Color Color { get; set; }
 
-		private Func<double[],double> Operation { get; set; }
+		public Func<double[],double> Operation { get; set; }
 
-		public double Value {
+		public DateTimeValue Value {
 			get {
 				if (Operation != null)
 				{
-					return (Operation (Pins.Select (o => o.Value.Value).ToArray ()));
+					return new DateTimeValue () {
+						
+						Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
+						Time = Pins.OrderByDescending (o => o.Period).First ().Value.Time
+					};
 				}
-				return double.NaN;
+				return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Period).First ().Value.Time };
 			}
 			private set { }
 		}
@@ -49,14 +57,14 @@ namespace PrototypeBackend
 				return OperationString_; 
 			} 
 			set { 
-				Operation = OperationCompiler.CompileOperation (value, Pins.Select (o => o.Name).ToArray ());
-				if (Operation != null)
-				{
-					OperationString_ = value; 
-				} else
-				{
-					OperationString_ = string.Empty;
-				}
+//				Operation = OperationCompiler.CompileOperation (value, Pins.Select (o => o.Number.ToString ()).ToArray ());
+//				if (Operation != null)
+//				{
+				OperationString_ = value; 
+//				} else
+//				{
+//				OperationString_ = string.Empty;
+//				}
 			} 
 		}
 
@@ -100,7 +108,7 @@ namespace PrototypeBackend
 			{
 				if (OnNewValue != null)
 				{
-					OnNewValue.Invoke (this, new NewMeasurementValue (){ Value = this.Value, Time = e.Time });
+					OnNewValue.Invoke (this, new NewMeasurementValue (){ Value = this.Value.Value, Time = this.Value.Time });
 				}
 			};
 		}

@@ -371,7 +371,7 @@ namespace SignalConfigurationDialog
 			this.btnRemove.Clicked += new global::System.EventHandler (this.OnBtnRemoveClicked);
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
 			this.sbInterval.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnSbIntervalChangeValue);
-			this.entryOperation.Changed += new global::System.EventHandler (this.OnEntryOperationChanged);
+			this.entryOperation.FocusOutEvent += new global::Gtk.FocusOutEventHandler (this.OnEntryOperationChanged);
 			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
 			this.cbeUnit.Changed += new global::System.EventHandler (this.OnCbeUnitChanged);
 			this.cbColor.ColorSet += new global::System.EventHandler (this.OnCbColorColorSet);

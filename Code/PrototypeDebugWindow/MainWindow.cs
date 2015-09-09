@@ -185,7 +185,7 @@ namespace Frontend
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
 			{
 				lblTimePassed.Text = string.Format ("{0:c}", con.TimePassed); 
-				UpdateRealTimePlot ();
+//				UpdateRealTimePlot ();
 			};
 		}
 
@@ -468,6 +468,8 @@ namespace Frontend
 		{
 			try
 			{
+				RealTimePlotView.Model.Series.Clear ();
+				RealTimePlotView.InvalidatePlot (true);
 				foreach (APin a in con.Configuration.AnalogPins)
 				{
 					var values = a.Values;
@@ -480,8 +482,6 @@ namespace Frontend
 						}
 						RealTimeDictionary [a.DisplayName].Add (dtv);
 					}
-					RealTimePlotView.Model.Series.Clear ();
-					RealTimePlotView.InvalidatePlot (true);
 					RealTimePlotView.Model.Series.Add (
 						new LineSeries () {
 							Color = ColorHelper.GdkColorToOxyColor (a.PlotColor),
@@ -493,8 +493,8 @@ namespace Frontend
 					);
 				}
 
-				double step = RealTimeXAxis.Transform ((-1 * 1) + RealTimeXAxis.Offset);
-				RealTimeXAxis.Pan (step);
+//				double step = RealTimeXAxis.Transform ((-1 * 1) + RealTimeXAxis.Offset);
+//				RealTimeXAxis.Pan (step);
 
 
 				RealTimePlotView.InvalidatePlot (true);

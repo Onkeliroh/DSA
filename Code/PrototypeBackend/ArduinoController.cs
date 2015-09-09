@@ -468,30 +468,30 @@ namespace PrototypeBackend
 
 		#region GETTER
 
-		public static float ReadAnalogPin (uint nr)
+		public static double ReadAnalogPin (uint nr)
 		{
 			return ReadAnalogPin (new uint[]{ nr }) [0];
 		}
+		//
+		//		public static double[] GetAnalogValues (uint[] pins)
+		//		{
+		//			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 500);
+		//			command.AddArguments (pins.Cast<string> ().ToArray ());
+		//			var ret = _cmdMessenger.SendCommand (command);
+		//			if (ret.Ok)
+		//			{
+		//				object[] objarr = new object[ret.Arguments.Length];
+		//				objarr = ret.Arguments;
+		//
+		//				return objarr.Cast<float> ().ToArray ();
+		//			} else
+		//			{
+		//				//TODO werfe exception
+		//				return null;
+		//			}
+		//		}
 
-		public static float[] GetAnalogValues (uint[] pins)
-		{
-			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 500);
-			command.AddArguments (pins.Cast<string> ().ToArray ());
-			var ret = _cmdMessenger.SendCommand (command);
-			if (ret.Ok)
-			{
-				object[] objarr = new object[ret.Arguments.Length];
-				objarr = ret.Arguments;
-
-				return objarr.Cast<float> ().ToArray ();
-			} else
-			{
-				//TODO werfe exception
-				return null;
-			}
-		}
-
-		public static int[] ReadAnalogPin (uint[] nr)
+		public static double[] ReadAnalogPin (uint[] nr)
 		{
 			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 1000);
 			command.AddArgument (nr.Length);
@@ -499,15 +499,15 @@ namespace PrototypeBackend
 			{
 				command.AddArgument (i);
 			}
+			double[] results = new double[nr.Length];
 			var result = _cmdMessenger.SendCommand (command);
 			if (result.Ok)
 			{
-				int[] results = new int[nr.Length];
 				try
 				{
 					for (int i = 0; i < nr.Length; i++)
 					{
-						results [i] = (int)result.ReadFloatArg ();
+						results [i] = result.ReadFloatArg ();
 					}
 
 				} catch (Exception ex)
@@ -518,7 +518,11 @@ namespace PrototypeBackend
 			} else
 			{
 				//TODO throw exception
-				return null;
+				for (int i = 0; i < results.Length; i++)
+				{
+					results [i] = double.NaN;
+				}
+				return results;
 			}
 		}
 
@@ -730,9 +734,9 @@ namespace PrototypeBackend
 			this.UseDTR = dtr;
 		}
 
-		public double RAWToVolt (int rawVal)
+		public double RAWToVolt (object rawVal)
 		{
-			return (rawVal / 1023.0) * AnalogReferenceVoltage;
+			return (Convert.ToDouble (rawVal) / 1023.0) * AnalogReferenceVoltage;
 		}
 
 		public override string ToString ()

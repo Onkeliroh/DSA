@@ -274,7 +274,7 @@ Alternatively you could you the inputs name. (e.g. TemperatureSensor0 + Temperat
                     <property name="CanFocus">True</property>
                     <property name="IsEditable">True</property>
                     <property name="InvisibleChar">●</property>
-                    <signal name="Changed" handler="OnEntryOperationChanged" />
+                    <signal name="FocusOutEvent" handler="OnEntryOperationChanged" />
                   </widget>
                   <packing>
                     <property name="TopAttach">1</property>

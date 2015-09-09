@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using PrototypeBackend;
 using Gtk;
 using GUIHelper;
@@ -81,7 +82,6 @@ namespace SignalConfigurationDialog
 				btnRemove.Sensitive = true;
 			};
 		}
-
 
 		private void DrawNodeView ()
 		{
@@ -165,6 +165,46 @@ namespace SignalConfigurationDialog
 			}
 			return null;
 		}
+
+		private void CompileOperation ()
+		{
+			try
+			{
+				if (Combination_ != null)
+				{
+					var tmp = PrototypeBackend.OperationCompiler.CompileOperation (entryOperation.Text, Combination_.Pins.Select (o => "A" + o.Number.ToString ()).ToArray ());
+					Combination_.Operation = tmp;
+				}
+			} catch (Exception ex)
+			{
+				Console.Error.WriteLine (ex);
+
+//				entryOperation.Style.RenderIcon (Gtk.Stock.DialogWarning,
+//					TextDirection.Ltr, StateType.Normal, IconSize.SmallToolbar, entryOperation, "");
+
+			}
+			if (Combination_.Operation == null)
+			{
+				entryOperation.ExposeEvent += DrawIconOnEntryOperation;
+
+				entryOperation.Show ();
+			} else
+			{
+				Combination_.OperationString = entryOperation.Text;
+
+				entryOperation.ExposeEvent -= DrawIconOnEntryOperation;
+			}
+		}
+
+		private void DrawIconOnEntryOperation (object o, ExposeEventArgs args)
+		{
+			var bg = entryOperation.RenderIcon (Gtk.Stock.DialogWarning, IconSize.SmallToolbar, "");
+			Gdk.Pixmap map;
+			Gdk.Pixmap othermap;
+			bg.RenderPixmapAndMask (out map, out othermap, 1);
+			entryOperation.Style.SetBgPixmap (StateType.Normal, map);
+		}
+
 
 		#region On...Stuff
 
@@ -257,16 +297,7 @@ namespace SignalConfigurationDialog
 
 		protected void OnEntryOperationChanged (object sender, EventArgs e)
 		{
-			try
-			{
-				if (Combination_ != null)
-				{
-					Combination_.OperationString = entryOperation.Text;
-				}
-			} catch (Exception ex)
-			{
-				Console.Error.WriteLine (ex);
-			}
+			CompileOperation ();
 		}
 
 		protected void OnSbIntervalChangeValue (object o, ChangeValueArgs args)
