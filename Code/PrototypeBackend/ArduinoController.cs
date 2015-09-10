@@ -512,7 +512,7 @@ namespace PrototypeBackend
 
 				} catch (Exception ex)
 				{
-					Console.Error.WriteLine ();
+					Console.Error.WriteLine (ex);
 				}
 				return results;
 			} else
@@ -674,6 +674,8 @@ namespace PrototypeBackend
 		#endregion
 	}
 
+
+	[Serializable]
 	public class Board
 	{
 		public uint NumberOfAnalogPins = 0;

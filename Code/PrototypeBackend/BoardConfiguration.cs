@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using PrototypeBackend;
+using System.Runtime.Serialization;
 
 namespace PrototypeBackend
 {
+
+	[Serializable]
 	public class BoardConfiguration
 	{
 		#region Member
@@ -54,6 +57,7 @@ namespace PrototypeBackend
 		public List<Sequence> Sequences{ get; private set; }
 
 
+		public string SavePath = string.Empty;
 		public string LogFilePath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile) + @"/micrologger/";
 
 		public bool UseMarker = false;
@@ -63,8 +67,11 @@ namespace PrototypeBackend
 
 		#region EventHandler
 
+		[NonSerialized]
 		public EventHandler<MeasurementCombinationsUpdatedArgs> OnSignalsUpdated;
+		[NonSerialized]
 		public EventHandler<ControllerPinUpdateArgs> OnPinsUpdated;
+		[NonSerialized]
 		public EventHandler<SequencesUpdatedArgs> OnSequencesUpdated;
 
 		#endregion

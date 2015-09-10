@@ -1007,6 +1007,8 @@ namespace Frontend
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
 			this.mediaPlayAction.Activated += new global::System.EventHandler (this.OnMediaPlayActionToggled);
 			this.mediaStopAction.Activated += new global::System.EventHandler (this.OnMediaStopActionActivated);
+			this.saveAction.Activated += new global::System.EventHandler (this.OnSaveActionActivated);
+			this.openAction.Activated += new global::System.EventHandler (this.OnOpenActionActivated);
 			this.autoConnectAction.Activated += new global::System.EventHandler (this.OnAutoConnectActionActivated);
 			this.btnAddAPin.Clicked += new global::System.EventHandler (this.OnBtnAddAPinClicked);
 			this.btnEditAPin.Clicked += new global::System.EventHandler (this.OnBtnEditAPinClicked);

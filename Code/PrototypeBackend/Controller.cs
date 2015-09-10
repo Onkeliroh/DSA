@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.IO;
 using PrototypeBackend;
 using Logger;
 using System.Diagnostics;
@@ -315,6 +317,54 @@ namespace PrototypeBackend
 			return dict;
 		}
 
+
+		public bool SaveConfiguration (string path = null)
+		{
+			//TODO save	
+			try
+			{
+				Stream stream = File.Open (path, FileMode.Create);
+				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
+
+//				BoardConfiguration config = new BoardConfiguration ();
+//				config = this.Configuration;
+
+				var config = this.Configuration.Pins [0];
+
+				formatter.Serialize (stream, config);
+
+				//Test//
+//				int i = 42;
+//				formatter.Serialize (stream, i);
+
+				stream.Close ();
+			} catch (Exception)
+			{
+				throw;
+			} 
+			return true;
+		}
+
+		public bool OpenConfiguration (string path)
+		{
+			//TODO open	
+			try
+			{
+				Stream stream = File.Open (path, FileMode.Open, FileAccess.Read);
+				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
+
+				DPin pin = (DPin)formatter.Deserialize (stream);
+				Console.WriteLine (pin);
+
+
+				stream.Close ();
+			} catch (Exception)
+			{
+				throw;
+			}
+
+			return true;
+		}
 	}
 }
 

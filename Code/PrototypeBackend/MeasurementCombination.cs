@@ -5,6 +5,7 @@ using Gdk;
 
 namespace PrototypeBackend
 {
+	[Serializable]
 	public class MeasurementCombination
 	{
 		#region Member
@@ -57,14 +58,7 @@ namespace PrototypeBackend
 				return OperationString_; 
 			} 
 			set { 
-//				Operation = OperationCompiler.CompileOperation (value, Pins.Select (o => o.Number.ToString ()).ToArray ());
-//				if (Operation != null)
-//				{
 				OperationString_ = value; 
-//				} else
-//				{
-//				OperationString_ = string.Empty;
-//				}
 			} 
 		}
 
@@ -74,6 +68,7 @@ namespace PrototypeBackend
 
 		#region Events
 
+		[NonSerialized]
 		EventHandler<NewMeasurementValue> OnNewValue;
 
 		#endregion

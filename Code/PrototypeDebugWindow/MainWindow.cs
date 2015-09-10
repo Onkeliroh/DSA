@@ -504,6 +504,13 @@ namespace Frontend
 			}
 		}
 
+		private void UpdateAllNodeViews ()
+		{
+			FillSequenceNodes ();
+			FillSequencePreviewPlot ();
+			FillMeasurementCombinationNodes ();
+		}
+
 		#endregion
 
 		#region BuildElements
@@ -1255,11 +1262,41 @@ namespace Frontend
 			dialog.Destroy ();
 		}
 
-		protected  void RunPreferencesDialog (object sernder = null, EventArgs e = null)
+		protected  void RunPreferencesDialog (object sender = null, EventArgs e = null)
 		{
 			var dialog = new PreferencesDialog.PreferencesDialog ();
 			dialog.Run ();
 			dialog.Destroy ();
+		}
+
+		protected string RunSaveDialog (object sender = null, EventArgs e = null)
+		{
+			string path = string.Empty;
+
+			var dialog = new FileChooserDialog ("Select save loaction", this, FileChooserAction.Save, "Cancel", ResponseType.Cancel, "Save", ResponseType.Apply);
+			dialog.Response += (o, args) =>
+			{
+				path = dialog.Filename;	
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+
+			return path;
+		}
+
+		protected string RunOpenDialog (string folder = null)
+		{
+			string path = string.Empty;
+
+			var dialog = new FileChooserDialog ("select a configuration", this, FileChooserAction.Open, "Cancel", ResponseType.Cancel, "Open", ResponseType.Apply);
+			dialog.Response += (o, args) =>
+			{
+				path = dialog.Filename;
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+
+			return path;
 		}
 
 		#endregion
@@ -1424,7 +1461,6 @@ namespace Frontend
 			}
 		}
 
-
 		protected void OnButton359Clicked (object sender, EventArgs e)
 		{
 			con.Configuration.ClearPins ();
@@ -1507,7 +1543,6 @@ namespace Frontend
 			}
 		}
 
-
 		protected void OnButton1125Clicked (object sender, EventArgs e)
 		{
 			con.Configuration.ClearPins ();
@@ -1541,6 +1576,38 @@ namespace Frontend
 		protected void OnBtnBoardDifferenceTestClicked (object sender, EventArgs e)
 		{
 			con.Configuration.Board = con.BoardConfigs [1];
+		}
+
+		protected void OnSaveActionActivated (object sender, EventArgs e)
+		{
+			if (string.IsNullOrEmpty (con.Configuration.SavePath))
+			{
+				string path = RunSaveDialog ();
+				if (!string.IsNullOrEmpty (path))
+				{
+					con.Configuration.SavePath = path;	
+					con.SaveConfiguration (path);
+				}
+			} else
+			{
+				con.SaveConfiguration ();
+			}
+		}
+
+
+		protected void OnOpenActionActivated (object sender, EventArgs e)
+		{
+			try
+			{
+				string path = RunOpenDialog ();
+				if (con.OpenConfiguration (path))
+				{
+					UpdateAllNodeViews ();
+				}
+			} catch (Exception ex)
+			{
+				con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
+			}
 		}
 
 		#endregion

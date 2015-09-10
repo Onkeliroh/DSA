@@ -8,9 +8,11 @@ using Gdk;
 
 namespace PrototypeBackend
 {
+	[Serializable]
 	public class APin : IPin
 	{
 		#region Member
+
 
 		public PrototypeBackend.PinType Type { get; set; }
 
@@ -101,10 +103,12 @@ namespace PrototypeBackend
 		/// <summary>
 		/// Is invoked, if new value is added
 		/// </summary>
+		[NonSerialized]
 		public EventHandler<NewMeasurementValue> OnNewValue;
 		/// <summary>
 		/// Is invoked, if new value is added
 		/// </summary>
+		[NonSerialized]
 		public EventHandler<NewMeasurementValue> OnNewRAWValue;
 
 		#endregion

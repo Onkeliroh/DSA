@@ -12,6 +12,7 @@ namespace PrototypeBackend
 		Done,
 	}
 
+	[Serializable]
 	public class Sequence
 	{
 		public DPin Pin { get; set; }

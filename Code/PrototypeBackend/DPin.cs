@@ -3,10 +3,12 @@ using PrototypeBackend;
 using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace PrototypeBackend
 {
-	public class DPin : IPin
+	[Serializable]
+	public class DPin : IPin, ISerializable
 	{
 		public PinType Type { get; set; }
 
@@ -115,6 +117,41 @@ namespace PrototypeBackend
 				break;
 			}
 		}
+
+		#region ISerializable implementation
+
+		public void GetObjectData (SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue ("Type", Type);
+			info.AddValue ("Mode", Mode);
+			info.AddValue ("Name", Name);
+			info.AddValue ("Number", Number);
+			info.AddValue ("AnalogNumber", AnalogNumber);
+			info.AddValue ("SDA", SDA);
+			info.AddValue ("SCL", SCL);
+			info.AddValue ("RX", RX);
+			info.AddValue ("TX", TX);
+			info.AddValue ("RED", PlotColor.Red);
+			info.AddValue ("GREEN", PlotColor.Green);
+			info.AddValue ("BLUE", PlotColor.Blue);
+		}
+
+		//		void  ISerializable.GetObjectData (SerializationInfo info, StreamingContext context)
+		public DPin (SerializationInfo info, StreamingContext context)
+		{
+			Type = (PinType)info.GetByte ("Type");
+			Mode = (PinMode)info.GetByte ("Mode");
+			Name = info.GetString ("Name");
+			Number = info.GetUInt32 ("Number");
+			AnalogNumber = (uint?)info.GetUInt32 ("AnalogNumber");
+			SDA = info.GetBoolean ("SDA");
+			SCL = info.GetBoolean ("SCL");
+			RX = info.GetBoolean ("RX");
+			TX = info.GetBoolean ("TX");
+			PlotColor = new Gdk.Color (info.GetByte ("RED"), info.GetByte ("GREEN"), info.GetByte ("BLUE"));
+		}
+
+		#endregion
 	}
 }
 

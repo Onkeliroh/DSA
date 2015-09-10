@@ -68,7 +68,7 @@ namespace BoardIniEditor
 
 		protected void OnSaveAsActionActivated (object sender, EventArgs e)
 		{
-			var dialog = new FileChooserDialog ("Selecte Save Location", this, FileChooserAction.Save, "Cancel", ResponseType.Cancel, "Save", ResponseType.Accept);
+			var dialog = new FileChooserDialog ("Select Save Location", this, FileChooserAction.Save, "Cancel", ResponseType.Cancel, "Save", ResponseType.Accept);
 			dialog.Response += (o, args) =>
 			{
 				if (args.ResponseId == ResponseType.Accept)

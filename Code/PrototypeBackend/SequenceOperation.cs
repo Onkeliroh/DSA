@@ -2,6 +2,7 @@
 
 namespace PrototypeBackend
 {
+	[Serializable]
 	public struct SequenceOperation
 	{
 		public DPinState State { get; set; }
