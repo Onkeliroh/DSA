@@ -20,7 +20,7 @@ namespace PrototypeBackend
 
 		public string DisplayNumber {
 			get {
-				if (AnalogNumber != null)
+				if (AnalogNumber != -1)
 					return string.Format ("D{0} | A{1}", Number, AnalogNumber);
 				else
 					return string.Format ("D{0}", Number);
@@ -32,7 +32,7 @@ namespace PrototypeBackend
 
 		public uint RealNumber { get { return Number; } set { } }
 
-		public uint? AnalogNumber { get; set; }
+		public int AnalogNumber { get; set; }
 
 		public bool SDA { get ;	set ; }
 
@@ -54,7 +54,7 @@ namespace PrototypeBackend
 			Mode = PrototypeBackend.PinMode.OUTPUT;
 			Name = "";
 			Number = 0;
-			AnalogNumber = null;
+			AnalogNumber = -1;
 			PlotColor = Gdk.Color.Zero;
 		}
 
@@ -64,7 +64,7 @@ namespace PrototypeBackend
 			Number = pinnr;
 			Type = PrototypeBackend.PinType.DIGITAL;
 			Mode = PrototypeBackend.PinMode.OUTPUT;
-			AnalogNumber = null;
+			AnalogNumber = -1;
 			PlotColor = Gdk.Color.Zero;
 		}
 
@@ -73,8 +73,7 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as DPin;
-			if (seq != null)
-			{
+			if (seq != null) {
 				return (seq.Number == Number)
 //				&& seq.Name.Equals (Name)
 //				&& seq.State.Equals (State)
@@ -107,8 +106,7 @@ namespace PrototypeBackend
 
 		public void Run ()
 		{
-			switch (Mode)
-			{
+			switch (Mode) {
 			case PrototypeBackend.PinMode.OUTPUT:
 				PrototypeBackend.ArduinoController.SetPin (Number, Mode, State);
 				break;
@@ -131,19 +129,19 @@ namespace PrototypeBackend
 			info.AddValue ("SCL", SCL);
 			info.AddValue ("RX", RX);
 			info.AddValue ("TX", TX);
-			info.AddValue ("RED", PlotColor.Red);
-			info.AddValue ("GREEN", PlotColor.Green);
-			info.AddValue ("BLUE", PlotColor.Blue);
+			info.AddValue ("RED", uintToByte (PlotColor.Red));
+			info.AddValue ("GREEN", uintToByte (PlotColor.Green));
+			info.AddValue ("BLUE", uintToByte (PlotColor.Blue));
 		}
 
 		//		void  ISerializable.GetObjectData (SerializationInfo info, StreamingContext context)
 		public DPin (SerializationInfo info, StreamingContext context)
 		{
-			Type = (PinType)info.GetByte ("Type");
-			Mode = (PinMode)info.GetByte ("Mode");
+//			Type = (PinType)info.GetByte ("Type");
+//			Mode = (PinMode)info.GetByte ("Mode");
 			Name = info.GetString ("Name");
 			Number = info.GetUInt32 ("Number");
-			AnalogNumber = (uint?)info.GetUInt32 ("AnalogNumber");
+			AnalogNumber = info.GetInt32 ("AnalogNumber");
 			SDA = info.GetBoolean ("SDA");
 			SCL = info.GetBoolean ("SCL");
 			RX = info.GetBoolean ("RX");
@@ -152,6 +150,11 @@ namespace PrototypeBackend
 		}
 
 		#endregion
+
+		public static byte uintToByte (uint val)
+		{
+			return (byte)(byte.MaxValue / 65535.0 * val);
+		}
 	}
 }
 
