@@ -8,7 +8,7 @@ namespace PrototypeBackend
 {
 
 	[Serializable]
-	public class BoardConfiguration
+	public class BoardConfiguration : ISerializable
 	{
 		#region Member
 
@@ -31,7 +31,7 @@ namespace PrototypeBackend
 			}
 		}
 
-		private Board board;
+		private Board board = new Board ();
 
 		public APin[] AvailableAnalogPins{ get { return GetUnusedAnalogPins (); } private set { } }
 
@@ -75,7 +75,7 @@ namespace PrototypeBackend
 
 		public BoardConfiguration ()
 		{
-			board = null;
+			board = new Board ();
 			Pins = new List<IPin> ();
 			MeasurementCombinations = new List<MeasurementCombination> ();
 			Sequences = new List<Sequence> ();
@@ -179,6 +179,18 @@ namespace PrototypeBackend
 				if (OnPinsUpdated != null) {
 					OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (pin, UpdateOperation.Add));
 				}
+			}
+		}
+
+		public void AddPinRange (IPin[] pins)
+		{
+			for (int i = 0; i < pins.Length; i++) {
+				if (!Pins.Contains (pins [i]) && pins [i] != null) {
+					Pins.Add (pins [i]);
+				}
+			}
+			if (OnPinsUpdated != null) {
+				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.AddRange));
 			}
 		}
 
@@ -389,6 +401,39 @@ namespace PrototypeBackend
 				pin.AnalogNumber = ((Array.IndexOf (Board.HardwareAnalogPins, pin.Number) > -1) ? Array.IndexOf (Board.HardwareAnalogPins, pin.Number) : -1);
 			}
 		}
+
+		#region ISerializable implementation
+
+		public void GetObjectData (SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue ("Board", board);
+			info.AddValue ("Pins", Pins);
+			info.AddValue ("MeasurementCombinations", MeasurementCombinations);
+			info.AddValue ("Sequences", Sequences);
+			info.AddValue ("SavePath", SavePath);
+			info.AddValue ("LogFilePath", LogFilePath);
+			info.AddValue ("UseMarker", UseMarker);
+			info.AddValue ("LogRAWValues", LogRAWValues);
+		}
+
+		public BoardConfiguration (SerializationInfo info, StreamingContext context)
+		{
+			board = new Board ();
+			Pins = new List<IPin> ();
+			MeasurementCombinations = new List<MeasurementCombination> ();
+			Sequences = new List<Sequence> ();
+
+			board = (Board)info.GetValue ("Board", board.GetType ());
+			Pins = (List<IPin>)info.GetValue ("Pins", Pins.GetType ());
+			MeasurementCombinations = (List<MeasurementCombination>)info.GetValue ("MeasurementCombinations", MeasurementCombinations.GetType ());
+			Sequences = (List<Sequence>)info.GetValue ("Sequences", Sequences.GetType ());
+			SavePath = info.GetString ("SavePath");
+			LogFilePath = info.GetString ("LogFilePath");
+			UseMarker = info.GetBoolean ("UseMarker");
+			LogRAWValues = info.GetBoolean ("LogRAWValues");
+		}
+
+		#endregion
 	}
 }
 

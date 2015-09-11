@@ -3,13 +3,14 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 using Gdk;
 
 namespace PrototypeBackend
 {
 	[Serializable]
-	public class APin : IPin
+	public class APin : IPin, ISerializable
 	{
 		#region Member
 
@@ -60,8 +61,7 @@ namespace PrototypeBackend
 		public DateTimeValue Value {
 			set { 
 				Values.Add (value); 
-				if (OnNewValue != null)
-				{
+				if (OnNewValue != null) {
 					OnNewValue.Invoke (this, new NewMeasurementValue (){ RAW = value.Value, Value = CalcValue (), Time = value.Time });
 				}
 			}
@@ -131,10 +131,8 @@ namespace PrototypeBackend
 
 		public override bool Equals (object obj)
 		{
-			if (obj != null)
-			{
-				if (obj is APin)
-				{
+			if (obj != null) {
+				if (obj is APin) {
 					return (obj as APin).Type == Type &&
 					(obj as APin).Mode == Mode &&
 					(obj as APin).Name.Equals (Name) &&
@@ -168,40 +166,80 @@ namespace PrototypeBackend
 
 		public double CalcValue ()
 		{
-			if (Values.Count >= (int)Interval)
-			{
-				if (Interval == 1)
-				{
-					if (!double.IsNaN (Values.Last ().Value))
-					{
+			if (Values.Count >= (int)Interval) {
+				if (Interval == 1) {
+					if (!double.IsNaN (Values.Last ().Value)) {
 						return ((Values.Last ().Value * Slope) + Offset);
 					}
 					return double.NaN;
-				} else
-				{
-					if (Values.Count >= (int)Interval)
-					{
+				} else {
+					if (Values.Count >= (int)Interval) {
 						double result = 0;
-						for (int i = Values.Count - (int)Interval; i < Values.Count; i++)
-						{
-							if (!double.IsNaN (Values [i].Value))
-							{
+						for (int i = Values.Count - (int)Interval; i < Values.Count; i++) {
+							if (!double.IsNaN (Values [i].Value)) {
 								result += (Values [i].Value * Slope) + Offset;
 							}
 						}
 						return result / Interval;
-					} else
-					{
+					} else {
 						return double.NaN;
 					}
 				}
-			} else
-			{
+			} else {
 				return double.NaN;
 			}
 		}
 
 		#endregion
+
+		#region ISerializable implementation
+
+		public void GetObjectData (SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue ("Type", Type);
+			info.AddValue ("Mode", Mode);
+			info.AddValue ("Name", Name);
+			info.AddValue ("Unit", Unit);
+			info.AddValue ("Number", Number);
+			info.AddValue ("DigitalNumber", DigitalNumber);
+			info.AddValue ("SDA", SDA);
+			info.AddValue ("SCL", SCL);
+			info.AddValue ("RX", RX);
+			info.AddValue ("TX", TX);
+			info.AddValue ("RED", uintToByte (PlotColor.Red));
+			info.AddValue ("GREEN", uintToByte (PlotColor.Green));
+			info.AddValue ("BLUE", uintToByte (PlotColor.Blue));
+			info.AddValue ("Slope", Slope);
+			info.AddValue ("Offset", Offset);
+			info.AddValue ("Interval", Interval);
+			info.AddValue ("Period", Period);
+		}
+
+		public APin (SerializationInfo info, StreamingContext context)
+		{
+			Type = (PinType)info.GetByte ("Type");
+			Mode = (PinMode)info.GetByte ("Mode");
+			Name = info.GetString ("Name");
+			Unit = info.GetString ("Unit");
+			Number = info.GetUInt32 ("Number");
+			DigitalNumber = info.GetUInt32 ("DigitalNumber");
+			SDA = info.GetBoolean ("SDA");
+			SCL = info.GetBoolean ("SCL");
+			RX = info.GetBoolean ("RX");
+			TX = info.GetBoolean ("TX");
+			PlotColor = new Gdk.Color (info.GetByte ("RED"), info.GetByte ("GREEN"), info.GetByte ("BLUE"));
+			Slope = info.GetDouble ("Slope");
+			Offset = info.GetDouble ("Offset");
+			Interval = info.GetUInt64 ("Interval");
+			Period = info.GetUInt64 ("Period");
+		}
+
+		#endregion
+
+		public static byte uintToByte (uint val)
+		{
+			return (byte)(byte.MaxValue / 65535.0 * val);
+		}
 	}
 }
 

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Gdk;
 
 namespace PrototypeBackend
 {
 	[Serializable]
-	public class MeasurementCombination
+	public class MeasurementCombination : ISerializable
 	{
 		#region Member
 
@@ -40,8 +41,7 @@ namespace PrototypeBackend
 
 		public DateTimeValue Value {
 			get {
-				if (Operation != null)
-				{
+				if (Operation != null) {
 					return new DateTimeValue () {
 						
 						Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
@@ -87,8 +87,7 @@ namespace PrototypeBackend
 
 		public bool AddPin (APin pin)
 		{
-			if (!Pins.Contains (pin))
-			{
+			if (!Pins.Contains (pin)) {
 				Pins.Add (pin);
 				ManagePins ();
 				return true;
@@ -99,13 +98,33 @@ namespace PrototypeBackend
 		private void ManagePins ()
 		{
 			var list = Pins.OrderByDescending (o => o.Period);
-			list.First ().OnNewValue += (o, e) =>
-			{
-				if (OnNewValue != null)
-				{
+			list.First ().OnNewValue += (o, e) => {
+				if (OnNewValue != null) {
 					OnNewValue.Invoke (this, new NewMeasurementValue (){ Value = this.Value.Value, Time = this.Value.Time });
 				}
 			};
+		}
+
+		#endregion
+
+		#region ISerializable implementation
+
+		public void GetObjectData (SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue ("Pins", Pins);
+			info.AddValue ("Name", Name);
+			info.AddValue ("Unit", Unit);
+			info.AddValue ("Interval", Interval);
+			info.AddValue ("OperationString", OperationString);
+		}
+
+		public MeasurementCombination (SerializationInfo info, StreamingContext context)
+		{
+			Pins = (List<APin>)info.GetValue ("Pins", Pins.GetType ());
+			Name = info.GetString ("Name");
+			Unit = info.GetString ("Unit");
+			Interval = info.GetInt32 ("Interval");
+			OperationString = info.GetString ("OpterationString");
 		}
 
 		#endregion

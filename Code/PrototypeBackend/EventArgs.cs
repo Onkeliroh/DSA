@@ -61,6 +61,7 @@ namespace PrototypeBackend
 	public enum UpdateOperation
 	{
 		Add,
+		AddRange,
 		Remove,
 		Change,
 		Clear,

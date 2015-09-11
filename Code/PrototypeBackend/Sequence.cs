@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Gdk;
 
 namespace PrototypeBackend
@@ -13,7 +14,7 @@ namespace PrototypeBackend
 	}
 
 	[Serializable]
-	public class Sequence
+	public class Sequence : ISerializable
 	{
 		public DPin Pin { get; set; }
 
@@ -106,18 +107,15 @@ namespace PrototypeBackend
 		public SequenceOperation? Next ()
 		{
 			CurrentOperation += 1;
-			if (CurrentOperation == Chain.Count)
-			{
+			if (CurrentOperation == Chain.Count) {
 				CurrentOperation = 0;
 				Cycle += 1;
 			}
 
-			if (CurrentState == SequenceState.Done || ((Cycle > Repetitions || Chain.Count == 0) && Repetitions != -1))
-			{
+			if (CurrentState == SequenceState.Done || ((Cycle > Repetitions || Chain.Count == 0) && Repetitions != -1)) {
 				CurrentState = SequenceState.Done;
 				return  null;
-			} else
-			{
+			} else {
 				CurrentState = SequenceState.Running;
 				lastOperation += Chain [CurrentOperation].Duration;
 
@@ -131,11 +129,9 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Current ()
 		{
-			if (Chain.Count > 0)
-			{
+			if (Chain.Count > 0) {
 				return Chain [CurrentOperation];
-			} else
-			{
+			} else {
 				return null;
 			}
 		}
@@ -150,11 +146,39 @@ namespace PrototypeBackend
 		{
 			string res = String.Format ("Name: {0}\t[Pin: {1}]", Name, Pin);
 			res += "\nOperations:";
-			foreach (SequenceOperation seqop in Chain)
-			{
+			foreach (SequenceOperation seqop in Chain) {
 				res += string.Format ("\nDuration: {0}\tState: {1}", seqop.Duration, seqop.State);
 			}
 			return res;
+		}
+
+		#region ISerializable implementation
+
+		public void GetObjectData (SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue ("Pin", Pin);
+			info.AddValue ("Name", Name);
+			info.AddValue ("RED", uintToByte (Color.Red));
+			info.AddValue ("GREEN", uintToByte (Color.Green));
+			info.AddValue ("BLUE", uintToByte (Color.Blue));
+			info.AddValue ("Chain", Chain);
+			info.AddValue ("Repetitions", Repetitions);
+		}
+
+		public Sequence (SerializationInfo info, StreamingContext context)
+		{
+			Pin = (DPin)info.GetValue ("Pin", Pin.GetType ());
+			Name = info.GetString ("Name");
+			Chain = (List<SequenceOperation>)info.GetValue ("Chain", Chain.GetType ());
+			Repetitions = info.GetInt32 ("Repetitions");
+			Color = new Gdk.Color (info.GetByte ("RED"), info.GetByte ("GREEN"), info.GetByte ("BLUE"));
+		}
+
+		#endregion
+
+		public static byte uintToByte (uint val)
+		{
+			return (byte)(byte.MaxValue / 65535.0 * val);
 		}
 	}
 }

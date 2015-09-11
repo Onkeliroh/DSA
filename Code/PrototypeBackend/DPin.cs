@@ -137,8 +137,8 @@ namespace PrototypeBackend
 		//		void  ISerializable.GetObjectData (SerializationInfo info, StreamingContext context)
 		public DPin (SerializationInfo info, StreamingContext context)
 		{
-//			Type = (PinType)info.GetByte ("Type");
-//			Mode = (PinMode)info.GetByte ("Mode");
+			Type = (PinType)info.GetByte ("Type");
+			Mode = (PinMode)info.GetByte ("Mode");
 			Name = info.GetString ("Name");
 			Number = info.GetUInt32 ("Number");
 			AnalogNumber = info.GetInt32 ("AnalogNumber");

@@ -313,10 +313,10 @@ namespace PrototypeBackend
 				Stream stream = File.Open (path, FileMode.Create);
 				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
-//				BoardConfiguration config = new BoardConfiguration ();
-//				config = this.Configuration;
+				BoardConfiguration config = new BoardConfiguration ();
+				config = this.Configuration;
 
-				var config = this.Configuration.Pins [0];
+//				var config = this.Configuration.Pins;
 
 				formatter.Serialize (stream, config);
 
@@ -334,8 +334,11 @@ namespace PrototypeBackend
 				Stream stream = File.Open (path, FileMode.Open, FileAccess.Read, FileShare.Write);
 				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
-				DPin pin = (DPin)formatter.Deserialize (stream);
-				Configuration.SetPin (0, pin);
+//				var config = (List<IPin>)formatter.Deserialize (stream);
+//				Configuration.AddPinRange (config.ToArray<IPin> ());
+				var config = formatter.Deserialize (stream);
+
+				Configuration = (BoardConfiguration)config;
 
 				stream.Close ();
 			} catch (Exception) {
