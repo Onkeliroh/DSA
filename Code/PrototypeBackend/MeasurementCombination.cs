@@ -84,6 +84,8 @@ namespace PrototypeBackend
 			Color = Gdk.Color.Zero;
 			Operation = null;
 			OperationString_ = string.Empty;
+			Color = Gdk.Color.Zero;
+			Unit = string.Empty;
 		}
 
 		public bool AddPin (APin pin)
@@ -109,6 +111,23 @@ namespace PrototypeBackend
 			};
 		}
 
+		public override bool Equals (object obj)
+		{
+			MeasurementCombination MeCom = obj as MeasurementCombination;
+			if (MeCom != null)
+			{
+				return 
+				    this.Pins.SequenceEqual (MeCom.Pins)	&&
+				this.Name.Equals (MeCom.Name) &&
+				this.Interval.Equals (MeCom.Interval) &&
+				this.OperationString_.Equals (MeCom.OperationString_) &&
+				this.Period.Equals (MeCom.Period) &&
+				this.Unit.Equals (MeCom.Unit) &&
+				this.Color.Equal (MeCom.Color);
+			}
+			return false;
+		}
+
 		#endregion
 
 		#region ISerializable implementation
@@ -124,11 +143,12 @@ namespace PrototypeBackend
 
 		public MeasurementCombination (SerializationInfo info, StreamingContext context)
 		{
+			Pins = new List<APin> ();
 			Pins = (List<APin>)info.GetValue ("Pins", Pins.GetType ());
 			Name = info.GetString ("Name");
 			Unit = info.GetString ("Unit");
 			Interval = info.GetInt32 ("Interval");
-			OperationString = info.GetString ("OpterationString");
+			OperationString = info.GetString ("OperationString");
 		}
 
 		#endregion

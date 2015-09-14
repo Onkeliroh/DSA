@@ -416,6 +416,8 @@ namespace PrototypeBackend
 		public void ClearPins ()
 		{
 			Pins.Clear ();
+			ClearSequences ();
+			ClearMeasurementCombinations ();
 			if (OnPinsUpdated != null)
 			{
 				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.Clear, null));

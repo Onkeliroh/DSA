@@ -147,9 +147,23 @@ namespace PrototypeBackend
 			return res;
 		}
 
+		public override bool Equals (object obj)
+		{
+			var seq = obj as Sequence;
+			if (seq != null)
+			{
+				return( 
+				    this.Pin.Equals (seq.Pin) &&
+				    this.Chain.SequenceEqual (seq.Chain) &&
+				    this.Name.Equals (seq.Name) &&
+				    this.Repetitions.Equals (seq.Repetitions));
+			}
+			return false;
+		}
+
 		public string ToStringLong ()
 		{
-			string res = String.Format ("Name: {0}\t[Pin: {1}]", Name, Pin);
+			string res = String.Format ("Name: {0}\n[Pin: {1}]\nColor {2}\tRepetitions {3}", Name, Pin, Color, Repetitions);
 			res += "\nOperations:";
 			foreach (SequenceOperation seqop in Chain)
 			{
@@ -173,10 +187,16 @@ namespace PrototypeBackend
 
 		public Sequence (SerializationInfo info, StreamingContext context)
 		{
+			Pin = new DPin ();
 			Pin = (DPin)info.GetValue ("Pin", Pin.GetType ());
+
 			Name = info.GetString ("Name");
+
+			Chain = new List<SequenceOperation> ();
 			Chain = (List<SequenceOperation>)info.GetValue ("Chain", Chain.GetType ());
+
 			Repetitions = info.GetInt32 ("Repetitions");
+
 			Color = new Gdk.Color (info.GetByte ("RED"), info.GetByte ("GREEN"), info.GetByte ("BLUE"));
 		}
 

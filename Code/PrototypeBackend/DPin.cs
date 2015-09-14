@@ -77,10 +77,10 @@ namespace PrototypeBackend
 			{
 				return (seq.Number == Number)
 				&& seq.Name.Equals (Name)
-//				&& seq.State.Equals (State)
+				&& seq.State.Equals (State)
 				&& seq.PlotColor.Equals (PlotColor)
-				&& seq.Type.Equals (Type);
-//				&& seq.Mode.Equals (Mode));
+				&& seq.Type.Equals (Type)
+				&& seq.Mode.Equals (Mode);
 			}
 			return false;
 		}
