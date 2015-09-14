@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using Gdk;
 using OxyPlot;
 
@@ -50,6 +51,11 @@ namespace GUIHelper
 		{
 			var rng = new Random ();
 			return new Gdk.Color ((byte)rng.Next (), (byte)rng.Next (), (byte)rng.Next ());
+		}
+
+		public static Gdk.Color SystemColorToGdkColor (System.Drawing.Color color)
+		{
+			return new Gdk.Color (color.R, color.G, color.B);
 		}
 	}
 }

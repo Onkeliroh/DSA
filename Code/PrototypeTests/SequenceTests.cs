@@ -50,12 +50,12 @@ namespace PrototypeTests
 				Pin = new DPin () {
 					Name = "Pin of Awesome",
 					Number = 13,
-					PlotColor = System.Drawing.Color.Yellow,
+					PlotColor = GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.Yellow),
 					State = DPinState.HIGH
 				},
 				Name = "Sequence of Awesome",
 				Repetitions = 3,
-				Color = System.Drawing.Color.AliceBlue
+				Color = GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.AliceBlue)
 			};
 
 			seq.AddSequenceOperation (new SequenceOperation () {
@@ -84,12 +84,12 @@ namespace PrototypeTests
 				Pin = new DPin () {
 					Name = "Pin of Awesome",
 					Number = 13,
-					PlotColor = System.Drawing.Color.Yellow,
+					PlotColor = GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.Yellow),
 					State = DPinState.HIGH
 				},
 				Name = "Sequence of Awesome",
 				Repetitions = 3,
-				Color = System.Drawing.Color.AliceBlue
+				Color = GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.AliceBlue)
 			};
 
 			seq.AddSequenceOperation (new SequenceOperation () {

@@ -13,9 +13,9 @@ namespace PrototypeTests
 			MeasurementCombination signal = new MeasurementCombination ();
 
 			Assert.AreEqual (0, signal.Pins.Count);
-			Assert.AreEqual (string.Empty, signal.SignalName);
-			Assert.AreEqual (System.Drawing.Color.Blue, signal.SignalColor);
-			Assert.AreEqual (string.Empty, signal.SignalOperationString);
+			Assert.AreEqual (string.Empty, signal.Name);
+			Assert.AreEqual (System.Drawing.Color.Blue, signal.Color);
+			Assert.AreEqual (string.Empty, signal.OperationString);
 		}
 
 		[Test ()]
@@ -28,11 +28,11 @@ namespace PrototypeTests
 			});
 
 			Assert.AreEqual (1, signal.Pins.Count);
-			signal.Pins [0].Values.Add (42);
+			signal.Pins [0].Values.Add (new DateTimeValue (42, DateTime.Now));
 
 			string func = "Temp1";
-			signal.SignalOperationString = func;
-			Assert.AreEqual (42, signal.SignalValue);
+			signal.OperationString = func;
+			Assert.AreEqual (42, signal.Value.Value);
 		}
 	}
 }

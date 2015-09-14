@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Linq;
 using PrototypeBackend;
 using System.Security.Cryptography;
 
@@ -115,56 +116,36 @@ namespace PrototypeTests
 		//		}
 
 		[Test ()]
-		public void EventTest ()
-		{
-			var tmp = new PrototypeBackend.Controller ();
-			bool received = false;
-			int pin = -1;
-			double val = -1;
-			tmp.NewAnalogValue += (o, e) =>
-			{
-				received = true;
-				pin = e.PinNr [0];
-				val = e.PinValue [0];
-			};
-
-			tmp.NewAnalogValue.Invoke (null, new ControllerAnalogEventArgs (new int[]{ 42 }, new int[]{ 42 }));
-			Assert.AreEqual (true, received);
-			Assert.AreEqual (42, pin);
-			Assert.AreEqual (42, val);
-		}
-
-		[Test ()]
 		public void GetUsedPinsTest ()
 		{
 			var tmp = new Controller ();
 
-			var pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
+			var pins = tmp.Configuration.AnalogPins;
 
-			Assert.AreEqual (pins.Length, 0);
+			Assert.AreEqual (pins.Count, 0);
 
-			tmp.AddPin (new APin () {
+			tmp.Configuration.AddPin (new APin () {
 				Number = 0,
 			});
 
-			pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
-			Assert.AreEqual (pins.Length, 1);
+			pins = tmp.Configuration.AnalogPins;
+			Assert.AreEqual (pins.Count, 1);
 			Assert.AreEqual (pins [0], 0);
 
-			tmp.AddPin (new DPin () {
+			tmp.Configuration.AddPin (new DPin () {
 				Number = 42
 			});
 
-			tmp.AddPin (new DPin () {
+			tmp.Configuration.AddPin (new DPin () {
 				Number = 13
 			});
 
-			pins = tmp.GetUsedPins (PrototypeBackend.PinType.ANALOG);
-			Assert.AreEqual (1, pins.Length);
+			pins = tmp.Configuration.AnalogPins;
+			Assert.AreEqual (1, pins.Count);
 			Assert.AreEqual (pins [0], 0);
 
-			pins = tmp.GetUsedPins (PrototypeBackend.PinType.DIGITAL);
-			Assert.AreEqual (pins.Length, 2);
+			pins = tmp.Configuration.AnalogPins;
+			Assert.AreEqual (pins.Count, 2);
 			Assert.AreEqual (pins [0], 42);
 			Assert.AreEqual (pins [1], 13);
 		}
@@ -174,49 +155,49 @@ namespace PrototypeTests
 		{
 			var tmp = new Controller ();
 
-			var pins = tmp.GetUnusedPins (PinType.ANALOG);
-			Assert.AreEqual (pins.Length, 6);
+			var pins = tmp.Configuration.AvailableAnalogPins;
+			Assert.AreEqual (pins.Count (), 6);
 
-			tmp.AddPin (new APin () {
+			tmp.Configuration.AddPin (new APin () {
 				Number = 0,
 			});
 
-			pins = tmp.GetUnusedPins (PinType.ANALOG);
-			Assert.AreEqual (pins.Length, 5);
+			pins = tmp.Configuration.AvailableAnalogPins;
+			Assert.AreEqual (pins.Count (), 5);
 			Assert.AreEqual (pins [0], 1);
 
-			tmp.AddPin (
+			tmp.Configuration.AddPin (
 				new DPin () {
 					Name = "Ding of Awesome",
 					Number = 13
 				}
 			);
 
-			tmp.AddPin (
+			tmp.Configuration.AddPin (
 				new DPin () {
 					Name = "Pin of Doom",
 					Number = 12
 				}
 			);
 
-			pins = tmp.GetUnusedPins (PinType.ANALOG);
-			Assert.AreEqual (pins.Length, 5);
+			pins = tmp.Configuration.GetPinsWithoutCombinations ();
+			Assert.AreEqual (pins.Count (), 5);
 			Assert.AreEqual (pins [0], 1);
 
-			pins = tmp.GetUnusedPins (PinType.DIGITAL);
-			Assert.AreEqual (pins.Length, 18);
-			Assert.AreEqual (pins [0], 0);
-			Assert.AreEqual (pins [1], 1);
+			var dpins = tmp.Configuration.GetPinsWithoutSequence ().ToList ();
+			Assert.AreEqual (dpins.Count, 18);
+			Assert.AreEqual (dpins [0], 0);
+			Assert.AreEqual (dpins [1], 1);
 		}
 
 		[Test]
 		public void GetUnusedPinsTest2 ()
 		{
 			var con = new Controller ();
-			con.AddPin (new DPin (){ Name = "Pin1", Number = 0 });
+			con.Configuration.AddPin (new DPin (){ Name = "Pin1", Number = 0 });
 
-			Assert.AreEqual (19, con.AvailableDigitalPins.Length);
-			Assert.AreEqual (1, con.AvailableDigitalPins [0]);
+			Assert.AreEqual (19, con.Configuration.AvailableDigitalPins.Length);
+			Assert.AreEqual (1, con.Configuration.AvailableDigitalPins [0]);
 		}
 
 		[Test]
