@@ -60,6 +60,10 @@
       <Project>{2B884C8B-58D1-4299-A844-6377FD6EDBEE}</Project>
       <Name>GUIHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{DAF25932-C4D6-4619-BDA6-9CF7D8684340}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

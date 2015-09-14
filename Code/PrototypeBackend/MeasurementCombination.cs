@@ -41,7 +41,8 @@ namespace PrototypeBackend
 
 		public DateTimeValue Value {
 			get {
-				if (Operation != null) {
+				if (Operation != null)
+				{
 					return new DateTimeValue () {
 						
 						Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
@@ -87,7 +88,8 @@ namespace PrototypeBackend
 
 		public bool AddPin (APin pin)
 		{
-			if (!Pins.Contains (pin)) {
+			if (!Pins.Contains (pin))
+			{
 				Pins.Add (pin);
 				ManagePins ();
 				return true;
@@ -98,8 +100,10 @@ namespace PrototypeBackend
 		private void ManagePins ()
 		{
 			var list = Pins.OrderByDescending (o => o.Period);
-			list.First ().OnNewValue += (o, e) => {
-				if (OnNewValue != null) {
+			list.First ().OnNewValue += (o, e) =>
+			{
+				if (OnNewValue != null)
+				{
 					OnNewValue.Invoke (this, new NewMeasurementValue (){ Value = this.Value.Value, Time = this.Value.Time });
 				}
 			};

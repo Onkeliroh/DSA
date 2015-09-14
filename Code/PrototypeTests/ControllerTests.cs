@@ -129,8 +129,8 @@ namespace PrototypeTests
 			});
 
 			pins = tmp.Configuration.AnalogPins;
-			Assert.AreEqual (pins.Count, 1);
-			Assert.AreEqual (pins [0], 0);
+			Assert.AreEqual (1, pins.Count);
+			Assert.AreEqual (0, pins [0].Number);
 
 			tmp.Configuration.AddPin (new DPin () {
 				Number = 42
@@ -142,12 +142,12 @@ namespace PrototypeTests
 
 			pins = tmp.Configuration.AnalogPins;
 			Assert.AreEqual (1, pins.Count);
-			Assert.AreEqual (pins [0], 0);
+			Assert.AreEqual (0, pins [0].Number);
 
-			pins = tmp.Configuration.AnalogPins;
-			Assert.AreEqual (pins.Count, 2);
-			Assert.AreEqual (pins [0], 42);
-			Assert.AreEqual (pins [1], 13);
+			var dpins = tmp.Configuration.DigitalPins;
+			Assert.AreEqual (2, dpins.Count);
+			Assert.AreEqual (13, dpins [0].Number);
+			Assert.AreEqual (42, dpins [1].Number);
 		}
 
 		[Test ()]
@@ -163,8 +163,8 @@ namespace PrototypeTests
 			});
 
 			pins = tmp.Configuration.AvailableAnalogPins;
-			Assert.AreEqual (pins.Count (), 5);
-			Assert.AreEqual (pins [0], 1);
+			Assert.AreEqual (5, pins.Count ());
+			Assert.AreEqual (1, pins [0].Number);
 
 			tmp.Configuration.AddPin (
 				new DPin () {
@@ -181,13 +181,13 @@ namespace PrototypeTests
 			);
 
 			pins = tmp.Configuration.GetPinsWithoutCombinations ();
-			Assert.AreEqual (pins.Count (), 5);
-			Assert.AreEqual (pins [0], 1);
+			Assert.AreEqual (1, pins.Count ());
+			Assert.AreEqual (pins [0].Number, 0);
 
-			var dpins = tmp.Configuration.GetPinsWithoutSequence ().ToList ();
-			Assert.AreEqual (dpins.Count, 18);
-			Assert.AreEqual (dpins [0], 0);
-			Assert.AreEqual (dpins [1], 1);
+			var dpins = tmp.Configuration.GetPinsWithoutSequence ();
+			Assert.AreEqual (2, dpins.Count ());
+			Assert.AreEqual (12, dpins [0].Number);
+			Assert.AreEqual (13, dpins [1].Number);
 		}
 
 		[Test]
@@ -197,7 +197,8 @@ namespace PrototypeTests
 			con.Configuration.AddPin (new DPin (){ Name = "Pin1", Number = 0 });
 
 			Assert.AreEqual (19, con.Configuration.AvailableDigitalPins.Length);
-			Assert.AreEqual (1, con.Configuration.AvailableDigitalPins [0]);
+			Assert.AreEqual (1, con.Configuration.AvailableDigitalPins [0].Number);
+
 		}
 
 		[Test]

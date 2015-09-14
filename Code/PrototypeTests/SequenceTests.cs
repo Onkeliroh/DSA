@@ -12,9 +12,9 @@ namespace PrototypeTests
 		{
 			Sequence seq = new Sequence ();
 
-			Assert.AreEqual (null, seq.Pin);
+			Assert.AreEqual (new DPin (), seq.Pin);
 			Assert.AreEqual ("", seq.Name);
-			Assert.AreEqual (System.Drawing.Color.Empty, seq.Color);
+			Assert.AreEqual (seq.Pin.PlotColor, seq.Color);
 			Assert.AreEqual (0, seq.Chain.Count);
 			Assert.AreEqual (0, seq.Repetitions);
 			Assert.AreEqual (0, seq.Cycle);
@@ -32,12 +32,10 @@ namespace PrototypeTests
 				},
 				Name = "Sequence of Awesome",
 				Repetitions = 3,
-				Color = new Gdk.Color (0, 0, 255),
 			};
 
 			Assert.AreNotEqual (null, seq.Pin);
 			Assert.AreEqual ("Sequence of Awesome", seq.Name);
-			Assert.AreEqual (System.Drawing.Color.AliceBlue, seq.Color);
 			Assert.AreEqual (0, seq.Chain.Count);
 			Assert.AreEqual (3, seq.Repetitions);
 			Assert.AreEqual (0, seq.Cycle);
@@ -55,7 +53,6 @@ namespace PrototypeTests
 				},
 				Name = "Sequence of Awesome",
 				Repetitions = 3,
-				Color = GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.AliceBlue)
 			};
 
 			seq.AddSequenceOperation (new SequenceOperation () {
@@ -89,7 +86,6 @@ namespace PrototypeTests
 				},
 				Name = "Sequence of Awesome",
 				Repetitions = 3,
-				Color = GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.AliceBlue)
 			};
 
 			seq.AddSequenceOperation (new SequenceOperation () {

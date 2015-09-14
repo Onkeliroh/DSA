@@ -20,7 +20,7 @@ namespace PrototypeBackend
 
 		public string Name { get; set; }
 
-		public Gdk.Color Color { get { return Pin.PlotColor; } set { } }
+		public Gdk.Color Color { get { return Pin.PlotColor; } private set { } }
 
 		public List<SequenceOperation> Chain { get; set; }
 
@@ -107,15 +107,18 @@ namespace PrototypeBackend
 		public SequenceOperation? Next ()
 		{
 			CurrentOperation += 1;
-			if (CurrentOperation == Chain.Count) {
+			if (CurrentOperation == Chain.Count)
+			{
 				CurrentOperation = 0;
 				Cycle += 1;
 			}
 
-			if (CurrentState == SequenceState.Done || ((Cycle > Repetitions || Chain.Count == 0) && Repetitions != -1)) {
+			if (CurrentState == SequenceState.Done || ((Cycle > Repetitions || Chain.Count == 0) && Repetitions != -1))
+			{
 				CurrentState = SequenceState.Done;
 				return  null;
-			} else {
+			} else
+			{
 				CurrentState = SequenceState.Running;
 				lastOperation += Chain [CurrentOperation].Duration;
 
@@ -129,9 +132,11 @@ namespace PrototypeBackend
 		/// </summary>
 		public SequenceOperation? Current ()
 		{
-			if (Chain.Count > 0) {
+			if (Chain.Count > 0)
+			{
 				return Chain [CurrentOperation];
-			} else {
+			} else
+			{
 				return null;
 			}
 		}
@@ -146,7 +151,8 @@ namespace PrototypeBackend
 		{
 			string res = String.Format ("Name: {0}\t[Pin: {1}]", Name, Pin);
 			res += "\nOperations:";
-			foreach (SequenceOperation seqop in Chain) {
+			foreach (SequenceOperation seqop in Chain)
+			{
 				res += string.Format ("\nDuration: {0}\tState: {1}", seqop.Duration, seqop.State);
 			}
 			return res;
