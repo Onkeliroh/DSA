@@ -151,10 +151,12 @@ namespace Logger
 				{
 					if (File.Exists (FileName_))
 					{
-						LogWriter = new StreamWriter (FileName_, true, FileEncoding);
+//						LogWriter = new StreamWriter (FileName_, true, FileEncoding);
+						LogWriter = new StreamWriter (new FileStream (FileName_, FileMode.Append, FileAccess.Write, FileShare.Write), FileEncoding);
 					} else
 					{
-						LogWriter = new StreamWriter (FileName_, false, FileEncoding);
+//						LogWriter = new StreamWriter (FileName_, false, FileEncoding);
+						LogWriter = new StreamWriter (new FileStream (FileName_, FileMode.CreateNew, FileAccess.Write, FileShare.Write), FileEncoding);
 					}
 					LogThread.Name = FileName_ + "_thread";
 				} catch (Exception)
