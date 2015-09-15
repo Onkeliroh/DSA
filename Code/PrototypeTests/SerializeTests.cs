@@ -173,6 +173,8 @@ namespace PrototypeTests
 
 			conf.Pins [0].Name = "Dulli";
 			Assert.AreEqual (conf.Pins [0].Name, conf.MeasurementCombinations [0].Pins [0].Name);
+			Assert.AreEqual (19, confClone.AvailableDigitalPins.Length);
+			Assert.AreEqual (6, confClone.AvailableAnalogPins.Length);
 
 			conf.ClearPins ();
 			Assert.AreEqual (0, conf.Pins.Count);

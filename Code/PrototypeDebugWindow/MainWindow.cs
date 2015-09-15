@@ -42,11 +42,9 @@ namespace Frontend
 		{
 			this.Build ();
 
-			if (controller != null)
-			{
+			if (controller != null) {
 				con = controller;
-			} else
-			{
+			} else {
 				con = new Controller ();
 			}
 
@@ -64,47 +62,36 @@ namespace Frontend
 		private void InitComponents ()
 		{
 			#region Connection
-			ArduinoController.OnConnectionChanged += (object sender, ConnectionChangedArgs e) =>
-			{
-				if (e.Connected)
-				{
+			ArduinoController.OnConnectionChanged += (object sender, ConnectionChangedArgs e) => {
+				if (e.Connected) {
 					lblConnectionStatus.Text = "connected to " + e.Port;
 					autoConnectAction.Sensitive = false;
 					mediaPlayAction.Sensitive = true;
 					mediaStopAction.Sensitive = true;
-					try
-					{
+					try {
 						ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
-					} catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 					}
-					if (ArduinoController.MCU != null && ArduinoController.MCU != "")
-					{
-						if (this.mcuW.SelectedBoard == null)
-						{
+					if (ArduinoController.MCU != null && ArduinoController.MCU != "") {
+						if (this.mcuW.SelectedBoard == null) {
 							this.mcuW.Select (ArduinoController.MCU);
 							this.con.Configuration.Board = Array.Find (con.BoardConfigs, o => o.MCU == ArduinoController.MCU);
-						} else
-						{
-							if (mcuW.SelectedBoard.MCU != con.Configuration.Board.MCU && con.Configuration.Board != null)
-							{
+						} else {
+							if (mcuW.SelectedBoard.MCU != con.Configuration.Board.MCU && con.Configuration.Board != null) {
 								Application.Invoke (RunMCUMessageDialog);
 							}
 						}
 					}
-				} else
-				{
+				} else {
 					lblConnectionStatus.Text = "<b>NOT</b> connected";
 					lblConnectionStatus.UseMarkup = true;
 					autoConnectAction.Sensitive = true;
 					mediaPlayAction.Sensitive = false;
 					mediaStopAction.Sensitive = false;
-					try
-					{
+					try {
 						ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
-					} catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 					}
 				}
@@ -147,43 +134,15 @@ namespace Frontend
 			};
 			#endif
 
-			con.Configuration.OnPinsUpdated += (o, a) =>
-			{
-				if (a.Pin is DPin)
-				{
-					FillDigitalPinNodes ();
-					FillSequencePreviewPlot ();
-					FillMeasurementCombinationNodes ();
-				} else if (a.Pin is APin)
-				{
-					FillAnalogPinNodes ();
-					FillMeasurementCombinationNodes ();
-				} else
-				{
-					FillAnalogPinNodes ();
-					FillDigitalPinNodes ();
-					FillSequenceNodes ();
-					FillMeasurementCombinationNodes ();
-				}
-			};
-			con.Configuration.OnSequencesUpdated += (o, a) =>
-			{
-				FillSequenceNodes ();
-				FillSequencePreviewPlot ();
-			};
-			con.Configuration.OnSignalsUpdated += (o, a) => FillMeasurementCombinationNodes ();
-
-			con.OnControllerStarted += (o, a) => LockControlls (false);
-			con.OnControllerStoped += (o, a) => LockControlls (true);
-
+			BindControllerEvents ();
+		
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 			nvMeasurementCombinations.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 			nvAnalogPins.ButtonPressEvent += new ButtonPressEventHandler (OnAnalogPinNodePressed);
 
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
-			TimeKeeperPresenter.Elapsed += (sender, e) =>
-			{
+			TimeKeeperPresenter.Elapsed += (sender, e) => {
 				lblTimePassed.Text = string.Format ("{0:c}", con.TimePassed); 
 //				UpdateRealTimePlot ();
 			};
@@ -194,24 +153,18 @@ namespace Frontend
 		[GLib.ConnectBeforeAttribute]
 		protected void OnItemButtonPressed (object sender, ButtonPressEventArgs e)
 		{
-			if (e.Event.Button == 3)
-			{ /* right click */
+			if (e.Event.Button == 3) { /* right click */
 				Menu m = new Menu ();
 				MenuItem deleteItem = new MenuItem ("Delete this item");
-				deleteItem.ButtonPressEvent += (senderer, ee) =>
-				{
+				deleteItem.ButtonPressEvent += (senderer, ee) => {
 					ITreeNode node = (sender as NodeView).NodeSelection.SelectedNode;
-					if (node is DPinTreeNode)
-					{
+					if (node is DPinTreeNode) {
 						con.Configuration.RemovePin ((node as DPinTreeNode).Index);
-					} else if (node is SequenceTreeNode)
-					{
+					} else if (node is SequenceTreeNode) {
 						con.Configuration.RemoveSequence ((node as SequenceTreeNode).Index);
-					} else if (node is APinTreeNode)
-					{
+					} else if (node is APinTreeNode) {
 						con.Configuration.RemovePin ((node as APinTreeNode).Index);
-					} else if (node is MeasurementCombinationTreeNode)
-					{
+					} else if (node is MeasurementCombinationTreeNode) {
 						con.Configuration.RemoveMeasurementCombination ((node as MeasurementCombinationTreeNode).Index);
 					}
 				};
@@ -226,26 +179,22 @@ namespace Frontend
 		[GLib.ConnectBeforeAttribute]
 		protected void OnAnalogPinNodePressed (object sender, ButtonPressEventArgs e)
 		{
-			if (e.Event.Button == 3)
-			{
+			if (e.Event.Button == 3) {
 				Menu m = new Menu ();
 				MenuItem deleteItem = new MenuItem ("Delete this analog input");
 				APinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as APinTreeNode;
 
-				if (pin != null)
-				{
+				if (pin != null) {
 
 					deleteItem.ButtonPressEvent += (o, args) =>
 						con.Configuration.RemovePin (pin.Index);
 
 					MenuItem addSignal = new MenuItem ("Add new Signal");
 					MenuItem editSignal = new MenuItem ("Edit Signal");
-					if (pin.Combination == null)
-					{
+					if (pin.Combination == null) {
 						editSignal.Sensitive = false;
 						addSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (null, pin.Pin);
-					} else
-					{
+					} else {
 						addSignal.Sensitive = false;
 						editSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
 					}
@@ -263,26 +212,22 @@ namespace Frontend
 		[GLib.ConnectBeforeAttribute]
 		protected void OnDigitalPinNodePressed (object sender, ButtonPressEventArgs e)
 		{
-			if (e.Event.Button == 3)
-			{
+			if (e.Event.Button == 3) {
 				Menu m = new Menu ();
 				MenuItem deleteItem = new MenuItem ("Delete this digital output");
 				DPinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as DPinTreeNode;
 
-				if (pin != null)
-				{
+				if (pin != null) {
 
 					deleteItem.ButtonPressEvent += (o, args) =>
 						con.Configuration.RemovePin (pin.Index);
 
 					MenuItem addSignal = new MenuItem ("Add new Sequence");
 					MenuItem editSignal = new MenuItem ("Edit Sequence");
-					if (pin.Sequence == null)
-					{
+					if (pin.Sequence == null) {
 						editSignal.Sensitive = false;
 						addSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (null, pin.Pin);
-					} else
-					{
+					} else {
 						addSignal.Sensitive = false;
 						editSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (pin.Sequence);
 					}
@@ -305,10 +250,8 @@ namespace Frontend
 		{
 			NodeStoreDigitalPins.Clear ();
 			int index = 0;
-			foreach (IPin pin in con.Configuration.Pins)
-			{
-				if (pin.Type == PinType.DIGITAL)
-				{
+			foreach (IPin pin in con.Configuration.Pins) {
+				if (pin.Type == PinType.DIGITAL) {
 					NodeStoreDigitalPins.AddNode (new DPinTreeNode (pin as DPin, index, con.Configuration.GetCorespondingSequence (pin as DPin)));
 					index++;
 				}
@@ -320,10 +263,8 @@ namespace Frontend
 		{
 			NodeStoreAnalogPins.Clear ();
 			int index = 0;
-			foreach (IPin pin in con.Configuration.Pins)
-			{
-				if (pin.Type == PinType.ANALOG)
-				{
+			foreach (IPin pin in con.Configuration.Pins) {
+				if (pin.Type == PinType.ANALOG) {
 					NodeStoreAnalogPins.AddNode (new APinTreeNode (pin as APin, index, con.Configuration.GetCorespondingCombination (pin as APin)));
 					index++;
 				}
@@ -335,8 +276,7 @@ namespace Frontend
 		{
 			FillDigitalPinNodes ();
 			NodeStoreSequences.Clear ();
-			for (int i = 0; i < con.Configuration.Sequences.Count; i++)
-			{
+			for (int i = 0; i < con.Configuration.Sequences.Count; i++) {
 				NodeStoreSequences.AddNode (new SequenceTreeNode (con.Configuration.Sequences [i], i));
 			}
 			nvSequences.QueueDraw ();
@@ -346,8 +286,7 @@ namespace Frontend
 		{
 			FillAnalogPinNodes ();
 			NodeStoreMeasurementCombinations.Clear ();
-			for (int i = 0; i < con.Configuration.MeasurementCombinations.Count; i++)
-			{
+			for (int i = 0; i < con.Configuration.MeasurementCombinations.Count; i++) {
 				NodeStoreMeasurementCombinations.AddNode (new MeasurementCombinationTreeNode (con.Configuration.MeasurementCombinations [i], i));
 			}
 			nvMeasurementCombinations.QueueDraw ();
@@ -362,8 +301,7 @@ namespace Frontend
 			double size = 1 / (double)con.Configuration.Sequences.Count;
 			double startPos = 1;
 
-			for (int i = 0; i < con.Configuration.Sequences.Count; i++)
-			{
+			for (int i = 0; i < con.Configuration.Sequences.Count; i++) {
 				var seq = con.Configuration.Sequences [i];
 
 				var YAxis = new LinearAxis {
@@ -390,8 +328,7 @@ namespace Frontend
 				//generate collection with operation data
 				var data = new Collection<TimeValue> ();
 				var current = new TimeSpan (0);
-				for (int j = 0; j < seq.Chain.Count; j++)
-				{
+				for (int j = 0; j < seq.Chain.Count; j++) {
 					data.Add (new TimeValue () {
 						Time = current,
 						Value = ((seq.Chain [j].State == DPinState.HIGH) ? 1 : 0)
@@ -414,8 +351,7 @@ namespace Frontend
 				};
 
 				//generate followup series
-				if (seq.Repetitions != 0 && seq.Chain.Count > 0)
-				{
+				if (seq.Repetitions != 0 && seq.Chain.Count > 0) {
 					var followupData = new Collection<TimeValue> ();
 					followupData.Add (data.Last ());	
 					followupData.Add (new TimeValue () {
@@ -438,10 +374,8 @@ namespace Frontend
 						Color = ColorHelper.GdkColorToOxyColor (seq.Color),
 					};
 
-					followupSeries.MouseDown += (sender, e) =>
-					{
-						if (e.ChangedButton == OxyMouseButton.Left)
-						{
+					followupSeries.MouseDown += (sender, e) => {
+						if (e.ChangedButton == OxyMouseButton.Left) {
 							RunSequenceDialog (seq);
 						}
 					};
@@ -449,10 +383,8 @@ namespace Frontend
 					SequencePreviewPlotModel.Series.Add (followupSeries);
 				}
 
-				series.MouseDown += (sender, e) =>
-				{
-					if (e.ChangedButton == OxyMouseButton.Left)
-					{
+				series.MouseDown += (sender, e) => {
+					if (e.ChangedButton == OxyMouseButton.Left) {
 						RunSequenceDialog (seq);
 					}
 				};
@@ -466,18 +398,14 @@ namespace Frontend
 
 		private void UpdateRealTimePlot ()
 		{
-			try
-			{
+			try {
 				RealTimePlotView.Model.Series.Clear ();
 				RealTimePlotView.InvalidatePlot (true);
-				foreach (APin a in con.Configuration.AnalogPins)
-				{
+				foreach (APin a in con.Configuration.AnalogPins) {
 					var values = a.Values;
 					values = values.OrderByDescending (o => o.Time).ToList ();
-					foreach (DateTimeValue dtv in values)
-					{
-						if (RealTimeDictionary [a.DisplayName].Contains (dtv))
-						{
+					foreach (DateTimeValue dtv in values) {
+						if (RealTimeDictionary [a.DisplayName].Contains (dtv)) {
 							break;
 						}
 						RealTimeDictionary [a.DisplayName].Add (dtv);
@@ -498,8 +426,7 @@ namespace Frontend
 
 
 				RealTimePlotView.InvalidatePlot (true);
-			} catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				con.ConLogger.Log (ex.ToString (), LogLevel.DEBUG);
 			}
 		}
@@ -515,6 +442,37 @@ namespace Frontend
 
 		#region BuildElements
 
+		private void BindControllerEvents ()
+		{
+			con.Configuration.OnPinsUpdated += (o, a) => {
+				if (a.Pin is DPin) {
+					FillDigitalPinNodes ();
+					FillSequencePreviewPlot ();
+					FillMeasurementCombinationNodes ();
+				} else if (a.Pin is APin) {
+					FillAnalogPinNodes ();
+					FillMeasurementCombinationNodes ();
+				} else {
+					FillAnalogPinNodes ();
+					FillDigitalPinNodes ();
+					FillSequenceNodes ();
+					FillMeasurementCombinationNodes ();
+				}
+			};
+			con.Configuration.OnSequencesUpdated += (o, a) => {
+				FillSequenceNodes ();
+				FillSequencePreviewPlot ();
+			};
+			con.Configuration.OnSignalsUpdated += (o, a) => FillMeasurementCombinationNodes ();
+
+			con.OnControllerStarted += (o, a) => LockControlls (false);
+			con.OnControllerStoped += (o, a) => LockControlls (true);
+
+			con.OnOnfigurationLoaded += (o, a) => {
+				mcuW.Select (con.Configuration.Board.MCU);
+			};
+		}
+
 		private void BuildMCUWidget ()
 		{
 			mcuW.Boards = con.BoardConfigs;
@@ -524,8 +482,7 @@ namespace Frontend
 		{
 			#region Digital 
 			nvDigitalPins.NodeStore = NodeStoreDigitalPins;
-			nvDigitalPins.RowActivated += (o, args) =>
-			{
+			nvDigitalPins.RowActivated += (o, args) => {
 				var pin = con.Configuration.Pins
 					.Where (x => x.Type == PinType.DIGITAL)
 					.ToList () [((o as NodeView).NodeSelection.SelectedNode as DPinTreeNode).Index];
@@ -542,8 +499,7 @@ namespace Frontend
 
 			#region Measurment
 			nvAnalogPins.NodeStore = NodeStoreAnalogPins;
-			nvAnalogPins.RowActivated += (o, args) =>
-			{
+			nvAnalogPins.RowActivated += (o, args) => {
 				var pin = con.Configuration.Pins
 					.Where (x => x.Type == PinType.ANALOG)
 					.ToList () [((o as NodeView).NodeSelection.SelectedNode as APinTreeNode).Index];
@@ -566,8 +522,7 @@ namespace Frontend
 			#region Sequences
 
 			nvSequences.NodeStore = NodeStoreSequences;
-			nvSequences.RowActivated += (o, args) =>
-			{
+			nvSequences.RowActivated += (o, args) => {
 				var Seq = con.Configuration.Sequences [((o as NodeView).NodeSelection.SelectedNode as SequenceTreeNode).Index];
 				RunSequenceDialog (Seq);
 			};
@@ -584,8 +539,7 @@ namespace Frontend
 
 			#region MeasurementCombinations
 			nvMeasurementCombinations.NodeStore = NodeStoreMeasurementCombinations;
-			nvMeasurementCombinations.RowActivated += (o, args) =>
-			{
+			nvMeasurementCombinations.RowActivated += (o, args) => {
 				var sig = con.Configuration.MeasurementCombinations [((o as NodeView).NodeSelection.SelectedNode as MeasurementCombinationTreeNode).Index];
 				RunMeasurementCombinationDialog (sig);
 			};
@@ -646,31 +600,23 @@ namespace Frontend
 			connectionmenu.Append (port);
 			port.Submenu = portmenu;
 
-			port.Activated += (object sender, EventArgs e) =>
-			{
-				foreach (MenuItem mi in portmenu.AllChildren)
-				{
+			port.Activated += (object sender, EventArgs e) => {
+				foreach (MenuItem mi in portmenu.AllChildren) {
 					portmenu.Remove (mi);
 				}
-				foreach (String s in System.IO.Ports.SerialPort.GetPortNames())
-				{
+				foreach (String s in System.IO.Ports.SerialPort.GetPortNames()) {
 					CheckMenuItem portname = new CheckMenuItem (s);
-					if (ArduinoController.SerialPortName != null)
-					{
-						if (ArduinoController.SerialPortName.Equals (s) && ArduinoController.IsConnected)
-						{
+					if (ArduinoController.SerialPortName != null) {
+						if (ArduinoController.SerialPortName.Equals (s) && ArduinoController.IsConnected) {
 							portname.Toggle ();
 						}
 					}
 
-					portname.Toggled += (object senderer, EventArgs ee) =>
-					{
-						if ((senderer as CheckMenuItem).Active)
-						{
+					portname.Toggled += (object senderer, EventArgs ee) => {
+						if ((senderer as CheckMenuItem).Active) {
 							ArduinoController.SerialPortName = ((senderer as CheckMenuItem).Child as Label).Text;
 							ArduinoController.Setup ();
-						} else
-						{
+						} else {
 							ArduinoController.Disconnect ();
 						}
 					};
@@ -687,8 +633,7 @@ namespace Frontend
 			MenuItem help = new MenuItem ("Help");
 			help.Submenu = helpmenu;
 			MenuItem about = new MenuItem ("About");
-			about.Activated += (sender, e) =>
-			{
+			about.Activated += (sender, e) => {
 				var dialog = new AboutDialog () {
 					Authors = new string[]{ "Daniel Pollack" },
 					Documenters = new string[]{ "Daniel Pollack" },
@@ -713,10 +658,8 @@ namespace Frontend
 				Key = "X",
 				Position = AxisPosition.Bottom,
 				AbsoluteMinimum = TimeSpan.FromSeconds (0).Ticks,
-				LabelFormatter = x =>
-				{
-					if (x <= TimeSpan.FromSeconds (0).Ticks)
-					{
+				LabelFormatter = x => {
+					if (x <= TimeSpan.FromSeconds (0).Ticks) {
 						return "Start";
 					}
 					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("g"));
@@ -764,10 +707,8 @@ namespace Frontend
 			RealTimeXAxis = new LinearAxis {
 				Key = "X",
 				Position = AxisPosition.Bottom,
-				LabelFormatter = x =>
-				{
-					if (con != null && x == con.StartTime.Ticks)
-					{
+				LabelFormatter = x => {
+					if (con != null && x == con.StartTime.Ticks) {
 						return string.Format ("Start\n{0}", DateTime.FromOADate (x).ToString ("g"));
 					}
 					return string.Format ("{0}", DateTime.FromOADate (x).ToString ("g"));
@@ -828,24 +769,20 @@ namespace Frontend
 		protected void OnKeyPressEvent (object obj, KeyPressEventArgs a)
 		{
 			//TODO Speichern und so einbauen
-			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask)
-			{
+			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask) {
 				OnDeleteEvent (null, null);
 			}
 		}
 
 		protected async void OnBtnDigitalPingTestClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected)
-			{
-				for (uint i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
-				{
+			if (ArduinoController.IsConnected) {
+				for (uint i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
 					ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.HIGH);
 					await Task.Delay (500);
 				}
 				await Task.Delay (2000);
-				for (uint i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
-				{
+				for (uint i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
 					ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.LOW);
 					await Task.Delay (500);
 				}
@@ -886,8 +823,7 @@ namespace Frontend
 
 		protected void OnBtnDoubleBlinkClicked (object sender, EventArgs e)
 		{
-			if (ArduinoController.IsConnected)
-			{
+			if (ArduinoController.IsConnected) {
 				con.Configuration.Sequences.Clear ();
 
 				var sequence = new Sequence () {
@@ -918,14 +854,12 @@ namespace Frontend
 				});
 				con.Configuration.Sequences.Add (sequence);
 
-				foreach (Sequence seq in con.Configuration.Sequences)
-				{
+				foreach (Sequence seq in con.Configuration.Sequences) {
 					Console.WriteLine (seq.ToString ());
 				}
 
 				con.Start ();
-			} else
-			{
+			} else {
 				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
 				dialog.Run ();
 				dialog.Destroy ();
@@ -935,8 +869,7 @@ namespace Frontend
 		protected void OnBtnStopNResetClicked (object sender, EventArgs e)
 		{
 			con.Stop ();
-			for (uint i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
-			{
+			for (uint i = 0; i < ArduinoController.NumberOfDigitalPins; i++) {
 				ArduinoController.SetPin (i, PinMode.OUTPUT, DPinState.LOW);
 			}
 		}
@@ -954,8 +887,7 @@ namespace Frontend
 		protected void OnBtnEditDPinClicked (object sender, EventArgs e)
 		{
 			DPinTreeNode node = (DPinTreeNode)nvDigitalPins.NodeSelection.SelectedNode;
-			if (node != null)
-			{
+			if (node != null) {
 				var pin = con.Configuration.Pins
 					.Where (x => x.Type == PinType.DIGITAL)
 					.ToList () [(nvDigitalPins.NodeSelection.SelectedNode as DPinTreeNode).Index];
@@ -966,8 +898,7 @@ namespace Frontend
 		protected void OnBtnEditAPinClicked (object sender, EventArgs e)
 		{
 			APinTreeNode node = (APinTreeNode)nvAnalogPins.NodeSelection.SelectedNode;
-			if (node != null)
-			{
+			if (node != null) {
 				var pin = con.Configuration.Pins
 					.Where (x => x.Type == PinType.ANALOG)
 					.ToList () [(node).Index];
@@ -978,8 +909,7 @@ namespace Frontend
 		protected void OnBtnEditSequenceClicked (object sender, EventArgs e)
 		{
 			SequenceTreeNode node = (SequenceTreeNode)nvSequences.NodeSelection.SelectedNode;
-			if (node != null)
-			{
+			if (node != null) {
 				var seq = con.Configuration.Sequences [node.Index];
 				RunSequenceDialog (seq);
 			}
@@ -988,8 +918,7 @@ namespace Frontend
 		protected void OnBtnEditSignalClicked (object sender, EventArgs e)
 		{
 			MeasurementCombinationTreeNode node = (MeasurementCombinationTreeNode)nvMeasurementCombinations.NodeSelection.SelectedNode;
-			if (node != null)
-			{
+			if (node != null) {
 				var seq = con.Configuration.MeasurementCombinations [node.Index];
 				RunMeasurementCombinationDialog (seq);
 			}
@@ -1003,8 +932,7 @@ namespace Frontend
 		protected void OnBtnRemoveDPinClicked (object sender, EventArgs e)
 		{
 			DPinTreeNode node = (DPinTreeNode)nvDigitalPins.NodeSelection.SelectedNode;
-			if (node != null)
-			{
+			if (node != null) {
 				con.Configuration.RemovePin (node.Pin.Name);
 			}
 		}
@@ -1012,8 +940,7 @@ namespace Frontend
 		protected void OnBtnRemoveAPinClicked (object sender, EventArgs e)
 		{
 			APinTreeNode node = (APinTreeNode)nvAnalogPins.NodeSelection.SelectedNode;
-			if (node != null)
-			{
+			if (node != null) {
 				con.Configuration.RemovePin (node.Pin.Name);
 			}
 		}
@@ -1021,8 +948,7 @@ namespace Frontend
 		protected void OnBtnRemoveSignalClicked (object sender, EventArgs e)
 		{
 			MeasurementCombinationTreeNode node = (MeasurementCombinationTreeNode)nvMeasurementCombinations.NodeSelection.SelectedNode;
-			if (node != null)
-			{
+			if (node != null) {
 				con.Configuration.RemoveMeasurementCombination (node.Index);
 			}
 		}
@@ -1030,8 +956,7 @@ namespace Frontend
 		protected void OnBtnRemoveSequenceClicked (object sender, EventArgs e)
 		{
 			SequenceTreeNode node = (SequenceTreeNode)nvSequences.NodeSelection.SelectedNode;
-			if (node != null)
-			{
+			if (node != null) {
 				con.Configuration.RemoveSequence (node.Index);
 			}
 		}
@@ -1063,11 +988,9 @@ namespace Frontend
 
 		protected void OnBtnStartControllerClicked (object sender, EventArgs e)
 		{
-			if (con.IsRunning)
-			{
+			if (con.IsRunning) {
 				con.Stop ();	
-			} else
-			{
+			} else {
 				con.Start ();
 			}
 		}
@@ -1084,12 +1007,9 @@ namespace Frontend
 
 		protected void OnAutoConnectActionActivated (object sender, EventArgs e)
 		{
-			Task.Run (() =>
-			{
-				if (!ArduinoController.AttemdAutoConnect ())
-				{
-					Application.Invoke ((o, ee) =>
-					{
+			Task.Run (() => {
+				if (!ArduinoController.AttemdAutoConnect ()) {
+					Application.Invoke ((o, ee) => {
 						var dialog = new MessageDialog (
 							             this, 
 							             DialogFlags.Modal, 
@@ -1109,11 +1029,9 @@ namespace Frontend
 		protected void EnableConfig (object sender, BoardSelectionArgs e)
 		{
 			//TODO englisch prüfen
-			if (e != null)
-			{
+			if (e != null) {
 				notebook1.Foreach (o => o.Sensitive = true);
-				if (e.Board != con.Configuration.Board && ArduinoController.IsConnected)
-				{
+				if (e.Board != con.Configuration.Board && ArduinoController.IsConnected) {
 					var dialog = new MessageDialog (
 						             this,
 						             DialogFlags.Modal,
@@ -1122,21 +1040,17 @@ namespace Frontend
 						             "The selected Board Type does not match the connected one. Do you wish to change the selected Board Type to the detected Board Type?\n" +
 						             "Beware: This may alter you configuration!"
 					             );
-					dialog.Response += (o, args) =>
-					{
-						if (args.ResponseId == ResponseType.Yes)
-						{
+					dialog.Response += (o, args) => {
+						if (args.ResponseId == ResponseType.Yes) {
 							con.Configuration.Board = e.Board;
 						}
 					};
 					dialog.Run ();
 					dialog.Destroy ();
-				} else
-				{
+				} else {
 					con.Configuration.Board = e.Board;
 				}
-			} else
-			{
+			} else {
 				notebook1.Foreach (o => o.Sensitive = false);
 			}
 		}
@@ -1150,19 +1064,13 @@ namespace Frontend
 			var dings = con.Configuration.AvailableDigitalPins;
 
 			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration (dings, pin, this);
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Apply)
-				{
-					if (pin == null)
-					{
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Apply) {
+					if (pin == null) {
 						con.Configuration.AddPin (dialog.Pin);
-					} else
-					{
-						for (int i = 0; i < con.Configuration.Pins.Count; i++)
-						{
-							if (con.Configuration.Pins [i] == pin)
-							{
+					} else {
+						for (int i = 0; i < con.Configuration.Pins.Count; i++) {
+							if (con.Configuration.Pins [i] == pin) {
 								con.Configuration.SetPin (i, dialog.Pin);
 								break;
 							}
@@ -1179,19 +1087,13 @@ namespace Frontend
 			var dings = con.Configuration.AvailableAnalogPins;
 
 			var dialog = new AnalogPinConfigurationDialog.AnalogPinConfiguration (dings, pin, this);
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Apply)
-				{
-					if (pin == null)
-					{
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Apply) {
+					if (pin == null) {
 						con.Configuration.AddPin (dialog.Pin);
-					} else
-					{
-						for (int i = 0; i < con.Configuration.Pins.Count; i++)
-						{
-							if (con.Configuration.Pins [i] == pin)
-							{
+					} else {
+						for (int i = 0; i < con.Configuration.Pins.Count; i++) {
+							if (con.Configuration.Pins [i] == pin) {
 								con.Configuration.SetPin (i, dialog.Pin);
 								break;
 							}
@@ -1206,15 +1108,11 @@ namespace Frontend
 		private void RunSequenceDialog (Sequence seq = null, DPin RefPin = null)
 		{
 			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.Configuration.GetPinsWithoutSequence (), seq, RefPin, this);
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Apply)
-				{
-					if (seq == null)
-					{
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Apply) {
+					if (seq == null) {
 						con.Configuration.AddSequence (dialog.PinSequence);
-					} else
-					{
+					} else {
 						con.Configuration.SetSequence (con.Configuration.Sequences.IndexOf (seq), dialog.PinSequence);
 					}
 				}
@@ -1226,15 +1124,11 @@ namespace Frontend
 		private void RunMeasurementCombinationDialog (MeasurementCombination sig = null, APin refPin = null)
 		{
 			var dialog = new SignalConfigurationDialog.MeasurementCombinationDialog (con.Configuration.GetPinsWithoutCombinations (), sig, refPin, this);
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Apply)
-				{
-					if (sig == null)
-					{
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Apply) {
+					if (sig == null) {
 						con.Configuration.AddMeasurementCombination (dialog.Combination);
-					} else
-					{
+					} else {
 						con.Configuration.SetMeasurmentCombination (con.Configuration.MeasurementCombinations.IndexOf (sig), dialog.Combination);
 					}
 				}
@@ -1251,10 +1145,8 @@ namespace Frontend
 				             MessageType.Info, 
 				             ButtonsType.YesNo, 
 				             "Apparently a connection was established to a Board, which does not meet the selected Board by you.\nDo you want to replace you selection with the connected Board?");
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Yes)
-				{
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
 					mcuW.Select (ArduinoController.MCU);
 				}
 			};
@@ -1274,8 +1166,7 @@ namespace Frontend
 			string path = string.Empty;
 
 			var dialog = new FileChooserDialog ("Select save loaction", this, FileChooserAction.Save, "Cancel", ResponseType.Cancel, "Save", ResponseType.Apply);
-			dialog.Response += (o, args) =>
-			{
+			dialog.Response += (o, args) => {
 				path = dialog.Filename;	
 			};
 			dialog.Run ();
@@ -1289,8 +1180,7 @@ namespace Frontend
 			string path = string.Empty;
 
 			var dialog = new FileChooserDialog ("select a configuration", this, FileChooserAction.Open, "Cancel", ResponseType.Cancel, "Open", ResponseType.Apply);
-			dialog.Response += (o, args) =>
-			{
+			dialog.Response += (o, args) => {
 				path = dialog.Filename;
 			};
 			dialog.Run ();
@@ -1303,12 +1193,10 @@ namespace Frontend
 
 		private void StartStopController ()
 		{
-			if (con.IsRunning)
-			{
+			if (con.IsRunning) {
 				con.Stop ();
 				TimeKeeperPresenter.Stop ();
-			} else
-			{
+			} else {
 				con.Start ();
 				lblStartTime.Text = con.StartTime.ToString ("G");
 				PrepareRealTimePlot ();
@@ -1346,15 +1234,12 @@ namespace Frontend
 
 		private void PrepareRealTimePlot ()
 		{
-			if (RealTimeDictionary != null)
-			{
+			if (RealTimeDictionary != null) {
 				RealTimeDictionary.Clear ();
-			} else
-			{
+			} else {
 				RealTimeDictionary = new Dictionary<string, Collection<DateTimeValue>> ();
 			}
-			foreach (APin a in con.Configuration.AnalogPins)
-			{
+			foreach (APin a in con.Configuration.AnalogPins) {
 				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());	
 			}
 		}
@@ -1364,8 +1249,7 @@ namespace Frontend
 		protected void OnBtnFillAnalogInputsClicked (object sender, EventArgs e)
 		{
 			var list = con.Configuration.AvailableAnalogPins.ToList ();
-			foreach (APin pin in list)
-			{
+			foreach (APin pin in list) {
 				pin.PlotColor = ColorHelper.GetRandomGdkColor ();
 				con.Configuration.AddPin (pin);
 			}
@@ -1373,8 +1257,7 @@ namespace Frontend
 
 		protected void OnBtnFillDigitalOutputsClicked (object sender, EventArgs e)
 		{
-			foreach (DPin i in  con.Configuration.AvailableDigitalPins.ToList())
-			{
+			foreach (DPin i in  con.Configuration.AvailableDigitalPins.ToList()) {
 				i.PlotColor = ColorHelper.GetRandomGdkColor ();
 				con.Configuration.AddPin (i);
 			}
@@ -1388,8 +1271,7 @@ namespace Frontend
 			OnBtnFillDigitalOutputsClicked (null, null);
 
 			int i = 0;
-			while (i < con.Configuration.Pins.Count)
-			{
+			while (i < con.Configuration.Pins.Count) {
 				var seq1 = new Sequence () {
 					Pin = (DPin)con.Configuration.Pins [i],
 					Repetitions = 0
@@ -1398,8 +1280,7 @@ namespace Frontend
 					Pin = (DPin)con.Configuration.Pins [i + 1],
 					Repetitions = 0
 				};
-				for (int j = 0; j < 100; j++)
-				{
+				for (int j = 0; j < 100; j++) {
 					
 					seq1.Chain.Add (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
@@ -1432,8 +1313,7 @@ namespace Frontend
 			OnBtnFillDigitalOutputsClicked (null, null);
 
 			int i = 0;
-			while (i < con.Configuration.Pins.Count)
-			{
+			while (i < con.Configuration.Pins.Count) {
 				var seq = new Sequence () {
 					Pin = (DPin)con.Configuration.Pins [i],
 					Repetitions = 0,
@@ -1443,8 +1323,7 @@ namespace Frontend
 					State = DPinState.LOW
 				});
 
-				for (int j = 0; j < 100; j++)
-				{
+				for (int j = 0; j < 100; j++) {
 					seq.Chain.Add (new SequenceOperation () {
 						Duration = TimeSpan.FromSeconds (con.Configuration.Pins.Count / 100.0),
 						State = DPinState.HIGH
@@ -1469,8 +1348,7 @@ namespace Frontend
 			OnBtnFillDigitalOutputsClicked (null, null);
 
 			int i = 0;
-			while (i < con.Configuration.Pins.Count)
-			{
+			while (i < con.Configuration.Pins.Count) {
 				var seq1 = new Sequence () {
 					Pin = (DPin)con.Configuration.Pins [i],
 					Repetitions = -1
@@ -1479,8 +1357,7 @@ namespace Frontend
 					Pin = (DPin)con.Configuration.Pins [i + 1],
 					Repetitions = -1
 				};
-				for (int j = 0; j < 1; j++)
-				{
+				for (int j = 0; j < 1; j++) {
 					
 					seq1.Chain.Add (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
@@ -1513,8 +1390,7 @@ namespace Frontend
 			OnBtnFillDigitalOutputsClicked (null, null);
 
 			int i = 0;
-			while (i < con.Configuration.Pins.Count)
-			{
+			while (i < con.Configuration.Pins.Count) {
 				var seq = new Sequence () {
 					Pin = (DPin)con.Configuration.Pins [i],
 					Repetitions = -1,
@@ -1551,8 +1427,7 @@ namespace Frontend
 			OnBtnFillDigitalOutputsClicked (null, null);
 
 			int i = 2;
-			while (i < con.Configuration.Pins.Count)
-			{
+			while (i < con.Configuration.Pins.Count) {
 				var seq = new Sequence () {
 					Pin = (DPin)con.Configuration.Pins [i],
 					Repetitions = -1
@@ -1580,34 +1455,52 @@ namespace Frontend
 
 		protected void OnSaveActionActivated (object sender, EventArgs e)
 		{
-			if (string.IsNullOrEmpty (con.Configuration.SavePath))
-			{
+			if (string.IsNullOrEmpty (con.Configuration.SavePath)) {
 				string path = RunSaveDialog ();
-				if (!string.IsNullOrEmpty (path))
-				{
+				if (!string.IsNullOrEmpty (path)) {
+					if (!path.Contains (@".mc")) {
+						path += @".mc";
+					}
 					con.Configuration.SavePath = path;	
 					con.SaveConfiguration (path);
 				}
-			} else
-			{
+			} else {
 				con.SaveConfiguration ();
 			}
 		}
 
+		protected void OnSaveAsActionActivated (object sender, EventArgs e)
+		{
+			string path = RunSaveDialog ();
+			if (!string.IsNullOrEmpty (path)) {
+				if (!path.Contains (@".mc")) {
+					path += @".mc";
+				}
+				con.Configuration.SavePath = path;
+				con.SaveConfiguration (path);
+			}
+		}
 
 		protected void OnOpenActionActivated (object sender, EventArgs e)
 		{
-			try
-			{
+			try {
 				string path = RunOpenDialog ();
-				if (con.OpenConfiguration (path))
-				{
+				if (con.OpenConfiguration (path)) {
 					UpdateAllNodeViews ();
+					BindControllerEvents ();
 				}
-			} catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 			}
+		}
+
+		protected void OnBtnRefreshNVClicked (object sender, EventArgs e)
+		{
+			FillDigitalPinNodes ();
+			FillAnalogPinNodes ();
+			FillSequenceNodes ();
+			FillSequencePreviewPlot ();
+			FillMeasurementCombinationNodes ();
 		}
 
 		#endregion

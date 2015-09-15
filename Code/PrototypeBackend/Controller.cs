@@ -46,6 +46,7 @@ namespace PrototypeBackend
 
 		public EventHandler OnControllerStarted;
 		public EventHandler OnControllerStoped;
+		public EventHandler OnOnfigurationLoaded;
 
 		private bool running = false;
 
@@ -316,8 +317,6 @@ namespace PrototypeBackend
 				BoardConfiguration config = new BoardConfiguration ();
 				config = this.Configuration;
 
-//				var config = this.Configuration.Pins;
-
 				formatter.Serialize (stream, config);
 
 				stream.Close ();
@@ -329,18 +328,19 @@ namespace PrototypeBackend
 
 		public bool OpenConfiguration (string path)
 		{
-			//TODO open	
 			try {
 				Stream stream = File.Open (path, FileMode.Open, FileAccess.Read, FileShare.Write);
 				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
-//				var config = (List<IPin>)formatter.Deserialize (stream);
-//				Configuration.AddPinRange (config.ToArray<IPin> ());
 				var config = formatter.Deserialize (stream);
 
 				Configuration = (BoardConfiguration)config;
 
 				stream.Close ();
+
+				if (OnOnfigurationLoaded != null) {
+					OnOnfigurationLoaded.Invoke (this, null);
+				}
 			} catch (Exception) {
 				throw;
 			}

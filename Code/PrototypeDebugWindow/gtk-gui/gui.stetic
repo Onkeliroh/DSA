@@ -37,6 +37,7 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-save-as</property>
+        <signal name="Activated" handler="OnSaveAsActionActivated" />
       </action>
       <action id="saveAction">
         <property name="Type">Action</property>
@@ -105,7 +106,7 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.HPaned" id="hpaned1">
+          <widget class="Gtk.HPaned" id="hpanedMain">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
             <property name="Position">276</property>
@@ -600,7 +601,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Label" id="label4">
+                  <widget class="Gtk.Label" id="label5">
                     <property name="MemberName" />
                     <property name="LabelProp" translatable="yes">Output</property>
                   </widget>
@@ -835,7 +836,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Label" id="label5">
+                  <widget class="Gtk.Label" id="label9">
                     <property name="MemberName" />
                     <property name="LabelProp" translatable="yes">Real Time Plot</property>
                   </widget>
@@ -896,7 +897,7 @@
                       <widget class="Gtk.VButtonBox" id="vbuttonbox1">
                         <property name="MemberName" />
                         <property name="Homogeneous">True</property>
-                        <property name="Size">11</property>
+                        <property name="Size">12</property>
                         <property name="LayoutStyle">Start</property>
                         <child>
                           <widget class="Gtk.Button" id="btnDigitalPingTest">
@@ -1060,6 +1061,21 @@
                             <property name="Fill">False</property>
                           </packing>
                         </child>
+                        <child>
+                          <widget class="Gtk.Button" id="btnRefreshNV">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="Type">TextOnly</property>
+                            <property name="Label" translatable="yes">Refresh NodeViews</property>
+                            <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnRefreshNVClicked" />
+                          </widget>
+                          <packing>
+                            <property name="Position">11</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
                         <property name="AutoSize">True</property>
@@ -1078,7 +1094,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Label" id="label9">
+                  <widget class="Gtk.Label" id="label10">
                     <property name="MemberName" />
                     <property name="LabelProp" translatable="yes">DEBUG</property>
                   </widget>
@@ -1138,7 +1154,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Label" id="label10">
+              <widget class="Gtk.Label" id="label11">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">Start Time:</property>
               </widget>
@@ -1172,7 +1188,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Label" id="label11">
+              <widget class="Gtk.Label" id="label12">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">Time Passed:</property>
               </widget>
