@@ -98,7 +98,13 @@ namespace Frontend
 			};
 			#endregion
 
-			mcuW.OnBoardSelected += EnableConfig;
+			mcuW.OnBoardSelected += (o, a) => {
+				if (con.Configuration != null) {
+					con.Configuration.Board.AnalogReferenceVoltage = a.AREF;
+					con.Configuration.Board.AnalogReferenceVoltageType = a.AREFName;
+				}
+				EnableConfig (o, a);
+			};
 
 
 			BuildMenu ();
@@ -189,8 +195,30 @@ namespace Frontend
 					deleteItem.ButtonPressEvent += (o, args) =>
 						con.Configuration.RemovePin (pin.Index);
 
+
+					var addAPin = new ImageMenuItem ("Add Measurement...");
+					addAPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);//TODO This is how we do icons
+//					var addAPin = new ImageMenuItem (Stock.Add, null);
+					MenuItem editAPin = new MenuItem ("Edit this Measurement...");
+					MenuItem removeAPin = new MenuItem ("Remove this Measurement...");
+					MenuItem clearAPin = new MenuItem ("Clear all Measurements and Measurementcombinations");
 					MenuItem addSignal = new MenuItem ("Add new Signal");
 					MenuItem editSignal = new MenuItem ("Edit Signal");
+					editSignal.RenderIcon (Gtk.Stock.Edit, IconSize.Menu, null);
+
+					addAPin.ButtonPressEvent += (o, args) => {
+						RunAddAPinDialog ();
+					};
+					editAPin.ButtonPressEvent += (o, args) => {
+						RunAddAPinDialog (pin.Pin);
+					};
+					removeAPin.ButtonPressEvent += (o, args) => {
+						con.Configuration.RemovePin (pin.Index);
+					};
+					clearAPin.ButtonPressEvent += (o, args) => {
+						RunAPinClear ();
+					};
+
 					if (pin.Combination == null) {
 						editSignal.Sensitive = false;
 						addSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (null, pin.Pin);
@@ -199,6 +227,12 @@ namespace Frontend
 						editSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
 					}
 
+					m.Add (addAPin);
+					m.Add (editAPin);
+					m.Add (removeAPin);
+					m.Add (new SeparatorMenuItem ());
+					m.Add (clearAPin);
+					m.Add (new SeparatorMenuItem ());
 					m.Add (addSignal);
 					m.Add (editSignal);
 					m.Add (deleteItem);
@@ -222,18 +256,44 @@ namespace Frontend
 					deleteItem.ButtonPressEvent += (o, args) =>
 						con.Configuration.RemovePin (pin.Index);
 
-					MenuItem addSignal = new MenuItem ("Add new Sequence");
-					MenuItem editSignal = new MenuItem ("Edit Sequence");
+
+					MenuItem addDPin = new MenuItem ("Add new Measurement...");
+					MenuItem editDPin = new MenuItem ("Edit this Measurement...");
+					MenuItem removeDPin = new MenuItem ("Remove this Measurement...");
+					MenuItem clearDPin = new MenuItem ("Clear all Measurements and Measurementcombinations");
+					SeparatorMenuItem separator = new SeparatorMenuItem ();
+					MenuItem addSequence = new MenuItem ("Add new Sequence");
+					MenuItem editSequence = new MenuItem ("Edit Sequence");
+
+					addDPin.ButtonPressEvent += (o, args) => {
+						RunAddDPinDialog ();
+					};
+					editDPin.ButtonPressEvent += (o, args) => {
+						RunAddDPinDialog (pin.Pin);
+					};
+					removeDPin.ButtonPressEvent += (o, args) => {
+						con.Configuration.RemovePin (pin.Index);
+					};
+					clearDPin.ButtonPressEvent += (o, args) => {
+						RunDPinClear ();
+					};
+
 					if (pin.Sequence == null) {
-						editSignal.Sensitive = false;
-						addSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (null, pin.Pin);
+						editSequence.Sensitive = false;
+						addSequence.ButtonPressEvent += (o, args) => RunSequenceDialog (null, pin.Pin);
 					} else {
-						addSignal.Sensitive = false;
-						editSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (pin.Sequence);
+						addSequence.Sensitive = false;
+						editSequence.ButtonPressEvent += (o, args) => RunSequenceDialog (pin.Sequence);
 					}
 
-					m.Add (addSignal);
-					m.Add (editSignal);
+					m.Add (addDPin);
+					m.Add (editDPin);
+					m.Add (removeDPin);
+					m.Add (separator);
+					m.Add (clearDPin);
+					m.Add (separator);
+					m.Add (addSequence);
+					m.Add (editSequence);
 					m.Add (deleteItem);
 
 					m.ShowAll ();
@@ -470,6 +530,8 @@ namespace Frontend
 
 			con.OnOnfigurationLoaded += (o, a) => {
 				mcuW.Select (con.Configuration.Board.MCU);
+				mcuW.SelectAREF (con.Configuration.Board.AnalogReferenceVoltageType);
+				mcuW.SetAREF (con.Configuration.Board.AnalogReferenceVoltage);
 			};
 		}
 
@@ -926,7 +988,7 @@ namespace Frontend
 
 		protected void OnBtnClearDPinsClicked (object sender, EventArgs e)
 		{
-			con.Configuration.ClearPins (PinType.DIGITAL);
+			RunDPinClear ();
 		}
 
 		protected void OnBtnRemoveDPinClicked (object sender, EventArgs e)
@@ -963,17 +1025,17 @@ namespace Frontend
 
 		protected void OnBtnClearSignalsClicked (object sender, EventArgs e)
 		{
-			con.Configuration.ClearMeasurementCombinations ();
+			RunMeasurementCombinationClear ();
 		}
 
 		protected void OnBtnClearAPinsClicked (object sender, EventArgs e)
 		{
-			con.Configuration.ClearPins (PinType.ANALOG);
+			RunAPinClear ();
 		}
 
 		protected void OnBtnClearSequenceClicked (object sender, EventArgs e)
 		{
-			con.Configuration.ClearSequences ();
+			RunSequenceClear ();
 		}
 
 		protected void OnBtnAddSignalClicked (object sender, EventArgs e)
@@ -1058,6 +1120,78 @@ namespace Frontend
 		#endregion
 
 		#region RunDialogs
+
+		private void RunAPinClear ()
+		{
+			var message = new MessageDialog (
+				              this, 
+				              DialogFlags.Modal,
+				              MessageType.Warning,
+				              ButtonsType.YesNo,
+				              "You are attemting to delete all Measurements.\nThis will also lead to the removal of every MeasurementCombination.\n\nDo you want to procede?"
+			              );
+			message.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					con.Configuration.ClearPins (PinType.ANALOG);
+				}
+			};
+			message.Run ();
+			message.Destroy ();
+		}
+
+		private void RunDPinClear ()
+		{
+			var message = new MessageDialog (
+				              this, 
+				              DialogFlags.Modal,
+				              MessageType.Warning,
+				              ButtonsType.YesNo,
+				              "You are attemting to delete all Outputs.\nThis will also lead to the removal of every Sequences.\n\nDo you want to procede?"
+			              );
+			message.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					con.Configuration.ClearPins (PinType.DIGITAL);
+				}
+			};
+			message.Run ();
+			message.Destroy ();
+		}
+
+		private void RunMeasurementCombinationClear ()
+		{
+			var message = new MessageDialog (
+				              this, 
+				              DialogFlags.Modal,
+				              MessageType.Warning,
+				              ButtonsType.YesNo,
+				              "You are attemting to delete all MeasurementCombinations.\n\nDo you want to procede?"
+			              );
+			message.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					con.Configuration.ClearMeasurementCombinations ();
+				}
+			};
+			message.Run ();
+			message.Destroy ();
+		}
+
+		private void RunSequenceClear ()
+		{
+			var message = new MessageDialog (
+				              this, 
+				              DialogFlags.Modal,
+				              MessageType.Warning,
+				              ButtonsType.YesNo,
+				              "You are attemting to delete all Sequences.\n\nDo you want to procede?"
+			              );
+			message.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					con.Configuration.ClearSequences ();
+				}
+			};
+			message.Run ();
+			message.Destroy ();
+		}
 
 		private void RunAddDPinDialog (DPin pin = null)
 		{
@@ -1465,7 +1599,7 @@ namespace Frontend
 					con.SaveConfiguration (path);
 				}
 			} else {
-				con.SaveConfiguration ();
+				con.SaveConfiguration (con.Configuration.SavePath);
 			}
 		}
 
@@ -1488,6 +1622,7 @@ namespace Frontend
 				if (con.OpenConfiguration (path)) {
 					UpdateAllNodeViews ();
 					BindControllerEvents ();
+
 				}
 			} catch (Exception ex) {
 				con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
