@@ -124,7 +124,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">5</property>
+                <property name="CurrentPage">0</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -158,6 +158,7 @@
                                         <property name="Reorderable">True</property>
                                         <property name="SearchColumn">1</property>
                                         <property name="HoverExpand">True</property>
+                                        <signal name="ButtonPressEvent" handler="OnNvAnalogPinsButtonPressEvent" />
                                       </widget>
                                     </child>
                                   </widget>

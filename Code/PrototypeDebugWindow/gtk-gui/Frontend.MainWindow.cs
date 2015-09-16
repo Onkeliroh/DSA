@@ -262,7 +262,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 5;
+			this.notebook1.CurrentPage = 0;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -1028,6 +1028,7 @@ namespace Frontend
 			this.btnEditAPin.Clicked += new global::System.EventHandler (this.OnBtnEditAPinClicked);
 			this.btnRemoveAPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveAPinClicked);
 			this.btnClearAPins.Clicked += new global::System.EventHandler (this.OnBtnClearAPinsClicked);
+			this.nvAnalogPins.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnNvAnalogPinsButtonPressEvent);
 			this.btnAddSignal.Clicked += new global::System.EventHandler (this.OnBtnAddSignalClicked);
 			this.btnEditSignal.Clicked += new global::System.EventHandler (this.OnBtnEditSignalClicked);
 			this.btnRemoveSignal.Clicked += new global::System.EventHandler (this.OnBtnRemoveSignalClicked);
