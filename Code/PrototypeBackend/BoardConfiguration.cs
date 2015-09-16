@@ -393,6 +393,18 @@ namespace PrototypeBackend
 			}
 		}
 
+		public void RemoveSequence (Sequence index)
+		{
+			if (index != null)
+			{
+				if (OnSequencesUpdated != null)
+				{
+					OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, index));
+				}
+				Sequences.Remove (index);
+			}
+		}
+
 		#endregion
 
 		#region Clear

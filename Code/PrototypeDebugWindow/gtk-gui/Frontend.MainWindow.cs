@@ -5,191 +5,191 @@ namespace Frontend
 	public partial class MainWindow
 	{
 		private global::Gtk.UIManager UIManager;
-
+		
 		private global::Gtk.Action mediaPlayAction;
-
+		
 		private global::Gtk.Action mediaStopAction;
-
+		
 		private global::Gtk.Action saveAsAction;
-
+		
 		private global::Gtk.Action saveAction;
-
+		
 		private global::Gtk.Action openAction;
-
+		
 		private global::Gtk.Action autoConnectAction;
-
+		
 		private global::Gtk.VBox vbox1;
-
+		
 		private global::Gtk.MenuBar menubarMain;
-
+		
 		private global::Gtk.Toolbar toolbarMain;
-
+		
 		private global::Gtk.HPaned hpanedMain;
-
+		
 		private global::MCUWidget.MCUWidget mcuW;
-
+		
 		private global::Gtk.Notebook notebook1;
-
+		
 		private global::Gtk.Table table1;
-
+		
 		private global::Gtk.Frame frame3;
-
+		
 		private global::Gtk.Alignment GtkAlignment5;
-
+		
 		private global::Gtk.Table table3;
-
+		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow3;
-
+		
 		private global::Gtk.NodeView nvAnalogPins;
-
+		
 		private global::Gtk.VBox vbox8;
-
+		
 		private global::Gtk.Button btnAddAPin;
-
+		
 		private global::Gtk.Button btnEditAPin;
-
+		
 		private global::Gtk.Button btnRemoveAPin;
-
+		
 		private global::Gtk.Button btnClearAPins;
-
+		
 		private global::Gtk.Label GtkLabel21;
-
+		
 		private global::Gtk.Label label6;
-
+		
 		private global::Gtk.Frame frame1;
-
+		
 		private global::Gtk.Alignment GtkAlignment19;
-
+		
 		private global::Gtk.HBox hbox5;
-
+		
 		private global::Gtk.VBox vbox4;
-
+		
 		private global::Gtk.Button btnAddSignal;
-
+		
 		private global::Gtk.Button btnEditSignal;
-
+		
 		private global::Gtk.Button btnRemoveSignal;
-
+		
 		private global::Gtk.Button btnClearSignals;
-
+		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
-
+		
 		private global::Gtk.NodeView nvMeasurementCombinations;
-
+		
 		private global::Gtk.Label GtkLabel34;
-
+		
 		private global::Gtk.Label label7;
-
+		
 		private global::Gtk.VBox vbox7;
-
+		
 		private global::Gtk.Frame frame4;
-
+		
 		private global::Gtk.Alignment GtkAlignment10;
-
+		
 		private global::Gtk.Table table4;
-
+		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
-
+		
 		private global::Gtk.NodeView nvDigitalPins;
-
+		
 		private global::Gtk.VBox vbox10;
-
+		
 		private global::Gtk.Button btnAddDPin;
-
+		
 		private global::Gtk.Button btnEditDPin;
-
+		
 		private global::Gtk.Button btnRemoveDPin;
-
+		
 		private global::Gtk.Button btnClearDPins;
-
+		
 		private global::Gtk.Label GtkLabel22;
-
+		
 		private global::Gtk.Label label5;
-
+		
 		private global::Gtk.Frame fSequences;
-
+		
 		private global::Gtk.Alignment GtkAlignment20;
-
+		
 		private global::Gtk.VPaned vpanedSequences;
-
+		
 		private global::Gtk.HBox hbSequences;
-
+		
 		private global::Gtk.VBox vbox3;
-
+		
 		private global::Gtk.Button btnAddSequence;
-
+		
 		private global::Gtk.Button btnEditSequence;
-
+		
 		private global::Gtk.Button btnRemoveSequence;
-
+		
 		private global::Gtk.Button btnClearSequence;
-
+		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow4;
-
+		
 		private global::Gtk.NodeView nvSequences;
-
+		
 		private global::Gtk.Label GtkLabel35;
-
+		
 		private global::Gtk.Label label8;
-
+		
 		private global::Gtk.VBox vboxRealTimePlot;
-
+		
 		private global::Gtk.Table table5;
-
+		
 		private global::Gtk.Button button122;
-
+		
 		private global::Gtk.Label label9;
-
+		
 		private global::Gtk.Table table2;
-
+		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
-
+		
 		private global::Gtk.TextView tvLog;
-
+		
 		private global::Gtk.VButtonBox vbuttonbox1;
-
+		
 		private global::Gtk.Button btnDigitalPingTest;
-
+		
 		private global::Gtk.Button btnFillAnalogInputs;
-
+		
 		private global::Gtk.Button btnFillDigitalOutputs;
-
+		
 		private global::Gtk.Button btnFillSequences;
-
+		
 		private global::Gtk.Button btnFillSignals;
-
+		
 		private global::Gtk.Button btnAlternateBlinkSetup;
-
+		
 		private global::Gtk.Button btnAlternateBlinkSetup2;
-
+		
 		private global::Gtk.Button button359;
-
+		
 		private global::Gtk.Button button360;
-
+		
 		private global::Gtk.Button button1125;
-
+		
 		private global::Gtk.Button btnBoardDifferenceTest;
-
+		
 		private global::Gtk.Button btnRefreshNV;
-
+		
 		private global::Gtk.Label label10;
-
+		
 		private global::Gtk.Statusbar statusbar1;
-
+		
 		private global::Gtk.Image ImageConnectionStatus;
-
+		
 		private global::Gtk.Label lblConnectionStatus;
-
+		
 		private global::Gtk.VSeparator vseparator1;
-
+		
 		private global::Gtk.Label label11;
-
+		
 		private global::Gtk.Label lblStartTime;
-
+		
 		private global::Gtk.VSeparator vseparator2;
-
+		
 		private global::Gtk.Label label12;
-
+		
 		private global::Gtk.Label lblTimePassed;
 
 		protected virtual void Build ()
@@ -1024,33 +1024,6 @@ namespace Frontend
 			this.saveAction.Activated += new global::System.EventHandler (this.OnSaveActionActivated);
 			this.openAction.Activated += new global::System.EventHandler (this.OnOpenActionActivated);
 			this.autoConnectAction.Activated += new global::System.EventHandler (this.OnAutoConnectActionActivated);
-			this.btnAddAPin.Clicked += new global::System.EventHandler (this.OnBtnAddAPinClicked);
-			this.btnEditAPin.Clicked += new global::System.EventHandler (this.OnBtnEditAPinClicked);
-			this.btnRemoveAPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveAPinClicked);
-			this.btnClearAPins.Clicked += new global::System.EventHandler (this.OnBtnClearAPinsClicked);
-			this.nvAnalogPins.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnNvAnalogPinsButtonPressEvent);
-			this.btnAddSignal.Clicked += new global::System.EventHandler (this.OnBtnAddSignalClicked);
-			this.btnEditSignal.Clicked += new global::System.EventHandler (this.OnBtnEditSignalClicked);
-			this.btnRemoveSignal.Clicked += new global::System.EventHandler (this.OnBtnRemoveSignalClicked);
-			this.btnClearSignals.Clicked += new global::System.EventHandler (this.OnBtnClearSignalsClicked);
-			this.btnAddDPin.Clicked += new global::System.EventHandler (this.OnBtnAddDPinClicked);
-			this.btnEditDPin.Clicked += new global::System.EventHandler (this.OnBtnEditDPinClicked);
-			this.btnRemoveDPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPinClicked);
-			this.btnClearDPins.Clicked += new global::System.EventHandler (this.OnBtnClearDPinsClicked);
-			this.btnAddSequence.Clicked += new global::System.EventHandler (this.OnBtnAddSequenceClicked);
-			this.btnEditSequence.Clicked += new global::System.EventHandler (this.OnBtnEditSequenceClicked);
-			this.btnRemoveSequence.Clicked += new global::System.EventHandler (this.OnBtnRemoveSequenceClicked);
-			this.btnClearSequence.Clicked += new global::System.EventHandler (this.OnBtnClearSequenceClicked);
-			this.btnDigitalPingTest.Clicked += new global::System.EventHandler (this.OnBtnDigitalPingTestClicked);
-			this.btnFillAnalogInputs.Clicked += new global::System.EventHandler (this.OnBtnFillAnalogInputsClicked);
-			this.btnFillDigitalOutputs.Clicked += new global::System.EventHandler (this.OnBtnFillDigitalOutputsClicked);
-			this.btnAlternateBlinkSetup.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetupClicked);
-			this.btnAlternateBlinkSetup2.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetup2Clicked);
-			this.button359.Clicked += new global::System.EventHandler (this.OnButton359Clicked);
-			this.button360.Clicked += new global::System.EventHandler (this.OnButton360Clicked);
-			this.button1125.Clicked += new global::System.EventHandler (this.OnButton1125Clicked);
-			this.btnBoardDifferenceTest.Clicked += new global::System.EventHandler (this.OnBtnBoardDifferenceTestClicked);
-			this.btnRefreshNV.Clicked += new global::System.EventHandler (this.OnBtnRefreshNVClicked);
 		}
 	}
 }

@@ -111,8 +111,10 @@ namespace Frontend
 			};
 			#endregion
 
-			mcuW.OnBoardSelected += (o, a) => {
-				if (con.Configuration != null) {
+			mcuW.OnBoardSelected += (o, a) =>
+			{
+				if (con.Configuration != null)
+				{
 					con.Configuration.Board.AnalogReferenceVoltage = a.AREF;
 					con.Configuration.Board.AnalogReferenceVoltageType = a.AREFName;
 				}
@@ -156,8 +158,8 @@ namespace Frontend
 			BindControllerEvents ();
 
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
-			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
-			nvMeasurementCombinations.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
+			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnSequeneceNodePressed);
+			nvMeasurementCombinations.ButtonPressEvent += new ButtonPressEventHandler (OnMeasurementCombinationNodePressed);
 			nvAnalogPins.ButtonPressEvent += new ButtonPressEventHandler (OnAnalogPinNodePressed);
 
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
@@ -171,152 +173,13 @@ namespace Frontend
 		#region NodeViewMouseActions
 
 		[GLib.ConnectBeforeAttribute]
-		protected void OnItemButtonPressed (object sender, ButtonPressEventArgs e)
-		{
-			if (e.Event.Button == 3)
-			{ /* right click */
-				Menu m = new Menu ();
-				MenuItem deleteItem = new MenuItem ("Delete this item");
-				deleteItem.ButtonPressEvent += (senderer, ee) =>
-				{
-					ITreeNode node = (sender as NodeView).NodeSelection.SelectedNode;
-					if (node is DPinTreeNode)
-					{
-						con.Configuration.RemovePin ((node as DPinTreeNode).Index);
-					} else if (node is SequenceTreeNode)
-					{
-						con.Configuration.RemoveSequence ((node as SequenceTreeNode).Index);
-					} else if (node is APinTreeNode)
-					{
-						con.Configuration.RemovePin ((node as APinTreeNode).Index);
-					} else if (node is MeasurementCombinationTreeNode)
-					{
-						con.Configuration.RemoveMeasurementCombination ((node as MeasurementCombinationTreeNode).Index);
-					}
-				};
-				m.Add (deleteItem);
-
-
-				m.ShowAll ();
-				m.Popup ();
-			}
-		}
-
-		[GLib.ConnectBeforeAttribute]
 		protected void OnAnalogPinNodePressed (object sender, ButtonPressEventArgs e)
 		{
-			if (e.Event.Button == 3)
-			{
-				Menu m = new Menu ();
-				MenuItem deleteItem = new MenuItem ("Delete this analog input");
-				APinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as APinTreeNode;
-
-				if (pin != null)
-				{
-
-					deleteItem.ButtonPressEvent += (o, args) =>
-						con.Configuration.RemovePin (pin.Index);
-
-
-					var addAPin = new ImageMenuItem ("Add Measurement...");
-					addAPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);//TODO This is how we do icons
-//					var addAPin = new ImageMenuItem (Stock.Add, null);
-					MenuItem editAPin = new MenuItem ("Edit this Measurement...");
-					MenuItem removeAPin = new MenuItem ("Remove this Measurement...");
-					MenuItem clearAPin = new MenuItem ("Clear all Measurements and Measurementcombinations");
-					MenuItem addSignal = new MenuItem ("Add new Signal");
-					MenuItem editSignal = new MenuItem ("Edit Signal");
-					editSignal.RenderIcon (Gtk.Stock.Edit, IconSize.Menu, null);
-
-					addAPin.ButtonPressEvent += (o, args) => {
-						RunAddAPinDialog ();
-					};
-					editAPin.ButtonPressEvent += (o, args) => {
-						RunAddAPinDialog (pin.Pin);
-					};
-					removeAPin.ButtonPressEvent += (o, args) => {
-						con.Configuration.RemovePin (pin.Index);
-					};
-					clearAPin.ButtonPressEvent += (o, args) => {
-						RunAPinClear ();
-					};
-
-					if (pin.Combination == null) {
-						editSignal.Sensitive = false;
-						addSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (null, pin.Pin);
-					} else
-					{
-						addSignal.Sensitive = false;
-						editSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
-					}
-
-					m.Add (addAPin);
-					m.Add (editAPin);
-					m.Add (removeAPin);
-					m.Add (new SeparatorMenuItem ());
-					m.Add (clearAPin);
-					m.Add (new SeparatorMenuItem ());
-					m.Add (addSignal);
-					m.Add (editSignal);
-					m.Add (deleteItem);
-
-					m.ShowAll ();
-					m.Popup ();
-				}
-			}
-		}
-
-		[GLib.ConnectBeforeAttribute]
-		protected void OnDigitalPinNodePressed (object sender, ButtonPressEventArgs e)
-		{
-			if (e.Event.Button == 3)
-			{
-				Menu m = new Menu ();
-				MenuItem deleteItem = new MenuItem ("Delete this digital output");
-				DPinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as DPinTreeNode;
-
-				if (pin != null)
-				{
-
-					deleteItem.ButtonPressEvent += (o, args) =>
-						con.Configuration.RemovePin (pin.Index);
-
-					MenuItem addSignal = new MenuItem ("Add new Sequence");
-					MenuItem editSignal = new MenuItem ("Edit Sequence");
-					if (pin.Sequence == null)
-					{
-						editSignal.Sensitive = false;
-						addSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (null, pin.Pin);
-					} else
-					{
-						addSignal.Sensitive = false;
-						editSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (pin.Sequence);
-					}
-
-					m.Add (addDPin);
-					m.Add (editDPin);
-					m.Add (removeDPin);
-					m.Add (separator);
-					m.Add (clearDPin);
-					m.Add (separator);
-					m.Add (addSequence);
-					m.Add (editSequence);
-					m.Add (deleteItem);
-
-					m.ShowAll ();
-					m.Popup ();
-				}
-			}
-		}
-
-		[GLib.ConnectBeforeAttribute]
-		protected void OnNvAnalogPinsButtonPressEvent (object o, ButtonPressEventArgs args)
-		{
 			//right mouse button
-			if (args.Event.Button == 3)
+			if (e.Event.Button == 3)
 			{
 				Menu m = new Menu ();
-				APinTreeNode pin = (o as NodeView).NodeSelection.SelectedNode as APinTreeNode;
+				APinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as APinTreeNode;
 
 				var AddPin = new ImageMenuItem ("Add Measurement...");
 				var EditPin = new ImageMenuItem ("Edit Measurement...");
@@ -338,25 +201,180 @@ namespace Frontend
 					RemovePin.Sensitive = false;
 					AddCombination.Sensitive = false;
 					EditCombination.Sensitive = false;
+				} else
+				{
+					if (pin.Combination == null)
+					{
+						EditCombination.Sensitive = false;
+					} else
+					{
+						AddCombination.Sensitive = false;
+					}
+				}
+				AddPin.ButtonPressEvent += (o, args) => RunAddAPinDialog ();
+				EditPin.ButtonPressEvent += (o, args) => RunAddAPinDialog (pin.Pin);
+				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Index);
+				ClearPins.ButtonPressEvent += (o, args) => RunAPinClear ();
+				AddCombination.ButtonPressEvent += (o, args) =>
+				{
+					RunMeasurementCombinationDialog (null, pin.Pin);
+					this.notebook1.CurrentPage = 1;
+				};
+				EditCombination.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
+
+				m.Add (AddPin);
+				m.Add (EditPin);
+				m.Add (RemovePin);
+				m.Add (new SeparatorMenuItem ());
+				m.Add (ClearPins);
+				m.Add (new SeparatorMenuItem ());
+				m.Add (AddCombination);
+				m.Add (EditCombination);
+				m.ShowAll ();
+				m.Popup ();
+			}
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnDigitalPinNodePressed (object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3)
+			{
+				Menu m = new Menu ();
+				DPinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as DPinTreeNode;
+
+				var AddPin = new ImageMenuItem ("Add Output...");
+				var EditPin = new ImageMenuItem ("Edit Output...");
+				var RemovePin = new ImageMenuItem ("Remove Output");
+				var ClearPins = new ImageMenuItem ("Clear Outputs");
+				var AddSequence = new ImageMenuItem ("Add Sequence...");
+				var EditSequence = new ImageMenuItem ("Edit Sequence...");
+
+				AddPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
+				EditPin.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
+				RemovePin.Image = new Image (Gtk.Stock.Remove, IconSize.Menu);
+				ClearPins.Image = new Image (Gtk.Stock.Clear, IconSize.Menu);
+				AddSequence.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
+				EditSequence.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
+
+				if (pin == null)
+				{
+					EditPin.Sensitive = false;
+					RemovePin.Sensitive = false;
+					AddSequence.Sensitive = false;
+					EditSequence.Sensitive = false;
+				} else
+				{
+					if (pin.Sequence == null)
+					{
+						EditSequence.Sensitive = false;
+					} else
+					{
+						AddSequence.Sensitive = false;
+					}
 				}
 
-				AddPin.ButtonPressEvent += (oo, e) =>
+				AddPin.ButtonPressEvent += (o, args) => RunAddDPinDialog ();
+				EditPin.ButtonPressEvent += (o, args) => RunAddDPinDialog (pin.Pin);
+				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Index);
+				ClearPins.ButtonPressEvent += (o, args) => RunDPinClear ();
+				AddSequence.ButtonPressEvent += (o, args) =>
 				{
-					RunAddAPinDialog ();
+					RunSequenceDialog (null, pin.Pin);
+					this.notebook1.CurrentPage = 3;
 				};
-				EditPin.ButtonPressEvent += (oo, e) =>
-				{
-					RunAddAPinDialog (pin.Pin);
-				};
-				RemovePin.ButtonPressEvent += (oo, e) =>
-				{
-					con.Configuration.RemovePin (pin.Index);
-				};
-				ClearPins.ButtonPressEvent += (oo, e) =>
-				{
-				};
+				EditSequence.ButtonPressEvent += (o, args) => RunSequenceDialog (pin.Sequence);
 
+				m.Add (AddPin);
+				m.Add (EditPin);
+				m.Add (RemovePin);
+				m.Add (new SeparatorMenuItem ());
+				m.Add (ClearPins);
+				m.Add (new SeparatorMenuItem ());
+				m.Add (AddSequence);
+				m.Add (EditSequence);
+				m.ShowAll ();
+				m.Popup ();
 			}
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnMeasurementCombinationNodePressed (object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3)
+			{
+				Menu m = new Menu ();
+				MeasurementCombinationTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as MeasurementCombinationTreeNode;
+
+				var AddPin = new ImageMenuItem ("Add MeasurementCombination...");
+				var EditPin = new ImageMenuItem ("Edit MeasurementCombination...");
+				var RemovePin = new ImageMenuItem ("Remove MeasurementCombination");
+				var ClearPins = new ImageMenuItem ("Clear MeasurementCombination");
+
+				AddPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
+				EditPin.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
+				RemovePin.Image = new Image (Gtk.Stock.Remove, IconSize.Menu);
+				ClearPins.Image = new Image (Gtk.Stock.Clear, IconSize.Menu);
+
+				if (pin == null)
+				{
+					EditPin.Sensitive = false;
+					RemovePin.Sensitive = false;
+				}
+
+				AddPin.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog ();
+				EditPin.ButtonPressEvent += (o, args) => this.RunMeasurementCombinationDialog (pin.AnalogSignal);
+				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemoveMeasurementCombination (pin.AnalogSignal);
+				ClearPins.ButtonPressEvent += (o, args) => RunMeasurementCombinationClear ();
+
+				m.Add (AddPin);
+				m.Add (EditPin);
+				m.Add (RemovePin);
+				m.Add (new SeparatorMenuItem ());
+				m.Add (ClearPins);
+				m.ShowAll ();
+				m.Popup ();
+			}	
+		}
+
+		[GLib.ConnectBeforeAttribute]
+		protected void OnSequeneceNodePressed (object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3)
+			{
+				Menu m = new Menu ();
+				SequenceTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as SequenceTreeNode;
+
+			
+				var AddPin = new ImageMenuItem ("Add Sequence...");
+				var EditPin = new ImageMenuItem ("Edit Sequence...");
+				var RemovePin = new ImageMenuItem ("Remove Sequence");
+				var ClearPins = new ImageMenuItem ("Clear Sequence");
+
+				AddPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
+				EditPin.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
+				RemovePin.Image = new Image (Gtk.Stock.Remove, IconSize.Menu);
+				ClearPins.Image = new Image (Gtk.Stock.Clear, IconSize.Menu);
+
+				if (pin == null)
+				{
+					EditPin.Sensitive = false;
+					RemovePin.Sensitive = false;
+				}
+
+				AddPin.ButtonPressEvent += (o, args) => RunSequenceDialog ();
+				EditPin.ButtonPressEvent += (o, args) => this.RunSequenceDialog (pin.Seq);
+				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemoveSequence (pin.Seq);
+				ClearPins.ButtonPressEvent += (o, args) => RunSequenceClear ();
+
+				m.Add (AddPin);
+				m.Add (EditPin);
+				m.Add (RemovePin);
+				m.Add (new SeparatorMenuItem ());
+				m.Add (ClearPins);
+				m.ShowAll ();
+				m.Popup ();
+			}		
 		}
 
 		#endregion
@@ -711,11 +729,12 @@ namespace Frontend
 			MenuItem file = new MenuItem ("File");
 			file.Submenu = filemenu;
 			MenuItem newoption = new MenuItem ("New");
-			MenuItem openoption = new MenuItem ("Open");
-			MenuItem saveoption = new MenuItem ("Save");
-			MenuItem saveasoption = new MenuItem ("Save as...");
-
+			MenuItem openoption = openAction.CreateMenuItem () as MenuItem;
+			MenuItem saveoption = saveAction.CreateMenuItem () as MenuItem; 
+			MenuItem saveasoption = saveAsAction.CreateMenuItem () as MenuItem;
 			MenuItem exit = new MenuItem ("Exit");
+//			MenuItem exit = quitAction.CreateMenuItem () as MenuItem;
+
 			exit.Activated += (sender, e) => OnDeleteEvent (null, null);
 
 			filemenu.Append (newoption);
@@ -1255,8 +1274,10 @@ namespace Frontend
 				              ButtonsType.YesNo,
 				              "You are attemting to delete all Measurements.\nThis will also lead to the removal of every MeasurementCombination.\n\nDo you want to procede?"
 			              );
-			message.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Yes) {
+			message.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Yes)
+				{
 					con.Configuration.ClearPins (PinType.ANALOG);
 				}
 			};
@@ -1273,8 +1294,10 @@ namespace Frontend
 				              ButtonsType.YesNo,
 				              "You are attemting to delete all Outputs.\nThis will also lead to the removal of every Sequences.\n\nDo you want to procede?"
 			              );
-			message.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Yes) {
+			message.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Yes)
+				{
 					con.Configuration.ClearPins (PinType.DIGITAL);
 				}
 			};
@@ -1291,8 +1314,10 @@ namespace Frontend
 				              ButtonsType.YesNo,
 				              "You are attemting to delete all MeasurementCombinations.\n\nDo you want to procede?"
 			              );
-			message.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Yes) {
+			message.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Yes)
+				{
 					con.Configuration.ClearMeasurementCombinations ();
 				}
 			};
@@ -1309,8 +1334,10 @@ namespace Frontend
 				              ButtonsType.YesNo,
 				              "You are attemting to delete all Sequences.\n\nDo you want to procede?"
 			              );
-			message.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Yes) {
+			message.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Yes)
+				{
 					con.Configuration.ClearSequences ();
 				}
 			};
@@ -1765,7 +1792,8 @@ namespace Frontend
 					con.Configuration.SavePath = path;
 					con.SaveConfiguration (path);
 				}
-			} else {
+			} else
+			{
 				con.SaveConfiguration (con.Configuration.SavePath);
 			}
 		}
