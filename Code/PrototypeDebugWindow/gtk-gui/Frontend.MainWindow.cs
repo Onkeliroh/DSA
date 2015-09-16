@@ -18,6 +18,12 @@ namespace Frontend
 		
 		private global::Gtk.Action autoConnectAction;
 		
+		private global::Gtk.Action quitAction;
+		
+		private global::Gtk.Action aboutAction;
+		
+		private global::Gtk.Action preferencesAction;
+		
 		private global::Gtk.VBox vbox1;
 		
 		private global::Gtk.MenuBar menubarMain;
@@ -214,6 +220,15 @@ namespace Frontend
 			this.autoConnectAction = new global::Gtk.Action ("autoConnectAction", global::Mono.Unix.Catalog.GetString ("Attemt automatic Connection"), null, "gtk-refresh");
 			this.autoConnectAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Attemt automatic Connection");
 			w1.Add (this.autoConnectAction, null);
+			this.quitAction = new global::Gtk.Action ("quitAction", global::Mono.Unix.Catalog.GetString ("_Quit"), null, "gtk-quit");
+			this.quitAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Quit");
+			w1.Add (this.quitAction, null);
+			this.aboutAction = new global::Gtk.Action ("aboutAction", global::Mono.Unix.Catalog.GetString ("_About"), null, "gtk-about");
+			this.aboutAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_About");
+			w1.Add (this.aboutAction, null);
+			this.preferencesAction = new global::Gtk.Action ("preferencesAction", global::Mono.Unix.Catalog.GetString ("_Preferences"), null, "gtk-preferences");
+			this.preferencesAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Preferences");
+			w1.Add (this.preferencesAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.WidthRequest = 800;
@@ -1024,6 +1039,15 @@ namespace Frontend
 			this.saveAction.Activated += new global::System.EventHandler (this.OnSaveActionActivated);
 			this.openAction.Activated += new global::System.EventHandler (this.OnOpenActionActivated);
 			this.autoConnectAction.Activated += new global::System.EventHandler (this.OnAutoConnectActionActivated);
+			this.aboutAction.Activated += new global::System.EventHandler (this.OnAboutActionActivated);
+			this.preferencesAction.Activated += new global::System.EventHandler (this.OnPreferencesActionActivated);
+			this.btnAlternateBlinkSetup.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetupClicked);
+			this.btnAlternateBlinkSetup2.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetup2Clicked);
+			this.button359.Clicked += new global::System.EventHandler (this.OnButton359Clicked);
+			this.button360.Clicked += new global::System.EventHandler (this.OnButton360Clicked);
+			this.button1125.Clicked += new global::System.EventHandler (this.OnButton1125Clicked);
+			this.btnBoardDifferenceTest.Clicked += new global::System.EventHandler (this.OnBtnBoardDifferenceTestClicked);
+			this.btnRefreshNV.Clicked += new global::System.EventHandler (this.OnBtnRefreshNVClicked);
 		}
 	}
 }

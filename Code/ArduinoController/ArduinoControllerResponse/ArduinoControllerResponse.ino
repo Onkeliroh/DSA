@@ -12,6 +12,7 @@ enum
   kReady,
   kSetPinMode,
   kSetPinState,
+  kSetDigitalOutputPins,
   kSetAnalogPin,
   kSetPin,
   kSetAnalogReference,
@@ -55,6 +56,7 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kReadPin, OnReadPin);
   cmdMessenger.attach(kSetPinMode, OnSetPinMode);
   cmdMessenger.attach(kSetPinState, OnSetPinState);
+  cmdMessenger.attach(kSetDigitalOutputPins, OnSetDigitalOutputPins);
   cmdMessenger.attach(kSetAnalogPin, OnSetAnalogPin);
   cmdMessenger.attach(kSetAnalogReference, OnSetAnalogReference);
   cmdMessenger.attach(kGetVersion, OnGetVersion);
@@ -101,6 +103,51 @@ void OnSetPinMode()
   int pin = cmdMessenger.readInt16Arg();
   int mode = cmdMessenger.readInt16Arg();
   pinMode(pin,mode);
+}
+
+void OnSetDigitalOutputPins()
+{
+  #if NUM_DIGITAL_PINS < 17
+  int conditions = cmdMessenger.readInt16Arg();
+  for (int i = 0; i<16; i++)
+  {
+    digitalWrite(i, bitRead(conditions,i));
+  }
+  #endif
+  #if NUM_DIGITAL_PINS < 33 && NUM_DIGITAL_PINS > 16
+  int condition1 = cmdMessenger.readInt16Arg();
+  int condition2 = cmdMessenger.readInt16Arg();
+  for(int i =0; i<16; i++)
+  {
+    digitalWrite(i, bitRead(condition1,i));
+    digitalWrite(i+16, bitRead(condition2,i+16));
+  }
+  #endif
+  #if NUM_DIGITAL_PINS < 32 && NUM_DIGITAL_PINS > 49
+  int condition1 = cmdMessenger.readInt16Arg();
+  int condition2 = cmdMessenger.readInt16Arg();
+  int condition3 = cmdMessenger.readInt16Arg();
+  for(int i =0; i<16; i++)
+  {
+    digitalWrite(i, bitRead(condition1,i));
+    digitalWrite(i+16, bitRead(condition2,i+16));
+    digitalWrite(i+32, bitRead(condition3,i+32));
+  }
+  #endif
+  #if NUM_DIGITAL_PINS < 48 && NUM_DIGITAL_PINS > 64
+  int condition1 = cmdMessenger.readInt16Arg();
+  int condition2 = cmdMessenger.readInt16Arg();
+  int condition3 = cmdMessenger.readInt16Arg();
+  int condition4 = cmdMessenger.readInt16Arg();
+  for(int i =0; i<16; i++)
+  {
+    digitalWrite(i, bitRead(condition1,i));
+    digitalWrite(i+16, bitRead(condition2,i+16));
+    digitalWrite(i+32, bitRead(condition3,i+32));
+    digitalWrite(i+48, bitRead(condition4,i+48));
+  }
+  #endif
+
 }
 
 void OnSetPinState()

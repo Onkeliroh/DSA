@@ -732,8 +732,8 @@ namespace Frontend
 			MenuItem openoption = openAction.CreateMenuItem () as MenuItem;
 			MenuItem saveoption = saveAction.CreateMenuItem () as MenuItem; 
 			MenuItem saveasoption = saveAsAction.CreateMenuItem () as MenuItem;
-			MenuItem exit = new MenuItem ("Exit");
-//			MenuItem exit = quitAction.CreateMenuItem () as MenuItem;
+//			MenuItem exit = new MenuItem ("Exit");
+			MenuItem exit = quitAction.CreateMenuItem () as MenuItem;
 
 			exit.Activated += (sender, e) => OnDeleteEvent (null, null);
 
@@ -750,8 +750,7 @@ namespace Frontend
 			Menu editmenu = new Menu ();
 			MenuItem edit = new MenuItem ("Edit");
 			edit.Submenu = editmenu;
-			MenuItem preferences = new MenuItem ("Preferences");
-			preferences.Activated += (o, e) => RunPreferencesDialog ();
+			MenuItem preferences = preferencesAction.CreateMenuItem () as MenuItem;
 			editmenu.Append (preferences);
 
 			mbar.Append (edit);
@@ -806,17 +805,7 @@ namespace Frontend
 			Menu helpmenu = new Menu ();
 			MenuItem help = new MenuItem ("Help");
 			help.Submenu = helpmenu;
-			MenuItem about = new MenuItem ("About");
-			about.Activated += (sender, e) =>
-			{
-				var dialog = new AboutDialog () {
-					Authors = new string[]{ "Daniel Pollack" },
-					Documenters = new string[]{ "Daniel Pollack" },
-					License = "not yet"
-				};
-				dialog.Run ();
-				dialog.Destroy ();
-			};
+			MenuItem about = aboutAction.CreateMenuItem () as MenuItem;
 
 			helpmenu.Append (about);
 
@@ -1743,40 +1732,53 @@ namespace Frontend
 			}
 		}
 
-		protected void OnButton1125Clicked (object sender, EventArgs e)
-		{
-			con.Configuration.ClearPins ();
-			con.Configuration.ClearSequences ();
-
-			OnBtnFillDigitalOutputsClicked (null, null);
-
-			int i = 2;
-			while (i < con.Configuration.Pins.Count)
-			{
-				var seq = new Sequence () {
-					Pin = (DPin)con.Configuration.Pins [i],
-					Repetitions = -1
-				};
-
-				seq.Chain.Add (new SequenceOperation {
-					Duration = TimeSpan.FromMilliseconds (1000 + i),
-					State = DPinState.HIGH
-				});
-				seq.Chain.Add (new SequenceOperation {
-					Duration = TimeSpan.FromMilliseconds (1000 + i),
-					State = DPinState.LOW
-				});
-
-				con.Configuration.AddSequence (seq);
-
-				i++;
-			}
-		}
+		//		protected void OnButton1125Clicked (object sender, EventArgs e)
+		//		{
+		//			con.Configuration.ClearPins ();
+		//			con.Configuration.ClearSequences ();
+		//
+		//			OnBtnFillDigitalOutputsClicked (null, null);
+		//
+		//			int i = 2;
+		//			while (i < con.Configuration.Pins.Count)
+		//			{
+		//				var seq = new Sequence () {
+		//					Pin = (DPin)con.Configuration.Pins [i],
+		//					Repetitions = -1
+		//				};
+		//
+		//				seq.Chain.Add (new SequenceOperation {
+		//					Duration = TimeSpan.FromMilliseconds (1000 + i),
+		//					State = DPinState.HIGH
+		//				});
+		//				seq.Chain.Add (new SequenceOperation {
+		//					Duration = TimeSpan.FromMilliseconds (1000 + i),
+		//					State = DPinState.LOW
+		//				});
+		//
+		//				con.Configuration.AddSequence (seq);
+		//
+		//				i++;
+		//			}
+		//		}
 
 		protected void OnBtnBoardDifferenceTestClicked (object sender, EventArgs e)
 		{
 			con.Configuration.Board = con.BoardConfigs [1];
 		}
+
+		protected void OnBtnRefreshNVClicked (object sender, EventArgs e)
+		{
+			FillDigitalPinNodes ();
+			FillAnalogPinNodes ();
+			FillSequenceNodes ();
+			FillSequencePreviewPlot ();
+			FillMeasurementCombinationNodes ();
+		}
+
+		#endregion
+
+		#region ActionEvents
 
 		protected void OnSaveActionActivated (object sender, EventArgs e)
 		{
@@ -1829,15 +1831,58 @@ namespace Frontend
 			}
 		}
 
-		protected void OnBtnRefreshNVClicked (object sender, EventArgs e)
+		protected void OnAboutActionActivated (object sender, EventArgs e)
 		{
-			FillDigitalPinNodes ();
-			FillAnalogPinNodes ();
-			FillSequenceNodes ();
-			FillSequencePreviewPlot ();
-			FillMeasurementCombinationNodes ();
+			var dialog = new AboutDialog () {
+				Authors = new string[]{ "Daniel Pollack" },
+				Documenters = new string[]{ "Daniel Pollack" },
+				License = "not yet"
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		protected void OnPreferencesActionActivated (object sender, EventArgs e)
+		{
+			RunPreferencesDialog ();
+		}
+
+		protected void OnButton1125Clicked (object sender, EventArgs e)
+		{
+
+			ArduinoController.SetPinModes (
+				new uint[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 },
+				new uint[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }
+			);
+
+//			UInt64 conditions = 0;
+//			for (int runs = 0; runs < 60; runs++)
+//			{
+//				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
+//				{
+//					if (((conditions >> i) & 0x1) == 1)
+//					{
+//						conditions &= (UInt64)~(0x1 << i);
+//					} else
+//					{
+//						conditions	|= (UInt64)(0x1 << i);
+//					}
+//					ArduinoController.SetDigitalOutputPins (conditions);
+//					System.Threading.Thread.Sleep (500);
+//				}
+//			}
+
+//			for (int runs = 0; runs < 10; runs++)
+			while (true)
+			{
+				ArduinoController.SetDigitalOutputPins (43690);
+				System.Threading.Thread.Sleep (100);
+				ArduinoController.SetDigitalOutputPins (21845);
+				System.Threading.Thread.Sleep (100);
+			}
 		}
 
 		#endregion
 	}
+
 }

@@ -31,9 +31,11 @@ namespace PrototypeBackend
 
 		public TimeSpan TimePassed { 
 			get {
-				if (TimeKeeper != null) {
+				if (TimeKeeper != null)
+				{
 					return TimeKeeper.Elapsed;
-				} else {
+				} else
+				{
 					return new TimeSpan (0);
 				}
 			}
@@ -58,15 +60,19 @@ namespace PrototypeBackend
 		{
 			Configuration = new BoardConfiguration ();
 
-			try {
+			try
+			{
 				ConfigManager = new ConfigurationManager (ConfigurationPath);
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				Console.Error.WriteLine ("Configmanager init:\t" + ex);
 			}
 
-			try {
+			try
+			{
 				BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				Console.Error.WriteLine ("BoardConfigs read:\t" + ex);
 			}
 
@@ -91,8 +97,10 @@ namespace PrototypeBackend
 			ArduinoController.Init ();
 			ArduinoController.OnReceiveMessage += (sender, e) => ConLogger.Log ("IN < " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnSendMessage += (sender, e) => ConLogger.Log ("OUT > " + e.Message, LogLevel.DEBUG);
-			ArduinoController.OnConnectionChanged += ((o, e) => {
-				if (e.Connected) {
+			ArduinoController.OnConnectionChanged += ((o, e) =>
+			{
+				if (e.Connected)
+				{
 					#if DEBUG
 					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.DEBUG);
 					#endif
@@ -100,18 +108,21 @@ namespace PrototypeBackend
 					ConLogger.Log ("Connected to " + ArduinoController.SerialPortName);
 					#endif
 
-				} else {
+				} else
+				{
 					ConLogger.Log ("Disconnected");
 				}
 			});
 
-			Configuration.OnPinsUpdated += (o, e) => {
+			Configuration.OnPinsUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.Pin + " to " + e.Pin2);
 				else
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.Pin);
 			};
-			Configuration.OnSequencesUpdated += (o, e) => {
+			Configuration.OnSequencesUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.Seq + " to " + e.Seq);
 				else
@@ -119,7 +130,8 @@ namespace PrototypeBackend
 
 				BuildSequenceList ();
 			};
-			Configuration.OnSignalsUpdated += (o, e) => {
+			Configuration.OnSignalsUpdated += (o, e) =>
+			{
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.MC + " to " + e.MC2);
 				else
@@ -159,7 +171,8 @@ namespace PrototypeBackend
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 			TimeKeeper.Stop ();
 
-			if (OnControllerStoped != null) {
+			if (OnControllerStoped != null)
+			{
 				OnControllerStoped.Invoke (this, null);
 			}
 		}
@@ -179,7 +192,8 @@ namespace PrototypeBackend
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + TimeKeeper.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 
-			if (OnControllerStarted != null) {
+			if (OnControllerStarted != null)
+			{
 				OnControllerStarted.Invoke (this, null);
 			}
 		}
@@ -188,16 +202,19 @@ namespace PrototypeBackend
 		{
 			sequenceThreads.Clear ();
 			GC.Collect ();
-			foreach (Sequence seq in Configuration.Sequences) {
+			foreach (Sequence seq in Configuration.Sequences)
+			{
 				var seqThread = new Thread (
-					                () => {
+					                () =>
+					{
 						Stopwatch sw = new Stopwatch ();
 						sw.Start ();
 
 						uint pin = seq.Pin.Number;
 						PinMode mode = seq.Pin.Mode;
 						var op = seq.Current ();
-						while (seq.CurrentState != SequenceState.Done && running && op != null) {
+						while (seq.CurrentState != SequenceState.Done && running && op != null)
+						{
 							ArduinoController.SetPinState (pin, ((SequenceOperation)op).State);
 							Thread.Sleep (((SequenceOperation)op).Duration);
 							op = seq.Next ();
@@ -243,26 +260,31 @@ namespace PrototypeBackend
 			var comblist = new List<MeasurementCombination> ();
 			comblist = Configuration.MeasurementCombinations;
 
-			while (list.Count > 0) {
+			while (list.Count > 0)
+			{
 				//take every pin with the same period as the first one
 				var query = list.Where (o => o.Period == list.First ().Period).ToList<APin> ();
 				var combquery = comblist.Where (o => o.Period == query.First ().Period).ToList<MeasurementCombination> ();
 
-				if (query.Count > 0) {
+				if (query.Count > 0)
+				{
 					//remove every pin with as certain period. so that it can not be added again
 					list.RemoveAll (o => o.Period == query.First ().Period);
 					comblist.RemoveAll (o => o.Period == query.First ().Period);
 
 					var timer = new System.Timers.Timer (query.First ().Period);
-					timer.Elapsed += (o, e) => {
+					timer.Elapsed += (o, e) =>
+					{
 						//as long as running is true: collect data. otherwise go to sleep
-						if (running) {
+						if (running)
+						{
 							var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.Number).ToArray<uint> ());
 
 							//in order to append to all values the same time stamp, otherwise every individual timestamp would be a little bit of
 							var now = DateTime.Now; //what time is it?
 
-							for (int i = 0; i < vals.Length; i++) {
+							for (int i = 0; i < vals.Length; i++)
+							{
 								//add values, scaled to the AREF to their pin
 								query [i].Value = new DateTimeValue () {
 									Value = Configuration.Board.RAWToVolt (vals [i]),
@@ -280,7 +302,8 @@ namespace PrototypeBackend
 							values.AddRange (combquery.Select (x => x.Value));
 
 							logger.Log (keys, values);
-						} else {
+						} else
+						{
 							logger.Stop ();
 							(o as System.Timers.Timer).Stop ();
 						}
@@ -298,11 +321,19 @@ namespace PrototypeBackend
 		{
 			var dict = new Dictionary<string,int> ();
 
-			for (int i = 0; i < Configuration.AnalogPins.Count; i++) {
+			int pos = 0;
+
+			for (int i = pos; i < Configuration.AnalogPins.Count; i++)
+			{
 				dict.Add (Configuration.AnalogPins [i].DisplayName, i);
+				pos++;
 			}
-			for (int i = Configuration.AnalogPins.Count; i < (Configuration.MeasurementCombinations.Count + Configuration.Pins.Count); i++) {
-				dict.Add (Configuration.MeasurementCombinations [i].Name, i);
+			if (Configuration.MeasurementCombinations.Count > 0)
+			{
+				for (int i = pos; i < (Configuration.MeasurementCombinations.Count + Configuration.Pins.Count); i++)
+				{
+					dict.Add (Configuration.MeasurementCombinations [i].Name, i);
+				}
 			}
 			return dict;
 		}
@@ -310,7 +341,8 @@ namespace PrototypeBackend
 
 		public bool SaveConfiguration (string path = null)
 		{
-			try {
+			try
+			{
 				Stream stream = File.Open (path, FileMode.Create);
 				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
@@ -320,7 +352,8 @@ namespace PrototypeBackend
 				formatter.Serialize (stream, config);
 
 				stream.Close ();
-			} catch (Exception) {
+			} catch (Exception)
+			{
 				throw;
 			} 
 			return true;
@@ -328,7 +361,8 @@ namespace PrototypeBackend
 
 		public bool OpenConfiguration (string path)
 		{
-			try {
+			try
+			{
 				Stream stream = File.Open (path, FileMode.Open, FileAccess.Read, FileShare.Write);
 				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
@@ -338,10 +372,12 @@ namespace PrototypeBackend
 
 				stream.Close ();
 
-				if (OnOnfigurationLoaded != null) {
+				if (OnOnfigurationLoaded != null)
+				{
 					OnOnfigurationLoaded.Invoke (this, null);
 				}
-			} catch (Exception) {
+			} catch (Exception)
+			{
 				throw;
 			}
 
