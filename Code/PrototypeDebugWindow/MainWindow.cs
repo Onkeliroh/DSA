@@ -111,7 +111,13 @@ namespace Frontend
 			};
 			#endregion
 
-			mcuW.OnBoardSelected += EnableConfig;
+			mcuW.OnBoardSelected += (o, a) => {
+				if (con.Configuration != null) {
+					con.Configuration.Board.AnalogReferenceVoltage = a.AREF;
+					con.Configuration.Board.AnalogReferenceVoltageType = a.AREFName;
+				}
+				EnableConfig (o, a);
+			};
 
 
 			BuildMenu ();
@@ -121,14 +127,14 @@ namespace Frontend
 			BuildRealTimePlot ();
 
 			#if DEBUG
-//			con.ConLogger.NewMessage += 
+//			con.ConLogger.NewMessage +=
 //				(sender, e) =>
 //			{
 //				try
 //				{
 //					if (tvLog.Buffer != null)
 //					{
-//						tvLog.Buffer.Text += 
+//						tvLog.Buffer.Text +=
 //					String.Format ("{0} | {1} | {2}\n", e.Time.ToString ("T"), e.Level, e.Message);
 //					}
 //				} catch (Exception)
@@ -137,7 +143,7 @@ namespace Frontend
 //			};
 			#endif
 			#if RELEASE
-			con.ConLogger.NewMessage += 
+			con.ConLogger.NewMessage +=
 			(sender, e) =>
 			{
 				if (e.Level == LogLevel.INFO)
@@ -148,7 +154,7 @@ namespace Frontend
 			#endif
 
 			BindControllerEvents ();
-		
+
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
 			nvMeasurementCombinations.ButtonPressEvent += new ButtonPressEventHandler (OnItemButtonPressed);
@@ -157,7 +163,7 @@ namespace Frontend
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
 			{
-				lblTimePassed.Text = string.Format ("{0:c}", con.TimePassed); 
+				lblTimePassed.Text = string.Format ("{0:c}", con.TimePassed);
 //				UpdateRealTimePlot ();
 			};
 		}
@@ -211,10 +217,31 @@ namespace Frontend
 					deleteItem.ButtonPressEvent += (o, args) =>
 						con.Configuration.RemovePin (pin.Index);
 
+
+					var addAPin = new ImageMenuItem ("Add Measurement...");
+					addAPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);//TODO This is how we do icons
+//					var addAPin = new ImageMenuItem (Stock.Add, null);
+					MenuItem editAPin = new MenuItem ("Edit this Measurement...");
+					MenuItem removeAPin = new MenuItem ("Remove this Measurement...");
+					MenuItem clearAPin = new MenuItem ("Clear all Measurements and Measurementcombinations");
 					MenuItem addSignal = new MenuItem ("Add new Signal");
 					MenuItem editSignal = new MenuItem ("Edit Signal");
-					if (pin.Combination == null)
-					{
+					editSignal.RenderIcon (Gtk.Stock.Edit, IconSize.Menu, null);
+
+					addAPin.ButtonPressEvent += (o, args) => {
+						RunAddAPinDialog ();
+					};
+					editAPin.ButtonPressEvent += (o, args) => {
+						RunAddAPinDialog (pin.Pin);
+					};
+					removeAPin.ButtonPressEvent += (o, args) => {
+						con.Configuration.RemovePin (pin.Index);
+					};
+					clearAPin.ButtonPressEvent += (o, args) => {
+						RunAPinClear ();
+					};
+
+					if (pin.Combination == null) {
 						editSignal.Sensitive = false;
 						addSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (null, pin.Pin);
 					} else
@@ -223,6 +250,12 @@ namespace Frontend
 						editSignal.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
 					}
 
+					m.Add (addAPin);
+					m.Add (editAPin);
+					m.Add (removeAPin);
+					m.Add (new SeparatorMenuItem ());
+					m.Add (clearAPin);
+					m.Add (new SeparatorMenuItem ());
 					m.Add (addSignal);
 					m.Add (editSignal);
 					m.Add (deleteItem);
@@ -260,8 +293,14 @@ namespace Frontend
 						editSignal.ButtonPressEvent += (o, args) => RunSequenceDialog (pin.Sequence);
 					}
 
-					m.Add (addSignal);
-					m.Add (editSignal);
+					m.Add (addDPin);
+					m.Add (editDPin);
+					m.Add (removeDPin);
+					m.Add (separator);
+					m.Add (clearDPin);
+					m.Add (separator);
+					m.Add (addSequence);
+					m.Add (editSequence);
 					m.Add (deleteItem);
 
 					m.ShowAll ();
@@ -440,16 +479,16 @@ namespace Frontend
 				if (seq.Repetitions != 0 && seq.Chain.Count > 0)
 				{
 					var followupData = new Collection<TimeValue> ();
-					followupData.Add (data.Last ());	
+					followupData.Add (data.Last ());
 					followupData.Add (new TimeValue () {
 						Time = data.Last ().Time,
-						Value = ((seq.Chain [0].State == DPinState.HIGH) ? 1 : 0)			
-					});	
+						Value = ((seq.Chain [0].State == DPinState.HIGH) ? 1 : 0)
+					});
 
 					followupData.Add (new TimeValue () {
 						Time = data.Last ().Time.Add (seq.Chain [0].Duration),
-						Value = ((seq.Chain [0].State == DPinState.HIGH) ? 1 : 0)			
-					});	
+						Value = ((seq.Chain [0].State == DPinState.HIGH) ? 1 : 0)
+					});
 
 					var followupSeries = new LineSeries () {
 						DataFieldX = "Time",
@@ -572,6 +611,8 @@ namespace Frontend
 			con.OnOnfigurationLoaded += (o, a) =>
 			{
 				mcuW.Select (con.Configuration.Board.MCU);
+				mcuW.SelectAREF (con.Configuration.Board.AnalogReferenceVoltageType);
+				mcuW.SetAREF (con.Configuration.Board.AnalogReferenceVoltage);
 			};
 		}
 
@@ -582,7 +623,7 @@ namespace Frontend
 
 		private void BuildNodeViews ()
 		{
-			#region Digital 
+			#region Digital
 			nvDigitalPins.NodeStore = NodeStoreDigitalPins;
 			nvDigitalPins.RowActivated += (o, args) =>
 			{
@@ -764,7 +805,7 @@ namespace Frontend
 			#endregion
 
 			mbar.ShowAll ();
-			
+
 		}
 
 		private void BuildSequencePreviewPlot ()
@@ -871,7 +912,7 @@ namespace Frontend
 			RealTimePlotView.SetSizeRequest (hbSequences.Allocation.Width, fSequences.Allocation.Height / 2);
 			vpanedSequences.Position = fSequences.Allocation.Height / 2;
 
-			RealTimePlotView.ShowAll ();	
+			RealTimePlotView.ShowAll ();
 		}
 
 		#endregion
@@ -916,7 +957,7 @@ namespace Frontend
 		{
 //			if (ArduinoController.IsConnected)
 //			{
-//				con.ControlSequences.Clear (); 
+//				con.ControlSequences.Clear ();
 //				var scheduler = new Scheduler ();
 //				con.AddScheduler (scheduler);
 //
@@ -1057,7 +1098,7 @@ namespace Frontend
 
 		protected void OnBtnClearDPinsClicked (object sender, EventArgs e)
 		{
-			con.Configuration.ClearPins (PinType.DIGITAL);
+			RunDPinClear ();
 		}
 
 		protected void OnBtnRemoveDPinClicked (object sender, EventArgs e)
@@ -1098,17 +1139,17 @@ namespace Frontend
 
 		protected void OnBtnClearSignalsClicked (object sender, EventArgs e)
 		{
-			con.Configuration.ClearMeasurementCombinations ();
+			RunMeasurementCombinationClear ();
 		}
 
 		protected void OnBtnClearAPinsClicked (object sender, EventArgs e)
 		{
-			con.Configuration.ClearPins (PinType.ANALOG);
+			RunAPinClear ();
 		}
 
 		protected void OnBtnClearSequenceClicked (object sender, EventArgs e)
 		{
-			con.Configuration.ClearSequences ();
+			RunSequenceClear ();
 		}
 
 		protected void OnBtnAddSignalClicked (object sender, EventArgs e)
@@ -1125,7 +1166,7 @@ namespace Frontend
 		{
 			if (con.IsRunning)
 			{
-				con.Stop ();	
+				con.Stop ();
 			} else
 			{
 				con.Start ();
@@ -1151,10 +1192,10 @@ namespace Frontend
 					Application.Invoke ((o, ee) =>
 					{
 						var dialog = new MessageDialog (
-							             this, 
-							             DialogFlags.Modal, 
-							             MessageType.Info, 
-							             ButtonsType.Ok, 
+							             this,
+							             DialogFlags.Modal,
+							             MessageType.Info,
+							             ButtonsType.Ok,
 							             "The attemd to automaticly connect to a controller failed.\n " +
 							             "Please make shure to have a controller connected and uploaded " +
 							             "with the provided software."
@@ -1205,6 +1246,78 @@ namespace Frontend
 
 		#region RunDialogs
 
+		private void RunAPinClear ()
+		{
+			var message = new MessageDialog (
+				              this,
+				              DialogFlags.Modal,
+				              MessageType.Warning,
+				              ButtonsType.YesNo,
+				              "You are attemting to delete all Measurements.\nThis will also lead to the removal of every MeasurementCombination.\n\nDo you want to procede?"
+			              );
+			message.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					con.Configuration.ClearPins (PinType.ANALOG);
+				}
+			};
+			message.Run ();
+			message.Destroy ();
+		}
+
+		private void RunDPinClear ()
+		{
+			var message = new MessageDialog (
+				              this,
+				              DialogFlags.Modal,
+				              MessageType.Warning,
+				              ButtonsType.YesNo,
+				              "You are attemting to delete all Outputs.\nThis will also lead to the removal of every Sequences.\n\nDo you want to procede?"
+			              );
+			message.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					con.Configuration.ClearPins (PinType.DIGITAL);
+				}
+			};
+			message.Run ();
+			message.Destroy ();
+		}
+
+		private void RunMeasurementCombinationClear ()
+		{
+			var message = new MessageDialog (
+				              this,
+				              DialogFlags.Modal,
+				              MessageType.Warning,
+				              ButtonsType.YesNo,
+				              "You are attemting to delete all MeasurementCombinations.\n\nDo you want to procede?"
+			              );
+			message.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					con.Configuration.ClearMeasurementCombinations ();
+				}
+			};
+			message.Run ();
+			message.Destroy ();
+		}
+
+		private void RunSequenceClear ()
+		{
+			var message = new MessageDialog (
+				              this,
+				              DialogFlags.Modal,
+				              MessageType.Warning,
+				              ButtonsType.YesNo,
+				              "You are attemting to delete all Sequences.\n\nDo you want to procede?"
+			              );
+			message.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					con.Configuration.ClearSequences ();
+				}
+			};
+			message.Run ();
+			message.Destroy ();
+		}
+
 		private void RunAddDPinDialog (DPin pin = null)
 		{
 			var dings = con.Configuration.AvailableDigitalPins;
@@ -1231,7 +1344,7 @@ namespace Frontend
 				}
 			};
 			dialog.Run ();
-			dialog.Destroy ();	
+			dialog.Destroy ();
 		}
 
 		private void RunAddAPinDialog (APin pin = null)
@@ -1306,10 +1419,10 @@ namespace Frontend
 		protected void RunMCUMessageDialog (object sender = null, EventArgs e = null)
 		{
 			var dialog = new MessageDialog (
-				             this, 
-				             DialogFlags.Modal, 
-				             MessageType.Info, 
-				             ButtonsType.YesNo, 
+				             this,
+				             DialogFlags.Modal,
+				             MessageType.Info,
+				             ButtonsType.YesNo,
 				             "Apparently a connection was established to a Board, which does not meet the selected Board by you.\nDo you want to replace you selection with the connected Board?");
 			dialog.Response += (o, args) =>
 			{
@@ -1336,7 +1449,7 @@ namespace Frontend
 			var dialog = new FileChooserDialog ("Select save loaction", this, FileChooserAction.Save, "Cancel", ResponseType.Cancel, "Save", ResponseType.Apply);
 			dialog.Response += (o, args) =>
 			{
-				path = dialog.Filename;	
+				path = dialog.Filename;
 			};
 			dialog.Run ();
 			dialog.Destroy ();
@@ -1415,7 +1528,7 @@ namespace Frontend
 			}
 			foreach (APin a in con.Configuration.AnalogPins)
 			{
-				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());	
+				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());
 			}
 		}
 
@@ -1460,7 +1573,7 @@ namespace Frontend
 				};
 				for (int j = 0; j < 100; j++)
 				{
-					
+
 					seq1.Chain.Add (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.HIGH
@@ -1541,7 +1654,7 @@ namespace Frontend
 				};
 				for (int j = 0; j < 1; j++)
 				{
-					
+
 					seq1.Chain.Add (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.HIGH
@@ -1649,12 +1762,11 @@ namespace Frontend
 					{
 						path += @".mc";
 					}
-					con.Configuration.SavePath = path;	
+					con.Configuration.SavePath = path;
 					con.SaveConfiguration (path);
 				}
-			} else
-			{
-				con.SaveConfiguration ();
+			} else {
+				con.SaveConfiguration (con.Configuration.SavePath);
 			}
 		}
 
@@ -1681,6 +1793,7 @@ namespace Frontend
 				{
 					UpdateAllNodeViews ();
 					BindControllerEvents ();
+
 				}
 			} catch (Exception ex)
 			{

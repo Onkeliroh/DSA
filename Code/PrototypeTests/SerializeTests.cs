@@ -150,6 +150,8 @@ namespace PrototypeTests
 		public void SerializeBoardConfigTest2 ()
 		{
 			var conf = new BoardConfiguration ();
+			conf.Board.AnalogReferenceVoltageType = "INTERNAL";
+			conf.Board.AnalogReferenceVoltage = 4.24;
 
 			var pin = new APin (){ Number = 42 };
 
@@ -168,6 +170,10 @@ namespace PrototypeTests
 
 			Assert.AreEqual (conf.Pins [0], confClone.Pins [0]);
 			Assert.AreEqual (conf.MeasurementCombinations [0], confClone.MeasurementCombinations [0]);
+			Assert.AreEqual (4.24, conf.Board.AnalogReferenceVoltage, 0.000000001);
+			Assert.AreEqual (4.24, confClone.Board.AnalogReferenceVoltage, 0.000000001);
+			Assert.AreEqual ("INTERNAL", conf.Board.AnalogReferenceVoltageType);
+			Assert.AreEqual ("INTERNAL", confClone.Board.AnalogReferenceVoltageType);
 			Assert.AreSame (conf.Pins [0], conf.MeasurementCombinations [0].Pins [0]);
 			Assert.AreSame (confClone.Pins [0], confClone.MeasurementCombinations [0].Pins [0]);
 

@@ -119,9 +119,15 @@ namespace PrototypeBackend
 	{
 		public PrototypeBackend.Board @Board{ get; private set; }
 
-		public BoardSelectionArgs (Board board)
+		public double AREF { get; private set; }
+
+		public string AREFName { get; private set; }
+
+		public BoardSelectionArgs (Board board, double aref = 5, string arefname = "DEFAULT")
 		{
 			Board = board;
+			AREF = aref;
+			AREFName = arefname;
 		}
 	}
 
