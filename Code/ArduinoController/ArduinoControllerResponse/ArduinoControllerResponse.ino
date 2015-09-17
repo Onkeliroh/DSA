@@ -107,34 +107,6 @@ void OnSetPinMode()
 
 void OnSetDigitalOutputPins()
 {
-  #if NUM_DIGITAL_PINS < 17
-  int conditions = cmdMessenger.readInt16Arg();
-  for (int i = 0; i<16; i++)
-  {
-    digitalWrite(i, bitRead(conditions,i));
-  }
-  #endif
-  #if NUM_DIGITAL_PINS < 33 && NUM_DIGITAL_PINS > 16
-  int condition1 = cmdMessenger.readInt16Arg();
-  int condition2 = cmdMessenger.readInt16Arg();
-  for(int i =0; i<16; i++)
-  {
-    digitalWrite(i, bitRead(condition1,i));
-    digitalWrite(i+16, bitRead(condition2,i+16));
-  }
-  #endif
-  #if NUM_DIGITAL_PINS < 32 && NUM_DIGITAL_PINS > 49
-  int condition1 = cmdMessenger.readInt16Arg();
-  int condition2 = cmdMessenger.readInt16Arg();
-  int condition3 = cmdMessenger.readInt16Arg();
-  for(int i =0; i<16; i++)
-  {
-    digitalWrite(i, bitRead(condition1,i));
-    digitalWrite(i+16, bitRead(condition2,i+16));
-    digitalWrite(i+32, bitRead(condition3,i+32));
-  }
-  #endif
-  #if NUM_DIGITAL_PINS < 48 && NUM_DIGITAL_PINS > 64
   int condition1 = cmdMessenger.readInt16Arg();
   int condition2 = cmdMessenger.readInt16Arg();
   int condition3 = cmdMessenger.readInt16Arg();
@@ -142,12 +114,19 @@ void OnSetDigitalOutputPins()
   for(int i =0; i<16; i++)
   {
     digitalWrite(i, bitRead(condition1,i));
-    digitalWrite(i+16, bitRead(condition2,i+16));
-    digitalWrite(i+32, bitRead(condition3,i+32));
-    digitalWrite(i+48, bitRead(condition4,i+48));
   }
-  #endif
-
+  for(int i =16; i<32; i++)
+  {
+    digitalWrite(i, bitRead(condition2,i));
+  }
+  for(int i =32; i<48; i++)
+  {
+    digitalWrite(i, bitRead(condition3,i));
+  }
+  for(int i =48; i<64; i++)
+  {
+    digitalWrite(i, bitRead(condition4,i));
+  }
 }
 
 void OnSetPinState()

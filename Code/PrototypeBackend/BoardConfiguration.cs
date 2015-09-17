@@ -31,6 +31,11 @@ namespace PrototypeBackend
 				board = value;
 
 				CheckPins ();
+
+				if (OnBoardUpdated != null)
+				{
+					OnBoardUpdated.Invoke (this, null);
+				}
 			}
 		}
 
@@ -73,6 +78,8 @@ namespace PrototypeBackend
 		public EventHandler<ControllerPinUpdateArgs> OnPinsUpdated;
 		[NonSerialized]
 		public EventHandler<SequencesUpdatedArgs> OnSequencesUpdated;
+		[NonSerialized]
+		public EventHandler OnBoardUpdated;
 
 		#endregion
 

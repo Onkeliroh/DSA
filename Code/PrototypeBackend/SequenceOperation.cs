@@ -8,6 +8,8 @@ namespace PrototypeBackend
 		public DPinState State { get; set; }
 
 		public TimeSpan Duration { get; set; }
+
+		public TimeSpan Moment { get; set; }
 	}
 }
 

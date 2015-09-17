@@ -11,6 +11,7 @@ using OxyPlot.GtkSharp;
 using OxyPlot.Series;
 using PrototypeBackend;
 using System.Collections.Generic;
+using Gdk;
 
 namespace Frontend
 {
@@ -37,6 +38,8 @@ namespace Frontend
 
 		private System.Timers.Timer TimeKeeperPresenter;
 
+		public int LastActiveBoard = -1;
+
 		public MainWindow (Controller controller = null) :
 			base (Gtk.WindowType.Toplevel)
 		{
@@ -52,6 +55,17 @@ namespace Frontend
 
 			InitComponents ();
 
+			if (con.BoardConfigs.Length > 0)
+			{
+				if (con.BoardConfigs.ToList ().Where (o => o.MCU == "atmega328p").Count () > 0)
+				{
+					con.Configuration.Board = con.BoardConfigs.ToList ().Single (o => o.MCU == "atmega328p");
+				} else
+				{
+					con.Configuration.Board = con.BoardConfigs [0];
+				}
+			}
+
 			#if !DEBUG
 			this.notebook1.GetNthPage (3).Visible = false;
 			#endif
@@ -63,70 +77,13 @@ namespace Frontend
 
 		private void InitComponents ()
 		{
-			#region Connection
-			ArduinoController.OnConnectionChanged += (object sender, ConnectionChangedArgs e) =>
-			{
-				if (e.Connected)
-				{
-					lblConnectionStatus.Text = "connected to " + e.Port;
-					autoConnectAction.Sensitive = false;
-					mediaPlayAction.Sensitive = true;
-					mediaStopAction.Sensitive = true;
-					try
-					{
-						ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
-					} catch (Exception ex)
-					{
-						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
-					}
-					if (ArduinoController.MCU != null && ArduinoController.MCU != "")
-					{
-						if (this.mcuW.SelectedBoard == null)
-						{
-							this.mcuW.Select (ArduinoController.MCU);
-							this.con.Configuration.Board = Array.Find (con.BoardConfigs, o => o.MCU == ArduinoController.MCU);
-						} else
-						{
-							if (mcuW.SelectedBoard.MCU != con.Configuration.Board.MCU && con.Configuration.Board != null)
-							{
-								Application.Invoke (RunMCUMessageDialog);
-							}
-						}
-					}
-				} else
-				{
-					lblConnectionStatus.Text = "<b>NOT</b> connected";
-					lblConnectionStatus.UseMarkup = true;
-					autoConnectAction.Sensitive = true;
-					mediaPlayAction.Sensitive = false;
-					mediaStopAction.Sensitive = false;
-					try
-					{
-						ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
-					} catch (Exception ex)
-					{
-						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
-					}
-				}
-			};
-			#endregion
-
-			mcuW.OnBoardSelected += (o, a) =>
-			{
-				if (con.Configuration != null)
-				{
-					con.Configuration.Board.AnalogReferenceVoltage = a.AREF;
-					con.Configuration.Board.AnalogReferenceVoltageType = a.AREFName;
-				}
-				EnableConfig (o, a);
-			};
-
+			ArduinoController.OnConnectionChanged += OnConnection;
 
 			BuildMenu ();
 			BuildNodeViews ();
-			BuildMCUWidget ();
 			BuildSequencePreviewPlot ();
 			BuildRealTimePlot ();
+			BuildMCUDisplay ();
 
 			#if DEBUG
 //			con.ConLogger.NewMessage +=
@@ -161,6 +118,10 @@ namespace Frontend
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnSequeneceNodePressed);
 			nvMeasurementCombinations.ButtonPressEvent += new ButtonPressEventHandler (OnMeasurementCombinationNodePressed);
 			nvAnalogPins.ButtonPressEvent += new ButtonPressEventHandler (OnAnalogPinNodePressed);
+			drawingareaMCU.ExposeEvent += DrawMCU;
+			cbBoardType1.Changed += OnCbBoardTypeChanged;
+			cbAREF1.Changed += OnCbAREFChanged;
+			con.Configuration.OnBoardUpdated += RefreshMCUInfos;
 
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
@@ -188,12 +149,12 @@ namespace Frontend
 				var AddCombination = new ImageMenuItem ("Add Combination...");
 				var EditCombination = new ImageMenuItem ("Edit Combination...");
 
-				AddPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
-				EditPin.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
-				RemovePin.Image = new Image (Gtk.Stock.Remove, IconSize.Menu);
-				ClearPins.Image = new Image (Gtk.Stock.Clear, IconSize.Menu);
-				AddCombination.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
-				EditCombination.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
+				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
+				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
+				AddCombination.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				EditCombination.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
 
 				if (pin == null)
 				{
@@ -250,12 +211,12 @@ namespace Frontend
 				var AddSequence = new ImageMenuItem ("Add Sequence...");
 				var EditSequence = new ImageMenuItem ("Edit Sequence...");
 
-				AddPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
-				EditPin.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
-				RemovePin.Image = new Image (Gtk.Stock.Remove, IconSize.Menu);
-				ClearPins.Image = new Image (Gtk.Stock.Clear, IconSize.Menu);
-				AddSequence.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
-				EditSequence.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
+				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
+				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
+				AddSequence.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				EditSequence.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
 
 				if (pin == null)
 				{
@@ -311,10 +272,10 @@ namespace Frontend
 				var RemovePin = new ImageMenuItem ("Remove MeasurementCombination");
 				var ClearPins = new ImageMenuItem ("Clear MeasurementCombination");
 
-				AddPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
-				EditPin.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
-				RemovePin.Image = new Image (Gtk.Stock.Remove, IconSize.Menu);
-				ClearPins.Image = new Image (Gtk.Stock.Clear, IconSize.Menu);
+				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
+				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
 
 				if (pin == null)
 				{
@@ -351,10 +312,10 @@ namespace Frontend
 				var RemovePin = new ImageMenuItem ("Remove Sequence");
 				var ClearPins = new ImageMenuItem ("Clear Sequence");
 
-				AddPin.Image = new Image (Gtk.Stock.Add, IconSize.Menu);
-				EditPin.Image = new Image (Gtk.Stock.Edit, IconSize.Menu);
-				RemovePin.Image = new Image (Gtk.Stock.Remove, IconSize.Menu);
-				ClearPins.Image = new Image (Gtk.Stock.Clear, IconSize.Menu);
+				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
+				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
 
 				if (pin == null)
 				{
@@ -514,7 +475,7 @@ namespace Frontend
 						YAxisKey = seq.Pin.ToString (),
 						ItemsSource = followupData,
 						StrokeThickness = 2,
-						LineStyle = LineStyle.Dash,
+						LineStyle = OxyPlot.LineStyle.Dash,
 						Color = ColorHelper.GdkColorToOxyColor (seq.Color),
 					};
 
@@ -595,6 +556,18 @@ namespace Frontend
 
 		#region BuildElements
 
+		private void BuildMCUDisplay ()
+		{
+			//Update BoardList
+			var store = new ListStore (typeof(string));
+			foreach (Board b in con.BoardConfigs)
+			{
+				store.AppendValues (new object[]{ b.Name });
+			}
+			cbBoardType1.Model = store;
+			cbBoardType1.Show ();
+		}
+
 		private void BindControllerEvents ()
 		{
 			con.Configuration.OnPinsUpdated += (o, a) =>
@@ -626,17 +599,6 @@ namespace Frontend
 			con.OnControllerStarted += (o, a) => LockControlls (false);
 			con.OnControllerStoped += (o, a) => LockControlls (true);
 
-			con.OnOnfigurationLoaded += (o, a) =>
-			{
-				mcuW.Select (con.Configuration.Board.MCU);
-				mcuW.SelectAREF (con.Configuration.Board.AnalogReferenceVoltageType);
-				mcuW.SetAREF (con.Configuration.Board.AnalogReferenceVoltage);
-			};
-		}
-
-		private void BuildMCUWidget ()
-		{
-			mcuW.Boards = con.BoardConfigs;
 		}
 
 		private void BuildNodeViews ()
@@ -831,9 +793,9 @@ namespace Frontend
 					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("g"));
 				},
 				MajorGridlineThickness = 1,
-				MajorGridlineStyle = LineStyle.Solid,
+				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 				MinorGridlineColor = OxyColors.LightGray,
-				MinorGridlineStyle = LineStyle.Dot,
+				MinorGridlineStyle = OxyPlot.LineStyle.Dot,
 				MinorGridlineThickness = .5,
 			};
 
@@ -882,9 +844,9 @@ namespace Frontend
 					return string.Format ("{0}", DateTime.FromOADate (x).ToString ("g"));
 				},
 				MajorGridlineThickness = 1,
-				MajorGridlineStyle = LineStyle.Solid,
+				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 				MinorGridlineColor = OxyColors.LightGray,
-				MinorGridlineStyle = LineStyle.Dot,
+				MinorGridlineStyle = OxyPlot.LineStyle.Dot,
 				MinorGridlineThickness = .5,
 				MinorStep = TimeSpan.FromSeconds (1).Ticks,
 //				MajorStep = TimeSpan.FromSeconds (30).Ticks
@@ -895,9 +857,9 @@ namespace Frontend
 				IsPanEnabled = false,
 				IsZoomEnabled = false,
 				MajorGridlineThickness = 1,
-				MajorGridlineStyle = LineStyle.Solid,
+				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 				MinorGridlineColor = OxyColors.LightGray,
-				MinorGridlineStyle = LineStyle.Dot,
+				MinorGridlineStyle = OxyPlot.LineStyle.Dot,
 				MinorGridlineThickness = .5,
 			};
 
@@ -926,6 +888,127 @@ namespace Frontend
 		#endregion
 
 		#region Events
+
+		private void RefreshMCUInfos (object sender, EventArgs e)
+		{
+			cbBoardType1.Active = con.BoardConfigs.ToList ()
+				.IndexOf (con.BoardConfigs.ToList ()
+					.Single (o => o.MCU == con.Configuration.Board.MCU)
+			);
+		}
+
+		protected void OnCbBoardTypeChanged (object sender, EventArgs e)
+		{
+			//TODO englisch prüfen
+			if (LastActiveBoard != cbBoardType1.Active && LastActiveBoard != -1)
+			{
+				//TODO auf unterschied prüfen. sonst ignorieren
+				var dialog = new MessageDialog (this.Toplevel as Gtk.Window, DialogFlags.Modal, MessageType.Info, ButtonsType.YesNo,
+					             "The Board Type was changed. If you procede parts of your configuration could get lost, due to incompatibility with the new Board Type.\n Do you wish to procede?");
+				dialog.Response += (o, args) =>
+				{
+					if (args.ResponseId == ResponseType.Yes)
+					{
+						LastActiveBoard = cbBoardType1.Active;
+						con.Configuration.Board = con.BoardConfigs [cbBoardType1.Active];
+						UpdateAREFList ();
+					} else
+					{
+						cbBoardType1.Active = LastActiveBoard;
+					}
+				};
+				dialog.Run ();
+				dialog.Destroy ();
+			} else
+			{
+				LastActiveBoard = cbBoardType1.Active;
+				con.Configuration.Board = con.BoardConfigs [cbBoardType1.Active];
+				UpdateAREFList ();
+			}
+
+			drawingareaMCU.QueueDraw ();
+		}
+
+		private void UpdateAREFList ()
+		{
+			if (con.Configuration.Board != null)
+			{
+				var store = new ListStore (typeof(string));
+
+				foreach (string key in con.Configuration.Board.AnalogReferences.Keys)
+				{
+					store.AppendValues (new object[]{ key });
+				}
+
+				cbAREF1.Model = store;
+
+				if (con.Configuration.Board.AnalogReferenceVoltage != -1 &&
+				    con.Configuration.Board.AnalogReferences.ContainsValue (con.Configuration.Board.AnalogReferenceVoltage))
+				{
+					int index = con.Configuration.Board.AnalogReferences.Values.ToList ()
+						.IndexOf (con.Configuration.Board.AnalogReferenceVoltage);
+
+					cbAREF1.Active = index;
+				}
+
+				cbAREF1.Show ();
+			}
+		}
+
+		protected void OnCbAREFChanged (object sender, EventArgs e)
+		{
+			if (cbAREF1.ActiveText == "EXTERNAL")
+			{
+				sbAREFExternal1.Sensitive = true;
+			} else
+			{
+				sbAREFExternal1.Sensitive = false;
+			}
+			if (con.Configuration.Board != null)
+			{
+				if (!sbAREFExternal1.Sensitive)
+				{
+					con.Configuration.Board.AnalogReferenceVoltage = con.Configuration.Board.AnalogReferences.ElementAt (cbAREF1.Active).Value;
+					sbAREFExternal1.Value = con.Configuration.Board.AnalogReferenceVoltage;
+				} else
+				{
+					con.Configuration.Board.AnalogReferenceVoltage = sbAREFExternal1.Value;
+				}
+			}
+		}
+
+		protected void OnConnection (object sender, ConnectionChangedArgs e)
+		{
+			if (e.Connected)
+			{
+				lblConnectionStatus.Text = "connected to " + e.Port;
+				autoConnectAction.Sensitive = false;
+				mediaPlayAction.Sensitive = true;
+				mediaStopAction.Sensitive = true;
+
+				try
+				{
+					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
+				} catch (Exception ex)
+				{
+					con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
+				}
+			} else
+			{
+				lblConnectionStatus.Text = "<b>NOT</b> connected";
+				lblConnectionStatus.UseMarkup = true;
+				autoConnectAction.Sensitive = true;
+				mediaPlayAction.Sensitive = false;
+				mediaStopAction.Sensitive = false;
+				try
+				{
+					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
+				} catch (Exception ex)
+				{
+					con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
+				}
+			}
+		}
 
 		protected void OnDeleteEvent (object obj, DeleteEventArgs a)
 		{
@@ -1252,6 +1335,64 @@ namespace Frontend
 
 		#endregion
 
+		#region Drawing
+
+		void DrawMCU (object o, ExposeEventArgs args)
+		{
+			var context = CairoHelper.Create (this.drawingareaMCU.GdkWindow);
+			context.SetSource (Compose ());
+			context.Paint ();
+			var MCUImage = MCUSurface ();
+			context.SetSource (
+				MCUImage,
+				this.drawingareaMCU.Allocation.Width / 2 - MCUImage.Width / 2,
+				this.drawingareaMCU.Allocation.Height / 3 - MCUImage.Height / 2
+			);
+			context.Paint ();
+			SetSizeRequest (MCUImage.Width, MCUImage.Height + 200);
+		}
+
+		private Cairo.ImageSurface  Compose (params Pixbuf[] Bufs)
+		{
+			var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, 100, 100);
+
+			return surf;
+		}
+
+		protected Cairo.ImageSurface MCUSurface ()
+		{
+//			#if !WIN
+			if (con.Configuration.Board.ImageFilePath != null && System.IO.File.Exists (con.Configuration.Board.ImageFilePath))
+			{
+				if (!con.Configuration.Board.ImageFilePath.Equals (string.Empty))
+				{
+					try
+					{
+						var MCUImage = new Rsvg.Handle (con.Configuration.Board.ImageFilePath);
+						var buf = MCUImage.Pixbuf;
+						var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, buf.Width, buf.Height);
+						var context = new Cairo.Context (surf);
+
+						MCUImage.RenderCairo (context);
+						return surf;
+					} catch (Exception ex)
+					{
+						Console.Error.WriteLine (ex);
+					}
+				}
+			}
+//			#endif
+			return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
+
+		}
+
+		private Cairo.ImageSurface MCULabelLeft ()
+		{
+			return new Cairo.ImageSurface (Cairo.Format.ARGB32, 0, 0);
+		}
+
+		#endregion
+
 		#region RunDialogs
 
 		private void RunAPinClear ()
@@ -1432,25 +1573,6 @@ namespace Frontend
 			dialog.Destroy ();
 		}
 
-		protected void RunMCUMessageDialog (object sender = null, EventArgs e = null)
-		{
-			var dialog = new MessageDialog (
-				             this,
-				             DialogFlags.Modal,
-				             MessageType.Info,
-				             ButtonsType.YesNo,
-				             "Apparently a connection was established to a Board, which does not meet the selected Board by you.\nDo you want to replace you selection with the connected Board?");
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Yes)
-				{
-					mcuW.Select (ArduinoController.MCU);
-				}
-			};
-			dialog.Run ();
-			dialog.Destroy ();
-		}
-
 		protected  void RunPreferencesDialog (object sender = null, EventArgs e = null)
 		{
 			var dialog = new PreferencesDialog.PreferencesDialog ();
@@ -1590,19 +1712,19 @@ namespace Frontend
 				for (int j = 0; j < 100; j++)
 				{
 
-					seq1.Chain.Add (new SequenceOperation () {
+					seq1.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.HIGH
 					});
-					seq1.Chain.Add (new SequenceOperation () {
+					seq1.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.LOW
 					});
-					seq2.Chain.Add (new SequenceOperation () {
+					seq2.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.LOW
 					});
-					seq2.Chain.Add (new SequenceOperation () {
+					seq2.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.HIGH
 					});
@@ -1627,18 +1749,18 @@ namespace Frontend
 					Pin = (DPin)con.Configuration.Pins [i],
 					Repetitions = 0,
 				};
-				seq.Chain.Add (new SequenceOperation () {
+				seq.AddSequenceOperation (new SequenceOperation () {
 					Duration = TimeSpan.FromSeconds (i / 100.0),
 					State = DPinState.LOW
 				});
 
 				for (int j = 0; j < 100; j++)
 				{
-					seq.Chain.Add (new SequenceOperation () {
+					seq.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromSeconds (con.Configuration.Pins.Count / 100.0),
 						State = DPinState.HIGH
 					});
-					seq.Chain.Add (new SequenceOperation () {
+					seq.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromSeconds (con.Configuration.Pins.Count / 100.0),
 						State = DPinState.LOW
 					});
@@ -1671,19 +1793,19 @@ namespace Frontend
 				for (int j = 0; j < 1; j++)
 				{
 
-					seq1.Chain.Add (new SequenceOperation () {
+					seq1.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.HIGH
 					});
-					seq1.Chain.Add (new SequenceOperation () {
+					seq1.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.LOW
 					});
-					seq2.Chain.Add (new SequenceOperation () {
+					seq2.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.LOW
 					});
-					seq2.Chain.Add (new SequenceOperation () {
+					seq2.AddSequenceOperation (new SequenceOperation () {
 						Duration = TimeSpan.FromMilliseconds (1000),
 						State = DPinState.HIGH
 					});
@@ -1709,11 +1831,11 @@ namespace Frontend
 					Repetitions = -1,
 				};
 
-				seq.Chain.Add (new SequenceOperation () {
+				seq.AddSequenceOperation (new SequenceOperation () {
 					Duration = TimeSpan.FromSeconds (i / 100.0),
 					State = DPinState.LOW
 				});
-				seq.Chain.Add (new SequenceOperation () {
+				seq.AddSequenceOperation (new SequenceOperation () {
 					Duration = TimeSpan.FromSeconds (.2),
 					State = DPinState.HIGH
 				});
@@ -1721,7 +1843,7 @@ namespace Frontend
 //					Duration = TimeSpan.FromSeconds (.2),
 //					State = DPinState.LOW
 //				});
-				seq.Chain.Add (new SequenceOperation () {
+				seq.AddSequenceOperation (new SequenceOperation () {
 					Duration = TimeSpan.FromSeconds (.2 * (1 - (i / 100.0))),
 					State = DPinState.LOW
 				});
@@ -1774,6 +1896,23 @@ namespace Frontend
 			FillSequenceNodes ();
 			FillSequencePreviewPlot ();
 			FillMeasurementCombinationNodes ();
+		}
+
+		protected void OnButton1125Clicked (object sender, EventArgs e)
+		{
+
+			ArduinoController.SetPinModes (
+				new uint[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 },
+				new uint[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }
+			);
+
+			while (true)
+			{
+				ArduinoController.SetDigitalOutputPins (43690);
+				System.Threading.Thread.Sleep (100);
+				ArduinoController.SetDigitalOutputPins (21845);
+				System.Threading.Thread.Sleep (100);
+			}
 		}
 
 		#endregion
@@ -1845,41 +1984,6 @@ namespace Frontend
 		protected void OnPreferencesActionActivated (object sender, EventArgs e)
 		{
 			RunPreferencesDialog ();
-		}
-
-		protected void OnButton1125Clicked (object sender, EventArgs e)
-		{
-
-			ArduinoController.SetPinModes (
-				new uint[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 },
-				new uint[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }
-			);
-
-//			UInt64 conditions = 0;
-//			for (int runs = 0; runs < 60; runs++)
-//			{
-//				for (int i = 0; i < ArduinoController.NumberOfDigitalPins; i++)
-//				{
-//					if (((conditions >> i) & 0x1) == 1)
-//					{
-//						conditions &= (UInt64)~(0x1 << i);
-//					} else
-//					{
-//						conditions	|= (UInt64)(0x1 << i);
-//					}
-//					ArduinoController.SetDigitalOutputPins (conditions);
-//					System.Threading.Thread.Sleep (500);
-//				}
-//			}
-
-//			for (int runs = 0; runs < 10; runs++)
-			while (true)
-			{
-				ArduinoController.SetDigitalOutputPins (43690);
-				System.Threading.Thread.Sleep (100);
-				ArduinoController.SetDigitalOutputPins (21845);
-				System.Threading.Thread.Sleep (100);
-			}
 		}
 
 		#endregion

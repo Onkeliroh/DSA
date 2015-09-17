@@ -112,6 +112,12 @@ namespace PrototypeTests
 			seq.Reset ();
 			Assert.AreEqual (0, seq.Cycle);
 		}
+
+		[Test]
+		public void GetCurrentStateTest ()
+		{
+					
+		}
 	}
 }
 

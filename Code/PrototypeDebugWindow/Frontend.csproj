@@ -50,6 +50,8 @@
     <Reference Include="OxyPlot.GtkSharp">
       <HintPath>..\Prototype\packages\OxyPlot.GtkSharp.2014.1.546\lib\net40\OxyPlot.GtkSharp.dll</HintPath>
     </Reference>
+    <Reference Include="rsvg2-sharp, Version=2.18.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Mono.Cairo" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,10 +77,6 @@
     <ProjectReference Include="..\Logger\Logger.csproj">
       <Project>{DAF25932-C4D6-4619-BDA6-9CF7D8684340}</Project>
       <Name>Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MCUWidget\MCUWidget.csproj">
-      <Project>{F22CE198-8197-4031-9583-F7CCB7F147F2}</Project>
-      <Name>MCUWidget</Name>
     </ProjectReference>
     <ProjectReference Include="..\PrototypeBackend\Backend.csproj">
       <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>

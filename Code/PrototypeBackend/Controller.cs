@@ -22,18 +22,19 @@ namespace PrototypeBackend
 
 		//		private Thread sequenceThread;
 
-		private List<Thread> sequenceThreads = new List<Thread> ();
 		private List<System.Timers.Timer> measurementTimers = new List<System.Timers.Timer> ();
 
 		public BoardConfiguration Configuration;
 
 		public DateTime StartTime;
+		private Stopwatch KeeperOfTime;
+		private System.Timers.Timer SequencesTimer;
 
 		public TimeSpan TimePassed { 
 			get {
-				if (TimeKeeper != null)
+				if (KeeperOfTime != null)
 				{
-					return TimeKeeper.Elapsed;
+					return KeeperOfTime.Elapsed;
 				} else
 				{
 					return new TimeSpan (0);
@@ -42,7 +43,6 @@ namespace PrototypeBackend
 			private set{ }
 		}
 
-		private Stopwatch TimeKeeper;
 
 		public Board[] BoardConfigs;
 
@@ -127,8 +127,6 @@ namespace PrototypeBackend
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.Seq + " to " + e.Seq);
 				else
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.Seq);
-
-				BuildSequenceList ();
 			};
 			Configuration.OnSignalsUpdated += (o, e) =>
 			{
@@ -140,7 +138,10 @@ namespace PrototypeBackend
 
 //			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
 
-			TimeKeeper = new Stopwatch ();
+			KeeperOfTime = new Stopwatch ();
+
+			SequencesTimer = new System.Timers.Timer (10);
+			SequencesTimer.Elapsed += OnSequenceTimeElapsed;
 		}
 
 		~Controller ()
@@ -155,10 +156,9 @@ namespace PrototypeBackend
 		{
 			running = false;
 
-			sequenceThreads.Clear ();
-
 			ConLogger.Stop ();
-			TimeKeeper.Stop ();
+			SequencesTimer.Stop ();
+			KeeperOfTime.Stop ();
 		}
 
 		/// <summary>
@@ -169,7 +169,8 @@ namespace PrototypeBackend
 			running = false;
 
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
-			TimeKeeper.Stop ();
+			SequencesTimer.Stop ();
+			KeeperOfTime.Stop ();
 
 			if (OnControllerStoped != null)
 			{
@@ -179,18 +180,20 @@ namespace PrototypeBackend
 
 		public void Start ()
 		{
-			TimeKeeper.Restart ();
+			KeeperOfTime.Restart ();
 
 			running = true;
 
 			ArduinoController.SetPinModes (Configuration.AnalogPins.Select (o => o.DigitalNumber).ToArray<uint> (), Configuration.DigitalPins.Select (o => o.Number).ToArray<uint> ());
-			BuildSequenceList ();
 			MeasurementPreProcessing ();
+
 			StartTime = DateTime.Now;
-			sequenceThreads.ForEach (o => o.Start ());
+			SequencesTimer.Start ();
+
 			measurementTimers.ForEach (o => o.Start ());
+
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
-			ConLogger.Log ("Start took: " + TimeKeeper.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
+			ConLogger.Log ("Start took: " + KeeperOfTime.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 
 			if (OnControllerStarted != null)
 			{
@@ -198,117 +201,108 @@ namespace PrototypeBackend
 			}
 		}
 
-		private void BuildSequenceList ()
+		private void OnSequenceTimeElapsed (object sender, System.Timers.ElapsedEventArgs args)
 		{
-			sequenceThreads.Clear ();
-			GC.Collect ();
+			double time = KeeperOfTime.ElapsedMilliseconds;
+
+			UInt64 condition = 0x0;
+
 			foreach (Sequence seq in Configuration.Sequences)
 			{
-				var seqThread = new Thread (
-					                () =>
-					{
-						Stopwatch sw = new Stopwatch ();
-						sw.Start ();
-
-						uint pin = seq.Pin.Number;
-						PinMode mode = seq.Pin.Mode;
-						var op = seq.Current ();
-						while (seq.CurrentState != SequenceState.Done && running && op != null)
-						{
-							ArduinoController.SetPinState (pin, ((SequenceOperation)op).State);
-							Thread.Sleep (((SequenceOperation)op).Duration);
-							op = seq.Next ();
-						}	
-						seq.Reset ();
-					});
-				seqThread.Priority = ThreadPriority.Highest;
-				seqThread.Name = seq.Name + "(" + seq.Pin + ")";
-				sequenceThreads.Add (seqThread);
+				if (seq.GetCurrentState (time) == DPinState.HIGH)
+				{
+					condition |= Convert.ToUInt64 ((int)0x1 << (int)seq.Pin.Number);
+				}
 			}
+
+			ArduinoController.SetDigitalOutputPins (condition);
 		}
 
 		//Version1
 		private void MeasurementPreProcessing ()
 		{
-
-			#region Build Logger
-			//build logger
-			var logger = new CSVLogger (
-				             string.Format (
-					             "{0}_{1}.csv", 
-					             DateTime.Now.ToShortTimeString (), 
-					             "csv"),
-				             true, 
-				             false,
-				             Configuration.LogFilePath
-			             );
-			logger.Mapping = CreateMapping ();
-			logger.DateTimeFormat = "{0:mm:ss.ffff}"; 
-			logger.FileName = 
-				"/home/onkeliroh/Bachelorarbeit/Resources/Logs/" +
-			string.Format ("{0}_{1}.csv", DateTime.Now.ToShortTimeString (), "csv");
-			logger.WriteHeader (logger.Mapping.Keys.ToList<string> ());
-			logger.Start ();
-			#endregion
-
-			//remove old timer
-			measurementTimers.ForEach (o => o.Dispose ());
-			measurementTimers.Clear ();
-
-			var list = new List<APin> ();
-			list = Configuration.AnalogPins.OrderBy (o => o.Period).ToList<APin> ();
-			var comblist = new List<MeasurementCombination> ();
-			comblist = Configuration.MeasurementCombinations;
-
-			while (list.Count > 0)
+			if (Configuration.AnalogPins.Count > 0)
 			{
-				//take every pin with the same period as the first one
-				var query = list.Where (o => o.Period == list.First ().Period).ToList<APin> ();
-				var combquery = comblist.Where (o => o.Period == query.First ().Period).ToList<MeasurementCombination> ();
 
-				if (query.Count > 0)
+				#region Build Logger
+				//build logger
+				var logger = new CSVLogger (
+					             string.Format (
+						             "{0}_{1}.csv", 
+						             DateTime.Now.ToShortTimeString (), 
+						             "csv"),
+					             true, 
+					             false,
+					             Configuration.LogFilePath
+				             );
+				logger.Mapping = CreateMapping ();
+				logger.DateTimeFormat = "{0:mm:ss.ffff}"; 
+				logger.FileName = 
+				"/home/onkeliroh/Bachelorarbeit/Resources/Logs/" +
+				string.Format ("{0}_{1}.csv", DateTime.Now.ToShortTimeString (), "csv");
+				logger.WriteHeader (logger.Mapping.Keys.ToList<string> ());
+				logger.Start ();
+				#endregion
+
+				//remove old timer
+				measurementTimers.ForEach (o => o.Dispose ());
+				measurementTimers.Clear ();
+
+				var list = new List<APin> ();
+				list = Configuration.AnalogPins.OrderBy (o => o.Period).ToList<APin> ();
+				var comblist = new List<MeasurementCombination> ();
+				comblist = Configuration.MeasurementCombinations;
+
+				while (list.Count > 0)
 				{
-					//remove every pin with as certain period. so that it can not be added again
-					list.RemoveAll (o => o.Period == query.First ().Period);
-					comblist.RemoveAll (o => o.Period == query.First ().Period);
+					//take every pin with the same period as the first one
+					var query = list.Where (o => o.Period == list.First ().Period).ToList<APin> ();
+					var combquery = comblist.Where (o => o.Period == query.First ().Period).ToList<MeasurementCombination> ();
 
-					var timer = new System.Timers.Timer (query.First ().Period);
-					timer.Elapsed += (o, e) =>
+					if (query.Count > 0)
 					{
-						//as long as running is true: collect data. otherwise go to sleep
-						if (running)
+						//remove every pin with as certain period. so that it can not be added again
+						list.RemoveAll (o => o.Period == query.First ().Period);
+						comblist.RemoveAll (o => o.Period == query.First ().Period);
+
+						var timer = new System.Timers.Timer (query.First ().Period);
+						timer.Elapsed += (o, e) =>
 						{
-							var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.Number).ToArray<uint> ());
-
-							//in order to append to all values the same time stamp, otherwise every individual timestamp would be a little bit of
-							var now = DateTime.Now; //what time is it?
-
-							for (int i = 0; i < vals.Length; i++)
+							//as long as running is true: collect data. otherwise go to sleep
+							if (running)
 							{
-								//add values, scaled to the AREF to their pin
-								query [i].Value = new DateTimeValue () {
-									Value = Configuration.Board.RAWToVolt (vals [i]),
-									Time = now 
-								};
+								var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.Number).ToArray<uint> ());
+
+								//in order to append to all values the same time stamp, otherwise every individual timestamp would be a little bit of
+								var now = DateTime.Now; //what time is it?
+
+								for (int i = 0; i < vals.Length; i++)
+								{
+									//add values, scaled to the AREF to their pin
+									query [i].Value = new DateTimeValue () {
+										Value = Configuration.Board.RAWToVolt (vals [i]),
+										Time = now 
+									};
+								}
+
+								//pass values to logger
+								var keys = new List<string> ();
+								keys.AddRange (query.Select (x => x.DisplayName));
+								keys.AddRange (combquery.Select (x => x.DisplayName));
+
+								var values = new List<DateTimeValue> ();
+								values.AddRange (query.Select (x => x.Value));
+								values.AddRange (combquery.Select (x => x.Value));
+
+								logger.Log (keys, values);
+							} else
+							{
+								logger.Stop ();
+								(o as System.Timers.Timer).Stop ();
 							}
-
-							//pass values to logger
-							var keys = new List<string> ();
-							keys.AddRange (query.Select (x => x.DisplayName));
-							keys.AddRange (combquery.Select (x => x.DisplayName));
-
-							var values = new List<DateTimeValue> ();
-							values.AddRange (query.Select (x => x.Value));
-							values.AddRange (combquery.Select (x => x.Value));
-
-							logger.Log (keys, values);
-						} else
-						{
-							logger.Stop ();
-							(o as System.Timers.Timer).Stop ();
-						}
-					};
-					measurementTimers.Add (timer);
+						};
+						measurementTimers.Add (timer);
+					}
 				}
 			}
 		}
@@ -338,7 +332,11 @@ namespace PrototypeBackend
 			return dict;
 		}
 
-
+		/// <summary>
+		/// Saves the configuration.
+		/// </summary>
+		/// <returns><c>true</c>, if configuration was saved, <c>false</c> otherwise.</returns>
+		/// <param name="path">Path.</param>
 		public bool SaveConfiguration (string path = null)
 		{
 			try
@@ -359,6 +357,11 @@ namespace PrototypeBackend
 			return true;
 		}
 
+		/// <summary>
+		/// Opens the configuration.
+		/// </summary>
+		/// <returns><c>true</c>, if configuration was opened, <c>false</c> otherwise.</returns>
+		/// <param name="path">Path.</param>
 		public bool OpenConfiguration (string path)
 		{
 			try

@@ -69,7 +69,11 @@ namespace PrototypeBackend
 		/// <param name="starttime">Time after the last operation or start</param>
 		public void AddSequenceOperation (DPinState dps, TimeSpan duration)
 		{
-			Chain.Add (new SequenceOperation (){ State = dps, Duration = duration });
+			Chain.Add (new SequenceOperation () {
+				State = dps,
+				Duration = duration,
+				Moment = new TimeSpan (Chain.Sum (o => o.Duration.Ticks))
+			});
 		}
 
 		/// <summary>
@@ -78,12 +82,20 @@ namespace PrototypeBackend
 		/// <param name="seqop">Sequenceoperation to be added</param>
 		public void AddSequenceOperation (SequenceOperation seqop)
 		{
+			seqop.Moment = new TimeSpan (Chain.Sum (o => o.Duration.Ticks));
 			Chain.Add (seqop);
 		}
 
+		/// <summary>
+		/// Adds the sequence operation range.
+		/// </summary>
+		/// <param name="seqops">Seqops.</param>
 		public void AddSequenceOperationRange (SequenceOperation[] seqops)
 		{
-			Chain.AddRange (seqops);
+			for (int i = 0; i < seqops.Length; i++)
+			{
+				AddSequenceOperation (seqops [i]);
+			}
 		}
 
 		/// <summary>
@@ -107,12 +119,15 @@ namespace PrototypeBackend
 		public SequenceOperation? Next ()
 		{
 			CurrentOperation += 1;
+
+			//one cycle is finished -> start new cycle
 			if (CurrentOperation == Chain.Count)
 			{
 				CurrentOperation = 0;
 				Cycle += 1;
 			}
 
+			//if sequence is done
 			if (CurrentState == SequenceState.Done || ((Cycle > Repetitions || Chain.Count == 0) && Repetitions != -1))
 			{
 				CurrentState = SequenceState.Done;
@@ -139,6 +154,44 @@ namespace PrototypeBackend
 			{
 				return null;
 			}
+		}
+
+		public DPinState GetCurrentState (double milli)
+		{
+			int multiplier = 1;
+			if (milli > Runtime.TotalMilliseconds)
+			{
+				multiplier = (int)(System.Math.Floor (milli / Runtime.TotalMilliseconds));
+				milli -= multiplier * Runtime.TotalMilliseconds;
+			}
+ 			
+			SequenceOperation op = new SequenceOperation ();
+			if (Chain.Count > 0)
+			{
+				if (multiplier > Repetitions && Repetitions != -1)
+				{
+					return Chain.Last ().State;
+				}
+
+				op = Chain [0];
+				foreach (SequenceOperation seqop in Chain)
+				{
+					if (seqop.Moment.TotalMilliseconds == milli)
+					{
+						return seqop.State;
+					}
+					if (seqop.Moment.TotalMilliseconds < milli)
+					{
+						if ((milli - seqop.Moment.TotalMilliseconds) < (milli - op.Moment.TotalMilliseconds))
+						{
+							op = seqop;	
+						}
+
+					}
+				}
+				return op.State;
+			}
+			return DPinState.LOW;
 		}
 
 		public override string ToString ()
