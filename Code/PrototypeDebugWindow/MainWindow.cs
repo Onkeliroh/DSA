@@ -1555,7 +1555,7 @@ namespace Frontend
 
 		private void RunMeasurementCombinationDialog (MeasurementCombination sig = null, APin refPin = null)
 		{
-			var dialog = new SignalConfigurationDialog.MeasurementCombinationDialog (con.Configuration.GetPinsWithoutCombinations (), sig, refPin, this);
+			var dialog = new MeasurementCombinationDialog.MeasurementCombinationDialog (con.Configuration.GetPinsWithoutCombinations (), sig, refPin, this);
 			dialog.Response += (o, args) =>
 			{
 				if (args.ResponseId == ResponseType.Apply)

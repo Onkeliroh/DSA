@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
+using Cairo;
 using PrototypeBackend;
 using Gtk;
 using GUIHelper;
 using System.Text.RegularExpressions;
+using Gdk;
 
-namespace SignalConfigurationDialog
+namespace MeasurementCombinationDialog
 {
 	public partial class MeasurementCombinationDialog : Gtk.Dialog
 	{
@@ -24,7 +26,7 @@ namespace SignalConfigurationDialog
 				{
 					cbeUnit.InsertText (0, value.Unit);
 					cbeUnit.Active = 0;
-				}
+				} 
 					
 				Combination_ = value;
 			}
@@ -38,9 +40,11 @@ namespace SignalConfigurationDialog
 
 		private Gtk.NodeStore SignalStore = new NodeStore (typeof(APinSignalDialogTreeNode));
 
+		private string HintList = "";
+
 		#endregion
 
-		public MeasurementCombinationDialog (APin[] pins, MeasurementCombination signal = null, APin pin = null, Gtk.Window parent = null)
+		public MeasurementCombinationDialog (APin[] pins, MeasurementCombination signal = null, APin pin = null, Gtk.Window parent = null, string[] units = null)
 			: base ("Signal Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
@@ -60,9 +64,15 @@ namespace SignalConfigurationDialog
 				Combination_.AddPin (pin);
 			}
 
+
+			BuildUnits (units);
 			SetupNodeView ();
 			DrawNodeView ();
 			UpdateCBPins ();
+			SetApplyButton ();
+
+			entryOperation.Activated += (sender, e) => CompileOperation ();
+			entryOperation.FocusOutEvent += (o, args) => CompileOperation ();
 		}
 
 		private void SetupNodeView ()
@@ -123,6 +133,20 @@ namespace SignalConfigurationDialog
 			cbPins.ShowAll ();
 		}
 
+		private void BuildUnits (string[] units)
+		{
+			if (units != null)
+			{
+				for (int i = 0; i < units.Length; i++)
+				{
+					if (!cbeUnit.Data.Contains (units [i]))
+					{
+						cbeUnit.AppendText (units [i]);
+					}
+				}
+			}
+		}
+
 		private void AddPin ()
 		{
 			//if one item is selected
@@ -139,6 +163,8 @@ namespace SignalConfigurationDialog
 			UpdateCBPins ();
 
 			DrawNodeView ();
+
+			SetApplyButton ();
 		}
 
 		private bool CheckMeasurementsOnFrequency ()
@@ -178,33 +204,44 @@ namespace SignalConfigurationDialog
 			} catch (Exception ex)
 			{
 				Console.Error.WriteLine (ex);
-
-//				entryOperation.Style.RenderIcon (Gtk.Stock.DialogWarning,
-//					TextDirection.Ltr, StateType.Normal, IconSize.SmallToolbar, entryOperation, "");
-
 			}
 			if (Combination_.Operation == null)
 			{
-				entryOperation.ExposeEvent += DrawIconOnEntryOperation;
+				imageOperation.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-warning", global::Gtk.IconSize.Menu);
 
-				entryOperation.Show ();
 			} else
 			{
 				Combination_.OperationString = entryOperation.Text;
-
-				entryOperation.ExposeEvent -= DrawIconOnEntryOperation;
+				imageOperation.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-apply", global::Gtk.IconSize.Menu);
 			}
+			SetApplyButton ();
 		}
 
-		private void DrawIconOnEntryOperation (object o, ExposeEventArgs args)
+		private void SetApplyButton ()
 		{
-			var bg = entryOperation.RenderIcon (Gtk.Stock.DialogWarning, IconSize.SmallToolbar, "");
-			Gdk.Pixmap map;
-			Gdk.Pixmap othermap;
-			bg.RenderPixmapAndMask (out map, out othermap, 1);
-			entryOperation.Style.SetBgPixmap (StateType.Normal, map);
-		}
+			bool sensitive = false;
+			string hint = "";
+			if (Combination_.Pins.Count != 0)
+			{
+				sensitive = true;
+			} else
+			{
+				hint += "- Please select at least one measurement signal\n";
+				sensitive = false;
+			}
 
+			if (Combination_.Operation != null)
+			{
+				sensitive = true;
+			} else
+			{
+				hint += "- Please enter a valid operation\n";
+				sensitive = false;
+			}
+
+			buttonOk.Sensitive = sensitive;
+			buttonOk.TooltipText = hint;
+		}
 
 		#region On...Stuff
 
@@ -215,13 +252,14 @@ namespace SignalConfigurationDialog
 			{
 				Menu m = new Menu ();
 
-				MenuItem deleteItem = new MenuItem ("Delete this SequenceOperation");
+				MenuItem deleteItem = new MenuItem ("Delete this measurementsignal");
 				deleteItem.ButtonPressEvent += (obj, e) =>
 				{
 					APinSignalDialogTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as APinSignalDialogTreeNode);
 					Combination.Pins.RemoveAt (node.Index);
 					DrawNodeView ();
 					UpdateCBPins ();
+					SetApplyButton ();
 				};
 				m.Add (deleteItem);
 				m.ShowAll ();
@@ -269,6 +307,7 @@ namespace SignalConfigurationDialog
 				DrawNodeView ();
 			}
 			UpdateCBPins ();
+			SetApplyButton ();
 		}
 
 		protected void OnEntryNameChanged (object sender, EventArgs e)
