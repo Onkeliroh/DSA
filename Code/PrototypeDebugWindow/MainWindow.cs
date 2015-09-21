@@ -1575,7 +1575,7 @@ namespace Frontend
 
 		protected  void RunPreferencesDialog (object sender = null, EventArgs e = null)
 		{
-			var dialog = new PreferencesDialog.PreferencesDialog ();
+			var dialog = new PrototypeDebugWindow.PreferencesDialog (this, null);
 			dialog.Run ();
 			dialog.Destroy ();
 		}

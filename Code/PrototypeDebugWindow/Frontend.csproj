@@ -58,6 +58,8 @@
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="gtk-gui\Frontend.MainWindow.cs" />
+    <Compile Include="PreferencesDialog.cs" />
+    <Compile Include="gtk-gui\PrototypeDebugWindow.PreferencesDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -89,10 +91,6 @@
     <ProjectReference Include="..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj">
       <Project>{FFC2AF04-F784-438D-83A2-6467A27248E0}</Project>
       <Name>MeasurmentConfigurationDialog</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PreferencesDialog\PreferencesDialog.csproj">
-      <Project>{54BDED94-021A-473B-8782-DD04AF1F443F}</Project>
-      <Name>PreferencesDialog</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

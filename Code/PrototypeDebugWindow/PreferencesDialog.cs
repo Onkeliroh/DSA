@@ -1,8 +1,7 @@
 ﻿using System;
 using PrototypeBackend;
-using PrototypeBackend;
 
-namespace PreferencesDialog
+namespace PrototypeDebugWindow
 {
 	public partial class PreferencesDialog : Gtk.Dialog
 	{
