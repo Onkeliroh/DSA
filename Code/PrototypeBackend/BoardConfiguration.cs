@@ -62,7 +62,23 @@ namespace PrototypeBackend
 		public List<Sequence> Sequences{ get; private set; }
 
 
-		public string SavePath = string.Empty;
+		//Settings
+
+		/// <summary>
+		/// Path to the folder where the csv logs will be written
+		/// </summary>
+		public string CSVSaveFolderPath = string.Empty;
+		/// <summary>
+		/// Filepath to the configuration savefile 
+		/// </summary>
+		public string ConfigSavePath = string.Empty;
+		public string Separator = ";";
+		public string EmptyValueFilling = string.Empty;
+		public bool UTCTimestamp = false;
+		public bool LocalTimestamp = true;
+		public string TimeFormat = "{0:HH:mm:ss.ff}";
+		public string[] FileNameConvention = new string[]{ "Time", "Empty", "Empty" };
+
 		public string LogFilePath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile) + @"/micrologger/";
 
 		public bool UseMarker = false;
@@ -484,10 +500,17 @@ namespace PrototypeBackend
 			info.AddValue ("Pins", Pins);
 			info.AddValue ("MeasurementCombinations", MeasurementCombinations);
 			info.AddValue ("Sequences", Sequences);
-			info.AddValue ("SavePath", SavePath);
+			info.AddValue ("ConfigSavePath", ConfigSavePath);
 			info.AddValue ("LogFilePath", LogFilePath);
 			info.AddValue ("UseMarker", UseMarker);
 			info.AddValue ("LogRAWValues", LogRAWValues);
+
+			info.AddValue ("CSVSeparator", Separator);
+			info.AddValue ("EmptyValueFilling", EmptyValueFilling);
+			info.AddValue ("UTCTimestamp", UTCTimestamp);
+			info.AddValue ("LocalTimestamp", LocalTimestamp);
+			info.AddValue ("TimeFormat", TimeFormat);
+			info.AddValue ("FileNameConvention", FileNameConvention.ToList ());
 		}
 
 		public BoardConfiguration (SerializationInfo info, StreamingContext context)
@@ -501,10 +524,17 @@ namespace PrototypeBackend
 			Pins = (List<IPin>)info.GetValue ("Pins", Pins.GetType ());
 			MeasurementCombinations = (List<MeasurementCombination>)info.GetValue ("MeasurementCombinations", MeasurementCombinations.GetType ());
 			Sequences = (List<Sequence>)info.GetValue ("Sequences", Sequences.GetType ());
-			SavePath = info.GetString ("SavePath");
+			ConfigSavePath = info.GetString ("ConfigSavePath");
 			LogFilePath = info.GetString ("LogFilePath");
 			UseMarker = info.GetBoolean ("UseMarker");
 			LogRAWValues = info.GetBoolean ("LogRAWValues");
+
+			Separator = info.GetString ("CSVSeparator");
+			EmptyValueFilling = info.GetString ("EmptyValueFilling");
+			UTCTimestamp = info.GetBoolean ("UTCTimestamp");
+			LocalTimestamp = info.GetBoolean ("LocalTimestamp");
+			TimeFormat = info.GetString ("TimeFormat");
+			FileNameConvention = ((List<string>)info.GetValue ("FileNameConvention", new List<string> ().GetType ())).ToArray<string> ();
 		}
 
 		#endregion

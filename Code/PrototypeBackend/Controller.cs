@@ -341,7 +341,14 @@ namespace PrototypeBackend
 		{
 			try
 			{
-				Stream stream = File.Open (path, FileMode.Create);
+				Stream stream;
+				if (path == null)
+				{
+					stream = File.Open (Configuration.ConfigSavePath, FileMode.Create);
+				} else
+				{
+					stream = File.Open (path, FileMode.Create);
+				}
 				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
 				BoardConfiguration config = new BoardConfiguration ();

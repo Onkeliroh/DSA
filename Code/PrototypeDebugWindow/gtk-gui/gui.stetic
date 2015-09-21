@@ -984,6 +984,7 @@
                                     <property name="Icon">stock:gtk-open Menu</property>
                                     <property name="Label" translatable="yes" />
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnCSVFilePathOpenClicked" />
                                   </widget>
                                   <packing>
                                     <property name="TopAttach">1</property>
@@ -1054,7 +1055,7 @@
                                   <widget class="Gtk.ComboBoxEntry" id="cbeCSVEmptyValueFilling">
                                     <property name="MemberName" />
                                     <property name="IsTextCombo">True</property>
-                                    <property name="Items" translatable="yes">empty space
+                                    <property name="Items" translatable="yes">[Empty Space]
 -
 </property>
                                     <property name="Active">0</property>

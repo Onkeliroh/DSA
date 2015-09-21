@@ -122,6 +122,7 @@ namespace Frontend
 			cbBoardType1.Changed += OnCbBoardTypeChanged;
 			cbAREF1.Changed += OnCbAREFChanged;
 			con.Configuration.OnBoardUpdated += RefreshMCUInfos;
+			con.OnOnfigurationLoaded += UpdateSettings;
 
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
@@ -897,6 +898,43 @@ namespace Frontend
 			);
 		}
 
+		private void UpdateSettings (object sender, EventArgs e)
+		{
+			eCSVFilePath.Text = con.Configuration.CSVSaveFolderPath;
+
+			if (cbeCSVSeparator.Data.Contains (con.Configuration.Separator))
+			{
+//				cbeCSVSeparator.Active = cbeCSVSeparator.Data.Keys[0] //TODO
+			} else
+			{
+				cbeCSVSeparator.AppendText (con.Configuration.Separator);
+				cbeCSVSeparator.Active = cbeCSVSeparator.Data.Count - 1;
+			}
+
+			if (cbeCSVEmptyValueFilling.Data.Contains (con.Configuration.EmptyValueFilling))
+			{
+				//TODO
+			} else
+			{
+				cbeCSVEmptyValueFilling.AppendText (con.Configuration.EmptyValueFilling);
+				cbeCSVEmptyValueFilling.Active = cbeCSVEmptyValueFilling.Data.Count - 1;
+			}
+
+			cbCSVUTC.Active = con.Configuration.UTCTimestamp;
+			cbCSVLocaltime.Active = con.Configuration.LocalTimestamp;
+
+			if (cbeCSVTimeFormat.Data.Contains (con.Configuration.TimeFormat))
+			{
+				//TODO
+			} else
+			{
+				cbeCSVTimeFormat.AppendText (con.Configuration.TimeFormat);
+				cbeCSVTimeFormat.Active = cbeCSVTimeFormat.Data.Count - 1;
+			}
+
+			//TODO plot settings
+		}
+
 		protected void OnCbBoardTypeChanged (object sender, EventArgs e)
 		{
 			//TODO englisch prüfen
@@ -1333,6 +1371,21 @@ namespace Frontend
 			}
 		}
 
+		protected void OnBtnCSVFilePathOpenClicked (object sender, EventArgs e)
+		{
+			var dialog = new FileChooserDialog ("Select a folder", this, FileChooserAction.SelectFolder, "Cancle", ResponseType.Cancel, "Select", ResponseType.Apply);
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Apply)
+				{
+					con.Configuration.CSVSaveFolderPath = dialog.CurrentFolder;
+					eCSVFilePath.Text = dialog.CurrentFolder;
+				}
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
 		#endregion
 
 		#region Drawing
@@ -1346,7 +1399,7 @@ namespace Frontend
 			context.SetSource (
 				MCUImage,
 				this.drawingareaMCU.Allocation.Width / 2 - MCUImage.Width / 2,
-				this.drawingareaMCU.Allocation.Height / 3 - MCUImage.Height / 2
+				this.drawingareaMCU.Allocation.Height / 2 - MCUImage.Height / 2
 			);
 			context.Paint ();
 			SetSizeRequest (MCUImage.Width, MCUImage.Height + 200);
@@ -1921,21 +1974,13 @@ namespace Frontend
 
 		protected void OnSaveActionActivated (object sender, EventArgs e)
 		{
-			if (string.IsNullOrEmpty (con.Configuration.SavePath))
+			if (!string.IsNullOrEmpty (con.Configuration.ConfigSavePath))
 			{
-				string path = RunSaveDialog ();
-				if (!string.IsNullOrEmpty (path))
-				{
-					if (!path.Contains (@".mc"))
-					{
-						path += @".mc";
-					}
-					con.Configuration.SavePath = path;
-					con.SaveConfiguration (path);
-				}
+//				string path = RunSaveDialog ();
+				con.SaveConfiguration ();
 			} else
 			{
-				con.SaveConfiguration (con.Configuration.SavePath);
+				OnSaveAsActionActivated (sender, e);
 			}
 		}
 
@@ -1948,7 +1993,7 @@ namespace Frontend
 				{
 					path += @".mc";
 				}
-				con.Configuration.SavePath = path;
+				con.Configuration.ConfigSavePath = path;
 				con.SaveConfiguration (path);
 			}
 		}

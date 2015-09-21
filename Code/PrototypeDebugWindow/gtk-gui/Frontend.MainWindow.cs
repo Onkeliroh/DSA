@@ -1032,7 +1032,7 @@ namespace Frontend
 			w81.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.cbeCSVEmptyValueFilling = global::Gtk.ComboBoxEntry.NewText ();
-			this.cbeCSVEmptyValueFilling.AppendText (global::Mono.Unix.Catalog.GetString ("empty space"));
+			this.cbeCSVEmptyValueFilling.AppendText (global::Mono.Unix.Catalog.GetString ("[Empty Space]"));
 			this.cbeCSVEmptyValueFilling.AppendText (global::Mono.Unix.Catalog.GetString ("-"));
 			this.cbeCSVEmptyValueFilling.AppendText ("");
 			this.cbeCSVEmptyValueFilling.Name = "cbeCSVEmptyValueFilling";
@@ -1668,6 +1668,7 @@ namespace Frontend
 			this.btnEditSequence.Clicked += new global::System.EventHandler (this.OnBtnEditSequenceClicked);
 			this.btnRemoveSequence.Clicked += new global::System.EventHandler (this.OnBtnRemoveSequenceClicked);
 			this.btnClearSequence.Clicked += new global::System.EventHandler (this.OnBtnClearSequenceClicked);
+			this.btnCSVFilePathOpen.Clicked += new global::System.EventHandler (this.OnBtnCSVFilePathOpenClicked);
 			this.btnDigitalPingTest.Clicked += new global::System.EventHandler (this.OnBtnDigitalPingTestClicked);
 			this.btnFillAnalogInputs.Clicked += new global::System.EventHandler (this.OnBtnFillAnalogInputsClicked);
 			this.btnFillDigitalOutputs.Clicked += new global::System.EventHandler (this.OnBtnFillDigitalOutputsClicked);
