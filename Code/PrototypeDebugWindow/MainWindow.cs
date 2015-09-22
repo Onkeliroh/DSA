@@ -627,8 +627,8 @@ namespace Frontend
 				RunAddDPinDialog (pin as DPin);
 			};
 
-			nvDigitalPins.AppendColumn ("Name(Pin)", new Gtk.CellRendererText (), "text", 0);
-			nvDigitalPins.AppendColumn ("Pin Number", new Gtk.CellRendererText (), "text", 1);
+			nvDigitalPins.AppendColumn ("Name", new Gtk.CellRendererText (), "text", 0);
+			nvDigitalPins.AppendColumn ("Number", new Gtk.CellRendererText (), "text", 1);
 			nvDigitalPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 2);
 			nvDigitalPins.AppendColumn ("Seqeuence", new Gtk.CellRendererText (), "text", 3);
 
@@ -646,7 +646,7 @@ namespace Frontend
 			};
 
 			nvAnalogPins.AppendColumn ("Name", new Gtk.CellRendererText (), "text", 0);
-			nvAnalogPins.AppendColumn ("Pin Number", new Gtk.CellRendererText (), "text", 1);
+			nvAnalogPins.AppendColumn ("Number", new Gtk.CellRendererText (), "text", 1);
 			nvAnalogPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 2);
 			nvAnalogPins.AppendColumn ("Slope", new Gtk.CellRendererText (), "text", 3);
 			nvAnalogPins.AppendColumn ("Offset", new Gtk.CellRendererText (), "text", 4);
@@ -667,10 +667,10 @@ namespace Frontend
 				RunSequenceDialog (Seq);
 			};
 
-			nvSequences.AppendColumn (new TreeViewColumn ("Sequence-Name", new CellRendererText (), "text", 0));
+			nvSequences.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
 			nvSequences.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
-			nvSequences.AppendColumn (new TreeViewColumn ("Pin-Name", new CellRendererText (), "text", 2));
-			nvSequences.AppendColumn (new TreeViewColumn ("Pin-Number", new CellRendererText (), "text", 3));
+			nvSequences.AppendColumn (new TreeViewColumn ("Pin Name", new CellRendererText (), "text", 2));
+			nvSequences.AppendColumn (new TreeViewColumn ("Pin Number", new CellRendererText (), "text", 3));
 			nvSequences.AppendColumn (new TreeViewColumn ("Runtime", new CellRendererText (), "text", 4));
 			nvSequences.AppendColumn (new TreeViewColumn ("Repetitions", new CellRendererText (), "text", 5));
 
@@ -686,8 +686,8 @@ namespace Frontend
 			};
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin-Name", new CellRendererText (), "text", 2));
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin-Number", new CellRendererText (), "text", 3));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin Name", new CellRendererText (), "text", 2));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin Number", new CellRendererText (), "text", 3));
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 4));
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 5));
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 6));
@@ -726,7 +726,6 @@ namespace Frontend
 						MenuItem entry = new MenuItem (s);
 						entry.ButtonPressEvent += (object o, ButtonPressEventArgs args) => con.OpenConfiguration (s);
 						LastConfigurations.Append (entry);
-						Console.WriteLine (s);
 					}
 				}
 				LastConfigurations.ShowAll ();

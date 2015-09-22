@@ -56,10 +56,6 @@ namespace PrototypeBackend
 
 			tobecompiled = tobecompiled.Replace ("function", func);
 
-			#if DEBUG
-			Console.WriteLine (tobecompiled);
-			#endif
-
 			var provider = CodeDomProvider.CreateProvider ("c#");
 
 			var options = new CompilerParameters ();

@@ -41,15 +41,21 @@ namespace PrototypeBackend
 
 		public DateTimeValue Value {
 			get {
-				if (Operation != null)
+				if (Pins.Count > 0)
 				{
-					return new DateTimeValue () {
+					if (Operation != null)
+					{
+						return new DateTimeValue () {
 						
-						Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
-						Time = Pins.OrderByDescending (o => o.Period).First ().Value.Time
-					};
+							Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
+							Time = Pins.OrderByDescending (o => o.Period).First ().Value.Time
+						};
+					}
+					return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Period).First ().Value.Time };
+				} else
+				{
+					return new DateTimeValue (){ Value = double.NaN, Time = DateTime.Now };
 				}
-				return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Period).First ().Value.Time };
 			}
 			private set { }
 		}

@@ -277,7 +277,7 @@ namespace PrototypeBackend
 
 		public void SetMeasurmentCombination (int index, MeasurementCombination s)
 		{
-			if (s != null)
+			if (OnSignalsUpdated != null)
 			{
 				OnSignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Change, MeasurementCombinations [index], s));
 			}
