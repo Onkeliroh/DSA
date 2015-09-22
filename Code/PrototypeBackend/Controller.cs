@@ -45,6 +45,13 @@ namespace PrototypeBackend
 
 
 		public Board[] BoardConfigs;
+		public List<string> LastConfigurationLocations = new List<string> () {
+			string.Empty,
+			string.Empty,
+			string.Empty,
+			string.Empty,
+			string.Empty
+		};
 
 		public EventHandler OnControllerStarted;
 		public EventHandler OnControllerStoped;
@@ -59,22 +66,14 @@ namespace PrototypeBackend
 		public Controller (string ConfigurationPath = null)
 		{
 			Configuration = new BoardConfiguration ();
+			ConfigManager = new ConfigurationManager (ConfigurationPath);
+			BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
 
-			try
-			{
-				ConfigManager = new ConfigurationManager (ConfigurationPath);
-			} catch (Exception ex)
-			{
-				Console.Error.WriteLine ("Configmanager init:\t" + ex);
-			}
-
-			try
-			{
-				BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
-			} catch (Exception ex)
-			{
-				Console.Error.WriteLine ("BoardConfigs read:\t" + ex);
-			}
+			LastConfigurationLocations [0] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config1").Value;
+			LastConfigurationLocations [1] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config2").Value;
+			LastConfigurationLocations [2] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config3").Value;
+			LastConfigurationLocations [3] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config4").Value;
+			LastConfigurationLocations [4] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config5").Value;
 
 			#if DEBUG
 			ConLogger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, true, false, LogLevel.ERROR);
@@ -159,6 +158,18 @@ namespace PrototypeBackend
 			ConLogger.Stop ();
 			SequencesTimer.Stop ();
 			KeeperOfTime.Stop ();
+			WritePreferences ();
+		}
+
+		public void WritePreferences ()
+		{
+			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config1").Value = LastConfigurationLocations [0];
+			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config2").Value = LastConfigurationLocations [1];
+			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config3").Value = LastConfigurationLocations [2];
+			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config4").Value = LastConfigurationLocations [3];
+			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config5").Value = LastConfigurationLocations [4];
+
+			ConfigManager.SaveGeneralSettings ();
 		}
 
 		/// <summary>
@@ -356,6 +367,23 @@ namespace PrototypeBackend
 
 				formatter.Serialize (stream, config);
 
+				if (LastConfigurationLocations.Contains (path))
+				{
+					LastConfigurationLocations.Remove (path);
+					LastConfigurationLocations.Reverse ();
+					LastConfigurationLocations.Add (path);
+					LastConfigurationLocations.Reverse ();
+				} else
+				{
+					LastConfigurationLocations.Reverse ();
+					LastConfigurationLocations.Add (path);
+					LastConfigurationLocations.Reverse ();
+				}
+				while (LastConfigurationLocations.Count > 5)
+				{
+					LastConfigurationLocations.RemoveAt (5);
+				}
+
 				stream.Close ();
 			} catch (Exception)
 			{
@@ -381,6 +409,19 @@ namespace PrototypeBackend
 				Configuration = (BoardConfiguration)config;
 
 				stream.Close ();
+				
+				if (LastConfigurationLocations.Contains (path))
+				{
+					LastConfigurationLocations.Remove (path);
+					LastConfigurationLocations.Reverse ();
+					LastConfigurationLocations.Add (path);
+					LastConfigurationLocations.Reverse ();
+				} else
+				{
+					LastConfigurationLocations.Reverse ();
+					LastConfigurationLocations.Add (path);
+					LastConfigurationLocations.Reverse ();
+				}
 
 				if (OnOnfigurationLoaded != null)
 				{

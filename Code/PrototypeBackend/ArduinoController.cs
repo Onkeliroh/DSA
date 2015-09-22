@@ -416,9 +416,11 @@ namespace PrototypeBackend
 
 		public static void SetPinMode (uint nr, PinMode mode)
 		{
+			#if !FAKESERIAL
 			var command = new SendCommand ((int)Command.SetPinMode, nr);
 			command.AddArgument ((Int16)mode);
 			_cmdMessenger.SendCommand (command);
+			#endif
 		}
 
 		/// <summary>

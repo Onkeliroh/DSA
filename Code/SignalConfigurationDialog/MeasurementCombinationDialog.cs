@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
-using Cairo;
 using PrototypeBackend;
 using Gtk;
 using GUIHelper;
 using System.Text.RegularExpressions;
-using Gdk;
 
 namespace MeasurementCombinationDialog
 {
@@ -57,13 +54,19 @@ namespace MeasurementCombinationDialog
 			} else
 			{
 				Combination = signal;
+				if (!string.IsNullOrEmpty (Combination.OperationString))
+				{
+					CompileOperation ();
+				} else
+				{
+					SetWarning ();
+				}
 			}
 	
 			if (pin != null)
 			{
 				Combination_.AddPin (pin);
 			}
-
 
 			BuildUnits (units);
 			SetupNodeView ();
@@ -205,6 +208,17 @@ namespace MeasurementCombinationDialog
 			{
 				Console.Error.WriteLine (ex);
 			}
+
+			if (Combination_.Operation != null)
+			{
+				Combination_.OperationString = entryOperation.Text;
+			}
+			SetApplyButton ();
+			SetWarning ();
+		}
+
+		private void SetWarning ()
+		{
 			if (Combination_.Operation == null)
 			{
 				imageOperation.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-warning", global::Gtk.IconSize.Menu);
@@ -214,7 +228,6 @@ namespace MeasurementCombinationDialog
 				Combination_.OperationString = entryOperation.Text;
 				imageOperation.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-apply", global::Gtk.IconSize.Menu);
 			}
-			SetApplyButton ();
 		}
 
 		private void SetApplyButton ()

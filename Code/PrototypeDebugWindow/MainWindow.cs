@@ -122,7 +122,11 @@ namespace Frontend
 			cbBoardType1.Changed += OnCbBoardTypeChanged;
 			cbAREF1.Changed += OnCbAREFChanged;
 			con.Configuration.OnBoardUpdated += RefreshMCUInfos;
-			con.OnOnfigurationLoaded += UpdateSettings;
+			con.OnOnfigurationLoaded += (sender, e) =>
+			{
+				UpdateSettings ();
+				UpdateAllNodes ();
+			};
 
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
@@ -342,6 +346,15 @@ namespace Frontend
 		#endregion
 
 		#region FillNodes
+
+		private void UpdateAllNodes ()
+		{
+			FillDigitalPinNodes ();
+			FillAnalogPinNodes ();
+			FillSequenceNodes ();
+			FillSequencePreviewPlot ();
+			FillMeasurementCombinationNodes ();
+		}
 
 		private void FillDigitalPinNodes ()
 		{
@@ -695,15 +708,38 @@ namespace Frontend
 			MenuItem openoption = openAction.CreateMenuItem () as MenuItem;
 			MenuItem saveoption = saveAction.CreateMenuItem () as MenuItem; 
 			MenuItem saveasoption = saveAsAction.CreateMenuItem () as MenuItem;
-//			MenuItem exit = new MenuItem ("Exit");
+			MenuItem recentconfigs = new ImageMenuItem ("Recent Configurations");
 			MenuItem exit = quitAction.CreateMenuItem () as MenuItem;
 
+			Menu LastConfigurations = new Menu ();
+			recentconfigs.Activated += (object sender, EventArgs e) =>
+			{
+				foreach (MenuItem mi in LastConfigurations.AllChildren)
+				{
+					LastConfigurations.Remove (mi);
+				}
+
+				foreach (string s in con.LastConfigurationLocations)
+				{
+					if (!string.IsNullOrEmpty (s))
+					{
+						MenuItem entry = new MenuItem (s);
+						entry.ButtonPressEvent += (object o, ButtonPressEventArgs args) => con.OpenConfiguration (s);
+						LastConfigurations.Append (entry);
+						Console.WriteLine (s);
+					}
+				}
+				LastConfigurations.ShowAll ();
+			};
 			exit.Activated += (sender, e) => OnDeleteEvent (null, null);
 
 			filemenu.Append (newoption);
 			filemenu.Append (openoption);
 			filemenu.Append (saveoption);
 			filemenu.Append (saveasoption);
+			filemenu.Append (new SeparatorMenuItem ());
+			filemenu.Append (recentconfigs);
+			recentconfigs.Submenu = LastConfigurations;
 			filemenu.Append (new SeparatorMenuItem ());
 			filemenu.Append (exit);
 			mbar.Append (file);
@@ -898,7 +934,7 @@ namespace Frontend
 			);
 		}
 
-		private void UpdateSettings (object sender, EventArgs e)
+		private void UpdateSettings (object sender = null, EventArgs e = null)
 		{
 			eCSVFilePath.Text = con.Configuration.CSVSaveFolderPath;
 
@@ -1944,11 +1980,7 @@ namespace Frontend
 
 		protected void OnBtnRefreshNVClicked (object sender, EventArgs e)
 		{
-			FillDigitalPinNodes ();
-			FillAnalogPinNodes ();
-			FillSequenceNodes ();
-			FillSequencePreviewPlot ();
-			FillMeasurementCombinationNodes ();
+			UpdateAllNodes ();
 		}
 
 		protected void OnButton1125Clicked (object sender, EventArgs e)
