@@ -1085,6 +1085,7 @@ namespace Frontend
 
 		protected void OnDeleteEvent (object obj, DeleteEventArgs a)
 		{
+			RunQuitSaveDialog ();
 			con.Quit ();
 			ArduinoController.Exit ();
 			Application.Quit ();
@@ -1421,6 +1422,31 @@ namespace Frontend
 			dialog.Destroy ();
 		}
 
+		protected void OnCbeCSVSeparatorChanged (object sender, EventArgs e)
+		{
+			con.Configuration.Separator = cbeCSVSeparator.ActiveText;
+		}
+
+		protected void OnCbeCSVEmptyValueFillingChanged (object sender, EventArgs e)
+		{
+			con.Configuration.EmptyValueFilling = cbeCSVEmptyValueFilling.ActiveText;
+		}
+
+		protected void OnCbCSVUTCToggled (object sender, EventArgs e)
+		{
+			con.Configuration.UTCTimestamp = cbCSVUTC.Active;
+		}
+
+		protected void OnCbCSVLocaltimeToggled (object sender, EventArgs e)
+		{
+			con.Configuration.LocalTimestamp = cbCSVLocaltime.Active;
+		}
+
+		protected void OnCbeCSVTimeFormatChanged (object sender, EventArgs e)
+		{
+			con.Configuration.TimeFormat = cbeCSVTimeFormat.ActiveText;
+		}
+
 		#endregion
 
 		#region Drawing
@@ -1696,6 +1722,20 @@ namespace Frontend
 			dialog.Destroy ();
 
 			return path;
+		}
+
+		protected void RunQuitSaveDialog ()
+		{
+			var dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Question, ButtonsType.YesNo, "Do you want to save the current configuration?");
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Yes)
+				{
+					saveAction.Activate ();
+				}
+			};
+			dialog.Run ();
+			dialog.Destroy ();
 		}
 
 		#endregion

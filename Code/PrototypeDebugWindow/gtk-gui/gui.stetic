@@ -1011,6 +1011,7 @@
                                     <property name="DrawIndicator">True</property>
                                     <property name="HasLabel">True</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Toggled" handler="OnCbCSVLocaltimeToggled" />
                                   </widget>
                                   <packing>
                                     <property name="TopAttach">7</property>
@@ -1035,6 +1036,7 @@
                                     <property name="DrawIndicator">True</property>
                                     <property name="HasLabel">True</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Toggled" handler="OnCbCSVUTCToggled" />
                                   </widget>
                                   <packing>
                                     <property name="TopAttach">6</property>
@@ -1059,6 +1061,7 @@
 -
 </property>
                                     <property name="Active">0</property>
+                                    <signal name="Changed" handler="OnCbeCSVEmptyValueFillingChanged" />
                                   </widget>
                                   <packing>
                                     <property name="TopAttach">5</property>
@@ -1086,6 +1089,7 @@
 [Space]
 [Tab]</property>
                                     <property name="Active">0</property>
+                                    <signal name="Changed" handler="OnCbeCSVSeparatorChanged" />
                                   </widget>
                                   <packing>
                                     <property name="TopAttach">4</property>
@@ -1109,6 +1113,7 @@
                                     <property name="Items" translatable="yes">HH:mm:ss.mm
 dd:MM:YYYY-HH:mm:ss.mm</property>
                                     <property name="Active">1</property>
+                                    <signal name="Changed" handler="OnCbeCSVTimeFormatChanged" />
                                   </widget>
                                   <packing>
                                     <property name="TopAttach">8</property>

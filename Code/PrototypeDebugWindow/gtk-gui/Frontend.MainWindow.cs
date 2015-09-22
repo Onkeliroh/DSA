@@ -1668,6 +1668,11 @@ namespace Frontend
 			this.btnEditSequence.Clicked += new global::System.EventHandler (this.OnBtnEditSequenceClicked);
 			this.btnRemoveSequence.Clicked += new global::System.EventHandler (this.OnBtnRemoveSequenceClicked);
 			this.btnClearSequence.Clicked += new global::System.EventHandler (this.OnBtnClearSequenceClicked);
+			this.cbeCSVTimeFormat.Changed += new global::System.EventHandler (this.OnCbeCSVTimeFormatChanged);
+			this.cbeCSVSeparator.Changed += new global::System.EventHandler (this.OnCbeCSVSeparatorChanged);
+			this.cbeCSVEmptyValueFilling.Changed += new global::System.EventHandler (this.OnCbeCSVEmptyValueFillingChanged);
+			this.cbCSVUTC.Toggled += new global::System.EventHandler (this.OnCbCSVUTCToggled);
+			this.cbCSVLocaltime.Toggled += new global::System.EventHandler (this.OnCbCSVLocaltimeToggled);
 			this.btnCSVFilePathOpen.Clicked += new global::System.EventHandler (this.OnBtnCSVFilePathOpenClicked);
 			this.btnDigitalPingTest.Clicked += new global::System.EventHandler (this.OnBtnDigitalPingTestClicked);
 			this.btnFillAnalogInputs.Clicked += new global::System.EventHandler (this.OnBtnFillAnalogInputsClicked);
