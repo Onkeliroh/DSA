@@ -210,6 +210,7 @@ namespace Frontend
 				DPinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as DPinTreeNode;
 
 				var AddPin = new ImageMenuItem ("Add Output...");
+				var ClonePin = new ImageMenuItem ("Clone");
 				var EditPin = new ImageMenuItem ("Edit Output...");
 				var RemovePin = new ImageMenuItem ("Remove Output");
 				var ClearPins = new ImageMenuItem ("Clear Outputs");
@@ -217,6 +218,7 @@ namespace Frontend
 				var EditSequence = new ImageMenuItem ("Edit Sequence...");
 
 				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				ClonePin.Image = new Gtk.Image (Gtk.Stock.Copy, IconSize.Menu);
 				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
 				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
 				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
@@ -225,6 +227,7 @@ namespace Frontend
 
 				if (pin == null)
 				{
+					ClonePin.Sensitive = false;
 					EditPin.Sensitive = false;
 					RemovePin.Sensitive = false;
 					AddSequence.Sensitive = false;
@@ -241,6 +244,7 @@ namespace Frontend
 				}
 
 				AddPin.ButtonPressEvent += (o, args) => RunAddDPinDialog ();
+				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.ClonePin (pin.Pin);
 				EditPin.ButtonPressEvent += (o, args) => RunAddDPinDialog (pin.Pin);
 				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Index);
 				ClearPins.ButtonPressEvent += (o, args) => RunDPinClear ();
@@ -252,6 +256,7 @@ namespace Frontend
 				EditSequence.ButtonPressEvent += (o, args) => RunSequenceDialog (pin.Sequence);
 
 				m.Add (AddPin);
+				m.Add (ClonePin);
 				m.Add (EditPin);
 				m.Add (RemovePin);
 				m.Add (new SeparatorMenuItem ());
@@ -559,13 +564,6 @@ namespace Frontend
 			}
 		}
 
-		private void UpdateAllNodeViews ()
-		{
-			FillSequenceNodes ();
-			FillSequencePreviewPlot ();
-			FillMeasurementCombinationNodes ();
-		}
-
 		#endregion
 
 		#region BuildElements
@@ -597,10 +595,7 @@ namespace Frontend
 					FillMeasurementCombinationNodes ();
 				} else
 				{
-					FillAnalogPinNodes ();
-					FillDigitalPinNodes ();
-					FillSequenceNodes ();
-					FillMeasurementCombinationNodes ();
+					UpdateAllNodes ();
 				}
 			};
 			con.Configuration.OnSequencesUpdated += (o, a) =>
@@ -724,7 +719,7 @@ namespace Frontend
 					if (!string.IsNullOrEmpty (s))
 					{
 						MenuItem entry = new MenuItem (s);
-						entry.ButtonPressEvent += (object o, ButtonPressEventArgs args) => con.OpenConfiguration (s);
+						entry.ButtonPressEvent += (object o, ButtonPressEventArgs args) => RunOpenConfig (s);
 						LastConfigurations.Append (entry);
 					}
 				}
@@ -1509,6 +1504,27 @@ namespace Frontend
 
 		#region RunDialogs
 
+		private void RunOpenConfig (string path = null)
+		{
+			try
+			{
+				string location = path;
+				if (location == null)
+				{
+					location = RunOpenDialog ();
+				}
+				if (con.OpenConfiguration (path))
+				{
+					UpdateAllNodes ();
+					BindControllerEvents ();
+
+				}
+			} catch (Exception ex)
+			{
+				con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
+			}
+		}
+
 		private void RunAPinClear ()
 		{
 			var message = new MessageDialog (
@@ -2071,19 +2087,7 @@ namespace Frontend
 
 		protected void OnOpenActionActivated (object sender, EventArgs e)
 		{
-			try
-			{
-				string path = RunOpenDialog ();
-				if (con.OpenConfiguration (path))
-				{
-					UpdateAllNodeViews ();
-					BindControllerEvents ();
-
-				}
-			} catch (Exception ex)
-			{
-				con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
-			}
+			RunOpenConfig ();			
 		}
 
 		protected void OnAboutActionActivated (object sender, EventArgs e)

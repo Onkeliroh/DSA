@@ -68,6 +68,15 @@ namespace PrototypeBackend
 			PlotColor = Gdk.Color.Zero;
 		}
 
+		public DPin (DPin copy) : base ()
+		{
+			Name = copy.Name;
+			Number = copy.Number;
+			AnalogNumber = copy.AnalogNumber;
+			PlotColor = copy.PlotColor;
+		}
+
+
 		//Methods
 
 		public override bool Equals (object obj)
@@ -93,16 +102,6 @@ namespace PrototypeBackend
 		public override string ToString ()
 		{
 			return string.Format ("Name: {0}\tNumber: {1}\tType: {2}", Name, Number, Type);
-		}
-
-		public string ToXML ()
-		{
-			XmlSerializer tmp = new XmlSerializer (typeof(DPin));
-			string returnstring = "";
-			TextWriter tw = new StreamWriter (returnstring);
-			tmp.Serialize (tw, this);
-			tw.Close ();
-			return returnstring;
 		}
 
 		public void Run ()

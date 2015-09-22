@@ -61,7 +61,8 @@ namespace PrototypeBackend
 		public DateTimeValue Value {
 			set { 
 				Values.Add (value); 
-				if (OnNewValue != null) {
+				if (OnNewValue != null)
+				{
 					OnNewValue.Invoke (this, new NewMeasurementValue (){ RAW = value.Value, Value = CalcValue (), Time = value.Time });
 				}
 			}
@@ -129,10 +130,23 @@ namespace PrototypeBackend
 			Values = new List<DateTimeValue> ();
 		}
 
+		public APin (APin copy) : base ()
+		{
+			Name = copy.Name;
+			Number = copy.Number;
+			PlotColor = copy.PlotColor;
+			Slope = copy.Slope;
+			Offset = copy.Offset;
+			Interval = copy.Interval;
+			Period = copy.Period;
+		}
+
 		public override bool Equals (object obj)
 		{
-			if (obj != null) {
-				if (obj is APin) {
+			if (obj != null)
+			{
+				if (obj is APin)
+				{
 					return (obj as APin).Type == Type &&
 					(obj as APin).Mode == Mode &&
 					(obj as APin).Name.Equals (Name) &&
@@ -166,26 +180,35 @@ namespace PrototypeBackend
 
 		public double CalcValue ()
 		{
-			if (Values.Count >= (int)Interval) {
-				if (Interval == 1) {
-					if (!double.IsNaN (Values.Last ().Value)) {
+			if (Values.Count >= (int)Interval)
+			{
+				if (Interval == 1)
+				{
+					if (!double.IsNaN (Values.Last ().Value))
+					{
 						return ((Values.Last ().Value * Slope) + Offset);
 					}
 					return double.NaN;
-				} else {
-					if (Values.Count >= (int)Interval) {
+				} else
+				{
+					if (Values.Count >= (int)Interval)
+					{
 						double result = 0;
-						for (int i = Values.Count - (int)Interval; i < Values.Count; i++) {
-							if (!double.IsNaN (Values [i].Value)) {
+						for (int i = Values.Count - (int)Interval; i < Values.Count; i++)
+						{
+							if (!double.IsNaN (Values [i].Value))
+							{
 								result += (Values [i].Value * Slope) + Offset;
 							}
 						}
 						return result / Interval;
-					} else {
+					} else
+					{
 						return double.NaN;
 					}
 				}
-			} else {
+			} else
+			{
 				return double.NaN;
 			}
 		}

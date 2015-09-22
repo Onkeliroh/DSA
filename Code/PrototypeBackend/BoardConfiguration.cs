@@ -264,6 +264,41 @@ namespace PrototypeBackend
 
 		#endregion
 
+		#region Clone
+
+		public bool ClonePin (IPin pin)
+		{
+			if (pin is APin)
+			{
+				if (AvailableAnalogPins.Length != 0)
+				{
+					APin newPin = new APin (pin as APin);
+					newPin.Number = AvailableAnalogPins [0].Number;
+
+					AddPin (newPin);
+				} else
+				{
+					return false;
+				}
+			} else
+			{
+				if (AvailableDigitalPins.Length != 0)
+				{
+					DPin newPin = new DPin (pin as DPin);
+					newPin.Number = AvailableAnalogPins [0].Number;
+
+					AddPin (newPin);
+				} else
+				{
+					return false;
+				}
+			}
+			CheckPins ();
+			return true;
+		}
+
+		#endregion
+
 		#region Set
 
 		public void SetPin (int index, IPin ip)
