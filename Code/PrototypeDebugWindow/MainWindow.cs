@@ -148,6 +148,7 @@ namespace Frontend
 				APinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as APinTreeNode;
 
 				var AddPin = new ImageMenuItem ("Add Measurement...");
+				var ClonePin = new ImageMenuItem ("Cuplicate");
 				var EditPin = new ImageMenuItem ("Edit Measurement...");
 				var RemovePin = new ImageMenuItem ("Remove Measruement");
 				var ClearPins = new ImageMenuItem ("Clear Measurements");
@@ -155,6 +156,7 @@ namespace Frontend
 				var EditCombination = new ImageMenuItem ("Edit Combination...");
 
 				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				ClonePin.Image = new Gtk.Image (Gtk.Stock.Copy, IconSize.Menu);
 				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
 				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
 				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
@@ -163,6 +165,7 @@ namespace Frontend
 
 				if (pin == null)
 				{
+					ClonePin.Sensitive = false;
 					EditPin.Sensitive = false;
 					RemovePin.Sensitive = false;
 					AddCombination.Sensitive = false;
@@ -178,6 +181,7 @@ namespace Frontend
 					}
 				}
 				AddPin.ButtonPressEvent += (o, args) => RunAddAPinDialog ();
+				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.ClonePin (pin.Pin);
 				EditPin.ButtonPressEvent += (o, args) => RunAddAPinDialog (pin.Pin);
 				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Index);
 				ClearPins.ButtonPressEvent += (o, args) => RunAPinClear ();
@@ -189,6 +193,7 @@ namespace Frontend
 				EditCombination.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
 
 				m.Add (AddPin);
+				m.Add (ClonePin);
 				m.Add (EditPin);
 				m.Add (RemovePin);
 				m.Add (new SeparatorMenuItem ());
@@ -210,7 +215,7 @@ namespace Frontend
 				DPinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as DPinTreeNode;
 
 				var AddPin = new ImageMenuItem ("Add Output...");
-				var ClonePin = new ImageMenuItem ("Clone");
+				var ClonePin = new ImageMenuItem ("Duplicate");
 				var EditPin = new ImageMenuItem ("Edit Output...");
 				var RemovePin = new ImageMenuItem ("Remove Output");
 				var ClearPins = new ImageMenuItem ("Clear Outputs");
@@ -278,27 +283,32 @@ namespace Frontend
 				MeasurementCombinationTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as MeasurementCombinationTreeNode;
 
 				var AddPin = new ImageMenuItem ("Add MeasurementCombination...");
+				var ClonePin = new ImageMenuItem ("Duplicate");
 				var EditPin = new ImageMenuItem ("Edit MeasurementCombination...");
 				var RemovePin = new ImageMenuItem ("Remove MeasurementCombination");
 				var ClearPins = new ImageMenuItem ("Clear MeasurementCombination");
 
 				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				ClonePin.Image = new Gtk.Image (Gtk.Stock.Copy, IconSize.Menu);
 				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
 				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
 				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
 
 				if (pin == null)
 				{
+					ClonePin.Sensitive = false;
 					EditPin.Sensitive = false;
 					RemovePin.Sensitive = false;
 				}
 
 				AddPin.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog ();
+				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.CloneMeasurementCombination (pin.AnalogSignal);
 				EditPin.ButtonPressEvent += (o, args) => this.RunMeasurementCombinationDialog (pin.AnalogSignal);
 				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemoveMeasurementCombination (pin.AnalogSignal);
 				ClearPins.ButtonPressEvent += (o, args) => RunMeasurementCombinationClear ();
 
 				m.Add (AddPin);
+				m.Add (ClonePin);
 				m.Add (EditPin);
 				m.Add (RemovePin);
 				m.Add (new SeparatorMenuItem ());
@@ -318,27 +328,32 @@ namespace Frontend
 
 			
 				var AddPin = new ImageMenuItem ("Add Sequence...");
+				var ClonePin = new ImageMenuItem ("Cuplicate");
 				var EditPin = new ImageMenuItem ("Edit Sequence...");
 				var RemovePin = new ImageMenuItem ("Remove Sequence");
 				var ClearPins = new ImageMenuItem ("Clear Sequence");
 
 				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
+				ClonePin.Image = new Gtk.Image (Gtk.Stock.Copy, IconSize.Menu);
 				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
 				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
 				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
 
 				if (pin == null)
 				{
+					ClonePin.Sensitive = false;
 					EditPin.Sensitive = false;
 					RemovePin.Sensitive = false;
 				}
 
 				AddPin.ButtonPressEvent += (o, args) => RunSequenceDialog ();
+				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.CloneSequence (pin.Seq);
 				EditPin.ButtonPressEvent += (o, args) => this.RunSequenceDialog (pin.Seq);
 				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemoveSequence (pin.Seq);
 				ClearPins.ButtonPressEvent += (o, args) => RunSequenceClear ();
 
 				m.Add (AddPin);
+				m.Add (ClonePin);
 				m.Add (EditPin);
 				m.Add (RemovePin);
 				m.Add (new SeparatorMenuItem ());
@@ -1459,6 +1474,7 @@ namespace Frontend
 			);
 			context.Paint ();
 			SetSizeRequest (MCUImage.Width, MCUImage.Height + 200);
+			context.Dispose ();
 		}
 
 		private Cairo.ImageSurface  Compose (params Pixbuf[] Bufs)

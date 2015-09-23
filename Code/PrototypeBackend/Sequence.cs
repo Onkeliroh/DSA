@@ -62,6 +62,14 @@ namespace PrototypeBackend
 			lastOperation = new TimeSpan (0);
 		}
 
+		public Sequence (Sequence copy) : base ()
+		{
+			Pin = new DPin ();
+			Name = copy.Name;
+			Chain = copy.Chain;
+			Repetitions = copy.Repetitions;
+		}
+
 		/// <summary>
 		/// Adds asequence operation.
 		/// </summary>

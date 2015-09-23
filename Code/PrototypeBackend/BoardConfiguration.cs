@@ -274,6 +274,7 @@ namespace PrototypeBackend
 				{
 					APin newPin = new APin (pin as APin);
 					newPin.Number = AvailableAnalogPins [0].Number;
+					newPin.DigitalNumber = AvailableAnalogPins [0].DigitalNumber;
 
 					AddPin (newPin);
 				} else
@@ -285,7 +286,8 @@ namespace PrototypeBackend
 				if (AvailableDigitalPins.Length != 0)
 				{
 					DPin newPin = new DPin (pin as DPin);
-					newPin.Number = AvailableAnalogPins [0].Number;
+					newPin.Number = AvailableDigitalPins [0].Number;
+					newPin.AnalogNumber = AvailableDigitalPins [0].AnalogNumber;
 
 					AddPin (newPin);
 				} else
@@ -295,6 +297,18 @@ namespace PrototypeBackend
 			}
 			CheckPins ();
 			return true;
+		}
+
+		public void CloneMeasurementCombination (MeasurementCombination meCom)
+		{
+			MeasurementCombination copy = new MeasurementCombination (meCom);
+			AddMeasurementCombination (copy);
+		}
+
+		public void CloneSequence (Sequence seq)
+		{
+			Sequence copy = new Sequence (seq);
+			AddSequence (copy);
 		}
 
 		#endregion

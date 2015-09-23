@@ -90,8 +90,19 @@ namespace PrototypeBackend
 			Color = Gdk.Color.Zero;
 			Operation = null;
 			OperationString_ = string.Empty;
-			Color = Gdk.Color.Zero;
 			Unit = string.Empty;
+			Interval = 1;
+		}
+
+		public MeasurementCombination (MeasurementCombination copy) : base ()
+		{
+			Pins = copy.Pins;
+			Name = copy.Name;
+			Color = copy.Color;
+			Operation = copy.Operation;
+			OperationString = copy.OperationString;
+			Unit = copy.Unit;
+			Interval = copy.Interval;
 		}
 
 		public bool AddPin (APin pin)
