@@ -8,6 +8,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.GtkSharp;
 using PrototypeBackend;
+using System.Collections.Generic;
 
 
 namespace SequenceConfigurationsDialog
@@ -70,13 +71,10 @@ namespace SequenceConfigurationsDialog
 
 		#endregion
 
-		public SequenceConfiguration (DPin[] pins, Sequence seq = null, DPin RefPin = null, Gtk.Window parent = null)
+		public SequenceConfiguration (DPin[] pins, List<string> groups, Sequence seq = null, DPin RefPin = null, Gtk.Window parent = null)
 			: base ("Sequence Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
-
-			SetupNodeView ();
-			SetupOxyPlot ();
 
 			DPins = pins;
 
@@ -103,6 +101,10 @@ namespace SequenceConfigurationsDialog
 			{
 				cbPin.Active = pins.ToList ().IndexOf (RefPin);
 			}
+
+			SetupNodeView ();
+			SetupOxyPlot ();
+			SetupGroups (groups);
 			DisplaySequenceInfos ();
 		}
 
@@ -197,6 +199,27 @@ namespace SequenceConfigurationsDialog
 			};
 
 			nvSequenceOptions.Show ();
+		}
+
+		private void SetupGroups (List<string> groups)
+		{
+			foreach (string s in groups)
+			{
+				cbeGroups.AppendText (s);
+			}
+
+			if (!string.IsNullOrEmpty (pinSequence.GroupName) && !string.IsNullOrWhiteSpace (pinSequence.GroupName))
+			{
+				cbeGroups.Active = groups.IndexOf (pinSequence.GroupName);
+			}
+
+			cbeGroups.Changed += (object sender, EventArgs e) =>
+			{
+				if (pinSequence != null)
+				{
+					pinSequence.GroupName = cbeGroups.ActiveText;
+				}
+			};
 		}
 
 		private void SwitchToAddBtn ()

@@ -18,6 +18,8 @@ namespace PrototypeBackend
 	{
 		public DPin Pin { get; set; }
 
+		public string GroupName;
+
 		public string Name { get; set; }
 
 		public Gdk.Color Color { get { return Pin.PlotColor; } private set { } }
@@ -54,6 +56,7 @@ namespace PrototypeBackend
 		{
 			Pin = new DPin ();
 			Name = "";
+			GroupName = "";
 			Chain = new List<SequenceOperation> ();
 			Repetitions = 0;
 			Cycle = 0;
@@ -239,6 +242,7 @@ namespace PrototypeBackend
 		{
 			info.AddValue ("Pin", Pin);
 			info.AddValue ("Name", Name);
+			info.AddValue ("GroupName", GroupName);
 			info.AddValue ("RED", uintToByte (Color.Red));
 			info.AddValue ("GREEN", uintToByte (Color.Green));
 			info.AddValue ("BLUE", uintToByte (Color.Blue));
@@ -252,6 +256,8 @@ namespace PrototypeBackend
 			Pin = (DPin)info.GetValue ("Pin", Pin.GetType ());
 
 			Name = info.GetString ("Name");
+
+			GroupName = info.GetString ("GroupName");
 
 			Chain = new List<SequenceOperation> ();
 			Chain = (List<SequenceOperation>)info.GetValue ("Chain", Chain.GetType ());

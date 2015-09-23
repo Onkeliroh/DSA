@@ -118,6 +118,32 @@ namespace PrototypeTests
 		{
 					
 		}
+
+		[Test]
+		public void GroupTest ()
+		{
+			var conf = new BoardConfiguration ();
+
+			for (uint i = 0; i < 10; i++)
+			{
+				conf.AddPin (new DPin () {
+					Number = i
+				});
+				conf.AddSequence (new Sequence () {
+					Pin = conf.DigitalPins [(int)i],
+					GroupName = i.ToString ()
+				});
+			}
+
+			Assert.AreEqual (10, conf.SequenceGroups.Count);
+
+			conf.RemoveSequence (5);
+			Assert.AreEqual (9, conf.SequenceGroups.Count);
+
+			conf.Sequences [2].GroupName = conf.Sequences [0].GroupName;
+			Assert.AreEqual (8, conf.SequenceGroups.Count);
+
+		}
 	}
 }
 

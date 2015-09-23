@@ -210,26 +210,30 @@ namespace GUIHelper
 		}
 	}
 
+	[Gtk.TreeNode (ListOnly = true)]
 	public class SequenceTreeNode : Gtk.TreeNode
 	{
 		public int Index { get; private set; }
 
 		[Gtk.TreeNodeValue (Column = 0)]
-		public string Name { get { return Seq.Name; } set { Seq.Name = value; } }
+		public string GroupName { get { return Seq.GroupName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public Pixbuf Color { get { return ColorHelper.ColoredPixbuf (Seq.Pin.PlotColor); } private set { } }
+		public string Name { get { return Seq.Name; } set { Seq.Name = value; } }
 
 		[Gtk.TreeNodeValue (Column = 2)]
-		public string Pins { get { return Seq.Pin.Name; } private set { } }
+		public Pixbuf Color { get { return ColorHelper.ColoredPixbuf (Seq.Pin.PlotColor); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 3)]
-		public string Number { get { return Seq.Pin.DisplayNumber; } private set { } }
+		public string Pins { get { return Seq.Pin.Name; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 4)]
-		public string Runtime { get { return Seq.Runtime.ToString ("g"); } private set { } }
+		public string Number { get { return Seq.Pin.DisplayNumber; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 5)]
+		public string Runtime { get { return Seq.Runtime.ToString ("g"); } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 6)]
 		public string Repetitions { get { return (Seq.Repetitions != -1) ? Seq.Repetitions + " Cycle(s)" : "\u221E Cycles"; } private set { } }
 
 		public Sequence Seq;

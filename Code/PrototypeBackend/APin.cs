@@ -23,7 +23,7 @@ namespace PrototypeBackend
 
 		public string DisplayName { get { return string.Format ("{0} ({1})", Name, DisplayNumber); } set { } }
 
-		public string DisplayNumber { get { return string.Format ("A{0} | D{1}", Number, DigitalNumber); } set { } }
+		public string DisplayNumber { get { return string.Format ("A{0} | D{1}", Number.ToString ().PadLeft (2, '0'), DigitalNumber); } set { } }
 
 		public string Unit { get; set; }
 

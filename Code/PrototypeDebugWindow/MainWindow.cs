@@ -414,6 +414,10 @@ namespace Frontend
 			{
 				NodeStoreSequences.AddNode (new SequenceTreeNode (con.Configuration.Sequences [i], i));
 			}
+			foreach (TreeViewColumn tvc in nvSequences.Columns)
+			{
+				tvc.QueueResize ();
+			}
 			nvSequences.QueueDraw ();
 		}
 
@@ -629,6 +633,7 @@ namespace Frontend
 		{
 			#region Digital
 			nvDigitalPins.NodeStore = NodeStoreDigitalPins;
+			TreeModelSort DPinsorter = new TreeModelSort (nvDigitalPins.Model);
 			nvDigitalPins.RowActivated += (o, args) =>
 			{
 				var pin = con.Configuration.Pins
@@ -637,16 +642,59 @@ namespace Frontend
 				RunAddDPinDialog (pin as DPin);
 			};
 
-			nvDigitalPins.AppendColumn ("Name", new Gtk.CellRendererText (), "text", 0);
-			nvDigitalPins.AppendColumn ("Number", new Gtk.CellRendererText (), "text", 1);
+			nvDigitalPins.AppendColumn (new TreeViewColumn ("Name", new Gtk.CellRendererText (), "text", 0) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 0,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvDigitalPins.AppendColumn (new TreeViewColumn ("Number", new Gtk.CellRendererText (), "text", 1) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 1,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
 			nvDigitalPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 2);
-			nvDigitalPins.AppendColumn ("Seqeuence", new Gtk.CellRendererText (), "text", 3);
+			nvDigitalPins.AppendColumn (new TreeViewColumn ("Seqeuence", new Gtk.CellRendererText (), "text", 3) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 3,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
 
+			DPinsorter.SetSortFunc (0, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 0);
+				string s2 = (string)model.GetValue (b, 0);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			DPinsorter.SetSortFunc (1, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 1);
+				string s2 = (string)model.GetValue (b, 1);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			DPinsorter.SetSortFunc (3, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 3);
+				string s2 = (string)model.GetValue (b, 3);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+
+			nvDigitalPins.Model = DPinsorter;
 			nvDigitalPins.Show ();
+
 			#endregion
 
 			#region Measurment
 			nvAnalogPins.NodeStore = NodeStoreAnalogPins;
+			TreeModelSort APinsorter = new TreeModelSort (nvAnalogPins.Model);
 			nvAnalogPins.RowActivated += (o, args) =>
 			{
 				var pin = con.Configuration.Pins
@@ -655,59 +703,298 @@ namespace Frontend
 				RunAddAPinDialog (pin as APin);
 			};
 
-			nvAnalogPins.AppendColumn ("Name", new Gtk.CellRendererText (), "text", 0);
-			nvAnalogPins.AppendColumn ("Number", new Gtk.CellRendererText (), "text", 1);
+			nvAnalogPins.AppendColumn (new TreeViewColumn ("Name", new Gtk.CellRendererText (), "text", 0) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 0,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvAnalogPins.AppendColumn (new TreeViewColumn ("Number", new Gtk.CellRendererText (), "text", 1) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 1,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
 			nvAnalogPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 2);
 			nvAnalogPins.AppendColumn ("Slope", new Gtk.CellRendererText (), "text", 3);
 			nvAnalogPins.AppendColumn ("Offset", new Gtk.CellRendererText (), "text", 4);
-			nvAnalogPins.AppendColumn ("Unit", new Gtk.CellRendererText (), "text", 5);
-			nvAnalogPins.AppendColumn ("Frequency", new Gtk.CellRendererText (), "text", 6);
-			nvAnalogPins.AppendColumn ("Interval", new Gtk.CellRendererText (), "text", 7);
-			nvAnalogPins.AppendColumn ("Combination", new Gtk.CellRendererText (), "text", 8);
+			nvAnalogPins.AppendColumn (new TreeViewColumn ("Unit", new Gtk.CellRendererText (), "text", 5) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 5,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvAnalogPins.AppendColumn (new TreeViewColumn ("Frequency", new Gtk.CellRendererText (), "text", 6) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 6,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvAnalogPins.AppendColumn (new TreeViewColumn ("Interval", new Gtk.CellRendererText (), "text", 7) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 7,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvAnalogPins.AppendColumn (new TreeViewColumn ("Combination", new Gtk.CellRendererText (), "text", 8) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 8,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
 
+			APinsorter.SetSortFunc (0, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 0);
+				string s2 = (string)model.GetValue (b, 0);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			APinsorter.SetSortFunc (1, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 1);
+				string s2 = (string)model.GetValue (b, 1);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			APinsorter.SetSortFunc (5, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 5);
+				string s2 = (string)model.GetValue (b, 5);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			APinsorter.SetSortFunc (6, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				TimeSpan s1 = TimeSpan.Parse ((string)model.GetValue (a, 6));
+				TimeSpan s2 = TimeSpan.Parse ((string)model.GetValue (b, 6));
+				// Analysis disable once StringCompareIsCultureSpecific
+				return (s1 < s2) ? -1 : 1;
+
+			});
+			APinsorter.SetSortFunc (7, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				double s1 = Convert.ToDouble ((string)model.GetValue (a, 7));
+				double s2 = Convert.ToDouble ((string)model.GetValue (b, 7));
+				// Analysis disable once StringCompareIsCultureSpecific
+				return (s1 < s2) ? -1 : 1;
+			});
+			APinsorter.SetSortFunc (8, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 8);
+				string s2 = (string)model.GetValue (b, 8);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+
+			nvAnalogPins.Model = APinsorter;
 			nvAnalogPins.Show ();
 			#endregion
 
 			#region Sequences
 
 			nvSequences.NodeStore = NodeStoreSequences;
+			Gtk.TreeModelSort sorter = new Gtk.TreeModelSort (nvSequences.Model);
 			nvSequences.RowActivated += (o, args) =>
 			{
 				var Seq = con.Configuration.Sequences [((o as NodeView).NodeSelection.SelectedNode as SequenceTreeNode).Index];
 				RunSequenceDialog (Seq);
 			};
 
-			nvSequences.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
-			nvSequences.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
-			nvSequences.AppendColumn (new TreeViewColumn ("Pin Name", new CellRendererText (), "text", 2));
-			nvSequences.AppendColumn (new TreeViewColumn ("Pin Number", new CellRendererText (), "text", 3));
-			nvSequences.AppendColumn (new TreeViewColumn ("Runtime", new CellRendererText (), "text", 4));
-			nvSequences.AppendColumn (new TreeViewColumn ("Repetitions", new CellRendererText (), "text", 5));
+			nvSequences.AppendColumn (new TreeViewColumn ("Group", new CellRendererText (), "text", 0) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 0,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvSequences.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 1) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 1,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvSequences.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 2));
+			nvSequences.AppendColumn (new TreeViewColumn ("Pin Name", new CellRendererText (), "text", 3) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 3,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvSequences.AppendColumn (new TreeViewColumn ("Pin Number", new CellRendererText (), "text", 4) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 4,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvSequences.AppendColumn (new TreeViewColumn ("Runtime", new CellRendererText (), "text", 5) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 5,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvSequences.AppendColumn (new TreeViewColumn ("Repetitions", new CellRendererText (), "text", 6) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 6,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
 
+			sorter.SetSortFunc (0, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 0);
+				string s2 = (string)model.GetValue (b, 0);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			sorter.SetSortFunc (1, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 1);
+				string s2 = (string)model.GetValue (b, 1);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			sorter.SetSortFunc (3, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 3);
+				string s2 = (string)model.GetValue (b, 3);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			sorter.SetSortFunc (4, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 4);
+				string s2 = (string)model.GetValue (b, 4);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			sorter.SetSortFunc (5, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				TimeSpan s1 = TimeSpan.Parse ((string)model.GetValue (a, 5));
+				TimeSpan s2 = TimeSpan.Parse ((string)model.GetValue (b, 5));
+				// Analysis disable once StringCompareIsCultureSpecific
+				return (s1 < s2) ? -1 : 1;
+			});
+			sorter.SetSortFunc (6, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				int s1 = Convert.ToInt32 (((string)model.GetValue (a, 6)).Split (new char[]{ ' ' }) [0]);
+				int s2 = Convert.ToInt32 (((string)model.GetValue (b, 6)).Split (new char[]{ ' ' }) [0]);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return (s1 < s2) ? -1 : 1;
+			});
+
+			nvSequences.Model = sorter;
 			nvSequences.Show ();
 			#endregion
 
 			#region MeasurementCombinations
 			nvMeasurementCombinations.NodeStore = NodeStoreMeasurementCombinations;
+			TreeModelSort MeComsorter = new TreeModelSort (nvMeasurementCombinations.Model);
 			nvMeasurementCombinations.RowActivated += (o, args) =>
 			{
 				var sig = con.Configuration.MeasurementCombinations [((o as NodeView).NodeSelection.SelectedNode as MeasurementCombinationTreeNode).Index];
 				RunMeasurementCombinationDialog (sig);
 			};
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 0) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 0,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Color", new CellRendererPixbuf (), "pixbuf", 1));
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin Name", new CellRendererText (), "text", 2));
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin Number", new CellRendererText (), "text", 3));
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 4));
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 5));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin Name", new CellRendererText (), "text", 2) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 2,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Pin Number", new CellRendererText (), "text", 3) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 3,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 4) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 4,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 5) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				SortColumnId = 5,
+				SortOrder = SortType.Ascending,
+				Clickable = true,
+			});
 			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 6));
+
+			MeComsorter.SetSortFunc (0, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 0);
+				string s2 = (string)model.GetValue (b, 0);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			MeComsorter.SetSortFunc (2, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 2);
+				string s2 = (string)model.GetValue (b, 2);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			MeComsorter.SetSortFunc (3, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 3);
+				string s2 = (string)model.GetValue (b, 3);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+			MeComsorter.SetSortFunc (4, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				TimeSpan s1 = TimeSpan.Parse ((string)model.GetValue (a, 4));
+				TimeSpan s2 = TimeSpan.Parse ((string)model.GetValue (b, 4));
+				// Analysis disable once StringCompareIsCultureSpecific
+				return (s1 < s2) ? -1 : 1;
+			});
+			MeComsorter.SetSortFunc (5, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				double s1 = Convert.ToDouble ((string)model.GetValue (a, 5));
+				double s2 = Convert.ToDouble ((string)model.GetValue (b, 5));
+				// Analysis disable once StringCompareIsCultureSpecific
+				return (s1 < s2) ? -1 : 1;
+			});
+			MeComsorter.SetSortFunc (6, delegate(TreeModel model, TreeIter a, TreeIter b)
+			{
+				string s1 = (string)model.GetValue (a, 6);
+				string s2 = (string)model.GetValue (b, 6);
+				// Analysis disable once StringCompareIsCultureSpecific
+				return String.Compare (s1, s2);
+			});
+
+			nvMeasurementCombinations.Model = MeComsorter;
+			nvMeasurementCombinations.Show ();
+
 			#endregion
 		}
 
 		private void BuildMenu ()
 		{
-			//TODO Add icons
-			//TODO Add events
 			MenuBar mbar = (this.UIManager.GetWidget ("/menubarMain") as MenuBar);
 
 			#region FileMenu
@@ -1681,7 +1968,14 @@ namespace Frontend
 
 		private void RunSequenceDialog (Sequence seq = null, DPin RefPin = null)
 		{
-			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (con.Configuration.GetPinsWithoutSequence (), seq, RefPin, this);
+			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (
+				             con.Configuration.GetPinsWithoutSequence (), 
+				             con.Configuration.SequenceGroups, 
+				             seq, 
+				             RefPin, 
+				             this
+			             );
+
 			dialog.Response += (o, args) =>
 			{
 				if (args.ResponseId == ResponseType.Apply)

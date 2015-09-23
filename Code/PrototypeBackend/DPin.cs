@@ -21,9 +21,9 @@ namespace PrototypeBackend
 		public string DisplayNumber {
 			get {
 				if (AnalogNumber != -1)
-					return string.Format ("D{0} | A{1}", Number, AnalogNumber);
+					return string.Format ("D{0} | A{1}", Number.ToString ().PadLeft (2, '0'), AnalogNumber);
 				else
-					return string.Format ("D{0}", Number);
+					return string.Format ("D{0}", Number.ToString ().PadLeft (2, '0'));
 			}
 			set { }
 		}

@@ -61,6 +61,11 @@ namespace PrototypeBackend
 
 		public List<Sequence> Sequences{ get; private set; }
 
+		public List<string> SequenceGroups { 
+			get { return Sequences.Select (o => o.GroupName).Distinct ().Where (s => !string.IsNullOrEmpty (s) && !string.IsNullOrWhiteSpace (s)).ToList<string> (); }
+			private set { }
+		}
+
 
 		//Settings
 
