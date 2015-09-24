@@ -142,7 +142,6 @@ namespace PrototypeTests
 
 			conf.Sequences [2].GroupName = conf.Sequences [0].GroupName;
 			Assert.AreEqual (8, conf.SequenceGroups.Count);
-
 		}
 	}
 }

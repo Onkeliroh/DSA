@@ -31,24 +31,30 @@ namespace DigitalPinConfigurationDialog
 
 			this.FocusChain = new Widget[]{ entryName, cbPin, cbColor, buttonOk, buttonCancel };
 
-			if (dpin != null) {
+			if (dpin != null)
+			{
 				AvailablePins = new DPin[availablePins.Length + 1];
 				Array.Copy (availablePins, AvailablePins, availablePins.Length);
 				AvailablePins [availablePins.Length] = dpin;
-			} else {
+			} else
+			{
 				AvailablePins = availablePins;
 			}
 
-			if (dpin != null) {
+			if (dpin != null)
+			{
 				Pin = dpin;
-			} else {
+			} else
+			{
 				pin = new DPin ();
 			}
 
-			for (int i = 0; i < availablePins.Length; i++) {
+			for (int i = 0; i < availablePins.Length; i++)
+			{
 				cbPin.AppendText (availablePins [i].DisplayNumber);
 			}
-			if (availablePins.Length > 0) {
+			if (availablePins.Length > 0)
+			{
 				cbPin.Active = 0;
 			}
 		}
@@ -60,7 +66,7 @@ namespace DigitalPinConfigurationDialog
 			pin.Number = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].Number;
 			pin.PlotColor = cbColor.Color;
 
-			Respond (Gtk.ResponseType.Apply);
+//			Respond (Gtk.ResponseType.Apply);
 		}
 
 		protected void OnButtonCancelClicked (object sender, EventArgs e)
@@ -70,18 +76,22 @@ namespace DigitalPinConfigurationDialog
 
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
-			if (pin != null) {
+			if (pin != null)
+			{
 				pin.Name = entryName.Text;
 			}
 		}
 
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			try {
-				if (pin != null) {
+			try
+			{
+				if (pin != null)
+				{
 					pin.Number = Convert.ToUInt32 (cbPin.ActiveText.Remove (0, 1));
 				}
-			} catch (Exception ee) {
+			} catch (Exception ee)
+			{
 			}
 		}
 

@@ -113,14 +113,19 @@ namespace Frontend
 			#endif
 
 			BindControllerEvents ();
+//			BindWidgetEvents ();
 
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnSequeneceNodePressed);
 			nvMeasurementCombinations.ButtonPressEvent += new ButtonPressEventHandler (OnMeasurementCombinationNodePressed);
 			nvAnalogPins.ButtonPressEvent += new ButtonPressEventHandler (OnAnalogPinNodePressed);
+			nvAnalogPins.ButtonPressEvent += (sender, o) => FillAnalogPinNodes ();
+			nvDigitalPins.ButtonPressEvent += (sender, o) => FillDigitalPinNodes ();
+			nvSequences.ButtonPressEvent += (sender, o) => FillSequenceNodes ();
+			nvMeasurementCombinations.ButtonPressEvent += (sender, o) => FillMeasurementCombinationNodes ();
 			drawingareaMCU.ExposeEvent += DrawMCU;
-			cbBoardType1.Changed += OnCbBoardTypeChanged;
-			cbAREF1.Changed += OnCbAREFChanged;
+			cbBoardType.Changed += OnCbBoardTypeChanged;
+			cbAREF.Changed += OnCbAREFChanged;
 			con.Configuration.OnBoardUpdated += RefreshMCUInfos;
 			con.OnOnfigurationLoaded += (sender, e) =>
 			{
@@ -141,16 +146,16 @@ namespace Frontend
 		[GLib.ConnectBeforeAttribute]
 		protected void OnAnalogPinNodePressed (object sender, ButtonPressEventArgs e)
 		{
+			APinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as APinTreeNode;
 			//right mouse button
 			if (e.Event.Button == 3)
 			{
 				Menu m = new Menu ();
-				APinTreeNode pin = (sender as NodeView).NodeSelection.SelectedNode as APinTreeNode;
 
 				var AddPin = new ImageMenuItem ("Add Measurement...");
 				var ClonePin = new ImageMenuItem ("Cuplicate");
 				var EditPin = new ImageMenuItem ("Edit Measurement...");
-				var RemovePin = new ImageMenuItem ("Remove Measruement");
+				var RemovePin = new ImageMenuItem ("Delete Measruement");
 				var ClearPins = new ImageMenuItem ("Clear Measurements");
 				var AddCombination = new ImageMenuItem ("Add Combination...");
 				var EditCombination = new ImageMenuItem ("Edit Combination...");
@@ -158,7 +163,7 @@ namespace Frontend
 				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
 				ClonePin.Image = new Gtk.Image (Gtk.Stock.Copy, IconSize.Menu);
 				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
-				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				RemovePin.Image = new Gtk.Image (Gtk.Stock.Delete, IconSize.Menu);
 				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
 				AddCombination.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
 				EditCombination.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
@@ -179,9 +184,16 @@ namespace Frontend
 					{
 						AddCombination.Sensitive = false;
 					}
+					if (con.Configuration.AvailableDigitalPins.Length == 0)
+					{
+						ClonePin.Sensitive = false;
+					}
 				}
 				AddPin.ButtonPressEvent += (o, args) => RunAddAPinDialog ();
-				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.ClonePin (pin.Pin);
+				ClonePin.ButtonPressEvent += (o, args) =>
+				{
+					con.Configuration.ClonePin (pin.Pin as APin);
+				};
 				EditPin.ButtonPressEvent += (o, args) => RunAddAPinDialog (pin.Pin);
 				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Index);
 				ClearPins.ButtonPressEvent += (o, args) => RunAPinClear ();
@@ -217,7 +229,7 @@ namespace Frontend
 				var AddPin = new ImageMenuItem ("Add Output...");
 				var ClonePin = new ImageMenuItem ("Duplicate");
 				var EditPin = new ImageMenuItem ("Edit Output...");
-				var RemovePin = new ImageMenuItem ("Remove Output");
+				var RemovePin = new ImageMenuItem ("Delete Output");
 				var ClearPins = new ImageMenuItem ("Clear Outputs");
 				var AddSequence = new ImageMenuItem ("Add Sequence...");
 				var EditSequence = new ImageMenuItem ("Edit Sequence...");
@@ -225,7 +237,7 @@ namespace Frontend
 				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
 				ClonePin.Image = new Gtk.Image (Gtk.Stock.Copy, IconSize.Menu);
 				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
-				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				RemovePin.Image = new Gtk.Image (Gtk.Stock.Delete, IconSize.Menu);
 				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
 				AddSequence.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
 				EditSequence.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
@@ -246,10 +258,14 @@ namespace Frontend
 					{
 						AddSequence.Sensitive = false;
 					}
+					if (con.Configuration.AvailableDigitalPins.Length == 0)
+					{
+						ClonePin.Sensitive = false;
+					}
 				}
 
 				AddPin.ButtonPressEvent += (o, args) => RunAddDPinDialog ();
-				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.ClonePin (pin.Pin);
+				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.ClonePin (pin.Pin as DPin);
 				EditPin.ButtonPressEvent += (o, args) => RunAddDPinDialog (pin.Pin);
 				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Index);
 				ClearPins.ButtonPressEvent += (o, args) => RunDPinClear ();
@@ -285,13 +301,13 @@ namespace Frontend
 				var AddPin = new ImageMenuItem ("Add MeasurementCombination...");
 				var ClonePin = new ImageMenuItem ("Duplicate");
 				var EditPin = new ImageMenuItem ("Edit MeasurementCombination...");
-				var RemovePin = new ImageMenuItem ("Remove MeasurementCombination");
+				var RemovePin = new ImageMenuItem ("Delete MeasurementCombination");
 				var ClearPins = new ImageMenuItem ("Clear MeasurementCombination");
 
 				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
 				ClonePin.Image = new Gtk.Image (Gtk.Stock.Copy, IconSize.Menu);
 				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
-				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				RemovePin.Image = new Gtk.Image (Gtk.Stock.Delete, IconSize.Menu);
 				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
 
 				if (pin == null)
@@ -330,32 +346,82 @@ namespace Frontend
 				var AddPin = new ImageMenuItem ("Add Sequence...");
 				var ClonePin = new ImageMenuItem ("Cuplicate");
 				var EditPin = new ImageMenuItem ("Edit Sequence...");
-				var RemovePin = new ImageMenuItem ("Remove Sequence");
+				var RemovePin = new ImageMenuItem ("Delete Sequence");
+				var AddToGroupItem = new MenuItem ("Add to group");
+				var AddToGroupMenu = new Menu ();
 				var ClearPins = new ImageMenuItem ("Clear Sequence");
+				var RemoveGroupItem = new ImageMenuItem ("Remove from group");
+				var RemoveGroupSequences = new ImageMenuItem ("Delete group sequences");
 
 				AddPin.Image = new Gtk.Image (Gtk.Stock.Add, IconSize.Menu);
 				ClonePin.Image = new Gtk.Image (Gtk.Stock.Copy, IconSize.Menu);
 				EditPin.Image = new Gtk.Image (Gtk.Stock.Edit, IconSize.Menu);
-				RemovePin.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				RemovePin.Image = new Gtk.Image (Gtk.Stock.Delete, IconSize.Menu);
 				ClearPins.Image = new Gtk.Image (Gtk.Stock.Clear, IconSize.Menu);
+				RemoveGroupItem.Image = new Gtk.Image (Gtk.Stock.Remove, IconSize.Menu);
+				RemoveGroupSequences.Image = new Gtk.Image (Gtk.Stock.Delete, IconSize.Menu);
 
-				if (pin == null)
-				{
-					ClonePin.Sensitive = false;
-					EditPin.Sensitive = false;
-					RemovePin.Sensitive = false;
-				}
 
 				AddPin.ButtonPressEvent += (o, args) => RunSequenceDialog ();
 				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.CloneSequence (pin.Seq);
 				EditPin.ButtonPressEvent += (o, args) => this.RunSequenceDialog (pin.Seq);
 				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemoveSequence (pin.Seq);
 				ClearPins.ButtonPressEvent += (o, args) => RunSequenceClear ();
+				RemoveGroupItem.ButtonPressEvent += (o, args) =>
+				{
+					pin.Seq.GroupName = string.Empty;
+				};
+				RemoveGroupSequences.ButtonPressEvent += (o, args) => RunSequenceGroupDelete (pin.Seq.GroupName);
+
+				AddToGroupItem.Submenu = AddToGroupMenu;
+				foreach (string s in con.Configuration.SequenceGroups)
+				{
+					var item = new MenuItem (s);
+					item.ButtonPressEvent += (o, args) =>
+					{
+						if (pin != null)
+						{
+							pin.Seq.GroupName = s;
+						}
+					};
+					AddToGroupMenu.Add (item);
+				}
+
+
+				AddToGroupMenu.Add (new SeparatorMenuItem ());
+				AddToGroupMenu.Add (RemoveGroupItem);
+
+				if (pin == null)
+				{
+					ClonePin.Sensitive = false;
+					EditPin.Sensitive = false;
+					RemovePin.Sensitive = false;
+					AddToGroupMenu.Sensitive = false;
+					RemoveGroupSequences.Sensitive = false;
+				} else
+				{
+					if (string.IsNullOrEmpty (pin.Seq.GroupName))
+					{
+						RemoveGroupItem.Sensitive = false;
+						RemoveGroupSequences.Sensitive = false;
+					}
+					if (con.Configuration.SequenceGroups.Count == 0)
+					{
+						AddToGroupItem.Sensitive = false;
+					}
+					if (con.Configuration.GetPinsWithoutSequence ().Length == 0)
+					{
+						ClonePin.Sensitive = false;
+					}
+				}
 
 				m.Add (AddPin);
 				m.Add (ClonePin);
 				m.Add (EditPin);
 				m.Add (RemovePin);
+				m.Add (new SeparatorMenuItem ());
+				m.Add (AddToGroupItem);
+				m.Add (RemoveGroupSequences);
 				m.Add (new SeparatorMenuItem ());
 				m.Add (ClearPins);
 				m.ShowAll ();
@@ -413,10 +479,6 @@ namespace Frontend
 			for (int i = 0; i < con.Configuration.Sequences.Count; i++)
 			{
 				NodeStoreSequences.AddNode (new SequenceTreeNode (con.Configuration.Sequences [i], i));
-			}
-			foreach (TreeViewColumn tvc in nvSequences.Columns)
-			{
-				tvc.QueueResize ();
 			}
 			nvSequences.QueueDraw ();
 		}
@@ -595,8 +657,8 @@ namespace Frontend
 			{
 				store.AppendValues (new object[]{ b.Name });
 			}
-			cbBoardType1.Model = store;
-			cbBoardType1.Show ();
+			cbBoardType.Model = store;
+			cbBoardType.Show ();
 		}
 
 		private void BindControllerEvents ()
@@ -627,6 +689,43 @@ namespace Frontend
 			con.OnControllerStarted += (o, a) => LockControlls (false);
 			con.OnControllerStoped += (o, a) => LockControlls (true);
 
+		}
+
+		/// <summary>
+		/// Binds the widget events. This does not seam to work with glade interfaces.
+		/// </summary>
+		[Obsolete]
+		protected void BindWidgetEvents ()
+		{
+			btnAddAPin.ButtonPressEvent += OnBtnAddAPinClicked;
+			btnEditAPin.ButtonPressEvent += OnBtnEditAPinClicked;
+			btnRemoveAPin.ButtonPressEvent += OnBtnRemoveAPinClicked;
+			btnClearAPins.ButtonPressEvent += OnBtnClearAPinsClicked;
+
+			btnAddDPin.ButtonPressEvent += OnBtnAddDPinClicked;
+			btnEditDPin.ButtonPressEvent += OnBtnEditDPinClicked;
+			btnRemoveDPin.ButtonPressEvent += OnBtnRemoveDPinClicked;
+			btnClearDPins.ButtonPressEvent += OnBtnClearDPinsClicked;
+
+			btnAddSignal.ButtonPressEvent += OnBtnAddSignalClicked;
+			btnEditSignal.ButtonPressEvent += OnBtnEditSignalClicked;
+			btnRemoveSignal.ButtonPressEvent += OnBtnRemoveSignalClicked;
+			btnClearSignals.ButtonPressEvent += OnBtnClearSignalsClicked;
+
+			btnAddSequence.ButtonPressEvent += OnBtnAddSequenceClicked;
+			btnEditSequence.ButtonPressEvent += OnBtnEditSequenceClicked;
+			btnRemoveSequence.ButtonPressEvent += OnBtnRemoveSequenceClicked;
+			btnClearSequence.ButtonPressEvent += OnBtnClearSequenceClicked;
+
+			cbBoardType.Changed += OnCbBoardTypeChanged;
+			cbAREF.Changed += OnCbAREFChanged;
+
+			btnCSVFilePathOpen.ButtonPressEvent += OnBtnCSVFilePathOpenClicked;
+			cbeCSVSeparator.Changed += OnCbeCSVSeparatorChanged;
+			cbeCSVTimeFormat.Changed += OnCbeCSVTimeFormatChanged;
+			cbeCSVEmptyValueFilling.Changed += OnCbeCSVEmptyValueFillingChanged;
+			cbCSVUTC.Toggled += OnCbCSVUTCToggled;
+			cbCSVLocaltime.Toggled += OnCbCSVLocaltimeToggled;
 		}
 
 		private void BuildNodeViews ()
@@ -1224,7 +1323,7 @@ namespace Frontend
 
 		private void RefreshMCUInfos (object sender, EventArgs e)
 		{
-			cbBoardType1.Active = con.BoardConfigs.ToList ()
+			cbBoardType.Active = con.BoardConfigs.ToList ()
 				.IndexOf (con.BoardConfigs.ToList ()
 					.Single (o => o.MCU == con.Configuration.Board.MCU)
 			);
@@ -1270,7 +1369,7 @@ namespace Frontend
 		protected void OnCbBoardTypeChanged (object sender, EventArgs e)
 		{
 			//TODO englisch prüfen
-			if (LastActiveBoard != cbBoardType1.Active && LastActiveBoard != -1)
+			if (LastActiveBoard != cbBoardType.Active && LastActiveBoard != -1)
 			{
 				//TODO auf unterschied prüfen. sonst ignorieren
 				var dialog = new MessageDialog (this.Toplevel as Gtk.Window, DialogFlags.Modal, MessageType.Info, ButtonsType.YesNo,
@@ -1279,20 +1378,20 @@ namespace Frontend
 				{
 					if (args.ResponseId == ResponseType.Yes)
 					{
-						LastActiveBoard = cbBoardType1.Active;
-						con.Configuration.Board = con.BoardConfigs [cbBoardType1.Active];
+						LastActiveBoard = cbBoardType.Active;
+						con.Configuration.Board = con.BoardConfigs [cbBoardType.Active];
 						UpdateAREFList ();
 					} else
 					{
-						cbBoardType1.Active = LastActiveBoard;
+						cbBoardType.Active = LastActiveBoard;
 					}
 				};
 				dialog.Run ();
 				dialog.Destroy ();
 			} else
 			{
-				LastActiveBoard = cbBoardType1.Active;
-				con.Configuration.Board = con.BoardConfigs [cbBoardType1.Active];
+				LastActiveBoard = cbBoardType.Active;
+				con.Configuration.Board = con.BoardConfigs [cbBoardType.Active];
 				UpdateAREFList ();
 			}
 
@@ -1310,7 +1409,7 @@ namespace Frontend
 					store.AppendValues (new object[]{ key });
 				}
 
-				cbAREF1.Model = store;
+				cbAREF.Model = store;
 
 				if (con.Configuration.Board.AnalogReferenceVoltage != -1 &&
 				    con.Configuration.Board.AnalogReferences.ContainsValue (con.Configuration.Board.AnalogReferenceVoltage))
@@ -1318,31 +1417,31 @@ namespace Frontend
 					int index = con.Configuration.Board.AnalogReferences.Values.ToList ()
 						.IndexOf (con.Configuration.Board.AnalogReferenceVoltage);
 
-					cbAREF1.Active = index;
+					cbAREF.Active = index;
 				}
 
-				cbAREF1.Show ();
+				cbAREF.Show ();
 			}
 		}
 
 		protected void OnCbAREFChanged (object sender, EventArgs e)
 		{
-			if (cbAREF1.ActiveText == "EXTERNAL")
+			if (cbAREF.ActiveText == "EXTERNAL")
 			{
-				sbAREFExternal1.Sensitive = true;
+				sbAREFExternal.Sensitive = true;
 			} else
 			{
-				sbAREFExternal1.Sensitive = false;
+				sbAREFExternal.Sensitive = false;
 			}
 			if (con.Configuration.Board != null)
 			{
-				if (!sbAREFExternal1.Sensitive)
+				if (!sbAREFExternal.Sensitive)
 				{
-					con.Configuration.Board.AnalogReferenceVoltage = con.Configuration.Board.AnalogReferences.ElementAt (cbAREF1.Active).Value;
-					sbAREFExternal1.Value = con.Configuration.Board.AnalogReferenceVoltage;
+					con.Configuration.Board.AnalogReferenceVoltage = con.Configuration.Board.AnalogReferences.ElementAt (cbAREF.Active).Value;
+					sbAREFExternal.Value = con.Configuration.Board.AnalogReferenceVoltage;
 				} else
 				{
-					con.Configuration.Board.AnalogReferenceVoltage = sbAREFExternal1.Value;
+					con.Configuration.Board.AnalogReferenceVoltage = sbAREFExternal.Value;
 				}
 			}
 		}
@@ -1512,6 +1611,15 @@ namespace Frontend
 		protected void OnBtnAddAPinClicked (object sender, EventArgs e)
 		{
 			RunAddAPinDialog ();
+		}
+
+		protected void OnBtnCloneAPinClicked (object sender, EventArgs e)
+		{
+			APinTreeNode node = (APinTreeNode)nvAnalogPins.NodeSelection.SelectedNode;
+			if (node != null && con.Configuration.AvailableAnalogPins.Length > 0)
+			{
+				con.Configuration.ClonePin (node.Pin);
+			}
 		}
 
 		protected void OnBtnEditDPinClicked (object sender, EventArgs e)
@@ -1987,6 +2095,25 @@ namespace Frontend
 					{
 						con.Configuration.SetSequence (con.Configuration.Sequences.IndexOf (seq), dialog.PinSequence);
 					}
+				}
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		private void RunSequenceGroupDelete (string group)
+		{
+			var dialog = new MessageDialog (
+				             this,
+				             DialogFlags.Modal,
+				             MessageType.Warning,
+				             ButtonsType.YesNo,
+				             "You are about to delete every sequence related to this group.\nDo you wish to proceed?");
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Yes)
+				{
+					con.Configuration.RemoveSequenceGroup (group);
 				}
 			};
 			dialog.Run ();

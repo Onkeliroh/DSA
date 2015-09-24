@@ -86,6 +86,8 @@ namespace SequenceConfigurationsDialog
 					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
 				}
 			}
+			SetupNodeView ();
+			SetupOxyPlot ();
 
 			if (seq != null)
 			{
@@ -102,8 +104,6 @@ namespace SequenceConfigurationsDialog
 				cbPin.Active = pins.ToList ().IndexOf (RefPin);
 			}
 
-			SetupNodeView ();
-			SetupOxyPlot ();
 			SetupGroups (groups);
 			DisplaySequenceInfos ();
 		}
@@ -342,7 +342,7 @@ namespace SequenceConfigurationsDialog
 		{
 			try
 			{
-				if (cbPin.ActiveText != null)
+				if (cbPin.ActiveText != null && selectedPin != null)
 				{
 					if (cbPin.ActiveText.Length > 0)
 					{
@@ -374,13 +374,14 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		[GLib.ConnectBeforeAttribute]
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
 			pinSequence.Name = entryName.Text;
 			pinSequence.Pin = selectedPin;
 			pinSequence.Repetitions = (rbRepeateContinously.Active) ? -1 : sbRadioBtnStopAfter.ValueAsInt;
 
-			Respond (ResponseType.Apply);
+//			Respond (ResponseType.Apply);
 		}
 
 		protected void OnButtonCancelClicked (object sender, EventArgs e)

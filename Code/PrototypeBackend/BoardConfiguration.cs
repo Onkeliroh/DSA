@@ -48,12 +48,12 @@ namespace PrototypeBackend
 		public List<IPin> Pins { get; private set; }
 
 		public List<DPin> DigitalPins {
-			get{ return Pins.Where (o => o.Type == PinType.DIGITAL).Cast<DPin> ().ToList (); }
+			get{ return Pins.Where (o => (o as DPin) != null).Cast<DPin> ().ToList (); }
 			set{ AddPin (value as IPin); }
 		}
 
 		public List<APin> AnalogPins {
-			get{ return Pins.Where (o => o.Type == PinType.ANALOG).Cast<APin> ().ToList (); }
+			get{ return Pins.Where (o => (o as APin) != null).Cast<APin> ().ToList (); }
 			set{ AddPin (value as IPin); }
 		}
 
@@ -181,7 +181,7 @@ namespace PrototypeBackend
 
 		public DPin[] GetPinsWithoutSequence ()
 		{
-			var pins = Pins.Where (o => o.Type == PinType.DIGITAL).Cast<DPin> ().ToList ();
+			var pins = Pins.Where (o => (o as DPin) != null).Cast<DPin> ().ToList ();
 
 			pins.RemoveAll (o => Sequences.Select (seq => seq.Pin == o).Any (b => b == true));
 
@@ -216,10 +216,10 @@ namespace PrototypeBackend
 
 		public void AddPin (IPin pin)
 		{
-			if (!Pins.Contains (pin) && pin != null)
+			if (!Pins.Contains (pin))
 			{
 				Pins.Add (pin);
-				Pins = Pins.OrderBy (x => x.RealNumber).ThenBy (x => x.Type).ToList ();
+//				Pins = Pins.OrderBy (x => x.RealNumber).ThenBy (x => x.Type).ToList ();
 				if (OnPinsUpdated != null)
 				{
 					OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (pin, UpdateOperation.Add));
@@ -244,10 +244,10 @@ namespace PrototypeBackend
 
 		public void AddMeasurementCombination (MeasurementCombination s)
 		{
-			if (!MeasurementCombinations.Contains (s))
-			{
-				MeasurementCombinations.Add (s);
-			}
+//			if (!MeasurementCombinations.Contains (s))
+//			{
+			MeasurementCombinations.Add (s);
+//			}
 
 			if (OnSignalsUpdated != null)
 			{
@@ -273,7 +273,8 @@ namespace PrototypeBackend
 
 		public bool ClonePin (IPin pin)
 		{
-			if (pin is APin)
+			Console.WriteLine ("Cloning: " + pin);
+			if ((pin as APin) != null)
 			{
 				if (AvailableAnalogPins.Length != 0)
 				{
@@ -286,7 +287,7 @@ namespace PrototypeBackend
 				{
 					return false;
 				}
-			} else
+			} else if ((pin as DPin) != null)
 			{
 				if (AvailableDigitalPins.Length != 0)
 				{
@@ -300,7 +301,7 @@ namespace PrototypeBackend
 					return false;
 				}
 			}
-			CheckPins ();
+//			CheckPins ();
 			return true;
 		}
 
@@ -313,6 +314,7 @@ namespace PrototypeBackend
 		public void CloneSequence (Sequence seq)
 		{
 			Sequence copy = new Sequence (seq);
+			copy.Pin = GetPinsWithoutSequence () [0];
 			AddSequence (copy);
 		}
 
@@ -479,6 +481,16 @@ namespace PrototypeBackend
 					OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, index));
 				}
 				Sequences.Remove (index);
+			}
+		}
+
+		public void RemoveSequenceGroup (string groupname)
+		{
+			Sequences.RemoveAll (o => o.GroupName.Equals (groupname));
+
+			if (OnSequencesUpdated != null)
+			{
+				OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, null));
 			}
 		}
 

@@ -19,9 +19,6 @@ namespace PrototypeBackend
 
 		public ConfigurationManager ConfigManager { get; private set; }
 
-
-		//		private Thread sequenceThread;
-
 		private List<System.Timers.Timer> measurementTimers = new List<System.Timers.Timer> ();
 
 		public BoardConfiguration Configuration;
@@ -29,6 +26,7 @@ namespace PrototypeBackend
 		public DateTime StartTime;
 		private Stopwatch KeeperOfTime;
 		private System.Timers.Timer SequencesTimer;
+		public UInt64 LastCondition = 0;
 
 		public TimeSpan TimePassed { 
 			get {
@@ -139,7 +137,7 @@ namespace PrototypeBackend
 
 			KeeperOfTime = new Stopwatch ();
 
-			SequencesTimer = new System.Timers.Timer (10);
+			SequencesTimer = new System.Timers.Timer (1);
 			SequencesTimer.Elapsed += OnSequenceTimeElapsed;
 		}
 
@@ -226,7 +224,11 @@ namespace PrototypeBackend
 				}
 			}
 
-			ArduinoController.SetDigitalOutputPins (condition);
+			if (LastCondition != condition)
+			{
+				ArduinoController.SetDigitalOutputPins (condition);
+				LastCondition = condition;
+			}
 		}
 
 		//Version1

@@ -139,6 +139,8 @@ namespace PrototypeBackend
 			Offset = copy.Offset;
 			Interval = copy.Interval;
 			Period = copy.Period;
+			Type = PrototypeBackend.PinType.ANALOG;
+			Mode = PrototypeBackend.PinMode.INPUT;
 		}
 
 		public override bool Equals (object obj)

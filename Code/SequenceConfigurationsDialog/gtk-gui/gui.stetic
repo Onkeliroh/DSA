@@ -56,6 +56,7 @@
                     <property name="MemberName" />
                     <property name="IsTextCombo">True</property>
                     <property name="Items" translatable="yes" />
+                    <signal name="Changed" handler="OnCbPinChanged" />
                   </widget>
                   <packing>
                     <property name="TopAttach">1</property>
@@ -137,7 +138,6 @@
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Label" translatable="yes">Repeate continously</property>
-                                <property name="Active">True</property>
                                 <property name="DrawIndicator">True</property>
                                 <property name="HasLabel">True</property>
                                 <property name="UseUnderline">True</property>
@@ -386,10 +386,9 @@
                               <packing>
                                 <property name="LeftAttach">2</property>
                                 <property name="RightAttach">3</property>
-                                <property name="AutoSize">True</property>
-                                <property name="XOptions">Fill</property>
+                                <property name="AutoSize">False</property>
                                 <property name="YOptions">Fill</property>
-                                <property name="XExpand">False</property>
+                                <property name="XExpand">True</property>
                                 <property name="XFill">True</property>
                                 <property name="XShrink">False</property>
                                 <property name="YExpand">False</property>
@@ -403,8 +402,8 @@
                                 <property name="Sensitive">False</property>
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
-                                <property name="Icon">stock:gtk-remove Menu</property>
-                                <property name="Label" translatable="yes">Remove</property>
+                                <property name="Icon">stock:gtk-delete Menu</property>
+                                <property name="Label" translatable="yes">Delete</property>
                                 <property name="UseUnderline">True</property>
                                 <signal name="Clicked" handler="OnBtnRemoveOperationClicked" />
                               </widget>
@@ -413,10 +412,9 @@
                                 <property name="BottomAttach">2</property>
                                 <property name="LeftAttach">2</property>
                                 <property name="RightAttach">3</property>
-                                <property name="AutoSize">True</property>
-                                <property name="XOptions">Fill</property>
+                                <property name="AutoSize">False</property>
                                 <property name="YOptions">Fill</property>
-                                <property name="XExpand">False</property>
+                                <property name="XExpand">True</property>
                                 <property name="XFill">True</property>
                                 <property name="XShrink">False</property>
                                 <property name="YExpand">False</property>
@@ -800,10 +798,10 @@ LOW</property>
             <property name="CanFocus">True</property>
             <property name="UseStock">True</property>
             <property name="Type">StockItem</property>
-            <property name="StockId">gtk-ok</property>
-            <property name="ResponseId">-5</property>
+            <property name="StockId">gtk-apply</property>
+            <property name="ResponseId">-10</property>
             <signal name="Clicked" handler="OnButtonOkClicked" />
-            <property name="label">gtk-ok</property>
+            <property name="label">gtk-apply</property>
           </widget>
           <packing>
             <property name="Position">1</property>

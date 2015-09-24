@@ -298,7 +298,7 @@ namespace MeasurementCombinationDialog
 			Combination.Color = cbColor.Color;
 			Combination.OperationString = entryOperation.Text;
 
-			Respond (ResponseType.Apply);
+//			Respond (ResponseType.Apply);
 		}
 
 		protected void OnButtonCancelClicked (object sender, EventArgs e)

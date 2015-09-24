@@ -89,6 +89,7 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
+		[GLib.ConnectBeforeAttribute]
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
 			pin.Name = entryName.Text;
@@ -100,7 +101,7 @@ namespace AnalogPinConfigurationDialog
 			pin.Period = Convert.ToUInt64 (new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt).TotalMilliseconds);
 			pin.Interval = Convert.ToUInt64 (sbInterval.ValueAsInt);
 
-			Respond (Gtk.ResponseType.Apply);
+//			Respond (Gtk.ResponseType.Apply);
 		}
 
 		protected void OnEntryNameChanged (object sender, EventArgs e)

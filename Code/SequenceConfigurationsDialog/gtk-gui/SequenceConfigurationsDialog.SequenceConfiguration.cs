@@ -174,7 +174,6 @@ namespace SequenceConfigurationsDialog
 			this.rbRepeateContinously = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Repeate continously"));
 			this.rbRepeateContinously.CanFocus = true;
 			this.rbRepeateContinously.Name = "rbRepeateContinously";
-			this.rbRepeateContinously.Active = true;
 			this.rbRepeateContinously.DrawIndicator = true;
 			this.rbRepeateContinously.UseUnderline = true;
 			this.rbRepeateContinously.Group = new global::GLib.SList (global::System.IntPtr.Zero);
@@ -323,7 +322,6 @@ namespace SequenceConfigurationsDialog
 			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table5 [this.btnApplyOperation]));
 			w21.LeftAttach = ((uint)(2));
 			w21.RightAttach = ((uint)(3));
-			w21.XOptions = ((global::Gtk.AttachOptions)(4));
 			w21.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table5.Gtk.Table+TableChild
 			this.btnRemoveOperation = new global::Gtk.Button ();
@@ -331,9 +329,9 @@ namespace SequenceConfigurationsDialog
 			this.btnRemoveOperation.CanFocus = true;
 			this.btnRemoveOperation.Name = "btnRemoveOperation";
 			this.btnRemoveOperation.UseUnderline = true;
-			this.btnRemoveOperation.Label = global::Mono.Unix.Catalog.GetString ("Remove");
+			this.btnRemoveOperation.Label = global::Mono.Unix.Catalog.GetString ("Delete");
 			global::Gtk.Image w22 = new global::Gtk.Image ();
-			w22.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Menu);
+			w22.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-delete", global::Gtk.IconSize.Menu);
 			this.btnRemoveOperation.Image = w22;
 			this.table5.Add (this.btnRemoveOperation);
 			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table5 [this.btnRemoveOperation]));
@@ -341,7 +339,6 @@ namespace SequenceConfigurationsDialog
 			w23.BottomAttach = ((uint)(2));
 			w23.LeftAttach = ((uint)(2));
 			w23.RightAttach = ((uint)(3));
-			w23.XOptions = ((global::Gtk.AttachOptions)(4));
 			w23.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table5.Gtk.Table+TableChild
 			this.cbState = global::Gtk.ComboBox.NewText ();
@@ -551,8 +548,8 @@ namespace SequenceConfigurationsDialog
 			this.buttonOk.Name = "buttonOk";
 			this.buttonOk.UseStock = true;
 			this.buttonOk.UseUnderline = true;
-			this.buttonOk.Label = "gtk-ok";
-			this.AddActionWidget (this.buttonOk, -5);
+			this.buttonOk.Label = "gtk-apply";
+			this.AddActionWidget (this.buttonOk, -10);
 			global::Gtk.ButtonBox.ButtonBoxChild w46 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w44 [this.buttonOk]));
 			w46.Position = 1;
 			w46.Expand = false;
@@ -563,6 +560,7 @@ namespace SequenceConfigurationsDialog
 			this.DefaultWidth = 1015;
 			this.DefaultHeight = 598;
 			this.Show ();
+			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
 			this.btnRemoveOperation.Clicked += new global::System.EventHandler (this.OnBtnRemoveOperationClicked);
 			this.btnApplyOperation.Clicked += new global::System.EventHandler (this.OnBtnApplyOperationClicked);
 			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);

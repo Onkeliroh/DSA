@@ -69,7 +69,7 @@ namespace PrototypeBackend
 		{
 			Pin = new DPin ();
 			Name = copy.Name;
-			Chain = copy.Chain;
+			Chain = new List<SequenceOperation> (copy.Chain);
 			Repetitions = copy.Repetitions;
 		}
 

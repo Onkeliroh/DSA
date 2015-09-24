@@ -50,6 +50,7 @@
     <Compile Include="SignalOperationCompilertests.cs" />
     <Compile Include="SequenceTests.cs" />
     <Compile Include="SerializeTests.cs" />
+    <Compile Include="BoardConfigurationTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
