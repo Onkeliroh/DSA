@@ -47,6 +47,7 @@ namespace DigitalPinConfigurationDialog
 			} else
 			{
 				pin = new DPin ();
+				cbColor.Color =	GUIHelper.ColorHelper.GetRandomGdkColor (); 
 			}
 
 			for (int i = 0; i < availablePins.Length; i++)
@@ -57,6 +58,7 @@ namespace DigitalPinConfigurationDialog
 			{
 				cbPin.Active = 0;
 			}
+
 		}
 
 		[GLib.ConnectBeforeAttribute]

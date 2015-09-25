@@ -879,10 +879,11 @@ namespace Frontend
 			});
 			APinsorter.SetSortFunc (7, delegate(TreeModel model, TreeIter a, TreeIter b)
 			{
-				double s1 = Convert.ToDouble ((string)model.GetValue (a, 7));
-				double s2 = Convert.ToDouble ((string)model.GetValue (b, 7));
+				double d1 = (double)model.GetValue (a, 7);
+				double d2 = (double)model.GetValue (b, 7);
+
 				// Analysis disable once StringCompareIsCultureSpecific
-				return (s1 < s2) ? -1 : 1;
+				return (d1 < d2) ? -1 : 1;
 			});
 			APinsorter.SetSortFunc (8, delegate(TreeModel model, TreeIter a, TreeIter b)
 			{
@@ -987,10 +988,33 @@ namespace Frontend
 			});
 			sorter.SetSortFunc (6, delegate(TreeModel model, TreeIter a, TreeIter b)
 			{
-				int s1 = Convert.ToInt32 (((string)model.GetValue (a, 6)).Split (new char[]{ ' ' }) [0]);
-				int s2 = Convert.ToInt32 (((string)model.GetValue (b, 6)).Split (new char[]{ ' ' }) [0]);
+				string s1 = (string)model.GetValue (a, 6);
+				string s2 = (string)model.GetValue (b, 6);
+
+				s1 = s1.Split (' ') [0];
+				s2 = s2.Split (' ') [0];
+
+				int c1 = 0;
+				int c2 = 0;
+
+				if (s1.Equals ("\u221E"))
+				{
+					c1 = int.MaxValue;
+				} else
+				{
+					c1 = Convert.ToInt32 (s1);
+				}
+
+				if (s2.Equals ("\u221E"))
+				{
+					c2 = int.MaxValue;
+				} else
+				{
+					c2 = Convert.ToInt32 (s2);
+				}
+
 				// Analysis disable once StringCompareIsCultureSpecific
-				return (s1 < s2) ? -1 : 1;
+				return (c1 < c2) ? -1 : 1;
 			});
 
 			nvSequences.Model = sorter;
@@ -1333,34 +1357,65 @@ namespace Frontend
 		{
 			eCSVFilePath.Text = con.Configuration.CSVSaveFolderPath;
 
-			if (cbeCSVSeparator.Data.Contains (con.Configuration.Separator))
+			//Separator
+			int index = 0;
+			bool found = false;
+			foreach (object[] obj in (ListStore)cbeCSVSeparator.Model)
 			{
-//				cbeCSVSeparator.Active = cbeCSVSeparator.Data.Keys[0] //TODO
-			} else
+				if (obj [0].ToString () == con.Configuration.Separator)
+				{
+					cbeCSVSeparator.Active = index;
+					found = true;
+					break;
+				}
+				index++;
+			}
+			if (!found)
 			{
 				cbeCSVSeparator.AppendText (con.Configuration.Separator);
-				cbeCSVSeparator.Active = cbeCSVSeparator.Data.Count - 1;
+				cbeCSVSeparator.Active = index;
 			}
 
-			if (cbeCSVEmptyValueFilling.Data.Contains (con.Configuration.EmptyValueFilling))
+			//EmptyFilling
+			index = 0;
+			found = false;
+			foreach (object[] obj in (ListStore)cbeCSVEmptyValueFilling.Model)
 			{
-				//TODO
-			} else
+				if (obj [0].ToString () == con.Configuration.EmptyValueFilling)
+				{
+					cbeCSVEmptyValueFilling.Active = index;
+					found = true;
+					break;
+				}
+				index++;
+			}
+			if (!found)
 			{
 				cbeCSVEmptyValueFilling.AppendText (con.Configuration.EmptyValueFilling);
-				cbeCSVEmptyValueFilling.Active = cbeCSVEmptyValueFilling.Data.Count - 1;
+				cbeCSVEmptyValueFilling.Active = index;
 			}
 
+			//Timestamps
 			cbCSVUTC.Active = con.Configuration.UTCTimestamp;
 			cbCSVLocaltime.Active = con.Configuration.LocalTimestamp;
 
-			if (cbeCSVTimeFormat.Data.Contains (con.Configuration.TimeFormat))
+			//Timeformat
+			index = 0;
+			found = false;
+			foreach (object[] obj in (ListStore)cbeCSVTimeFormat.Model)
 			{
-				//TODO
-			} else
+				if (obj [0].ToString () == con.Configuration.TimeFormat)
+				{
+					cbeCSVTimeFormat.Active = index;
+					found = true;
+					break;
+				}
+				index++;
+			}
+			if (!found)
 			{
 				cbeCSVTimeFormat.AppendText (con.Configuration.TimeFormat);
-				cbeCSVTimeFormat.Active = cbeCSVTimeFormat.Data.Count - 1;
+				cbeCSVTimeFormat.Active = index;
 			}
 
 			//TODO plot settings
@@ -1619,6 +1674,33 @@ namespace Frontend
 			if (node != null && con.Configuration.AvailableAnalogPins.Length > 0)
 			{
 				con.Configuration.ClonePin (node.Pin);
+			}
+		}
+
+		protected void OnBtnCloneDPinClicked (object sender, EventArgs e)
+		{
+			DPinTreeNode node = (DPinTreeNode)nvDigitalPins.NodeSelection.SelectedNode;
+			if (node != null && con.Configuration.AvailableDigitalPins.Length > 0)
+			{
+				con.Configuration.ClonePin (node.Pin);
+			}
+		}
+
+		protected void OnBtnCloneSignalClicked (object sender, EventArgs e)
+		{
+			MeasurementCombinationTreeNode node = (MeasurementCombinationTreeNode)nvMeasurementCombinations.NodeSelection.SelectedNode;
+			if (node != null && con.Configuration.GetPinsWithoutCombinations ().Length > 0)
+			{
+				con.Configuration.CloneMeasurementCombination (node.AnalogSignal);
+			}
+		}
+
+		protected void OnBtnCloneSequenceClicked (object sender, EventArgs e)
+		{
+			SequenceTreeNode node = (SequenceTreeNode)nvSequences.NodeSelection.SelectedNode;
+			if (node != null && con.Configuration.GetPinsWithoutSequence ().Length > 0)
+			{
+				con.Configuration.CloneSequence (node.Seq);
 			}
 		}
 

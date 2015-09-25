@@ -203,6 +203,7 @@
                     <property name="CanFocus">True</property>
                     <property name="Events">ButtonMotionMask, ButtonPressMask, ButtonReleaseMask</property>
                     <property name="Alpha">-1</property>
+                    <signal name="ColorSet" handler="OnCbColorColorSet" />
                   </widget>
                   <packing>
                     <property name="TopAttach">4</property>
@@ -536,7 +537,6 @@ In order to apply the operation, the last available measurement-data will be use
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-cancel</property>
             <property name="ResponseId">-6</property>
-            <signal name="Clicked" handler="OnButtonCancelClicked" />
             <property name="label">gtk-cancel</property>
           </widget>
           <packing>

@@ -116,7 +116,44 @@ namespace PrototypeTests
 		[Test]
 		public void GetCurrentStateTest ()
 		{
-					
+			Sequence seq = new Sequence () {
+				Pin = new DPin () {
+					Name = "Pin of Awesome",
+					Number = 13,
+					PlotColor = GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.Yellow),
+					State = DPinState.HIGH
+				},
+				Name = "Sequence of Awesome",
+				Repetitions = 3,
+			};
+
+			seq.AddSequenceOperation (new SequenceOperation () {
+				State = DPinState.HIGH,
+				Duration = TimeSpan.FromMilliseconds (10)
+			});
+			seq.AddSequenceOperation (new SequenceOperation () {
+				State = DPinState.LOW,
+				Duration = TimeSpan.FromMilliseconds (10)
+			});
+
+			Assert.AreEqual (2, seq.Chain.Count);
+
+			Assert.AreEqual (0, seq.Chain [0].Moment.TotalMilliseconds);
+			Assert.AreEqual (10, seq.Chain [1].Moment.TotalMilliseconds);
+
+			Assert.AreEqual (DPinState.HIGH, seq.GetCurrentState (9));
+			Assert.AreEqual (DPinState.LOW, seq.GetCurrentState (10));
+
+			Assert.AreEqual (DPinState.LOW, seq.GetCurrentState (19));
+			Assert.AreEqual (DPinState.HIGH, seq.GetCurrentState (20));
+
+			Assert.AreEqual (DPinState.HIGH, seq.GetCurrentState (29));
+			Assert.AreEqual (DPinState.LOW, seq.GetCurrentState (30));
+
+			Assert.AreEqual (DPinState.LOW, seq.GetCurrentState (60));
+			Assert.AreEqual (DPinState.LOW, seq.GetCurrentState (61));
+
+			seq.Reset ();
 		}
 
 		[Test]

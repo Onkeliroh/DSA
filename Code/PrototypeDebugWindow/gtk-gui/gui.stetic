@@ -315,7 +315,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">6</property>
+                <property name="CurrentPage">0</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -545,6 +545,24 @@
                                   </packing>
                                 </child>
                                 <child>
+                                  <widget class="Gtk.Button" id="btnCloneSignal">
+                                    <property name="MemberName" />
+                                    <property name="HeightRequest">26</property>
+                                    <property name="CanFocus">True</property>
+                                    <property name="Type">TextAndIcon</property>
+                                    <property name="Icon">stock:gtk-copy Menu</property>
+                                    <property name="Label" translatable="yes">Duplicate</property>
+                                    <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnCloneSignalClicked" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">1</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="Gtk.Button" id="btnEditSignal">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
@@ -555,7 +573,7 @@
                                     <signal name="Clicked" handler="OnBtnEditSignalClicked" />
                                   </widget>
                                   <packing>
-                                    <property name="Position">1</property>
+                                    <property name="Position">2</property>
                                     <property name="AutoSize">True</property>
                                     <property name="Expand">False</property>
                                     <property name="Fill">False</property>
@@ -573,7 +591,7 @@
                                     <signal name="Clicked" handler="OnBtnRemoveSignalClicked" />
                                   </widget>
                                   <packing>
-                                    <property name="Position">2</property>
+                                    <property name="Position">3</property>
                                     <property name="AutoSize">True</property>
                                     <property name="Expand">False</property>
                                     <property name="Fill">False</property>
@@ -591,7 +609,7 @@
                                     <signal name="Clicked" handler="OnBtnClearSignalsClicked" />
                                   </widget>
                                   <packing>
-                                    <property name="Position">3</property>
+                                    <property name="Position">4</property>
                                     <property name="AutoSize">True</property>
                                     <property name="Expand">False</property>
                                     <property name="Fill">False</property>
@@ -719,6 +737,24 @@
                                       </packing>
                                     </child>
                                     <child>
+                                      <widget class="Gtk.Button" id="btnCloneDPin">
+                                        <property name="MemberName" />
+                                        <property name="HeightRequest">26</property>
+                                        <property name="CanFocus">True</property>
+                                        <property name="Type">TextAndIcon</property>
+                                        <property name="Icon">stock:gtk-copy Menu</property>
+                                        <property name="Label" translatable="yes">Duplicate</property>
+                                        <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnCloneDPinClicked" />
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">1</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
                                       <widget class="Gtk.Button" id="btnEditDPin">
                                         <property name="MemberName" />
                                         <property name="CanFocus">True</property>
@@ -729,7 +765,7 @@
                                         <signal name="Clicked" handler="OnBtnEditDPinClicked" />
                                       </widget>
                                       <packing>
-                                        <property name="Position">1</property>
+                                        <property name="Position">2</property>
                                         <property name="AutoSize">True</property>
                                         <property name="Expand">False</property>
                                         <property name="Fill">False</property>
@@ -747,7 +783,7 @@
                                         <signal name="Clicked" handler="OnBtnRemoveDPinClicked" />
                                       </widget>
                                       <packing>
-                                        <property name="Position">2</property>
+                                        <property name="Position">3</property>
                                         <property name="AutoSize">True</property>
                                         <property name="Expand">False</property>
                                         <property name="Fill">False</property>
@@ -765,7 +801,7 @@
                                         <signal name="Clicked" handler="OnBtnClearDPinsClicked" />
                                       </widget>
                                       <packing>
-                                        <property name="Position">3</property>
+                                        <property name="Position">4</property>
                                         <property name="AutoSize">True</property>
                                         <property name="Expand">False</property>
                                         <property name="Fill">False</property>
@@ -861,6 +897,24 @@
                                       </packing>
                                     </child>
                                     <child>
+                                      <widget class="Gtk.Button" id="btnCloneSequence">
+                                        <property name="MemberName" />
+                                        <property name="HeightRequest">26</property>
+                                        <property name="CanFocus">True</property>
+                                        <property name="Type">TextAndIcon</property>
+                                        <property name="Icon">stock:gtk-copy Menu</property>
+                                        <property name="Label" translatable="yes">Duplicate</property>
+                                        <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnCloneSequenceClicked" />
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">1</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
                                       <widget class="Gtk.Button" id="btnEditSequence">
                                         <property name="MemberName" />
                                         <property name="CanFocus">True</property>
@@ -871,7 +925,7 @@
                                         <signal name="Clicked" handler="OnBtnEditSequenceClicked" />
                                       </widget>
                                       <packing>
-                                        <property name="Position">1</property>
+                                        <property name="Position">2</property>
                                         <property name="AutoSize">True</property>
                                         <property name="Expand">False</property>
                                         <property name="Fill">False</property>
@@ -889,7 +943,7 @@
                                         <signal name="Clicked" handler="OnBtnRemoveSequenceClicked" />
                                       </widget>
                                       <packing>
-                                        <property name="Position">2</property>
+                                        <property name="Position">3</property>
                                         <property name="AutoSize">True</property>
                                         <property name="Expand">False</property>
                                         <property name="Fill">False</property>
@@ -907,7 +961,7 @@
                                         <signal name="Clicked" handler="OnBtnClearSequenceClicked" />
                                       </widget>
                                       <packing>
-                                        <property name="Position">3</property>
+                                        <property name="Position">4</property>
                                         <property name="AutoSize">True</property>
                                         <property name="Expand">False</property>
                                         <property name="Fill">False</property>
@@ -984,7 +1038,7 @@
                         <property name="MemberName" />
                         <property name="ShadowType">None</property>
                         <child>
-                          <widget class="Gtk.Alignment" id="GtkAlignment18">
+                          <widget class="Gtk.Alignment" id="GtkAlignment22">
                             <property name="MemberName" />
                             <property name="Xalign">0</property>
                             <property name="Yalign">0</property>
@@ -1503,7 +1557,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                         <property name="MemberName" />
                         <property name="ShadowType">None</property>
                         <child>
-                          <widget class="Gtk.Alignment" id="GtkAlignment23">
+                          <widget class="Gtk.Alignment" id="GtkAlignment24">
                             <property name="MemberName" />
                             <property name="Xalign">0</property>
                             <property name="Yalign">0</property>

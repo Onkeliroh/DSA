@@ -169,8 +169,8 @@ namespace PrototypeBackend
 
 		public DPinState GetCurrentState (double milli)
 		{
-			int multiplier = 1;
-			if (milli > Runtime.TotalMilliseconds)
+			int multiplier = 0;
+			if (milli >= Runtime.TotalMilliseconds)
 			{
 				multiplier = (int)(System.Math.Floor (milli / Runtime.TotalMilliseconds));
 				milli -= multiplier * Runtime.TotalMilliseconds;
@@ -179,28 +179,28 @@ namespace PrototypeBackend
 			SequenceOperation op = new SequenceOperation ();
 			if (Chain.Count > 0)
 			{
-				if (multiplier > Repetitions && Repetitions != -1)
+				if (multiplier >= Repetitions && Repetitions != -1)
 				{
 					return Chain.Last ().State;
-				}
-
-				op = Chain [0];
-				foreach (SequenceOperation seqop in Chain)
+				} else
 				{
-					if (seqop.Moment.TotalMilliseconds == milli)
+					op = Chain [0];
+					foreach (SequenceOperation seqop in Chain)
 					{
-						return seqop.State;
-					}
-					if (seqop.Moment.TotalMilliseconds < milli)
-					{
-						if ((milli - seqop.Moment.TotalMilliseconds) < (milli - op.Moment.TotalMilliseconds))
+						if (seqop.Moment.TotalMilliseconds == milli)
 						{
-							op = seqop;	
-						}
+							return seqop.State;
+						} else if (seqop.Moment.TotalMilliseconds < milli)
+						{
+							if ((milli - seqop.Moment.TotalMilliseconds) < (milli - op.Moment.TotalMilliseconds))
+							{
+								op = seqop;	
+							}
 
+						}
 					}
+					return op.State;
 				}
-				return op.State;
 			}
 			return DPinState.LOW;
 		}

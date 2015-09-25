@@ -388,7 +388,7 @@ namespace MeasurementCombinationDialog
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
 			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
 			this.cbeUnit.Changed += new global::System.EventHandler (this.OnCbeUnitChanged);
-			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);
+			this.cbColor.ColorSet += new global::System.EventHandler (this.OnCbColorColorSet);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}

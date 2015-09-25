@@ -48,9 +48,12 @@ namespace MeasurementCombinationDialog
 
 			APins = pins;
 
+			cbColor.Color = GUIHelper.ColorHelper.GetRandomGdkColor ();
+
 			if (signal == null)
 			{
 				Combination_ = new MeasurementCombination ();
+				Combination_.Color = cbColor.Color;
 			} else
 			{
 				Combination = signal;
@@ -76,6 +79,7 @@ namespace MeasurementCombinationDialog
 
 			entryOperation.Activated += (sender, e) => CompileOperation ();
 			entryOperation.FocusOutEvent += (o, args) => CompileOperation ();
+
 		}
 
 		private void SetupNodeView ()
@@ -297,8 +301,6 @@ namespace MeasurementCombinationDialog
 			Combination.Unit = cbeUnit.ActiveText;
 			Combination.Color = cbColor.Color;
 			Combination.OperationString = entryOperation.Text;
-
-//			Respond (ResponseType.Apply);
 		}
 
 		protected void OnButtonCancelClicked (object sender, EventArgs e)

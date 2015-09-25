@@ -435,7 +435,7 @@ namespace SequenceConfigurationsDialog
 
 		private void AddOperation (SequenceOperation SeqOp)
 		{
-			pinSequence.Chain.Add (SeqOp);
+			pinSequence.AddSequenceOperation (SeqOp);
 			XAxis.AbsoluteMaximum = pinSequence.Chain.Sum (o => o.Duration.TotalMilliseconds);
 			DisplaySequenceInfos ();
 		}
