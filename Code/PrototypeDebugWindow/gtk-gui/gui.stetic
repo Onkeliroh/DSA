@@ -315,7 +315,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">0</property>
+                <property name="CurrentPage">6</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -1789,6 +1789,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">DigitalPingTest</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnDigitalPingTestClicked" />
                           </widget>
                           <packing>
                             <property name="Expand">False</property>
@@ -1802,6 +1803,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Fill Analog Inputs</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnFillAnalogInputsClicked" />
                           </widget>
                           <packing>
                             <property name="Position">1</property>
@@ -1816,6 +1818,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Fill Digital Outputs</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnFillDigitalOutputsClicked" />
                           </widget>
                           <packing>
                             <property name="Position">2</property>
@@ -1858,6 +1861,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Alternate Blink Setup 0Cycle</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnAlternateBlinkSetupClicked" />
                           </widget>
                           <packing>
                             <property name="Position">5</property>
@@ -1872,6 +1876,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Alternate Blink Setup 2 0Cycle</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnAlternateBlinkSetup2Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">6</property>
@@ -1886,6 +1891,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Alternate Blink Setup -1Cycle</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnButton359Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">7</property>
@@ -1900,6 +1906,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Alternate Blink Setup 2 -1Cycle</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnButton360Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">8</property>
@@ -1914,6 +1921,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Abstand</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnButton1125Clicked" />
                           </widget>
                           <packing>
                             <property name="Position">9</property>
@@ -1928,6 +1936,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">SetBoardDifferenceTest</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnBoardDifferenceTestClicked" />
                           </widget>
                           <packing>
                             <property name="Position">10</property>
@@ -1942,6 +1951,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Refresh NodeViews</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnRefreshNVClicked" />
                           </widget>
                           <packing>
                             <property name="Position">11</property>

@@ -427,7 +427,7 @@ namespace PrototypeBackend
 		/// Set the digital output pins.
 		/// </summary>
 		/// <param name="conditions">The conditions are packed as follows: conditions[0] == pins[0-15], conditions[1] = pins[16,23],...</param>
-		public static void SetDigitalOutputPins (params UInt16[] conditions)
+		public static void SetDigitalOutputPins (UInt16[] conditions)
 		{
 			var command = new SendCommand ((int)Command.SetDigitalOutputPins);
 			for (int i = 0; i < conditions.Length; i++)
@@ -441,7 +441,7 @@ namespace PrototypeBackend
 		/// Set the digital output pins.
 		/// </summary>
 		/// <param name="conditions">The conditions are packed as follows: conditions[0] == pins[0-31], conditions[1] = pins[32,63]</param>
-		public static void SetDigitalOutputPins (params UInt32[] conditions)
+		public static void SetDigitalOutputPins (params uint[] conditions)
 		{
 			UInt16[] parts = new UInt16[conditions.Length * 2];
 

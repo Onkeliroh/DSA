@@ -114,18 +114,9 @@ void OnSetDigitalOutputPins()
   for(int i =0; i<16; i++)
   {
     digitalWrite(i, bitRead(condition1,i));
-  }
-  for(int i =16; i<32; i++)
-  {
-    digitalWrite(i, bitRead(condition2,i));
-  }
-  for(int i =32; i<48; i++)
-  {
-    digitalWrite(i, bitRead(condition3,i));
-  }
-  for(int i =48; i<64; i++)
-  {
-    digitalWrite(i, bitRead(condition4,i));
+    digitalWrite(i+16, bitRead(condition2,i));
+    digitalWrite(i+32, bitRead(condition3,i));
+    digitalWrite(i+48, bitRead(condition4,i));
   }
 }
 

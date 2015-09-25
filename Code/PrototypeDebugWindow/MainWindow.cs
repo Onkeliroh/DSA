@@ -2485,10 +2485,10 @@ namespace Frontend
 
 			while (true)
 			{
-				ArduinoController.SetDigitalOutputPins (43690);
-				System.Threading.Thread.Sleep (100);
-				ArduinoController.SetDigitalOutputPins (21845);
-				System.Threading.Thread.Sleep (100);
+				ArduinoController.SetDigitalOutputPins ((UInt64)699050);
+				System.Threading.Thread.Sleep (500);
+				ArduinoController.SetDigitalOutputPins ((UInt64)349525);
+				System.Threading.Thread.Sleep (500);
 			}
 		}
 

@@ -137,7 +137,7 @@ namespace PrototypeBackend
 
 			KeeperOfTime = new Stopwatch ();
 
-			SequencesTimer = new System.Timers.Timer (1);
+			SequencesTimer = new System.Timers.Timer (10);
 			SequencesTimer.Elapsed += OnSequenceTimeElapsed;
 		}
 
@@ -197,6 +197,7 @@ namespace PrototypeBackend
 			MeasurementPreProcessing ();
 
 			StartTime = DateTime.Now;
+			LastCondition = 0x0;
 			SequencesTimer.Start ();
 
 			measurementTimers.ForEach (o => o.Start ());
@@ -214,21 +215,39 @@ namespace PrototypeBackend
 		{
 			double time = KeeperOfTime.ElapsedMilliseconds;
 
-			UInt64 condition = 0x0;
+//			UInt64 condition = 0x0;
+			UInt16[] conditions = new UInt16[4];
+			conditions [0] = 0x0;
+			conditions [1] = 0x0;
+			conditions [2] = 0x0;
+			conditions [3] = 0x0;
 
 			foreach (Sequence seq in Configuration.Sequences)
 			{
 				if (seq.GetCurrentState (time) == DPinState.HIGH)
 				{
-					condition |= Convert.ToUInt64 ((int)0x1 << (int)seq.Pin.Number);
+//					condition = Convert.ToUInt64 ((Int64)condition | ((Int64)0x1 << (Int64)seq.Pin.Number));
+					int arraypos = (int)seq.Pin.Number / 16;
+					int shift = (int)seq.Pin.Number % 16;
+					int pos = 0x1 << (int)shift;
+//					conditions [seq.Pin.Number / 16] |= (UInt16)((int)0x1 << (int)(seq.Pin.Number % 16));
+					conditions [arraypos] = Convert.ToUInt16 (conditions [arraypos] | pos);
+
+					Console.WriteLine ("arraypos:{0}\tshift:{1}\tpos:{2}\tresult:{3}",
+						arraypos, 
+						shift, 
+						Convert.ToString (pos, 2).PadLeft (16, '0'), 
+						Convert.ToString (conditions [arraypos], 2).PadLeft (16, '0')
+					);
 				}
 			}
 
-			if (LastCondition != condition)
-			{
-				ArduinoController.SetDigitalOutputPins (condition);
-				LastCondition = condition;
-			}
+//			if (LastCondition != condition)
+//			{
+//			ArduinoController.SetDigitalOutputPins (condition);
+			ArduinoController.SetDigitalOutputPins (conditions);
+//			LastCondition = condition;
+//			}
 		}
 
 		//Version1
