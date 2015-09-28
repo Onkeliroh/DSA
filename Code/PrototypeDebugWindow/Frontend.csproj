@@ -54,6 +54,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Cairo" />
+    <Reference Include="Svg">
+      <HintPath>..\Prototype\packages\Svg.2.1.0\lib\Svg.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +69,7 @@
     <Compile Include="gtk-gui\Frontend.MainWindow.cs" />
     <Compile Include="PreferencesDialog.cs" />
     <Compile Include="gtk-gui\PrototypeDebugWindow.PreferencesDialog.cs" />
+    <Compile Include="MCUDisplayHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

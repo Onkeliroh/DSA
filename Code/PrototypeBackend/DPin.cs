@@ -21,12 +21,14 @@ namespace PrototypeBackend
 		public string DisplayNumber {
 			get {
 				if (AnalogNumber != -1)
-					return string.Format ("D{0} | A{1}", Number.ToString ().PadLeft (2, '0'), AnalogNumber);
+					return string.Format ("D{0} | A{1}", Number.ToString ().PadLeft (2, ' '), AnalogNumber);
 				else
-					return string.Format ("D{0}", Number.ToString ().PadLeft (2, '0'));
+					return string.Format ("D{0}", Number.ToString ().PadLeft (2, ' '));
 			}
 			set { }
 		}
+
+		public string DisplayNumberShort { get { return string.Format ("D{0}", Number.ToString ().PadLeft (2, ' ')); } set { } }
 
 		public uint Number { get ; set; }
 

@@ -751,6 +751,7 @@ namespace PrototypeBackend
 		public string MCU = "";
 		public string Name = "";
 		public string ImageFilePath = "";
+		public Dictionary<string,List<int>> PinLayout = new Dictionary<string, List<int>> ();
 
 		//default with Arduino UNO
 		public bool UseDTR = false;
@@ -782,7 +783,6 @@ namespace PrototypeBackend
 					HardwareAnalogPins = hardwareAnalogPins;
 				}
 			}
-
 
 			this.Version = version;
 			this.MCU = model;
@@ -832,6 +832,9 @@ namespace PrototypeBackend
 			info.AddValue ("AnalogReferenceVoltage", AnalogReferenceVoltage);
 			info.AddValue ("AnalogReferenceVoltageType", AnalogReferenceVoltageType);
 			info.AddValue ("MCU", MCU);
+			info.AddValue ("PinLayoutLeft", PinLayout ["LEFT"]);
+			info.AddValue ("PinLayoutRight", PinLayout ["RIGHT"]);
+			info.AddValue ("PinLayoutBottom", PinLayout ["BOTTOM"]);
 		}
 
 		public Board (SerializationInfo info, StreamingContext context)
@@ -848,6 +851,10 @@ namespace PrototypeBackend
 			this.AnalogReferenceVoltageType = "";
 			this.AnalogReferenceVoltageType = info.GetString ("AnalogReferenceVoltageType");
 			MCU = info.GetString ("MCU");
+			PinLayout = new Dictionary<string, List<int>> ();
+			PinLayout.Add ("LEFT", ((List<int>)info.GetValue ("PinLayoutLeft", new List<int> ().GetType ())));
+			PinLayout.Add ("RIGHT", ((List<int>)info.GetValue ("PinLayoutRight", new List<int> ().GetType ())));
+			PinLayout.Add ("BOTTOM", ((List<int>)info.GetValue ("PinLayoutBottom", new List<int> ().GetType ())));
 		}
 
 		#endregion

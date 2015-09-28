@@ -126,6 +126,7 @@ namespace Frontend
 			drawingareaMCU.ExposeEvent += DrawMCU;
 			cbBoardType.Changed += OnCbBoardTypeChanged;
 			cbAREF.Changed += OnCbAREFChanged;
+			con.Configuration.OnPinsUpdated += (sender, o) => DrawMCU (this, null);
 			con.Configuration.OnBoardUpdated += RefreshMCUInfos;
 			con.OnOnfigurationLoaded += (sender, e) =>
 			{
@@ -1938,60 +1939,87 @@ namespace Frontend
 
 		#region Drawing
 
-		void DrawMCU (object o, ExposeEventArgs args)
+		void DrawMCU (object sender, ExposeEventArgs args)
 		{
 			var context = CairoHelper.Create (this.drawingareaMCU.GdkWindow);
-			context.SetSource (Compose ());
-			context.Paint ();
-			var MCUImage = MCUSurface ();
+			var MCUImage = MCUDisplayHelper.MCUSurface (con.Configuration.Board.ImageFilePath);
 			context.SetSource (
 				MCUImage,
 				this.drawingareaMCU.Allocation.Width / 2 - MCUImage.Width / 2,
 				this.drawingareaMCU.Allocation.Height / 2 - MCUImage.Height / 2
 			);
 			context.Paint ();
+
+			var Labels = MCUDisplayHelper.PinLabels (con.Configuration.LeftPinLayout);
+			context.SetSource (
+				Labels,
+				5,
+				this.drawingareaMCU.Allocation.Height / 2 - Labels.Height / 2
+			);
+			context.Paint ();
+
+			Labels = MCUDisplayHelper.PinLabels (con.Configuration.RightPinLayout);
+			context.SetSource (
+				Labels,
+				hpanedMain.Position - 5 - Labels.Width,
+				this.drawingareaMCU.Allocation.Height / 2 - Labels.Height / 2
+			);
+			context.Paint ();
+
+			Labels = MCUDisplayHelper.PinLabels (con.Configuration.BottomPinLayout);
+			context.SetSource (
+				Labels,
+				this.drawingareaMCU.Allocation.Width / 2 - Labels.Width,
+				this.drawingareaMCU.Allocation.Height / 2 + MCUImage.Height / 2 + 5
+			);
+
+			context.Paint ();
 			SetSizeRequest (MCUImage.Width, MCUImage.Height + 200);
 			context.Dispose ();
 		}
 
-		private Cairo.ImageSurface  Compose (params Pixbuf[] Bufs)
-		{
-			var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, 100, 100);
 
-			return surf;
-		}
-
-		protected Cairo.ImageSurface MCUSurface ()
-		{
-//			#if !WIN
-			if (con.Configuration.Board.ImageFilePath != null && System.IO.File.Exists (con.Configuration.Board.ImageFilePath))
-			{
-				if (!con.Configuration.Board.ImageFilePath.Equals (string.Empty))
-				{
-					try
-					{
-						var MCUImage = new Rsvg.Handle (con.Configuration.Board.ImageFilePath);
-						var buf = MCUImage.Pixbuf;
-						var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, buf.Width, buf.Height);
-						var context = new Cairo.Context (surf);
-
-						MCUImage.RenderCairo (context);
-						return surf;
-					} catch (Exception ex)
-					{
-						Console.Error.WriteLine (ex);
-					}
-				}
-			}
-//			#endif
-			return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
-
-		}
-
-		private Cairo.ImageSurface MCULabelLeft ()
-		{
-			return new Cairo.ImageSurface (Cairo.Format.ARGB32, 0, 0);
-		}
+		//		protected Cairo.ImageSurface MCUSurface ()
+		//		{
+		////			#if !WIN
+		//			if (con.Configuration.Board.ImageFilePath != null && System.IO.File.Exists (con.Configuration.Board.ImageFilePath))
+		//			{
+		//				if (!con.Configuration.Board.ImageFilePath.Equals (string.Empty))
+		//				{
+		//					try
+		//					{
+		//						var MCUImage = new Rsvg.Handle (con.Configuration.Board.ImageFilePath);
+		//						var buf = MCUImage.Pixbuf;
+		//
+		//						int height = buf.Height;
+		//						int width = buf.Width;
+		//
+		//						if (width > hpanedMain.Position)
+		//						{
+		//							int newwidth = hpanedMain.Position - 100;
+		//							newwidth = (newwidth < 0) ? 0 : newwidth;
+		//							double scale = (width / 100.0) * newwidth;
+		//							height = (int)(height * scale);
+		//							width = newwidth;
+		//
+		//							buf.ScaleSimple (width, height, InterpType.Bilinear);
+		//						}
+		//
+		//						var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, width, height);
+		//						var context = new Cairo.Context (surf);
+		//
+		//						MCUImage.RenderCairo (context);
+		//						return surf;
+		//					} catch (Exception ex)
+		//					{
+		//						Console.Error.WriteLine (ex);
+		//					}
+		//				}
+		//			}
+		////			#endif
+		//			return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
+		//
+		//		}
 
 		#endregion
 

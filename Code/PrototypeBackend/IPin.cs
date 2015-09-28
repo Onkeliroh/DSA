@@ -10,6 +10,8 @@ namespace PrototypeBackend
 
 		string DisplayNumber { get; set; }
 
+		string DisplayNumberShort { get; set; }
+
 		uint Number{ get; set; }
 
 		uint RealNumber { get; set; }

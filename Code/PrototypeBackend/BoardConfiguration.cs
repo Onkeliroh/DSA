@@ -66,6 +66,53 @@ namespace PrototypeBackend
 			private set { }
 		}
 
+		public List<IPin> LeftPinLayout {
+			get {
+				var list = new List<IPin> ();
+
+				foreach (int i in board.PinLayout["LEFT"])
+				{
+					if (Pins.Select (o => o.RealNumber).Contains ((uint)i))
+					{
+						list.Add (Pins.Single (o => o.RealNumber == i));
+					}
+				}
+				return list;
+			}
+			private set{ }
+		}
+
+		public List<IPin> RightPinLayout {
+			get {
+				var list = new List<IPin> ();
+
+				foreach (int i in board.PinLayout["RIGHT"])
+				{
+					if (Pins.Select (o => o.RealNumber).Contains ((uint)i))
+					{
+						list.Add (Pins.Single (o => o.RealNumber == i));
+					}
+				}
+				return list;
+			}
+			private set{ }
+		}
+
+		public List<IPin> BottomPinLayout {
+			get {
+				var list = new List<IPin> ();
+
+				foreach (int i in board.PinLayout["BOTTOM"])
+				{
+					if (Pins.Select (o => o.RealNumber).Contains ((uint)i))
+					{
+						list.Add (Pins.Single (o => o.RealNumber == i));
+					}
+				}
+				return list;
+			}
+			private set{ }
+		}
 
 		//Settings
 

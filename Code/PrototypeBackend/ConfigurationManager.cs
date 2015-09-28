@@ -88,7 +88,8 @@ namespace PrototypeBackend
 								TX = StringToArray (sd.Keys.GetKeyData ("TX").Value),
 								UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
 								HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value),
-								AnalogReferences = StringToARefDict (sd.Keys.GetKeyData ("AREF").Value)
+								AnalogReferences = StringToARefDict (sd.Keys.GetKeyData ("AREF").Value),
+								PinLayout = StringToLayout (sd.Keys.GetKeyData ("PinLeft").Value, sd.Keys.GetKeyData ("PinRight").Value, sd.Keys.GetKeyData ("PinBottom").Value)
 							});
 						} catch (Exception ex)
 						{
@@ -126,6 +127,28 @@ namespace PrototypeBackend
 				res.Add (pair [0], Convert.ToDouble (pair [1]));
 			}
 			return res;
+		}
+
+		private Dictionary<string,List<int>> StringToLayout (string left, string right, string bottom)
+		{
+			var dict = new Dictionary<string,List<int>> ();
+			dict.Add ("LEFT", StringToPin (left));
+			dict.Add ("RIGHT", StringToPin (right));
+			dict.Add ("BOTTOM", StringToPin (bottom));
+
+			return dict;
+		}
+
+		private List<int> StringToPin (string str)
+		{
+			var pairs = str.Split (new char[]{ ',' }, StringSplitOptions.RemoveEmptyEntries);
+			var dict = new List<int> ();
+
+			foreach (string s in pairs)
+			{
+				dict.Add (Convert.ToInt32 (s));
+			}
+			return dict;
 		}
 	}
 }

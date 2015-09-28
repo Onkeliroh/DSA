@@ -380,7 +380,7 @@ namespace Frontend
 			this.hpanedMain = new global::Gtk.HPaned ();
 			this.hpanedMain.CanFocus = true;
 			this.hpanedMain.Name = "hpanedMain";
-			this.hpanedMain.Position = 276;
+			this.hpanedMain.Position = 293;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.vbox5 = new global::Gtk.VBox ();
 			this.vbox5.Name = "vbox5";
@@ -475,7 +475,7 @@ namespace Frontend
 			this.sbAREFExternal.Name = "sbAREFExternal";
 			this.sbAREFExternal.Adjustment.PageIncrement = 10;
 			this.sbAREFExternal.ClimbRate = 1;
-			this.sbAREFExternal.Digits = ((uint)(3));
+			this.sbAREFExternal.Digits = ((uint)(2));
 			this.sbAREFExternal.Numeric = true;
 			this.hbox8.Add (this.sbAREFExternal);
 			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox8 [this.sbAREFExternal]));
