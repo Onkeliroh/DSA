@@ -129,9 +129,11 @@ namespace PrototypeBackend
 		public bool UTCTimestamp = false;
 		public bool LocalTimestamp = true;
 		public string TimeFormat = "{0:HH:mm:ss.ff}";
-		public string[] FileNameConvention = new string[]{ "Time", "Empty", "Empty" };
+		public string[] FileNameConvention = new string[]{ "[DATE]", "[LOCALTIME]", "[EMPTY]" };
+		public readonly string FileNameTimeFormat = "{0:HH_mm}";
+		public readonly string FileNameDateFormat = "{0:yyyy-MM-dd}";
 
-		public string LogFilePath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile) + @"/micrologger/";
+		//		public string LogFilePath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile) + @"/micrologger/";
 
 		public bool UseMarker = false;
 		public bool LogRAWValues = false;
@@ -597,12 +599,83 @@ namespace PrototypeBackend
 		{
 			foreach (APin pin in AnalogPins)
 			{
-				pin.DigitalNumber = board.HardwareAnalogPins [pin.Number];
+				if (pin.Number < board.HardwareAnalogPins.Length)
+				{
+					pin.DigitalNumber = board.HardwareAnalogPins [pin.Number];
+				}
 			}
 			foreach (DPin pin in DigitalPins)
 			{
 				pin.AnalogNumber = ((Array.IndexOf (Board.HardwareAnalogPins, pin.Number) > -1) ? Array.IndexOf (Board.HardwareAnalogPins, pin.Number) : -1);
 			}
+		}
+
+		public string GetCSVLogName ()
+		{
+			string preview = string.Empty;
+
+			foreach (string option in FileNameConvention)
+			{
+				switch (option)
+				{
+				case "[LOCALTIME]":
+				case "[UTC TIME]":
+					preview += string.Format (FileNameTimeFormat, DateTime.Now);
+					preview += "-";
+					break;
+//				case "[UTC TIME]":
+//					preview += string.Format (FileNameTimeFormat, DateTime.UtcNow);
+//					preview += "-";
+//					break;
+				case "[DATE]":
+					preview += string.Format (FileNameDateFormat, DateTime.Now);
+					preview += "-";
+					break;
+				case "[EMPTY]":
+					if (preview.Last () == '-')
+					{
+						preview.Remove (preview.Length - 1, 1);
+					}
+					break;
+				default:
+					preview += option;
+					preview += '-';
+					break;
+				}
+			}
+
+			if (preview.Last () == '-')
+			{
+				preview = preview.Remove (preview.LastIndexOf ('-'), 1);
+			}
+			preview += ".csv";
+
+			return preview;
+		}
+
+		/// <summary>
+		/// Creates the parameter mapping for the csv logger
+		/// </summary>
+		/// <returns>The mapping.</returns>
+		public IDictionary<string,int> CreateMapping ()
+		{
+			var dict = new Dictionary<string,int> ();
+
+			int pos = 0;
+
+			for (int i = pos; i < AnalogPins.Count; i++)
+			{
+				dict.Add (AnalogPins [i].DisplayName, i);
+				pos++;
+			}
+			if (MeasurementCombinations.Count > 0)
+			{
+				for (int i = 0; i < MeasurementCombinations.Count; i++)
+				{
+					dict.Add (MeasurementCombinations [i].Name, i + pos);
+				}
+			}
+			return dict;
 		}
 
 		#region ISerializable implementation
@@ -614,7 +687,7 @@ namespace PrototypeBackend
 			info.AddValue ("MeasurementCombinations", MeasurementCombinations);
 			info.AddValue ("Sequences", Sequences);
 			info.AddValue ("ConfigSavePath", ConfigSavePath);
-			info.AddValue ("LogFilePath", LogFilePath);
+			info.AddValue ("CSVSaveFolderPath", CSVSaveFolderPath);
 			info.AddValue ("UseMarker", UseMarker);
 			info.AddValue ("LogRAWValues", LogRAWValues);
 
@@ -624,6 +697,8 @@ namespace PrototypeBackend
 			info.AddValue ("LocalTimestamp", LocalTimestamp);
 			info.AddValue ("TimeFormat", TimeFormat);
 			info.AddValue ("FileNameConvention", FileNameConvention.ToList ());
+			info.AddValue ("FileNameTimeFormat", FileNameTimeFormat);
+			info.AddValue ("FileNameDateFormat", FileNameDateFormat);
 		}
 
 		public BoardConfiguration (SerializationInfo info, StreamingContext context)
@@ -638,7 +713,7 @@ namespace PrototypeBackend
 			MeasurementCombinations = (List<MeasurementCombination>)info.GetValue ("MeasurementCombinations", MeasurementCombinations.GetType ());
 			Sequences = (List<Sequence>)info.GetValue ("Sequences", Sequences.GetType ());
 			ConfigSavePath = info.GetString ("ConfigSavePath");
-			LogFilePath = info.GetString ("LogFilePath");
+			CSVSaveFolderPath = info.GetString ("CSVSaveFolderPath");
 			UseMarker = info.GetBoolean ("UseMarker");
 			LogRAWValues = info.GetBoolean ("LogRAWValues");
 
@@ -648,6 +723,8 @@ namespace PrototypeBackend
 			LocalTimestamp = info.GetBoolean ("LocalTimestamp");
 			TimeFormat = info.GetString ("TimeFormat");
 			FileNameConvention = ((List<string>)info.GetValue ("FileNameConvention", new List<string> ().GetType ())).ToArray<string> ();
+			FileNameTimeFormat = info.GetString ("FileNameTimeFormat");
+			FileNameDateFormat = info.GetString ("FileNameDateFormat");
 		}
 
 		#endregion

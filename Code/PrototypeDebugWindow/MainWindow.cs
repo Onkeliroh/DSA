@@ -84,6 +84,7 @@ namespace Frontend
 			BuildSequencePreviewPlot ();
 			BuildRealTimePlot ();
 			BuildMCUDisplay ();
+			BuildConfigSettings ();
 
 			#if DEBUG
 //			con.ConLogger.NewMessage +=
@@ -132,13 +133,14 @@ namespace Frontend
 			{
 				UpdateSettings ();
 				UpdateAllNodes ();
+				UpdateFilePathPreview ();
 			};
 
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
 			{
 				lblTimePassed.Text = string.Format ("{0:c}", con.TimePassed);
-//				UpdateRealTimePlot ();
+				lblTimePassed.Show ();
 			};
 		}
 
@@ -649,6 +651,47 @@ namespace Frontend
 		#endregion
 
 		#region BuildElements
+
+		private void BuildConfigSettings ()
+		{
+			object[] cbeOptions = new object[]{ "[LOCALTIME]", "[UTC TIME]", "[DATE]", "[EMPTY]" };
+
+			((ListStore)(cbeFileNaming1.Model)).AppendValues (cbeOptions [0]);
+			((ListStore)(cbeFileNaming2.Model)).AppendValues (cbeOptions [0]);
+			((ListStore)(cbeFileNaming3.Model)).AppendValues (cbeOptions [0]);
+			((ListStore)(cbeFileNaming1.Model)).AppendValues (cbeOptions [1]);
+			((ListStore)(cbeFileNaming2.Model)).AppendValues (cbeOptions [1]);
+			((ListStore)(cbeFileNaming3.Model)).AppendValues (cbeOptions [1]);
+			((ListStore)(cbeFileNaming1.Model)).AppendValues (cbeOptions [2]);
+			((ListStore)(cbeFileNaming2.Model)).AppendValues (cbeOptions [2]);
+			((ListStore)(cbeFileNaming3.Model)).AppendValues (cbeOptions [2]);
+			((ListStore)(cbeFileNaming1.Model)).AppendValues (cbeOptions [3]);
+			((ListStore)(cbeFileNaming2.Model)).AppendValues (cbeOptions [3]);
+			((ListStore)(cbeFileNaming3.Model)).AppendValues (cbeOptions [3]);
+
+			cbeFileNaming1.Active = 2;
+			cbeFileNaming2.Active = 0;
+			cbeFileNaming3.Active = 3;
+
+			cbeFileNaming1.Changed += (sender, e) =>
+			{
+				con.Configuration.FileNameConvention [0] = cbeFileNaming1.ActiveText;
+				UpdateFilePathPreview ();
+			};
+
+			cbeFileNaming2.Changed += (sender, e) =>
+			{
+				con.Configuration.FileNameConvention [1] = cbeFileNaming2.ActiveText;
+				UpdateFilePathPreview ();
+			};
+
+			cbeFileNaming3.Changed += (sender, e) =>
+			{
+				con.Configuration.FileNameConvention [2] = cbeFileNaming3.ActiveText;
+				UpdateFilePathPreview ();
+			};
+
+		}
 
 		private void BuildMCUDisplay ()
 		{
@@ -1179,8 +1222,10 @@ namespace Frontend
 			Menu connectionmenu = new Menu ();
 			MenuItem connection = new MenuItem ("Connection");
 			connection.Submenu = connectionmenu;
+			var autoConnect = refreshAction.CreateMenuItem () as MenuItem;
 			Menu portmenu = new Menu ();
 			MenuItem port = new MenuItem ("Port");
+			connectionmenu.Append (autoConnect);
 			connectionmenu.Append (port);
 			port.Submenu = portmenu;
 
@@ -1216,7 +1261,7 @@ namespace Frontend
 				}
 				portmenu.ShowAll ();
 			};
-
+				
 			mbar.Append (connection);
 			#endregion
 
@@ -1419,6 +1464,60 @@ namespace Frontend
 				cbeCSVTimeFormat.Active = index;
 			}
 
+			index = 0;
+			found = false;
+			foreach (object[] obj in (ListStore)cbeFileNaming1.Model)
+			{
+				if (obj [0].ToString () == con.Configuration.FileNameConvention [0])
+				{
+					cbeFileNaming1.Active = index;
+					found = true;
+					break;
+				}
+				index++;
+			}
+			if (!found)
+			{
+				cbeFileNaming1.AppendText (con.Configuration.FileNameConvention [0]);
+				cbeFileNaming1.Active = index;
+			}
+
+			index = 0;
+			found = false;
+			foreach (object[] obj in (ListStore)cbeFileNaming2.Model)
+			{
+				if (obj [0].ToString () == con.Configuration.FileNameConvention [1])
+				{
+					cbeFileNaming2.Active = index;
+					found = true;
+					break;
+				}
+				index++;
+			}
+			if (!found)
+			{
+				cbeFileNaming2.AppendText (con.Configuration.FileNameConvention [1]);
+				cbeFileNaming2.Active = index;
+			}
+
+			index = 0;
+			found = false;
+			foreach (object[] obj in (ListStore)cbeFileNaming3.Model)
+			{
+				if (obj [0].ToString () == con.Configuration.FileNameConvention [2])
+				{
+					cbeFileNaming3.Active = index;
+					found = true;
+					break;
+				}
+				index++;
+			}
+			if (!found)
+			{
+				cbeFileNaming3.AppendText (con.Configuration.FileNameConvention [2]);
+				cbeFileNaming3.Active = index;
+			}
+
 			//TODO plot settings
 		}
 
@@ -1507,7 +1606,7 @@ namespace Frontend
 			if (e.Connected)
 			{
 				lblConnectionStatus.Text = "connected to " + e.Port;
-				autoConnectAction.Sensitive = false;
+				refreshAction.Sensitive = false;
 				mediaPlayAction.Sensitive = true;
 				mediaStopAction.Sensitive = true;
 
@@ -1522,7 +1621,7 @@ namespace Frontend
 			{
 				lblConnectionStatus.Text = "<b>NOT</b> connected";
 				lblConnectionStatus.UseMarkup = true;
-				autoConnectAction.Sensitive = true;
+				refreshAction.Sensitive = true;
 				mediaPlayAction.Sensitive = false;
 				mediaStopAction.Sensitive = false;
 				try
@@ -1903,7 +2002,10 @@ namespace Frontend
 				if (args.ResponseId == ResponseType.Apply)
 				{
 					con.Configuration.CSVSaveFolderPath = dialog.CurrentFolder;
-					eCSVFilePath.Text = dialog.CurrentFolder;
+					if (con.Configuration.CSVSaveFolderPath.Last () != '/')
+						con.Configuration.CSVSaveFolderPath += '/';
+					eCSVFilePath.Text = con.Configuration.CSVSaveFolderPath;
+					UpdateFilePathPreview ();
 				}
 			};
 			dialog.Run ();
@@ -1942,13 +2044,14 @@ namespace Frontend
 		void DrawMCU (object sender, ExposeEventArgs args)
 		{
 			var context = CairoHelper.Create (this.drawingareaMCU.GdkWindow);
-			var MCUImage = MCUDisplayHelper.MCUSurface (con.Configuration.Board.ImageFilePath);
+			var MCUImage = MCUDisplayHelper.GetMCUSurface (con.Configuration.Board.ImageFilePath);
 			context.SetSource (
 				MCUImage,
 				this.drawingareaMCU.Allocation.Width / 2 - MCUImage.Width / 2,
 				this.drawingareaMCU.Allocation.Height / 2 - MCUImage.Height / 2
 			);
 			context.Paint ();
+
 
 			var Labels = MCUDisplayHelper.PinLabels (con.Configuration.LeftPinLayout);
 			context.SetSource (
@@ -1957,6 +2060,7 @@ namespace Frontend
 				this.drawingareaMCU.Allocation.Height / 2 - Labels.Height / 2
 			);
 			context.Paint ();
+			Labels.Dispose ();
 
 			Labels = MCUDisplayHelper.PinLabels (con.Configuration.RightPinLayout);
 			context.SetSource (
@@ -1965,6 +2069,7 @@ namespace Frontend
 				this.drawingareaMCU.Allocation.Height / 2 - Labels.Height / 2
 			);
 			context.Paint ();
+			Labels.Dispose ();
 
 			Labels = MCUDisplayHelper.PinLabels (con.Configuration.BottomPinLayout);
 			context.SetSource (
@@ -1972,10 +2077,13 @@ namespace Frontend
 				this.drawingareaMCU.Allocation.Width / 2 - Labels.Width,
 				this.drawingareaMCU.Allocation.Height / 2 + MCUImage.Height / 2 + 5
 			);
-
 			context.Paint ();
+			Labels.Dispose ();
+
 			SetSizeRequest (MCUImage.Width, MCUImage.Height + 200);
+			((IDisposable)context.GetTarget ()).Dispose ();
 			context.Dispose ();
+			MCUImage.Dispose ();
 		}
 
 
@@ -2337,6 +2445,10 @@ namespace Frontend
 			btnClearDPins.Sensitive = sensitive;
 			btnClearSequence.Sensitive = sensitive;
 			btnClearSignals.Sensitive = sensitive;
+			btnCloneAPin.Sensitive = sensitive;
+			btnCloneDPin.Sensitive = sensitive;
+			btnCloneSequence.Sensitive = sensitive;
+			btnCloneSignal.Sensitive = sensitive;
 
 			nvAnalogPins.Sensitive = sensitive;
 			nvDigitalPins.Sensitive = sensitive;
@@ -2359,6 +2471,17 @@ namespace Frontend
 			{
 				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());
 			}
+		}
+
+		private void UpdateFilePathPreview ()
+		{
+			string preview = string.Empty;
+
+			preview += con.Configuration.CSVSaveFolderPath;
+
+			preview += con.Configuration.GetCSVLogName ();
+
+			lblPreviewFilePathFormat.Text = preview;
 		}
 
 		#region DEBUGHelperly

@@ -259,6 +259,8 @@ namespace PrototypeBackend
 			Offset = info.GetDouble ("Offset");
 			Interval = info.GetUInt64 ("Interval");
 			Period = info.GetUInt64 ("Period");
+
+			Values = new List<DateTimeValue> ();
 		}
 
 		#endregion

@@ -41,7 +41,8 @@ namespace PrototypeBackend
 //			func = func.Replace ("a", "");
 			foreach (string s in parameterNames)
 			{
-				func = func.Replace (s, "parameters[" + pos + "]");
+				var value = s.Replace (" ", "");
+				func = func.Replace (value, "parameters[" + pos + "]");
 				pos++;
 			}
 
@@ -68,7 +69,7 @@ namespace PrototypeBackend
 			{
 				foreach (var error in results.Errors)
 				{
-					Console.WriteLine (error);
+//					Console.WriteLine (error);
 				}
 			} else
 			{

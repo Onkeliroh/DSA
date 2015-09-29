@@ -12,7 +12,7 @@ namespace Logger
 	{
 		public IDictionary<string,int> Mapping{ get; set; }
 
-		public string EmptySpaceFillin = " ";
+		public string EmptySpaceFilling = " ";
 
 		/// <summary>
 		/// Default Constructor
@@ -139,7 +139,7 @@ namespace Logger
 					list [Mapping [property]] = row [properties.FindIndex (o => o == property)].ToString ();
 				} else
 				{
-					list [Mapping [property]] = EmptySpaceFillin;
+					list [Mapping [property]] = EmptySpaceFilling;
 				}
 			}
 			return list.ToList<string> ();

@@ -166,6 +166,8 @@ namespace PrototypeBackend
 			Unit = info.GetString ("Unit");
 			Interval = info.GetInt32 ("Interval");
 			OperationString = info.GetString ("OperationString");
+
+			Operation = OperationCompiler.CompileOperation (OperationString, Pins.Select (o => o.DisplayNumberShort).ToArray<string> ());
 		}
 
 		#endregion

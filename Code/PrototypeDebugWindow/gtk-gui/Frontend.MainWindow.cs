@@ -16,7 +16,7 @@ namespace Frontend
 		
 		private global::Gtk.Action openAction;
 		
-		private global::Gtk.Action autoConnectAction;
+		private global::Gtk.Action refreshAction;
 		
 		private global::Gtk.Action quitAction;
 		
@@ -200,15 +200,15 @@ namespace Frontend
 		
 		private global::Gtk.HBox hbox1;
 		
-		private global::Gtk.ComboBoxEntry comboboxentry3;
+		private global::Gtk.ComboBoxEntry cbeFileNaming1;
 		
 		private global::Gtk.Label label24;
 		
-		private global::Gtk.ComboBoxEntry comboboxentry1;
+		private global::Gtk.ComboBoxEntry cbeFileNaming2;
 		
 		private global::Gtk.Label label25;
 		
-		private global::Gtk.ComboBoxEntry comboboxentry2;
+		private global::Gtk.ComboBoxEntry cbeFileNaming3;
 		
 		private global::Gtk.HSeparator hseparator2;
 		
@@ -333,9 +333,9 @@ namespace Frontend
 			w1.Add (this.saveAction, null);
 			this.openAction = new global::Gtk.Action ("openAction", null, null, "gtk-open");
 			w1.Add (this.openAction, null);
-			this.autoConnectAction = new global::Gtk.Action ("autoConnectAction", global::Mono.Unix.Catalog.GetString ("Attemt automatic Connection"), null, "gtk-refresh");
-			this.autoConnectAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Attemt automatic Connection");
-			w1.Add (this.autoConnectAction, null);
+			this.refreshAction = new global::Gtk.Action ("refreshAction", global::Mono.Unix.Catalog.GetString ("Attempt auto-connect"), null, "gtk-refresh");
+			this.refreshAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Attempt auto-connect");
+			w1.Add (this.refreshAction, null);
 			this.quitAction = new global::Gtk.Action ("quitAction", global::Mono.Unix.Catalog.GetString ("_Quit"), null, "gtk-quit");
 			this.quitAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Quit");
 			w1.Add (this.quitAction, null);
@@ -366,7 +366,7 @@ namespace Frontend
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><separator/><toolitem name='autoConnectAction' action='autoConnectAction'/><separator/><toolitem name='mediaPlayAction' action='mediaPlayAction'/><toolitem name='mediaStopAction' action='mediaStopAction'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><separator/><toolitem name='refreshAction' action='refreshAction'/><separator/><toolitem name='mediaPlayAction' action='mediaPlayAction'/><toolitem name='mediaStopAction' action='mediaStopAction'/></toolbar></ui>");
 			this.toolbarMain = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMain")));
 			this.toolbarMain.Name = "toolbarMain";
 			this.toolbarMain.ShowArrow = false;
@@ -513,7 +513,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 0;
+			this.notebook1.CurrentPage = 4;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -1160,10 +1160,10 @@ namespace Frontend
 			this.hbox1.Name = "hbox1";
 			this.hbox1.Spacing = 6;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.comboboxentry3 = global::Gtk.ComboBoxEntry.NewText ();
-			this.comboboxentry3.Name = "comboboxentry3";
-			this.hbox1.Add (this.comboboxentry3);
-			global::Gtk.Box.BoxChild w94 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.comboboxentry3]));
+			this.cbeFileNaming1 = global::Gtk.ComboBoxEntry.NewText ();
+			this.cbeFileNaming1.Name = "cbeFileNaming1";
+			this.hbox1.Add (this.cbeFileNaming1);
+			global::Gtk.Box.BoxChild w94 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.cbeFileNaming1]));
 			w94.Position = 0;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.label24 = new global::Gtk.Label ();
@@ -1176,10 +1176,10 @@ namespace Frontend
 			w95.Expand = false;
 			w95.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.comboboxentry1 = global::Gtk.ComboBoxEntry.NewText ();
-			this.comboboxentry1.Name = "comboboxentry1";
-			this.hbox1.Add (this.comboboxentry1);
-			global::Gtk.Box.BoxChild w96 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.comboboxentry1]));
+			this.cbeFileNaming2 = global::Gtk.ComboBoxEntry.NewText ();
+			this.cbeFileNaming2.Name = "cbeFileNaming2";
+			this.hbox1.Add (this.cbeFileNaming2);
+			global::Gtk.Box.BoxChild w96 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.cbeFileNaming2]));
 			w96.Position = 2;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.label25 = new global::Gtk.Label ();
@@ -1192,10 +1192,10 @@ namespace Frontend
 			w97.Expand = false;
 			w97.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.comboboxentry2 = global::Gtk.ComboBoxEntry.NewText ();
-			this.comboboxentry2.Name = "comboboxentry2";
-			this.hbox1.Add (this.comboboxentry2);
-			global::Gtk.Box.BoxChild w98 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.comboboxentry2]));
+			this.cbeFileNaming3 = global::Gtk.ComboBoxEntry.NewText ();
+			this.cbeFileNaming3.Name = "cbeFileNaming3";
+			this.hbox1.Add (this.cbeFileNaming3);
+			global::Gtk.Box.BoxChild w98 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.cbeFileNaming3]));
 			w98.Position = 4;
 			this.tableCSVLoggerSettings.Add (this.hbox1);
 			global::Gtk.Table.TableChild w99 = ((global::Gtk.Table.TableChild)(this.tableCSVLoggerSettings [this.hbox1]));
@@ -1312,6 +1312,7 @@ namespace Frontend
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.lblPreviewFilePathFormat = new global::Gtk.Label ();
 			this.lblPreviewFilePathFormat.Name = "lblPreviewFilePathFormat";
+			this.lblPreviewFilePathFormat.Xalign = 0F;
 			this.tableCSVLoggerSettings.Add (this.lblPreviewFilePathFormat);
 			global::Gtk.Table.TableChild w110 = ((global::Gtk.Table.TableChild)(this.tableCSVLoggerSettings [this.lblPreviewFilePathFormat]));
 			w110.TopAttach = ((uint)(2));
@@ -1717,7 +1718,7 @@ namespace Frontend
 			this.saveAsAction.Activated += new global::System.EventHandler (this.OnSaveAsActionActivated);
 			this.saveAction.Activated += new global::System.EventHandler (this.OnSaveActionActivated);
 			this.openAction.Activated += new global::System.EventHandler (this.OnOpenActionActivated);
-			this.autoConnectAction.Activated += new global::System.EventHandler (this.OnAutoConnectActionActivated);
+			this.refreshAction.Activated += new global::System.EventHandler (this.OnAutoConnectActionActivated);
 			this.aboutAction.Activated += new global::System.EventHandler (this.OnAboutActionActivated);
 			this.preferencesAction.Activated += new global::System.EventHandler (this.OnPreferencesActionActivated);
 			this.cbBoardType.Changed += new global::System.EventHandler (this.OnCbBoardTypeChanged);

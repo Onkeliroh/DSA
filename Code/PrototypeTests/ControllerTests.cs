@@ -9,112 +9,6 @@ namespace PrototypeTests
 	[TestFixture ()]
 	public class ControllerTests
 	{
-		//		[Test ()]
-		//		public void AddTestScheduler ()
-		//		{
-		//			var tmp = new Controller ();
-		//
-		//			Assert.AreEqual (0, tmp.ControllerSignals.Count);
-		//
-		//			var sched = new Scheduler (){ DueTime = new DateTime (1) };
-		//			tmp.AddScheduler (sched);
-		//			Assert.AreEqual (1, tmp.ControllerSignals.Count);
-		//
-		//			tmp.AddScheduler (new PrototypeBackend.Scheduler () {
-		//				DueTime = new DateTime (42),
-		//			});
-		//			Assert.AreEqual (2, tmp.ControllerSignals.Count);
-		//
-		//			tmp.AddScheduler (new Scheduler () {
-		//				DueTime = new DateTime (3),
-		//			});
-		//
-		//			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
-		//			Assert.AreEqual (new DateTime (3), tmp.ControllerSignals [1].DueTime);
-		//			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
-		//
-		//			tmp.AddScheduler (new Scheduler () {
-		//				DueTime = new DateTime (13),
-		//			});
-		//
-		//			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
-		//			Assert.AreEqual (new DateTime (3), tmp.ControllerSignals [1].DueTime);
-		//			Assert.AreEqual (new DateTime (13), tmp.ControllerSignals [2].DueTime);
-		//			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [3].DueTime);
-		//		}
-		//
-		//		[Test ()]
-		//		public void AddScheduleRangeTest ()
-		//		{
-		//			var tmp = new PrototypeBackend.Controller ();
-		//
-		//			var dates = new Scheduler[4];
-		//			dates [0] = new Scheduler (){ DueTime = new DateTime (4) };
-		//			dates [1] = new Scheduler (){ DueTime = new DateTime (1) };
-		//			dates [2] = new Scheduler (){ DueTime = new DateTime (88) };
-		//			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
-		//
-		//			tmp.AddSchedulerRange (dates);
-		//			Assert.AreEqual (4, tmp.ControllerSignals.Count);
-		//
-		//			Assert.AreEqual (true, tmp.ControllerSignals [0].DueTime.Equals (new DateTime (1)));
-		//			Assert.AreEqual (new DateTime (4), tmp.ControllerSignals [1].DueTime);
-		//			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
-		//			Assert.AreEqual (new DateTime (88), tmp.ControllerSignals [3].DueTime);
-		//		}
-		//
-		//		[Test ()]
-		//		public void RemoveSchedulerTest ()
-		//		{
-		//			var tmp = new PrototypeBackend.Controller ();
-		//
-		//			var dates = new Scheduler[5];
-		//			dates [0] = new Scheduler (){ DueTime = new DateTime (2) };
-		//			dates [1] = new Scheduler (){ DueTime = new DateTime (4) };
-		//			dates [2] = new Scheduler (){ DueTime = new DateTime (1) };
-		//			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
-		//			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
-		//
-		//			tmp.AddSchedulerRange (dates);
-		//			Assert.AreEqual (5, tmp.ControllerSignals.Count);
-		//
-		//			tmp.RemoveScheduler (dates [1]);
-		//			Assert.AreEqual (4, tmp.ControllerSignals.Count);
-		//
-		//			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
-		//			Assert.AreEqual (new DateTime (2), tmp.ControllerSignals [1].DueTime);
-		//			Assert.AreEqual (new DateTime (42), tmp.ControllerSignals [2].DueTime);
-		//			Assert.AreEqual (new DateTime (88), tmp.ControllerSignals [3].DueTime);
-		//		}
-		//
-		//		[Test ()]
-		//		public void RemoveSchedulerRangeTest ()
-		//		{
-		//			var tmp = new PrototypeBackend.Controller ();
-		//
-		//			var dates = new Scheduler[5];
-		//			dates [0] = new Scheduler (){ DueTime = new DateTime (2) };
-		//			dates [1] = new Scheduler (){ DueTime = new DateTime (4) };
-		//			dates [2] = new Scheduler (){ DueTime = new DateTime (1) };
-		//			dates [3] = new Scheduler (){ DueTime = new DateTime (42) };
-		//			dates [4] = new Scheduler (){ DueTime = new DateTime (88) };
-		//
-		//			tmp.AddSchedulerRange (dates);
-		//			Assert.AreEqual (5, tmp.ControllerSignals.Count);
-		//
-		//			var deletedates = new Scheduler[4];
-		//			deletedates [0] = dates [1];
-		//			deletedates [1] = dates [3];
-		//			deletedates [2] = dates [4];
-		//			deletedates [3] = new Scheduler (){ DueTime = new DateTime (43) };
-		//
-		//			tmp.RemoveSchedulerRange (deletedates);
-		//			Assert.AreEqual (2, tmp.ControllerSignals.Count);
-		//
-		//			Assert.AreEqual (new DateTime (1), tmp.ControllerSignals [0].DueTime);
-		//			Assert.AreEqual (new DateTime (2), tmp.ControllerSignals [1].DueTime);
-		//		}
-
 		[Test ()]
 		public void GetUsedPinsTest ()
 		{
@@ -202,90 +96,29 @@ namespace PrototypeTests
 		}
 
 		[Test]
-		[Ignore]
-		public void SequenceThread ()
+		public void CSVMappingTest ()
 		{
-//			var con = new Controller ();
-//
-//
-//			DPin[] dpins = new DPin[10];
-//			for (int i = 0; i < dpins.Length; i++)
-//			{
-//				dpins [i] = new DPin ("", i);
-//			}
-//
-//			Sequence[] seqs = new Sequence[10];
-//			for (int i = 0; i < seqs.Length; i++)
-//			{
-//				seqs [i] = new Sequence ();
-//				seqs [i].Pin = dpins [i];
-//				seqs [i].AddSequenceOperation (DPinState.HIGH, TimeSpan.FromSeconds (0), TimeSpan.FromSeconds (i * 10));
-//			}
-//
-//			con.ControlSequences.AddRange (seqs);
-//			#if FAKESERIAL
-//			con.Start ();
-//			Thread.Sleep (1000);
-//			foreach (Sequence seq in seqs)
-//			{
-//				Assert.AreEqual (1, seq.Cycle);
-//				Assert.AreEqual (1, seq.Chain.Count);
-//			}
-//			con.Stop ();
-//			#endif
-		}
+			var con = new BoardConfiguration ();
+			con.AddPin (new APin (){ Number = 1, Name = "Pin1" });
+			con.AddPin (new APin (){ Number = 2, Name = "Pin2" });
+			con.AddPin (new APin (){ Number = 3, Name = "Pin3" });
 
-		[Test]
-		[Ignore]
-		public void CheckSequenceTest ()
-		{
-//			var con = new Controller ();
-//			var seq = new Sequence ();
-//			seq.AddSequenceOperation (new SequenceOperation () {
-//				Time = TimeSpan.FromSeconds (10),
-//				Duration = TimeSpan.FromSeconds (5),
-//				State = DPinState.HIGH
-//			});
-//			seq.AddSequenceOperation (new SequenceOperation () {
-//				Time = TimeSpan.FromSeconds (1),
-//				Duration = TimeSpan.FromSeconds (5),
-//				State = DPinState.HIGH
-//			});
-//
-//			Assert.AreEqual (2, seq.Chain.Count);
-//			Assert.AreEqual (TimeSpan.FromSeconds (1), seq.Chain [0].Time);
-//			Assert.AreEqual (TimeSpan.FromSeconds (10), seq.Chain [1].Time);
-//
-//			con.ControlSequences.Add (seq);
-//
-//			Assert.AreEqual (true, con.CheckSequences ());
-//
-//			Assert.AreEqual (TimeSpan.FromSeconds (0), con.ControlSequences [0].Chain [0].Time);
-//			Assert.AreEqual (TimeSpan.FromSeconds (6), con.ControlSequences [0].Chain [2].Time);
-//
-//
-//			Console.WriteLine (con.ControlSequences [0].ToString ());
-		}
+			var res = con.CreateMapping ();
 
-		[Test]
-		[Ignore]
-		public void CheckSequenceTest2 ()
-		{
-//			var con = new Controller ();
-//			var seq = new Sequence ();
-//			seq.AddSequenceOperation (new SequenceOperation () {
-//				Time = TimeSpan.FromSeconds (10),
-//				Duration = TimeSpan.FromSeconds (5),
-//				State = DPinState.HIGH
-//			});
-//			seq.AddSequenceOperation (new SequenceOperation () {
-//				Time = TimeSpan.FromSeconds (1),
-//				Duration = TimeSpan.FromSeconds (10),
-//				State = DPinState.HIGH
-//			});
-//			con.ControlSequences.Add (seq);
-//
-//			Assert.AreNotEqual (true, con.CheckSequences ());
+			Assert.AreEqual (3, res.Keys.Count);
+			Assert.AreEqual (0, res [con.Pins [0].DisplayName]);
+			Assert.AreEqual (1, res [con.Pins [1].DisplayName]);
+			Assert.AreEqual (2, res [con.Pins [2].DisplayName]);
+
+			con.AddMeasurementCombination (new MeasurementCombination () {
+				Pins = new System.Collections.Generic.List<APin> (){ con.Pins [0] as APin, con.Pins [1] as APin },
+				Name = "MeCom"
+			});
+
+			res = con.CreateMapping ();
+
+			Assert.AreEqual (4, res.Keys.Count);
+			Assert.AreEqual (3, res [con.MeasurementCombinations [0].DisplayName]);
 		}
 	}
 }

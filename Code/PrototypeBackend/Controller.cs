@@ -256,19 +256,15 @@ namespace PrototypeBackend
 				#region Build Logger
 				//build logger
 				var logger = new CSVLogger (
-					             string.Format (
-						             "{0}_{1}.csv", 
-						             DateTime.Now.ToShortTimeString (), 
-						             "csv"),
+					             Configuration.GetCSVLogName (),
 					             true, 
 					             false,
-					             Configuration.LogFilePath
+					             Configuration.CSVSaveFolderPath
 				             );
-				logger.Mapping = CreateMapping ();
-				logger.DateTimeFormat = "{0:mm:ss.ffff}"; 
-				logger.FileName = 
-				"/home/onkeliroh/Bachelorarbeit/Resources/Logs/" +
-				string.Format ("{0}_{1}.csv", DateTime.Now.ToShortTimeString (), "csv");
+				logger.Mapping = Configuration.CreateMapping ();
+				logger.Separator = Configuration.Separator;
+				logger.EmptySpaceFilling = Configuration.EmptyValueFilling;
+				logger.DateTimeFormat = Configuration.TimeFormat;
 				logger.WriteHeader (logger.Mapping.Keys.ToList<string> ());
 				logger.Start ();
 				#endregion
@@ -287,6 +283,11 @@ namespace PrototypeBackend
 					//take every pin with the same period as the first one
 					var query = list.Where (o => o.Period == list.First ().Period).ToList<APin> ();
 					var combquery = comblist.Where (o => o.Period == query.First ().Period).ToList<MeasurementCombination> ();
+
+					//pass values to logger
+					var keys = new List<string> ();
+					keys.AddRange (query.Select (x => x.DisplayName));
+					keys.AddRange (combquery.Select (x => x.DisplayName));
 
 					if (query.Count > 0)
 					{
@@ -314,11 +315,6 @@ namespace PrototypeBackend
 									};
 								}
 
-								//pass values to logger
-								var keys = new List<string> ();
-								keys.AddRange (query.Select (x => x.DisplayName));
-								keys.AddRange (combquery.Select (x => x.DisplayName));
-
 								var values = new List<DateTimeValue> ();
 								values.AddRange (query.Select (x => x.Value));
 								values.AddRange (combquery.Select (x => x.Value));
@@ -336,30 +332,7 @@ namespace PrototypeBackend
 			}
 		}
 
-		/// <summary>
-		/// Creates the parameter mapping for the csv logger
-		/// </summary>
-		/// <returns>The mapping.</returns>
-		private IDictionary<string,int> CreateMapping ()
-		{
-			var dict = new Dictionary<string,int> ();
 
-			int pos = 0;
-
-			for (int i = pos; i < Configuration.AnalogPins.Count; i++)
-			{
-				dict.Add (Configuration.AnalogPins [i].DisplayName, i);
-				pos++;
-			}
-			if (Configuration.MeasurementCombinations.Count > 0)
-			{
-				for (int i = pos; i < (Configuration.MeasurementCombinations.Count + Configuration.Pins.Count); i++)
-				{
-					dict.Add (Configuration.MeasurementCombinations [i].Name, i);
-				}
-			}
-			return dict;
-		}
 
 		/// <summary>
 		/// Saves the configuration.

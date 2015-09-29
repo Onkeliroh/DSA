@@ -72,8 +72,6 @@ namespace PrototypeBackend
 		#region Events
 
 		public static event EventHandler<ConnectionChangedArgs> OnConnectionChanged;
-		public static event EventHandler<ControllerAnalogEventArgs> NewAnalogValue;
-		public static event EventHandler<ControllerDigitalEventArgs> NewDigitalValue;
 		public static event EventHandler<CommunicationArgs> OnSendMessage;
 		public static event EventHandler<CommunicationArgs> OnReceiveMessage;
 
@@ -205,12 +203,12 @@ namespace PrototypeBackend
 						SerialPortName = s;
 
 						Setup (false);
-						System.Threading.Thread.Sleep (2000);
+						System.Threading.Thread.Sleep (200);
 						if (IsConnected)
 							break;
 						Disconnect ();
 						Setup (true);
-						System.Threading.Thread.Sleep (2000);
+						System.Threading.Thread.Sleep (200);
 						if (IsConnected)
 							break;
 						Disconnect ();
@@ -246,10 +244,10 @@ namespace PrototypeBackend
 				AttachCommandCallBacks ();
 
 				// Attach to NewLinesReceived for logging purposes
-				_cmdMessenger.NewLineReceived += NewLineReceived;
+//				_cmdMessenger.NewLineReceived += NewLineReceived;
 
 				// Attach to NewLineSent for logging purposes
-				_cmdMessenger.NewLineSent += NewLineSent;                       
+//				_cmdMessenger.NewLineSent += NewLineSent;                       
 
 				#if !FAKESERIAL
 				// Start listening
@@ -835,6 +833,7 @@ namespace PrototypeBackend
 			info.AddValue ("PinLayoutLeft", PinLayout ["LEFT"]);
 			info.AddValue ("PinLayoutRight", PinLayout ["RIGHT"]);
 			info.AddValue ("PinLayoutBottom", PinLayout ["BOTTOM"]);
+			info.AddValue ("ImageFilePath", ImageFilePath);
 		}
 
 		public Board (SerializationInfo info, StreamingContext context)
@@ -855,6 +854,8 @@ namespace PrototypeBackend
 			PinLayout.Add ("LEFT", ((List<int>)info.GetValue ("PinLayoutLeft", new List<int> ().GetType ())));
 			PinLayout.Add ("RIGHT", ((List<int>)info.GetValue ("PinLayoutRight", new List<int> ().GetType ())));
 			PinLayout.Add ("BOTTOM", ((List<int>)info.GetValue ("PinLayoutBottom", new List<int> ().GetType ())));
+
+			ImageFilePath = info.GetString ("ImageFilePath");
 		}
 
 		#endregion

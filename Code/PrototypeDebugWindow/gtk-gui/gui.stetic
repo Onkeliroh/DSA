@@ -49,10 +49,10 @@
         <property name="StockId">gtk-open</property>
         <signal name="Activated" handler="OnOpenActionActivated" />
       </action>
-      <action id="autoConnectAction">
+      <action id="refreshAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Attemt automatic Connection</property>
-        <property name="ShortLabel" translatable="yes">Attemt automatic Connection</property>
+        <property name="Label" translatable="yes">Attempt auto-connect</property>
+        <property name="ShortLabel" translatable="yes">Attempt auto-connect</property>
         <property name="StockId">gtk-refresh</property>
         <signal name="Activated" handler="OnAutoConnectActionActivated" />
       </action>
@@ -110,7 +110,7 @@
               <node type="Toolitem" action="saveAction" />
               <node type="Toolitem" action="saveAsAction" />
               <node type="Separator" />
-              <node type="Toolitem" action="autoConnectAction" />
+              <node type="Toolitem" action="refreshAction" />
               <node type="Separator" />
               <node type="Toolitem" action="mediaPlayAction" />
               <node type="Toolitem" action="mediaStopAction" />
@@ -315,7 +315,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">0</property>
+                <property name="CurrentPage">4</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -1231,7 +1231,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                                     <property name="MemberName" />
                                     <property name="Spacing">6</property>
                                     <child>
-                                      <widget class="Gtk.ComboBoxEntry" id="comboboxentry3">
+                                      <widget class="Gtk.ComboBoxEntry" id="cbeFileNaming1">
                                         <property name="MemberName" />
                                         <property name="IsTextCombo">True</property>
                                         <property name="Items" translatable="yes" />
@@ -1255,7 +1255,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.ComboBoxEntry" id="comboboxentry1">
+                                      <widget class="Gtk.ComboBoxEntry" id="cbeFileNaming2">
                                         <property name="MemberName" />
                                         <property name="IsTextCombo">True</property>
                                         <property name="Items" translatable="yes" />
@@ -1279,7 +1279,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.ComboBoxEntry" id="comboboxentry2">
+                                      <widget class="Gtk.ComboBoxEntry" id="cbeFileNaming3">
                                         <property name="MemberName" />
                                         <property name="IsTextCombo">True</property>
                                         <property name="Items" translatable="yes" />
@@ -1503,6 +1503,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                                 <child>
                                   <widget class="Gtk.Label" id="lblPreviewFilePathFormat">
                                     <property name="MemberName" />
+                                    <property name="Xalign">0</property>
                                   </widget>
                                   <packing>
                                     <property name="TopAttach">2</property>

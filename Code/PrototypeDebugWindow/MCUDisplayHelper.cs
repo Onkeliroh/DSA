@@ -24,15 +24,18 @@ namespace Frontend
 	public static class MCUDisplayHelper
 	{
 		private const int BoldHeight = 26;
-		private const int FlatHeight = 14;
-		private const int Space = 3;
-		private static readonly Cairo.Color BackgroundColor = new Cairo.Color (1, 1, 1);
+		private const int FlatHeight = 18;
+		private const int Space = 2;
+		private static readonly Cairo.Color BackgroundColor = new Cairo.Color (1, 1, 1, 0);
+
+		//		private static Cairo.ImageSurface MCUSurface = null;
+		//		private static string MCUPath = string.Empty;
 
 		public static Cairo.ImageSurface PinLabels (List<IPin> pins, LabelFormat labelformat = LabelFormat.Flat, BordType bordtype = BordType.Line)
 		{
 			int height = (labelformat == LabelFormat.Flat) ? FlatHeight : BoldHeight;
 
-			var surf = new Cairo.ImageSurface (Cairo.Format.Rgb24, 100, height * pins.Count + Space * pins.Count);
+			var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, 125, height * pins.Count + Space * pins.Count);
 
 			var context = new Cairo.Context (surf);
 
@@ -48,8 +51,10 @@ namespace Frontend
 			return surf;
 		}
 
-		public static Cairo.ImageSurface MCUSurface (string path, int maxWidth = int.MaxValue)
+		public static Cairo.ImageSurface GetMCUSurface (string path, int maxWidth = int.MaxValue)
 		{
+//			if (path != MCUPath || MCUSurface == null)
+//			{
 			if (path != null && System.IO.File.Exists (path))
 			{
 				if (!path.Equals (string.Empty))
@@ -77,6 +82,9 @@ namespace Frontend
 						var context = new Cairo.Context (surf);
 
 						MCUImage.RenderCairo (context);
+
+//						MCUPath = path;
+//						MCUSurface = surf;
 						return surf;
 					} catch (Exception ex)
 					{
@@ -85,6 +93,10 @@ namespace Frontend
 				}
 			}
 			return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
+//			} else
+//			{
+//				return MCUSurface;
+//			}
 		}
 
 		public static void DrawLabel (Cairo.Context context, LabelFormat format, BordType bordertype, IPin pin, int xpos, int ypos)
@@ -146,9 +158,10 @@ namespace Frontend
 
 		private static void DrawLabelFlat (Cairo.Context context, BordType bordertype, IPin pin, int xpos = 0, int ypos = 0)
 		{
-			const int widht = 100;
+			const int width = 120;
 			const int height = FlatHeight;
 			const int fontsize = 12;
+			const int linewidth = 2;
 
 			string displaytext = "";
 
@@ -161,28 +174,30 @@ namespace Frontend
 			}
 
 			//Rect
-			context.Rectangle (xpos, ypos, widht, height);
-			context.SetSourceColor (BackgroundColor);
-			context.Fill ();
+//			context.Rectangle (xpos, ypos, width, height);
+//			context.SetSourceColor (BackgroundColor);
 
 			if (bordertype == BordType.Line)
 			{
 				//Border
-				context.SetSourceRGB (0, 0, 0);
-				context.LineWidth = .5;
-				context.Rectangle (xpos, ypos, widht, height);
+//				context.SetSourceRGB (0, 0, 0);
+//				context.LineWidth = .5;
+//				context.Rectangle (xpos, ypos, widht, height);
+				DrawRoundedRectangle (context, xpos + linewidth, ypos + 1, width - linewidth, height - 1, 5);
+				context.SetSourceColor (GdkToCairo (pin.PlotColor));
+				context.LineWidth = linewidth;
 				context.Stroke ();
 			}
-			//ColorFlag
-			context.Rectangle (xpos, ypos, 5, 14);
-			context.SetSourceColor (GdkToCairo (pin.PlotColor));
-			context.Fill ();
+//			//ColorFlag
+//			context.Rectangle (xpos, ypos, 5, 14);
+//			context.SetSourceColor (GdkToCairo (pin.PlotColor));
+//			context.Fill ();
 
 			//Number
 			context.SetSourceColor (new Cairo.Color (0, 0, 0));
 			context.SelectFontFace ("Sans", FontSlant.Normal, FontWeight.Bold);
 			context.SetFontSize (fontsize);
-			context.MoveTo (xpos + 5, ypos + fontsize);
+			context.MoveTo (xpos + 5, ypos + fontsize + linewidth);
 			context.ShowText (displaytext);
 		}
 
@@ -202,6 +217,52 @@ namespace Frontend
 			double b = (double)blue / (double)ushort.MaxValue;
 			 
 			return new Cairo.Color (r, g, b);
+		}
+
+		private static void DrawRoundedRectangle (Cairo.Context gr, double x, double y, double width, double height, double radius)
+		{
+			gr.Save ();
+
+			if ((radius > height / 2) || (radius > width / 2))
+				radius = min (height / 2, width / 2);
+
+			gr.MoveTo (x, y + radius);
+			gr.Arc (x + radius, y + radius, radius, Math.PI, -Math.PI / 2);
+			gr.LineTo (x + width - radius, y);
+			gr.Arc (x + width - radius, y + radius, radius, -Math.PI / 2, 0);
+			gr.LineTo (x + width, y + height - radius);
+			gr.Arc (x + width - radius, y + height - radius, radius, 0, Math.PI / 2);
+			gr.LineTo (x + radius, y + height);
+			gr.Arc (x + radius, y + height - radius, radius, Math.PI / 2, Math.PI);
+			gr.ClosePath ();
+			gr.Restore ();
+		}
+
+		private static void DrawRoundedFlag (Cairo.Context gr, double x, double y, double width, double height, double radius)
+		{
+			gr.Save ();
+
+			if ((radius > height / 2) || (radius > width / 2))
+				radius = min (height / 2, width / 2);
+
+			gr.MoveTo (x, y + radius);
+			gr.Arc (x + radius, y + radius, radius, Math.PI, -Math.PI / 2);
+			gr.LineTo (x + width, y);
+			gr.MoveTo (x + width, y + height);
+			gr.LineTo (x + radius, y + height);
+			gr.Arc (x + radius, y + height - radius, radius, Math.PI / 2, Math.PI);
+			gr.ClosePath ();
+			gr.Restore ();
+		}
+
+		private static double min (params double[] arr)
+		{
+			int minp = 0;
+			for (int i = 1; i < arr.Length; i++)
+				if (arr [i] < arr [minp])
+					minp = i;
+
+			return arr [minp];
 		}
 	}
 }
