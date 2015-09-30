@@ -21,7 +21,7 @@
         <property name="Sensitive">False</property>
         <property name="ShortLabel" translatable="yes">Start</property>
         <property name="StockId">gtk-media-play</property>
-        <property name="Tooltip" translatable="yes">Start Measurements and Controlsequences</property>
+        <property name="Tooltip" translatable="yes">Start measurements and sequences</property>
         <signal name="Activated" handler="OnMediaPlayActionToggled" />
       </action>
       <action id="mediaStopAction">
@@ -29,31 +29,36 @@
         <property name="Label" translatable="yes" />
         <property name="Sensitive">False</property>
         <property name="StockId">gtk-media-stop</property>
+        <property name="Tooltip" translatable="yes">Stops measurements and sequences</property>
         <signal name="Activated" handler="OnMediaStopActionActivated" />
       </action>
       <action id="saveAsAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-save-as</property>
+        <property name="Tooltip" translatable="yes">Saves a configuration to a defined file</property>
         <signal name="Activated" handler="OnSaveAsActionActivated" />
       </action>
       <action id="saveAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-save</property>
+        <property name="Tooltip" translatable="yes">Saves a configuration</property>
         <signal name="Activated" handler="OnSaveActionActivated" />
       </action>
       <action id="openAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-open</property>
+        <property name="Tooltip" translatable="yes">Opens a selected configuration</property>
         <signal name="Activated" handler="OnOpenActionActivated" />
       </action>
       <action id="refreshAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Attempt auto-connect</property>
-        <property name="ShortLabel" translatable="yes">Attempt auto-connect</property>
+        <property name="Label" translatable="yes">Attempt autoconnect</property>
+        <property name="ShortLabel" translatable="yes">Autoconnect</property>
         <property name="StockId">gtk-refresh</property>
+        <property name="Tooltip" translatable="yes">attempts a automatic connection to a prepared microcontroller</property>
         <signal name="Activated" handler="OnAutoConnectActionActivated" />
       </action>
       <action id="quitAction">
@@ -104,6 +109,7 @@
           <widget class="Gtk.Toolbar" id="toolbarMain">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
+            <property name="ButtonStyle">Both</property>
             <property name="IconSize">Button</property>
             <node name="toolbarMain" type="Toolbar">
               <node type="Toolitem" action="openAction" />
@@ -289,7 +295,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="GtkLabel2">
+                      <widget class="Gtk.Label" id="GtkLabel8">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">&lt;b&gt;Board Properties&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
@@ -326,7 +332,7 @@
                         <property name="MemberName" />
                         <property name="ShadowType">None</property>
                         <child>
-                          <widget class="Gtk.Alignment" id="GtkAlignment5">
+                          <widget class="Gtk.Alignment" id="GtkAlignment6">
                             <property name="MemberName" />
                             <property name="Xalign">0</property>
                             <property name="Yalign">0</property>
@@ -678,7 +684,7 @@
                         <property name="MemberName" />
                         <property name="ShadowType">None</property>
                         <child>
-                          <widget class="Gtk.Alignment" id="GtkAlignment10">
+                          <widget class="Gtk.Alignment" id="GtkAlignment17">
                             <property name="MemberName" />
                             <property name="Xalign">0</property>
                             <property name="Yalign">0</property>
@@ -825,7 +831,7 @@
                           </widget>
                         </child>
                         <child>
-                          <widget class="Gtk.Label" id="GtkLabel22">
+                          <widget class="Gtk.Label" id="GtkLabel25">
                             <property name="MemberName" />
                             <property name="LabelProp" translatable="yes">&lt;b&gt;Digital Outputs&lt;/b&gt;</property>
                             <property name="UseMarkup">True</property>
@@ -859,7 +865,7 @@
                     <property name="MemberName" />
                     <property name="ShadowType">None</property>
                     <child>
-                      <widget class="Gtk.Alignment" id="GtkAlignment20">
+                      <widget class="Gtk.Alignment" id="GtkAlignment25">
                         <property name="MemberName" />
                         <property name="Xalign">0</property>
                         <property name="Yalign">0</property>
@@ -1038,7 +1044,7 @@
                         <property name="MemberName" />
                         <property name="ShadowType">None</property>
                         <child>
-                          <widget class="Gtk.Alignment" id="GtkAlignment22">
+                          <widget class="Gtk.Alignment" id="GtkAlignment31">
                             <property name="MemberName" />
                             <property name="Xalign">0</property>
                             <property name="Yalign">0</property>
@@ -1046,7 +1052,7 @@
                             <child>
                               <widget class="Gtk.Table" id="tableCSVLoggerSettings">
                                 <property name="MemberName" />
-                                <property name="NRows">9</property>
+                                <property name="NRows">8</property>
                                 <property name="NColumns">3</property>
                                 <property name="RowSpacing">6</property>
                                 <property name="ColumnSpacing">6</property>
@@ -1077,36 +1083,10 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="Gtk.CheckButton" id="cbCSVLocaltime">
-                                    <property name="MemberName" />
-                                    <property name="CanFocus">True</property>
-                                    <property name="Label" translatable="yes" />
-                                    <property name="Active">True</property>
-                                    <property name="DrawIndicator">True</property>
-                                    <property name="HasLabel">True</property>
-                                    <property name="UseUnderline">True</property>
-                                    <signal name="Toggled" handler="OnCbCSVLocaltimeToggled" />
-                                  </widget>
-                                  <packing>
-                                    <property name="TopAttach">7</property>
-                                    <property name="BottomAttach">8</property>
-                                    <property name="LeftAttach">1</property>
-                                    <property name="RightAttach">3</property>
-                                    <property name="AutoSize">False</property>
-                                    <property name="YOptions">Fill</property>
-                                    <property name="XExpand">True</property>
-                                    <property name="XFill">True</property>
-                                    <property name="XShrink">False</property>
-                                    <property name="YExpand">False</property>
-                                    <property name="YFill">True</property>
-                                    <property name="YShrink">False</property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <widget class="Gtk.CheckButton" id="cbCSVUTC">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
-                                    <property name="Label" translatable="yes" />
+                                    <property name="Label" translatable="yes">Append addtional UTC timestamp to csv log file</property>
                                     <property name="DrawIndicator">True</property>
                                     <property name="HasLabel">True</property>
                                     <property name="UseUnderline">True</property>
@@ -1181,22 +1161,21 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="Gtk.ComboBoxEntry" id="cbeCSVTimeFormat">
+                                  <widget class="Gtk.ComboBox" id="cbeCSVTimeFormat">
                                     <property name="MemberName" />
                                     <property name="IsTextCombo">True</property>
-                                    <property name="Items" translatable="yes">HH:mm:ss.mm
-dd:MM:YYYY-HH:mm:ss.mm</property>
-                                    <property name="Active">1</property>
+                                    <property name="Items" translatable="yes" />
                                     <signal name="Changed" handler="OnCbeCSVTimeFormatChanged" />
                                   </widget>
                                   <packing>
-                                    <property name="TopAttach">8</property>
-                                    <property name="BottomAttach">9</property>
+                                    <property name="TopAttach">7</property>
+                                    <property name="BottomAttach">8</property>
                                     <property name="LeftAttach">1</property>
                                     <property name="RightAttach">3</property>
-                                    <property name="AutoSize">False</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="XOptions">Fill</property>
                                     <property name="YOptions">Fill</property>
-                                    <property name="XExpand">True</property>
+                                    <property name="XExpand">False</property>
                                     <property name="XFill">True</property>
                                     <property name="XShrink">False</property>
                                     <property name="YExpand">False</property>
@@ -1422,34 +1401,14 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="Gtk.Label" id="label21">
-                                    <property name="MemberName" />
-                                    <property name="Xalign">0</property>
-                                    <property name="LabelProp" translatable="yes">Localtime Timestamp:</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="TopAttach">7</property>
-                                    <property name="BottomAttach">8</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="XOptions">Fill</property>
-                                    <property name="YOptions">Fill</property>
-                                    <property name="XExpand">False</property>
-                                    <property name="XFill">True</property>
-                                    <property name="XShrink">False</property>
-                                    <property name="YExpand">False</property>
-                                    <property name="YFill">True</property>
-                                    <property name="YShrink">False</property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <widget class="Gtk.Label" id="label22">
                                     <property name="MemberName" />
                                     <property name="Xalign">0</property>
                                     <property name="LabelProp" translatable="yes">Time Format:</property>
                                   </widget>
                                   <packing>
-                                    <property name="TopAttach">8</property>
-                                    <property name="BottomAttach">9</property>
+                                    <property name="TopAttach">7</property>
+                                    <property name="BottomAttach">8</property>
                                     <property name="AutoSize">True</property>
                                     <property name="XOptions">Fill</property>
                                     <property name="YOptions">Fill</property>
@@ -1558,7 +1517,7 @@ dd:MM:YYYY-HH:mm:ss.mm</property>
                         <property name="MemberName" />
                         <property name="ShadowType">None</property>
                         <child>
-                          <widget class="Gtk.Alignment" id="GtkAlignment24">
+                          <widget class="Gtk.Alignment" id="GtkAlignment33">
                             <property name="MemberName" />
                             <property name="Xalign">0</property>
                             <property name="Yalign">0</property>

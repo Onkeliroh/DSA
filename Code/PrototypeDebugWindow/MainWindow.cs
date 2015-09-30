@@ -80,6 +80,7 @@ namespace Frontend
 			ArduinoController.OnConnectionChanged += OnConnection;
 
 			BuildMenu ();
+			BuildToolBar ();
 			BuildNodeViews ();
 			BuildSequencePreviewPlot ();
 			BuildRealTimePlot ();
@@ -156,7 +157,7 @@ namespace Frontend
 				Menu m = new Menu ();
 
 				var AddPin = new ImageMenuItem ("Add Measurement...");
-				var ClonePin = new ImageMenuItem ("Cuplicate");
+				var ClonePin = new ImageMenuItem ("Duplicate");
 				var EditPin = new ImageMenuItem ("Edit Measurement...");
 				var RemovePin = new ImageMenuItem ("Delete Measruement");
 				var ClearPins = new ImageMenuItem ("Clear Measurements");
@@ -203,7 +204,6 @@ namespace Frontend
 				AddCombination.ButtonPressEvent += (o, args) =>
 				{
 					RunMeasurementCombinationDialog (null, pin.Pin);
-					this.notebook1.CurrentPage = 1;
 				};
 				EditCombination.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
 
@@ -347,7 +347,7 @@ namespace Frontend
 
 			
 				var AddPin = new ImageMenuItem ("Add Sequence...");
-				var ClonePin = new ImageMenuItem ("Cuplicate");
+				var ClonePin = new ImageMenuItem ("Duplicate");
 				var EditPin = new ImageMenuItem ("Edit Sequence...");
 				var RemovePin = new ImageMenuItem ("Delete Sequence");
 				var AddToGroupItem = new MenuItem ("Add to group");
@@ -691,6 +691,10 @@ namespace Frontend
 				UpdateFilePathPreview ();
 			};
 
+			foreach (string s in TimeFormatOptions.FormatOptions.Keys)
+			{
+				((ListStore)(cbeCSVTimeFormat.Model)).AppendValues (s + " (" + TimeFormatOptions.GetFormat (s) + ")");
+			}
 		}
 
 		private void BuildMCUDisplay ()
@@ -730,8 +734,18 @@ namespace Frontend
 			};
 			con.Configuration.OnSignalsUpdated += (o, a) => FillMeasurementCombinationNodes ();
 
-			con.OnControllerStarted += (o, a) => LockControlls (false);
-			con.OnControllerStoped += (o, a) => LockControlls (true);
+			con.OnControllerStarted += (o, a) =>
+			{
+				mediaStopAction.Sensitive = true;
+				mediaPlayAction.Sensitive = false;
+				LockControlls (false);
+			};
+			con.OnControllerStoped += (o, a) =>
+			{
+				mediaStopAction.Sensitive = false;
+				mediaPlayAction.Sensitive = true;
+				LockControlls (true);
+			};
 
 		}
 
@@ -769,7 +783,6 @@ namespace Frontend
 			cbeCSVTimeFormat.Changed += OnCbeCSVTimeFormatChanged;
 			cbeCSVEmptyValueFilling.Changed += OnCbeCSVEmptyValueFillingChanged;
 			cbCSVUTC.Toggled += OnCbCSVUTCToggled;
-			cbCSVLocaltime.Toggled += OnCbCSVLocaltimeToggled;
 		}
 
 		private void BuildNodeViews ()
@@ -1160,6 +1173,19 @@ namespace Frontend
 			#endregion
 		}
 
+		private void BuildToolBar ()
+		{
+			Toolbar tbar = (this.UIManager.GetWidget ("/toolbarMain") as Toolbar);
+
+			SeparatorToolItem sep = new SeparatorToolItem ();
+			sep.Expand = true;
+			ToolItem connectionItem = new ToolItem ();
+			connectionItem.Child = new Gtk.Image (Gtk.Stock.Ok, Gtk.IconSize.SmallToolbar);
+
+			tbar.Add (sep);
+			tbar.Add (connectionItem);
+		}
+
 		private void BuildMenu ()
 		{
 			MenuBar mbar = (this.UIManager.GetWidget ("/menubarMain") as MenuBar);
@@ -1443,7 +1469,6 @@ namespace Frontend
 
 			//Timestamps
 			cbCSVUTC.Active = con.Configuration.UTCTimestamp;
-			cbCSVLocaltime.Active = con.Configuration.LocalTimestamp;
 
 			//Timeformat
 			index = 0;
@@ -1631,6 +1656,12 @@ namespace Frontend
 				{
 					con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 				}
+
+				var dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok,
+					             "A connection to serial-port: " + ArduinoController.SerialPortName + " has successfully been established.");
+	
+				dialog.Run ();
+				dialog.Destroy ();
 			}
 		}
 
@@ -2025,11 +2056,6 @@ namespace Frontend
 		protected void OnCbCSVUTCToggled (object sender, EventArgs e)
 		{
 			con.Configuration.UTCTimestamp = cbCSVUTC.Active;
-		}
-
-		protected void OnCbCSVLocaltimeToggled (object sender, EventArgs e)
-		{
-			con.Configuration.LocalTimestamp = cbCSVLocaltime.Active;
 		}
 
 		protected void OnCbeCSVTimeFormatChanged (object sender, EventArgs e)

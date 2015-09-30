@@ -349,7 +349,7 @@ namespace AnalogPinConfigurationDialog
 			w24.RightAttach = ((uint)(4));
 			w24.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbMilliSec = new global::Gtk.SpinButton (0, 1000, 1);
+			this.sbMilliSec = new global::Gtk.SpinButton (0, 1000, 100);
 			this.sbMilliSec.CanFocus = true;
 			this.sbMilliSec.Name = "sbMilliSec";
 			this.sbMilliSec.Adjustment.PageIncrement = 10;

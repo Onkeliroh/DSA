@@ -141,6 +141,7 @@ namespace PrototypeBackend
 			Offset = copy.Offset;
 			Interval = copy.Interval;
 			Period = copy.Period;
+			Unit = copy.Unit;
 			Type = PrototypeBackend.PinType.ANALOG;
 			Mode = PrototypeBackend.PinMode.INPUT;
 		}

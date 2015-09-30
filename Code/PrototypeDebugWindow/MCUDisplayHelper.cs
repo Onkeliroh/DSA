@@ -145,10 +145,9 @@ namespace Frontend
 			context.Fill ();
 
 			//Number
-			context.Color = new Cairo.Color (0, 0, 0);
+			context.SetSourceColor (new Cairo.Color (0, 0, 0));
 			context.SelectFontFace ("Sans", FontSlant.Normal, FontWeight.Bold);
 			context.SetFontSize (fontsize);
-			TextExtents te = context.TextExtents (pin.DisplayNumberShort);
 			context.MoveTo (xpos + 5, ypos + fontsize);
 			context.ShowText (pin.DisplayNumberShort);
 

@@ -71,6 +71,7 @@
     <Compile Include="MeasurementCombination.cs" />
     <Compile Include="BoardConfiguration.cs" />
     <Compile Include="TimeValue.cs" />
+    <Compile Include="Enums.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

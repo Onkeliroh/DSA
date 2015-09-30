@@ -127,13 +127,11 @@ namespace PrototypeBackend
 		public string Separator = ";";
 		public string EmptyValueFilling = string.Empty;
 		public bool UTCTimestamp = false;
-		public bool LocalTimestamp = true;
-		public string TimeFormat = "{0:HH:mm:ss.ff}";
+		public readonly bool LocalTimestamp = true;
+		public string TimeFormat = TimeFormatOptions.GetFormat ("LONG");
 		public string[] FileNameConvention = new string[]{ "[DATE]", "[LOCALTIME]", "[EMPTY]" };
 		public readonly string FileNameTimeFormat = "{0:HH_mm}";
 		public readonly string FileNameDateFormat = "{0:yyyy-MM-dd}";
-
-		//		public string LogFilePath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile) + @"/micrologger/";
 
 		public bool UseMarker = false;
 		public bool LogRAWValues = false;
@@ -632,9 +630,12 @@ namespace PrototypeBackend
 					preview += "-";
 					break;
 				case "[EMPTY]":
-					if (preview.Last () == '-')
+					if (preview.Length > 0)
 					{
-						preview.Remove (preview.Length - 1, 1);
+						if (preview.Last () == '-')
+						{
+							preview.Remove (preview.Length - 1, 1);
+						}
 					}
 					break;
 				default:
@@ -644,9 +645,12 @@ namespace PrototypeBackend
 				}
 			}
 
-			if (preview.Last () == '-')
+			if (preview.Length > 0)
 			{
-				preview = preview.Remove (preview.LastIndexOf ('-'), 1);
+				if (preview.Last () == '-')
+				{
+					preview = preview.Remove (preview.LastIndexOf ('-'), 1);
+				}
 			}
 			preview += ".csv";
 
