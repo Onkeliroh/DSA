@@ -321,7 +321,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">4</property>
+                <property name="CurrentPage">6</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -1052,7 +1052,7 @@
                             <child>
                               <widget class="Gtk.Table" id="tableCSVLoggerSettings">
                                 <property name="MemberName" />
-                                <property name="NRows">8</property>
+                                <property name="NRows">7</property>
                                 <property name="NColumns">3</property>
                                 <property name="RowSpacing">6</property>
                                 <property name="ColumnSpacing">6</property>
@@ -1093,31 +1093,6 @@
                                     <signal name="Toggled" handler="OnCbCSVUTCToggled" />
                                   </widget>
                                   <packing>
-                                    <property name="TopAttach">6</property>
-                                    <property name="BottomAttach">7</property>
-                                    <property name="LeftAttach">1</property>
-                                    <property name="RightAttach">3</property>
-                                    <property name="AutoSize">False</property>
-                                    <property name="YOptions">Fill</property>
-                                    <property name="XExpand">True</property>
-                                    <property name="XFill">True</property>
-                                    <property name="XShrink">False</property>
-                                    <property name="YExpand">False</property>
-                                    <property name="YFill">True</property>
-                                    <property name="YShrink">False</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="Gtk.ComboBoxEntry" id="cbeCSVEmptyValueFilling">
-                                    <property name="MemberName" />
-                                    <property name="IsTextCombo">True</property>
-                                    <property name="Items" translatable="yes">[Empty Space]
--
-</property>
-                                    <property name="Active">0</property>
-                                    <signal name="Changed" handler="OnCbeCSVEmptyValueFillingChanged" />
-                                  </widget>
-                                  <packing>
                                     <property name="TopAttach">5</property>
                                     <property name="BottomAttach">6</property>
                                     <property name="LeftAttach">1</property>
@@ -1136,13 +1111,7 @@
                                   <widget class="Gtk.ComboBoxEntry" id="cbeCSVSeparator">
                                     <property name="MemberName" />
                                     <property name="IsTextCombo">True</property>
-                                    <property name="Items" translatable="yes">;
-,
-.
-|
-[Space]
-[Tab]</property>
-                                    <property name="Active">0</property>
+                                    <property name="Items" translatable="yes" />
                                     <signal name="Changed" handler="OnCbeCSVSeparatorChanged" />
                                   </widget>
                                   <packing>
@@ -1168,8 +1137,8 @@
                                     <signal name="Changed" handler="OnCbeCSVTimeFormatChanged" />
                                   </widget>
                                   <packing>
-                                    <property name="TopAttach">7</property>
-                                    <property name="BottomAttach">8</property>
+                                    <property name="TopAttach">6</property>
+                                    <property name="BottomAttach">7</property>
                                     <property name="LeftAttach">1</property>
                                     <property name="RightAttach">3</property>
                                     <property name="AutoSize">True</property>
@@ -1343,26 +1312,6 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="Gtk.Label" id="label19">
-                                    <property name="MemberName" />
-                                    <property name="Xalign">0</property>
-                                    <property name="LabelProp" translatable="yes">Empty Value Filling:</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="TopAttach">5</property>
-                                    <property name="BottomAttach">6</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="XOptions">Fill</property>
-                                    <property name="YOptions">Fill</property>
-                                    <property name="XExpand">False</property>
-                                    <property name="XFill">True</property>
-                                    <property name="XShrink">False</property>
-                                    <property name="YExpand">False</property>
-                                    <property name="YFill">True</property>
-                                    <property name="YShrink">False</property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <widget class="Gtk.Label" id="label2">
                                     <property name="MemberName" />
                                     <property name="Xalign">0</property>
@@ -1387,8 +1336,8 @@
                                     <property name="LabelProp" translatable="yes">UTC Timestamp:</property>
                                   </widget>
                                   <packing>
-                                    <property name="TopAttach">6</property>
-                                    <property name="BottomAttach">7</property>
+                                    <property name="TopAttach">5</property>
+                                    <property name="BottomAttach">6</property>
                                     <property name="AutoSize">True</property>
                                     <property name="XOptions">Fill</property>
                                     <property name="YOptions">Fill</property>
@@ -1407,8 +1356,8 @@
                                     <property name="LabelProp" translatable="yes">Time Format:</property>
                                   </widget>
                                   <packing>
-                                    <property name="TopAttach">7</property>
-                                    <property name="BottomAttach">8</property>
+                                    <property name="TopAttach">6</property>
+                                    <property name="BottomAttach">7</property>
                                     <property name="AutoSize">True</property>
                                     <property name="XOptions">Fill</property>
                                     <property name="YOptions">Fill</property>

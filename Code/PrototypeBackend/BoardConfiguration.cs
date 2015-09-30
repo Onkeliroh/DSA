@@ -125,7 +125,7 @@ namespace PrototypeBackend
 		/// </summary>
 		public string ConfigSavePath = string.Empty;
 		public string Separator = ";";
-		public string EmptyValueFilling = string.Empty;
+		public readonly string EmptyValueFilling = string.Empty;
 		public bool UTCTimestamp = false;
 		public readonly bool LocalTimestamp = true;
 		public string TimeFormat = TimeFormatOptions.GetFormat ("LONG");

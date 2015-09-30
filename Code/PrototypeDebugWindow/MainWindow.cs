@@ -141,7 +141,7 @@ namespace Frontend
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
 			{
 				lblTimePassed.Text = string.Format ("{0:c}", con.TimePassed);
-				lblTimePassed.Show ();
+				lblTimePassed.QueueDraw ();
 			};
 		}
 
@@ -695,6 +695,15 @@ namespace Frontend
 			{
 				((ListStore)(cbeCSVTimeFormat.Model)).AppendValues (s + " (" + TimeFormatOptions.GetFormat (s) + ")");
 			}
+
+			cbeCSVTimeFormat.Active = 0;
+
+			foreach (string s in SeparatorOptions.Options.Keys)
+			{
+				((ListStore)(cbeCSVSeparator.Model)).AppendValues (s);
+			}
+
+			cbeCSVSeparator.Active = 0;
 		}
 
 		private void BuildMCUDisplay ()
@@ -781,7 +790,6 @@ namespace Frontend
 			btnCSVFilePathOpen.ButtonPressEvent += OnBtnCSVFilePathOpenClicked;
 			cbeCSVSeparator.Changed += OnCbeCSVSeparatorChanged;
 			cbeCSVTimeFormat.Changed += OnCbeCSVTimeFormatChanged;
-			cbeCSVEmptyValueFilling.Changed += OnCbeCSVEmptyValueFillingChanged;
 			cbCSVUTC.Toggled += OnCbCSVUTCToggled;
 		}
 
@@ -1448,25 +1456,6 @@ namespace Frontend
 				cbeCSVSeparator.Active = index;
 			}
 
-			//EmptyFilling
-			index = 0;
-			found = false;
-			foreach (object[] obj in (ListStore)cbeCSVEmptyValueFilling.Model)
-			{
-				if (obj [0].ToString () == con.Configuration.EmptyValueFilling)
-				{
-					cbeCSVEmptyValueFilling.Active = index;
-					found = true;
-					break;
-				}
-				index++;
-			}
-			if (!found)
-			{
-				cbeCSVEmptyValueFilling.AppendText (con.Configuration.EmptyValueFilling);
-				cbeCSVEmptyValueFilling.Active = index;
-			}
-
 			//Timestamps
 			cbCSVUTC.Active = con.Configuration.UTCTimestamp;
 
@@ -2048,11 +2037,6 @@ namespace Frontend
 			con.Configuration.Separator = cbeCSVSeparator.ActiveText;
 		}
 
-		protected void OnCbeCSVEmptyValueFillingChanged (object sender, EventArgs e)
-		{
-			con.Configuration.EmptyValueFilling = cbeCSVEmptyValueFilling.ActiveText;
-		}
-
 		protected void OnCbCSVUTCToggled (object sender, EventArgs e)
 		{
 			con.Configuration.UTCTimestamp = cbCSVUTC.Active;
@@ -2070,6 +2054,7 @@ namespace Frontend
 		void DrawMCU (object sender, ExposeEventArgs args)
 		{
 			var context = CairoHelper.Create (this.drawingareaMCU.GdkWindow);
+
 			var MCUImage = MCUDisplayHelper.GetMCUSurface (con.Configuration.Board.ImageFilePath);
 			context.SetSource (
 				MCUImage,
@@ -2077,7 +2062,6 @@ namespace Frontend
 				this.drawingareaMCU.Allocation.Height / 2 - MCUImage.Height / 2
 			);
 			context.Paint ();
-
 
 			var Labels = MCUDisplayHelper.PinLabels (con.Configuration.LeftPinLayout);
 			context.SetSource (
@@ -2589,6 +2573,7 @@ namespace Frontend
 					Pin = (DPin)con.Configuration.Pins [i],
 					Repetitions = 0,
 				};
+
 				seq.AddSequenceOperation (new SequenceOperation () {
 					Duration = TimeSpan.FromSeconds (i / 100.0),
 					State = DPinState.LOW
@@ -2610,6 +2595,7 @@ namespace Frontend
 
 				i += 1;
 			}
+			Console.WriteLine ();
 		}
 
 		protected void OnButton359Clicked (object sender, EventArgs e)

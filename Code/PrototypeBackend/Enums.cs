@@ -16,4 +16,26 @@ namespace PrototypeBackend
 			return FormatOptions [key];
 		}
 	}
+
+	public static class SeparatorOptions
+	{
+		public static readonly Dictionary<string,string> Options = new Dictionary<string, string> () {
+			{ "[TAB]","\t" },
+			{ "[SPACE]"," " },
+			{ "[SEMICOLON]",";" },
+			{ "[COMMA]","," },
+			{ "[PIPE]","|" }
+		};
+
+		public static string GetOption (string key)
+		{
+			if (Options.ContainsKey (key))
+			{
+				return Options [key];
+			} else
+			{
+				return key;
+			}
+		}
+	}
 }

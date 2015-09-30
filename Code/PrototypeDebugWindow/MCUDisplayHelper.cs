@@ -48,6 +48,8 @@ namespace Frontend
 				DrawLabel (context, labelformat, bordtype, pins [i], 0, i * height + i * Space);
 			}
 
+			context.Dispose ();
+
 			return surf;
 		}
 
@@ -83,8 +85,7 @@ namespace Frontend
 
 						MCUImage.RenderCairo (context);
 
-//						MCUPath = path;
-//						MCUSurface = surf;
+						context.Dispose ();
 						return surf;
 					} catch (Exception ex)
 					{

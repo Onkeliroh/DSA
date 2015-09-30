@@ -244,10 +244,10 @@ namespace PrototypeBackend
 				AttachCommandCallBacks ();
 
 				// Attach to NewLinesReceived for logging purposes
-//				_cmdMessenger.NewLineReceived += NewLineReceived;
+				_cmdMessenger.NewLineReceived += NewLineReceived;
 
 				// Attach to NewLineSent for logging purposes
-//				_cmdMessenger.NewLineSent += NewLineSent;                       
+				_cmdMessenger.NewLineSent += NewLineSent;                       
 
 				#if !FAKESERIAL
 				// Start listening

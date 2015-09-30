@@ -179,7 +179,7 @@ namespace PrototypeBackend
 			SequenceOperation op = new SequenceOperation ();
 			if (Chain.Count > 0)
 			{
-				if (multiplier >= Repetitions && Repetitions != -1)
+				if (multiplier >= Repetitions && Repetitions != -1 && multiplier != 0)
 				{
 					return Chain.Last ().State;
 				} else

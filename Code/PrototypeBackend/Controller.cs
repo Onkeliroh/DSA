@@ -138,7 +138,7 @@ namespace PrototypeBackend
 
 			KeeperOfTime = new Stopwatch ();
 
-			SequencesTimer = new System.Timers.Timer (1);
+			SequencesTimer = new System.Timers.Timer (10);
 			SequencesTimer.Elapsed += OnSequenceTimeElapsed;
 		}
 
@@ -230,21 +230,14 @@ namespace PrototypeBackend
 					int shift = (int)seq.Pin.Number % 16;
 					int pos = 0x1 << (int)shift;
 					conditions [arraypos] = Convert.ToUInt16 (conditions [arraypos] | pos);
-
-//					Console.WriteLine ("arraypos:{0}\tshift:{1}\tpos:{2}\tresult:{3}",
-//						arraypos, 
-//						shift, 
-//						Convert.ToString (pos, 2).PadLeft (16, '0'), 
-//						Convert.ToString (conditions [arraypos], 2).PadLeft (16, '0')
-//					);
 				}
 			}
 
 			if (LastCondition [0] != conditions [0] || LastCondition [1] != conditions [1] || LastCondition [2] != conditions [2] || LastCondition [3] != conditions [3])
 			{
 				ArduinoController.SetDigitalOutputPins (conditions);
-				LastCondition = conditions;
 			}
+			LastCondition = conditions;
 		}
 
 		//Version1
@@ -254,7 +247,6 @@ namespace PrototypeBackend
 			{
 
 				#region Build Logger
-				//build logger
 				var logger = new CSVLogger (
 					             Configuration.GetCSVLogName (),
 					             true, 
@@ -262,14 +254,14 @@ namespace PrototypeBackend
 					             Configuration.CSVSaveFolderPath
 				             );
 				logger.Mapping = Configuration.CreateMapping ();
-				logger.Separator = Configuration.Separator;
+				logger.Separator = SeparatorOptions.GetOption (Configuration.Separator);
 				logger.EmptySpaceFilling = Configuration.EmptyValueFilling;
-				logger.DateTimeFormat = Configuration.TimeFormat;
+				logger.DateTimeFormat = "{0:" + Configuration.TimeFormat + "}";
 				logger.WriteHeader (logger.Mapping.Keys.ToList<string> ());
 				logger.Start ();
 				#endregion
 
-				//remove old timer
+				//remove old timers
 				measurementTimers.ForEach (o => o.Dispose ());
 				measurementTimers.Clear ();
 
