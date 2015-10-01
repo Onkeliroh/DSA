@@ -1992,13 +1992,13 @@ namespace Frontend
 			} catch (Exception ex) {
 				con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 				var dialog = new MessageDialog (
-					              this,
-					              DialogFlags.Modal,
-					              MessageType.Error,
-					              ButtonsType.Ok,
-					              "Unable to load configuration /n" +
-					              "(" + path + ")./n " +
-					              "Please make shur that the file exsists and you have read access.");
+					             this,
+					             DialogFlags.Modal,
+					             MessageType.Error,
+					             ButtonsType.Ok,
+					             "Unable to load configuration /n" +
+					             "(" + path + ")./n " +
+					             "Please make shur that the file exsists and you have read access.");
 				dialog.Run ();
 				dialog.Destroy ();
 			}
@@ -2573,6 +2573,16 @@ namespace Frontend
 		protected void OnPreferencesActionActivated (object sender, EventArgs e)
 		{
 			RunPreferencesDialog ();
+		}
+
+
+		protected void OnBtnCSVOpenFolderClicked (object sender, EventArgs e)
+		{
+			if (System.IO.File.Exists (con.Configuration.CSVSaveFolderPath)) {
+				System.Diagnostics.Process pr = new System.Diagnostics.Process ();
+				pr.StartInfo.FileName = @con.Configuration.CSVSaveFolderPath.Remove (con.Configuration.CSVSaveFolderPath.Length - 1, 1);
+				pr.Start ();
+			}
 		}
 
 		#endregion
