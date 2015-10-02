@@ -31,11 +31,11 @@ namespace AnalogPinConfigurationDialog
 				sbOffset.Value = value.Offset;
 				sbInterval.Value = value.Interval;
 
-				sbDays.Value = TimeSpan.FromMilliseconds (value.Period).Days;
-				sbHours.Value = TimeSpan.FromMilliseconds (value.Period).Hours;
-				sbMinutes.Value = TimeSpan.FromMilliseconds (value.Period).Minutes;
-				sbSeconds.Value = TimeSpan.FromMilliseconds (value.Period).Seconds;
-				sbMilliSec.Value = TimeSpan.FromMilliseconds (value.Period).Milliseconds;
+				sbDays.Value = TimeSpan.FromMilliseconds (value.Interval).Days;
+				sbHours.Value = TimeSpan.FromMilliseconds (value.Interval).Hours;
+				sbMinutes.Value = TimeSpan.FromMilliseconds (value.Interval).Minutes;
+				sbSeconds.Value = TimeSpan.FromMilliseconds (value.Interval).Seconds;
+				sbMilliSec.Value = TimeSpan.FromMilliseconds (value.Interval).Milliseconds;
 
 				pin = value;
 			}
@@ -98,8 +98,8 @@ namespace AnalogPinConfigurationDialog
 			pin.Unit = cbUnit.ActiveText;
 			pin.Slope = sbSlope.Value;
 			pin.Offset = sbOffset.Value;
-			pin.Period = Convert.ToUInt64 (new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt).TotalMilliseconds);
-			pin.Interval = Convert.ToUInt64 (sbInterval.ValueAsInt);
+			pin.Interval = Convert.ToUInt64 (new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt).TotalMilliseconds);
+			pin.MeanValuesCount = Convert.ToUInt64 (sbInterval.ValueAsInt);
 
 //			Respond (Gtk.ResponseType.Apply);
 		}
@@ -158,7 +158,7 @@ namespace AnalogPinConfigurationDialog
 		{
 			if (pin != null)
 			{
-				pin.Interval = Convert.ToUInt64 (sbInterval.ValueAsInt);
+				pin.MeanValuesCount = Convert.ToUInt64 (sbInterval.ValueAsInt);
 			}
 		}
 	}

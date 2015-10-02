@@ -54,10 +54,10 @@ namespace GUIHelper
 		public string Unit { get { return Pin.Unit; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 6)]
-		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Period).ToString ("g"); } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Interval).ToString ("g"); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 7)]
-		public double Interval { get { return Pin.Interval; } private set { } }
+		public double Interval { get { return Pin.MeanValuesCount; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 8)]
 		public string CombinationName { get { return (Combination != null) ? Combination.Name : ""; } private set { } }
@@ -122,7 +122,7 @@ namespace GUIHelper
 		public string Frequency { get { return TimeSpan.FromMilliseconds (AnalogSignal.Frequency).ToString ("g"); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 5)]
-		public string Interval { get { return AnalogSignal.Interval.ToString (); } }
+		public string Interval { get { return AnalogSignal.MeanValuesCount.ToString (); } }
 
 		[Gtk.TreeNodeValue (Column = 6)]
 		public string Operation { get { return AnalogSignal.OperationString; } private set { } }
@@ -145,10 +145,10 @@ namespace GUIHelper
 		public string Name { get { return Pin.DisplayName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Period).ToString ("g"); } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Interval).ToString ("g"); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 2)]
-		public int Interval { get { return (int)Pin.Interval; } private set { } }
+		public int Interval { get { return (int)Pin.MeanValuesCount; } private set { } }
 
 		public APin Pin{ get; private set; }
 

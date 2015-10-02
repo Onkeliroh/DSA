@@ -79,25 +79,25 @@ namespace PrototypeBackend
 		/// The Number of samlpes to build a mean value from.
 		/// </summary>
 		/// <value>The interval.</value>
-		public UInt64 Interval { get; set; }
+		public UInt64 MeanValuesCount { get; set; }
 
 		/// <summary>
 		/// Gets or sets the period in milliseconds.
 		/// </summary>
 		/// <value>The period in ms.</value>
-		public UInt64 Period { get; set; }
+		public UInt64 Interval { get; set; }
 
 		/// <summary>
 		/// Gets the frequency in milliseconds.
 		/// </summary>
 		/// <value>The frequency in ms.</value>
-		public UInt64 Frequency { get { return 1 / Period; } private set { } }
+		public UInt64 Frequency { get { return 1 / Interval; } private set { } }
 
 		/// <summary>
 		/// Gets the effective period (Period * Interval).
 		/// </summary>
 		/// <value>The effective period.</value>
-		public double EffectivePeriod { get { return Period * Interval; } private set { } }
+		public double EffectivePeriod { get { return Interval * MeanValuesCount; } private set { } }
 
 		#endregion
 
@@ -127,8 +127,8 @@ namespace PrototypeBackend
 			PlotColor = new Gdk.Color (0, 0, 0);
 			Slope = 1;
 			Offset = 0;
-			Interval = 1;
-			Period = 1000;
+			MeanValuesCount = 1;
+			Interval = 1000;
 			Values = new List<DateTimeValue> ();
 		}
 
@@ -139,8 +139,8 @@ namespace PrototypeBackend
 			PlotColor = copy.PlotColor;
 			Slope = copy.Slope;
 			Offset = copy.Offset;
+			MeanValuesCount = copy.MeanValuesCount;
 			Interval = copy.Interval;
-			Period = copy.Period;
 			Unit = copy.Unit;
 			Type = PrototypeBackend.PinType.ANALOG;
 			Mode = PrototypeBackend.PinMode.INPUT;
@@ -185,9 +185,9 @@ namespace PrototypeBackend
 
 		public double CalcValue ()
 		{
-			if (Values.Count >= (int)Interval)
+			if (Values.Count >= (int)MeanValuesCount)
 			{
-				if (Interval == 1)
+				if (MeanValuesCount == 1)
 				{
 					if (!double.IsNaN (Values.Last ().Value))
 					{
@@ -196,17 +196,17 @@ namespace PrototypeBackend
 					return double.NaN;
 				} else
 				{
-					if (Values.Count >= (int)Interval)
+					if (Values.Count >= (int)MeanValuesCount)
 					{
 						double result = 0;
-						for (int i = Values.Count - (int)Interval; i < Values.Count; i++)
+						for (int i = Values.Count - (int)MeanValuesCount; i < Values.Count; i++)
 						{
 							if (!double.IsNaN (Values [i].Value))
 							{
 								result += (Values [i].Value * Slope) + Offset;
 							}
 						}
-						return result / Interval;
+						return result / MeanValuesCount;
 					} else
 					{
 						return double.NaN;
@@ -239,8 +239,8 @@ namespace PrototypeBackend
 			info.AddValue ("BLUE", uintToByte (PlotColor.Blue));
 			info.AddValue ("Slope", Slope);
 			info.AddValue ("Offset", Offset);
-			info.AddValue ("Interval", Interval);
-			info.AddValue ("Period", Period);
+			info.AddValue ("Interval", MeanValuesCount);
+			info.AddValue ("Period", Interval);
 		}
 
 		public APin (SerializationInfo info, StreamingContext context)
@@ -258,8 +258,8 @@ namespace PrototypeBackend
 			PlotColor = new Gdk.Color (info.GetByte ("RED"), info.GetByte ("GREEN"), info.GetByte ("BLUE"));
 			Slope = info.GetDouble ("Slope");
 			Offset = info.GetDouble ("Offset");
-			Interval = info.GetUInt64 ("Interval");
-			Period = info.GetUInt64 ("Period");
+			MeanValuesCount = info.GetUInt64 ("Interval");
+			Interval = info.GetUInt64 ("Period");
 
 			Values = new List<DateTimeValue> ();
 		}

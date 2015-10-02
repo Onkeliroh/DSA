@@ -52,7 +52,7 @@ namespace MeasurementCombinationDialog
 		
 		private global::Gtk.Label lblWarning;
 		
-		private global::Gtk.SpinButton sbInterval;
+		private global::Gtk.SpinButton sbMeanValuesCount;
 		
 		private global::Gtk.VSeparator vseparator1;
 		
@@ -129,10 +129,10 @@ namespace MeasurementCombinationDialog
 			this.table1.Add (this.cbPins);
 			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.cbPins]));
 			w6.TopAttach = ((uint)(1));
-			w6.BottomAttach = ((uint)(2));
+			w6.BottomAttach = ((uint)(3));
 			w6.LeftAttach = ((uint)(1));
 			w6.RightAttach = ((uint)(2));
-			w6.YOptions = ((global::Gtk.AttachOptions)(4));
+			w6.YOptions = ((global::Gtk.AttachOptions)(0));
 			// Container child table1.Gtk.Table+TableChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -153,9 +153,9 @@ namespace MeasurementCombinationDialog
 			this.table1.Add (this.label1);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1 [this.label1]));
 			w9.TopAttach = ((uint)(1));
-			w9.BottomAttach = ((uint)(2));
+			w9.BottomAttach = ((uint)(3));
 			w9.XOptions = ((global::Gtk.AttachOptions)(4));
-			w9.YOptions = ((global::Gtk.AttachOptions)(4));
+			w9.YOptions = ((global::Gtk.AttachOptions)(0));
 			this.GtkAlignment4.Add (this.table1);
 			this.frame1.Add (this.GtkAlignment4);
 			this.GtkLabel2 = new global::Gtk.Label ();
@@ -287,7 +287,7 @@ namespace MeasurementCombinationDialog
 			this.label6 = new global::Gtk.Label ();
 			this.label6.Name = "label6";
 			this.label6.Xalign = 0F;
-			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Number of values:");
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Mean values count:");
 			this.table2.Add (this.label6);
 			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table2 [this.label6]));
 			w22.TopAttach = ((uint)(3));
@@ -318,16 +318,16 @@ namespace MeasurementCombinationDialog
 			w24.LeftAttach = ((uint)(1));
 			w24.RightAttach = ((uint)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbInterval = new global::Gtk.SpinButton (1, 100, 1);
-			this.sbInterval.TooltipMarkup = "Amount of values to create a arithmetic mean value from";
-			this.sbInterval.CanFocus = true;
-			this.sbInterval.Name = "sbInterval";
-			this.sbInterval.Adjustment.PageIncrement = 10;
-			this.sbInterval.ClimbRate = 1;
-			this.sbInterval.Numeric = true;
-			this.sbInterval.Value = 1;
-			this.table2.Add (this.sbInterval);
-			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbInterval]));
+			this.sbMeanValuesCount = new global::Gtk.SpinButton (1, 100, 1);
+			this.sbMeanValuesCount.TooltipMarkup = "Amount of values to create a arithmetic mean value from";
+			this.sbMeanValuesCount.CanFocus = true;
+			this.sbMeanValuesCount.Name = "sbMeanValuesCount";
+			this.sbMeanValuesCount.Adjustment.PageIncrement = 10;
+			this.sbMeanValuesCount.ClimbRate = 1;
+			this.sbMeanValuesCount.Numeric = true;
+			this.sbMeanValuesCount.Value = 1;
+			this.table2.Add (this.sbMeanValuesCount);
+			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbMeanValuesCount]));
 			w25.TopAttach = ((uint)(3));
 			w25.BottomAttach = ((uint)(4));
 			w25.LeftAttach = ((uint)(2));
@@ -386,6 +386,7 @@ namespace MeasurementCombinationDialog
 			this.Show ();
 			this.btnRemove.Clicked += new global::System.EventHandler (this.OnBtnRemoveClicked);
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
+			this.sbMeanValuesCount.Changed += new global::System.EventHandler (this.OnSbMeanValuesCountChanged);
 			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
 			this.cbeUnit.Changed += new global::System.EventHandler (this.OnCbeUnitChanged);
 			this.cbColor.ColorSet += new global::System.EventHandler (this.OnCbColorColorSet);

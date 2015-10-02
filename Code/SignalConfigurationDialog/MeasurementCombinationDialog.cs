@@ -17,7 +17,7 @@ namespace MeasurementCombinationDialog
 				entryName.Text = value.Name;
 				entryOperation.Text = value.OperationString;
 				cbColor.Color = value.Color;
-				sbInterval.Value = value.Interval;
+				sbMeanValuesCount.Value = value.MeanValuesCount;
 
 				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit))
 				{
@@ -39,12 +39,17 @@ namespace MeasurementCombinationDialog
 
 		private string HintList = "";
 
+		private System.Timers.Timer CompileTimer = new System.Timers.Timer (5000);
+
 		#endregion
 
 		public MeasurementCombinationDialog (APin[] pins, MeasurementCombination signal = null, APin pin = null, Gtk.Window parent = null, string[] units = null)
 			: base ("Signal Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
+
+			sbMeanValuesCount.Adjustment.Upper = int.MaxValue;
+			sbMeanValuesCount.Adjustment.Lower = 1;
 
 			APins = pins;
 
@@ -77,9 +82,29 @@ namespace MeasurementCombinationDialog
 			UpdateCBPins ();
 			SetApplyButton ();
 
-			entryOperation.Activated += (sender, e) => CompileOperation ();
-			entryOperation.FocusOutEvent += (o, args) => CompileOperation ();
+			entryOperation.Activated += (sender, e) =>
+			{
+				if (!CompileTimer.Enabled)
+				{
+					CompileTimer.Start ();
+				}
+			};
+			entryOperation.FocusInEvent += (sender, e) =>
+			{
+				if (!CompileTimer.Enabled)
+				{
+					CompileTimer.Start ();
+				}
+			};
+//			entryOperation.Activated += (sender, e) => CompileOperation ();
+//			entryOperation.FocusOutEvent += (o, args) => CompileOperation ();
 
+			CompileTimer.Elapsed += CompileTimerElapsed;
+		}
+
+		private void CompileTimerElapsed (object obj, System.Timers.ElapsedEventArgs args)
+		{
+			CompileOperation ();
 		}
 
 		private void SetupNodeView ()
@@ -120,7 +145,7 @@ namespace MeasurementCombinationDialog
 				if (!Combination_.Pins.Contains (pin))
 				{
 					// Analysis disable once CompareOfFloatsByEqualityOperator
-					store.AppendValues (new object[]{ pin.Name + "(A" + pin.Number + ")", pin.Period });
+					store.AppendValues (new object[]{ pin.Name + "(A" + pin.Number + ")", pin.Interval });
 				}
 			}
 			cbPins.Model = store;
@@ -180,7 +205,7 @@ namespace MeasurementCombinationDialog
 			{
 				foreach (APin j in Combination_.Pins)
 				{
-					if (i.Period - j.Period > 0.00000000000000000000001)
+					if (i.Interval - j.Interval > 0.00000000000000000000001)
 					{
 						return false;
 					}
@@ -205,7 +230,10 @@ namespace MeasurementCombinationDialog
 			{
 				if (Combination_ != null)
 				{
-					var tmp = PrototypeBackend.OperationCompiler.CompileOperation (entryOperation.Text, Combination_.Pins.Select (o => "A" + o.Number.ToString ()).ToArray ());
+					var tmp = PrototypeBackend.OperationCompiler.CompileOperation (
+						          entryOperation.Text,
+						          Combination_.Pins.Select (o => "A" + o.Number.ToString ()).ToArray ()
+					          );
 					Combination_.Operation = tmp;
 				}
 			} catch (Exception ex)
@@ -231,6 +259,7 @@ namespace MeasurementCombinationDialog
 			{
 				Combination_.OperationString = entryOperation.Text;
 				imageOperation.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-apply", global::Gtk.IconSize.Menu);
+				CompileTimer.Stop ();
 			}
 		}
 
@@ -354,11 +383,11 @@ namespace MeasurementCombinationDialog
 			CompileOperation ();
 		}
 
-		protected void OnSbIntervalChangeValue (object o, ChangeValueArgs args)
+		protected void OnSbMeanValuesCountChanged (object sender, EventArgs e)
 		{
 			if (Combination_ != null)
 			{
-				Combination_.Interval = sbInterval.ValueAsInt;
+				Combination_.MeanValuesCount = sbMeanValuesCount.ValueAsInt;
 			}
 		}
 

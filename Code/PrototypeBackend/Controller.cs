@@ -252,14 +252,14 @@ namespace PrototypeBackend
 				measurementTimers.Clear ();
 
 				var list = new List<APin> ();
-				list = Configuration.AnalogPins.OrderBy (o => o.Period).ToList<APin> ();
+				list = Configuration.AnalogPins.OrderBy (o => o.Interval).ToList<APin> ();
 				var comblist = new List<MeasurementCombination> ();
 				comblist = Configuration.MeasurementCombinations;
 
 				while (list.Count > 0) {
 					//take every pin with the same period as the first one
-					var query = list.Where (o => o.Period == list.First ().Period).ToList<APin> ();
-					var combquery = comblist.Where (o => o.Period == query.First ().Period).ToList<MeasurementCombination> ();
+					var query = list.Where (o => o.Interval == list.First ().Interval).ToList<APin> ();
+					var combquery = comblist.Where (o => o.Interval == query.First ().Interval).ToList<MeasurementCombination> ();
 
 					//pass values to logger
 					var keys = new List<string> ();
@@ -268,10 +268,10 @@ namespace PrototypeBackend
 
 					if (query.Count > 0) {
 						//remove every pin with as certain period. so that it can not be added again
-						list.RemoveAll (o => o.Period == query.First ().Period);
-						comblist.RemoveAll (o => o.Period == query.First ().Period);
+						list.RemoveAll (o => o.Interval == query.First ().Interval);
+						comblist.RemoveAll (o => o.Interval == query.First ().Interval);
 
-						var timer = new System.Timers.Timer (query.First ().Period);
+						var timer = new System.Timers.Timer (query.First ().Interval);
 						timer.Elapsed += (o, e) => {
 							//as long as running is true: collect data. otherwise go to sleep
 							if (running) {

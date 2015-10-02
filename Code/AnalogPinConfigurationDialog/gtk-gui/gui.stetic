@@ -200,7 +200,7 @@
               <widget class="Gtk.Label" id="label4">
                 <property name="MemberName" />
                 <property name="Xalign">0</property>
-                <property name="LabelProp" translatable="yes">Period:</property>
+                <property name="LabelProp" translatable="yes">Interval:</property>
               </widget>
               <packing>
                 <property name="TopAttach">7</property>
@@ -220,7 +220,7 @@
               <widget class="Gtk.Label" id="label5">
                 <property name="MemberName" />
                 <property name="Xalign">0</property>
-                <property name="LabelProp" translatable="yes">Interval:</property>
+                <property name="LabelProp" translatable="yes">Mean values count:</property>
               </widget>
               <packing>
                 <property name="TopAttach">8</property>

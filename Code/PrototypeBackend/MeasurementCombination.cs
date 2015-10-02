@@ -21,19 +21,19 @@ namespace PrototypeBackend
 
 		public double Frequency { 
 			get { 
-				return Pins.OrderByDescending (o => o.Period).First ().Frequency; 
+				return Pins.OrderByDescending (o => o.Interval).First ().Frequency; 
 			} 
 			private set { } 
 		}
 
-		public UInt64 Period {
+		public UInt64 Interval {
 			get { 
-				return Pins.OrderByDescending (o => o.Period).First ().Period;
+				return Pins.OrderByDescending (o => o.Interval).First ().Interval;
 			} 
 			private set { }
 		}
 
-		public int Interval { get; set; }
+		public int MeanValuesCount { get; set; }
 
 		public Gdk.Color Color { get; set; }
 
@@ -48,10 +48,10 @@ namespace PrototypeBackend
 						return new DateTimeValue () {
 						
 							Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
-							Time = Pins.OrderByDescending (o => o.Period).First ().Value.Time
+							Time = Pins.OrderByDescending (o => o.Interval).First ().Value.Time
 						};
 					}
-					return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Period).First ().Value.Time };
+					return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Interval).First ().Value.Time };
 				} else
 				{
 					return new DateTimeValue (){ Value = double.NaN, Time = DateTime.Now };
@@ -91,7 +91,7 @@ namespace PrototypeBackend
 			Operation = null;
 			OperationString_ = string.Empty;
 			Unit = string.Empty;
-			Interval = 1;
+			MeanValuesCount = 1;
 		}
 
 		public MeasurementCombination (MeasurementCombination copy) : base ()
@@ -102,7 +102,7 @@ namespace PrototypeBackend
 			Operation = copy.Operation;
 			OperationString = copy.OperationString;
 			Unit = copy.Unit;
-			Interval = copy.Interval;
+			MeanValuesCount = copy.MeanValuesCount;
 		}
 
 		public bool AddPin (APin pin)
@@ -118,7 +118,7 @@ namespace PrototypeBackend
 
 		private void ManagePins ()
 		{
-			var list = Pins.OrderByDescending (o => o.Period);
+			var list = Pins.OrderByDescending (o => o.Interval);
 			list.First ().OnNewValue += (o, e) =>
 			{
 				if (OnNewValue != null)
@@ -136,9 +136,9 @@ namespace PrototypeBackend
 				return 
 				    this.Pins.SequenceEqual (MeCom.Pins)	&&
 				this.Name.Equals (MeCom.Name) &&
-				this.Interval.Equals (MeCom.Interval) &&
+				this.MeanValuesCount.Equals (MeCom.MeanValuesCount) &&
 				this.OperationString_.Equals (MeCom.OperationString_) &&
-				this.Period.Equals (MeCom.Period) &&
+				this.Interval.Equals (MeCom.Interval) &&
 				this.Unit.Equals (MeCom.Unit) &&
 				this.Color.Equal (MeCom.Color);
 			}
@@ -154,7 +154,7 @@ namespace PrototypeBackend
 			info.AddValue ("Pins", Pins);
 			info.AddValue ("Name", Name);
 			info.AddValue ("Unit", Unit);
-			info.AddValue ("Interval", Interval);
+			info.AddValue ("Interval", MeanValuesCount);
 			info.AddValue ("OperationString", OperationString);
 		}
 
@@ -164,7 +164,7 @@ namespace PrototypeBackend
 			Pins = (List<APin>)info.GetValue ("Pins", Pins.GetType ());
 			Name = info.GetString ("Name");
 			Unit = info.GetString ("Unit");
-			Interval = info.GetInt32 ("Interval");
+			MeanValuesCount = info.GetInt32 ("Interval");
 			OperationString = info.GetString ("OperationString");
 
 			Operation = OperationCompiler.CompileOperation (OperationString, Pins.Select (o => o.DisplayNumberShort).ToArray<string> ());
