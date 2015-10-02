@@ -128,7 +128,7 @@ namespace PrototypeBackend
 		public readonly string EmptyValueFilling = string.Empty;
 		public bool UTCTimestamp = false;
 		public readonly bool LocalTimestamp = true;
-		public string TimeFormat = TimeFormatOptions.GetFormat ("LONG");
+		public string TimeFormat = TimeFormatOptions.GetFormat ("LONG (YYYY-MM-DD hh:mm:ss.ssss)");
 		public string[] FileNameConvention = new string[]{ "[DATE]", "[LOCALTIME]", "[EMPTY]" };
 		public readonly string FileNameTimeFormat = "{0:HH_mm}";
 		public readonly string FileNameDateFormat = "{0:yyyy-MM-dd}";

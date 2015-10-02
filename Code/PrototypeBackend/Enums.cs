@@ -7,8 +7,8 @@ namespace PrototypeBackend
 	public static class TimeFormatOptions
 	{
 		public static readonly Dictionary<string,string> FormatOptions = new Dictionary<string, string> () {
-			{ "SHORT", "HH:mm:ss" },
-			{ "LONG", "HH:mm:ss:ffff" }
+			{ "SHORT (YYYY-MM-DD hh:mm:ss)", "YYYY-MM-DD HH:mm:ss" },
+			{ "LONG (YYYY-MM-DD hh:mm:ss.ssss)", "YYYY-MM-DD HH:mm:ss:ffff" }
 		};
 
 		public static string GetFormat (string key)
@@ -20,22 +20,16 @@ namespace PrototypeBackend
 	public static class SeparatorOptions
 	{
 		public static readonly Dictionary<string,string> Options = new Dictionary<string, string> () {
-			{ "[TAB]","\t" },
-			{ "[SPACE]"," " },
-			{ "[SEMICOLON]",";" },
-			{ "[COMMA]","," },
-			{ "[PIPE]","|" }
+			{ "[TAB]", "\t" },
+			{ "[SPACE]", " " },
+			{ "[SEMICOLON]", ";" },
+			{ "[COMMA]", "," },
+			{ "[PIPE]", "|" }
 		};
 
 		public static string GetOption (string key)
 		{
-			if (Options.ContainsKey (key))
-			{
-				return Options [key];
-			} else
-			{
-				return key;
-			}
+			return Options [key];
 		}
 	}
 }

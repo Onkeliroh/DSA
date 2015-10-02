@@ -173,7 +173,7 @@ namespace AnalogPinConfigurationDialog
 			this.label4 = new global::Gtk.Label ();
 			this.label4.Name = "label4";
 			this.label4.Xalign = 0F;
-			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Period:");
+			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Interval:");
 			this.table3.Add (this.label4);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table3 [this.label4]));
 			w10.TopAttach = ((uint)(7));
@@ -184,7 +184,7 @@ namespace AnalogPinConfigurationDialog
 			this.label5 = new global::Gtk.Label ();
 			this.label5.Name = "label5";
 			this.label5.Xalign = 0F;
-			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Interval:");
+			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Mean values count:");
 			this.table3.Add (this.label5);
 			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table3 [this.label5]));
 			w11.TopAttach = ((uint)(8));

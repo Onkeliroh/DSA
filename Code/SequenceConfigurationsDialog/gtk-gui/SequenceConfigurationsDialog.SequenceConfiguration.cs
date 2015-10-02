@@ -174,6 +174,7 @@ namespace SequenceConfigurationsDialog
 			this.rbRepeateContinously = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Repeate continously"));
 			this.rbRepeateContinously.CanFocus = true;
 			this.rbRepeateContinously.Name = "rbRepeateContinously";
+			this.rbRepeateContinously.Active = true;
 			this.rbRepeateContinously.DrawIndicator = true;
 			this.rbRepeateContinously.UseUnderline = true;
 			this.rbRepeateContinously.Group = new global::GLib.SList (global::System.IntPtr.Zero);

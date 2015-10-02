@@ -283,23 +283,24 @@ namespace SequenceConfigurationsDialog
 
 				repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
 
-				if ((rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1)) && data.Count > 0)
-				{
-					var repeateData = new Collection<TimeValue> ();
-					repeateData.Add (data.Last ());
-					repeateData.Add (
-						new TimeValue {
-							Time = data.Last ().Time,
-							Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
-						});
-					repeateData.Add (
-						new TimeValue {
-							Time = data.Last ().Time.Add (pinSequence.Chain [0].Duration),
-							Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
-						});
-					repeateSeries.ItemsSource = repeateData;
-					plotView.Model.Series.Add (repeateSeries);
-				}
+				//next Cycle Tease
+//				if ((rbRepeateContinously.Active || (rbStopAfter.Active && sbRadioBtnStopAfter.ValueAsInt > 1)) && data.Count > 0)
+//				{
+//					var repeateData = new Collection<TimeValue> ();
+//					repeateData.Add (data.Last ());
+//					repeateData.Add (
+//						new TimeValue {
+//							Time = data.Last ().Time,
+//							Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
+//						});
+//					repeateData.Add (
+//						new TimeValue {
+//							Time = data.Last ().Time.Add (pinSequence.Chain [0].Duration),
+//							Value = ((pinSequence.Chain [0].State == DPinState.HIGH) ? 1 : 0)
+//						});
+//					repeateSeries.ItemsSource = repeateData;
+//					plotView.Model.Series.Add (repeateSeries);
+//				}
 
 				plotView.Model.Series.Add (sequenceSeries);
 				plotView.InvalidatePlot (true);
