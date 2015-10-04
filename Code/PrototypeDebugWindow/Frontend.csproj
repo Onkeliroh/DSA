@@ -34,12 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
-    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System.Drawing" />
     <Reference Include="INIFileParser">
       <HintPath>..\Prototype\packages\ini-parser.2.2.2\lib\net20\INIFileParser.dll</HintPath>
@@ -53,25 +48,45 @@
     <Reference Include="rsvg2-sharp, Version=2.18.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Mono.Cairo" />
     <Reference Include="Svg">
       <HintPath>..\Prototype\packages\Svg.2.1.0\lib\Svg.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="Mono.Cairo, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <Reference Include="atk-sharp">
+      <HintPath>..\Prototype\packages\GtkSharp.3.1.2\lib\net45\atk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="cairo-sharp">
+      <HintPath>..\Prototype\packages\GtkSharp.3.1.2\lib\net45\cairo-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gdk-sharp">
+      <HintPath>..\Prototype\packages\GtkSharp.3.1.2\lib\net45\gdk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gio-sharp">
+      <HintPath>..\Prototype\packages\GtkSharp.3.1.2\lib\net45\gio-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="glib-sharp">
+      <HintPath>..\Prototype\packages\GtkSharp.3.1.2\lib\net45\glib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-sharp">
+      <HintPath>..\Prototype\packages\GtkSharp.3.1.2\lib\net45\gtk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="pango-sharp">
+      <HintPath>..\Prototype\packages\GtkSharp.3.1.2\lib\net45\pango-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="MainWindow.cs">
       <DeployService-Deploy>True</DeployService-Deploy>
     </Compile>
-    <Compile Include="gtk-gui\Frontend.MainWindow.cs" />
     <Compile Include="PreferencesDialog.cs" />
-    <Compile Include="gtk-gui\PrototypeDebugWindow.PreferencesDialog.cs" />
     <Compile Include="MCUDisplayHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\Prototype\packages\GtkSharp.3.1.2\build\net45\GtkSharp.targets" Condition="Exists('..\Prototype\packages\GtkSharp.3.1.2\build\net45\GtkSharp.targets')" />
+  <Import Project="..\Prototype\packages\GtkSharp.Win32.3.1.2\build\net45\GtkSharp.Win32.targets" Condition="Exists('..\Prototype\packages\GtkSharp.Win32.3.1.2\build\net45\GtkSharp.Win32.targets')" />
   <ItemGroup>
     <ProjectReference Include="..\DigitalPinConfigurationDialog\DigitalPinConfigurationDialog.csproj">
       <Project>{6CB4019B-7C2D-4009-95A4-DAE460252C04}</Project>
@@ -102,11 +117,6 @@
       <Project>{FFC2AF04-F784-438D-83A2-6467A27248E0}</Project>
       <Name>MeasurmentConfigurationDialog</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="gtk-gui\gui.stetic">
-      <LogicalName>gui.stetic</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

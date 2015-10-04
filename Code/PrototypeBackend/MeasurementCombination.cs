@@ -41,10 +41,8 @@ namespace PrototypeBackend
 
 		public DateTimeValue Value {
 			get {
-				if (Pins.Count > 0)
-				{
-					if (Operation != null)
-					{
+				if (Pins.Count > 0) {
+					if (Operation != null) {
 						return new DateTimeValue () {
 						
 							Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
@@ -52,8 +50,7 @@ namespace PrototypeBackend
 						};
 					}
 					return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Interval).First ().Value.Time };
-				} else
-				{
+				} else {
 					return new DateTimeValue (){ Value = double.NaN, Time = DateTime.Now };
 				}
 			}
@@ -70,13 +67,6 @@ namespace PrototypeBackend
 		}
 
 		private string OperationString_;
-
-		#endregion
-
-		#region Events
-
-		[NonSerialized]
-		EventHandler<NewMeasurementValue> OnNewValue;
 
 		#endregion
 
@@ -107,8 +97,7 @@ namespace PrototypeBackend
 
 		public bool AddPin (APin pin)
 		{
-			if (!Pins.Contains (pin))
-			{
+			if (!Pins.Contains (pin)) {
 				Pins.Add (pin);
 				ManagePins ();
 				return true;
@@ -119,20 +108,17 @@ namespace PrototypeBackend
 		private void ManagePins ()
 		{
 			var list = Pins.OrderByDescending (o => o.Interval);
-			list.First ().OnNewValue += (o, e) =>
-			{
-				if (OnNewValue != null)
-				{
-					OnNewValue.Invoke (this, new NewMeasurementValue (){ Value = this.Value.Value, Time = this.Value.Time });
-				}
-			};
+//			list.First ().OnNewValue += (o, e) => {
+//				if (OnNewValue != null) {
+//					OnNewValue.Invoke (this, new NewMeasurementValue (){ Value = this.Value.Value, Time = this.Value.Time });
+//				}
+//			};
 		}
 
 		public override bool Equals (object obj)
 		{
 			MeasurementCombination MeCom = obj as MeasurementCombination;
-			if (MeCom != null)
-			{
+			if (MeCom != null) {
 				return 
 				    this.Pins.SequenceEqual (MeCom.Pins)	&&
 				this.Name.Equals (MeCom.Name) &&

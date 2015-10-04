@@ -136,7 +136,9 @@ namespace PrototypeBackend
 
 		~Controller ()
 		{
-			ConLogger.Stop ();
+			if (ConLogger != null) {
+				ConLogger.Stop ();
+			}
 		}
 
 		/// <summary>

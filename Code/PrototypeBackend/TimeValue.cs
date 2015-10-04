@@ -11,9 +11,9 @@ namespace PrototypeBackend
 
 	public struct DateTimeValue
 	{
-		public DateTime Time{ get; set; }
+		public DateTime Time;
 
-		public double Value { get; set; }
+		public double Value;
 
 		public DateTimeValue (double value, DateTime time)
 		{

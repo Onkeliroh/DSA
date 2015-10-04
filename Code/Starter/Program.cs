@@ -33,7 +33,8 @@ namespace Starter
 					PrintHelp ();
 				} else if (matchedParameters.Any (o => o.Key == ConfigFileShort.Key)) {
 					#if DEBUG
-					RunWindow ("/home/onkeliroh/Bachelorarbeit/Resources/Config.ini");
+//					RunWindow ("/home/onkeliroh/Bachelorarbeit/Resources/Config.ini");
+					RunWindow (matchedParameters.Single (o => o.Argument == ConfigFileShort).Values.ToList () [0] as string);
 					#else
 					RunWindow (null);
 					#endif

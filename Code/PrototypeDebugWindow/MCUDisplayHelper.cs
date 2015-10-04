@@ -38,13 +38,11 @@ namespace Frontend
 			var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, 125, height * pins.Count + Space * pins.Count);
 
 			var context = new Cairo.Context (surf);
-
-			context.SetSourceColor (BackgroundColor);
+			context.SetSourceRGBA (BackgroundColor.R, BackgroundColor.G, BackgroundColor.B, BackgroundColor.A);
 			context.Rectangle (0, 0, surf.Width, surf.Height);
 			context.Fill ();
 
-			for (int i = 0; i < pins.Count; i++)
-			{
+			for (int i = 0; i < pins.Count; i++) {
 				DrawLabel (context, labelformat, bordtype, pins [i], 0, i * height + i * Space);
 			}
 
@@ -57,20 +55,16 @@ namespace Frontend
 		{
 //			if (path != MCUPath || MCUSurface == null)
 //			{
-			if (path != null && System.IO.File.Exists (path))
-			{
-				if (!path.Equals (string.Empty))
-				{
-					try
-					{
+			if (path != null && System.IO.File.Exists (path)) {
+				if (!path.Equals (string.Empty)) {
+					try {
 						var MCUImage = new Rsvg.Handle (path);
 						var buf = MCUImage.Pixbuf;
 
 						int height = buf.Height;
 						int width = buf.Width;
 
-						if (width > maxWidth)
-						{
+						if (width > maxWidth) {
 							int newwidth = maxWidth - 100;
 							newwidth = (newwidth < 0) ? 0 : newwidth;
 							double scale = (width / 100.0) * newwidth;
@@ -87,8 +81,7 @@ namespace Frontend
 
 						context.Dispose ();
 						return surf;
-					} catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						Console.Error.WriteLine (ex);
 					}
 				}
@@ -102,8 +95,7 @@ namespace Frontend
 
 		public static void DrawLabel (Cairo.Context context, LabelFormat format, BordType bordertype, IPin pin, int xpos, int ypos)
 		{
-			switch (format)
-			{
+			switch (format) {
 			case LabelFormat.Flat:
 				DrawLabelFlat (context, bordertype, pin, xpos, ypos);
 				break;
@@ -120,19 +112,17 @@ namespace Frontend
 			const int fontsize = 12;
 			//Rect
 			context.Rectangle (xpos, ypos, widht, 26);
-			context.SetSourceColor (BackgroundColor);
+			context.SetSourceRGBA (BackgroundColor.R, BackgroundColor.G, BackgroundColor.B, BackgroundColor.A);
 			context.Fill ();
 
 			string displaytext = pin.Name;
 
-			if (displaytext.Length > 12)
-			{
+			if (displaytext.Length > 12) {
 				displaytext = displaytext.Substring (0, 12);
 				displaytext += "...";
 			}
 
-			if (bordertype == BordType.Line)
-			{
+			if (bordertype == BordType.Line) {
 				//Border
 				context.SetSourceRGB (0, 0, 0);
 				context.LineWidth = .5;
@@ -146,7 +136,7 @@ namespace Frontend
 			context.Fill ();
 
 			//Number
-			context.SetSourceColor (new Cairo.Color (0, 0, 0));
+			context.SetSourceRGB (0, 0, 0);
 			context.SelectFontFace ("Sans", FontSlant.Normal, FontWeight.Bold);
 			context.SetFontSize (fontsize);
 			context.MoveTo (xpos + 5, ypos + fontsize);
@@ -167,8 +157,7 @@ namespace Frontend
 
 			displaytext = pin.DisplayNumberShort + " " + pin.Name;
 
-			if (displaytext.Length > 12)
-			{
+			if (displaytext.Length > 12) {
 				displaytext = displaytext.Substring (0, 12);
 				displaytext += "...";
 			}
@@ -177,14 +166,14 @@ namespace Frontend
 //			context.Rectangle (xpos, ypos, width, height);
 //			context.SetSourceColor (BackgroundColor);
 
-			if (bordertype == BordType.Line)
-			{
+			if (bordertype == BordType.Line) {
 				//Border
 //				context.SetSourceRGB (0, 0, 0);
 //				context.LineWidth = .5;
 //				context.Rectangle (xpos, ypos, widht, height);
 				DrawRoundedRectangle (context, xpos + linewidth, ypos + 1, width - linewidth, height - 1, 5);
-				context.SetSourceColor (GdkToCairo (pin.PlotColor));
+				var color = GdkToCairo (pin.PlotColor);
+				context.SetSourceRGBA (color.R, color.G, color.B, color.A);
 				context.LineWidth = linewidth;
 				context.Stroke ();
 			}
@@ -194,7 +183,7 @@ namespace Frontend
 //			context.Fill ();
 
 			//Number
-			context.SetSourceColor (new Cairo.Color (0, 0, 0));
+			context.SetSourceRGB (0, 0, 0);
 			context.SelectFontFace ("Sans", FontSlant.Normal, FontWeight.Bold);
 			context.SetFontSize (fontsize);
 			context.MoveTo (xpos + 5, ypos + fontsize + linewidth);

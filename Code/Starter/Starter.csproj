@@ -20,8 +20,8 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <Commandlineparameters>-c C:/Users/Onkeliroh/Bachelorarbeit/Resources/ConfigWin.ini</Commandlineparameters>
     <ConsolePause>false</ConsolePause>
-    <Commandlineparameters>-c /home/onkeliroh/Bachelorarbeit/Resources/Config.ini</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -36,18 +36,10 @@
     <Reference Include="ArgumentParser">
       <HintPath>..\Prototype\packages\ArgumentParser.0.6.3\lib\net45\ArgumentParser.dll</HintPath>
     </Reference>
-    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>glib-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="rsvg2-sharp, Version=2.18.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>rsvg2-sharp-2.0</Package>
-    </Reference>
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-dotnet, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -62,10 +54,6 @@
     <ProjectReference Include="..\PrototypeDebugWindow\Frontend.csproj">
       <Project>{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}</Project>
       <Name>Frontend</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GUIHelper\GUIHelper.csproj">
-      <Project>{2B884C8B-58D1-4299-A844-6377FD6EDBEE}</Project>
-      <Name>GUIHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
