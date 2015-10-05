@@ -750,6 +750,7 @@ namespace PrototypeBackend
 		public string Name = "";
 		public string ImageFilePath = "";
 		public Dictionary<string,List<int>> PinLayout = new Dictionary<string, List<int>> ();
+		public Dictionary<int,Point> PinLocation = new Dictionary<int,Point> ();
 
 		//default with Arduino UNO
 		public bool UseDTR = false;
@@ -833,6 +834,7 @@ namespace PrototypeBackend
 			info.AddValue ("PinLayoutLeft", PinLayout ["LEFT"]);
 			info.AddValue ("PinLayoutRight", PinLayout ["RIGHT"]);
 			info.AddValue ("PinLayoutBottom", PinLayout ["BOTTOM"]);
+			info.AddValue ("PinLocation", PinLocation);
 			info.AddValue ("ImageFilePath", ImageFilePath);
 		}
 
@@ -854,6 +856,7 @@ namespace PrototypeBackend
 			PinLayout.Add ("LEFT", ((List<int>)info.GetValue ("PinLayoutLeft", new List<int> ().GetType ())));
 			PinLayout.Add ("RIGHT", ((List<int>)info.GetValue ("PinLayoutRight", new List<int> ().GetType ())));
 			PinLayout.Add ("BOTTOM", ((List<int>)info.GetValue ("PinLayoutBottom", new List<int> ().GetType ())));
+			PinLocation = (Dictionary<int,Point>)info.GetValue ("PinLocation", PinLocation.GetType ());
 
 			ImageFilePath = info.GetString ("ImageFilePath");
 		}

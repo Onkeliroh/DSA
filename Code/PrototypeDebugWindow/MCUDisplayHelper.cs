@@ -14,6 +14,13 @@ namespace Frontend
 		Bold
 	}
 
+	public enum LabelPosition
+	{
+		Left,
+		Right,
+		Bottom
+	}
+
 	public enum BordType
 	{
 		Line,
@@ -23,81 +30,93 @@ namespace Frontend
 
 	public static class MCUDisplayHelper
 	{
-		private const int BoldHeight = 26;
-		private const int FlatHeight = 18;
-		private const int Space = 2;
+		public const int BoldHeight = 26;
+		public const int FlatHeight = 17;
+		public const int LabelWidth = 120;
+		public const int LabelBorderWeight = 2;
+		public const int LabelFontSize = 12;
+		public const int Space = 2;
+		public static double shiftX = 0;
+		public static double shiftY = 0;
+		private static double MCUImageXZero = 0;
+		private static double MCUImageYZero = 0;
+		public static Dictionary<int,PrototypeBackend.Point> PinLocations = new Dictionary<int,PrototypeBackend.Point> ();
+
 		private static readonly Cairo.Color BackgroundColor = new Cairo.Color (1, 1, 1, 0);
 
 		//		private static Cairo.ImageSurface MCUSurface = null;
 		//		private static string MCUPath = string.Empty;
 
-		public static Cairo.ImageSurface PinLabels (List<IPin> pins, LabelFormat labelformat = LabelFormat.Flat, BordType bordtype = BordType.Line)
+		public static void SetMCUSurface (Cairo.Context context, string path, int maxWidth = int.MaxValue)
 		{
-			int height = (labelformat == LabelFormat.Flat) ? FlatHeight : BoldHeight;
+			if (path != null && System.IO.File.Exists (path))
+			{
+				if (!path.Equals (string.Empty))
+				{
+					try
+					{
+						ImageSurface surf;
+						if (path.Contains (".svg"))
+						{
+							var MCUImage = new Rsvg.Handle (path);
+							var buf = MCUImage.Pixbuf;
 
-			var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, 125, height * pins.Count + Space * pins.Count);
+							int height = buf.Height;
+							int width = buf.Width;
 
-			var context = new Cairo.Context (surf);
-			context.SetSourceRGBA (BackgroundColor.R, BackgroundColor.G, BackgroundColor.B, BackgroundColor.A);
-			context.Rectangle (0, 0, surf.Width, surf.Height);
-			context.Fill ();
+							if (width > maxWidth)
+							{
+								int newwidth = maxWidth - 100;
+								newwidth = (newwidth < 0) ? 0 : newwidth;
+								double scale = (width / 100.0) * newwidth;
+								height = (int)(height * scale);
+								width = newwidth;
 
-			for (int i = 0; i < pins.Count; i++) {
-				DrawLabel (context, labelformat, bordtype, pins [i], 0, i * height + i * Space);
-			}
+								buf.ScaleSimple (width, height, InterpType.Bilinear);
+							}
 
-			context.Dispose ();
+							surf = new Cairo.ImageSurface (Cairo.Format.Argb32, width, height);
+							var svgcontext = new Cairo.Context (surf);
 
-			return surf;
-		}
+							MCUImage.RenderCairo (svgcontext);
 
-		public static Cairo.ImageSurface GetMCUSurface (string path, int maxWidth = int.MaxValue)
-		{
-//			if (path != MCUPath || MCUSurface == null)
-//			{
-			if (path != null && System.IO.File.Exists (path)) {
-				if (!path.Equals (string.Empty)) {
-					try {
-						var MCUImage = new Rsvg.Handle (path);
-						var buf = MCUImage.Pixbuf;
-
-						int height = buf.Height;
-						int width = buf.Width;
-
-						if (width > maxWidth) {
-							int newwidth = maxWidth - 100;
-							newwidth = (newwidth < 0) ? 0 : newwidth;
-							double scale = (width / 100.0) * newwidth;
-							height = (int)(height * scale);
-							width = newwidth;
-
-							buf.ScaleSimple (width, height, InterpType.Bilinear);
+						} else
+						{
+							surf = new Cairo.ImageSurface (path);
 						}
+						MCUImageXZero = shiftX - surf.Width / 2;
+						MCUImageYZero = shiftY - surf.Height / 2;
 
-						var surf = new Cairo.ImageSurface (Cairo.Format.Argb32, width, height);
-						var context = new Cairo.Context (surf);
-
-						MCUImage.RenderCairo (context);
-
-						context.Dispose ();
-						return surf;
-					} catch (Exception ex) {
+						context.SetSource (
+							surf,
+							MCUImageXZero,
+							MCUImageYZero
+						);
+						context.Paint ();
+					} catch (Exception ex)
+					{
 						Console.Error.WriteLine (ex);
 					}
 				}
 			}
-			return new Cairo.ImageSurface (Cairo.Format.Argb32, 0, 0);
-//			} else
-//			{
-//				return MCUSurface;
-//			}
 		}
 
-		public static void DrawLabel (Cairo.Context context, LabelFormat format, BordType bordertype, IPin pin, int xpos, int ypos)
+		public static void SetPinLabels (Cairo.Context context, List<IPin> pins, int xpos, int ypos, LabelPosition labelposition, LabelFormat labelformat = LabelFormat.Flat, BordType bordtype = BordType.Line)
 		{
-			switch (format) {
+			int height = (labelformat == LabelFormat.Flat) ? FlatHeight : BoldHeight;
+
+			for (int i = 0; i < pins.Count; i++)
+			{
+				DrawLabel (context, labelformat, bordtype, labelposition, pins [i], xpos, ypos + (i * height + i * Space));
+			}
+		}
+
+		public static void DrawLabel (Cairo.Context context, LabelFormat format, BordType bordertype, LabelPosition labelposition, IPin pin, int xpos, int ypos)
+		{
+			switch (format)
+			{
 			case LabelFormat.Flat:
-				DrawLabelFlat (context, bordertype, pin, xpos, ypos);
+				DrawLabelFlat (context, bordertype, labelposition, pin, xpos, ypos);
 				break;
 			case LabelFormat.Bold:
 				DrawLabel (context, bordertype, pin, xpos, ypos);
@@ -117,12 +136,14 @@ namespace Frontend
 
 			string displaytext = pin.Name;
 
-			if (displaytext.Length > 12) {
+			if (displaytext.Length > 12)
+			{
 				displaytext = displaytext.Substring (0, 12);
 				displaytext += "...";
 			}
 
-			if (bordertype == BordType.Line) {
+			if (bordertype == BordType.Line)
+			{
 				//Border
 				context.SetSourceRGB (0, 0, 0);
 				context.LineWidth = .5;
@@ -146,49 +167,77 @@ namespace Frontend
 			context.ShowText (displaytext);
 		}
 
-		private static void DrawLabelFlat (Cairo.Context context, BordType bordertype, IPin pin, int xpos = 0, int ypos = 0)
+		private static void DrawLabelFlat (Cairo.Context context, BordType bordertype, LabelPosition labelposition, IPin pin, int xpos = 0, int ypos = 0)
 		{
-			const int width = 120;
-			const int height = FlatHeight;
-			const int fontsize = 12;
-			const int linewidth = 2;
-
 			string displaytext = "";
+			var color = GdkToCairo (pin.PlotColor);
 
 			displaytext = pin.DisplayNumberShort + " " + pin.Name;
 
-			if (displaytext.Length > 12) {
+			if (displaytext.Length > 12)
+			{
 				displaytext = displaytext.Substring (0, 12);
 				displaytext += "...";
 			}
 
-			//Rect
-//			context.Rectangle (xpos, ypos, width, height);
-//			context.SetSourceColor (BackgroundColor);
-
-			if (bordertype == BordType.Line) {
-				//Border
-//				context.SetSourceRGB (0, 0, 0);
-//				context.LineWidth = .5;
-//				context.Rectangle (xpos, ypos, widht, height);
-				DrawRoundedRectangle (context, xpos + linewidth, ypos + 1, width - linewidth, height - 1, 5);
-				var color = GdkToCairo (pin.PlotColor);
+			if (bordertype == BordType.Line)
+			{
+				DrawRoundedRectangle (context, xpos, ypos, LabelWidth - LabelBorderWeight, FlatHeight, 5);
 				context.SetSourceRGBA (color.R, color.G, color.B, color.A);
-				context.LineWidth = linewidth;
+				context.LineWidth = LabelBorderWeight;
 				context.Stroke ();
 			}
-//			//ColorFlag
-//			context.Rectangle (xpos, ypos, 5, 14);
-//			context.SetSourceColor (GdkToCairo (pin.PlotColor));
-//			context.Fill ();
+
+			//PinToLabelLine
+			int xposlabelline = 0;
+			int yposlabelline = 0;
+			switch (labelposition)
+			{
+			case LabelPosition.Left:
+				xposlabelline = xpos + LabelWidth;
+				yposlabelline = ypos + (FlatHeight / 2);
+				break;
+			case LabelPosition.Right:
+				xposlabelline = xpos;
+				yposlabelline = ypos + (FlatHeight / 2);
+				break;
+			case LabelPosition.Bottom:
+				xpos = xpos + LabelWidth / 2;
+				yposlabelline = ypos;
+				break;
+			default:
+				break;
+			}
+			DrawLines (
+				context,
+				xposlabelline,
+				yposlabelline,
+				(int)(MCUImageXZero + PinLocations [(int)pin.RealNumber].x), 
+				(int)(MCUImageYZero + PinLocations [(int)pin.RealNumber].y),
+				color
+			);
 
 			//Number
 			context.SetSourceRGB (0, 0, 0);
 			context.SelectFontFace ("Sans", FontSlant.Normal, FontWeight.Bold);
-			context.SetFontSize (fontsize);
-			context.MoveTo (xpos + 5, ypos + fontsize + linewidth);
+			context.SetFontSize (LabelFontSize);
+			context.MoveTo (xpos + 5, ypos + LabelFontSize + LabelBorderWeight);
 			context.ShowText (displaytext);
 		}
+
+		private static void DrawLines (Cairo.Context context, int xStart, int yStart, int xEnd, int yEnd, Cairo.Color color)
+		{
+			context.Save ();
+			context.SetSourceRGBA (color.R, color.G, color.B, color.A);
+			context.MoveTo (xStart, yStart);
+			context.LineTo (xEnd, yEnd);
+			context.ClosePath ();
+			context.Restore ();
+			context.LineWidth = 1;
+			context.Stroke ();
+		}
+
+		#region Helperly
 
 		private static Cairo.Color GdkToCairo (Gdk.Color color)
 		{
@@ -253,5 +302,7 @@ namespace Frontend
 
 			return arr [minp];
 		}
+
+		#endregion
 	}
 }

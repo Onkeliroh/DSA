@@ -89,7 +89,8 @@ namespace PrototypeBackend
 								UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
 								HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value),
 								AnalogReferences = StringToARefDict (sd.Keys.GetKeyData ("AREF").Value),
-								PinLayout = StringToLayout (sd.Keys.GetKeyData ("PinLeft").Value, sd.Keys.GetKeyData ("PinRight").Value, sd.Keys.GetKeyData ("PinBottom").Value)
+								PinLayout = StringToLayout (sd.Keys.GetKeyData ("PinLeft").Value, sd.Keys.GetKeyData ("PinRight").Value, sd.Keys.GetKeyData ("PinBottom").Value),
+								PinLocation = StringToPinPlacement (sd.Keys.GetKeyData ("PinPosition").Value)
 							});
 						} catch (Exception ex)
 						{
@@ -149,6 +150,33 @@ namespace PrototypeBackend
 				dict.Add (Convert.ToInt32 (s));
 			}
 			return dict;
+		}
+
+		private Dictionary<int,Point> StringToPinPlacement (string str)
+		{
+			var pins = str.Split (new char[]{ ';' }, StringSplitOptions.RemoveEmptyEntries);
+			var dict = new Dictionary<int,Point> ();
+
+			foreach (string s in pins)
+			{
+				var pair = s.Split (new char[]{ ':', ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+				Point p = new Point (Convert.ToDouble (pair [1]), Convert.ToDouble (pair [2]));
+				dict.Add (Convert.ToInt32 (pair [0]), p);
+			}
+			return dict;
+		}
+	}
+
+	public struct Point
+	{
+		public double x;
+		public double y;
+
+		public Point (double X, double Y)
+		{
+			x = X;
+			y = Y;
 		}
 	}
 }
