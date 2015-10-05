@@ -120,11 +120,6 @@ namespace PrototypeBackend
 			set;
 		}
 
-		public static string Version {
-			private set{ _board.Version = value; }
-			get{ return _board.Version; }
-		}
-
 		public static string MCU {
 			private set{ _board.MCU = value; }
 			get{ return _board.MCU; }
@@ -140,10 +135,6 @@ namespace PrototypeBackend
 			get{ return _board.NumberOfAnalogPins; }
 		}
 
-		public static uint[] HardwareAnalogPinNumbers {
-			private set{ _board.HardwareAnalogPins = value; }
-			get{ return _board.HardwareAnalogPins; }
-		}
 
 		public static UInt32 DigitalBitMask {
 			private set;
@@ -177,7 +168,6 @@ namespace PrototypeBackend
 			{
 				if (e.Connected)
 				{
-					GetVersion ();
 					GetModel ();
 					GetNumberAnalogPins ();
 					GetNumberDigitalPins ();
@@ -364,11 +354,6 @@ namespace PrototypeBackend
 			#if DEBUG
 			Console.WriteLine (@"Arduino has experienced an error");
 			#endif
-		}
-
-		private static void OnGetVersion (ReceivedCommand args)
-		{
-			Version = args.ReadStringArg ();
 		}
 
 		// Log received line to console
@@ -587,16 +572,6 @@ namespace PrototypeBackend
 				return (result.ReadBinInt16Arg () == (int)DPinState.HIGH) ? DPinState.HIGH : DPinState.LOW;
 			}
 			return DPinState.LOW;
-		}
-
-		public static void GetVersion ()
-		{
-			var command = new SendCommand ((int)Command.GetVersion, (int)Command.GetVersion, 1000);
-			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
-				Version = returnVal.ReadStringArg ();
-			}
 		}
 
 		public static void GetAnalogReference ()
@@ -831,9 +806,27 @@ namespace PrototypeBackend
 			info.AddValue ("AnalogReferenceVoltage", AnalogReferenceVoltage);
 			info.AddValue ("AnalogReferenceVoltageType", AnalogReferenceVoltageType);
 			info.AddValue ("MCU", MCU);
-			info.AddValue ("PinLayoutLeft", PinLayout ["LEFT"]);
-			info.AddValue ("PinLayoutRight", PinLayout ["RIGHT"]);
-			info.AddValue ("PinLayoutBottom", PinLayout ["BOTTOM"]);
+			if (PinLayout.ContainsKey ("LEFT"))
+			{
+				info.AddValue ("PinLayoutLeft", PinLayout ["LEFT"]);
+			} else
+			{
+				info.AddValue ("PinLayoutLeft", new List<int> ());
+			}
+			if (PinLayout.ContainsKey ("RIGHT"))
+			{
+				info.AddValue ("PinLayoutRight", PinLayout ["RIGHT"]);
+			} else
+			{
+				info.AddValue ("PinLayoutRight", new List<int> ());
+			}
+			if (PinLayout.ContainsKey ("BOTTOM"))
+			{
+				info.AddValue ("PinLayoutBottom", PinLayout ["BOTTOM"]);
+			} else
+			{
+				info.AddValue ("PinLayoutBottom", new List<int> ());
+			}
 			info.AddValue ("PinLocation", PinLocation);
 			info.AddValue ("ImageFilePath", ImageFilePath);
 		}

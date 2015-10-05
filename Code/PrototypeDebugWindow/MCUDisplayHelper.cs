@@ -208,14 +208,18 @@ namespace Frontend
 			default:
 				break;
 			}
-			DrawLines (
-				context,
-				xposlabelline,
-				yposlabelline,
-				(int)(MCUImageXZero + PinLocations [(int)pin.RealNumber].x), 
-				(int)(MCUImageYZero + PinLocations [(int)pin.RealNumber].y),
-				color
-			);
+
+			if (PinLocations.ContainsKey ((int)pin.RealNumber))
+			{
+				DrawLines (
+					context,
+					xposlabelline,
+					yposlabelline,
+					(int)(MCUImageXZero + PinLocations [(int)pin.RealNumber].x), 
+					(int)(MCUImageYZero + PinLocations [(int)pin.RealNumber].y),
+					color
+				);
+			}
 
 			//Number
 			context.SetSourceRGB (0, 0, 0);

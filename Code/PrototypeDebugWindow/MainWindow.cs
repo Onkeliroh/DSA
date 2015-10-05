@@ -2063,7 +2063,7 @@ namespace Frontend
 				context,
 				con.Configuration.LeftPinLayout,
 				0,
-				this.drawingareaMCU.Allocation.Height / 3,
+				(this.drawingareaMCU.Allocation.Height / 2) - ((MCUDisplayHelper.FlatHeight * con.Configuration.LeftPinLayout.Count) / 2),
 				LabelPosition.Left
 			);
 
@@ -2071,7 +2071,7 @@ namespace Frontend
 				context, 
 				con.Configuration.RightPinLayout,
 				hpanedMain.Position - MCUDisplayHelper.LabelWidth,
-				this.drawingareaMCU.Allocation.Height / 3,
+				(this.drawingareaMCU.Allocation.Height / 2) - ((MCUDisplayHelper.FlatHeight * con.Configuration.RightPinLayout.Count) / 2),
 				LabelPosition.Right
 			);
 
