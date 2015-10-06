@@ -508,24 +508,6 @@ namespace PrototypeBackend
 		{
 			return ReadAnalogPin (new uint[]{ nr }) [0];
 		}
-		//
-		//		public static double[] GetAnalogValues (uint[] pins)
-		//		{
-		//			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 500);
-		//			command.AddArguments (pins.Cast<string> ().ToArray ());
-		//			var ret = _cmdMessenger.SendCommand (command);
-		//			if (ret.Ok)
-		//			{
-		//				object[] objarr = new object[ret.Arguments.Length];
-		//				objarr = ret.Arguments;
-		//
-		//				return objarr.Cast<float> ().ToArray ();
-		//			} else
-		//			{
-		//				//TODO werfe exception
-		//				return null;
-		//			}
-		//		}
 
 		public static double[] ReadAnalogPin (uint[] nr)
 		{
@@ -553,7 +535,6 @@ namespace PrototypeBackend
 				return results;
 			} else
 			{
-				//TODO throw exception
 				for (int i = 0; i < results.Length; i++)
 				{
 					results [i] = double.NaN;

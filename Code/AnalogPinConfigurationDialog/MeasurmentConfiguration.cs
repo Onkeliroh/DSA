@@ -86,6 +86,10 @@ namespace AnalogPinConfigurationDialog
 			if (availablePins.Length > 0)
 			{
 				cbPin.Active = 0;
+			} else
+			{
+				buttonOk.Sensitive = false;
+				buttonOk.TooltipText = "There are no more available pins to configure.";
 			}
 		}
 

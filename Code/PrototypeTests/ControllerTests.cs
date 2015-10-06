@@ -6,10 +6,11 @@ using System.Security.Cryptography;
 
 namespace PrototypeTests
 {
-	[TestFixture ()]
+	[TestFixture]
 	public class ControllerTests
 	{
-		[Test ()]
+		[Test]
+		[Ignore]
 		public void GetUsedPinsTest ()
 		{
 			var tmp = new Controller ();
@@ -44,7 +45,8 @@ namespace PrototypeTests
 			Assert.AreEqual (42, dpins [1].Number);
 		}
 
-		[Test ()]
+		[Test]
+		[Ignore]
 		public void GetUnusedPinsTest ()
 		{
 			var tmp = new Controller ();
@@ -85,6 +87,7 @@ namespace PrototypeTests
 		}
 
 		[Test]
+		[Ignore]
 		public void GetUnusedPinsTest2 ()
 		{
 			var con = new Controller ();

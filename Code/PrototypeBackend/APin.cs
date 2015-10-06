@@ -70,7 +70,13 @@ namespace PrototypeBackend
 			}
 
 			get {
-				return new DateTimeValue (CalcValue (), Values.Last ().Time);	
+				if (Values.Count > 0)
+				{
+					return new DateTimeValue (CalcValue (), Values.Last ().Time);	
+				} else
+				{
+					return new DateTimeValue (double.NaN, DateTime.Now);
+				}
 			}
 		}
 
@@ -171,16 +177,6 @@ namespace PrototypeBackend
 		public override string ToString ()
 		{
 			return String.Format ("Name: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}", Name, Number, Type, Unit);
-		}
-
-		public string ToXML ()
-		{
-			XmlSerializer tmp = new XmlSerializer (typeof(APin));
-			string returnstring = "";
-			TextWriter tw = new StreamWriter (returnstring);
-			tmp.Serialize (tw, this);
-			tw.Close ();
-			return returnstring;
 		}
 
 		public double CalcValue ()

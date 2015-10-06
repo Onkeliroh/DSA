@@ -51,6 +51,7 @@
     <Compile Include="SequenceTests.cs" />
     <Compile Include="SerializeTests.cs" />
     <Compile Include="BoardConfigurationTests.cs" />
+    <Compile Include="CSVLoggerTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

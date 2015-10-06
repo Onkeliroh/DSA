@@ -2064,7 +2064,7 @@
             <child>
               <widget class="Gtk.Label" id="label13">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">Time Passed:</property>
+                <property name="LabelProp" translatable="yes">Time Elapsed:</property>
               </widget>
               <packing>
                 <property name="Position">6</property>

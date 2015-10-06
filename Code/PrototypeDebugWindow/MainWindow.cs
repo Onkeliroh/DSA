@@ -140,8 +140,11 @@ namespace Frontend
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
 			{
-				lblTimePassed.Text = string.Format ("{0:c}", con.TimePassed);
-				lblTimePassed.QueueDraw ();
+				Application.Invoke ((o, args) =>
+				{  
+					lblTimePassed.Text = string.Format ("{0:D2}:{1:D2}:{2:D2}", con.TimePassed.Hours, con.TimePassed.Minutes, con.TimePassed.Seconds);
+					lblTimePassed.QueueDraw ();
+				});
 			};
 		}
 
@@ -682,9 +685,9 @@ namespace Frontend
 				UpdateFilePathPreview ();
 			};
 
-			foreach (string s in TimeFormatOptions.FormatOptions.Keys)
+			foreach (string s in FormatOptions.TimeFormatOptions.Keys)
 			{
-				((ListStore)(cbeCSVTimeFormat.Model)).AppendValues (s + " (" + TimeFormatOptions.GetFormat (s) + ")");
+				((ListStore)(cbeCSVTimeFormat.Model)).AppendValues (s);
 			}
 
 			cbeCSVTimeFormat.Active = 0;
