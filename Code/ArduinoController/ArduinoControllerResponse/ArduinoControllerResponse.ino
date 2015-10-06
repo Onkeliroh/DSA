@@ -132,14 +132,12 @@ void OnSetPinState()
 void OnReadAnalogPin()
 {
   int NrOfValues = cmdMessenger.readInt16Arg();
-  int Pins[NrOfValues];
 
   cmdMessenger.sendCmdStart(kReadAnalogPin);
 
   for ( int i = 0; i < NrOfValues; i++)
   {
-    Pins[i] = analogRead(Pins[i]);
-    cmdMessenger.sendCmdArg(Pins[i]);
+    cmdMessenger.sendCmdArg(analogRead(cmdMessenger.readInt16Arg()));
   }
 
   cmdMessenger.sendCmdEnd();

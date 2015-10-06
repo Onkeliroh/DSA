@@ -295,7 +295,8 @@ namespace PrototypeBackend
 							//as long as running is true: collect data. otherwise go to sleep
 							if (running)
 							{
-								var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.Number).ToArray<uint> ());
+//								var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.Number).ToArray<uint> ());
+								var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.RealNumber).ToArray<uint> ());
 
 								//in order to append to all values the same time stamp, otherwise every individual timestamp would be a little bit of
 								var now = DateTime.Now; //what time is it?

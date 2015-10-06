@@ -168,6 +168,8 @@ namespace PrototypeBackend
 		}
 	}
 
+
+	[Serializable]
 	public struct Point
 	{
 		public double x;
