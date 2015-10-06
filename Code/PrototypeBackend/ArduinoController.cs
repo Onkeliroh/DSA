@@ -511,7 +511,7 @@ namespace PrototypeBackend
 
 		public static double[] ReadAnalogPin (uint[] nr)
 		{
-			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 1000);
+			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 100);
 			command.AddArgument (nr.Length);
 			foreach (int i in nr)
 			{
