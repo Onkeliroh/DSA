@@ -32,7 +32,7 @@ namespace AnalogPinConfigurationDialog
 		
 		private global::Gtk.Label lblPin;
 		
-		private global::Gtk.SpinButton sbInterval;
+		private global::Gtk.SpinButton sbMeanValuesCount;
 		
 		private global::Gtk.SpinButton sbOffset;
 		
@@ -223,15 +223,15 @@ namespace AnalogPinConfigurationDialog
 			w14.XOptions = ((global::Gtk.AttachOptions)(4));
 			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.sbInterval = new global::Gtk.SpinButton (1, 100, 1);
-			this.sbInterval.CanFocus = true;
-			this.sbInterval.Name = "sbInterval";
-			this.sbInterval.Adjustment.PageIncrement = 10;
-			this.sbInterval.ClimbRate = 1;
-			this.sbInterval.Numeric = true;
-			this.sbInterval.Value = 1;
-			this.table3.Add (this.sbInterval);
-			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbInterval]));
+			this.sbMeanValuesCount = new global::Gtk.SpinButton (1, 100, 1);
+			this.sbMeanValuesCount.CanFocus = true;
+			this.sbMeanValuesCount.Name = "sbMeanValuesCount";
+			this.sbMeanValuesCount.Adjustment.PageIncrement = 10;
+			this.sbMeanValuesCount.ClimbRate = 1;
+			this.sbMeanValuesCount.Numeric = true;
+			this.sbMeanValuesCount.Value = 1;
+			this.table3.Add (this.sbMeanValuesCount);
+			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbMeanValuesCount]));
 			w15.TopAttach = ((uint)(8));
 			w15.BottomAttach = ((uint)(9));
 			w15.LeftAttach = ((uint)(1));
@@ -433,13 +433,6 @@ namespace AnalogPinConfigurationDialog
 			this.DefaultWidth = 648;
 			this.DefaultHeight = 308;
 			this.Show ();
-			this.sbSlope.Changed += new global::System.EventHandler (this.OnSbSlopeChanged);
-			this.sbOffset.Changed += new global::System.EventHandler (this.OnSbOffsetChanged);
-			this.sbInterval.Changed += new global::System.EventHandler (this.OnSbIntervalChanged);
-			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
-			this.cbUnit.Changed += new global::System.EventHandler (this.OnCbUnitChanged);
-			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
-			this.cbColor.Clicked += new global::System.EventHandler (this.OnCbColorClicked);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}

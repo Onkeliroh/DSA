@@ -308,8 +308,6 @@ namespace PrototypeBackend
 										Value = Configuration.Board.RAWToVolt (vals [i]),
 										Time = now 
 									};
-
-									Console.WriteLine (vals [i] + "\t" + Configuration.Board.RAWToVolt (vals [i]));
 								}
 
 								var values = new List<DateTimeValue> ();

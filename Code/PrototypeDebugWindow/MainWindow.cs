@@ -1892,7 +1892,7 @@ namespace Frontend
 			MeasurementCombinationTreeNode node = (MeasurementCombinationTreeNode)nvMeasurementCombinations.NodeSelection.SelectedNode;
 			if (node != null)
 			{
-				con.Configuration.RemoveMeasurementCombination (node.Index);
+				con.Configuration.RemoveMeasurementCombination (node.AnalogSignal);
 			}
 		}
 

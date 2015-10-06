@@ -145,7 +145,17 @@ namespace GUIHelper
 		public string Name { get { return Pin.DisplayName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.Interval).ToString ("g"); } private set { } }
+		public string Frequency { 
+			get { 
+				return string.Format (
+					"{0:D2}:{1:D2}:{2:D2}:{3:D2}", 
+					TimeSpan.FromMilliseconds (Pin.Interval), 
+					TimeSpan.FromMilliseconds (Pin.Interval), 
+					TimeSpan.FromMilliseconds (Pin.Interval), 
+					TimeSpan.FromMilliseconds (Pin.Interval)); 
+			} 
+			private set { }
+		}
 
 		[Gtk.TreeNodeValue (Column = 2)]
 		public int Interval { get { return (int)Pin.MeanValuesCount; } private set { } }

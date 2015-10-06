@@ -29,7 +29,7 @@ namespace AnalogPinConfigurationDialog
 
 				sbSlope.Value = value.Slope;
 				sbOffset.Value = value.Offset;
-				sbInterval.Value = value.Interval;
+				sbMeanValuesCount.Value = value.MeanValuesCount;
 
 				sbDays.Value = TimeSpan.FromMilliseconds (value.Interval).Days;
 				sbHours.Value = TimeSpan.FromMilliseconds (value.Interval).Hours;
@@ -66,7 +66,8 @@ namespace AnalogPinConfigurationDialog
 			sbSlope.Adjustment.Upper = double.MaxValue;
 			sbOffset.Adjustment.Lower = double.MinValue;
 			sbOffset.Adjustment.Upper = double.MaxValue;
-			sbInterval.Adjustment.Upper = int.MaxValue;
+			sbMeanValuesCount.Adjustment.Upper = int.MaxValue;
+			sbMeanValuesCount.Adjustment.Lower = 1;
 
 			cbColor.Color = GUIHelper.ColorHelper.GetRandomGdkColor ();
 
@@ -103,9 +104,7 @@ namespace AnalogPinConfigurationDialog
 			pin.Slope = sbSlope.Value;
 			pin.Offset = sbOffset.Value;
 			pin.Interval = Convert.ToUInt64 (new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt).TotalMilliseconds);
-			pin.MeanValuesCount = Convert.ToUInt64 (sbInterval.ValueAsInt);
-
-//			Respond (Gtk.ResponseType.Apply);
+			pin.MeanValuesCount = Convert.ToUInt64 (sbMeanValuesCount.ValueAsInt);
 		}
 
 		protected void OnEntryNameChanged (object sender, EventArgs e)
@@ -162,7 +161,7 @@ namespace AnalogPinConfigurationDialog
 		{
 			if (pin != null)
 			{
-				pin.MeanValuesCount = Convert.ToUInt64 (sbInterval.ValueAsInt);
+				pin.MeanValuesCount = Convert.ToUInt64 (sbMeanValuesCount.ValueAsInt);
 			}
 		}
 	}
