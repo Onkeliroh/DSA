@@ -2402,7 +2402,7 @@ namespace Frontend
 			} else
 			{
 				con.Start ();
-				lblStartTime.Text = con.StartTime.ToString ("G");
+				lblStartTime.Text = string.Format ("{0:yyyy-MM-dd HH:mm:ss}", con.StartTime);
 				PrepareRealTimePlot ();
 				TimeKeeperPresenter.Start ();
 			}
