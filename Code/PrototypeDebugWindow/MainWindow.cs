@@ -2234,7 +2234,7 @@ namespace Frontend
 						{
 							if (con.Configuration.Pins [i] == pin)
 							{
-								con.Configuration.SetPin (i, dialog.Pin);
+								con.Configuration.EditPin (i, dialog.Pin);
 								break;
 							}
 						}
@@ -2263,7 +2263,7 @@ namespace Frontend
 						{
 							if (con.Configuration.Pins [i] == pin)
 							{
-								con.Configuration.SetPin (i, dialog.Pin);
+								con.Configuration.EditPin (i, dialog.Pin);
 								break;
 							}
 						}
@@ -2293,7 +2293,7 @@ namespace Frontend
 						con.Configuration.AddSequence (dialog.PinSequence);
 					} else
 					{
-						con.Configuration.SetSequence (con.Configuration.Sequences.IndexOf (seq), dialog.PinSequence);
+						con.Configuration.EditSequence (con.Configuration.Sequences.IndexOf (seq), dialog.PinSequence);
 					}
 				}
 			};
@@ -2332,7 +2332,7 @@ namespace Frontend
 						con.Configuration.AddMeasurementCombination (dialog.Combination);
 					} else
 					{
-						con.Configuration.SetMeasurmentCombination (con.Configuration.MeasurementCombinations.IndexOf (sig), dialog.Combination);
+						con.Configuration.EditMeasurmentCombination (con.Configuration.MeasurementCombinations.IndexOf (sig), dialog.Combination);
 					}
 				}
 			};

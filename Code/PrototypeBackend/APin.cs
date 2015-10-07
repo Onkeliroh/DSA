@@ -9,44 +9,120 @@ using Gdk;
 
 namespace PrototypeBackend
 {
+	/// <summary>
+	/// A class managing analog pins.
+	/// </summary>
 	[Serializable]
 	public class APin : IPin, ISerializable
 	{
 		#region Member
 
 
+		/// <summary>
+		/// Gets or sets the type.
+		/// </summary>
+		/// <value>The type.</value>
 		public PrototypeBackend.PinType Type { get; set; }
 
+		/// <summary>
+		/// Gets or sets the mode.
+		/// </summary>
+		/// <value>The mode.</value>
 		public PrototypeBackend.PinMode Mode { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the display name. (Name + DisplayNumber)
+		/// </summary>
+		/// <value>The display name.</value>
 		public string DisplayName { get { return string.Format ("{0} ({1})", Name, DisplayNumber); } set { } }
 
+		/// <summary>
+		/// Gets or sets the display number. (Ax | Dx) or (Ax)
+		/// </summary>
+		/// <value>The display number.</value>
 		public string DisplayNumber { get { return string.Format ("A{0} | D{1}", Number.ToString ().PadLeft (2, ' '), DigitalNumber); } set { } }
 
+		/// <summary>
+		/// Gets or sets the display number short. (Ax)
+		/// </summary>
+		/// <value>The display number short.</value>
 		public string DisplayNumberShort { get { return string.Format ("A{0}", Number.ToString ().PadLeft (2, ' ')); } set { } }
 
+		/// <summary>
+		/// Gets or sets the unit.
+		/// </summary>
+		/// <value>The unit.</value>
 		public string Unit { get; set; }
 
+		/// <summary>
+		/// Gets or sets the number.
+		/// this represents the hardware pin number under concideration of the pin type (e.g. Arduino UNO D14 = A0)
+		/// </summary>
+		/// <value>The number.</value>
 		public uint Number{ get; set; }
 
+		/// <summary>
+		/// Gets or sets the real number.
+		/// This represents the 'real' hardware pin number with out concideration of the pin type. (eg. Arduino UNO D0 = 0, A0 = 14)
+		/// </summary>
+		/// <value>The real number.</value>
 		public uint RealNumber { get { return DigitalNumber; } set { } }
 
+		/// <summary>
+		/// Gets or sets the digital number.
+		/// This is the same as the RealNumber.
+		/// </summary>
+		/// <value>The digital number.</value>
 		public uint DigitalNumber { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="PrototypeBackend.APin"/> is SDA enabled.
+		/// </summary>
+		/// <value><c>true</c> if SDA enabled; otherwise, <c>false</c>.</value>
 		public bool SDA { get ; set ; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="PrototypeBackend.APin"/> is SCL enabled.
+		/// </summary>
+		/// <value><c>true</c> if SCL enabled; otherwise, <c>false</c>.</value>
 		public bool SCL { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="PrototypeBackend.APin"/> is RX enabled.
+		/// </summary>
+		/// <value><c>true</c> if RX enabled; otherwise, <c>false</c>.</value>
 		public bool RX { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="PrototypeBackend.APin"/> is TX enabled.
+		/// </summary>
+		/// <value><c>true</c> if TX enabled; otherwise, <c>false</c>.</value>
 		public bool TX { get; set; }
 
+		/// <summary>
+		/// Gets or sets the color of the pin values in the plot and elsewhere.
+		/// </summary>
+		/// <value>The color of the pin.</value>
 		public Gdk.Color PlotColor { get; set; }
 
+		/// <summary>
+		/// Gets or sets the slope.
+		/// This is used for linear conversion ( Values = RAWValue * Slope + Offset )
+		/// </summary>
+		/// <value>The slope.</value>
 		public double Slope{ get; set; }
 
+		/// <summary>
+		/// Gets or sets the offset.
+		/// This is used for linear conversion ( Values = RAWValue * Slope + Offset )
+		/// </summary>
+		/// <value>The offset.</value>
 		public double Offset{ get; set; }
 
 		/// <summary>
@@ -124,6 +200,9 @@ namespace PrototypeBackend
 
 		#region Methods
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.APin"/> class.
+		/// </summary>
 		public APin ()
 		{
 			Type = PrototypeBackend.PinType.ANALOG;
@@ -138,6 +217,10 @@ namespace PrototypeBackend
 			Values = new List<DateTimeValue> ();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.APin"/> class.
+		/// </summary>
+		/// <param name="copy">Copy.</param>
 		public APin (APin copy) : base ()
 		{
 			Name = copy.Name;
@@ -152,6 +235,12 @@ namespace PrototypeBackend
 			Mode = PrototypeBackend.PinMode.INPUT;
 		}
 
+		/// <summary>
+		/// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="PrototypeBackend.APin"/>.
+		/// </summary>
+		/// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="PrototypeBackend.APin"/>.</param>
+		/// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
+		/// <see cref="PrototypeBackend.APin"/>; otherwise, <c>false</c>.</returns>
 		public override bool Equals (object obj)
 		{
 			if (obj != null)
@@ -169,16 +258,28 @@ namespace PrototypeBackend
 			return false;
 		}
 
+		/// <summary>
+		/// Serves as a hash function for a <see cref="PrototypeBackend.APin"/> object.
+		/// </summary>
+		/// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
 		public override int GetHashCode ()
 		{
 			return base.GetHashCode ();
 		}
 
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="PrototypeBackend.APin"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="PrototypeBackend.APin"/>.</returns>
 		public override string ToString ()
 		{
 			return String.Format ("Name: {0}\tNumber: {1}\tPinType: {2}\tUnit: {3}", Name, Number, Type, Unit);
 		}
 
+		/// <summary>
+		/// Calculates the measured value under concideration of offset, slope and mean values.
+		/// </summary>
+		/// <returns>The value.</returns>
 		public double CalcValue ()
 		{
 			if (Values.Count >= (int)MeanValuesCount)
@@ -218,6 +319,11 @@ namespace PrototypeBackend
 
 		#region ISerializable implementation
 
+		/// <summary>
+		/// Gets the object data.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="context">Context.</param>
 		public void GetObjectData (SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue ("Type", Type);
@@ -239,6 +345,11 @@ namespace PrototypeBackend
 			info.AddValue ("Period", Interval);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.APin"/> class.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="context">Context.</param>
 		public APin (SerializationInfo info, StreamingContext context)
 		{
 			Type = (PinType)info.GetByte ("Type");
@@ -262,6 +373,12 @@ namespace PrototypeBackend
 
 		#endregion
 
+		/// <summary>
+		/// Uints to byte.
+		/// This method is used to parse colors form one framework to another.
+		/// </summary>
+		/// <returns>The to byte.</returns>
+		/// <param name="val">Value.</param>
 		public static byte uintToByte (uint val)
 		{
 			return (byte)(byte.MaxValue / 65535.0 * val);

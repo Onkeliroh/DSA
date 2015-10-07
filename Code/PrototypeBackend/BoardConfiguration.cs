@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 namespace PrototypeBackend
 {
 
+	/// <summary>
+	/// The BoardConfiguration class.
+	/// </summary>
 	[Serializable]
 	public class BoardConfiguration : ISerializable
 	{
@@ -151,6 +154,9 @@ namespace PrototypeBackend
 
 		#endregion
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.BoardConfiguration"/> class.
+		/// </summary>
 		public BoardConfiguration ()
 		{
 			board = new Board ();
@@ -159,6 +165,10 @@ namespace PrototypeBackend
 			Sequences = new List<Sequence> ();
 		}
 
+		/// <summary>
+		/// Gets the unused analog pins.
+		/// </summary>
+		/// <returns>The unused analog pins.</returns>
 		private APin[] GetUnusedAnalogPins ()
 		{
 			var unusedpins = new List<APin> ();
@@ -188,6 +198,10 @@ namespace PrototypeBackend
 			return unusedpins.OrderBy (o => o.Number).ToArray<APin> ();
 		}
 
+		/// <summary>
+		/// Gets the unused digital pins.
+		/// </summary>
+		/// <returns>The unused digital pins.</returns>
 		private DPin[] GetUnusedDigitalPins ()
 		{
 			var unusedpins = new List<DPin> ();
@@ -217,6 +231,10 @@ namespace PrototypeBackend
 			return unusedpins.ToArray<DPin> ();
 		}
 
+		/// <summary>
+		/// Gets the pins without measurement combinations.
+		/// </summary>
+		/// <returns>The pins without measurement combinations.</returns>
 		public APin[] GetPinsWithoutCombinations ()
 		{
 			var pins = Pins.Where (o => o.Type == PinType.ANALOG).Cast<APin> ().ToList ();
@@ -226,6 +244,10 @@ namespace PrototypeBackend
 			return pins.ToArray ();
 		}
 
+		/// <summary>
+		/// Gets the digital pins without sequence.
+		/// </summary>
+		/// <returns>The digital pins without sequence.</returns>
 		public DPin[] GetPinsWithoutSequence ()
 		{
 			var pins = Pins.Where (o => (o as DPin) != null).Cast<DPin> ().ToList ();
@@ -235,6 +257,11 @@ namespace PrototypeBackend
 			return pins.ToArray ();
 		}
 
+		/// <summary>
+		/// Gets the coresponding sequence.
+		/// </summary>
+		/// <returns>The coresponding sequence.</returns>
+		/// <param name="pin">Pin</param>
 		public Sequence GetCorespondingSequence (DPin pin)
 		{
 			foreach (Sequence seq in Sequences)
@@ -247,6 +274,11 @@ namespace PrototypeBackend
 			return null;
 		}
 
+		/// <summary>
+		/// Gets the coresponding combination.
+		/// </summary>
+		/// <returns>The coresponding combination.</returns>
+		/// <param name="pin">Pin</param>
 		public MeasurementCombination GetCorespondingCombination (APin pin)
 		{
 			foreach (MeasurementCombination sig in MeasurementCombinations)
@@ -261,6 +293,10 @@ namespace PrototypeBackend
 
 		#region Add
 
+		/// <summary>
+		/// Adds a pin
+		/// </summary>
+		/// <param name="pin">Pin</param>
 		public void AddPin (IPin pin)
 		{
 			if (!Pins.Contains (pin))
@@ -274,6 +310,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Adds a pin range.
+		/// </summary>
+		/// <param name="pins">Pins</param>
 		public void AddPinRange (IPin[] pins)
 		{
 			for (int i = 0; i < pins.Length; i++)
@@ -289,6 +329,9 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Adds a measurement combination.
+		/// </summary>
 		public void AddMeasurementCombination (MeasurementCombination s)
 		{
 //			if (!MeasurementCombinations.Contains (s))
@@ -302,14 +345,18 @@ namespace PrototypeBackend
 			}
 		}
 
-		public void AddSequence (Sequence seq)
+		/// <summary>
+		/// Adds the sequence.
+		/// </summary>
+		/// <param name="sequence">Sequence</param>
+		public void AddSequence (Sequence sequence)
 		{
-			if (!Sequences.Contains (seq))
+			if (!Sequences.Contains (sequence))
 			{
-				Sequences.Add (seq);
+				Sequences.Add (sequence);
 				if (OnSequencesUpdated != null)
 				{
-					OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Add, seq));
+					OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Add, sequence));
 				}
 			}
 		}
@@ -318,6 +365,11 @@ namespace PrototypeBackend
 
 		#region Clone
 
+		/// <summary>
+		/// Clones a pin.
+		/// </summary>
+		/// <returns><c>true</c>, if pin was cloned, <c>false</c> otherwise.</returns>
+		/// <param name="pin">Pin.</param>
 		public bool ClonePin (IPin pin)
 		{
 			Console.WriteLine ("Cloning: " + pin);
@@ -352,12 +404,20 @@ namespace PrototypeBackend
 			return true;
 		}
 
+		/// <summary>
+		/// Clones a measurement combination.
+		/// </summary>
+		/// <param name="meCom">Me COM.</param>
 		public void CloneMeasurementCombination (MeasurementCombination meCom)
 		{
 			MeasurementCombination copy = new MeasurementCombination (meCom);
 			AddMeasurementCombination (copy);
 		}
 
+		/// <summary>
+		/// Clones a sequence.
+		/// </summary>
+		/// <param name="seq">Seq.</param>
 		public void CloneSequence (Sequence seq)
 		{
 			Sequence copy = new Sequence (seq);
@@ -367,9 +427,14 @@ namespace PrototypeBackend
 
 		#endregion
 
-		#region Set
+		#region Edit
 
-		public void SetPin (int index, IPin ip)
+		/// <summary>
+		/// Edits a pin.
+		/// </summary>
+		/// <param name="index">Index.</param>
+		/// <param name="ip">Ip.</param>
+		public void EditPin (int index, IPin ip)
 		{
 			if (OnPinsUpdated != null)
 			{
@@ -378,7 +443,12 @@ namespace PrototypeBackend
 			Pins [index] = ip;
 		}
 
-		public void SetMeasurmentCombination (int index, MeasurementCombination s)
+		/// <summary>
+		/// Edits the measurment combination.
+		/// </summary>
+		/// <param name="index">Index.</param>
+		/// <param name="s">S.</param>
+		public void EditMeasurmentCombination (int index, MeasurementCombination s)
 		{
 			if (OnSignalsUpdated != null)
 			{
@@ -387,7 +457,12 @@ namespace PrototypeBackend
 			MeasurementCombinations [index] = s;
 		}
 
-		public void SetSequence (int index, Sequence seq)
+		/// <summary>
+		/// Edits the sequence.
+		/// </summary>
+		/// <param name="index">Index.</param>
+		/// <param name="seq">Seq.</param>
+		public void EditSequence (int index, Sequence seq)
 		{
 			if (OnSequencesUpdated != null)
 			{
@@ -400,6 +475,10 @@ namespace PrototypeBackend
 
 		#region Remove
 
+		/// <summary>
+		/// Removes the pin.
+		/// </summary>
+		/// <param name="name">Name.</param>
 		public void RemovePin (string name)
 		{
 			var result = Pins.Where (o => o.Name == name).ToList<IPin> ();
@@ -426,6 +505,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Removes the pin.
+		/// </summary>
+		/// <param name="index">Index.</param>
 		public void RemovePin (int index)
 		{
 			IPin pin = Pins [index];
@@ -447,6 +530,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Removes the measurement combination.
+		/// </summary>
+		/// <param name="index">Index.</param>
 		public void RemoveMeasurementCombination (int index)
 		{
 			var sig = new MeasurementCombination ();
@@ -459,6 +546,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Removes the measurement combination.
+		/// </summary>
+		/// <param name="index">Index.</param>
 		public void RemoveMeasurementCombination (string index)
 		{
 			if (index != null)
@@ -477,6 +568,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Removes the measurement combination.
+		/// </summary>
+		/// <param name="index">Index.</param>
 		public void RemoveMeasurementCombination (MeasurementCombination index)
 		{
 			if (index != null)
@@ -489,6 +584,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Removes the sequence.
+		/// </summary>
+		/// <param name="name">Name.</param>
 		public void RemoveSequence (string name)
 		{
 			if (name != null)
@@ -505,6 +604,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Removes the sequence.
+		/// </summary>
+		/// <param name="index">Index.</param>
 		public void RemoveSequence (int index)
 		{
 			if (index > -1)
@@ -519,6 +622,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Removes the sequence.
+		/// </summary>
+		/// <param name="index">Index.</param>
 		public void RemoveSequence (Sequence index)
 		{
 			if (index != null)
@@ -531,6 +638,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Removes the sequence group.
+		/// </summary>
+		/// <param name="groupname">Groupname.</param>
 		public void RemoveSequenceGroup (string groupname)
 		{
 			Sequences.RemoveAll (o => o.GroupName.Equals (groupname));
@@ -545,6 +656,10 @@ namespace PrototypeBackend
 
 		#region Clear
 
+		/// <summary>
+		/// Clears the pins.
+		/// </summary>
+		/// <param name="type">Type.</param>
 		public void ClearPins (PinType type)
 		{
 			Pins.RemoveAll (o => o.Type == type);
@@ -561,6 +676,9 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Clears the pins.
+		/// </summary>
 		public void ClearPins ()
 		{
 			Pins.Clear ();
@@ -572,6 +690,9 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Clears the measurement combinations.
+		/// </summary>
 		public void ClearMeasurementCombinations ()
 		{
 			MeasurementCombinations.Clear ();
@@ -582,6 +703,9 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Clears the sequences.
+		/// </summary>
 		public void ClearSequences ()
 		{
 			Sequences.Clear ();
@@ -593,6 +717,9 @@ namespace PrototypeBackend
 
 		#endregion
 
+		/// <summary>
+		/// Assignes specific hardware pin number to the pins.
+		/// </summary>
 		private void CheckPins ()
 		{
 			foreach (APin pin in AnalogPins)
@@ -608,6 +735,11 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Gets the name of the CSV log-file-name.
+		/// The consists of three parts perviousely set.
+		/// </summary>
+		/// <returns>The CSV log-file-name.</returns>
 		public string GetCSVLogName ()
 		{
 			string preview = string.Empty;
@@ -617,14 +749,13 @@ namespace PrototypeBackend
 				switch (option)
 				{
 				case "[LOCALTIME]":
-				case "[UTC TIME]":
 					preview += string.Format (FileNameTimeFormat, DateTime.Now);
 					preview += "-";
 					break;
-//				case "[UTC TIME]":
-//					preview += string.Format (FileNameTimeFormat, DateTime.UtcNow);
-//					preview += "-";
-//					break;
+				case "[UTC TIME]":
+					preview += string.Format (FileNameTimeFormat, DateTime.UtcNow);
+					preview += "-";
+					break;
 				case "[DATE]":
 					preview += string.Format (FileNameDateFormat, DateTime.Now);
 					preview += "-";
@@ -684,6 +815,11 @@ namespace PrototypeBackend
 
 		#region ISerializable implementation
 
+		/// <summary>
+		/// Gets the object data.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="context">Context.</param>
 		public void GetObjectData (SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue ("Board", board);
@@ -705,6 +841,11 @@ namespace PrototypeBackend
 			info.AddValue ("FileNameDateFormat", FileNameDateFormat);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.BoardConfiguration"/> class.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="context">Context.</param>
 		public BoardConfiguration (SerializationInfo info, StreamingContext context)
 		{
 			board = new Board ();

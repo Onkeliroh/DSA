@@ -114,7 +114,7 @@ namespace PrototypeBackend
 				PrototypeBackend.ArduinoController.SetPin (Number, Mode, State);
 				break;
 			case PrototypeBackend.PinMode.INPUT:
-				State = PrototypeBackend.ArduinoController.ReadPin (Number);
+				State = PrototypeBackend.ArduinoController.ReadDPinState (Number);
 				break;
 			}
 		}

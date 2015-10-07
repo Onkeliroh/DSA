@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
 using PrototypeBackend;
 using System.IO.Ports;
-using System.Linq;
 
 namespace PrototypeBackend
 {
 	#region ENUMS
+	/// <summary>
+	/// Arduin Controller Commands
+	/// </summary>
 	public enum Command
 	{
 		Acknowledge,
@@ -45,34 +46,55 @@ namespace PrototypeBackend
 		GetSDASCL,
 	};
 
+	/// <summary>
+	/// Pin modes.
+	/// </summary>
 	public enum PinMode
 	{
 		INPUT,
 		OUTPUT}
-
 	;
 
+	/// <summary>
+	/// DPin states.
+	/// </summary>
 	public enum DPinState
 	{
 		LOW,
 		HIGH}
-
 	;
 
+	/// <summary>
+	/// Pin types.
+	/// </summary>
 	public enum PinType
 	{
 		DIGITAL,
 		ANALOG}
-
 	;
+
 	#endregion
 
+	/// <summary>
+	/// Arduino controller class. Managing the communication.
+	/// </summary>
 	public static class ArduinoController
 	{
 		#region Events
 
+		/// <summary>
+		/// Occurs when on connection changed.
+		/// </summary>
 		public static event EventHandler<ConnectionChangedArgs> OnConnectionChanged;
+
+		/// <summary>
+		/// Occurs when on send message.
+		/// </summary>
 		public static event EventHandler<CommunicationArgs> OnSendMessage;
+
+		/// <summary>
+		/// Occurs when on receive message.
+		/// </summary>
 		public static event EventHandler<CommunicationArgs> OnReceiveMessage;
 
 		#endregion
@@ -80,10 +102,19 @@ namespace PrototypeBackend
 		#region Properies and Member
 
 		private static CmdMessenger _cmdMessenger;
+
 		private static Board _board = new Board ();
 
+		/// <summary>
+		/// Gets or sets the board.
+		/// </summary>
+		/// <value>The board.</value>
 		public static Board @Board { get { return _board; } set { _board = value; } }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="PrototypeBackend.ArduinoController"/> auto connect.
+		/// </summary>
+		/// <value><c>true</c> if auto connect; otherwise, <c>false</c>.</value>
 		public static bool AutoConnect {
 			get{ return _autoconnect; }
 			set {
@@ -105,52 +136,55 @@ namespace PrototypeBackend
 
 		private static System.Threading.Thread AutoConnectTimer = null;
 
+		/// <summary>
+		/// Gets a value indicating is connected.
+		/// </summary>
+		/// <value><c>true</c> if is connected; otherwise, <c>false</c>.</value>
 		public static bool IsConnected {
-			#if FAKESERIAL
 			get { return true; }
 			private set{ }
-			#else
-			get;
-			private set;
-			#endif
 		}
 
+		/// <summary>
+		/// Gets or sets the name of the serial port.
+		/// </summary>
+		/// <value>The name of the serial port.</value>
 		public static string SerialPortName {
 			get;
 			set;
 		}
 
+		/// <summary>
+		/// Gets the MCU name.
+		/// </summary>
+		/// <value>The MCU name.</value>
 		public static string MCU {
 			private set{ _board.MCU = value; }
 			get{ return _board.MCU; }
 		}
 
+		/// <summary>
+		/// Gets the number of digital pins available on the connected MCU.
+		/// </summary>
+		/// <value>The number of digital pins.</value>
 		public static uint NumberOfDigitalPins {
 			private set{ _board.NumberOfDigitalPins = value; }
 			get { return _board.NumberOfDigitalPins; }
 		}
 
+		/// <summary>
+		/// Gets the number of analog pins available on the connected MCU.
+		/// </summary>
+		/// <value>The number of analog pins.</value>
 		public static uint NumberOfAnalogPins {
 			private set { _board.NumberOfAnalogPins = value; }
 			get{ return _board.NumberOfAnalogPins; }
 		}
 
-
-		public static UInt32 DigitalBitMask {
-			private set;
-			get;
-		}
-
-		public static UInt32 PinOutputMask {
-			private set;
-			get;
-		}
-
-		public static UInt32 PinModeMask {
-			private set;
-			get;
-		}
-
+		/// <summary>
+		/// Gets the analog references.
+		/// </summary>
+		/// <value>The analog references.</value>
 		public static Dictionary<string,double> AnalogReferences {
 			private set{ _board.AnalogReferences = value; }
 			get { return _board.AnalogReferences; }
@@ -158,6 +192,11 @@ namespace PrototypeBackend
 
 		#endregion
 
+		/// <summary>
+		/// Init the arduinocontroller.
+		/// </summary>
+		/// <param name="apins">Number of analog pins</param>
+		/// <param name="dpins">Number of digital pins</param>
 		public static void Init (uint apins = 6, uint dpins = 20)
 		{
 			_board = new Board ();
@@ -211,6 +250,10 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Sets up a conntection to a specified serial port.
+		/// </summary>
+		/// <param name="Dtr">If <c>true</c> use dtr for transmition.</param>
 		public static void Setup (bool Dtr = false)
 		{
 			if (SerialPortName != null)
@@ -247,7 +290,9 @@ namespace PrototypeBackend
 			}
 		}
 
-		// Exit function
+		/// <summary>
+		/// Disconnects and disposes instance.
+		/// </summary>
 		public static void Exit ()
 		{
 			#if !FAKESERIAL
@@ -266,6 +311,9 @@ namespace PrototypeBackend
 			#endif
 		}
 
+		/// <summary>
+		/// Disconnect this instance.
+		/// </summary>
 		public static void Disconnect ()
 		{
 			if (IsConnected)
@@ -286,6 +334,10 @@ namespace PrototypeBackend
 
 		}
 
+		/// <summary>
+		/// Attemds to auto connect to a serial port.
+		/// </summary>
+		/// <returns><c>true</c>, if auto connect was successfull, <c>false</c> otherwise.</returns>
 		public static bool AttemdAutoConnect ()
 		{
 			foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
@@ -315,7 +367,9 @@ namespace PrototypeBackend
 			return false;
 		}
 
-		/// Attach command call backs. 
+		/// <summary>
+		/// Attachs the command call backs.
+		/// </summary>
 		private static void AttachCommandCallBacks ()
 		{
 			_cmdMessenger.Attach (OnUnknownCommand);
@@ -326,8 +380,10 @@ namespace PrototypeBackend
 
 		#region CALLBACKS
 
-		// Called when a received command has no attached function.
-		// In a WinForm application, console output gets routed to the output panel of your IDE
+		/// <summary>
+		/// Raised when unknown command is received
+		/// </summary>
+		/// <param name="arguments">Arguments.</param>
 		static void OnUnknownCommand (ReceivedCommand arguments)
 		{            
 			#if DEBUG
@@ -335,7 +391,10 @@ namespace PrototypeBackend
 			#endif
 		}
 
-		// Callback function that prints that the Arduino has acknowledged
+		/// <summary>
+		/// Raised when acknowledge was received.
+		/// </summary>
+		/// <param name="arguments">Arguments.</param>
 		static void OnAcknowledge (ReceivedCommand arguments)
 		{
 			#if DEBUG
@@ -348,7 +407,10 @@ namespace PrototypeBackend
 			}
 		}
 
-		// Callback function that prints that the Arduino has experienced an error
+		/// <summary>
+		/// Raised when error was received.
+		/// </summary>
+		/// <param name="arguments">Arguments.</param>
 		static void OnError (ReceivedCommand arguments)
 		{
 			#if DEBUG
@@ -356,7 +418,11 @@ namespace PrototypeBackend
 			#endif
 		}
 
-		// Log received line to console
+		/// <summary>
+		/// Raised when a new line was received.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		private static void NewLineReceived (object sender, CommandEventArgs e)
 		{
 			#if DEBUG
@@ -369,7 +435,11 @@ namespace PrototypeBackend
 			}
 		}
 
-		// Log sent line to console
+		/// <summary>
+		/// Raised when a new line was send.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		private static void NewLineSent (object sender, CommandEventArgs e)
 		{
 			#if DEBUG
@@ -385,6 +455,11 @@ namespace PrototypeBackend
 
 		#region SETTER
 
+		/// <summary>
+		/// Sets the pin modes.
+		/// </summary>
+		/// <param name="inputs">Inputs.</param>
+		/// <param name="outputs">Outputs.</param>
 		public static void SetPinModes (uint[] inputs, uint[]outputs)
 		{
 			for (int i = 0; i < inputs.Length; i++)
@@ -397,6 +472,11 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Sets the pin mode.
+		/// </summary>
+		/// <param name="nr">Nr.</param>
+		/// <param name="mode">Mode.</param>
 		public static void SetPinMode (uint nr, PinMode mode)
 		{
 			#if !FAKESERIAL
@@ -455,6 +535,11 @@ namespace PrototypeBackend
 			SetDigitalOutputPins (parts);
 		}
 
+		/// <summary>
+		/// Sets the state of the pin.
+		/// </summary>
+		/// <param name="nr">Nr.</param>
+		/// <param name="state">State.</param>
 		public static void SetPinState (uint nr, DPinState state)
 		{
 			var command = new SendCommand ((int)Command.SetPinState, (int)Command.SetPinState, 50);
@@ -467,6 +552,12 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Sets the pin.
+		/// </summary>
+		/// <param name="nr">Nr.</param>
+		/// <param name="mode">Mode.</param>
+		/// <param name="state">State.</param>
 		public static void SetPin (uint nr, PinMode mode, DPinState state)
 		{
 			#if !FAKESERIAL
@@ -485,6 +576,10 @@ namespace PrototypeBackend
 			#endif
 		}
 
+		/// <summary>
+		/// Sets the analog reference voltage.
+		/// </summary>
+		/// <param name="AnalogReference">Analog reference.</param>
 		public static void SetAnalogReference (int AnalogReference)
 		{
 			_board.AnalogReferenceVoltage = AnalogReference;
@@ -493,6 +588,11 @@ namespace PrototypeBackend
 			_cmdMessenger.SendCommand (command);
 		}
 
+		/// <summary>
+		/// Sets the analog pin.
+		/// </summary>
+		/// <param name="Pin">Pin.</param>
+		/// <param name="Val">Value.</param>
 		public static void SetAnalogPin (int Pin, int Val)
 		{
 			var command = new SendCommand ((int)Command.SetAnalogPin, Pin);
@@ -504,11 +604,21 @@ namespace PrototypeBackend
 
 		#region GETTER
 
+		/// <summary>
+		/// Reads analog pin.
+		/// </summary>
+		/// <returns>The analog pin.</returns>
+		/// <param name="nr">Nr.</param>
 		public static double ReadAnalogPin (uint nr)
 		{
 			return ReadAnalogPin (new uint[]{ nr }) [0];
 		}
 
+		/// <summary>
+		/// Reads analog pins.
+		/// </summary>
+		/// <returns>The analog pin.</returns>
+		/// <param name="nr">Nr.</param>
 		public static double[] ReadAnalogPin (uint[] nr)
 		{
 			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 100);
@@ -543,7 +653,12 @@ namespace PrototypeBackend
 			}
 		}
 
-		public static DPinState ReadPin (uint nr)
+		/// <summary>
+		/// Reads DPin state.
+		/// </summary>
+		/// <returns>The pin.</returns>
+		/// <param name="nr">Nr.</param>
+		public static DPinState ReadDPinState (uint nr)
 		{
 			var command = new SendCommand ((int)Command.ReadPin, (int)Command.ReadPin, 500);
 			command.AddArgument (nr);
@@ -555,6 +670,9 @@ namespace PrototypeBackend
 			return DPinState.LOW;
 		}
 
+		/// <summary>
+		/// Gets the analog reference options.
+		/// </summary>
 		public static void GetAnalogReference ()
 		{
 			var command = new SendCommand ((int)Command.GetAnalogReference, (int)Command.GetAnalogReference, 500);
@@ -569,18 +687,22 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Gets the MCU.
+		/// </summary>
 		public static void GetModel ()
 		{
 			var command = new SendCommand ((int)Command.GetModel, (int)Command.GetModel, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
 			if (returnVal.Ok)
 			{
-//				var tmp = returnVal.ReadStringArg ();
 				MCU = returnVal.ReadStringArg ().ToLower ();
-//				Console.WriteLine (MCU);
 			}
 		}
 
+		/// <summary>
+		/// Gets the number digital pins.
+		/// </summary>
 		public static void GetNumberDigitalPins ()
 		{
 			var command = new SendCommand ((int)Command.GetNumberDigitalPins, (int)Command.GetNumberDigitalPins, 1000);
@@ -595,6 +717,9 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Gets the number analog pins.
+		/// </summary>
 		public static void GetNumberAnalogPins ()
 		{
 			var command = new SendCommand ((int)Command.GetNumberAnalogPins, (int)Command.GetNumberAnalogPins, 1000);
@@ -608,6 +733,9 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Gets the hardware pin numbers of analog pins.
+		/// </summary>
 		public static void GetAnalogPinNumbers ()
 		{
 			var command = new SendCommand ((int)Command.GetAnalogPinNumbers, (int)Command.GetAnalogPinNumbers, 1000);
@@ -628,45 +756,9 @@ namespace PrototypeBackend
 			}
 		}
 
-		public static void GetDigitalBitMask ()
-		{
-			var command = new SendCommand ((int)Command.GetDigitalBitMask, (int)Command.GetDigitalBitMask, 1000);
-			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
-				DigitalBitMask = returnVal.ReadBinUInt32Arg ();
-			} else
-			{
-				DigitalBitMask = 0x0;
-			}
-		}
-
-		public static void GetPinOutputMask ()
-		{
-			var command = new SendCommand ((int)Command.GetPinOutputMask, (int)Command.GetPinOutputMask, 1000);
-			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
-				PinOutputMask = returnVal.ReadBinUInt32Arg ();
-			} else
-			{
-				PinOutputMask = 0x0;
-			}
-		}
-
-		public static void GetPinModeMask ()
-		{
-			var command = new SendCommand ((int)Command.GetPinModeMask, (int)Command.GetPinModeMask, 1000);
-			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok)
-			{
-				PinModeMask = returnVal.ReadBinUInt32Arg ();
-			} else
-			{
-				PinModeMask = 0x0;
-			}
-		}
-
+		/// <summary>
+		/// Gets the pin numbers of SDA abd SCL enabled pins.
+		/// </summary>
 		public static void GetSDASCL ()
 		{
 			var command = new SendCommand ((int)Command.GetSDASCL, (int)Command.GetSDASCL, 1000);
@@ -676,163 +768,6 @@ namespace PrototypeBackend
 				Board.SDA = new uint[]{ returnVal.ReadUInt32Arg () };
 				Board.SCL = new uint[]{ returnVal.ReadUInt32Arg () };
 			}
-		}
-
-		#endregion
-	}
-
-
-	[Serializable]
-	public class Board : ISerializable
-	{
-		public uint NumberOfAnalogPins = 0;
-		public uint NumberOfDigitalPins = 0;
-
-		public uint[] HardwareAnalogPins { get ; set; }
-
-		public uint[] SDA;
-		public uint[] SCL;
-		public uint[] RX;
-		public uint[] TX;
-
-		public Dictionary<string,double> AnalogReferences = new Dictionary<string, double> ();
-
-		public double AnalogReferenceVoltage = 5;
-		public string AnalogReferenceVoltageType = "DEFAULT";
-
-
-		public string Version = "";
-		public string MCU = "";
-		public string Name = "";
-		public string ImageFilePath = "";
-		public Dictionary<string,List<int>> PinLayout = new Dictionary<string, List<int>> ();
-		public Dictionary<int,Point> PinLocation = new Dictionary<int,Point> ();
-
-		//default with Arduino UNO
-		public bool UseDTR = false;
-
-		public Board ()
-		{
-			AnalogReferences = new Dictionary<string,double> ();
-			AnalogReferenceVoltage = 5;
-			NumberOfAnalogPins = 6;
-			NumberOfDigitalPins = 20;
-			HardwareAnalogPins = new uint[]{ 14, 15, 16, 17, 18, 19 };
-			SDA = new uint[]{ 18 };
-			SCL = new uint[]{ 19 };
-			RX = new uint[]{ 0 };
-			TX = new uint[]{ 1 };
-		}
-
-		public Board (uint numberOfAnalogPins, uint numberOfDigitalPins, uint[] hardwareAnalogPins = null, Dictionary<string,double> analogReferences = null, string name = "", string version = "", string model = "", bool dtr = false)
-		{
-			this.NumberOfAnalogPins = numberOfAnalogPins;
-			this.NumberOfDigitalPins = numberOfDigitalPins;
-			if (analogReferences != null)
-				this.AnalogReferences = analogReferences;
-
-			if (hardwareAnalogPins != null)
-			{
-				if (hardwareAnalogPins.Length == numberOfAnalogPins)
-				{
-					HardwareAnalogPins = hardwareAnalogPins;
-				}
-			}
-
-			this.Version = version;
-			this.MCU = model;
-			this.Name = name;
-			this.UseDTR = dtr;
-		}
-
-		public double RAWToVolt (object rawVal)
-		{
-			return (Convert.ToDouble (rawVal) / 1023.0) * AnalogReferenceVoltage;
-		}
-
-		public override string ToString ()
-		{
-			return String.Format (
-				"Name: {0}\n" +
-				"Model: {1}\n" +
-				"Number of analog Pins: {2}\n" +
-				"Number of digital Pins: {3}\n" +
-				"Analog reference voltage: {4}\n" +
-				"Analog pin hardware numbers: {5}\n" +
-				"SDA: {6}\n" +
-				"SDC: {7}",
-				Name, 
-				MCU, 
-				NumberOfAnalogPins, 
-				NumberOfDigitalPins, 
-				AnalogReferenceVoltage,
-				NumberOfAnalogPins,
-				SDA,
-				SCL
-			);
-		}
-
-		#region ISerializable implementation
-
-		public void GetObjectData (SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue ("NumberOfAnalogPins", NumberOfAnalogPins);
-			info.AddValue ("NumberOfDigitalPins", NumberOfDigitalPins);
-			info.AddValue ("HardwareAnalogPins", HardwareAnalogPins.ToList ());
-			info.AddValue ("SDA", SDA.ToList ());
-			info.AddValue ("SCL", SCL.ToList ());
-			info.AddValue ("RX", RX.ToList ());
-			info.AddValue ("TX", TX.ToList ());
-			info.AddValue ("AnalogReferences", AnalogReferences);
-			info.AddValue ("AnalogReferenceVoltage", AnalogReferenceVoltage);
-			info.AddValue ("AnalogReferenceVoltageType", AnalogReferenceVoltageType);
-			info.AddValue ("MCU", MCU);
-			if (PinLayout.ContainsKey ("LEFT"))
-			{
-				info.AddValue ("PinLayoutLeft", PinLayout ["LEFT"]);
-			} else
-			{
-				info.AddValue ("PinLayoutLeft", new List<int> ());
-			}
-			if (PinLayout.ContainsKey ("RIGHT"))
-			{
-				info.AddValue ("PinLayoutRight", PinLayout ["RIGHT"]);
-			} else
-			{
-				info.AddValue ("PinLayoutRight", new List<int> ());
-			}
-			if (PinLayout.ContainsKey ("BOTTOM"))
-			{
-				info.AddValue ("PinLayoutBottom", PinLayout ["BOTTOM"]);
-			} else
-			{
-				info.AddValue ("PinLayoutBottom", new List<int> ());
-			}
-			info.AddValue ("PinLocation", PinLocation);
-			info.AddValue ("ImageFilePath", ImageFilePath);
-		}
-
-		public Board (SerializationInfo info, StreamingContext context)
-		{
-			NumberOfAnalogPins = info.GetUInt32 ("NumberOfAnalogPins");
-			NumberOfDigitalPins = info.GetUInt32 ("NumberOfDigitalPins");
-			HardwareAnalogPins = ((List<uint>)info.GetValue ("HardwareAnalogPins", new List<uint> ().GetType ())).ToArray ();
-			SDA = ((List<uint>)info.GetValue ("SDA", new List<uint> ().GetType ())).ToArray ();
-			SCL = ((List<uint>)info.GetValue ("SCL", new List<uint> ().GetType ())).ToArray ();
-			RX = ((List<uint>)info.GetValue ("RX", new List<uint> ().GetType ())).ToArray ();
-			TX = ((List<uint>)info.GetValue ("TX", new List<uint> ().GetType ())).ToArray ();
-			AnalogReferences = (Dictionary<string,double>)info.GetValue ("AnalogReferences", AnalogReferences.GetType ());
-			AnalogReferenceVoltage = info.GetDouble ("AnalogReferenceVoltage");
-			this.AnalogReferenceVoltageType = "";
-			this.AnalogReferenceVoltageType = info.GetString ("AnalogReferenceVoltageType");
-			MCU = info.GetString ("MCU");
-			PinLayout = new Dictionary<string, List<int>> ();
-			PinLayout.Add ("LEFT", ((List<int>)info.GetValue ("PinLayoutLeft", new List<int> ().GetType ())));
-			PinLayout.Add ("RIGHT", ((List<int>)info.GetValue ("PinLayoutRight", new List<int> ().GetType ())));
-			PinLayout.Add ("BOTTOM", ((List<int>)info.GetValue ("PinLayoutBottom", new List<int> ().GetType ())));
-			PinLocation = (Dictionary<int,Point>)info.GetValue ("PinLocation", PinLocation.GetType ());
-
-			ImageFilePath = info.GetString ("ImageFilePath");
 		}
 
 		#endregion
