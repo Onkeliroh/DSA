@@ -6,11 +6,11 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../../DigitalPinConfigurationDialog/bin/Debug/DigitalPinConfigurationDialog.dll" />
-    <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
-    <widget-library name="../../SequenceConfigurationsDialog/bin/Debug/SequenceConfigurationsDialog.dll" />
-    <widget-library name="../../SignalConfigurationDialog/bin/Debug/SignalConfigurationDialog.dll" />
-    <widget-library name="../../AnalogPinConfigurationDialog/bin/Debug/AnalogPinConfigurationDialog.dll" />
+    <widget-library name="../../DigitalPinConfigurationDialog/bin/Release/DigitalPinConfigurationDialog.dll" />
+    <widget-library name="../../GUIHelper/bin/Release/GUIHelper.dll" />
+    <widget-library name="../../SequenceConfigurationsDialog/bin/Release/SequenceConfigurationsDialog.dll" />
+    <widget-library name="../../SignalConfigurationDialog/bin/Release/SignalConfigurationDialog.dll" />
+    <widget-library name="../../AnalogPinConfigurationDialog/bin/Release/AnalogPinConfigurationDialog.dll" />
     <widget-library name="../../../Tools/Frontend/PrototypeDebugWindow.dll" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Frontend.MainWindow" design-size="1207 600">

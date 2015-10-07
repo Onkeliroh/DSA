@@ -20,6 +20,9 @@ namespace Frontend
 
 		#region Member
 
+		/// <summary>
+		/// The <see cref="Controller"/> instance.
+		/// </summary>
 		Controller con;
 
 		private Gtk.NodeStore NodeStoreDigitalPins = new NodeStore (typeof(DPinTreeNode));
@@ -36,10 +39,17 @@ namespace Frontend
 		private LinearAxis RealTimeXAxis;
 		private Dictionary<string,Collection<DateTimeValue>> RealTimeDictionary;
 
+		/// <summary>
+		/// A timer for keeping track of time after the measurement beginns.
+		/// </summary>
 		private System.Timers.Timer TimeKeeperPresenter;
 
 		public int LastActiveBoard = -1;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Frontend.MainWindow"/> class.
+		/// </summary>
+		/// <param name="controller">Controller.</param>
 		public MainWindow (Controller controller = null) :
 			base (Gtk.WindowType.Toplevel)
 		{
@@ -75,6 +85,9 @@ namespace Frontend
 
 		#endregion
 
+		/// <summary>
+		/// Inits the components.
+		/// </summary>
 		private void InitComponents ()
 		{
 			ArduinoController.OnConnectionChanged += OnConnection;
@@ -86,34 +99,6 @@ namespace Frontend
 			BuildRealTimePlot ();
 			BuildMCUDisplay ();
 			BuildConfigSettings ();
-
-			#if DEBUG
-//			con.ConLogger.NewMessage +=
-//				(sender, e) =>
-//			{
-//				try
-//				{
-//					if (tvLog.Buffer != null)
-//					{
-//						tvLog.Buffer.Text +=
-//					String.Format ("{0} | {1} | {2}\n", e.Time.ToString ("T"), e.Level, e.Message);
-//					}
-//				} catch (Exception)
-//				{
-//				}
-//			};
-			#endif
-			#if RELEASE
-			con.ConLogger.NewMessage +=
-			(sender, e) =>
-			{
-				if (e.Level == LogLevel.INFO)
-				{
-					tvLog.Buffer.Text += String.Format ("{0} | {1}| {2}\n", e.Time.ToString ("T"), e.Level, e.Message);
-				}
-			};
-			#endif
-
 			BindControllerEvents ();
 //			BindWidgetEvents ();
 
@@ -150,6 +135,11 @@ namespace Frontend
 
 		#region NodeViewMouseActions
 
+		/// <summary>
+		/// Creates popupmenu. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnAnalogPinNodePressed (object sender, ButtonPressEventArgs e)
 		{
@@ -218,6 +208,11 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Creates popupmenu. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnDigitalPinNodePressed (object sender, ButtonPressEventArgs e)
 		{
@@ -290,6 +285,11 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Creates popupmenu. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnMeasurementCombinationNodePressed (object sender, ButtonPressEventArgs e)
 		{
@@ -334,6 +334,11 @@ namespace Frontend
 			}	
 		}
 
+		/// <summary>
+		/// Creates popupmenu. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSequeneceNodePressed (object sender, ButtonPressEventArgs e)
 		{
@@ -433,6 +438,9 @@ namespace Frontend
 
 		#region FillNodes
 
+		/// <summary>
+		///	Updates all nodeviews. 
+		/// </summary>
 		private void UpdateAllNodes ()
 		{
 			FillDigitalPinNodes ();
@@ -442,6 +450,9 @@ namespace Frontend
 			FillMeasurementCombinationNodes ();
 		}
 
+		/// <summary>
+		/// Updates the DPin nodeview.
+		/// </summary>
 		private void FillDigitalPinNodes ()
 		{
 			NodeStoreDigitalPins.Clear ();
@@ -457,6 +468,9 @@ namespace Frontend
 			nvDigitalPins.QueueDraw ();
 		}
 
+		/// <summary>
+		/// Updates the APin nodeview.
+		/// </summary>
 		private void FillAnalogPinNodes ()
 		{
 			NodeStoreAnalogPins.Clear ();
@@ -472,6 +486,9 @@ namespace Frontend
 			nvAnalogPins.QueueDraw ();
 		}
 
+		/// <summary>
+		/// Updates the sequence nodeview.
+		/// </summary>
 		private void FillSequenceNodes ()
 		{
 			FillDigitalPinNodes ();
@@ -483,6 +500,9 @@ namespace Frontend
 			nvSequences.QueueDraw ();
 		}
 
+		/// <summary>
+		/// Updates the measurementcombination nodeview.
+		/// </summary>
 		private void FillMeasurementCombinationNodes ()
 		{
 			FillAnalogPinNodes ();
@@ -494,6 +514,9 @@ namespace Frontend
 			nvMeasurementCombinations.QueueDraw ();
 		}
 
+		/// <summary>
+		/// Updates the sequence preview plot. 
+		/// </summary>
 		private void FillSequencePreviewPlot ()
 		{
 			SequencePreviewPlotModel.Axes.Clear ();
@@ -602,6 +625,9 @@ namespace Frontend
 			SequencePreviewPlotView.ShowAll ();
 		}
 
+		/// <summary>
+		/// Updates the realtime plot.
+		/// </summary>
 		private void UpdateRealTimePlot ()
 		{
 			try
@@ -646,6 +672,9 @@ namespace Frontend
 
 		#region BuildElements
 
+		/// <summary>
+		/// Sets every widget concerning the settings.
+		/// </summary>
 		private void BuildConfigSettings ()
 		{
 			object[] cbeOptions = new object[]{ "[LOCALTIME]", "[UTC TIME]", "[DATE]", "[EMPTY]" };
@@ -700,6 +729,9 @@ namespace Frontend
 			cbeCSVSeparator.Active = 0;
 		}
 
+		/// <summary>
+		/// Fills the combobox haboring every known board. 
+		/// </summary>
 		private void BuildMCUDisplay ()
 		{
 			//Update BoardList
@@ -712,6 +744,9 @@ namespace Frontend
 			cbBoardType.Show ();
 		}
 
+		/// <summary>
+		/// Binds <see cref="Controller"/> events.
+		/// </summary>
 		private void BindControllerEvents ()
 		{
 			con.Configuration.OnPinsUpdated += (o, a) =>
@@ -787,6 +822,9 @@ namespace Frontend
 			cbCSVUTC.Toggled += OnCbCSVUTCToggled;
 		}
 
+		/// <summary>
+		/// Builds the nodeviews.
+		/// </summary>
 		private void BuildNodeViews ()
 		{
 			#region Digital
@@ -1177,6 +1215,9 @@ namespace Frontend
 			#endregion
 		}
 
+		/// <summary>
+		/// Builds the toolbar.
+		/// </summary>
 		private void BuildToolBar ()
 		{
 			Toolbar tbar = (this.UIManager.GetWidget ("/toolbarMain") as Toolbar);
@@ -1190,6 +1231,9 @@ namespace Frontend
 			tbar.Add (connectionItem);
 		}
 
+		/// <summary>
+		/// Builds the menu.
+		/// </summary>
 		private void BuildMenu ()
 		{
 			MenuBar mbar = (this.UIManager.GetWidget ("/menubarMain") as MenuBar);
@@ -1311,6 +1355,9 @@ namespace Frontend
 
 		}
 
+		/// <summary>
+		/// Builds the sequence preview plot.
+		/// </summary>
 		private void BuildSequencePreviewPlot ()
 		{
 			XAxis = new LinearAxis {
@@ -1363,6 +1410,9 @@ namespace Frontend
 			SequencePreviewPlotView.ShowAll ();
 		}
 
+		/// <summary>
+		/// Builds the realtime plot.
+		/// </summary>
 		private void BuildRealTimePlot ()
 		{
 			RealTimeXAxis = new LinearAxis {
@@ -1422,6 +1472,11 @@ namespace Frontend
 
 		#region Events
 
+		/// <summary>
+		/// Refreshs the MCU infos.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		private void RefreshMCUInfos (object sender, EventArgs e)
 		{
 			cbBoardType.Active = con.BoardConfigs.ToList ()
@@ -1430,6 +1485,11 @@ namespace Frontend
 			);
 		}
 
+		/// <summary>
+		/// Updates the settings.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		private void UpdateSettings (object sender = null, EventArgs e = null)
 		{
 			eCSVFilePath.Text = con.Configuration.CSVSaveFolderPath;
@@ -1532,6 +1592,11 @@ namespace Frontend
 			//TODO plot settings
 		}
 
+		/// <summary>
+		/// Raises the cb board type changed event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbBoardTypeChanged (object sender, EventArgs e)
 		{
 			if (LastActiveBoard != cbBoardType.Active && LastActiveBoard != -1)
@@ -1563,6 +1628,9 @@ namespace Frontend
 			drawingareaMCU.QueueDraw ();
 		}
 
+		/// <summary>
+		/// Updates the AREF list.
+		/// </summary>
 		private void UpdateAREFList ()
 		{
 			if (con.Configuration.Board != null)
@@ -1589,6 +1657,11 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Raises the cb AREF changed event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbAREFChanged (object sender, EventArgs e)
 		{
 			if (cbAREF.ActiveText == "EXTERNAL")
@@ -1611,6 +1684,11 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Raised if connection was esablished or lost.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnConnection (object sender, ConnectionChangedArgs e)
 		{
 			if (e.Connected)
@@ -1650,6 +1728,11 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Raised if window is closing. 
+		/// </summary>
+		/// <param name="obj">Object.</param>
+		/// <param name="a">The alpha component.</param>
 		protected void OnDeleteEvent (object obj, DeleteEventArgs a)
 		{
 			RunQuitSaveDialog ();
@@ -1658,6 +1741,12 @@ namespace Frontend
 			Application.Quit ();
 		}
 
+		/// <summary>
+		///	Raised when quit key combination was pressed.
+		/// Closes program. 
+		/// </summary>
+		/// <param name="obj">Object.</param>
+		/// <param name="a">The alpha component.</param>
 		protected void OnKeyPressEvent (object obj, KeyPressEventArgs a)
 		{
 			//TODO Speichern und so einbauen
@@ -1683,38 +1772,6 @@ namespace Frontend
 					await Task.Delay (500);
 				}
 			}
-		}
-
-		protected void OnBtnBlinkSequenceTestClicked (object sender, EventArgs e)
-		{
-//			if (ArduinoController.IsConnected)
-//			{
-//				con.ControlSequences.Clear ();
-//				var scheduler = new Scheduler ();
-//				con.AddScheduler (scheduler);
-//
-//				var dpin = new DPin ("D13", 13);
-//				var sequence = new Sequence () {
-//					Pin = dpin,
-//					Repetitions = 10
-//				};
-//				sequence.AddSequenceOperation (new SequenceOperation () {
-//					Duration = TimeSpan.FromSeconds (1),
-//					State = DPinState.HIGH,
-//				});
-//				sequence.AddSequenceOperation (new SequenceOperation {
-//					Duration = TimeSpan.FromSeconds (1),
-//					State = DPinState.LOW,
-//				});
-//				con.ControlSequences.Add (sequence);
-//
-//				con.Start ();
-//			} else
-//			{
-//				MessageDialog dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Please connect first to a Arduino.");
-//				dialog.Close += (senderer, ee) => dialog.Dispose ();
-//				dialog.ShowNow ();
-//			}
 		}
 
 		protected void OnBtnDoubleBlinkClicked (object sender, EventArgs e)
@@ -2056,8 +2113,8 @@ namespace Frontend
 			context.Rectangle (0, 0, this.drawingareaMCU.Allocation.Width, this.drawingareaMCU.Allocation.Height);
 			context.Fill ();
 
-			MCUDisplayHelper.shiftX = this.drawingareaMCU.Allocation.Width / 2;
-			MCUDisplayHelper.shiftY = this.drawingareaMCU.Allocation.Height / 2;
+			MCUDisplayHelper.ShiftX = this.drawingareaMCU.Allocation.Width / 2;
+			MCUDisplayHelper.ShiftY = this.drawingareaMCU.Allocation.Height / 2;
 			MCUDisplayHelper.PinLocations = con.Configuration.Board.PinLocation;
 
 			MCUDisplayHelper.SetMCUSurface (context, con.Configuration.Board.ImageFilePath);

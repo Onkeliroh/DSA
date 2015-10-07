@@ -8,18 +8,37 @@ using Frontend;
 
 namespace Starter
 {
+	/// <summary>
+	/// Main class.
+	/// </summary>
 	class MainClass
 	{
+		/// <summary>
+		/// The help argument short version.
+		/// </summary>
 		public static readonly IArgument HelpShort = new ArgumentParser.Arguments.POSIX.POSIXShortFlag ('h', "print help", 0, 0, null, 0);
+		/// <summary>
+		/// The help argument long version.
+		/// </summary>
 		public static readonly IArgument HelpLong = new ArgumentParser.Arguments.POSIX.POSIXLongFlag ("help", "print help");
+		/// <summary>
+		/// The configuration file argument short version.
+		/// </summary>
 		public static readonly IArgument ConfigFileShort = new ArgumentParser.Arguments.POSIX.POSIXShortArgument ('c', "configuration file path", defaultValue: "/home/onkeliroh/Bachelorarbeit/Resources/Config.ini");
 
+		/// <summary>
+		/// Array of all arguments
+		/// </summary>
 		private static readonly IArgument[] arguments = {
 			HelpShort,
 			HelpLong,
 			ConfigFileShort,
 		};
 
+		/// <summary>
+		/// The entry point of the program, where the program control starts and ends.
+		/// </summary>
+		/// <param name="args">The command-line arguments.</param>
 		public static void Main (string[] args)
 		{
 			var ret = Parser.GetParameters (args, new ParserOptions (ParameterTokenStyle.POSIX), arguments);
@@ -47,6 +66,10 @@ namespace Starter
 			}
 		}
 
+		/// <summary>
+		/// Starts the interface and controller.
+		/// </summary>
+		/// <param name="ConfigPath">Config path.</param>
 		private static void RunWindow (string ConfigPath)
 		{
 			try
@@ -62,6 +85,9 @@ namespace Starter
 			}
 		}
 
+		/// <summary>
+		/// Prints the help.
+		/// </summary>
 		private static void PrintHelp ()
 		{
 			Console.WriteLine ("Key | Description | Default Value");
