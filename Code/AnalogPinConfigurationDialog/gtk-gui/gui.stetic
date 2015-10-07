@@ -6,8 +6,8 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
-    <widget-library name="../bin/Debug/AnalogPinConfigurationDialog.dll" internal="true" />
+    <widget-library name="../../GUIHelper/bin/Release/GUIHelper.dll" />
+    <widget-library name="../bin/Release/AnalogPinConfigurationDialog.dll" internal="true" />
   </import>
   <widget class="Gtk.Dialog" id="AnalogPinConfigurationDialog.AnalogPinConfiguration" design-size="648 308">
     <property name="MemberName" />

@@ -7,10 +7,17 @@ using System.Text.RegularExpressions;
 
 namespace MeasurementCombinationDialog
 {
+	/// <summary>
+	/// Measurement combination dialog.
+	/// </summary>
 	public partial class MeasurementCombinationDialog : Gtk.Dialog
 	{
 		#region Memeber
 
+		/// <summary>
+		/// Gets or sets the combination.
+		/// </summary>
+		/// <value>The combination.</value>
 		public MeasurementCombination Combination {
 			get{ return Combination_; }
 			set {
@@ -29,20 +36,41 @@ namespace MeasurementCombinationDialog
 			}
 		}
 
+		/// <summary>
+		/// The combination.
+		/// </summary>
 		private MeasurementCombination Combination_;
 
+		/// <summary>
+		/// The active node.
+		/// </summary>
 		private APin ActiveNode = null;
 
+		/// <summary>
+		/// The available APins
+		/// </summary>
 		private APin[] APins;
 
+		/// <summary>
+		/// The signal store.
+		/// </summary>
 		private Gtk.NodeStore SignalStore = new NodeStore (typeof(APinSignalDialogTreeNode));
 
-		private string HintList = "";
-
-		private System.Timers.Timer CompileTimer = new System.Timers.Timer (5000);
+		/// <summary>
+		/// The compile timer.
+		/// </summary>
+		private System.Timers.Timer CompileTimer = new System.Timers.Timer (1000);
 
 		#endregion
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MeasurementCombinationDialog.MeasurementCombinationDialog"/> class.
+		/// </summary>
+		/// <param name="pins">Pins.</param>
+		/// <param name="signal">Signal.</param>
+		/// <param name="pin">Pin.</param>
+		/// <param name="parent">Parent.</param>
+		/// <param name="units">Units.</param>
 		public MeasurementCombinationDialog (APin[] pins, MeasurementCombination signal = null, APin pin = null, Gtk.Window parent = null, string[] units = null)
 			: base ("Signal Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
@@ -102,11 +130,19 @@ namespace MeasurementCombinationDialog
 			CompileTimer.Elapsed += CompileTimerElapsed;
 		}
 
+		/// <summary>
+		/// Raised by the <see cref="CompileTimer"/>
+		/// </summary>
+		/// <param name="obj">Object.</param>
+		/// <param name="args">Arguments.</param>
 		private void CompileTimerElapsed (object obj, System.Timers.ElapsedEventArgs args)
 		{
 			CompileOperation ();
 		}
 
+		/// <summary>
+		/// Setups the nodeview.
+		/// </summary>
 		private void SetupNodeView ()
 		{
 			nvSignal.NodeStore = SignalStore;
@@ -125,6 +161,9 @@ namespace MeasurementCombinationDialog
 			};
 		}
 
+		/// <summary>
+		/// Draws the nodeview.
+		/// </summary>
 		private void DrawNodeView ()
 		{
 			nvSignal.NodeStore.Clear ();
@@ -136,6 +175,9 @@ namespace MeasurementCombinationDialog
 			nvSignal.QueueDraw ();
 		}
 
+		/// <summary>
+		/// Updates the pins combobox.
+		/// </summary>
 		private void UpdateCBPins ()
 		{
 			var store = new Gtk.ListStore (typeof(string), typeof(double));
@@ -154,7 +196,7 @@ namespace MeasurementCombinationDialog
 				cbPins.Active = 0;
 			}
 
-			if (!CheckMeasurementsOnFrequency ())
+			if (!CheckMeasurementsOnInterval ())
 			{
 				lblWarning.Visible = true;
 			} else
@@ -165,6 +207,10 @@ namespace MeasurementCombinationDialog
 			cbPins.ShowAll ();
 		}
 
+		/// <summary>
+		/// Fills the unit combobox with options.
+		/// </summary>
+		/// <param name="units">Units.</param>
 		private void BuildUnits (string[] units)
 		{
 			if (units != null)
@@ -179,6 +225,9 @@ namespace MeasurementCombinationDialog
 			}
 		}
 
+		/// <summary>
+		/// Adds the pin to the combination and updates the nessesary widgets.
+		/// </summary>
 		private void AddPin ()
 		{
 			//if one item is selected
@@ -199,7 +248,11 @@ namespace MeasurementCombinationDialog
 			SetApplyButton ();
 		}
 
-		private bool CheckMeasurementsOnFrequency ()
+		/// <summary>
+		/// Checks the interval of the selected pins on whether their interval ist equal or different.
+		/// </summary>
+		/// <returns><c>true</c>, if intervals are equal, <c>false</c> otherwise.</returns>
+		private bool CheckMeasurementsOnInterval ()
 		{
 			foreach (APin i in Combination_.Pins)
 			{
@@ -214,6 +267,11 @@ namespace MeasurementCombinationDialog
 			return true;
 		}
 
+		/// <summary>
+		/// Gets the pins.
+		/// </summary>
+		/// <returns>The pins.</returns>
+		/// <param name="index">Index.</param>
 		private APin GetPins (int index)
 		{
 			foreach (APin pin in APins)
@@ -224,6 +282,9 @@ namespace MeasurementCombinationDialog
 			return null;
 		}
 
+		/// <summary>
+		/// Compiles the operation.
+		/// </summary>
 		private void CompileOperation ()
 		{
 			try
@@ -249,6 +310,9 @@ namespace MeasurementCombinationDialog
 			SetWarning ();
 		}
 
+		/// <summary>
+		/// Sets the warning label.
+		/// </summary>
 		private void SetWarning ()
 		{
 			if (Combination_.Operation == null)
@@ -263,6 +327,9 @@ namespace MeasurementCombinationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets the apply button on whether it is sensitive or not and if not adds a tooltip containing why not.
+		/// </summary>
 		private void SetApplyButton ()
 		{
 			bool sensitive = false;
@@ -291,6 +358,11 @@ namespace MeasurementCombinationDialog
 
 		#region On...Stuff
 
+		/// <summary>
+		/// Creates a popup menu
+		/// </summary>
+		/// <param name="o">O.</param>
+		/// <param name="args">Arguments.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalButtonPress (object o, ButtonPressEventArgs args)
 		{
@@ -313,6 +385,11 @@ namespace MeasurementCombinationDialog
 			}
 		}
 
+		/// <summary>
+		/// Removes a selected pin from the combination.
+		/// </summary>
+		/// <param name="o">O.</param>
+		/// <param name="args">Arguments.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalKeyPress (object o, KeyPressEventArgs args)
 		{
@@ -323,6 +400,11 @@ namespace MeasurementCombinationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets every combination member.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
@@ -332,16 +414,31 @@ namespace MeasurementCombinationDialog
 			Combination.OperationString = entryOperation.Text;
 		}
 
+		/// <summary>
+		/// Raises the button cancel clicked event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnButtonCancelClicked (object sender, EventArgs e)
 		{
 			Respond (ResponseType.Cancel);
 		}
 
+		/// <summary>
+		/// Adds a selected pin to the combination.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnBtnAddClicked (object sender, EventArgs e)
 		{
 			AddPin ();
 		}
 
+		/// <summary>
+		/// Removes a selected pin from the combination.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnBtnRemoveClicked (object sender, EventArgs e)
 		{
 			if (ActiveNode != null)
@@ -354,6 +451,11 @@ namespace MeasurementCombinationDialog
 			SetApplyButton ();
 		}
 
+		/// <summary>
+		///	Sets the combinations name.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
 			if (Combination_ != null)
@@ -362,6 +464,11 @@ namespace MeasurementCombinationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets the combinations unit. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbeUnitChanged (object sender, EventArgs e)
 		{
 			if (Combination_ != null)
@@ -370,6 +477,11 @@ namespace MeasurementCombinationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets the combinations color. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbColorColorSet (object sender, EventArgs e)
 		{
 			if (Combination_ != null)
@@ -378,11 +490,21 @@ namespace MeasurementCombinationDialog
 			}
 		}
 
+		/// <summary>
+		/// Compiles the operation. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnEntryOperationChanged (object sender, EventArgs e)
 		{
 			CompileOperation ();
 		}
 
+		/// <summary>
+		/// Sets the number of mean values needed. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnSbMeanValuesCountChanged (object sender, EventArgs e)
 		{
 			if (Combination_ != null)

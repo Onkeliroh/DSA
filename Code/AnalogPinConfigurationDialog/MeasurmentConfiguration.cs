@@ -6,8 +6,15 @@ using Gtk;
 
 namespace AnalogPinConfigurationDialog
 {
+	/// <summary>
+	/// Analog pin configuration.
+	/// </summary>
 	public partial class AnalogPinConfiguration : Gtk.Dialog
 	{
+		/// <summary>
+		/// Gets or sets the pin and every nessesary widgets state.
+		/// </summary>
+		/// <value>The pin.</value>
 		public APin Pin {
 			get{ return pin; }
 			set {
@@ -41,10 +48,22 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
+		/// <summary>
+		/// The pin.
+		/// </summary>
 		private APin pin;
 
+		/// <summary>
+		/// The available pins.
+		/// </summary>
 		private APin[] AvailablePins;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AnalogPinConfigurationDialog.AnalogPinConfiguration"/> class.
+		/// </summary>
+		/// <param name="availablePins">Available pins.</param>
+		/// <param name="apin">Apin.</param>
+		/// <param name="parent">Parent.</param>
 		public AnalogPinConfiguration (APin[] availablePins, APin apin = null, Gtk.Window parent = null)
 			: base ("Analog Pin Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
@@ -94,6 +113,11 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets every pin property by the information entered by the user.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
@@ -107,6 +131,11 @@ namespace AnalogPinConfigurationDialog
 			pin.MeanValuesCount = Convert.ToUInt64 (sbMeanValuesCount.ValueAsInt);
 		}
 
+		/// <summary>
+		/// Sets the pins name. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
 			if (pin != null)
@@ -115,6 +144,11 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
+		/// <summary>
+		/// Changes the pin. 
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
 			if (pin != null)
@@ -125,6 +159,11 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets the color.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbColorClicked (object sender, EventArgs e)
 		{
 			if (pin != null)
@@ -133,6 +172,11 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets the color.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbUnitChanged (object sender, EventArgs e)
 		{
 			if (pin != null)
@@ -141,6 +185,11 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets the slope.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnSbSlopeChanged (object sender, EventArgs e)
 		{
 			if (pin != null)
@@ -149,6 +198,11 @@ namespace AnalogPinConfigurationDialog
 			}	
 		}
 
+		/// <summary>
+		/// Sets the offset.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnSbOffsetChanged (object sender, EventArgs e)
 		{
 			if (pin != null)
@@ -157,6 +211,11 @@ namespace AnalogPinConfigurationDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets the interval.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnSbIntervalChanged (object sender, EventArgs e)
 		{
 			if (pin != null)

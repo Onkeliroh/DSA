@@ -13,11 +13,18 @@ using System.Collections.Generic;
 
 namespace SequenceConfigurationsDialog
 {
+	/// <summary>
+	/// Sequence configuration.
+	/// </summary>
 	public partial class SequenceConfiguration : Gtk.Dialog
 	{
 
 		#region Member
 
+		/// <summary>
+		/// Gets or sets the pin sequence and every nessesary widgets state.
+		/// </summary>
+		/// <value>The pin sequence.</value>
 		public Sequence PinSequence {
 			get { return pinSequence; }
 			set {
@@ -33,17 +40,29 @@ namespace SequenceConfigurationsDialog
 				}
 
 				pinSequence = value;
-
-//				DisplaySequenceInfos ();
 			}
 		}
 
+		/// <summary>
+		/// The pin sequence.
+		/// </summary>
 		private Sequence pinSequence;
 
+		/// <summary>
+		/// The available DPins.
+		/// </summary>
 		private DPin[] DPins;
 
+		/// <summary>
+		/// Gets or sets the selected pin.
+		/// </summary>
+		/// <value>The selected pin.</value>
 		private DPin selectedPin{ get { return pinSequence.Pin; } set { pinSequence.Pin = value; } }
 
+		/// <summary>
+		/// Gets or sets the duration.
+		/// </summary>
+		/// <value>The duration.</value>
 		public TimeSpan Duration {
 			get {
 				return new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt);
@@ -57,6 +76,9 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		/// <summary>
+		/// The active node.
+		/// </summary>
 		private SequenceOperationTreeNode ActiveNode = null;
 
 		//Oxyplot----
@@ -71,6 +93,14 @@ namespace SequenceConfigurationsDialog
 
 		#endregion
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SequenceConfigurationsDialog.SequenceConfiguration"/> class.
+		/// </summary>
+		/// <param name="pins">Pins.</param>
+		/// <param name="groups">Groups.</param>
+		/// <param name="seq">Seq.</param>
+		/// <param name="RefPin">Reference pin.</param>
+		/// <param name="parent">Parent.</param>
 		public SequenceConfiguration (DPin[] pins, List<string> groups, Sequence seq = null, DPin RefPin = null, Gtk.Window parent = null)
 			: base ("Sequence Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
@@ -108,6 +138,9 @@ namespace SequenceConfigurationsDialog
 			DisplaySequenceInfos ();
 		}
 
+		/// <summary>
+		/// Setups the oxyplot.
+		/// </summary>
 		private void SetupOxyPlot ()
 		{
 			XAxis = new LinearAxis {
@@ -171,6 +204,9 @@ namespace SequenceConfigurationsDialog
 			plotView.ShowAll ();
 		}
 
+		/// <summary>
+		/// Setups the nodeview.
+		/// </summary>
 		private void SetupNodeView ()
 		{
 			nvSequenceOptionsStore = new NodeStore (typeof(SequenceOperationTreeNode));
@@ -201,6 +237,10 @@ namespace SequenceConfigurationsDialog
 			nvSequenceOptions.Show ();
 		}
 
+		/// <summary>
+		/// Setups the groups.
+		/// </summary>
+		/// <param name="groups">Groups.</param>
 		private void SetupGroups (List<string> groups)
 		{
 			foreach (string s in groups)
@@ -222,18 +262,27 @@ namespace SequenceConfigurationsDialog
 			};
 		}
 
+		/// <summary>
+		/// changes the apperance of the operations apply button.
+		/// </summary>
 		private void SwitchToAddBtn ()
 		{
 			btnApplyOperation.Label = "Add";
 			btnApplyOperation.RenderIcon ("gtk-add", IconSize.Button, "");
 		}
 
+		/// <summary>
+		/// changes the apperance of the operations apply button.
+		/// </summary>
 		private void SwitchToApplyBtn ()
 		{
 			btnApplyOperation.Label = "Apply";
 			btnApplyOperation.RenderIcon ("gtk-apply", IconSize.Button, "");
 		}
 
+		/// <summary>
+		/// Displays the sequence infos.
+		/// </summary>
 		private void DisplaySequenceInfos ()
 		{
 			if (pinSequence != null)
@@ -252,6 +301,9 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		/// <summary>
+		/// Displaies the plot.
+		/// </summary>
 		private void DisplayPlot ()
 		{
 			if (pinSequence != null)
@@ -309,6 +361,11 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		/// <summary>
+		/// Creates a popup menu.
+		/// </summary>
+		/// <param name="o">O.</param>
+		/// <param name="args">Arguments.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSequenceOptionsButtonPress (object o, ButtonPressEventArgs args)
 		{
@@ -329,6 +386,11 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		/// <summary>
+		/// Removes a selected operation.
+		/// </summary>
+		/// <param name="o">O.</param>
+		/// <param name="args">Arguments.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSequenceOptionsKeyPress (object o, KeyPressEventArgs args)
 		{
@@ -339,6 +401,11 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		/// <summary>
+		/// Changes the pin.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
 			try
@@ -375,21 +442,34 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		/// <summary>
+		/// Sets every member.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		[GLib.ConnectBeforeAttribute]
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
 			pinSequence.Name = entryName.Text;
 			pinSequence.Pin = selectedPin;
 			pinSequence.Repetitions = (rbRepeateContinously.Active) ? -1 : sbRadioBtnStopAfter.ValueAsInt;
-
-//			Respond (ResponseType.Apply);
 		}
 
+		/// <summary>
+		/// Raises the button cancel clicked event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnButtonCancelClicked (object sender, EventArgs e)
 		{
 			Respond (ResponseType.Cancel);
 		}
 
+		/// <summary>
+		/// Adds or changes a operation.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnBtnApplyOperationClicked (object sender, EventArgs e)
 		{
 			var op = new SequenceOperation () {
@@ -408,6 +488,11 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		/// <summary>
+		/// Removes a operation.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnBtnRemoveOperationClicked (object sender, EventArgs e)
 		{
 			if (ActiveNode != null)
@@ -419,21 +504,40 @@ namespace SequenceConfigurationsDialog
 			}
 		}
 
+		/// <summary>
+		/// Updates the plot.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnRbRepeateContinouslyToggled (object sender, EventArgs e)
 		{
 			DisplayPlot ();
 		}
 
+		/// <summary>
+		/// Updates the plot.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnRbStopAfterToggled (object sender, EventArgs e)
 		{
 			DisplayPlot ();
 		}
 
+		/// <summary>
+		/// Updates the plot.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnSbRadioBtnStopAfterValueChanged (object sender, EventArgs e)
 		{
 			DisplayPlot ();
 		}
 
+		/// <summary>
+		/// Adds a operation.
+		/// </summary>
+		/// <param name="SeqOp">Seq op.</param>
 		private void AddOperation (SequenceOperation SeqOp)
 		{
 			pinSequence.AddSequenceOperation (SeqOp);
@@ -441,6 +545,11 @@ namespace SequenceConfigurationsDialog
 			DisplaySequenceInfos ();
 		}
 
+		/// <summary>
+		/// Updates the plot.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnSbRadioBtnStopAfterChanged (object sender, EventArgs e)
 		{
 			rbStopAfter.Active = true;
