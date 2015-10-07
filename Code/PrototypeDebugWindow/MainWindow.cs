@@ -142,7 +142,7 @@ namespace Frontend
 			{
 				Application.Invoke ((o, args) =>
 				{  
-					lblTimePassed.Text = string.Format ("{0:D2}:{1:D2}:{2:D2}", con.TimePassed.Hours, con.TimePassed.Minutes, con.TimePassed.Seconds);
+					lblTimePassed.Text = string.Format ("{0:D2}:{1:D2}:{2:D2}", con.TimeElapsed.Hours, con.TimeElapsed.Minutes, con.TimeElapsed.Seconds);
 					lblTimePassed.QueueDraw ();
 				});
 			};

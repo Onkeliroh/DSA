@@ -15,21 +15,53 @@ namespace PrototypeBackend
 	{
 		#region Member
 
+		/// <summary>
+		/// Gets the gernal purpose logger.
+		/// </summary>
+		/// <value>The general purpose logger.</value>
 		public InfoLogger ConLogger { get; private set; }
 
+		/// <summary>
+		/// Gets the config manager.
+		/// </summary>
+		/// <value>The config manager.</value>
 		public ConfigurationManager ConfigManager { get; private set; }
 
+		/// <summary>
+		/// The measurement timers.
+		/// </summary>
 		private List<System.Timers.Timer> measurementTimers = new List<System.Timers.Timer> ();
 
+		/// <summary>
+		/// BoardConfiguration
+		/// </summary>
 		public BoardConfiguration Configuration;
 
+		/// <summary>
+		/// The start time.
+		/// </summary>
 		public DateTime StartTime;
+
+		/// <summary>
+		/// The keeper of time. Gets the time elapsed since controller start.
+		/// </summary>
 		private Stopwatch KeeperOfTime;
+
+		/// <summary>
+		/// The sequences timer.
+		/// </summary>
 		private System.Timers.Timer SequencesTimer;
+
+		/// <summary>
+		/// The last condition send by the <paramref name="SequencesTimer"/>. This is to minimize the send packages.
+		/// </summary>
 		private UInt16[] LastCondition = new UInt16[4]{ 0, 0, 0, 0 };
 
-
-		public TimeSpan TimePassed { 
+		/// <summary>
+		/// Gets the elapsed time.
+		/// </summary>
+		/// <value>The elapsed time.</value>
+		public TimeSpan TimeElapsed { 
 			get {
 				if (KeeperOfTime != null)
 				{
@@ -42,8 +74,14 @@ namespace PrototypeBackend
 			private set{ }
 		}
 
-
+		/// <summary>
+		/// Array of all available boards. Parsed from BoardConfigFile
+		/// </summary>
 		public Board[] BoardConfigs;
+
+		/// <summary>
+		///	The 5 last used configurations.
+		/// </summary>
 		public List<string> LastConfigurationLocations = new List<string> () {
 			string.Empty,
 			string.Empty,
@@ -52,16 +90,40 @@ namespace PrototypeBackend
 			string.Empty
 		};
 
+		#region Events
+
+		/// <summary>
+		/// Raised when controller started.
+		/// </summary>
 		public EventHandler OnControllerStarted;
+		/// <summary>
+		/// Raised when controller stoped.
+		/// </summary>
 		public EventHandler OnControllerStoped;
+		/// <summary>
+		/// Raised when onfiguration loaded.
+		/// </summary>
 		public EventHandler OnOnfigurationLoaded;
 
+		#endregion
+
+		/// <summary>
+		///	Determines whether the controller timers shall keep running or not. 
+		/// </summary>
 		private bool running = false;
 
+		/// <summary>
+		/// Gets a value indicating whether this controller is running.
+		/// </summary>
+		/// <value><c>true</c> if this controller is running; otherwise, <c>false</c>.</value>
 		public bool IsRunning { get { return running; } private set { } }
 
 		#endregion
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.Controller"/> class.
+		/// </summary>
+		/// <param name="ConfigurationPath">Configuration path.</param>
 		public Controller (string ConfigurationPath = null)
 		{
 			Configuration = new BoardConfiguration ();
@@ -142,6 +204,10 @@ namespace PrototypeBackend
 			SequencesTimer.Elapsed += OnSequenceTimeElapsed;
 		}
 
+		/// <summary>
+		/// Releases unmanaged resources and performs other cleanup operations before the
+		/// <see cref="PrototypeBackend.Controller"/> is reclaimed by garbage collection.
+		/// </summary>
 		~Controller ()
 		{
 			if (ConLogger != null)
@@ -151,7 +217,7 @@ namespace PrototypeBackend
 		}
 
 		/// <summary>
-		/// Closes and stops all Member
+		/// Stops controller and referenced timers. Writes the preferences.
 		/// </summary>
 		public void Quit ()
 		{
@@ -163,6 +229,9 @@ namespace PrototypeBackend
 			WritePreferences ();
 		}
 
+		/// <summary>
+		/// Writes the preferences.
+		/// </summary>
 		public void WritePreferences ()
 		{
 			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config1").Value = LastConfigurationLocations [0];
@@ -191,6 +260,9 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Start this controller and measurements.
+		/// </summary>
 		public void Start ()
 		{
 			KeeperOfTime.Restart ();
@@ -215,6 +287,11 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Raised by the <paramref name="SequencesTimer"/> elapsed event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="args">Arguments.</param>
 		private void OnSequenceTimeElapsed (object sender, System.Timers.ElapsedEventArgs args)
 		{
 			double time = KeeperOfTime.ElapsedMilliseconds;
@@ -244,6 +321,9 @@ namespace PrototypeBackend
 		}
 
 		//Version1
+		/// <summary>
+		/// Creates multiple timers acording to the needed measurement frequencies.
+		/// </summary>
 		private void MeasurementPreProcessing ()
 		{
 			if (Configuration.AnalogPins.Count > 0)
@@ -325,8 +405,6 @@ namespace PrototypeBackend
 				}
 			}
 		}
-
-
 
 		/// <summary>
 		/// Saves the configuration.

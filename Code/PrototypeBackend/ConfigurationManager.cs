@@ -6,12 +6,25 @@ using System.Collections.Generic;
 
 namespace PrototypeBackend
 {
+	/// <summary>
+	/// Manages the ini-configuration files, reads and writes informations.
+	/// </summary>
 	public class ConfigurationManager
 	{
+		/// <summary>
+		/// The general data extracted form the main config file.
+		/// </summary>
 		public IniParser.Model.IniData GeneralData = new IniParser.Model.IniData ();
 
+		/// <summary>
+		/// Systemspecific path to the user directory.
+		/// </summary>
 		public string UserFolder = "";
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.ConfigurationManager"/> class.
+		/// </summary>
+		/// <param name="UserFolderPath">User folder path.</param>
 		public ConfigurationManager (string UserFolderPath = null)
 		{
 			if (UserFolderPath == null)
@@ -44,6 +57,9 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Saves the general settings.
+		/// </summary>
 		public void SaveGeneralSettings ()
 		{
 			if (UserFolder != null)
@@ -53,6 +69,11 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Parses the settings.
+		/// </summary>
+		/// <returns>The settings.</returns>
+		/// <param name="Path">Path.</param>
 		public IniData ParseSettings (string Path)
 		{
 			if (File.Exists (Path))
@@ -63,6 +84,11 @@ namespace PrototypeBackend
 			return null;
 		}
 
+		/// <summary>
+		/// Parses the boards.
+		/// </summary>
+		/// <returns>The boards.</returns>
+		/// <param name="Path">Path.</param>
 		public Board[] ParseBoards (string Path)
 		{
 			if (Path != null && !Path.Equals (string.Empty))
@@ -104,6 +130,11 @@ namespace PrototypeBackend
 			return new Board[]{ };
 		}
 
+		/// <summary>
+		/// Strings to array.
+		/// </summary>
+		/// <returns>The to array.</returns>
+		/// <param name="str">String.</param>
 		private uint[] StringToArray (string str)
 		{
 			var stra = str.Split (new char[]{ ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -117,6 +148,11 @@ namespace PrototypeBackend
 			return ints.ToArray ();
 		}
 
+		/// <summary>
+		/// Strings to analog reference dictionary.
+		/// </summary>
+		/// <returns>The analog reference dictionary.</returns>
+		/// <param name="str">String.</param>
 		private Dictionary<string,double> StringToARefDict (string str)
 		{
 			var stra = str.Split (new char[]{ ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -130,6 +166,13 @@ namespace PrototypeBackend
 			return res;
 		}
 
+		/// <summary>
+		/// Strings to layout.
+		/// </summary>
+		/// <returns>The to layout.</returns>
+		/// <param name="left">Left.</param>
+		/// <param name="right">Right.</param>
+		/// <param name="bottom">Bottom.</param>
 		private Dictionary<string,List<int>> StringToLayout (string left, string right, string bottom)
 		{
 			var dict = new Dictionary<string,List<int>> ();
@@ -140,6 +183,11 @@ namespace PrototypeBackend
 			return dict;
 		}
 
+		/// <summary>
+		/// Strings to pin.
+		/// </summary>
+		/// <returns>The to pin.</returns>
+		/// <param name="str">String.</param>
 		private List<int> StringToPin (string str)
 		{
 			var pairs = str.Split (new char[]{ ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -152,6 +200,11 @@ namespace PrototypeBackend
 			return dict;
 		}
 
+		/// <summary>
+		/// Strings to pin placement.
+		/// </summary>
+		/// <returns>The to pin placement.</returns>
+		/// <param name="str">String.</param>
 		private Dictionary<int,Point> StringToPinPlacement (string str)
 		{
 			var pins = str.Split (new char[]{ ';' }, StringSplitOptions.RemoveEmptyEntries);
@@ -169,12 +222,26 @@ namespace PrototypeBackend
 	}
 
 
+	/// <summary>
+	/// A simple class to store x and y coordinates.
+	/// </summary>
 	[Serializable]
 	public struct Point
 	{
+		/// <summary>
+		/// The x.
+		/// </summary>
 		public double x;
+		/// <summary>
+		/// The y.
+		/// </summary>
 		public double y;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.Point"/> struct.
+		/// </summary>
+		/// <param name="X">X.</param>
+		/// <param name="Y">Y.</param>
 		public Point (double X, double Y)
 		{
 			x = X;
