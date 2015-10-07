@@ -6,7 +6,9 @@ using System.Reflection;
 
 namespace PrototypeBackend
 {
-
+	/// <summary>
+	/// Operation compiler.
+	/// </summary>
 	public static class OperationCompiler
 	{
 		/// <summary>

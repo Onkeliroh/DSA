@@ -13,19 +13,45 @@ namespace PrototypeBackend
 		Done,
 	}
 
+	/// <summary>
+	/// Sequence.
+	/// </summary>
 	[Serializable]
 	public class Sequence : ISerializable
 	{
+		/// <summary>
+		/// Gets or sets the pin.
+		/// </summary>
+		/// <value>The pin.</value>
 		public DPin Pin { get; set; }
 
+		/// <summary>
+		/// The name of the group.
+		/// </summary>
 		public string GroupName;
 
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets the color.
+		/// </summary>
+		/// <value>The color.</value>
 		public Gdk.Color Color { get { return Pin.PlotColor; } private set { } }
 
+		/// <summary>
+		/// Gets or sets the <see cref="SequenceOperation"/>s.
+		/// </summary>
+		/// <value>The chain.</value>
 		public List<SequenceOperation> Chain { get; set; }
 
+		/// <summary>
+		/// Gets the runtime.
+		/// </summary>
+		/// <value>The runtime.</value>
 		public TimeSpan Runtime { 
 			get { 
 				return TimeSpan.FromTicks (Chain.Select (x => x.Duration.Ticks).ToList ().Sum ()); 
@@ -33,13 +59,30 @@ namespace PrototypeBackend
 			private set{ }
 		}
 
+		/// <summary>
+		/// Gets the cycle.
+		/// Determines the number of repetitions done.
+		/// </summary>
+		/// <value>The cycle.</value>
 		public int Cycle { get; private set; }
 
+		/// <summary>
+		/// Gets the current operation.
+		/// </summary>
+		/// <value>The current operation.</value>
 		public int CurrentOperation { get; private set; }
 
+		/// <summary>
+		/// Gets the state of the current.
+		/// </summary>
+		/// <value>The state of the current.</value>
 		public SequenceState CurrentState { get; private set; }
 
-		public TimeSpan lastOperation{ get; private set; }
+		/// <summary>
+		/// Gets the last operation.
+		/// </summary>
+		/// <value>The last operation.</value>
+		public TimeSpan LastOperation{ get; private set; }
 
 		/// <summary>
 		/// Gets or sets the repetitions.
@@ -62,9 +105,13 @@ namespace PrototypeBackend
 			Cycle = 0;
 			CurrentOperation = 0;
 			CurrentState = SequenceState.New;
-			lastOperation = new TimeSpan (0);
+			LastOperation = new TimeSpan (0);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.Sequence"/> class.
+		/// </summary>
+		/// <param name="copy">Copy.</param>
 		public Sequence (Sequence copy) : base ()
 		{
 			Pin = new DPin ();
@@ -146,7 +193,7 @@ namespace PrototypeBackend
 			} else
 			{
 				CurrentState = SequenceState.Running;
-				lastOperation += Chain [CurrentOperation].Duration;
+				LastOperation += Chain [CurrentOperation].Duration;
 
 				SequenceOperation op = Chain [CurrentOperation];
 				return op;
@@ -167,6 +214,11 @@ namespace PrototypeBackend
 			}
 		}
 
+		/// <summary>
+		/// Gets the sequence state depending on the given time.
+		/// </summary>
+		/// <returns>The current state.</returns>
+		/// <param name="milli">time in milliseconds</param>
 		public DPinState GetCurrentState (double milli)
 		{
 			int multiplier = 0;
@@ -205,12 +257,22 @@ namespace PrototypeBackend
 			return DPinState.LOW;
 		}
 
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="PrototypeBackend.Sequence"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="PrototypeBackend.Sequence"/>.</returns>
 		public override string ToString ()
 		{
 			string res = String.Format ("Name: {0}\t[Pin: {1}]", Name, Pin);
 			return res;
 		}
 
+		/// <summary>
+		/// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="PrototypeBackend.Sequence"/>.
+		/// </summary>
+		/// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="PrototypeBackend.Sequence"/>.</param>
+		/// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
+		/// <see cref="PrototypeBackend.Sequence"/>; otherwise, <c>false</c>.</returns>
 		public override bool Equals (object obj)
 		{
 			var seq = obj as Sequence;
@@ -225,6 +287,10 @@ namespace PrototypeBackend
 			return false;
 		}
 
+		/// <summary>
+		/// Returns a more detailed <see cref="System.String"/> that represents the current <see cref="PrototypeBackend.Sequence"/>.
+		/// </summary>
+		/// <returns>A more detailed <see cref="System.String"/> that represents the current <see cref="PrototypeBackend.Sequence"/>.</returns>
 		public string ToStringLong ()
 		{
 			string res = String.Format ("Name: {0}\n[Pin: {1}]\nColor {2}\tRepetitions {3}", Name, Pin, Color, Repetitions);
@@ -238,6 +304,11 @@ namespace PrototypeBackend
 
 		#region ISerializable implementation
 
+		/// <summary>
+		/// Gets the object data.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="context">Context.</param>
 		public void GetObjectData (SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue ("Pin", Pin);
@@ -250,6 +321,11 @@ namespace PrototypeBackend
 			info.AddValue ("Repetitions", Repetitions);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.Sequence"/> class.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="context">Context.</param>
 		public Sequence (SerializationInfo info, StreamingContext context)
 		{
 			Pin = new DPin ();
@@ -269,6 +345,12 @@ namespace PrototypeBackend
 
 		#endregion
 
+		/// <summary>
+		/// Uints to byte.
+		/// This method is used to parse colors form one framework to another.
+		/// </summary>
+		/// <returns>The to byte.</returns>
+		/// <param name="val">Value.</param>
 		public static byte uintToByte (uint val)
 		{
 			return (byte)(byte.MaxValue / 65535.0 * val);

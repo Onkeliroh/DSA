@@ -177,23 +177,23 @@ namespace PrototypeBackend
 			Configuration.OnPinsUpdated += (o, e) =>
 			{
 				if (e.UpdateOperation == UpdateOperation.Change)
-					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.Pin + " to " + e.Pin2);
+					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.OldPin + " to " + e.NewPin);
 				else
-					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.Pin);
+					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.OldPin);
 			};
 			Configuration.OnSequencesUpdated += (o, e) =>
 			{
 				if (e.UpdateOperation == UpdateOperation.Change)
-					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.Seq + " to " + e.Seq);
+					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldSeq + " to " + e.OldSeq);
 				else
-					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.Seq);
+					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldSeq);
 			};
 			Configuration.OnSignalsUpdated += (o, e) =>
 			{
 				if (e.UpdateOperation == UpdateOperation.Change)
-					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.MC + " to " + e.MC2);
+					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldMeCom + " to " + e.NewMeCom);
 				else
-					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.MC);
+					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldMeCom);
 			};
 
 //			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };

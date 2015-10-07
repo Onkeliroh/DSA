@@ -164,9 +164,9 @@ namespace PrototypeBackend
 		public UInt64 MeanValuesCount { get; set; }
 
 		/// <summary>
-		/// Gets or sets the period in milliseconds.
+		/// Gets or sets the interval in milliseconds.
 		/// </summary>
-		/// <value>The period in ms.</value>
+		/// <value>The interval in ms.</value>
 		public UInt64 Interval { get; set; }
 
 		/// <summary>
@@ -176,10 +176,10 @@ namespace PrototypeBackend
 		public UInt64 Frequency { get { return 1 / Interval; } private set { } }
 
 		/// <summary>
-		/// Gets the effective period (Period * Interval).
+		/// Gets the effective interval (<paramref name="Interval"/> * <paramref name="MeanValuesCount"/>).
 		/// </summary>
-		/// <value>The effective period.</value>
-		public double EffectivePeriod { get { return Interval * MeanValuesCount; } private set { } }
+		/// <value>The effective interval.</value>
+		public double EffectiveInterval { get { return Interval * MeanValuesCount; } private set { } }
 
 		#endregion
 

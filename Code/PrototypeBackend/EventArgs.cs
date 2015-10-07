@@ -2,55 +2,28 @@
 
 namespace PrototypeBackend
 {
-	public class ControllerAnalogEventArgs
-	{
-		public uint[] PinNr { get; set; }
-
-		public int[] PinValue { get; private set; }
-
-		public DateTime TimeStamp { get; private set; }
-
-		public ControllerAnalogEventArgs (uint[] pinNr, int[] pinValue) : this (pinNr, pinValue, DateTime.Now)
-		{
-		}
-
-		public ControllerAnalogEventArgs (uint[] pinNr, int[] pinValue, DateTime timeStamp)
-		{
-			PinNr = pinNr;
-			PinValue = pinValue;
-			TimeStamp = timeStamp;
-		}
-	}
-
-	public class ControllerDigitalEventArgs
-	{
-		public int PinNr { get; private set; }
-
-		public DPinState PinValue { get; private set; }
-
-		public DateTime TimeStamp { get; private set; }
-
-		public PinMode PinMode { get; private set; }
-
-		public ControllerDigitalEventArgs (int pinNr, DPinState pinValue, PinMode mode = PinMode.OUTPUT) : this (pinNr, pinValue, DateTime.Now, mode)
-		{
-		}
-
-		public ControllerDigitalEventArgs (int pinNr, DPinState pinValue, DateTime timeStamp, PinMode mode = PinMode.OUTPUT)
-		{
-			PinNr = pinNr;
-			PinValue = pinValue;
-			TimeStamp = timeStamp;
-			PinMode = mode;
-		}
-	}
-
+	/// <summary>
+	/// Connection changed arguments.
+	/// </summary>
 	public class ConnectionChangedArgs
 	{
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="PrototypeBackend.ConnectionChangedArgs"/> is connected.
+		/// </summary>
+		/// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
 		public bool Connected { get; private set; }
 
+		/// <summary>
+		/// Gets the port.
+		/// </summary>
+		/// <value>The port.</value>
 		public string Port { get ; private set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.ConnectionChangedArgs"/> class.
+		/// </summary>
+		/// <param name="connected">If set to <c>true</c> connected.</param>
+		/// <param name="port">Port.</param>
 		public ConnectionChangedArgs (bool connected, string port = null)
 		{
 			Connected = connected;
@@ -58,6 +31,9 @@ namespace PrototypeBackend
 		}
 	}
 
+	/// <summary>
+	/// Update operations.
+	/// </summary>
 	public enum UpdateOperation
 	{
 		Add,
@@ -67,62 +43,146 @@ namespace PrototypeBackend
 		Clear,
 	}
 
+	/// <summary>
+	/// Controller pin update arguments.
+	/// </summary>
 	public class ControllerPinUpdateArgs
 	{
-		public IPin Pin { get; private set; }
+		/// <summary>
+		/// The original pin.
+		/// </summary>
+		/// <value>The pin.</value>
+		public IPin OldPin { get; private set; }
 
-		public IPin Pin2 { get; private set; }
+		/// <summary>
+		/// The new pin.
+		/// </summary>
+		/// <value>The pin2.</value>
+		public IPin NewPin { get; private set; }
 
+		/// <summary>
+		/// Gets the update operation.
+		/// </summary>
+		/// <value>The update operation.</value>
 		public UpdateOperation UpdateOperation { get; private set; }
 
-		public ControllerPinUpdateArgs (IPin pin, UpdateOperation pinUpdateOperation, IPin pin2 = null)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.ControllerPinUpdateArgs"/> class.
+		/// </summary>
+		/// <param name="oldpin">The old pin.</param>
+		/// <param name="pinUpdateOperation">Pin update operation.</param>
+		/// <param name="newpin">The new pin.</param>
+		public ControllerPinUpdateArgs (IPin oldpin, UpdateOperation pinUpdateOperation, IPin newpin = null)
 		{
-			Pin = pin;
-			Pin2 = pin2;
+			OldPin = oldpin;
+			NewPin = newpin;
 			UpdateOperation = pinUpdateOperation;
 		}
 	}
 
+	/// <summary>
+	/// Sequences updated arguments.
+	/// </summary>
 	public class SequencesUpdatedArgs
 	{
-		public Sequence Seq { get; private set; }
+		/// <summary>
+		/// Gets the old sequence.
+		/// </summary>
+		/// <value>The old sequence.</value>
+		public Sequence OldSeq { get; private set; }
 
-		public Sequence Seq2 { get; private set; }
+		/// <summary>
+		/// Gets the new sequence.
+		/// </summary>
+		/// <value>The new sequence.</value>
+		public Sequence NewSeq { get; private set; }
 
+		/// <summary>
+		/// Gets the update operation.
+		/// </summary>
+		/// <value>The update operation.</value>
 		public UpdateOperation UpdateOperation { get; private set; }
 
-		public SequencesUpdatedArgs (UpdateOperation seqUpdateOperation, Sequence seq = null, Sequence seq2 = null)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.SequencesUpdatedArgs"/> class.
+		/// </summary>
+		/// <param name="seqUpdateOperation">Seq update operation.</param>
+		/// <param name="oldseq">The old sequence.</param>
+		/// <param name="newseq">The new sequence.</param>
+		public SequencesUpdatedArgs (UpdateOperation seqUpdateOperation, Sequence oldseq = null, Sequence newseq = null)
 		{
-			Seq = seq;
-			Seq2 = seq2;
+			OldSeq = oldseq;
+			NewSeq = newseq;
 			UpdateOperation = seqUpdateOperation;
 		}
 	}
 
+	/// <summary>
+	/// Measurement combinations updated arguments.
+	/// </summary>
 	public class MeasurementCombinationsUpdatedArgs
 	{
-		public MeasurementCombination MC { get; private set; }
+		/// <summary>
+		/// Gets the old measurementcombination.
+		/// </summary>
+		/// <value>The old me COM.</value>
+		public MeasurementCombination OldMeCom { get; private set; }
 
-		public MeasurementCombination MC2 { get; private set; }
+		/// <summary>
+		/// Gets the new measurementcombination.
+		/// </summary>
+		/// <value>The new me COM.</value>
+		public MeasurementCombination NewMeCom { get; private set; }
 
+		/// <summary>
+		/// Gets the update operation.
+		/// </summary>
+		/// <value>The update operation.</value>
 		public UpdateOperation UpdateOperation{ get; private set; }
 
-		public MeasurementCombinationsUpdatedArgs (UpdateOperation sigUpdateOperation, MeasurementCombination mc = null, MeasurementCombination mc2 = null)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.MeasurementCombinationsUpdatedArgs"/> class.
+		/// </summary>
+		/// <param name="sigUpdateOperation">Sig update operation.</param>
+		/// <param name="oldmecom">The old measurementcombination.</param>
+		/// <param name="newmecom">The new measurementcombination.</param>
+		public MeasurementCombinationsUpdatedArgs (UpdateOperation sigUpdateOperation, MeasurementCombination oldmecom = null, MeasurementCombination newmecom = null)
 		{
-			MC = mc;
-			MC2 = mc2;
+			OldMeCom = oldmecom;
+			NewMeCom = newmecom;
 			UpdateOperation = sigUpdateOperation;
 		}
 	}
 
+	/// <summary>
+	/// Board selection arguments.
+	/// </summary>
 	public class BoardSelectionArgs
 	{
+		/// <summary>
+		/// Gets the board.
+		/// </summary>
+		/// <value>The board.</value>
 		public PrototypeBackend.Board @Board{ get; private set; }
 
+		/// <summary>
+		/// Gets the analog reference voltage.
+		/// </summary>
+		/// <value>The ARE.</value>
 		public double AREF { get; private set; }
 
+		/// <summary>
+		/// Gets the name of the analog reference voltage options.
+		/// </summary>
+		/// <value>The name of the analog reference voltage option.</value>
 		public string AREFName { get; private set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.BoardSelectionArgs"/> class.
+		/// </summary>
+		/// <param name="board">Board.</param>
+		/// <param name="aref">analog reference voltage.</param>
+		/// <param name="arefname">analog reference voltage option.</param>
 		public BoardSelectionArgs (Board board, double aref = 5, string arefname = "DEFAULT")
 		{
 			Board = board;
@@ -131,20 +191,45 @@ namespace PrototypeBackend
 		}
 	}
 
+	/// <summary>
+	/// Communication arguments.
+	/// </summary>
 	public class CommunicationArgs
 	{
+		/// <summary>
+		/// Gets the message.
+		/// </summary>
+		/// <value>The message.</value>
 		public string Message{ get; private set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.CommunicationArgs"/> class.
+		/// </summary>
+		/// <param name="msg">Message.</param>
 		public CommunicationArgs (string msg)
 		{
 			Message = msg;
 		}
 	}
 
+	/// <summary>
+	/// New measurement value.
+	/// </summary>
 	public class NewMeasurementValue
 	{
+		/// <summary>
+		/// The raw value.
+		/// </summary>
 		public double RAW;
+
+		/// <summary>
+		/// The value.
+		/// </summary>
 		public double Value;
+
+		/// <summary>
+		/// The time.
+		/// </summary>
 		public DateTime Time;
 	}
 }

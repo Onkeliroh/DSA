@@ -716,12 +716,12 @@ namespace Frontend
 		{
 			con.Configuration.OnPinsUpdated += (o, a) =>
 			{
-				if (a.Pin is DPin)
+				if (a.OldPin is DPin)
 				{
 					FillDigitalPinNodes ();
 					FillSequencePreviewPlot ();
 					FillMeasurementCombinationNodes ();
-				} else if (a.Pin is APin)
+				} else if (a.OldPin is APin)
 				{
 					FillAnalogPinNodes ();
 					FillMeasurementCombinationNodes ();

@@ -177,7 +177,7 @@ namespace GUIHelper
 		public string Label { get { return Pin.DisplayName; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 1)]
-		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.EffectivePeriod).ToString ("g"); } private set { } }
+		public string Frequency { get { return TimeSpan.FromMilliseconds (Pin.EffectiveInterval).ToString ("g"); } private set { } }
 
 		public APin Pin{ get; private set; }
 

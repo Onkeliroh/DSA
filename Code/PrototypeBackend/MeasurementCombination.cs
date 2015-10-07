@@ -6,19 +6,41 @@ using Gdk;
 
 namespace PrototypeBackend
 {
+	/// <summary>
+	/// Measurement combination.
+	/// </summary>
 	[Serializable]
 	public class MeasurementCombination : ISerializable
 	{
 		#region Member
 
+		/// <summary>
+		/// The pins.
+		/// </summary>
 		public List<APin> Pins;
 
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		public string Name{ get; set; }
 
+		/// <summary>
+		/// Gets or sets the display name <see cref="Name"/>.
+		/// </summary>
+		/// <value>The display name.</value>
 		public string DisplayName { get { return Name; } set { } }
 
+		/// <summary>
+		/// Gets or sets the unit.
+		/// </summary>
+		/// <value>The unit.</value>
 		public string Unit { get; set; }
 
+		/// <summary>
+		/// Gets the frequency.
+		/// </summary>
+		/// <value>The frequency.</value>
 		public double Frequency { 
 			get { 
 				return Pins.OrderByDescending (o => o.Interval).First ().Frequency; 
@@ -26,6 +48,10 @@ namespace PrototypeBackend
 			private set { } 
 		}
 
+		/// <summary>
+		/// Gets the interval.
+		/// </summary>
+		/// <value>The biggest interval of all the pins.</value>
 		public UInt64 Interval {
 			get { 
 				return Pins.OrderByDescending (o => o.Interval).First ().Interval;
@@ -33,12 +59,29 @@ namespace PrototypeBackend
 			private set { }
 		}
 
+		/// <summary>
+		/// Gets or sets the mean values count.
+		/// Determines the values used to create a mean value from.
+		/// </summary>
+		/// <value>The mean values count.</value>
 		public int MeanValuesCount { get; set; }
 
+		/// <summary>
+		/// Gets or sets the color.
+		/// </summary>
+		/// <value>The color.</value>
 		public Gdk.Color Color { get; set; }
 
+		/// <summary>
+		/// Gets or sets the operation.
+		/// </summary>
+		/// <value>The operation.</value>
 		public Func<double[],double> Operation { get; set; }
 
+		/// <summary>
+		/// Gets the value.
+		/// </summary>
+		/// <value>The value.</value>
 		public DateTimeValue Value {
 			get {
 				if (Pins.Count > 0)
@@ -60,6 +103,10 @@ namespace PrototypeBackend
 			private set { }
 		}
 
+		/// <summary>
+		/// Gets or sets the operation string.
+		/// </summary>
+		/// <value>The operation string.</value>
 		public string OperationString { 
 			get { 
 				return OperationString_; 
@@ -69,12 +116,18 @@ namespace PrototypeBackend
 			} 
 		}
 
+		/// <summary>
+		/// The operation string.
+		/// </summary>
 		private string OperationString_;
 
 		#endregion
 
 		#region Methods
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.MeasurementCombination"/> class.
+		/// </summary>
 		public MeasurementCombination ()
 		{
 			//Todo init
@@ -87,6 +140,10 @@ namespace PrototypeBackend
 			MeanValuesCount = 1;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.MeasurementCombination"/> class.
+		/// </summary>
+		/// <param name="copy">Copy.</param>
 		public MeasurementCombination (MeasurementCombination copy) : base ()
 		{
 			Pins = copy.Pins;
@@ -98,27 +155,27 @@ namespace PrototypeBackend
 			MeanValuesCount = copy.MeanValuesCount;
 		}
 
+		/// <summary>
+		/// Adds a pin.
+		/// </summary>
+		/// <returns><c>true</c>, if pin was added, <c>false</c> otherwise.</returns>
+		/// <param name="pin">Pin.</param>
 		public bool AddPin (APin pin)
 		{
 			if (!Pins.Contains (pin))
 			{
 				Pins.Add (pin);
-//				ManagePins ();
 				return true;
 			}
 			return false;
 		}
 
-		//		private void ManagePins ()
-		//		{
-		//			var list = Pins.OrderByDescending (o => o.Interval);
-		////			list.First ().OnNewValue += (o, e) => {
-		////				if (OnNewValue != null) {
-		////					OnNewValue.Invoke (this, new NewMeasurementValue (){ Value = this.Value.Value, Time = this.Value.Time });
-		////				}
-		////			};
-		//		}
-
+		/// <summary>
+		/// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="PrototypeBackend.MeasurementCombination"/>.
+		/// </summary>
+		/// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="PrototypeBackend.MeasurementCombination"/>.</param>
+		/// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
+		/// <see cref="PrototypeBackend.MeasurementCombination"/>; otherwise, <c>false</c>.</returns>
 		public override bool Equals (object obj)
 		{
 			MeasurementCombination MeCom = obj as MeasurementCombination;
@@ -140,6 +197,11 @@ namespace PrototypeBackend
 
 		#region ISerializable implementation
 
+		/// <summary>
+		/// Gets the object data.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="context">Context.</param>
 		public void GetObjectData (SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue ("Pins", Pins);
@@ -149,6 +211,11 @@ namespace PrototypeBackend
 			info.AddValue ("OperationString", OperationString);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.MeasurementCombination"/> class.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="context">Context.</param>
 		public MeasurementCombination (SerializationInfo info, StreamingContext context)
 		{
 			Pins = new List<APin> ();
