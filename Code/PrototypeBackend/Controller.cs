@@ -136,20 +136,9 @@ namespace PrototypeBackend
 			LastConfigurationLocations [3] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config4").Value;
 			LastConfigurationLocations [4] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config5").Value;
 
-			#if DEBUG
 			ConLogger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, true, false, LogLevel.ERROR);
 			ConLogger.LogToFile = true;
-//			ConLogger.DateTimeFormat = "{0:mm:ss.fffff}";
 			ConLogger.Start ();
-			#else
-			ConLogger = new InfoLogger (
-				ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, 
-				true, 
-				false
-			);
-			ConLogger.LogToFile = Convert.ToBoolean (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("LogToFile"));
-			ConfigManager = new ConfigurationManager ();
-			#endif
 
 			bool ConfigAutoConnect = Convert.ToBoolean (ConfigManager.GeneralData.Sections ["General"] ["AutoConnect"]);
 

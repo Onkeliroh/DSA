@@ -21,14 +21,12 @@ namespace PrototypeTests
 		{
 			var tmp = new Board (42, 43) {
 				Name = "TestBoard",
-				Version = "10",
 				MCU = "SuperModel",
 				UseDTR = true
 			};
 			Assert.AreEqual (42, tmp.NumberOfAnalogPins);
 			Assert.AreEqual (43, tmp.NumberOfDigitalPins);
 			Assert.AreEqual ("TestBoard", tmp.Name);
-			Assert.AreEqual ("10", tmp.Version);
 			Assert.AreEqual ("SuperModel", tmp.MCU);
 			Assert.AreEqual (true, tmp.UseDTR);
 		}

@@ -26,34 +26,38 @@ namespace Starter
 			var matchedParameters = ret.OfType<ParameterPair> ().Where (o => o.Matched == true);
 			var matchedFlags = ret.OfType<FlagPair> ().Where (o => o.Matched == true);
 
-			try {
-				if (matchedFlags.Any (o => o.Key == HelpShort.Key)) {
+			try
+			{
+				if (matchedFlags.Any (o => o.Key == HelpShort.Key))
+				{
 					PrintHelp ();
-				} else if (matchedFlags.Any (o => o.Key == HelpLong.Key)) {
+				} else if (matchedFlags.Any (o => o.Key == HelpLong.Key))
+				{
 					PrintHelp ();
-				} else if (matchedParameters.Any (o => o.Key == ConfigFileShort.Key)) {
-					#if DEBUG
-//					RunWindow ("/home/onkeliroh/Bachelorarbeit/Resources/Config.ini");
+				} else if (matchedParameters.Any (o => o.Key == ConfigFileShort.Key))
+				{
 					RunWindow (matchedParameters.Single (o => o.Argument == ConfigFileShort).Values.ToList () [0] as string);
-					#else
-					RunWindow (null);
-					#endif
-				} else {
+				} else
+				{
 					RunWindow (ConfigFileShort.DefaultValue as string);
 				}
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				Console.Error.WriteLine (ex);
 			}
 		}
 
 		private static void RunWindow (string ConfigPath)
 		{
-			try {
+			try
+			{
 				Application.Init ();
-				MainWindow win = new MainWindow (new PrototypeBackend.Controller (ConfigPath));
+				var con = new PrototypeBackend.Controller (ConfigPath);
+				MainWindow win = new MainWindow (con);
 				win.Show ();
 				Application.Run ();
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				Console.Error.WriteLine (ex);
 			}
 		}
@@ -61,7 +65,8 @@ namespace Starter
 		private static void PrintHelp ()
 		{
 			Console.WriteLine ("Key | Description | Default Value");
-			foreach (IArgument a in arguments) {
+			foreach (IArgument a in arguments)
+			{
 				Console.WriteLine (string.Format ("{0} | {1} | {2}", a.Key, a.Description, a.DefaultValue));
 			}
 		}

@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
+    <Commandlineparameters>-c /home/onkeliroh/Bachelorarbeit/Resources/Config.ini</Commandlineparameters>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -54,6 +55,10 @@
     <ProjectReference Include="..\PrototypeDebugWindow\Frontend.csproj">
       <Project>{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}</Project>
       <Name>Frontend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GUIHelper\GUIHelper.csproj">
+      <Project>{2B884C8B-58D1-4299-A844-6377FD6EDBEE}</Project>
+      <Name>GUIHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

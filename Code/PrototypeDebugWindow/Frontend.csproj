@@ -44,12 +44,6 @@
     <Reference Include="OxyPlot.GtkSharp">
       <HintPath>..\Prototype\packages\OxyPlot.GtkSharp.2014.1.546\lib\net40\OxyPlot.GtkSharp.dll</HintPath>
     </Reference>
-    <Reference Include="rsvg2-sharp, Version=2.18.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Svg">
-      <HintPath>..\Prototype\packages\Svg.2.1.0\lib\Svg.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Cairo" />

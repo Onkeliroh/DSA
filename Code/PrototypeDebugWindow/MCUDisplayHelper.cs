@@ -4,7 +4,6 @@ using Gtk;
 using Gdk;
 using Cairo;
 using PrototypeBackend;
-using Rsvg;
 
 namespace Frontend
 {
@@ -55,35 +54,7 @@ namespace Frontend
 				{
 					try
 					{
-						ImageSurface surf;
-						if (path.Contains (".svg"))
-						{
-							var MCUImage = new Rsvg.Handle (path);
-							var buf = MCUImage.Pixbuf;
-
-							int height = buf.Height;
-							int width = buf.Width;
-
-							if (width > maxWidth)
-							{
-								int newwidth = maxWidth - 100;
-								newwidth = (newwidth < 0) ? 0 : newwidth;
-								double scale = (width / 100.0) * newwidth;
-								height = (int)(height * scale);
-								width = newwidth;
-
-								buf.ScaleSimple (width, height, InterpType.Bilinear);
-							}
-
-							surf = new Cairo.ImageSurface (Cairo.Format.Argb32, width, height);
-							var svgcontext = new Cairo.Context (surf);
-
-							MCUImage.RenderCairo (svgcontext);
-
-						} else
-						{
-							surf = new Cairo.ImageSurface (path);
-						}
+						var surf = new Cairo.ImageSurface (path);
 						MCUImageXZero = shiftX - surf.Width / 2;
 						MCUImageYZero = shiftY - surf.Height / 2;
 

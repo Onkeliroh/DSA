@@ -300,14 +300,14 @@ namespace PrototypeBackend
 			AutoConnect = false;
 			if (IsConnected)
 			{
-				_cmdMessenger.Disconnect ();
+				// Dispose Command Messenger
+				if (_cmdMessenger != null)
+				{
+					_cmdMessenger.Disconnect ();	
+					_cmdMessenger.Dispose ();
+				}
 			}
 
-			// Dispose Command Messenger
-			if (_cmdMessenger != null)
-			{
-				_cmdMessenger.Dispose ();
-			}
 			#endif
 		}
 
