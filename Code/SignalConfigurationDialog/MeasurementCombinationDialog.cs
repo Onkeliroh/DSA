@@ -137,7 +137,19 @@ namespace MeasurementCombinationDialog
 		/// <param name="args">Arguments.</param>
 		private void CompileTimerElapsed (object obj, System.Timers.ElapsedEventArgs args)
 		{
-			CompileOperation ();
+			try
+			{
+				if (Combination_ != null)
+				{
+					if (!string.IsNullOrEmpty (Combination_.OperationString))
+					{
+						CompileOperation ();
+					}
+				}
+			} catch (Exception ex)
+			{
+				Console.Error.WriteLine (ex);
+			}
 		}
 
 		/// <summary>
@@ -148,7 +160,7 @@ namespace MeasurementCombinationDialog
 			nvSignal.NodeStore = SignalStore;
 			nvSignal.AppendColumn (new TreeViewColumn ("Name(Pin)", new CellRendererText (), "text", 0));
 			nvSignal.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 1));
-			nvSignal.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 2));
+			nvSignal.AppendColumn (new TreeViewColumn ("Number of mean values", new CellRendererText (), "text", 2));
 
 			nvSignal.ButtonPressEvent += new ButtonPressEventHandler (OnSignalButtonPress);
 			nvSignal.KeyPressEvent += new KeyPressEventHandler (OnSignalKeyPress);
@@ -180,14 +192,14 @@ namespace MeasurementCombinationDialog
 		/// </summary>
 		private void UpdateCBPins ()
 		{
-			var store = new Gtk.ListStore (typeof(string), typeof(double));
+			var store = new Gtk.ListStore (typeof(string));
 
 			foreach (APin pin in APins)
 			{
 				if (!Combination_.Pins.Contains (pin))
 				{
 					// Analysis disable once CompareOfFloatsByEqualityOperator
-					store.AppendValues (new object[]{ pin.Name + "(A" + pin.Number + ")", pin.Interval });
+					store.AppendValues (new object[]{ pin.DisplayName });
 				}
 			}
 			cbPins.Model = store;
@@ -233,11 +245,9 @@ namespace MeasurementCombinationDialog
 			//if one item is selected
 			if (cbPins.Active != -1)
 			{
-				var reg = Regex.Match (cbPins.ActiveText, @"\(A([0-9]+)\)");
-				reg = Regex.Match (reg.Value, @"\d+");
-				if (reg.Success)
+				if (Combination_ != null)
 				{
-					Combination_.AddPin (GetPins (Convert.ToInt32 (reg.Value)));
+					Combination_.AddPin (APins.Single (o => o.DisplayName == cbPins.ActiveText));
 				}
 			}
 
@@ -296,18 +306,18 @@ namespace MeasurementCombinationDialog
 						          Combination_.Pins.Select (o => "A" + o.Number.ToString ()).ToArray ()
 					          );
 					Combination_.Operation = tmp;
+
+					if (Combination_.Operation != null)
+					{
+						Combination_.OperationString = entryOperation.Text;
+					}
+					SetApplyButton ();
+					SetWarning ();
 				}
 			} catch (Exception ex)
 			{
 				Console.Error.WriteLine (ex);
 			}
-
-			if (Combination_.Operation != null)
-			{
-				Combination_.OperationString = entryOperation.Text;
-			}
-			SetApplyButton ();
-			SetWarning ();
 		}
 
 		/// <summary>

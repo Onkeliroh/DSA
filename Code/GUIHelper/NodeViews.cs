@@ -149,16 +149,16 @@ namespace GUIHelper
 			get { 
 				return string.Format (
 					"{0:D2}:{1:D2}:{2:D2}:{3:D2}", 
-					TimeSpan.FromMilliseconds (Pin.Interval), 
-					TimeSpan.FromMilliseconds (Pin.Interval), 
-					TimeSpan.FromMilliseconds (Pin.Interval), 
-					TimeSpan.FromMilliseconds (Pin.Interval)); 
+					TimeSpan.FromMilliseconds (Pin.Interval).Hours, 
+					TimeSpan.FromMilliseconds (Pin.Interval).Minutes, 
+					TimeSpan.FromMilliseconds (Pin.Interval).Seconds, 
+					TimeSpan.FromMilliseconds (Pin.Interval).Milliseconds); 
 			} 
 			private set { }
 		}
 
 		[Gtk.TreeNodeValue (Column = 2)]
-		public int Interval { get { return (int)Pin.MeanValuesCount; } private set { } }
+		public int MeanValuesCount { get { return (int)Pin.MeanValuesCount; } private set { } }
 
 		public APin Pin{ get; private set; }
 

@@ -635,9 +635,8 @@ namespace PrototypeBackend
 				{
 					for (int i = 0; i < nr.Length; i++)
 					{
-						results [i] = result.ReadFloatArg ();
+						results [i] = Board.RAWToVolt (result.ReadFloatArg ());
 					}
-
 				} catch (Exception ex)
 				{
 					Console.Error.WriteLine (ex);

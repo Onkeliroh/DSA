@@ -106,7 +106,7 @@ namespace AnalogPinConfigurationDialog
 			if (availablePins.Length > 0)
 			{
 				cbPin.Active = 0;
-			} else
+			} else if (apin == null)
 			{
 				buttonOk.Sensitive = false;
 				buttonOk.TooltipText = "There are no more available pins to configure.";
@@ -123,6 +123,7 @@ namespace AnalogPinConfigurationDialog
 		{
 			pin.Name = entryName.Text;
 			pin.Number = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].Number;
+			pin.RealNumber = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].RealNumber;
 			pin.PlotColor = cbColor.Color;
 			pin.Unit = cbUnit.ActiveText;
 			pin.Slope = sbSlope.Value;
@@ -212,11 +213,11 @@ namespace AnalogPinConfigurationDialog
 		}
 
 		/// <summary>
-		/// Sets the interval.
+		/// Sets the amount of values needed for building the mean value.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		protected void OnSbIntervalChanged (object sender, EventArgs e)
+		protected void OnSbMeanValuesCountChanged (object sender, EventArgs e)
 		{
 			if (pin != null)
 			{

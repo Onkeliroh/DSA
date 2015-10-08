@@ -6,8 +6,8 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../../GUIHelper/bin/Release/GUIHelper.dll" />
-    <widget-library name="../bin/Release/SignalConfigurationDialog.dll" internal="true" />
+    <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
+    <widget-library name="../bin/Debug/SignalConfigurationDialog.dll" internal="true" />
   </import>
   <widget class="Gtk.Dialog" id="MeasurementCombinationDialog.MeasurementCombinationDialog" design-size="750 315">
     <property name="MemberName" />
@@ -270,6 +270,7 @@ Adding those two would require you to type in: "A0+A5".</property>
                     <property name="CanFocus">True</property>
                     <property name="IsEditable">True</property>
                     <property name="InvisibleChar">●</property>
+                    <signal name="Changed" handler="OnEntryOperationChanged" />
                   </widget>
                   <packing>
                     <property name="TopAttach">1</property>

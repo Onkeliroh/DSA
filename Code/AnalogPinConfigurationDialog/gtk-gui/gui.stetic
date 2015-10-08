@@ -6,8 +6,8 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../../GUIHelper/bin/Release/GUIHelper.dll" />
-    <widget-library name="../bin/Release/AnalogPinConfigurationDialog.dll" internal="true" />
+    <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
+    <widget-library name="../bin/Debug/AnalogPinConfigurationDialog.dll" internal="true" />
   </import>
   <widget class="Gtk.Dialog" id="AnalogPinConfigurationDialog.AnalogPinConfiguration" design-size="648 308">
     <property name="MemberName" />
@@ -32,6 +32,7 @@
                 <property name="CanFocus">True</property>
                 <property name="Events">ButtonMotionMask, ButtonPressMask, ButtonReleaseMask</property>
                 <property name="Alpha">-1</property>
+                <signal name="Clicked" handler="OnCbColorClicked" />
               </widget>
               <packing>
                 <property name="TopAttach">2</property>
@@ -54,6 +55,7 @@
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
+                <signal name="Changed" handler="OnCbPinChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -76,6 +78,7 @@
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
+                <signal name="Changed" handler="OnCbUnitChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">4</property>
@@ -99,6 +102,7 @@
                 <property name="CanFocus">True</property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
+                <signal name="Changed" handler="OnEntryNameChanged" />
               </widget>
               <packing>
                 <property name="LeftAttach">1</property>
@@ -301,6 +305,7 @@
                 <property name="ClimbRate">1</property>
                 <property name="Numeric">True</property>
                 <property name="Value">1</property>
+                <signal name="Changed" handler="OnSbMeanValuesCountChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">8</property>
@@ -328,6 +333,7 @@
                 <property name="ClimbRate">1</property>
                 <property name="Digits">10</property>
                 <property name="Numeric">True</property>
+                <signal name="Changed" handler="OnSbOffsetChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">6</property>
@@ -356,6 +362,7 @@
                 <property name="Digits">10</property>
                 <property name="Numeric">True</property>
                 <property name="Value">1</property>
+                <signal name="Changed" handler="OnSbSlopeChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">5</property>

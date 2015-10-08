@@ -22,15 +22,20 @@ namespace PrototypeBackend
 		public InfoLogger ConLogger { get; private set; }
 
 		/// <summary>
+		/// The measurement CSV logger.
+		/// </summary>
+		private CSVLogger MeasurementCSVLogger;
+
+		/// <summary>
 		/// Gets the config manager.
 		/// </summary>
 		/// <value>The config manager.</value>
 		public ConfigurationManager ConfigManager { get; private set; }
 
 		/// <summary>
-		/// The measurement timers.
+		/// The measurement timer.
 		/// </summary>
-		private List<System.Timers.Timer> measurementTimers = new List<System.Timers.Timer> ();
+		private System.Timers.Timer MeasurementTimer;
 
 		/// <summary>
 		/// BoardConfiguration
@@ -241,7 +246,9 @@ namespace PrototypeBackend
 
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 			SequencesTimer.Stop ();
+			MeasurementTimer.Stop ();
 			KeeperOfTime.Stop ();
+			MeasurementCSVLogger.Stop ();
 
 			if (OnControllerStoped != null)
 			{
@@ -263,9 +270,9 @@ namespace PrototypeBackend
 
 			StartTime = DateTime.Now;
 			LastCondition = new ushort[]{ 0, 0, 0, 0 };
-			SequencesTimer.Start ();
 
-			measurementTimers.ForEach (o => o.Start ());
+			SequencesTimer.Start ();
+			MeasurementTimer.Start ();
 
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + KeeperOfTime.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
@@ -317,81 +324,63 @@ namespace PrototypeBackend
 		{
 			if (Configuration.AnalogPins.Count > 0)
 			{
-
 				#region Build Logger
-				var logger = new CSVLogger (
-					             Configuration.GetCSVLogName (),
-					             true, 
-					             false,
-					             Configuration.CSVSaveFolderPath
-				             );
-				logger.Mapping = Configuration.CreateMapping ();
-				logger.Separator = SeparatorOptions.GetOption (Configuration.Separator);
-				logger.EmptySpaceFilling = Configuration.EmptyValueFilling;
-				logger.DateTimeFormat =	FormatOptions.GetFormat (Configuration.TimeFormat);
-				logger.WriteHeader (logger.Mapping.Keys.ToList<string> ());
-				logger.Start ();
+				MeasurementCSVLogger = new CSVLogger (
+					Configuration.GetCSVLogName (),
+					true, 
+					false,
+					Configuration.CSVSaveFolderPath
+				);
+				MeasurementCSVLogger.Mapping = Configuration.CreateMapping ();
+				MeasurementCSVLogger.Separator = SeparatorOptions.GetOption (Configuration.Separator);
+				MeasurementCSVLogger.EmptySpaceFilling = Configuration.EmptyValueFilling;
+				MeasurementCSVLogger.DateTimeFormat =	FormatOptions.GetFormat (Configuration.TimeFormat);
+				MeasurementCSVLogger.WriteHeader (MeasurementCSVLogger.Mapping.Keys.ToList<string> ());
+				MeasurementCSVLogger.Start ();
 				#endregion
 
-				measurementTimers.ForEach (o => o.Dispose ());
-				measurementTimers.Clear ();
-
-				var list = new List<APin> ();
-				list = Configuration.AnalogPins.OrderBy (o => o.Interval).ToList<APin> ();
-				var comblist = new List<MeasurementCombination> ();
-				comblist = Configuration.MeasurementCombinations;
-
-				while (list.Count > 0)
+				if (MeasurementTimer != null)
 				{
-					//take every pin with the same period as the first one
-					var query = list.Where (o => o.Interval == list.First ().Interval).ToList<APin> ();
-					var combquery = comblist.Where (o => o.Interval == query.First ().Interval).ToList<MeasurementCombination> ();
-
-					//pass values to logger
-					var keys = new List<string> ();
-					keys.AddRange (query.Select (x => x.DisplayName));
-					keys.AddRange (combquery.Select (x => x.DisplayName));
-
-					if (query.Count > 0)
-					{
-						//remove every pin with as certain period. so that it can not be added again
-						list.RemoveAll (o => o.Interval == query.First ().Interval);
-						comblist.RemoveAll (o => o.Interval == query.First ().Interval);
-
-						var timer = new System.Timers.Timer (query.First ().Interval);
-						timer.Elapsed += (o, e) =>
-						{
-							//as long as running is true: collect data. otherwise go to sleep
-							if (running)
-							{
-								var vals = ArduinoController.ReadAnalogPin (query.Select (x => x.RealNumber).ToArray<uint> ());
-
-								//in order to append to all values the same time stamp, otherwise every individual timestamp would be a little bit of
-								var now = DateTime.Now; //what time is it?
-
-								for (int i = 0; i < vals.Length; i++)
-								{
-									//add values, scaled to the AREF to their pin
-									query [i].Value = new DateTimeValue () {
-										Value = Configuration.Board.RAWToVolt (vals [i]),
-										Time = now 
-									};
-								}
-
-								var values = new List<DateTimeValue> ();
-								values.AddRange (query.Select (x => x.Value));
-								values.AddRange (combquery.Select (x => x.Value));
-
-								logger.Log (keys, values);
-							} else
-							{
-								logger.Stop ();
-								(o as System.Timers.Timer).Stop ();
-							}
-						};
-						measurementTimers.Add (timer);
-					}
+					MeasurementTimer.Dispose ();
 				}
+
+				MeasurementTimer = new System.Timers.Timer (10);
+				MeasurementTimer.Elapsed += OnMeasurementTimerElapsed;
+			}
+		}
+
+		/// <summary>
+		/// Raised by the <see cref="MeasurementTimer"/>. Collects data from board.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="args">Arguments.</param>
+		protected void OnMeasurementTimerElapsed (object sender, System.Timers.ElapsedEventArgs args)
+		{
+			if (running)
+			{
+				double time = KeeperOfTime.ElapsedMilliseconds;
+				var measurements = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
+				if (measurements.Length > 0)
+				{
+					var query = measurements.Select (o => o.Number).ToArray ();
+					var vals = ArduinoController.ReadAnalogPin (query);
+
+					var now = DateTime.Now;
+
+					for (int i = 0; i < measurements.Length; i++)
+					{
+						Console.WriteLine (vals [i]);
+						measurements [i].Value = new DateTimeValue (vals [i], now);
+					}
+
+					var values = measurements.Select (o => o.Value).ToList ();
+					values.AddRange (Configuration.MeasurementCombinations.Select (o => o.Value));
+
+					MeasurementCSVLogger.Log (values);
+				}
+			} else
+			{
+				MeasurementTimer.Stop ();
 			}
 		}
 

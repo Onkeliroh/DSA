@@ -1420,11 +1420,12 @@ namespace Frontend
 				Position = AxisPosition.Bottom,
 				LabelFormatter = x =>
 				{
+					var time = DateTime.FromOADate (x);
 					if (con != null && x == con.StartTime.Ticks)
 					{
 						return string.Format ("Start\n{0}", DateTime.FromOADate (x).ToString ("g"));
 					}
-					return string.Format ("{0}", DateTime.FromOADate (x).ToString ("g"));
+					return string.Format ("{0:D2}:{1:D2}:{2:D2}", time.Hour, time.Minute, time.Second);
 				},
 				MajorGridlineThickness = 1,
 				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
