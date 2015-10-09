@@ -36,7 +36,7 @@ namespace Frontend
 
 		private PlotView RealTimePlotView;
 		private PlotModel RealTimePlotModel;
-		private LinearAxis RealTimeXAxis;
+		private DateTimeAxis RealTimeXAxis;
 		private Dictionary<string,Collection<DateTimeValue>> RealTimeDictionary;
 
 		/// <summary>
@@ -125,6 +125,8 @@ namespace Frontend
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
 			TimeKeeperPresenter.Elapsed += (sender, e) =>
 			{
+				UpdateRealTimePlot ();
+				RealTimePlotView.QueueDraw ();
 				Application.Invoke ((o, args) =>
 				{  
 					lblTimePassed.Text = string.Format ("{0:D2}:{1:D2}:{2:D2}", con.TimeElapsed.Hours, con.TimeElapsed.Minutes, con.TimeElapsed.Seconds);
@@ -632,8 +634,6 @@ namespace Frontend
 		{
 			try
 			{
-				RealTimePlotView.Model.Series.Clear ();
-				RealTimePlotView.InvalidatePlot (true);
 				foreach (APin a in con.Configuration.AnalogPins)
 				{
 					var values = a.Values;
@@ -646,25 +646,31 @@ namespace Frontend
 						}
 						RealTimeDictionary [a.DisplayName].Add (dtv);
 					}
-					RealTimePlotView.Model.Series.Add (
-						new LineSeries () {
-							Color = ColorHelper.GdkColorToOxyColor (a.PlotColor),
-							DataFieldX = "Time",
-							DataFieldY = "Value",
-							ItemsSource = RealTimeDictionary [a.DisplayName],
-							Title = a.DisplayName
-						}
-					);
 				}
 
-//				double step = RealTimeXAxis.Transform ((-1 * 1) + RealTimeXAxis.Offset);
-//				RealTimeXAxis.Pan (step);
-
-
-				RealTimePlotView.InvalidatePlot (true);
+				RealTimePlotView.Model.InvalidatePlot (true);
 			} catch (Exception ex)
 			{
 				con.ConLogger.Log (ex.ToString (), LogLevel.DEBUG);
+			}
+		}
+
+		private void InitRealTimePlot ()
+		{
+			PrepareRealTimePlot ();
+			RealTimePlotView.Model.Series.Clear ();
+			RealTimePlotView.InvalidatePlot (true);
+			foreach (APin a in con.Configuration.AnalogPins)
+			{
+				RealTimePlotView.Model.Series.Add (
+					new LineSeries () {
+						Color = ColorHelper.GdkColorToOxyColor (a.PlotColor),
+						DataFieldX = "Time",
+						DataFieldY = "Value",
+						ItemsSource = RealTimeDictionary [a.DisplayName],
+						Title = a.DisplayName
+					}
+				);
 			}
 		}
 
@@ -1415,25 +1421,15 @@ namespace Frontend
 		/// </summary>
 		private void BuildRealTimePlot ()
 		{
-			RealTimeXAxis = new LinearAxis {
+			RealTimeXAxis = new DateTimeAxis {
 				Key = "X",
 				Position = AxisPosition.Bottom,
-				LabelFormatter = x =>
-				{
-					var time = DateTime.FromOADate (x);
-					if (con != null && x == con.StartTime.Ticks)
-					{
-						return string.Format ("Start\n{0}", DateTime.FromOADate (x).ToString ("g"));
-					}
-					return string.Format ("{0:D2}:{1:D2}:{2:D2}", time.Hour, time.Minute, time.Second);
-				},
 				MajorGridlineThickness = 1,
 				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
 				MinorGridlineColor = OxyColors.LightGray,
 				MinorGridlineStyle = OxyPlot.LineStyle.Dot,
 				MinorGridlineThickness = .5,
 				MinorStep = TimeSpan.FromSeconds (1).Ticks,
-//				MajorStep = TimeSpan.FromSeconds (30).Ticks
 			};
 
 			var YAxis = new LinearAxis {
@@ -2461,7 +2457,8 @@ namespace Frontend
 			{
 				con.Start ();
 				lblStartTime.Text = string.Format ("{0:yyyy-MM-dd HH:mm:ss}", con.StartTime);
-				PrepareRealTimePlot ();
+//				PrepareRealTimePlot ();
+				InitRealTimePlot ();
 				TimeKeeperPresenter.Start ();
 			}
 		}
@@ -2671,74 +2668,6 @@ namespace Frontend
 				i += 2;
 			}
 		}
-
-		protected void OnButton360Clicked (object sender, EventArgs e)
-		{
-			con.Configuration.ClearPins ();
-			con.Configuration.ClearSequences ();
-
-			OnBtnFillDigitalOutputsClicked (null, null);
-
-			int i = 0;
-			while (i < con.Configuration.Pins.Count)
-			{
-				var seq = new Sequence () {
-					Pin = (DPin)con.Configuration.Pins [i],
-					Repetitions = -1,
-				};
-
-				seq.AddSequenceOperation (new SequenceOperation () {
-					Duration = TimeSpan.FromSeconds (i / 100.0),
-					State = DPinState.LOW
-				});
-				seq.AddSequenceOperation (new SequenceOperation () {
-					Duration = TimeSpan.FromSeconds (.2),
-					State = DPinState.HIGH
-				});
-//				seq.Chain.Add (new SequenceOperation () {
-//					Duration = TimeSpan.FromSeconds (.2),
-//					State = DPinState.LOW
-//				});
-				seq.AddSequenceOperation (new SequenceOperation () {
-					Duration = TimeSpan.FromSeconds (.2 * (1 - (i / 100.0))),
-					State = DPinState.LOW
-				});
-
-				con.Configuration.AddSequence (seq);
-
-				i += 1;
-			}
-		}
-
-		//		protected void OnButton1125Clicked (object sender, EventArgs e)
-		//		{
-		//			con.Configuration.ClearPins ();
-		//			con.Configuration.ClearSequences ();
-		//
-		//			OnBtnFillDigitalOutputsClicked (null, null);
-		//
-		//			int i = 2;
-		//			while (i < con.Configuration.Pins.Count)
-		//			{
-		//				var seq = new Sequence () {
-		//					Pin = (DPin)con.Configuration.Pins [i],
-		//					Repetitions = -1
-		//				};
-		//
-		//				seq.Chain.Add (new SequenceOperation {
-		//					Duration = TimeSpan.FromMilliseconds (1000 + i),
-		//					State = DPinState.HIGH
-		//				});
-		//				seq.Chain.Add (new SequenceOperation {
-		//					Duration = TimeSpan.FromMilliseconds (1000 + i),
-		//					State = DPinState.LOW
-		//				});
-		//
-		//				con.Configuration.AddSequence (seq);
-		//
-		//				i++;
-		//			}
-		//		}
 
 		protected void OnBtnBoardDifferenceTestClicked (object sender, EventArgs e)
 		{

@@ -369,7 +369,6 @@ namespace PrototypeBackend
 
 					for (int i = 0; i < measurements.Length; i++)
 					{
-						Console.WriteLine (vals [i]);
 						measurements [i].Value = new DateTimeValue (vals [i], now);
 					}
 
