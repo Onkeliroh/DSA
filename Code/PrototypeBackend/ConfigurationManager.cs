@@ -27,32 +27,26 @@ namespace PrototypeBackend
 		/// <param name="UserFolderPath">User folder path.</param>
 		public ConfigurationManager (string UserFolderPath = null)
 		{
-			if (UserFolderPath == null)
-			{
+			if (UserFolderPath == null) {
 					
 				//Linux|Mac
-				if (Environment.OSVersion.Platform == PlatformID.Unix)
-				{
+				if (Environment.OSVersion.Platform == PlatformID.Unix) {
 					UserFolder = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile);
 					UserFolder += @"/.config/micrologger/Config.ini";
 				}
 				//Windows
-				else
-				{
+				else {
 					UserFolder = Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData);
 					UserFolder += @"\micrologger\Config.ini";
 					Console.WriteLine (UserFolder);
 				}
-			} else
-			{
+			} else {
 				UserFolder = UserFolderPath;
 			}
 
-			if (File.Exists (UserFolder))
-			{
+			if (File.Exists (UserFolder)) {
 				GeneralData = ParseSettings (UserFolder);
-			} else
-			{
+			} else {
 				throw new FileNotFoundException ();
 			}
 		}
@@ -62,8 +56,7 @@ namespace PrototypeBackend
 		/// </summary>
 		public void SaveGeneralSettings ()
 		{
-			if (UserFolder != null)
-			{
+			if (UserFolder != null) {
 				var Parser = new FileIniDataParser ();
 				Parser.WriteFile (UserFolder, GeneralData, System.Text.Encoding.UTF8);
 			}
@@ -76,8 +69,7 @@ namespace PrototypeBackend
 		/// <param name="Path">Path.</param>
 		public IniData ParseSettings (string Path)
 		{
-			if (File.Exists (Path))
-			{
+			if (File.Exists (Path)) {
 				var Parser = new FileIniDataParser ();
 				return Parser.ReadFile (Path);
 			}
@@ -89,45 +81,36 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <returns>The boards.</returns>
 		/// <param name="Path">Path.</param>
-		public Board[] ParseBoards (string Path)
+		public static Board[] ParseBoards (StreamReader Path)
 		{
-			if (Path != null && !Path.Equals (string.Empty))
-			{
-				if (File.Exists (Path))
-				{
-					var Parser = new IniParser.FileIniDataParser ();
-					IniData Data = Parser.ReadFile (Path);
-					var Boards = new System.Collections.Generic.List<Board> ();
-					foreach (SectionData sd in Data.Sections)
-					{
-						try
-						{
-							Boards.Add (new Board () {
-								Name = sd.Keys.GetKeyData ("Name").Value,
-								NumberOfAnalogPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfAnalogPins").Value),
-								NumberOfDigitalPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfDigitalPins").Value),
-								MCU = sd.Keys.GetKeyData ("MCU").Value,
-								ImageFilePath = sd.Keys.GetKeyData ("ImagePath").Value,
-								SDA = StringToArray (sd.Keys.GetKeyData ("SDA").Value),
-								SCL = StringToArray (sd.Keys.GetKeyData ("SCL").Value),
-								RX = StringToArray (sd.Keys.GetKeyData ("RX").Value),
-								TX = StringToArray (sd.Keys.GetKeyData ("TX").Value),
-								UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
-								HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value),
-								AnalogReferences = StringToARefDict (sd.Keys.GetKeyData ("AREF").Value),
-								PinLayout = StringToLayout (sd.Keys.GetKeyData ("PinLeft").Value, sd.Keys.GetKeyData ("PinRight").Value, sd.Keys.GetKeyData ("PinBottom").Value),
-								PinLocation = StringToPinPlacement (sd.Keys.GetKeyData ("PinPosition").Value)
-							});
-						} catch (Exception ex)
-						{
-							Console.WriteLine (ex);
-						}
 
-					}
-					return Boards.ToArray ();
+			var Parser = new IniParser.FileIniDataParser ();
+			IniData Data = Parser.ReadData (Path);
+			var Boards = new System.Collections.Generic.List<Board> ();
+			foreach (SectionData sd in Data.Sections) {
+				try {
+					Boards.Add (new Board () {
+						Name = sd.Keys.GetKeyData ("Name").Value,
+						NumberOfAnalogPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfAnalogPins").Value),
+						NumberOfDigitalPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfDigitalPins").Value),
+						MCU = sd.Keys.GetKeyData ("MCU").Value,
+						ImageFilePath = sd.Keys.GetKeyData ("ImagePath").Value,
+						SDA = StringToArray (sd.Keys.GetKeyData ("SDA").Value),
+						SCL = StringToArray (sd.Keys.GetKeyData ("SCL").Value),
+						RX = StringToArray (sd.Keys.GetKeyData ("RX").Value),
+						TX = StringToArray (sd.Keys.GetKeyData ("TX").Value),
+						UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
+						HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value),
+						AnalogReferences = StringToARefDict (sd.Keys.GetKeyData ("AREF").Value),
+						PinLayout = StringToLayout (sd.Keys.GetKeyData ("PinLeft").Value, sd.Keys.GetKeyData ("PinRight").Value, sd.Keys.GetKeyData ("PinBottom").Value),
+						PinLocation = StringToPinPlacement (sd.Keys.GetKeyData ("PinPosition").Value)
+					});
+				} catch (Exception ex) {
+					Console.WriteLine (ex);
 				}
+
 			}
-			return new Board[]{ };
+			return Boards.ToArray ();
 		}
 
 		/// <summary>
@@ -135,12 +118,11 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <returns>The to array.</returns>
 		/// <param name="str">String.</param>
-		private uint[] StringToArray (string str)
+		private static uint[] StringToArray (string str)
 		{
 			var stra = str.Split (new char[]{ ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
 			var ints = new System.Collections.Generic.List<uint> ();
-			foreach (string s in stra)
-			{
+			foreach (string s in stra) {
 				uint i;
 				uint.TryParse (s, out i);
 				ints.Add (i);
@@ -153,13 +135,12 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <returns>The analog reference dictionary.</returns>
 		/// <param name="str">String.</param>
-		private Dictionary<string,double> StringToARefDict (string str)
+		private static Dictionary<string,double> StringToARefDict (string str)
 		{
 			var stra = str.Split (new char[]{ ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
 			var res = new Dictionary<string,double> ();
 
-			foreach (string s in stra)
-			{
+			foreach (string s in stra) {
 				var pair = s.Split (new char[]{ ' ' }, StringSplitOptions.RemoveEmptyEntries);
 				res.Add (pair [0], Convert.ToDouble (pair [1]));
 			}
@@ -173,7 +154,7 @@ namespace PrototypeBackend
 		/// <param name="left">Left.</param>
 		/// <param name="right">Right.</param>
 		/// <param name="bottom">Bottom.</param>
-		private Dictionary<string,List<int>> StringToLayout (string left, string right, string bottom)
+		private static Dictionary<string,List<int>> StringToLayout (string left, string right, string bottom)
 		{
 			var dict = new Dictionary<string,List<int>> ();
 			dict.Add ("LEFT", StringToPin (left));
@@ -188,13 +169,12 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <returns>The to pin.</returns>
 		/// <param name="str">String.</param>
-		private List<int> StringToPin (string str)
+		private static List<int> StringToPin (string str)
 		{
 			var pairs = str.Split (new char[]{ ',' }, StringSplitOptions.RemoveEmptyEntries);
 			var dict = new List<int> ();
 
-			foreach (string s in pairs)
-			{
+			foreach (string s in pairs) {
 				dict.Add (Convert.ToInt32 (s));
 			}
 			return dict;
@@ -205,13 +185,12 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <returns>The to pin placement.</returns>
 		/// <param name="str">String.</param>
-		private Dictionary<int,Point> StringToPinPlacement (string str)
+		private static Dictionary<int,Point> StringToPinPlacement (string str)
 		{
 			var pins = str.Split (new char[]{ ';' }, StringSplitOptions.RemoveEmptyEntries);
 			var dict = new Dictionary<int,Point> ();
 
-			foreach (string s in pins)
-			{
+			foreach (string s in pins) {
 				var pair = s.Split (new char[]{ ':', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
 				Point p = new Point (Convert.ToDouble (pair [1]), Convert.ToDouble (pair [2]));

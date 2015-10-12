@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Logger
 {
@@ -23,6 +24,9 @@ namespace Logger
 					FileName_ = value;
 			}
 		}
+
+		public string FilePath{ get; private set; }
+
 
 		public Encoding FileEncoding = Encoding.UTF8;
 
@@ -134,6 +138,14 @@ namespace Logger
 			LogTimeUTC = utc;
 		}
 
+		public Logger (string filename, string filepath = "", bool local = true, bool utc = false) : this ()
+		{
+			FileName_ = filename;
+			FilePath = filepath;
+			LogTimeLocal = local;
+			LogTimeUTC = utc;
+		}
+
 		/// <summary>
 		/// Releases unmanaged resources and performs other cleanup operations before the <see cref="Sampler.Logger"/> is
 		/// reclaimed by garbage collection. The LogQueue will be emptied.
@@ -145,26 +157,25 @@ namespace Logger
 
 		public void Init ()
 		{
-			if (FileName_.Length > 0)
-			{
-				try
-				{
-					if (File.Exists (FileName_))
-					{
+			if (FileName_.Length > 0) {
+				try {
+					if (!string.IsNullOrEmpty (FilePath)) {
+						if (!System.IO.Directory.Exists (FilePath)) {
+							System.IO.Directory.CreateDirectory (FilePath);
+						}
+					}
+					if (File.Exists (FileName_) || File.Exists (FilePath + FileName_)) {
 //						LogWriter = new StreamWriter (FileName_, true, FileEncoding);
 						LogWriter = new StreamWriter (new FileStream (FileName_, FileMode.Append, FileAccess.Write, FileShare.Write), FileEncoding);
-					} else
-					{
+					} else {
 //						LogWriter = new StreamWriter (FileName_, false, FileEncoding);
 						LogWriter = new StreamWriter (new FileStream (FileName_, FileMode.CreateNew, FileAccess.Write, FileShare.Write), FileEncoding);
 					}
 					LogThread.Name = FileName_ + "_thread";
-				} catch (Exception)
-				{
+				} catch (Exception) {
 					throw;
 				}
-			} else
-			{
+			} else {
 				throw new ArgumentNullException ("FileName", "There is no filename.");
 			}
 		}
@@ -174,13 +185,11 @@ namespace Logger
 		/// </summary>
 		public void Start ()
 		{
-			try
-			{
+			try {
 				Init ();
 				IsLogging_ = true;
 				LogThread.Start ();
-			} catch
-			{
+			} catch {
 				throw;
 			}
 		}
@@ -192,11 +201,9 @@ namespace Logger
 		public void Start (string filename)
 		{
 			FileName_ = filename;
-			try
-			{
+			try {
 				Start ();
-			} catch
-			{
+			} catch {
 				throw;
 			}
 		}
@@ -208,8 +215,7 @@ namespace Logger
 		public void Stop ()
 		{
 			LogToFile ();
-			while (LogQueue.Count != 0)
-			{
+			while (LogQueue.Count != 0) {
 				Thread.Sleep (10);
 			}
 			LogThread.Abort ();
@@ -239,10 +245,8 @@ namespace Logger
 		/// </summary>
 		protected void Run ()
 		{
-			while (IsLogging_ || LogQueue.Count > 0)
-			{
-				if (LogQueue.Count >= MaxLog_ || DoLog ())
-				{
+			while (IsLogging_ || LogQueue.Count > 0) {
+				if (LogQueue.Count >= MaxLog_ || DoLog ()) {
 					LastLog_ = DateTime.Now;
 					LogToFile ();
 				}
@@ -258,13 +262,11 @@ namespace Logger
 		protected string GetTimeString ()
 		{
 			StringBuilder sb = new StringBuilder ();
-			if (LogTimeLocal)
-			{
+			if (LogTimeLocal) {
 				sb.Append (String.Format (DateTimeFormat, DateTimeOffset.Now));
 				sb.Append (Separator);
 			}
-			if (LogTimeUTC)
-			{
+			if (LogTimeUTC) {
 				sb.Append (String.Format (DateTimeFormat, DateTimeOffset.UtcNow));
 				sb.Append (Separator);
 			}
@@ -277,10 +279,8 @@ namespace Logger
 		/// <param name="msg">Message</param>
 		public virtual void Log (string msg)
 		{
-			if (IsLogging_)
-			{
-				lock (LogQueue)
-				{
+			if (IsLogging_) {
+				lock (LogQueue) {
 					LogQueue.Enqueue (msg);
 				}
 			}
@@ -295,20 +295,16 @@ namespace Logger
 		{
 			bool wirteHeader = true;
 			//is there a designated file?
-			if (FileName_ != String.Empty)
-			{
+			if (FileName_ != String.Empty) {
 				//does it allready exist
-				if (System.IO.File.Exists (FileName_))
-				{
+				if (System.IO.File.Exists (FileName_)) {
 					//is it filled with stuff and probably already a header?
-					if (System.IO.File.ReadAllLines (FileName_).Length == 0)
-					{
+					if (System.IO.File.ReadAllLines (FileName_).Length == 0) {
 						wirteHeader = false;
 					}
 				} 
 
-				if (wirteHeader)
-				{
+				if (wirteHeader) {
 					var sb = new StringBuilder ();
 					if (LogTimeLocal)
 						sb.Append ("LocalTime" + Separator);
@@ -328,11 +324,9 @@ namespace Logger
 		protected virtual bool DoLog ()
 		{
 			TimeSpan LogAge = DateTime.Now - LastLog_;
-			if (LogAge.TotalMilliseconds >= MaxLogAge_)
-			{
+			if (LogAge.TotalMilliseconds >= MaxLogAge_) {
 				return true;
-			} else
-			{
+			} else {
 				return false;
 			}
 		}
@@ -342,12 +336,9 @@ namespace Logger
 		/// </summary>
 		protected virtual void LogToFile ()
 		{
-			lock (LogWriter)
-			{
-				while (this.LogQueue.Count > 0)
-				{
-					lock (LogQueue)
-					{
+			lock (LogWriter) {
+				while (this.LogQueue.Count > 0) {
+					lock (LogQueue) {
 						LogWriter.Write (this.LogQueue.Dequeue () + Linebreak);
 						LogWriter.Flush ();
 					}

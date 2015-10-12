@@ -63,7 +63,7 @@ namespace Logger
 		/// <param name="loglvl">The default LogLevel. Determens to mimium Level for a message to be logged.</param>
 		/// <param name="location">Location.</param>
 		public InfoLogger (string filename, bool localtime, bool utc, LogLevel loglvl, string location)
-			: base (location + filename, localtime, utc)
+			: base (filename, location, localtime, utc)
 		{
 			this._LogLevel = loglvl;
 			Separator = "\t";
@@ -95,8 +95,7 @@ namespace Logger
 		public override void Log (string msg)
 		{
 			Log (msg, LogLevel.INFO);
-			if (NewMessage != null)
-			{
+			if (NewMessage != null) {
 				NewMessage.Invoke (this, new LogMessageArgs (msg, DateTime.Now, LogLevel.INFO));
 			}
 		}
@@ -108,12 +107,10 @@ namespace Logger
 		/// <param name="loglvl">Loglvl.</param>
 		public void Log (string msg, LogLevel loglvl)
 		{
-			if (LogToFile)
-			{
+			if (LogToFile) {
 				base.Log (GetTimeString () + "[" + loglvl + "]" + Separator + msg);
 			}
-			if (NewMessage != null)
-			{
+			if (NewMessage != null) {
 				NewMessage.Invoke (this, new LogMessageArgs (msg, DateTime.Now, loglvl));
 			}
 		}

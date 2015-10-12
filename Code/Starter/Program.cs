@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ArgumentParser;
 using ArgumentParser.Arguments;
 using Gtk;
 using Frontend;
+using System.IO;
+using System.Resources;
+using System.Reflection.Emit;
+using Starter.Properties;
 
 namespace Starter
 {
 	/// <summary>
 	/// Main class.
 	/// </summary>
-	class MainClass
+	static class MainClass
 	{
 		/// <summary>
 		/// The help argument short version.
@@ -25,14 +30,21 @@ namespace Starter
 		/// The configuration file argument short version.
 		/// </summary>
 		public static readonly IArgument ConfigFileShort = new ArgumentParser.Arguments.POSIX.POSIXShortArgument ('c', "configuration file path");
+		/// <summary>
+		/// The verbose flag. <b>true</b> = verbose, <b>false</b> = NOT verbose
+		/// </summary>
+		public static readonly IArgument VerboseShort = new ArgumentParser.Arguments.POSIX.POSIXShortFlag ('v', "verpose output", 0, 0, null, 0);
+
+		private static bool verbose = false;
 
 		/// <summary>
 		/// Array of all arguments
 		/// </summary>
 		private static readonly IArgument[] arguments = {
-			HelpShort,
-			HelpLong,
-			ConfigFileShort,
+//			HelpShort,
+//			HelpLong,
+//			ConfigFileShort,
+			VerboseShort,
 		};
 
 		/// <summary>
@@ -45,23 +57,22 @@ namespace Starter
 			var matchedParameters = ret.OfType<ParameterPair> ().Where (o => o.Matched == true);
 			var matchedFlags = ret.OfType<FlagPair> ().Where (o => o.Matched == true);
 
-			try
-			{
-				if (matchedFlags.Any (o => o.Key == HelpShort.Key))
-				{
-					PrintHelp ();
-				} else if (matchedFlags.Any (o => o.Key == HelpLong.Key))
-				{
-					PrintHelp ();
-				} else if (matchedParameters.Any (o => o.Key == ConfigFileShort.Key))
-				{
-					RunWindow (matchedParameters.Single (o => o.Argument == ConfigFileShort).Values.ToList () [0] as string);
-				} else
-				{
-					RunWindow (System.Environment.CurrentDirectory + "/Config.ini");
+			try {
+				if (matchedFlags.Any (o => o.Key == VerboseShort.Key)) {
+					verbose = true;	
 				}
-			} catch (Exception ex)
-			{
+
+//				if (matchedFlags.Any (o => o.Key == HelpShort.Key)) {
+//					PrintHelp ();
+//				} else if (matchedFlags.Any (o => o.Key == HelpLong.Key)) {
+//					PrintHelp ();
+//				} else if (matchedParameters.Any (o => o.Key == ConfigFileShort.Key)) {
+//					RunWindow (matchedParameters.Single (o => o.Argument == ConfigFileShort).Values.ToList () [0] as string);
+//				} else {
+//					RunWindow (System.Environment.CurrentDirectory + "/Config.ini");
+//				}
+				RunWindow ();
+			} catch (Exception ex) {
 				Console.Error.WriteLine (ex);
 			}
 		}
@@ -70,17 +81,18 @@ namespace Starter
 		/// Starts the interface and controller.
 		/// </summary>
 		/// <param name="ConfigPath">Config path.</param>
-		private static void RunWindow (string ConfigPath)
+		private static void RunWindow (string ConfigPath = null)
 		{
-			try
-			{
+			try {
 				Application.Init ();
+
+				Gtk.Rc.ParseString (Resources.gtkrc);
+
 				var con = new PrototypeBackend.Controller (ConfigPath);
-				MainWindow win = new MainWindow (con);
+				MainWindow win = new MainWindow (con, verbose);
 				win.Show ();
 				Application.Run ();
-			} catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				Console.Error.WriteLine (ex);
 			}
 		}
@@ -91,8 +103,7 @@ namespace Starter
 		private static void PrintHelp ()
 		{
 			Console.WriteLine ("Key | Description | Default Value");
-			foreach (IArgument a in arguments)
-			{
+			foreach (IArgument a in arguments) {
 				Console.WriteLine (string.Format ("{0} | {1} | {2}", a.Key, a.Description, a.DefaultValue));
 			}
 		}

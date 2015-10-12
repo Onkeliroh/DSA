@@ -46,7 +46,7 @@ namespace Logger
 		/// <param name="localtime">If set to <c>true</c> a localtime timestamp will be logged.</param>
 		/// <param name="utc">If set to <c>true</c> a UTC timestamp will be logged.</param>
 		public CSVLogger (string filename, List<object>header, bool localtime, bool utc)
-			: this (filename, localtime, utc, "")
+			: this (filename, "", localtime, utc)
 		{
 			//override the default separator of the Logger class
 			WriteHeader (CreateString (header));
@@ -60,7 +60,7 @@ namespace Logger
 		/// <param name="localtime">If set to <c>true</c> a localtime timestamp will be logged.</param>
 		/// <param name="utc">If set to <c>true</c> a UTC timestamp will be logged.</param>
 		public CSVLogger (string filename, List<string> header, bool localtime, bool utc, string location)
-			: this (filename, localtime, utc, location)
+			: this (filename, location, localtime, utc)
 		{
 			//override the default separator of the Logger class
 			WriteHeader (CreateString (header));
@@ -73,8 +73,8 @@ namespace Logger
 		/// <param name="localtime">If set to <c>true</c> a localtime timestamp will be logged.</param>
 		/// <param name="utc">If set to <c>true</c> a UTC timestamp will be logged.</param>
 		/// <param name="location">Location of the log file</param>
-		public CSVLogger (string filename, bool localtime, bool utc, string location)
-			: base (location + filename)
+		public CSVLogger (string filename, string location, bool localtime, bool utc)
+			: base (filename, location)
 		{
 			Separator = ","; 
 			base.LogTimeLocal = localtime;
@@ -90,8 +90,7 @@ namespace Logger
 		{
 			StringBuilder sb = new StringBuilder ();
 			bool first = true;
-			foreach (T value in row)
-			{
+			foreach (T value in row) {
 				if (!first)
 					sb.Append (Separator);
 				if (typeof(T) != typeof(string))
@@ -132,13 +131,10 @@ namespace Logger
 		private List<string> SortValues<T> (List<string> properties, List<T> row)
 		{
 			var list = new string[Mapping.Count];
-			foreach (string property in Mapping.Keys)
-			{
-				if (properties.Contains (property))
-				{
+			foreach (string property in Mapping.Keys) {
+				if (properties.Contains (property)) {
 					list [Mapping [property]] = row [properties.FindIndex (o => o == property)].ToString ();
-				} else
-				{
+				} else {
 					list [Mapping [property]] = EmptySpaceFilling;
 				}
 			}

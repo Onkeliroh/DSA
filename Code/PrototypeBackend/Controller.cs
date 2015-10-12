@@ -1,13 +1,17 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Logger;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.IO;
-using PrototypeBackend;
-using Logger;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Resources;
+using PrototypeBackend;
+using PrototypeBackend.Properties;
+using System.Text;
+using Mono.Posix;
+
 
 namespace PrototypeBackend
 {
@@ -68,11 +72,9 @@ namespace PrototypeBackend
 		/// <value>The elapsed time.</value>
 		public TimeSpan TimeElapsed { 
 			get {
-				if (KeeperOfTime != null)
-				{
+				if (KeeperOfTime != null) {
 					return KeeperOfTime.Elapsed;
-				} else
-				{
+				} else {
 					return new TimeSpan (0);
 				}
 			}
@@ -132,29 +134,42 @@ namespace PrototypeBackend
 		public Controller (string ConfigurationPath = null)
 		{
 			Configuration = new BoardConfiguration ();
-			ConfigManager = new ConfigurationManager (ConfigurationPath);
-			BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
+			//ConfigManager = new ConfigurationManager (ConfigurationPath);
+			//BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
 
-			LastConfigurationLocations [0] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config1").Value;
-			LastConfigurationLocations [1] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config2").Value;
-			LastConfigurationLocations [2] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config3").Value;
-			LastConfigurationLocations [3] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config4").Value;
-			LastConfigurationLocations [4] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config5").Value;
+			using (MemoryStream memstream = new MemoryStream (Encoding.ASCII.GetBytes (Resources.Boards))) {
+				using (StreamReader str = new StreamReader (memstream)) {
+					BoardConfigs = ConfigurationManager.ParseBoards (str);
+				}
+			}
 
-			ConLogger = new InfoLogger (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("DiagnosticsPath").Value, true, false, LogLevel.ERROR);
-			ConLogger.LogToFile = true;
+			//LastConfigurationLocations [0] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config1").Value;
+			//LastConfigurationLocations [1] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config2").Value;
+			//LastConfigurationLocations [2] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config3").Value;
+			//LastConfigurationLocations [3] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config4").Value;
+			//LastConfigurationLocations [4] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config5").Value;
+
+			LastConfigurationLocations [0] = Resources.Config1;
+			LastConfigurationLocations [1] = Resources.Config2;
+			LastConfigurationLocations [2] = Resources.Config3;
+			LastConfigurationLocations [3] = Resources.Config4;
+			LastConfigurationLocations [4] = Resources.Config5;
+
+			//conlogger = new infologger (configmanager.generaldata.sections ["general"].getkeydata ("diagnosticspath").value, true, false, loglevel.error);
+			//conlogger.logtofile = false;
+			ConLogger = new InfoLogger (Resources.LogFileName,  true, false, (Logger.LogLevel)Enum.Parse (typeof(Logger.LogLevel), Resources.LogLevel), Resources.LogFilePath);
+			ConLogger.LogToFile = (Resources.LogToFile != "0");
 			ConLogger.Start ();
 
-			bool ConfigAutoConnect = Convert.ToBoolean (ConfigManager.GeneralData.Sections ["General"] ["AutoConnect"]);
+//			bool ConfigAutoConnect = Convert.ToBoolean (ConfigManager.GeneralData.Sections ["General"] ["AutoConnect"]);
+			bool ConfigAutoConnect = (Resources.AutoConnect != "0");
 
 			ArduinoController.AutoConnect = ConfigAutoConnect;
 			ArduinoController.Init ();
 			ArduinoController.OnReceiveMessage += (sender, e) => ConLogger.Log ("IN < " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnSendMessage += (sender, e) => ConLogger.Log ("OUT > " + e.Message, LogLevel.DEBUG);
-			ArduinoController.OnConnectionChanged += ((o, e) =>
-			{
-				if (e.Connected)
-				{
+			ArduinoController.OnConnectionChanged += ((o, e) => {
+				if (e.Connected) {
 					#if DEBUG
 					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.DEBUG);
 					#endif
@@ -162,35 +177,29 @@ namespace PrototypeBackend
 					ConLogger.Log ("Connected to " + ArduinoController.SerialPortName);
 					#endif
 
-				} else
-				{
+				} else {
 					ConLogger.Log ("Disconnected");
 				}
 			});
 
-			Configuration.OnPinsUpdated += (o, e) =>
-			{
+			Configuration.OnPinsUpdated += (o, e) => {
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.OldPin + " to " + e.NewPin);
 				else
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.OldPin);
 			};
-			Configuration.OnSequencesUpdated += (o, e) =>
-			{
+			Configuration.OnSequencesUpdated += (o, e) => {
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldSeq + " to " + e.OldSeq);
 				else
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldSeq);
 			};
-			Configuration.OnSignalsUpdated += (o, e) =>
-			{
+			Configuration.OnSignalsUpdated += (o, e) => {
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldMeCom + " to " + e.NewMeCom);
 				else
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldMeCom);
 			};
-
-//			signalThread = new Thread (new ThreadStart (Run)){ Name = "controllerThread" };
 
 			KeeperOfTime = new Stopwatch ();
 
@@ -204,8 +213,7 @@ namespace PrototypeBackend
 		/// </summary>
 		~Controller ()
 		{
-			if (ConLogger != null)
-			{
+			if (ConLogger != null) {
 				ConLogger.Stop ();
 			}
 		}
@@ -246,12 +254,14 @@ namespace PrototypeBackend
 
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 			SequencesTimer.Stop ();
-			MeasurementTimer.Stop ();
-			KeeperOfTime.Stop ();
-			MeasurementCSVLogger.Stop ();
+			if (MeasurementTimer != null) {
+				MeasurementCSVLogger.Stop ();
+				MeasurementTimer.Stop ();
+			}
 
-			if (OnControllerStoped != null)
-			{
+			KeeperOfTime.Stop ();
+
+			if (OnControllerStoped != null) {
 				OnControllerStoped.Invoke (this, null);
 			}
 		}
@@ -272,13 +282,14 @@ namespace PrototypeBackend
 			LastCondition = new ushort[]{ 0, 0, 0, 0 };
 
 			SequencesTimer.Start ();
-			MeasurementTimer.Start ();
+			if (MeasurementTimer != null) {
+				MeasurementTimer.Start ();
+			}
 
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + KeeperOfTime.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 
-			if (OnControllerStarted != null)
-			{
+			if (OnControllerStarted != null) {
 				OnControllerStarted.Invoke (this, null);
 			}
 		}
@@ -298,10 +309,8 @@ namespace PrototypeBackend
 			conditions [2] = 0x0;
 			conditions [3] = 0x0;
 
-			foreach (Sequence seq in Configuration.Sequences)
-			{
-				if (seq.GetCurrentState (time) == DPinState.HIGH)
-				{
+			foreach (Sequence seq in Configuration.Sequences) {
+				if (seq.GetCurrentState (time) == DPinState.HIGH) {
 					int arraypos = (int)seq.Pin.Number / 16;
 					int shift = (int)seq.Pin.Number % 16;
 					int pos = 0x1 << (int)shift;
@@ -309,8 +318,7 @@ namespace PrototypeBackend
 				}
 			}
 
-			if (LastCondition [0] != conditions [0] || LastCondition [1] != conditions [1] || LastCondition [2] != conditions [2] || LastCondition [3] != conditions [3])
-			{
+			if (LastCondition [0] != conditions [0] || LastCondition [1] != conditions [1] || LastCondition [2] != conditions [2] || LastCondition [3] != conditions [3]) {
 				ArduinoController.SetDigitalOutputPins (conditions);
 			}
 			LastCondition = conditions;
@@ -322,11 +330,11 @@ namespace PrototypeBackend
 		/// </summary>
 		private void MeasurementPreProcessing ()
 		{
-			if (Configuration.AnalogPins.Count > 0)
-			{
+			if (Configuration.AnalogPins.Count > 0) {
 				#region Build Logger
 				MeasurementCSVLogger = new CSVLogger (
 					Configuration.GetCSVLogName (),
+                    new List<string>(),
 					true, 
 					false,
 					Configuration.CSVSaveFolderPath
@@ -339,8 +347,7 @@ namespace PrototypeBackend
 				MeasurementCSVLogger.Start ();
 				#endregion
 
-				if (MeasurementTimer != null)
-				{
+				if (MeasurementTimer != null) {
 					MeasurementTimer.Dispose ();
 				}
 
@@ -356,19 +363,16 @@ namespace PrototypeBackend
 		/// <param name="args">Arguments.</param>
 		protected void OnMeasurementTimerElapsed (object sender, System.Timers.ElapsedEventArgs args)
 		{
-			if (running)
-			{
+			if (running) {
 				double time = KeeperOfTime.ElapsedMilliseconds;
 				var measurements = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
-				if (measurements.Length > 0)
-				{
+				if (measurements.Length > 0) {
 					var query = measurements.Select (o => o.Number).ToArray ();
 					var vals = ArduinoController.ReadAnalogPin (query);
 
 					var now = DateTime.Now;
 
-					for (int i = 0; i < measurements.Length; i++)
-					{
+					for (int i = 0; i < measurements.Length; i++) {
 						measurements [i].Value = new DateTimeValue (vals [i], now);
 					}
 
@@ -377,8 +381,7 @@ namespace PrototypeBackend
 
 					MeasurementCSVLogger.Log (values);
 				}
-			} else
-			{
+			} else {
 				MeasurementTimer.Stop ();
 			}
 		}
@@ -390,15 +393,12 @@ namespace PrototypeBackend
 		/// <param name="path">Path.</param>
 		public bool SaveConfiguration (string path = null)
 		{
-			try
-			{
+			try {
 				Stream stream;
-				if (path == null)
-				{
-					stream = File.Open (Configuration.ConfigSavePath, FileMode.Create);
-				} else
-				{
-					stream = File.Open (path, FileMode.Create);
+				if (path == null) {
+					stream = File.Open (Configuration.ConfigSavePath, System.IO.FileMode.Create);
+				} else {
+					stream = File.Open (path, System.IO.FileMode.Create);
 				}
 				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
@@ -407,26 +407,22 @@ namespace PrototypeBackend
 
 				formatter.Serialize (stream, config);
 
-				if (LastConfigurationLocations.Contains (path))
-				{
+				if (LastConfigurationLocations.Contains (path)) {
 					LastConfigurationLocations.Remove (path);
 					LastConfigurationLocations.Reverse ();
 					LastConfigurationLocations.Add (path);
 					LastConfigurationLocations.Reverse ();
-				} else
-				{
+				} else {
 					LastConfigurationLocations.Reverse ();
 					LastConfigurationLocations.Add (path);
 					LastConfigurationLocations.Reverse ();
 				}
-				while (LastConfigurationLocations.Count > 5)
-				{
+				while (LastConfigurationLocations.Count > 5) {
 					LastConfigurationLocations.RemoveAt (5);
 				}
 
 				stream.Close ();
-			} catch (Exception)
-			{
+			} catch (Exception) {
 				throw;
 			} 
 			return true;
@@ -439,11 +435,9 @@ namespace PrototypeBackend
 		/// <param name="path">Path.</param>
 		public bool OpenConfiguration (string path)
 		{
-			if (File.Exists (path))
-			{
-				try
-				{
-					Stream stream = File.Open (path, FileMode.Open, FileAccess.Read, FileShare.Write);
+			if (File.Exists (path)) {
+				try {
+					Stream stream = File.Open (path, System.IO.FileMode.Open, FileAccess.Read, FileShare.Write);
 					var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
 					var config = formatter.Deserialize (stream);
@@ -452,31 +446,26 @@ namespace PrototypeBackend
 
 					stream.Close ();
 				
-					if (LastConfigurationLocations.Contains (path))
-					{
+					if (LastConfigurationLocations.Contains (path)) {
 						LastConfigurationLocations.Remove (path);
 						LastConfigurationLocations.Reverse ();
 						LastConfigurationLocations.Add (path);
 						LastConfigurationLocations.Reverse ();
-					} else
-					{
+					} else {
 						LastConfigurationLocations.Reverse ();
 						LastConfigurationLocations.Add (path);
 						LastConfigurationLocations.Reverse ();
 					}
 
-					if (OnOnfigurationLoaded != null)
-					{
+					if (OnOnfigurationLoaded != null) {
 						OnOnfigurationLoaded.Invoke (this, null);
 					}
-				} catch (Exception)
-				{
+				} catch (Exception) {
 					throw;
 				}
 
 				return true;
-			} else
-			{
+			} else {
 				return false;
 			}
 		}
