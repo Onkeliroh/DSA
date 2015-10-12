@@ -1469,6 +1469,7 @@
                         <property name="Icon">stock:gtk-open Menu</property>
                         <property name="Label" translatable="yes">Open CSV log file folder</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnCSVOpenFolderClicked" />
                       </widget>
                       <packing>
                         <property name="Position">2</property>

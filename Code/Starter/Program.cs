@@ -24,7 +24,7 @@ namespace Starter
 		/// <summary>
 		/// The configuration file argument short version.
 		/// </summary>
-		public static readonly IArgument ConfigFileShort = new ArgumentParser.Arguments.POSIX.POSIXShortArgument ('c', "configuration file path", defaultValue: "/home/onkeliroh/Bachelorarbeit/Resources/Config.ini");
+		public static readonly IArgument ConfigFileShort = new ArgumentParser.Arguments.POSIX.POSIXShortArgument ('c', "configuration file path");
 
 		/// <summary>
 		/// Array of all arguments
@@ -58,7 +58,7 @@ namespace Starter
 					RunWindow (matchedParameters.Single (o => o.Argument == ConfigFileShort).Values.ToList () [0] as string);
 				} else
 				{
-					RunWindow (ConfigFileShort.DefaultValue as string);
+					RunWindow (System.Environment.CurrentDirectory + "/Config.ini");
 				}
 			} catch (Exception ex)
 			{

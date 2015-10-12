@@ -1694,6 +1694,7 @@ namespace Frontend
 			this.cbeCSVSeparator.Changed += new global::System.EventHandler (this.OnCbeCSVSeparatorChanged);
 			this.cbCSVUTC.Toggled += new global::System.EventHandler (this.OnCbCSVUTCToggled);
 			this.btnCSVFilePathOpen.Clicked += new global::System.EventHandler (this.OnBtnCSVFilePathOpenClicked);
+			this.btnCSVOpenFolder.Clicked += new global::System.EventHandler (this.OnBtnCSVOpenFolderClicked);
 			this.btnFillAnalogInputs.Clicked += new global::System.EventHandler (this.OnBtnFillAnalogInputsClicked);
 			this.btnFillDigitalOutputs.Clicked += new global::System.EventHandler (this.OnBtnFillDigitalOutputsClicked);
 			this.btnAlternateBlinkSetup.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetupClicked);
