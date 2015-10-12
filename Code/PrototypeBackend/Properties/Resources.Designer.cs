@@ -61,45 +61,6 @@ namespace PrototypeBackend.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Arduino_Leonardo {
-            get {
-                object obj = ResourceManager.GetObject("Arduino_Leonardo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Arduino_MEGA {
-            get {
-                object obj = ResourceManager.GetObject("Arduino_MEGA", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Arduino_UNO {
-            get {
-                object obj = ResourceManager.GetObject("Arduino_UNO", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die 0 ähnelt.
-        /// </summary>
-        internal static string AutoConnect {
-            get {
-                return ResourceManager.GetString("AutoConnect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die [Arduino Uno]
         ///Name = Arduino Uno
         ///NumberOfDigitalPins = 20
@@ -124,51 +85,6 @@ namespace PrototypeBackend.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string Config1 {
-            get {
-                return ResourceManager.GetString("Config1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string Config2 {
-            get {
-                return ResourceManager.GetString("Config2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string Config3 {
-            get {
-                return ResourceManager.GetString("Config3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string Config4 {
-            get {
-                return ResourceManager.GetString("Config4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string Config5 {
-            get {
-                return ResourceManager.GetString("Config5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die DEBUG.log ähnelt.
         /// </summary>
         internal static string LogFileName {
@@ -183,24 +99,6 @@ namespace PrototypeBackend.Properties {
         internal static string LogFilePath {
             get {
                 return ResourceManager.GetString("LogFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die WARNING ähnelt.
-        /// </summary>
-        internal static string LogLevel {
-            get {
-                return ResourceManager.GetString("LogLevel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die 0 ähnelt.
-        /// </summary>
-        internal static string LogToFile {
-            get {
-                return ResourceManager.GetString("LogToFile", resourceCulture);
             }
         }
     }

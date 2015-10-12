@@ -4,6 +4,12 @@ using Gtk;
 using Gdk;
 using Cairo;
 using PrototypeBackend;
+using PrototypeDebugWindow.Properties;
+using System.IO;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
 
 namespace Frontend
 {
@@ -100,27 +106,20 @@ namespace Frontend
 		/// <param name="maxWidth">Max width.</param>
 		public static void SetMCUSurface (Cairo.Context context, string path, int maxWidth = int.MaxValue)
 		{
-			if (path != null && System.IO.File.Exists (path))
-			{
-				if (!path.Equals (string.Empty))
-				{
-					try
-					{
-						var surf = new Cairo.ImageSurface (path);
-						MCUImageXZero = ShiftX - surf.Width / 2;
-						MCUImageYZero = ShiftY - surf.Height / 2;
-
-						context.SetSource (
-							surf,
-							MCUImageXZero,
-							MCUImageYZero
-						);
-						context.Paint ();
-					} catch (Exception ex)
-					{
-						Console.Error.WriteLine (ex);
-					}
-				}
+			try {
+//				var surf = new Cairo.ImageSurface (path);
+				var surf =	GetImage (path);
+				MCUImageXZero = ShiftX - surf.Width / 2;
+				MCUImageYZero = ShiftY - surf.Height / 2;
+				context.SetSource (
+					surf,
+					MCUImageXZero,
+					MCUImageYZero
+				);
+				context.Paint ();
+				surf.Dispose ();
+			} catch (Exception ex) {
+				Console.Error.WriteLine (ex);
 			}
 		}
 
@@ -138,8 +137,7 @@ namespace Frontend
 		{
 			int height = (labelformat == LabelFormat.Flat) ? FlatHeight : BoldHeight;
 
-			for (int i = 0; i < pins.Count; i++)
-			{
+			for (int i = 0; i < pins.Count; i++) {
 				DrawLabel (context, labelformat, bordtype, labelposition, pins [i], xpos, ypos + (i * height + i * Space));
 			}
 		}
@@ -156,8 +154,7 @@ namespace Frontend
 		/// <param name="ypos">Ypos.</param>
 		public static void DrawLabel (Cairo.Context context, LabelFormat format, BorderType bordertype, LabelPosition labelposition, IPin pin, int xpos, int ypos)
 		{
-			switch (format)
-			{
+			switch (format) {
 			case LabelFormat.Flat:
 				DrawLabelFlat (context, bordertype, labelposition, pin, xpos, ypos);
 				break;
@@ -187,14 +184,12 @@ namespace Frontend
 
 			string displaytext = pin.Name;
 
-			if (displaytext.Length > 12)
-			{
+			if (displaytext.Length > 12) {
 				displaytext = displaytext.Substring (0, 12);
 				displaytext += "...";
 			}
 
-			if (bordertype == BorderType.Line)
-			{
+			if (bordertype == BorderType.Line) {
 				//Border
 				context.SetSourceRGB (0, 0, 0);
 				context.LineWidth = .5;
@@ -234,14 +229,12 @@ namespace Frontend
 
 			displaytext = pin.DisplayNumberShort + " " + pin.Name;
 
-			if (displaytext.Length > 12)
-			{
+			if (displaytext.Length > 12) {
 				displaytext = displaytext.Substring (0, 12);
 				displaytext += "...";
 			}
 
-			if (bordertype == BorderType.Line)
-			{
+			if (bordertype == BorderType.Line) {
 				DrawRoundedRectangle (context, xpos, ypos, LabelWidth - LabelBorderWeight, FlatHeight, 5);
 				context.SetSourceRGBA (color.R, color.G, color.B, color.A);
 				context.LineWidth = LabelBorderWeight;
@@ -251,8 +244,7 @@ namespace Frontend
 			//PinToLabelLine
 			int xposlabelline = 0;
 			int yposlabelline = 0;
-			switch (labelposition)
-			{
+			switch (labelposition) {
 			case LabelPosition.Left:
 				xposlabelline = xpos + LabelWidth;
 				yposlabelline = ypos + (FlatHeight / 2);
@@ -269,8 +261,7 @@ namespace Frontend
 				break;
 			}
 
-			if (PinLocations.ContainsKey ((int)pin.RealNumber))
-			{
+			if (PinLocations.ContainsKey ((int)pin.RealNumber)) {
 				DrawLines (
 					context,
 					xposlabelline,
@@ -311,6 +302,16 @@ namespace Frontend
 		}
 
 		#region Helperly
+
+		private static ImageSurface GetImage (string ImageName)
+		{
+			Gtk.Image img = Resources.ResourceManager.GetObject (ImageName, Resources.Culture) as Gtk.Image;
+
+
+
+			var surf = new ImageSurface (Format.ARGB32, 200, 200);
+			return surf;
+		}
 
 		/// <summary>
 		/// Converts a Gdk color to a Cairo color. 

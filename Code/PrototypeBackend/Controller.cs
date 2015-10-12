@@ -134,8 +134,7 @@ namespace PrototypeBackend
 		public Controller (string ConfigurationPath = null)
 		{
 			Configuration = new BoardConfiguration ();
-			//ConfigManager = new ConfigurationManager (ConfigurationPath);
-			//BoardConfigs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
+			Configs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
 
 			using (MemoryStream memstream = new MemoryStream (Encoding.ASCII.GetBytes (Resources.Boards))) {
 				using (StreamReader str = new StreamReader (memstream)) {
@@ -143,26 +142,17 @@ namespace PrototypeBackend
 				}
 			}
 
-			//LastConfigurationLocations [0] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config1").Value;
-			//LastConfigurationLocations [1] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config2").Value;
-			//LastConfigurationLocations [2] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config3").Value;
-			//LastConfigurationLocations [3] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config4").Value;
-			//LastConfigurationLocations [4] = ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config5").Value;
+			LastConfigurationLocations [0] = Properties.Settings.Default.Config1;
+			LastConfigurationLocations [1] = Properties.Settings.Default.Config2;
+			LastConfigurationLocations [2] = Properties.Settings.Default.Config3;
+			LastConfigurationLocations [3] = Properties.Settings.Default.Config4;
+			LastConfigurationLocations [4] = Properties.Settings.Default.Config5;
 
-			LastConfigurationLocations [0] = Resources.Config1;
-			LastConfigurationLocations [1] = Resources.Config2;
-			LastConfigurationLocations [2] = Resources.Config3;
-			LastConfigurationLocations [3] = Resources.Config4;
-			LastConfigurationLocations [4] = Resources.Config5;
-
-			//conlogger = new infologger (configmanager.generaldata.sections ["general"].getkeydata ("diagnosticspath").value, true, false, loglevel.error);
-			//conlogger.logtofile = false;
-			ConLogger = new InfoLogger (Resources.LogFileName,  true, false, (Logger.LogLevel)Enum.Parse (typeof(Logger.LogLevel), Resources.LogLevel), Resources.LogFilePath);
-			ConLogger.LogToFile = (Resources.LogToFile != "0");
+			ConLogger = new InfoLogger (Resources.LogFileName, true, false, (Logger.LogLevel)Enum.Parse (typeof(Logger.LogLevel), Settings.Default.LogLevel), Resources.LogFilePath);
+			ConLogger.LogToFile = Settings.Default.LogToFile; 
 			ConLogger.Start ();
 
-//			bool ConfigAutoConnect = Convert.ToBoolean (ConfigManager.GeneralData.Sections ["General"] ["AutoConnect"]);
-			bool ConfigAutoConnect = (Resources.AutoConnect != "0");
+			bool ConfigAutoConnect = Settings.Default.AutoConnect; 
 
 			ArduinoController.AutoConnect = ConfigAutoConnect;
 			ArduinoController.Init ();
@@ -236,13 +226,13 @@ namespace PrototypeBackend
 		/// </summary>
 		public void WritePreferences ()
 		{
-			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config1").Value = LastConfigurationLocations [0];
-			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config2").Value = LastConfigurationLocations [1];
-			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config3").Value = LastConfigurationLocations [2];
-			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config4").Value = LastConfigurationLocations [3];
-			ConfigManager.GeneralData.Sections ["General"].GetKeyData ("Config5").Value = LastConfigurationLocations [4];
 
-			ConfigManager.SaveGeneralSettings ();
+			Properties.Settings.Default.Config1 = LastConfigurationLocations [0];
+			Properties.Settings.Default.Config2 = LastConfigurationLocations [1];
+			Properties.Settings.Default.Config3 = LastConfigurationLocations [2];
+			Properties.Settings.Default.Config4 = LastConfigurationLocations [3];
+			Properties.Settings.Default.Config5 = LastConfigurationLocations [4];
+			Properties.Settings.Default.Save ();
 		}
 
 		/// <summary>
@@ -334,7 +324,7 @@ namespace PrototypeBackend
 				#region Build Logger
 				MeasurementCSVLogger = new CSVLogger (
 					Configuration.GetCSVLogName (),
-                    new List<string>(),
+					new List<string> (),
 					true, 
 					false,
 					Configuration.CSVSaveFolderPath
