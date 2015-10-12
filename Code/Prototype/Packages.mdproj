@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ItemType>PackagingProject</ItemType>
+    <ProjectGuid>{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}</ProjectGuid>
+    <Packages>
+      <Packages>
+        <Package name="Microsoft Windows Binaries">
+          <Builder targetFile="..\..\Tools\WindowsPackage\Prototype.zip" platform="Windows" configuration="Release|x86" ctype="BinariesZipPackageBuilder">
+            <ChildEntries>
+              <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
+              <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
+              <SolutionItemReference path="Prototype.sln" id="{A12F99B0-3709-47FD-B8A9-6101257C8F16}" />
+              <SolutionItemReference path="..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj" />
+              <SolutionItemReference path="..\DigitalPinConfigurationDialog\DigitalPinConfigurationDialog.csproj" />
+              <SolutionItemReference path="..\SignalConfigurationDialog\MeasurementCombinationDialog.csproj" />
+              <SolutionItemReference path="..\GUIHelper\GUIHelper.csproj" />
+              <SolutionItemReference path="..\SequenceConfigurationsDialog\SequenceConfigurationsDialog.csproj" />
+              <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
+              <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj" />
+              <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj" />
+              <SolutionItemReference path="..\Logger\Logger.csproj" />
+              <SolutionItemReference path="..\Starter\Starter.csproj" />
+              <SolutionItemReference path="Prototype.sln" id="{AF79BD2A-16D3-4023-B737-0A5BDEA0B1F7}" />
+            </ChildEntries>
+            <RootEntry path="Prototype.sln" id=":root:" />
+          </Builder>
+        </Package>
+        <Package name="Linux Binaries">
+          <Builder targetFile="Prototype.tar.gz" platform="Linux" configuration="Release|x86" ctype="BinariesZipPackageBuilder">
+            <ChildEntries>
+              <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
+              <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
+              <SolutionItemReference path="..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj" />
+              <SolutionItemReference path="..\DigitalPinConfigurationDialog\DigitalPinConfigurationDialog.csproj" />
+              <SolutionItemReference path="..\SignalConfigurationDialog\MeasurementCombinationDialog.csproj" />
+              <SolutionItemReference path="..\GUIHelper\GUIHelper.csproj" />
+              <SolutionItemReference path="..\SequenceConfigurationsDialog\SequenceConfigurationsDialog.csproj" />
+              <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj" />
+              <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj" />
+              <SolutionItemReference path="..\Logger\Logger.csproj" />
+              <SolutionItemReference path="..\Starter\Starter.csproj" />
+              <SolutionItemReference path="Prototype.sln" id="{AF79BD2A-16D3-4023-B737-0A5BDEA0B1F7}" />
+              <SolutionItemReference path="Prototype.sln" id="{A12F99B0-3709-47FD-B8A9-6101257C8F16}" />
+              <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
+            </ChildEntries>
+            <RootEntry path="Prototype.sln" id=":root:" />
+          </Builder>
+        </Package>
+      </Packages>
+    </Packages>
+  </PropertyGroup>
+</Project>
