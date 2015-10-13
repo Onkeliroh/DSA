@@ -1517,6 +1517,7 @@ namespace Frontend
 					if (args.ResponseId == ResponseType.Yes) {
 						LastActiveBoard = cbBoardType.Active;
 						con.Configuration.Board = con.BoardConfigs [cbBoardType.Active];
+						drawingareaMCU.QueueDraw ();
 						UpdateAREFList ();
 					} else {
 						cbBoardType.Active = LastActiveBoard;
@@ -1530,7 +1531,7 @@ namespace Frontend
 				UpdateAREFList ();
 			}
 
-			drawingareaMCU.QueueDraw ();
+
 		}
 
 		/// <summary>
