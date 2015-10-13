@@ -90,6 +90,7 @@ namespace Starter
 
 				var con = new PrototypeBackend.Controller (ConfigPath);
 				MainWindow win = new MainWindow (con, verbose);
+				win.SetGtkTheme (Resources.gtkrc);
 				win.Show ();
 				Application.Run ();
 			} catch (Exception ex) {

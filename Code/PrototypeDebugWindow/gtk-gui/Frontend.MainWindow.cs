@@ -380,7 +380,7 @@ namespace Frontend
 			this.hpanedMain = new global::Gtk.HPaned ();
 			this.hpanedMain.CanFocus = true;
 			this.hpanedMain.Name = "hpanedMain";
-			this.hpanedMain.Position = 371;
+			this.hpanedMain.Position = 1;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.vbox5 = new global::Gtk.VBox ();
 			this.vbox5.Name = "vbox5";

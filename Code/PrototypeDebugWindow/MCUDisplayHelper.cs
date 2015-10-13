@@ -308,10 +308,11 @@ namespace Frontend
 		{
 			System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)Resources.ResourceManager.GetObject (ImageName);
 
-//			System.Drawing.Bitmap bitmap = Resources.Arduino_UNO;
 			bitmap.Save ("image", ImageFormat.Png);
-
 			var surf = new ImageSurface ("image");
+
+			File.Delete ("image");
+			bitmap.Dispose ();
 			return surf;
 		}
 

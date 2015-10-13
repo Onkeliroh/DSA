@@ -93,6 +93,8 @@ namespace Frontend
 		/// </summary>
 		private void InitComponents ()
 		{
+			
+
 			ArduinoController.OnConnectionChanged += OnConnection;
 
 			BuildMenu ();
@@ -133,6 +135,11 @@ namespace Frontend
 					lblTimePassed.QueueDraw ();
 				});
 			};
+		}
+
+		public void SetGtkTheme (string theme)
+		{
+			Gtk.Rc.ParseString (theme);
 		}
 
 		#region NodeViewMouseActions

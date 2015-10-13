@@ -1,6 +1,15 @@
+gtk-icon-sizes = "gtk-menu=13,13:gtk-small-toolbar=16,16:gtk-large-toolbar=24,24:gtk-dnd=32,32"
 gtk-toolbar-icon-size = small-toolbar
+
+# disable images in buttons. i've only seen ugly delphi apps use this feature.
 gtk-button-images = 1
+
+# enable/disable images in menus. most "stock" microsoft apps don't use these, except sparingly.
+# the office apps use them heavily, though.
 gtk-menu-images = 1
+
+# use the win32 button ordering instead of the GNOME HIG one, where applicable
 gtk-alternative-button-order = 1
+
+# use the win32 sort indicators direction, as in Explorer
 gtk-alternative-sort-arrows = 1
-gtk-error-bell = 0
