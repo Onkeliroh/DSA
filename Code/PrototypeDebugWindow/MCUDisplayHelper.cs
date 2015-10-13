@@ -108,7 +108,6 @@ namespace Frontend
 		public static void SetMCUSurface (Cairo.Context context, string path, int maxWidth = int.MaxValue)
 		{
 			try {
-//				var surf = new Cairo.ImageSurface (path);
 				var surf =	GetImage (path);
 				MCUImageXZero = ShiftX - surf.Width / 2;
 				MCUImageYZero = ShiftY - surf.Height / 2;
@@ -308,9 +307,16 @@ namespace Frontend
 		{
 			System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)Resources.ResourceManager.GetObject (ImageName);
 
+//			using (MemoryStream stream = new MemoryStream ()) {
+//				bitmap.Save (stream, ImageFormat.Png);
+//				var strider = bitmap.LockBits (new System.Drawing.Rectangle (0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+//				var surf = new ImageSurface (stream.ToArray (), Format.ARGB32, strider.Width, strider.Height, strider.Stride);
+//				return surf;
+//			}
+
 			bitmap.Save ("image", ImageFormat.Png);
 			var surf = new ImageSurface ("image");
-
+		
 			File.Delete ("image");
 			bitmap.Dispose ();
 			return surf;
