@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrototypeBackend.Properties {
+namespace PrototypeDebugWindow.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace PrototypeBackend.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrototypeBackend.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrototypeDebugWindow.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,35 +61,32 @@ namespace PrototypeBackend.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die [Arduino Uno]
-        ///Name = Arduino Uno
-        ///NumberOfDigitalPins = 20
-        ///NumberOfAnalogPins = 6
-        ///MCU = atmega328p
-        ///AREF = DEFAULT 5, INTERNAL 5, EXTERNAL 5
-        ///ImagePath = Arduino_UNO
-        ///SDA = 18
-        ///SCL = 19
-        ///RX = 0
-        ///TX = 1
-        ///HWAPinsAddrs = 14,15,16,17,18,19
-        ///DTR = False
-        ///PinPosition = 14:9,202;15:9,211;16:9,220;17:9,229;18:9,238;19:9,247;0:180,247;1:180,239;2:180,229;3:180,220;4:180,211;5:180,202;6:180:193;7:180,184;8:180,169;9:180,160;10:180,151;11:180,142;12:180,133;13:180,125
-        ///PinLeft = 14,15,16,17,18,19
-        ///PinRight = 13,12, [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static string Boards {
+        internal static System.Drawing.Bitmap Arduino_Leonardo {
             get {
-                return ResourceManager.GetString("Boards", resourceCulture);
+                object obj = ResourceManager.GetObject("Arduino_Leonardo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die DEBUG.log ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static string LogFileName {
+        internal static System.Drawing.Bitmap Arduino_MEGA {
             get {
-                return ResourceManager.GetString("LogFileName", resourceCulture);
+                object obj = ResourceManager.GetObject("Arduino_MEGA", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Arduino_UNO {
+            get {
+                object obj = ResourceManager.GetObject("Arduino_UNO", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

@@ -6,7 +6,7 @@
     <Packages>
       <Packages>
         <Package name="Microsoft Windows Binaries">
-          <Builder targetFile="Prototype.tar.gz" platform="Windows" configuration="Debug|x86" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\..\Tools\WindowsPackage\Prototype.zip" platform="Windows" configuration="Debug" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
               <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
@@ -19,15 +19,15 @@
               <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj" />
               <SolutionItemReference path="..\Logger\Logger.csproj" />
               <SolutionItemReference path="..\Starter\Starter.csproj" />
-              <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
+              <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
               <SolutionItemReference path="Prototype.sln" id="{A12F99B0-3709-47FD-B8A9-6101257C8F16}" />
-              <SolutionItemReference path="Prototype.sln" id="{AF79BD2A-16D3-4023-B737-0A5BDEA0B1F7}" />
+              <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
             </ChildEntries>
             <RootEntry path="Prototype.sln" id=":root:" />
           </Builder>
         </Package>
         <Package name="Linux Binaries">
-          <Builder targetFile="Prototype.tar.gz" platform="Linux" configuration="Release|x86" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="Prototype.tar.gz" platform="Linux" configuration="Debug" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
               <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
@@ -40,7 +40,7 @@
               <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj" />
               <SolutionItemReference path="..\Logger\Logger.csproj" />
               <SolutionItemReference path="..\Starter\Starter.csproj" />
-              <SolutionItemReference path="Prototype.sln" id="{AF79BD2A-16D3-4023-B737-0A5BDEA0B1F7}" />
+              <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
               <SolutionItemReference path="Prototype.sln" id="{A12F99B0-3709-47FD-B8A9-6101257C8F16}" />
               <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
             </ChildEntries>

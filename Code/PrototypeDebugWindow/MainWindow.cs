@@ -12,6 +12,7 @@ using OxyPlot.Series;
 using PrototypeBackend;
 using System.Collections.Generic;
 using Gdk;
+using PrototypeDebugWindow.Properties;
 
 namespace Frontend
 {
@@ -76,11 +77,13 @@ namespace Frontend
 				}
 			}
 
-			#if !DEBUG
-			this.notebook1.GetNthPage (3).Visible = false;
-			#endif
+			if (!PrototypeDebugWindow.Properties.Settings.Default.DebugMode) {
+				this.notebook1.GetNthPage (6).Visible = false;
+			}
 
-//			this.Maximize ();
+			if (PrototypeDebugWindow.Properties.Settings.Default.StartMaximized) {
+				this.Maximize ();
+			}
 		}
 
 		#endregion
@@ -1224,15 +1227,15 @@ namespace Frontend
 			#endregion
 
 			//TODO preferences
-//			#region Edit
-//			Menu editmenu = new Menu ();
-//			MenuItem edit = new MenuItem ("Edit");
-//			edit.Submenu = editmenu;
-//			MenuItem preferences = preferencesAction.CreateMenuItem () as MenuItem;
-//			editmenu.Append (preferences);
-//
-//			mbar.Append (edit);
-//			#endregion
+			#region Edit
+			Menu editmenu = new Menu ();
+			MenuItem edit = new MenuItem ("Edit");
+			edit.Submenu = editmenu;
+			MenuItem preferences = preferencesAction.CreateMenuItem () as MenuItem;
+			editmenu.Append (preferences);
+
+			mbar.Append (edit);
+			#endregion
 
 			#region ConnectionMenu
 			Menu connectionmenu = new Menu ();
@@ -2219,7 +2222,7 @@ namespace Frontend
 
 		protected  void RunPreferencesDialog (object sender = null, EventArgs e = null)
 		{
-			var dialog = new PrototypeDebugWindow.PreferencesDialog (this, null);
+			var dialog = new PrototypeDebugWindow.PreferencesDialog (this, this.con);
 			dialog.Run ();
 			dialog.Destroy ();
 		}

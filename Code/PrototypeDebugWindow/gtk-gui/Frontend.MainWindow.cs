@@ -24,6 +24,8 @@ namespace Frontend
 		
 		private global::Gtk.Action preferencesAction;
 		
+		private global::Gtk.Action noAction;
+		
 		private global::Gtk.VBox vbox1;
 		
 		private global::Gtk.MenuBar menubarMain;
@@ -318,8 +320,9 @@ namespace Frontend
 			this.mediaPlayAction.Sensitive = false;
 			this.mediaPlayAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Start");
 			w1.Add (this.mediaPlayAction, null);
-			this.mediaStopAction = new global::Gtk.Action ("mediaStopAction", null, global::Mono.Unix.Catalog.GetString ("Stops measurements and sequences"), "gtk-media-stop");
+			this.mediaStopAction = new global::Gtk.Action ("mediaStopAction", global::Mono.Unix.Catalog.GetString ("Stop"), global::Mono.Unix.Catalog.GetString ("Stops measurements and sequences"), "gtk-media-stop");
 			this.mediaStopAction.Sensitive = false;
+			this.mediaStopAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Stop");
 			w1.Add (this.mediaStopAction, null);
 			this.saveAsAction = new global::Gtk.Action ("saveAsAction", null, global::Mono.Unix.Catalog.GetString ("Saves a configuration to a defined file"), "gtk-save-as");
 			w1.Add (this.saveAsAction, null);
@@ -339,6 +342,8 @@ namespace Frontend
 			this.preferencesAction = new global::Gtk.Action ("preferencesAction", global::Mono.Unix.Catalog.GetString ("_Preferences"), null, "gtk-preferences");
 			this.preferencesAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Preferences");
 			w1.Add (this.preferencesAction, null);
+			this.noAction = new global::Gtk.Action ("noAction", null, null, "gtk-no");
+			w1.Add (this.noAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.WidthRequest = 800;
@@ -375,7 +380,7 @@ namespace Frontend
 			this.hpanedMain = new global::Gtk.HPaned ();
 			this.hpanedMain.CanFocus = true;
 			this.hpanedMain.Name = "hpanedMain";
-			this.hpanedMain.Position = 293;
+			this.hpanedMain.Position = 371;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.vbox5 = new global::Gtk.VBox ();
 			this.vbox5.Name = "vbox5";
@@ -500,7 +505,6 @@ namespace Frontend
 			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.frame5]));
 			w17.Position = 1;
 			w17.Expand = false;
-			w17.Fill = false;
 			this.hpanedMain.Add (this.vbox5);
 			global::Gtk.Paned.PanedChild w18 = ((global::Gtk.Paned.PanedChild)(this.hpanedMain [this.vbox5]));
 			w18.Resize = false;
@@ -508,7 +512,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 4;
+			this.notebook1.CurrentPage = 6;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -910,7 +914,7 @@ namespace Frontend
 			this.vpanedSequences = new global::Gtk.VPaned ();
 			this.vpanedSequences.CanFocus = true;
 			this.vpanedSequences.Name = "vpanedSequences";
-			this.vpanedSequences.Position = 222;
+			this.vpanedSequences.Position = 1;
 			// Container child vpanedSequences.Gtk.Paned+PanedChild
 			this.hbSequences = new global::Gtk.HBox ();
 			this.hbSequences.Name = "hbSequences";
@@ -1560,6 +1564,7 @@ namespace Frontend
 			this.notebook1.Add (this.table2);
 			global::Gtk.Notebook.NotebookChild w139 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table2]));
 			w139.Position = 6;
+			w139.MenuLabel = global::Mono.Unix.Catalog.GetString ("Debug");
 			// Notebook tab
 			this.label10 = new global::Gtk.Label ();
 			this.label10.Name = "label10";

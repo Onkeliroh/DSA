@@ -30,6 +30,30 @@ namespace PrototypeBackend
 		/// </summary>
 		private CSVLogger MeasurementCSVLogger;
 
+		public LogLevel LoggerLevel {
+			get{ return PrototypeBackend.Properties.Settings.Default.LogLevel; }
+			set {
+				PrototypeBackend.Properties.Settings.Default.LogLevel = value;
+				PrototypeBackend.Properties.Settings.Default.Save ();
+			}
+		}
+
+		public bool LogToFile {
+			get{ return PrototypeBackend.Properties.Settings.Default.LogToFile; }
+			set {
+				PrototypeBackend.Properties.Settings.Default.LogToFile = value;
+				PrototypeBackend.Properties.Settings.Default.Save ();
+			}
+		}
+
+		public string LogFilePath {
+			get{ return PrototypeBackend.Properties.Settings.Default.LogFilePath; }
+			set {
+				PrototypeBackend.Properties.Settings.Default.LogFilePath = value;
+				PrototypeBackend.Properties.Settings.Default.Save ();
+			}
+		}
+
 		/// <summary>
 		/// Gets the config manager.
 		/// </summary>
@@ -134,8 +158,7 @@ namespace PrototypeBackend
 		public Controller (string ConfigurationPath = null)
 		{
 			Configuration = new BoardConfiguration ();
-			Configs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
-
+//			Configs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
 			using (MemoryStream memstream = new MemoryStream (Encoding.ASCII.GetBytes (Resources.Boards))) {
 				using (StreamReader str = new StreamReader (memstream)) {
 					BoardConfigs = ConfigurationManager.ParseBoards (str);
@@ -148,27 +171,20 @@ namespace PrototypeBackend
 			LastConfigurationLocations [3] = Properties.Settings.Default.Config4;
 			LastConfigurationLocations [4] = Properties.Settings.Default.Config5;
 
-			ConLogger = new InfoLogger (Resources.LogFileName, true, false, (Logger.LogLevel)Enum.Parse (typeof(Logger.LogLevel), Settings.Default.LogLevel), Resources.LogFilePath);
+			ConLogger = new InfoLogger (Resources.LogFileName, true, false, Settings.Default.LogLevel, Settings.Default.LogFilePath);
 			ConLogger.LogToFile = Settings.Default.LogToFile; 
 			ConLogger.Start ();
 
-			bool ConfigAutoConnect = Settings.Default.AutoConnect; 
 
-			ArduinoController.AutoConnect = ConfigAutoConnect;
+			ArduinoController.AutoConnect = Settings.Default.AutoConnect; 
 			ArduinoController.Init ();
 			ArduinoController.OnReceiveMessage += (sender, e) => ConLogger.Log ("IN < " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnSendMessage += (sender, e) => ConLogger.Log ("OUT > " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnConnectionChanged += ((o, e) => {
 				if (e.Connected) {
-					#if DEBUG
-					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.DEBUG);
-					#endif
-					#if RELEASE
-					ConLogger.Log ("Connected to " + ArduinoController.SerialPortName);
-					#endif
-
+					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.INFO);
 				} else {
-					ConLogger.Log ("Disconnected");
+					ConLogger.Log ("Disconnected", LogLevel.INFO);
 				}
 			});
 
@@ -226,7 +242,6 @@ namespace PrototypeBackend
 		/// </summary>
 		public void WritePreferences ()
 		{
-
 			Properties.Settings.Default.Config1 = LastConfigurationLocations [0];
 			Properties.Settings.Default.Config2 = LastConfigurationLocations [1];
 			Properties.Settings.Default.Config3 = LastConfigurationLocations [2];
