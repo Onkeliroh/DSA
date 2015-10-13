@@ -6,7 +6,7 @@
     <Packages>
       <Packages>
         <Package name="Microsoft Windows Binaries">
-          <Builder targetFile="..\..\Tools\WindowsPackage\Prototype.zip" platform="Windows" configuration="Debug" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\..\Tools\WindowsPackage\Prototype.zip" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
               <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
@@ -23,11 +23,14 @@
               <SolutionItemReference path="Prototype.sln" id="{A12F99B0-3709-47FD-B8A9-6101257C8F16}" />
               <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
             </ChildEntries>
+            <ExcludedFiles>
+              <File>Frontend,ProgramFiles,MainWindow.cs</File>
+            </ExcludedFiles>
             <RootEntry path="Prototype.sln" id=":root:" />
           </Builder>
         </Package>
         <Package name="Linux Binaries">
-          <Builder targetFile="Prototype.tar.gz" platform="Linux" configuration="Debug" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\..\Tools\LinuxPackage\Prototype.zip" platform="Linux" configuration="Release" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
               <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
@@ -44,6 +47,9 @@
               <SolutionItemReference path="Prototype.sln" id="{A12F99B0-3709-47FD-B8A9-6101257C8F16}" />
               <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
             </ChildEntries>
+            <ExcludedFiles>
+              <File>Frontend,ProgramFiles,MainWindow.cs</File>
+            </ExcludedFiles>
             <RootEntry path="Prototype.sln" id=":root:" />
           </Builder>
         </Package>

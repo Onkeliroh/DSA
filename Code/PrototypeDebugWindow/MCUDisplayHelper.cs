@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
+using System.Drawing.Imaging;
 
 namespace Frontend
 {
@@ -303,13 +304,12 @@ namespace Frontend
 
 		#region Helperly
 
-		private static ImageSurface GetImage (string ImageName)
+		private static Cairo.ImageSurface GetImage (string ImageName)
 		{
-			Gtk.Image img = Resources.ResourceManager.GetObject (ImageName, Resources.Culture) as Gtk.Image;
+			System.Drawing.Bitmap bitmap = Resources.Arduino_UNO;
+			bitmap.Save ("image", ImageFormat.Png);
 
-
-
-			var surf = new ImageSurface (Format.ARGB32, 200, 200);
+			var surf = new ImageSurface ("image");
 			return surf;
 		}
 
