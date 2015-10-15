@@ -29,7 +29,18 @@ namespace PrototypeBackend
 		/// Gets or sets the display name <see cref="Name"/>.
 		/// </summary>
 		/// <value>The display name.</value>
-		public string DisplayName { get { return Name; } set { } }
+		public string DisplayName { 
+			get {
+				string s = Name;
+				s += "( ";
+				foreach (APin a in Pins) {
+					s += a.DisplayNumberShort + " ";
+				}
+				s += "(";
+				return Name; 
+			} 
+			set { } 
+		}
 
 		/// <summary>
 		/// Gets or sets the unit.
@@ -84,10 +95,8 @@ namespace PrototypeBackend
 		/// <value>The value.</value>
 		public DateTimeValue Value {
 			get {
-				if (Pins.Count > 0)
-				{
-					if (Operation != null)
-					{
+				if (Pins.Count > 0) {
+					if (Operation != null) {
 						return new DateTimeValue () {
 						
 							Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
@@ -95,9 +104,8 @@ namespace PrototypeBackend
 						};
 					}
 					return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Interval).First ().Value.Time };
-				} else
-				{
-					return new DateTimeValue (){ Value = double.NaN, Time = DateTime.Now };
+				} else {
+					return new DateTimeValue (){ Value = double.NaN, Time = DateTime.Now.ToOADate () };
 				}
 			}
 			private set { }
@@ -162,8 +170,7 @@ namespace PrototypeBackend
 		/// <param name="pin">Pin.</param>
 		public bool AddPin (APin pin)
 		{
-			if (!Pins.Contains (pin))
-			{
+			if (!Pins.Contains (pin)) {
 				Pins.Add (pin);
 				return true;
 			}
@@ -179,8 +186,7 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			MeasurementCombination MeCom = obj as MeasurementCombination;
-			if (MeCom != null)
-			{
+			if (MeCom != null) {
 				return 
 				    this.Pins.SequenceEqual (MeCom.Pins)	&&
 				this.Name.Equals (MeCom.Name) &&

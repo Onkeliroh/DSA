@@ -126,12 +126,12 @@ public partial class MainWindow: Gtk.Window
 //					XAxis.Pan (series.Points [series.Points.Count - 1].X - series.Points [series.Points.Count - 2].X);
 					XAxis.Pan (new ScreenPoint (XAxis.Transform (series.Points.Last ().X), 0), new ScreenPoint (XAxis.Transform (series.Points [series.Points.Count - 2].X), 0));
 
-					Log ((XAxis.Offset - prevoffset).ToString () +
-					"\t" +
-					(XAxis.InverseTransform (series.Points [series.Points.Count - 1].X) - XAxis.InverseTransform (series.Points [series.Points.Count - 2].X)).ToString () +
-					"\t" +
-					(series.Points [series.Points.Count - 1].X - series.Points [series.Points.Count - 2].X).ToString ()
-					);
+//					Log ((XAxis.Offset - prevoffset).ToString () +
+//					"\t" +
+//					(XAxis.InverseTransform (series.Points [series.Points.Count - 1].X) - XAxis.InverseTransform (series.Points [series.Points.Count - 2].X)).ToString () +
+//					"\t" +
+//					(series.Points [series.Points.Count - 1].X - series.Points [series.Points.Count - 2].X).ToString ()
+//					);
 				}
 //				Log (string.Format ("{0}\t{1}", series.Points.Last ().X, XAxis.Offset));
 				prevoffset = XAxis.Offset;

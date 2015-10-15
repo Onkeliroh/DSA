@@ -45,6 +45,8 @@ namespace Frontend
 		/// </summary>
 		private System.Timers.Timer TimeKeeperPresenter;
 
+		private double LastTimeKeeperPresenterTick = new DateTime (0).ToOADate ();
+
 		public int LastActiveBoard = -1;
 
 		public readonly bool Verbose = false;
@@ -129,10 +131,11 @@ namespace Frontend
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
 			TimeKeeperPresenter.Elapsed += (sender, e) => {
 				UpdateRealTimePlot ();
-				RealTimePlotView.QueueDraw ();
 				Application.Invoke ((o, args) => {  
 					lblTimePassed.Text = string.Format ("{0:D2}:{1:D2}:{2:D2}", con.TimeElapsed.Hours, con.TimeElapsed.Minutes, con.TimeElapsed.Seconds);
 					lblTimePassed.QueueDraw ();
+					RealTimePlotView.InvalidatePlot (true);
+					RealTimePlotView.QueueDraw ();
 				});
 			};
 		}
@@ -604,26 +607,68 @@ namespace Frontend
 		/// </summary>
 		private void UpdateRealTimePlot ()
 		{
+
+			var rng = new Random ();
 			try {
 				foreach (APin a in con.Configuration.AnalogPins) {
-					var values = a.Values;
-					values = values.OrderByDescending (o => o.Time).ToList ();
-					foreach (DateTimeValue dtv in values) {
-						if (RealTimeDictionary [a.DisplayName].Contains (dtv)) {
-							break;
-						}
-						RealTimeDictionary [a.DisplayName].Add (dtv);
-					}
+//					var values = a.Values;
+//					values = values.OrderByDescending (o => o.Time).ToList ();
+//					foreach (DateTimeValue dtv in values) {
+//						if (RealTimeDictionary [a.DisplayName].Contains (dtv)) {
+//							break;
+//						}
+//						RealTimeDictionary [a.DisplayName].Add (dtv);
+//					}
+//					RealTimeDictionary [a.DisplayName].Add (new DateTimeValue (rng.NextDouble (), DateTime.Now.ToOADate ()));
+					(RealTimePlotView.Model.Series.Single (o => o.TrackerKey == a.DisplayName) as LineSeries).Points.Add (new DataPoint (DateTime.Now.ToOADate (), rng.NextDouble () * 100));
 				}
-
-				RealTimePlotView.Model.InvalidatePlot (true);
+//				foreach (MeasurementCombination a in con.Configuration.MeasurementCombinations) {
+//					var values = a.Value;
+//					if (!RealTimeDictionary [a.DisplayName].Contains (values)) {
+//						RealTimeDictionary [a.DisplayName].Add (values);
+//					}
+//				}
 			} catch (Exception ex) {
 				con.ConLogger.Log (ex.ToString (), LogLevel.DEBUG);
 			}
+
+			double now = DateTime.Now.ToOADate ();
+			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (now), 0), new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0));
+			LastTimeKeeperPresenterTick = now;
 		}
 
 		private void InitRealTimePlot ()
 		{
+			#region Axes
+			RealTimePlotView.Model.Axes.Clear ();
+
+			//TODO yAxen bauen
+			List<string> units = con.Configuration.AnalogPins.Select (o => o.Unit).ToList<string> ();
+			units.AddRange (con.Configuration.MeasurementCombinations.Select (o => o.Unit).ToList<string> ());
+			units = units.Distinct ().ToList ();
+
+			double startpos = 0.0;
+			double step = 1.0 / units.Count;
+			//build axes
+			for (int i = 0; i < units.Count; i++) {
+				var axis = new LinearAxis () {
+					Position = AxisPosition.Left,
+					StartPosition = startpos,
+					EndPosition = startpos + step,
+					Unit = units [i],
+					Key = units [i],
+					IsZoomEnabled = false,
+					IsPanEnabled = false
+				};
+				startpos += step;
+
+				RealTimePlotView.Model.Axes.Add (axis);
+			}
+
+			RealTimePlotView.Model.Axes.Add (RealTimeXAxis);
+
+			#endregion
+
 			PrepareRealTimePlot ();
 			RealTimePlotView.Model.Series.Clear ();
 			RealTimePlotView.InvalidatePlot (true);
@@ -633,11 +678,28 @@ namespace Frontend
 						Color = ColorHelper.GdkColorToOxyColor (a.PlotColor),
 						DataFieldX = "Time",
 						DataFieldY = "Value",
-						ItemsSource = RealTimeDictionary [a.DisplayName],
-						Title = a.DisplayName
+//						ItemsSource = RealTimeDictionary [a.DisplayName].AsEnumerable (),
+						YAxisKey = a.Unit,
+						XAxisKey = RealTimeXAxis.Key,
+						TrackerKey = a.DisplayName,
 					}
 				);
 			}
+
+//			foreach (MeasurementCombination a in con.Configuration.MeasurementCombinations) {
+//				RealTimePlotView.Model.Series.Add (
+//					new LineSeries () {
+//						Color = ColorHelper.GdkColorToOxyColor (a.Color),
+//						DataFieldX = "Time",
+//						DataFieldY = "Value",
+//						ItemsSource = RealTimeDictionary [a.DisplayName],
+//						Title = a.DisplayName,
+//						YAxisKey = a.Unit,
+//						XAxisKey = RealTimeXAxis.Key
+//					}
+//				);
+//			}
+
 		}
 
 		#endregion
@@ -1357,7 +1419,7 @@ namespace Frontend
 		private void BuildRealTimePlot ()
 		{
 			RealTimeXAxis = new DateTimeAxis {
-				Key = "X",
+				Key = "RealTimeXAxis",
 				Position = AxisPosition.Bottom,
 				MajorGridlineThickness = 1,
 				MajorGridlineStyle = OxyPlot.LineStyle.Solid,
@@ -2332,6 +2394,9 @@ namespace Frontend
 			}
 			foreach (APin a in con.Configuration.AnalogPins) {
 				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());
+			}
+			foreach (MeasurementCombination mecom in con.Configuration.MeasurementCombinations) {
+				RealTimeDictionary.Add (mecom.DisplayName, new Collection<DateTimeValue> ());
 			}
 		}
 

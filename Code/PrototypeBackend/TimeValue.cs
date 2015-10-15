@@ -28,7 +28,7 @@ namespace PrototypeBackend
 		/// <summary>
 		/// The time.
 		/// </summary>
-		public DateTime Time;
+		public double Time;
 
 		/// <summary>
 		/// The value.
@@ -41,6 +41,17 @@ namespace PrototypeBackend
 		/// <param name="value">Value.</param>
 		/// <param name="time">Time.</param>
 		public DateTimeValue (double value, DateTime time)
+		{
+			Value = value;
+			Time = time.ToOADate ();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.DateTimeValue"/> struct.
+		/// </summary>
+		/// <param name="value">Value.</param>
+		/// <param name="time">Time.</param>
+		public DateTimeValue (double value, double time)
 		{
 			Value = value;
 			Time = time;
