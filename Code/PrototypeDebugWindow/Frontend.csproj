@@ -63,7 +63,6 @@
     <Compile Include="MCUDisplayHelper.cs" />
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="gtk-gui\Frontend.MainWindow.cs" />
-    <Compile Include="gtk-gui\PrototypeDebugWindow.PreferencesDialog.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,22 +73,21 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="GUIHelper\ColorHelper.cs" />
+    <Compile Include="GUIHelper\FormatHelper.cs" />
+    <Compile Include="GUIHelper\NodeViews.cs" />
+    <Compile Include="gtk-gui\Frontend.DPinConfigDialog.cs" />
+    <Compile Include="Dialogs\DPinConfigDialog.cs" />
+    <Compile Include="Dialogs\APinConfigDialog.cs" />
+    <Compile Include="gtk-gui\Frontend.APinConfigDialog.cs" />
+    <Compile Include="Dialogs\AComConfigDialog.cs" />
+    <Compile Include="gtk-gui\Frontend.AComConfigDialog.cs" />
+    <Compile Include="Dialogs\SeqConfigDialog.cs" />
+    <Compile Include="gtk-gui\Frontend.SeqConfigDialog.cs" />
+    <Compile Include="gtk-gui\Frontend.PreferencesDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\DigitalPinConfigurationDialog\DigitalPinConfigurationDialog.csproj">
-      <Project>{6CB4019B-7C2D-4009-95A4-DAE460252C04}</Project>
-      <Name>DigitalPinConfigurationDialog</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GUIHelper\GUIHelper.csproj">
-      <Project>{2B884C8B-58D1-4299-A844-6377FD6EDBEE}</Project>
-      <Name>GUIHelper</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\SequenceConfigurationsDialog\SequenceConfigurationsDialog.csproj">
-      <Project>{2895E5CB-735D-4745-AF5F-40B9F3E7C1E9}</Project>
-      <Name>SequenceConfigurationsDialog</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Logger\Logger.csproj">
       <Project>{DAF25932-C4D6-4619-BDA6-9CF7D8684340}</Project>
       <Name>Logger</Name>
@@ -97,14 +95,6 @@
     <ProjectReference Include="..\PrototypeBackend\Backend.csproj">
       <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
       <Name>Backend</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SignalConfigurationDialog\MeasurementCombinationDialog.csproj">
-      <Project>{8538A3C9-0CE5-497E-9B4B-4663B0464859}</Project>
-      <Name>MeasurementCombinationDialog</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj">
-      <Project>{FFC2AF04-F784-438D-83A2-6467A27248E0}</Project>
-      <Name>MeasurmentConfigurationDialog</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -132,5 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arduino_leonardo_rev3_breadboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GUIHelper\" />
+    <Folder Include="Dialogs\" />
   </ItemGroup>
 </Project>

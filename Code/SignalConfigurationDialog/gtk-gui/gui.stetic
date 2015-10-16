@@ -6,7 +6,6 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../../GUIHelper/bin/Debug/GUIHelper.dll" />
     <widget-library name="../bin/Debug/SignalConfigurationDialog.dll" internal="true" />
   </import>
   <widget class="Gtk.Dialog" id="MeasurementCombinationDialog.MeasurementCombinationDialog" design-size="750 315">

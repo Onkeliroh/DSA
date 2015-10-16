@@ -2,7 +2,7 @@
 using PrototypeBackend;
 using Gtk;
 
-namespace PrototypeDebugWindow
+namespace Frontend
 {
 	public partial class PreferencesDialog : Gtk.Dialog
 	{
@@ -18,9 +18,9 @@ namespace PrototypeDebugWindow
 
 		private void InitComponents ()
 		{
-			cbDebuggingMode.Active = PrototypeDebugWindow.Properties.Settings.Default.DebugMode;
-			cbMaximizedStart.Active = PrototypeDebugWindow.Properties.Settings.Default.StartMaximized;
-			cbAutoConnect.Active = PrototypeDebugWindow.Properties.Settings.Default.AutoConnect;
+			cbDebuggingMode.Active = Frontend.Settings.Default.DebugMode;
+			cbMaximizedStart.Active = Frontend.Settings.Default.StartMaximized;
+			cbAutoConnect.Active = Frontend.Settings.Default.AutoConnect;
 			cbtnenablelogging.Active = Con.LogToFile;
 			entryLogFilePath.Text = Con.LogFilePath;
 
@@ -40,20 +40,20 @@ namespace PrototypeDebugWindow
 
 		protected void OnCbDebuggingModeToggled (object sender, EventArgs e)
 		{
-			PrototypeDebugWindow.Properties.Settings.Default.DebugMode = cbDebuggingMode.Active;
-			PrototypeDebugWindow.Properties.Settings.Default.Save ();
+			Frontend.Settings.Default.DebugMode = cbDebuggingMode.Active;
+			Frontend.Settings.Default.Save ();
 		}
 
 		protected void OnCbMaximizedStartToggled (object sender, EventArgs e)
 		{
-			PrototypeDebugWindow.Properties.Settings.Default.StartMaximized = cbMaximizedStart.Active;
-			PrototypeDebugWindow.Properties.Settings.Default.Save ();
+			Frontend.Settings.Default.StartMaximized = cbMaximizedStart.Active;
+			Frontend.Settings.Default.Save ();
 		}
 
 		protected void OnCbAutoConnectToggled (object sender, EventArgs e)
 		{
-			PrototypeDebugWindow.Properties.Settings.Default.AutoConnect = cbAutoConnect.Active;
-			PrototypeDebugWindow.Properties.Settings.Default.Save ();
+			Frontend.Settings.Default.AutoConnect = cbAutoConnect.Active;
+			Frontend.Settings.Default.Save ();
 		}
 
 		protected void OnCbtnenableloggingToggled (object sender, EventArgs e)

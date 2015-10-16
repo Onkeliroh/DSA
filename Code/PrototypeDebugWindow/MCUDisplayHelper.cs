@@ -4,7 +4,7 @@ using Gtk;
 using Gdk;
 using Cairo;
 using PrototypeBackend;
-using PrototypeDebugWindow.Properties;
+using Frontend.Properties;
 using System.IO;
 using System.Drawing;
 using System.Runtime.InteropServices;

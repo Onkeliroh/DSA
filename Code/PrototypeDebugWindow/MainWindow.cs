@@ -12,7 +12,7 @@ using OxyPlot.Series;
 using PrototypeBackend;
 using System.Collections.Generic;
 using Gdk;
-using PrototypeDebugWindow.Properties;
+using Frontend.Properties;
 
 namespace Frontend
 {
@@ -79,13 +79,14 @@ namespace Frontend
 				}
 			}
 
-			if (!PrototypeDebugWindow.Properties.Settings.Default.DebugMode) {
+			if (!Frontend.Settings.Default.DebugMode) {
 				this.notebook1.GetNthPage (6).Visible = false;
 			}
 
-			if (PrototypeDebugWindow.Properties.Settings.Default.StartMaximized) {
+			if (Frontend.Settings.Default.StartMaximized) {
 				this.Maximize ();
 			}
+			BindWidgetEvents ();
 		}
 
 		#endregion
@@ -107,7 +108,7 @@ namespace Frontend
 			BuildMCUDisplay ();
 			BuildConfigSettings ();
 			BindControllerEvents ();
-//			BindWidgetEvents ();
+
 
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
 			nvSequences.ButtonPressEvent += new ButtonPressEventHandler (OnSequeneceNodePressed);
@@ -2192,7 +2193,7 @@ namespace Frontend
 		{
 			var dings = con.Configuration.AvailableDigitalPins;
 
-			var dialog = new DigitalPinConfigurationDialog.DigitalPinConfiguration (dings, pin, this);
+			var dialog = new DPinConfigDialog (dings, pin, this);
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					if (pin == null) {
@@ -2215,7 +2216,7 @@ namespace Frontend
 		{
 			var dings = con.Configuration.AvailableAnalogPins;
 
-			var dialog = new AnalogPinConfigurationDialog.AnalogPinConfiguration (dings, pin, this);
+			var dialog = new APinConfigDialog (dings, pin, this);
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					if (pin == null) {
@@ -2236,7 +2237,7 @@ namespace Frontend
 
 		private void RunSequenceDialog (Sequence seq = null, DPin RefPin = null)
 		{
-			var dialog = new SequenceConfigurationsDialog.SequenceConfiguration (
+			var dialog = new SeqConfigDialog (
 				             con.Configuration.GetPinsWithoutSequence (), 
 				             con.Configuration.SequenceGroups, 
 				             seq, 
@@ -2276,7 +2277,7 @@ namespace Frontend
 
 		private void RunMeasurementCombinationDialog (MeasurementCombination sig = null, APin refPin = null)
 		{
-			var dialog = new MeasurementCombinationDialog.MeasurementCombinationDialog (con.Configuration.GetPinsWithoutCombinations (), sig, refPin, this);
+			var dialog = new AComConfigDialog (con.Configuration.GetPinsWithoutCombinations (), sig, refPin, this);
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					if (sig == null) {
@@ -2292,7 +2293,7 @@ namespace Frontend
 
 		protected  void RunPreferencesDialog (object sender = null, EventArgs e = null)
 		{
-			var dialog = new PrototypeDebugWindow.PreferencesDialog (this, this.con);
+			var dialog = new Frontend.PreferencesDialog (this, this.con);
 			dialog.Run ();
 			dialog.Destroy ();
 		}

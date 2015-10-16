@@ -8,95 +8,98 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrototypeDebugWindow.Properties {
-    using System;
+namespace Frontend.Properties
+{
+	using System;
+
     
-    
-    /// <summary>
-    ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
-    /// </summary>
-    // Diese Klasse wurde von der StronglyTypedResourceBuilder automatisch generiert
-    // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
-    // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
-    // mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+	/// <summary>
+	///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+	/// </summary>
+	// Diese Klasse wurde von der StronglyTypedResourceBuilder automatisch generiert
+	// -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
+	// Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
+	// mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute ("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+	[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute ()]
+	internal class Resources
+	{
         
-        private static global::System.Resources.ResourceManager resourceMan;
+		private static global::System.Resources.ResourceManager resourceMan;
         
-        private static global::System.Globalization.CultureInfo resourceCulture;
-        
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
-        }
-        
-        /// <summary>
-        ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
-        /// </summary>
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrototypeDebugWindow.Properties.Resources", typeof(Resources).Assembly);
-                    resourceMan = temp;
-                }
-                return resourceMan;
-            }
-        }
-        
-        /// <summary>
-        ///   Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
-        ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
-        /// </summary>
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
-            get {
-                return resourceCulture;
-            }
-            set {
-                resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Arduino_Leonardo {
-            get {
-                object obj = ResourceManager.GetObject("Arduino_Leonardo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Arduino_MEGA {
-            get {
-                object obj = ResourceManager.GetObject("Arduino_MEGA", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Arduino_UNO {
-            get {
-                object obj = ResourceManager.GetObject("Arduino_UNO", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die m,kg,s,A,K,Pa,N,J,W,V,F,Ohm,H,°C, ähnelt.
-        /// </summary>
-        internal static string Units {
-            get {
-                return ResourceManager.GetString("Units", resourceCulture);
-            }
-        }
-    }
+		private static global::System.Globalization.CultureInfo resourceCulture;
+
+		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute ("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+		internal Resources ()
+		{
+		}
+
+		/// <summary>
+		///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+		/// </summary>
+		[global::System.ComponentModel.EditorBrowsableAttribute (global::System.ComponentModel.EditorBrowsableState.Advanced)]
+		internal static global::System.Resources.ResourceManager ResourceManager {
+			get {
+				if (object.ReferenceEquals (resourceMan, null)) {
+					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager ("PrototypeDebugWindow.Properties.Resources", typeof(Resources).Assembly);
+					resourceMan = temp;
+				}
+				return resourceMan;
+			}
+		}
+
+		/// <summary>
+		///   Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+		///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+		/// </summary>
+		[global::System.ComponentModel.EditorBrowsableAttribute (global::System.ComponentModel.EditorBrowsableState.Advanced)]
+		internal static global::System.Globalization.CultureInfo Culture {
+			get {
+				return resourceCulture;
+			}
+			set {
+				resourceCulture = value;
+			}
+		}
+
+		/// <summary>
+		///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap Arduino_Leonardo {
+			get {
+				object obj = ResourceManager.GetObject ("Arduino_Leonardo", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+
+		/// <summary>
+		///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap Arduino_MEGA {
+			get {
+				object obj = ResourceManager.GetObject ("Arduino_MEGA", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+
+		/// <summary>
+		///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap Arduino_UNO {
+			get {
+				object obj = ResourceManager.GetObject ("Arduino_UNO", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+
+		/// <summary>
+		///   Sucht eine lokalisierte Zeichenfolge, die m,kg,s,A,K,Pa,N,J,W,V,F,Ohm,H,°C, ähnelt.
+		/// </summary>
+		internal static string Units {
+			get {
+				return ResourceManager.GetString ("Units", resourceCulture);
+			}
+		}
+	}
 }

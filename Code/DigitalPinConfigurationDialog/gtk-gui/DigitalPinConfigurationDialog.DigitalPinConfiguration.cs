@@ -144,8 +144,8 @@ namespace DigitalPinConfigurationDialog
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 210;
-			this.DefaultHeight = 130;
+			this.DefaultWidth = 225;
+			this.DefaultHeight = 165;
 			this.Show ();
 			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);

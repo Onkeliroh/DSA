@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrototypeDebugWindow.Properties {
+namespace Frontend {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

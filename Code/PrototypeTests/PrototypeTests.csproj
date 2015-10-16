@@ -60,13 +60,13 @@
       <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
       <Name>Backend</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GUIHelper\GUIHelper.csproj">
-      <Project>{2B884C8B-58D1-4299-A844-6377FD6EDBEE}</Project>
-      <Name>GUIHelper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Logger\Logger.csproj">
       <Project>{DAF25932-C4D6-4619-BDA6-9CF7D8684340}</Project>
       <Name>Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrototypeDebugWindow\Frontend.csproj">
+      <Project>{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}</Project>
+      <Name>Frontend</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

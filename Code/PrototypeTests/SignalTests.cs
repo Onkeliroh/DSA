@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using PrototypeBackend;
+using GUIHelper;
 
 namespace PrototypeTests
 {
@@ -11,11 +12,11 @@ namespace PrototypeTests
 		public void SignalConstructorTest ()
 		{
 			MeasurementCombination signal = new MeasurementCombination ();
-			signal.Color = GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.Blue);
+			signal.Color = ColorHelper.SystemColorToGdkColor (System.Drawing.Color.Blue);
 
 			Assert.AreEqual (0, signal.Pins.Count);
 			Assert.AreEqual (string.Empty, signal.Name);
-			Assert.AreEqual (GUIHelper.ColorHelper.SystemColorToGdkColor (System.Drawing.Color.Blue), signal.Color);
+			Assert.AreEqual (ColorHelper.SystemColorToGdkColor (System.Drawing.Color.Blue), signal.Color);
 			Assert.AreEqual (string.Empty, signal.OperationString);
 		}
 
