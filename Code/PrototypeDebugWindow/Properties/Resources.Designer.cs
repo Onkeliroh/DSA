@@ -89,5 +89,14 @@ namespace PrototypeDebugWindow.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die m,kg,s,A,K,Pa,N,J,W,V,F,Ohm,H,°C, ähnelt.
+        /// </summary>
+        internal static string Units {
+            get {
+                return ResourceManager.GetString("Units", resourceCulture);
+            }
+        }
     }
 }
