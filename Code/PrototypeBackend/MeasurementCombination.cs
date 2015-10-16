@@ -97,10 +97,12 @@ namespace PrototypeBackend
 			get {
 				if (Pins.Count > 0) {
 					if (Operation != null) {
+
+						var time = Pins.OrderByDescending (o => o.Interval).First ().Value.Time;
+						double val = (Operation (Pins.Select (o => o.Value.Value).ToArray ()));
 						return new DateTimeValue () {
-						
-							Value = (Operation (Pins.Select (o => o.Value.Value).ToArray ())),
-							Time = Pins.OrderByDescending (o => o.Interval).First ().Value.Time
+							Value = val,
+							Time = time
 						};
 					}
 					return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Interval).First ().Value.Time };
@@ -128,6 +130,12 @@ namespace PrototypeBackend
 		/// The operation string.
 		/// </summary>
 		private string OperationString_;
+
+		#endregion
+
+		#region Events
+
+		public EventHandler<NewMeasurementValue> OnNewValue;
 
 		#endregion
 
@@ -222,7 +230,7 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <param name="info">Info.</param>
 		/// <param name="context">Context.</param>
-		public MeasurementCombination (SerializationInfo info, StreamingContext context)
+		public MeasurementCombination (SerializationInfo info, StreamingContext context) : base ()
 		{
 			Pins = new List<APin> ();
 			Pins = (List<APin>)info.GetValue ("Pins", Pins.GetType ());

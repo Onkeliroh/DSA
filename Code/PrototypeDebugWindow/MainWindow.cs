@@ -37,7 +37,7 @@ namespace Frontend
 		private PlotView RealTimePlotView;
 		private PlotModel RealTimePlotModel;
 		private DateTimeAxis RealTimeXAxis;
-		private Dictionary<string,Collection<DateTimeValue>> RealTimeDictionary;
+		private bool RealTimePlotUpdate = true;
 
 		/// <summary>
 		/// A timer for keeping track of time after the measurement beginns.
@@ -95,8 +95,6 @@ namespace Frontend
 		/// </summary>
 		private void InitComponents ()
 		{
-			
-
 			ArduinoController.OnConnectionChanged += OnConnection;
 
 			BuildMenu ();
@@ -134,8 +132,6 @@ namespace Frontend
 				Application.Invoke ((o, args) => {  
 					lblTimePassed.Text = string.Format ("{0:D2}:{1:D2}:{2:D2}", con.TimeElapsed.Hours, con.TimeElapsed.Minutes, con.TimeElapsed.Seconds);
 					lblTimePassed.QueueDraw ();
-					RealTimePlotView.InvalidatePlot (true);
-					RealTimePlotView.QueueDraw ();
 				});
 			};
 		}
@@ -607,34 +603,13 @@ namespace Frontend
 		/// </summary>
 		private void UpdateRealTimePlot ()
 		{
+			if (RealTimePlotUpdate) {
+				double now = DateTime.Now.ToOADate ();
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (now), 0), new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0));
+				LastTimeKeeperPresenterTick = now;
 
-			var rng = new Random ();
-			try {
-				foreach (APin a in con.Configuration.AnalogPins) {
-//					var values = a.Values;
-//					values = values.OrderByDescending (o => o.Time).ToList ();
-//					foreach (DateTimeValue dtv in values) {
-//						if (RealTimeDictionary [a.DisplayName].Contains (dtv)) {
-//							break;
-//						}
-//						RealTimeDictionary [a.DisplayName].Add (dtv);
-//					}
-//					RealTimeDictionary [a.DisplayName].Add (new DateTimeValue (rng.NextDouble (), DateTime.Now.ToOADate ()));
-					(RealTimePlotView.Model.Series.Single (o => o.TrackerKey == a.DisplayName) as LineSeries).Points.Add (new DataPoint (DateTime.Now.ToOADate (), rng.NextDouble () * 100));
-				}
-//				foreach (MeasurementCombination a in con.Configuration.MeasurementCombinations) {
-//					var values = a.Value;
-//					if (!RealTimeDictionary [a.DisplayName].Contains (values)) {
-//						RealTimeDictionary [a.DisplayName].Add (values);
-//					}
-//				}
-			} catch (Exception ex) {
-				con.ConLogger.Log (ex.ToString (), LogLevel.DEBUG);
+				RealTimePlotView.InvalidatePlot (true);
 			}
-
-			double now = DateTime.Now.ToOADate ();
-			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (now), 0), new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0));
-			LastTimeKeeperPresenterTick = now;
 		}
 
 		private void InitRealTimePlot ()
@@ -673,17 +648,18 @@ namespace Frontend
 			RealTimePlotView.Model.Series.Clear ();
 			RealTimePlotView.InvalidatePlot (true);
 			foreach (APin a in con.Configuration.AnalogPins) {
-				RealTimePlotView.Model.Series.Add (
-					new LineSeries () {
-						Color = ColorHelper.GdkColorToOxyColor (a.PlotColor),
-						DataFieldX = "Time",
-						DataFieldY = "Value",
-//						ItemsSource = RealTimeDictionary [a.DisplayName].AsEnumerable (),
-						YAxisKey = a.Unit,
-						XAxisKey = RealTimeXAxis.Key,
-						TrackerKey = a.DisplayName,
-					}
-				);
+				var series = new LineSeries () {
+					Color = ColorHelper.GdkColorToOxyColor (a.PlotColor),
+					DataFieldX = "Time",
+					DataFieldY = "Value",
+					YAxisKey = a.Unit,
+					XAxisKey = RealTimeXAxis.Key,
+					TrackerKey = a.DisplayName,
+				};
+
+				a.OnNewValue += (o, args) => series.Points.Add (new DataPoint (args.Time.ToOADate (), args.Value));
+
+				RealTimePlotView.Model.Series.Add (series);
 			}
 
 //			foreach (MeasurementCombination a in con.Configuration.MeasurementCombinations) {
@@ -692,14 +668,12 @@ namespace Frontend
 //						Color = ColorHelper.GdkColorToOxyColor (a.Color),
 //						DataFieldX = "Time",
 //						DataFieldY = "Value",
-//						ItemsSource = RealTimeDictionary [a.DisplayName],
 //						Title = a.DisplayName,
 //						YAxisKey = a.Unit,
 //						XAxisKey = RealTimeXAxis.Key
 //					}
 //				);
 //			}
-
 		}
 
 		#endregion
@@ -1445,12 +1419,13 @@ namespace Frontend
 				Background = OxyPlot.OxyColors.White,
 				IsLegendVisible = true,
 				LegendOrientation = LegendOrientation.Horizontal,
-				LegendPlacement = LegendPlacement.Outside,
+				LegendPlacement = LegendPlacement.Inside,
 				LegendPosition = LegendPosition.RightMiddle
 			};
 
 			RealTimePlotModel.Axes.Add (YAxis);
 			RealTimePlotModel.Axes.Add (RealTimeXAxis);
+
 			RealTimePlotView = new PlotView (){ Name = "", Model = RealTimePlotModel  };
 
 			vboxRealTimePlot.PackStart (RealTimePlotView, true, true, 0);
@@ -1465,6 +1440,24 @@ namespace Frontend
 		#endregion
 
 		#region Events
+
+		private void OnRealTimePlotClick (object sender, ButtonPressEventArgs e)
+		{
+			if (e.Event.Button == 3) {
+				Menu menu = new Menu ();
+				ImageMenuItem Snapshot = new ImageMenuItem ("Take snapshot");
+				Snapshot.Image = new Gtk.Image (Gtk.Stock.MediaRecord);
+
+
+				Snapshot.ButtonPressEvent += (o, args) => {
+					
+				};
+
+				menu.Add (Snapshot);
+				menu.ShowAll ();
+				menu.Popup ();
+			}
+		}
 
 		/// <summary>
 		/// Refreshs the MCU infos.
@@ -2028,6 +2021,43 @@ namespace Frontend
 			con.Configuration.TimeFormat = cbeCSVTimeFormat.ActiveText;
 		}
 
+		protected void OnBtnRealTimePlotPauseClicked (object sender, EventArgs e)
+		{
+			RealTimePlotUpdate = (!RealTimePlotUpdate);
+		}
+
+		protected void OnBtnRealTimePlotSnapshotClicked (object sender, EventArgs e)
+		{
+			PngExporter.Export (
+				RealTimePlotView.Model,
+				string.Format (
+					"{0}_{1}.png",
+					string.Format (
+						"{0:D2}-{1:D2}-{2:D2}_{3:D2}_{4:D2}_{5:D2}",
+						DateTime.Now.Year,
+						DateTime.Now.Month,
+						DateTime.Now.Day,
+						DateTime.Now.Hour,
+						DateTime.Now.Minute,
+						DateTime.Now.Second),
+					"Snapshot"
+				), 
+				RealTimePlotView.Allocation.Width,
+				RealTimePlotView.Allocation.Height
+			);
+		}
+
+		protected void OnCbtnRealTimePlotShowMarkerToggled (object sender, EventArgs e)
+		{
+			RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).MarkerFill = (o as LineSeries).Color);
+			RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).MarkerStroke = (o as LineSeries).Color);
+			if (cbtnRealTimePlotShowMarker.Active) {
+				RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).MarkerType = MarkerType.Cross);
+			} else {
+				RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).MarkerType = MarkerType.None);
+			}
+		}
+
 		#endregion
 
 		#region Drawing
@@ -2347,7 +2377,6 @@ namespace Frontend
 			} else {
 				con.Start ();
 				lblStartTime.Text = string.Format ("{0:yyyy-MM-dd HH:mm:ss}", con.StartTime);
-//				PrepareRealTimePlot ();
 				InitRealTimePlot ();
 				TimeKeeperPresenter.Start ();
 			}
@@ -2387,17 +2416,17 @@ namespace Frontend
 
 		private void PrepareRealTimePlot ()
 		{
-			if (RealTimeDictionary != null) {
-				RealTimeDictionary.Clear ();
-			} else {
-				RealTimeDictionary = new Dictionary<string, Collection<DateTimeValue>> ();
-			}
-			foreach (APin a in con.Configuration.AnalogPins) {
-				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());
-			}
-			foreach (MeasurementCombination mecom in con.Configuration.MeasurementCombinations) {
-				RealTimeDictionary.Add (mecom.DisplayName, new Collection<DateTimeValue> ());
-			}
+//			if (RealTimeDictionary != null) {
+//				RealTimeDictionary.Clear ();
+//			} else {
+//				RealTimeDictionary = new Dictionary<string, Collection<DateTimeValue>> ();
+//			}
+//			foreach (APin a in con.Configuration.AnalogPins) {
+//				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());
+//			}
+//			foreach (MeasurementCombination mecom in con.Configuration.MeasurementCombinations) {
+//				RealTimeDictionary.Add (mecom.DisplayName, new Collection<DateTimeValue> ());
+//			}
 		}
 
 		private void UpdateFilePathPreview ()
@@ -2634,11 +2663,6 @@ namespace Frontend
 			}
 		}
 
-
-		protected void OnButton360Clicked (object sender, EventArgs e)
-		{
-			throw new NotImplementedException ();
-		}
 
 		#endregion
 	}
