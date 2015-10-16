@@ -134,7 +134,7 @@
           <widget class="Gtk.HPaned" id="hpanedMain">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">1</property>
+            <property name="Position">329</property>
             <child>
               <widget class="Gtk.VBox" id="vbox5">
                 <property name="MemberName" />
@@ -321,7 +321,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">0</property>
+                <property name="CurrentPage">6</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -402,6 +402,7 @@
                                         <property name="Icon">stock:gtk-copy Menu</property>
                                         <property name="Label" translatable="yes">Duplicate</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnCloneAPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -418,6 +419,7 @@
                                         <property name="Icon">stock:gtk-edit Menu</property>
                                         <property name="Label" translatable="yes">Edit Measurement...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnEditAPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -435,6 +437,7 @@
                                         <property name="Icon">stock:gtk-delete Menu</property>
                                         <property name="Label" translatable="yes">Delete Measurement</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnRemoveAPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">3</property>
@@ -452,6 +455,7 @@
                                         <property name="Icon">stock:gtk-clear Menu</property>
                                         <property name="Label" translatable="yes">Clear</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnClearAPinsClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">4</property>
@@ -537,6 +541,7 @@
                                     <property name="Icon">stock:gtk-add Menu</property>
                                     <property name="Label" translatable="yes">Add Combination...</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnAddSignalClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">0</property>
@@ -554,6 +559,7 @@
                                     <property name="Icon">stock:gtk-copy Menu</property>
                                     <property name="Label" translatable="yes">Duplicate</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnCloneSignalClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">1</property>
@@ -570,6 +576,7 @@
                                     <property name="Icon">stock:gtk-edit Menu</property>
                                     <property name="Label" translatable="yes">Edit Combination...</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnEditSignalClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">2</property>
@@ -587,6 +594,7 @@
                                     <property name="Icon">stock:gtk-delete Menu</property>
                                     <property name="Label" translatable="yes">Delete Combination</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnRemoveSignalClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">3</property>
@@ -604,6 +612,7 @@
                                     <property name="Icon">stock:gtk-clear Menu</property>
                                     <property name="Label" translatable="yes">Clear</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnBtnClearSignalsClicked" />
                                   </widget>
                                   <packing>
                                     <property name="Position">4</property>
@@ -724,6 +733,7 @@
                                         <property name="Icon">stock:gtk-add Menu</property>
                                         <property name="Label" translatable="yes">Add digital Output...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnAddDPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
@@ -741,6 +751,7 @@
                                         <property name="Icon">stock:gtk-copy Menu</property>
                                         <property name="Label" translatable="yes">Duplicate</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnCloneDPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -757,6 +768,7 @@
                                         <property name="Icon">stock:gtk-edit Menu</property>
                                         <property name="Label" translatable="yes">Edit digital Output...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnEditDPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -774,6 +786,7 @@
                                         <property name="Icon">stock:gtk-delete Menu</property>
                                         <property name="Label" translatable="yes">Delete digital Output</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnRemoveDPinClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">3</property>
@@ -791,6 +804,7 @@
                                         <property name="Icon">stock:gtk-clear Menu</property>
                                         <property name="Label" translatable="yes">Clear</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnClearDPinsClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">4</property>
@@ -860,7 +874,7 @@
                           <widget class="Gtk.VPaned" id="vpanedSequences">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="Position">1</property>
+                            <property name="Position">242</property>
                             <child>
                               <widget class="Gtk.HBox" id="hbSequences">
                                 <property name="MemberName" />
@@ -879,6 +893,7 @@
                                         <property name="Icon">stock:gtk-add Menu</property>
                                         <property name="Label" translatable="yes">Add Sequence...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnAddSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
@@ -896,6 +911,7 @@
                                         <property name="Icon">stock:gtk-copy Menu</property>
                                         <property name="Label" translatable="yes">Duplicate</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnCloneSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -912,6 +928,7 @@
                                         <property name="Icon">stock:gtk-edit Menu</property>
                                         <property name="Label" translatable="yes">Edit Sequence...</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnEditSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -929,6 +946,7 @@
                                         <property name="Icon">stock:gtk-delete Menu</property>
                                         <property name="Label" translatable="yes">Delete Sequence</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnRemoveSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">3</property>
@@ -946,6 +964,7 @@
                                         <property name="Icon">stock:gtk-clear Menu</property>
                                         <property name="Label" translatable="yes">Clear</property>
                                         <property name="UseUnderline">True</property>
+                                        <signal name="Clicked" handler="OnBtnClearSequenceClicked" />
                                       </widget>
                                       <packing>
                                         <property name="Position">4</property>
@@ -1450,6 +1469,7 @@
                         <property name="Icon">stock:gtk-open Menu</property>
                         <property name="Label" translatable="yes">Open CSV log file folder</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnBtnCSVOpenFolderClicked" />
                       </widget>
                       <packing>
                         <property name="Position">2</property>
@@ -1734,7 +1754,7 @@
                       <widget class="Gtk.VButtonBox" id="vbuttonbox1">
                         <property name="MemberName" />
                         <property name="Homogeneous">True</property>
-                        <property name="Size">12</property>
+                        <property name="Size">7</property>
                         <property name="LayoutStyle">Start</property>
                         <child>
                           <widget class="Gtk.Button" id="btnDigitalPingTest">
@@ -1781,43 +1801,16 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="btnFillSequences">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Fill Sequences</property>
-                            <property name="UseUnderline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">3</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="Gtk.Button" id="btnFillSignals">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Fill Signals</property>
-                            <property name="UseUnderline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">4</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
                           <widget class="Gtk.Button" id="btnAlternateBlinkSetup">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Alternate Blink Setup 0Cycle</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnBtnAlternateBlinkSetupClicked" />
                           </widget>
                           <packing>
-                            <property name="Position">5</property>
+                            <property name="Position">3</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -1832,7 +1825,7 @@
                             <signal name="Clicked" handler="OnBtnAlternateBlinkSetup2Clicked" />
                           </widget>
                           <packing>
-                            <property name="Position">6</property>
+                            <property name="Position">4</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -1844,9 +1837,10 @@
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Alternate Blink Setup -1Cycle</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnButton359Clicked" />
                           </widget>
                           <packing>
-                            <property name="Position">7</property>
+                            <property name="Position">5</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
@@ -1858,51 +1852,10 @@
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Alternate Blink Setup 2 -1Cycle</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="OnButton360Clicked" />
                           </widget>
                           <packing>
-                            <property name="Position">8</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="Gtk.Button" id="button1125">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Abstand</property>
-                            <property name="UseUnderline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">9</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="Gtk.Button" id="btnBoardDifferenceTest">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">SetBoardDifferenceTest</property>
-                            <property name="UseUnderline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">10</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="Gtk.Button" id="btnRefreshNV">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Refresh NodeViews</property>
-                            <property name="UseUnderline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">11</property>
+                            <property name="Position">6</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
                           </packing>
