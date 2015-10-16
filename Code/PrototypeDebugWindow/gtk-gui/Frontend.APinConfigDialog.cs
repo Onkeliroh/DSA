@@ -423,7 +423,7 @@ namespace Frontend
 			this.buttonOk.UseStock = true;
 			this.buttonOk.UseUnderline = true;
 			this.buttonOk.Label = "gtk-add";
-			this.AddActionWidget (this.buttonOk, 0);
+			this.AddActionWidget (this.buttonOk, -10);
 			global::Gtk.ButtonBox.ButtonBoxChild w32 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w30 [this.buttonOk]));
 			w32.Position = 1;
 			w32.Expand = false;

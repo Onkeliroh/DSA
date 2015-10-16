@@ -135,7 +135,7 @@ namespace Frontend
 			this.buttonOk.UseStock = true;
 			this.buttonOk.UseUnderline = true;
 			this.buttonOk.Label = "gtk-add";
-			this.AddActionWidget (this.buttonOk, 0);
+			this.AddActionWidget (this.buttonOk, -10);
 			global::Gtk.ButtonBox.ButtonBoxChild w11 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w9 [this.buttonOk]));
 			w11.Position = 1;
 			w11.Expand = false;
@@ -146,6 +146,8 @@ namespace Frontend
 			this.DefaultWidth = 223;
 			this.DefaultHeight = 171;
 			this.Show ();
+			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
+			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}
 }

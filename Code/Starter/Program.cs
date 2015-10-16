@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using ArgumentParser;
 using ArgumentParser.Arguments;
 using Gtk;
 using Frontend;
-using System.IO;
-using System.Resources;
-using System.Reflection.Emit;
 using Starter.Properties;
 
 namespace Starter
@@ -53,6 +49,11 @@ namespace Starter
 		/// <param name="args">The command-line arguments.</param>
 		public static void Main (string[] args)
 		{
+			if (System.Diagnostics.Process.GetProcessesByName (System.IO.Path.GetFileNameWithoutExtension (System.Reflection.Assembly.GetEntryAssembly ().Location)).Count () > 1) {
+				Console.WriteLine ("Another instance was found. Exiting now.");
+				return;
+			}
+
 			var ret = Parser.GetParameters (args, new ParserOptions (ParameterTokenStyle.POSIX), arguments);
 			var matchedParameters = ret.OfType<ParameterPair> ().Where (o => o.Matched == true);
 			var matchedFlags = ret.OfType<FlagPair> ().Where (o => o.Matched == true);

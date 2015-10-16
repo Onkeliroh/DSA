@@ -321,7 +321,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">6</property>
+                <property name="CurrentPage">2</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -874,7 +874,7 @@
                           <widget class="Gtk.VPaned" id="vpanedSequences">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="Position">242</property>
+                            <property name="Position">1</property>
                             <child>
                               <widget class="Gtk.HBox" id="hbSequences">
                                 <property name="MemberName" />
@@ -2532,6 +2532,7 @@
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
+                <signal name="Changed" handler="OnCbPinChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -2669,7 +2670,8 @@
             <property name="UseStock">True</property>
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-add</property>
-            <property name="ResponseId">0</property>
+            <property name="ResponseId">-10</property>
+            <signal name="Clicked" handler="OnButtonOkClicked" />
             <property name="label">gtk-add</property>
           </widget>
           <packing>
@@ -3324,7 +3326,7 @@
             <property name="UseStock">True</property>
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-add</property>
-            <property name="ResponseId">0</property>
+            <property name="ResponseId">-10</property>
             <signal name="Clicked" handler="OnButtonOkClicked" after="yes" />
             <property name="label">gtk-add</property>
           </widget>
@@ -3875,11 +3877,11 @@ In order to apply the operation, the last available measurement-data will be use
             <property name="MemberName" />
             <property name="CanDefault">True</property>
             <property name="CanFocus">True</property>
-            <property name="Type">TextAndIcon</property>
-            <property name="Icon">stock:gtk-add Menu</property>
-            <property name="Label" translatable="yes">_OK</property>
-            <property name="UseUnderline">True</property>
-            <property name="ResponseId">-5</property>
+            <property name="UseStock">True</property>
+            <property name="Type">StockItem</property>
+            <property name="StockId">gtk-ok</property>
+            <property name="ResponseId">-10</property>
+            <property name="label">gtk-ok</property>
           </widget>
           <packing>
             <property name="Position">1</property>
@@ -3915,6 +3917,7 @@ In order to apply the operation, the last available measurement-data will be use
                     <property name="MemberName" />
                     <property name="IsTextCombo">True</property>
                     <property name="Items" translatable="yes" />
+                    <signal name="Changed" handler="OnCbeGroupsChanged" />
                   </widget>
                   <packing>
                     <property name="TopAttach">2</property>
@@ -3937,6 +3940,7 @@ In order to apply the operation, the last available measurement-data will be use
                     <property name="MemberName" />
                     <property name="IsTextCombo">True</property>
                     <property name="Items" translatable="yes" />
+                    <signal name="Changed" handler="OnCbPinChanged" />
                   </widget>
                   <packing>
                     <property name="TopAttach">1</property>
@@ -4262,6 +4266,7 @@ In order to apply the operation, the last available measurement-data will be use
                                 <property name="Icon">stock:gtk-add Menu</property>
                                 <property name="Label" translatable="yes">Add</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnApplyOperationClicked" />
                               </widget>
                               <packing>
                                 <property name="LeftAttach">2</property>
@@ -4285,6 +4290,7 @@ In order to apply the operation, the last available measurement-data will be use
                                 <property name="Icon">stock:gtk-delete Menu</property>
                                 <property name="Label" translatable="yes">Delete</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnRemoveOperationClicked" />
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
@@ -4314,14 +4320,14 @@ LOW</property>
                                 <property name="BottomAttach">2</property>
                                 <property name="LeftAttach">1</property>
                                 <property name="RightAttach">2</property>
-                                <property name="AutoSize">True</property>
+                                <property name="AutoSize">False</property>
                                 <property name="XOptions">Fill</property>
-                                <property name="YOptions">Fill</property>
+                                <property name="YOptions">0</property>
                                 <property name="XExpand">False</property>
                                 <property name="XFill">True</property>
                                 <property name="XShrink">False</property>
                                 <property name="YExpand">False</property>
-                                <property name="YFill">True</property>
+                                <property name="YFill">False</property>
                                 <property name="YShrink">False</property>
                               </packing>
                             </child>
@@ -4336,12 +4342,12 @@ LOW</property>
                                 <property name="BottomAttach">2</property>
                                 <property name="AutoSize">False</property>
                                 <property name="XOptions">Fill</property>
-                                <property name="YOptions">Fill</property>
+                                <property name="YOptions">0</property>
                                 <property name="XExpand">False</property>
                                 <property name="XFill">True</property>
                                 <property name="XShrink">False</property>
                                 <property name="YExpand">False</property>
-                                <property name="YFill">True</property>
+                                <property name="YFill">False</property>
                                 <property name="YShrink">False</property>
                               </packing>
                             </child>
@@ -4613,9 +4619,8 @@ LOW</property>
                   </widget>
                   <packing>
                     <property name="Position">1</property>
-                    <property name="AutoSize">True</property>
+                    <property name="AutoSize">False</property>
                     <property name="Expand">False</property>
-                    <property name="Fill">False</property>
                   </packing>
                 </child>
                 <child>
@@ -4677,7 +4682,7 @@ LOW</property>
             <property name="UseStock">True</property>
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-add</property>
-            <property name="ResponseId">0</property>
+            <property name="ResponseId">-10</property>
             <property name="label">gtk-add</property>
           </widget>
           <packing>

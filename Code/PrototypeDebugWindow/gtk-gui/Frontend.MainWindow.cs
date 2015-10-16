@@ -272,10 +272,6 @@ namespace Frontend
 		
 		private global::Gtk.Button btnFillDigitalOutputs;
 		
-		private global::Gtk.Button btnFillSequences;
-		
-		private global::Gtk.Button btnFillSignals;
-		
 		private global::Gtk.Button btnAlternateBlinkSetup;
 		
 		private global::Gtk.Button btnAlternateBlinkSetup2;
@@ -283,12 +279,6 @@ namespace Frontend
 		private global::Gtk.Button button359;
 		
 		private global::Gtk.Button button360;
-		
-		private global::Gtk.Button button1125;
-		
-		private global::Gtk.Button btnBoardDifferenceTest;
-		
-		private global::Gtk.Button btnRefreshNV;
 		
 		private global::Gtk.Label label10;
 		
@@ -380,7 +370,7 @@ namespace Frontend
 			this.hpanedMain = new global::Gtk.HPaned ();
 			this.hpanedMain.CanFocus = true;
 			this.hpanedMain.Name = "hpanedMain";
-			this.hpanedMain.Position = 361;
+			this.hpanedMain.Position = 329;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.vbox5 = new global::Gtk.VBox ();
 			this.vbox5.Name = "vbox5";
@@ -512,7 +502,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 0;
+			this.notebook1.CurrentPage = 2;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -1460,38 +1450,16 @@ namespace Frontend
 			w128.Expand = false;
 			w128.Fill = false;
 			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
-			this.btnFillSequences = new global::Gtk.Button ();
-			this.btnFillSequences.CanFocus = true;
-			this.btnFillSequences.Name = "btnFillSequences";
-			this.btnFillSequences.UseUnderline = true;
-			this.btnFillSequences.Label = global::Mono.Unix.Catalog.GetString ("Fill Sequences");
-			this.vbuttonbox1.Add (this.btnFillSequences);
-			global::Gtk.ButtonBox.ButtonBoxChild w129 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnFillSequences]));
-			w129.Position = 3;
-			w129.Expand = false;
-			w129.Fill = false;
-			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
-			this.btnFillSignals = new global::Gtk.Button ();
-			this.btnFillSignals.CanFocus = true;
-			this.btnFillSignals.Name = "btnFillSignals";
-			this.btnFillSignals.UseUnderline = true;
-			this.btnFillSignals.Label = global::Mono.Unix.Catalog.GetString ("Fill Signals");
-			this.vbuttonbox1.Add (this.btnFillSignals);
-			global::Gtk.ButtonBox.ButtonBoxChild w130 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnFillSignals]));
-			w130.Position = 4;
-			w130.Expand = false;
-			w130.Fill = false;
-			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
 			this.btnAlternateBlinkSetup = new global::Gtk.Button ();
 			this.btnAlternateBlinkSetup.CanFocus = true;
 			this.btnAlternateBlinkSetup.Name = "btnAlternateBlinkSetup";
 			this.btnAlternateBlinkSetup.UseUnderline = true;
 			this.btnAlternateBlinkSetup.Label = global::Mono.Unix.Catalog.GetString ("Alternate Blink Setup 0Cycle");
 			this.vbuttonbox1.Add (this.btnAlternateBlinkSetup);
-			global::Gtk.ButtonBox.ButtonBoxChild w131 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnAlternateBlinkSetup]));
-			w131.Position = 5;
-			w131.Expand = false;
-			w131.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w129 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnAlternateBlinkSetup]));
+			w129.Position = 3;
+			w129.Expand = false;
+			w129.Fill = false;
 			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
 			this.btnAlternateBlinkSetup2 = new global::Gtk.Button ();
 			this.btnAlternateBlinkSetup2.CanFocus = true;
@@ -1499,10 +1467,10 @@ namespace Frontend
 			this.btnAlternateBlinkSetup2.UseUnderline = true;
 			this.btnAlternateBlinkSetup2.Label = global::Mono.Unix.Catalog.GetString ("Alternate Blink Setup 2 0Cycle");
 			this.vbuttonbox1.Add (this.btnAlternateBlinkSetup2);
-			global::Gtk.ButtonBox.ButtonBoxChild w132 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnAlternateBlinkSetup2]));
-			w132.Position = 6;
-			w132.Expand = false;
-			w132.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w130 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnAlternateBlinkSetup2]));
+			w130.Position = 4;
+			w130.Expand = false;
+			w130.Fill = false;
 			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
 			this.button359 = new global::Gtk.Button ();
 			this.button359.CanFocus = true;
@@ -1510,10 +1478,10 @@ namespace Frontend
 			this.button359.UseUnderline = true;
 			this.button359.Label = global::Mono.Unix.Catalog.GetString ("Alternate Blink Setup -1Cycle");
 			this.vbuttonbox1.Add (this.button359);
-			global::Gtk.ButtonBox.ButtonBoxChild w133 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.button359]));
-			w133.Position = 7;
-			w133.Expand = false;
-			w133.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w131 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.button359]));
+			w131.Position = 5;
+			w131.Expand = false;
+			w131.Fill = false;
 			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
 			this.button360 = new global::Gtk.Button ();
 			this.button360.CanFocus = true;
@@ -1521,50 +1489,17 @@ namespace Frontend
 			this.button360.UseUnderline = true;
 			this.button360.Label = global::Mono.Unix.Catalog.GetString ("Alternate Blink Setup 2 -1Cycle");
 			this.vbuttonbox1.Add (this.button360);
-			global::Gtk.ButtonBox.ButtonBoxChild w134 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.button360]));
-			w134.Position = 8;
-			w134.Expand = false;
-			w134.Fill = false;
-			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
-			this.button1125 = new global::Gtk.Button ();
-			this.button1125.CanFocus = true;
-			this.button1125.Name = "button1125";
-			this.button1125.UseUnderline = true;
-			this.button1125.Label = global::Mono.Unix.Catalog.GetString ("Abstand");
-			this.vbuttonbox1.Add (this.button1125);
-			global::Gtk.ButtonBox.ButtonBoxChild w135 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.button1125]));
-			w135.Position = 9;
-			w135.Expand = false;
-			w135.Fill = false;
-			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
-			this.btnBoardDifferenceTest = new global::Gtk.Button ();
-			this.btnBoardDifferenceTest.CanFocus = true;
-			this.btnBoardDifferenceTest.Name = "btnBoardDifferenceTest";
-			this.btnBoardDifferenceTest.UseUnderline = true;
-			this.btnBoardDifferenceTest.Label = global::Mono.Unix.Catalog.GetString ("SetBoardDifferenceTest");
-			this.vbuttonbox1.Add (this.btnBoardDifferenceTest);
-			global::Gtk.ButtonBox.ButtonBoxChild w136 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnBoardDifferenceTest]));
-			w136.Position = 10;
-			w136.Expand = false;
-			w136.Fill = false;
-			// Container child vbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
-			this.btnRefreshNV = new global::Gtk.Button ();
-			this.btnRefreshNV.CanFocus = true;
-			this.btnRefreshNV.Name = "btnRefreshNV";
-			this.btnRefreshNV.UseUnderline = true;
-			this.btnRefreshNV.Label = global::Mono.Unix.Catalog.GetString ("Refresh NodeViews");
-			this.vbuttonbox1.Add (this.btnRefreshNV);
-			global::Gtk.ButtonBox.ButtonBoxChild w137 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.btnRefreshNV]));
-			w137.Position = 11;
-			w137.Expand = false;
-			w137.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w132 = ((global::Gtk.ButtonBox.ButtonBoxChild)(this.vbuttonbox1 [this.button360]));
+			w132.Position = 6;
+			w132.Expand = false;
+			w132.Fill = false;
 			this.table2.Add (this.vbuttonbox1);
-			global::Gtk.Table.TableChild w138 = ((global::Gtk.Table.TableChild)(this.table2 [this.vbuttonbox1]));
-			w138.XOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w133 = ((global::Gtk.Table.TableChild)(this.table2 [this.vbuttonbox1]));
+			w133.XOptions = ((global::Gtk.AttachOptions)(4));
 			this.notebook1.Add (this.table2);
-			global::Gtk.Notebook.NotebookChild w139 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table2]));
-			w139.Position = 6;
-			w139.MenuLabel = global::Mono.Unix.Catalog.GetString ("Debug");
+			global::Gtk.Notebook.NotebookChild w134 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table2]));
+			w134.Position = 6;
+			w134.MenuLabel = global::Mono.Unix.Catalog.GetString ("Debug");
 			// Notebook tab
 			this.label10 = new global::Gtk.Label ();
 			this.label10.Name = "label10";
@@ -1573,8 +1508,8 @@ namespace Frontend
 			this.label10.ShowAll ();
 			this.hpanedMain.Add (this.notebook1);
 			this.vbox1.Add (this.hpanedMain);
-			global::Gtk.Box.BoxChild w141 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hpanedMain]));
-			w141.Position = 2;
+			global::Gtk.Box.BoxChild w136 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hpanedMain]));
+			w136.Position = 2;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.statusbar1 = new global::Gtk.Statusbar ();
 			this.statusbar1.Name = "statusbar1";
@@ -1587,75 +1522,75 @@ namespace Frontend
 			this.ImageConnectionStatus.Name = "ImageConnectionStatus";
 			this.ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
 			this.statusbar1.Add (this.ImageConnectionStatus);
-			global::Gtk.Box.BoxChild w142 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.ImageConnectionStatus]));
-			w142.Position = 0;
-			w142.Expand = false;
-			w142.Fill = false;
+			global::Gtk.Box.BoxChild w137 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.ImageConnectionStatus]));
+			w137.Position = 0;
+			w137.Expand = false;
+			w137.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.lblConnectionStatus = new global::Gtk.Label ();
 			this.lblConnectionStatus.Name = "lblConnectionStatus";
 			this.lblConnectionStatus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>NOT</b> connected");
 			this.lblConnectionStatus.UseMarkup = true;
 			this.statusbar1.Add (this.lblConnectionStatus);
-			global::Gtk.Box.BoxChild w143 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.lblConnectionStatus]));
-			w143.Position = 1;
-			w143.Expand = false;
-			w143.Fill = false;
+			global::Gtk.Box.BoxChild w138 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.lblConnectionStatus]));
+			w138.Position = 1;
+			w138.Expand = false;
+			w138.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.vseparator1 = new global::Gtk.VSeparator ();
 			this.vseparator1.Name = "vseparator1";
 			this.statusbar1.Add (this.vseparator1);
-			global::Gtk.Box.BoxChild w144 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.vseparator1]));
-			w144.Position = 2;
-			w144.Expand = false;
-			w144.Fill = false;
+			global::Gtk.Box.BoxChild w139 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.vseparator1]));
+			w139.Position = 2;
+			w139.Expand = false;
+			w139.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.label12 = new global::Gtk.Label ();
 			this.label12.Name = "label12";
 			this.label12.LabelProp = global::Mono.Unix.Catalog.GetString ("Start Time:");
 			this.statusbar1.Add (this.label12);
-			global::Gtk.Box.BoxChild w145 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.label12]));
-			w145.Position = 3;
-			w145.Expand = false;
-			w145.Fill = false;
+			global::Gtk.Box.BoxChild w140 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.label12]));
+			w140.Position = 3;
+			w140.Expand = false;
+			w140.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.lblStartTime = new global::Gtk.Label ();
 			this.lblStartTime.Name = "lblStartTime";
 			this.statusbar1.Add (this.lblStartTime);
-			global::Gtk.Box.BoxChild w146 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.lblStartTime]));
-			w146.Position = 4;
-			w146.Expand = false;
-			w146.Fill = false;
+			global::Gtk.Box.BoxChild w141 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.lblStartTime]));
+			w141.Position = 4;
+			w141.Expand = false;
+			w141.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.vseparator2 = new global::Gtk.VSeparator ();
 			this.vseparator2.Name = "vseparator2";
 			this.statusbar1.Add (this.vseparator2);
-			global::Gtk.Box.BoxChild w147 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.vseparator2]));
-			w147.Position = 5;
-			w147.Expand = false;
-			w147.Fill = false;
+			global::Gtk.Box.BoxChild w142 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.vseparator2]));
+			w142.Position = 5;
+			w142.Expand = false;
+			w142.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.label13 = new global::Gtk.Label ();
 			this.label13.Name = "label13";
 			this.label13.LabelProp = global::Mono.Unix.Catalog.GetString ("Time Elapsed:");
 			this.statusbar1.Add (this.label13);
-			global::Gtk.Box.BoxChild w148 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.label13]));
-			w148.Position = 6;
-			w148.Expand = false;
-			w148.Fill = false;
+			global::Gtk.Box.BoxChild w143 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.label13]));
+			w143.Position = 6;
+			w143.Expand = false;
+			w143.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.lblTimePassed = new global::Gtk.Label ();
 			this.lblTimePassed.Name = "lblTimePassed";
 			this.statusbar1.Add (this.lblTimePassed);
-			global::Gtk.Box.BoxChild w149 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.lblTimePassed]));
-			w149.Position = 7;
-			w149.Expand = false;
-			w149.Fill = false;
+			global::Gtk.Box.BoxChild w144 = ((global::Gtk.Box.BoxChild)(this.statusbar1 [this.lblTimePassed]));
+			w144.Position = 7;
+			w144.Expand = false;
+			w144.Fill = false;
 			this.vbox1.Add (this.statusbar1);
-			global::Gtk.Box.BoxChild w150 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
-			w150.Position = 3;
-			w150.Expand = false;
-			w150.Fill = false;
+			global::Gtk.Box.BoxChild w145 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
+			w145.Position = 3;
+			w145.Expand = false;
+			w145.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -1676,14 +1611,37 @@ namespace Frontend
 			this.cbBoardType.Changed += new global::System.EventHandler (this.OnCbBoardTypeChanged);
 			this.cbAREF.Changed += new global::System.EventHandler (this.OnCbAREFChanged);
 			this.btnAddAPin.Clicked += new global::System.EventHandler (this.OnBtnAddAPinClicked);
+			this.btnCloneAPin.Clicked += new global::System.EventHandler (this.OnBtnCloneAPinClicked);
+			this.btnEditAPin.Clicked += new global::System.EventHandler (this.OnBtnEditAPinClicked);
+			this.btnRemoveAPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveAPinClicked);
+			this.btnClearAPins.Clicked += new global::System.EventHandler (this.OnBtnClearAPinsClicked);
+			this.btnAddSignal.Clicked += new global::System.EventHandler (this.OnBtnAddSignalClicked);
+			this.btnCloneSignal.Clicked += new global::System.EventHandler (this.OnBtnCloneSignalClicked);
+			this.btnEditSignal.Clicked += new global::System.EventHandler (this.OnBtnEditSignalClicked);
+			this.btnRemoveSignal.Clicked += new global::System.EventHandler (this.OnBtnRemoveSignalClicked);
+			this.btnClearSignals.Clicked += new global::System.EventHandler (this.OnBtnClearSignalsClicked);
+			this.btnAddDPin.Clicked += new global::System.EventHandler (this.OnBtnAddDPinClicked);
+			this.btnCloneDPin.Clicked += new global::System.EventHandler (this.OnBtnCloneDPinClicked);
+			this.btnEditDPin.Clicked += new global::System.EventHandler (this.OnBtnEditDPinClicked);
+			this.btnRemoveDPin.Clicked += new global::System.EventHandler (this.OnBtnRemoveDPinClicked);
+			this.btnClearDPins.Clicked += new global::System.EventHandler (this.OnBtnClearDPinsClicked);
+			this.btnAddSequence.Clicked += new global::System.EventHandler (this.OnBtnAddSequenceClicked);
+			this.btnCloneSequence.Clicked += new global::System.EventHandler (this.OnBtnCloneSequenceClicked);
+			this.btnEditSequence.Clicked += new global::System.EventHandler (this.OnBtnEditSequenceClicked);
+			this.btnRemoveSequence.Clicked += new global::System.EventHandler (this.OnBtnRemoveSequenceClicked);
+			this.btnClearSequence.Clicked += new global::System.EventHandler (this.OnBtnClearSequenceClicked);
 			this.cbeCSVTimeFormat.Changed += new global::System.EventHandler (this.OnCbeCSVTimeFormatChanged);
 			this.cbeCSVSeparator.Changed += new global::System.EventHandler (this.OnCbeCSVSeparatorChanged);
 			this.cbCSVUTC.Toggled += new global::System.EventHandler (this.OnCbCSVUTCToggled);
 			this.btnCSVFilePathOpen.Clicked += new global::System.EventHandler (this.OnBtnCSVFilePathOpenClicked);
+			this.btnCSVOpenFolder.Clicked += new global::System.EventHandler (this.OnBtnCSVOpenFolderClicked);
 			this.btnDigitalPingTest.Clicked += new global::System.EventHandler (this.OnBtnDigitalPingTestClicked);
 			this.btnFillAnalogInputs.Clicked += new global::System.EventHandler (this.OnBtnFillAnalogInputsClicked);
 			this.btnFillDigitalOutputs.Clicked += new global::System.EventHandler (this.OnBtnFillDigitalOutputsClicked);
+			this.btnAlternateBlinkSetup.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetupClicked);
 			this.btnAlternateBlinkSetup2.Clicked += new global::System.EventHandler (this.OnBtnAlternateBlinkSetup2Clicked);
+			this.button359.Clicked += new global::System.EventHandler (this.OnButton359Clicked);
+			this.button360.Clicked += new global::System.EventHandler (this.OnButton360Clicked);
 		}
 	}
 }

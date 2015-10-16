@@ -518,6 +518,11 @@ namespace Frontend
 			rbStopAfter.Active = true;
 			DisplayPlot ();
 		}
+
+		protected void OnCbeGroupsChanged (object sender, EventArgs e)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }
 

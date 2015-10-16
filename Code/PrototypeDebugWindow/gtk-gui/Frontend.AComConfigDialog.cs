@@ -374,16 +374,14 @@ namespace Frontend
 			this.buttonOk.CanDefault = true;
 			this.buttonOk.CanFocus = true;
 			this.buttonOk.Name = "buttonOk";
+			this.buttonOk.UseStock = true;
 			this.buttonOk.UseUnderline = true;
-			this.buttonOk.Label = global::Mono.Unix.Catalog.GetString ("_OK");
-			global::Gtk.Image w31 = new global::Gtk.Image ();
-			w31.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
-			this.buttonOk.Image = w31;
-			this.AddActionWidget (this.buttonOk, -5);
-			global::Gtk.ButtonBox.ButtonBoxChild w32 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w29 [this.buttonOk]));
-			w32.Position = 1;
-			w32.Expand = false;
-			w32.Fill = false;
+			this.buttonOk.Label = "gtk-ok";
+			this.AddActionWidget (this.buttonOk, -10);
+			global::Gtk.ButtonBox.ButtonBoxChild w31 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w29 [this.buttonOk]));
+			w31.Position = 1;
+			w31.Expand = false;
+			w31.Fill = false;
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}

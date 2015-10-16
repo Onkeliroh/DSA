@@ -343,7 +343,7 @@ namespace Frontend
 			w23.YOptions = ((global::Gtk.AttachOptions)(0));
 			// Container child table5.Gtk.Table+TableChild
 			this.cbState = global::Gtk.ComboBox.NewText ();
-			this.cbState.AppendText (global::Mono.Unix.Catalog.GetString ("HIGH\r"));
+			this.cbState.AppendText (global::Mono.Unix.Catalog.GetString ("HIGH"));
 			this.cbState.AppendText (global::Mono.Unix.Catalog.GetString ("LOW"));
 			this.cbState.Name = "cbState";
 			this.cbState.Active = 0;
@@ -354,7 +354,7 @@ namespace Frontend
 			w24.LeftAttach = ((uint)(1));
 			w24.RightAttach = ((uint)(2));
 			w24.XOptions = ((global::Gtk.AttachOptions)(4));
-			w24.YOptions = ((global::Gtk.AttachOptions)(4));
+			w24.YOptions = ((global::Gtk.AttachOptions)(0));
 			// Container child table5.Gtk.Table+TableChild
 			this.label7 = new global::Gtk.Label ();
 			this.label7.Name = "label7";
@@ -365,7 +365,7 @@ namespace Frontend
 			w25.TopAttach = ((uint)(1));
 			w25.BottomAttach = ((uint)(2));
 			w25.XOptions = ((global::Gtk.AttachOptions)(4));
-			w25.YOptions = ((global::Gtk.AttachOptions)(4));
+			w25.YOptions = ((global::Gtk.AttachOptions)(0));
 			// Container child table5.Gtk.Table+TableChild
 			this.label8 = new global::Gtk.Label ();
 			this.label8.Name = "label8";
@@ -509,7 +509,6 @@ namespace Frontend
 			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vboxOptions [this.frame2]));
 			w40.Position = 1;
 			w40.Expand = false;
-			w40.Fill = false;
 			// Container child vboxOptions.Gtk.Box+BoxChild
 			this.hseparator1 = new global::Gtk.HSeparator ();
 			this.hseparator1.Name = "hseparator1";
@@ -550,7 +549,7 @@ namespace Frontend
 			this.buttonOk.UseStock = true;
 			this.buttonOk.UseUnderline = true;
 			this.buttonOk.Label = "gtk-add";
-			this.AddActionWidget (this.buttonOk, 0);
+			this.AddActionWidget (this.buttonOk, -10);
 			global::Gtk.ButtonBox.ButtonBoxChild w46 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w44 [this.buttonOk]));
 			w46.Position = 1;
 			w46.Expand = false;
@@ -561,6 +560,10 @@ namespace Frontend
 			this.DefaultWidth = 980;
 			this.DefaultHeight = 601;
 			this.Show ();
+			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
+			this.cbeGroups.Changed += new global::System.EventHandler (this.OnCbeGroupsChanged);
+			this.btnRemoveOperation.Clicked += new global::System.EventHandler (this.OnBtnRemoveOperationClicked);
+			this.btnApplyOperation.Clicked += new global::System.EventHandler (this.OnBtnApplyOperationClicked);
 		}
 	}
 }
