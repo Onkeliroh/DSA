@@ -321,7 +321,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">6</property>
+                <property name="CurrentPage">5</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />

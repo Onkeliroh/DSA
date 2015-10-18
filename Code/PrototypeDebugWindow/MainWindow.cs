@@ -1975,23 +1975,46 @@ namespace Frontend
 
 		protected void OnBtnRealTimePlotSnapshotClicked (object sender, EventArgs e)
 		{
-			PngExporter.Export (
-				RealTimePlotView.Model,
-				string.Format (
-					"{0}_{1}.png",
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+				PngExporter.Export (
+					RealTimePlotView.Model,
 					string.Format (
-						"{0:D2}-{1:D2}-{2:D2}_{3:D2}_{4:D2}_{5:D2}",
-						DateTime.Now.Year,
-						DateTime.Now.Month,
-						DateTime.Now.Day,
-						DateTime.Now.Hour,
-						DateTime.Now.Minute,
-						DateTime.Now.Second),
-					"Snapshot"
-				), 
-				RealTimePlotView.Allocation.Width,
-				RealTimePlotView.Allocation.Height
-			);
+						"{0}{1}{2}_{3}.png",
+						con.Configuration.CSVSaveFolderPath,
+						@"\",
+						string.Format (
+							"{0:D2}-{1:D2}-{2:D2}_{3:D2}_{4:D2}_{5:D2}",
+							DateTime.Now.Year,
+							DateTime.Now.Month,
+							DateTime.Now.Day,
+							DateTime.Now.Hour,
+							DateTime.Now.Minute,
+							DateTime.Now.Second),
+						"Snapshot"
+					), 
+					RealTimePlotView.Allocation.Width,
+					RealTimePlotView.Allocation.Height
+				);
+			} else if (Environment.OSVersion.Platform == PlatformID.Unix) {
+				PngExporter.Export (
+					RealTimePlotView.Model,
+					string.Format (
+						"{0}/{1}_{2}.png",
+						con.Configuration.CSVSaveFolderPath,
+						string.Format (
+							"{0:D2}-{1:D2}-{2:D2}_{3:D2}_{4:D2}_{5:D2}",
+							DateTime.Now.Year,
+							DateTime.Now.Month,
+							DateTime.Now.Day,
+							DateTime.Now.Hour,
+							DateTime.Now.Minute,
+							DateTime.Now.Second),
+						"Snapshot"
+					), 
+					RealTimePlotView.Allocation.Width,
+					RealTimePlotView.Allocation.Height
+				);
+			}
 		}
 
 		protected void OnCbtnRealTimePlotShowMarkerToggled (object sender, EventArgs e)
