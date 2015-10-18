@@ -207,6 +207,15 @@ namespace PrototypeBackend
 			return false;
 		}
 
+		/// <summary>
+		/// Gets the pin with largest interval.
+		/// </summary>
+		/// <returns>The pin with largest interval.</returns>
+		public APin GetPinWithLargestInterval ()
+		{
+			return Pins.OrderByDescending (o => o.Interval).ToList () [0];
+		}
+
 		#endregion
 
 		#region ISerializable implementation

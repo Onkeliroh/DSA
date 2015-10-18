@@ -38,6 +38,7 @@ namespace Frontend
 		private PlotModel RealTimePlotModel;
 		private DateTimeAxis RealTimeXAxis;
 		private bool RealTimePlotUpdate = true;
+		private double DefaultZoomValue = 30;
 
 		/// <summary>
 		/// A timer for keeping track of time after the measurement beginns.
@@ -85,7 +86,7 @@ namespace Frontend
 			if (Frontend.Settings.Default.StartMaximized) {
 				this.Maximize ();
 			}
-			BindWidgetEvents ();
+//			BindWidgetEvents ();
 		}
 
 		#endregion
@@ -612,6 +613,10 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Initials the real time plot.
+		/// Creates plot axes and inits series.
+		/// </summary>
 		private void InitRealTimePlot ()
 		{
 			#region Axes
@@ -662,18 +667,20 @@ namespace Frontend
 				RealTimePlotView.Model.Series.Add (series);
 			}
 
-//			foreach (MeasurementCombination a in con.Configuration.MeasurementCombinations) {
-//				RealTimePlotView.Model.Series.Add (
-//					new LineSeries () {
-//						Color = ColorHelper.GdkColorToOxyColor (a.Color),
-//						DataFieldX = "Time",
-//						DataFieldY = "Value",
-//						Title = a.DisplayName,
-//						YAxisKey = a.Unit,
-//						XAxisKey = RealTimeXAxis.Key
-//					}
-//				);
-//			}
+			foreach (MeasurementCombination a in con.Configuration.MeasurementCombinations) {
+				var series = new LineSeries () {
+					Color = ColorHelper.GdkColorToOxyColor (a.Color),
+					DataFieldX = "Time",
+					DataFieldY = "Value",
+					Title = a.DisplayName,
+					YAxisKey = a.Unit,
+					XAxisKey = RealTimeXAxis.Key
+				};
+
+				a.GetPinWithLargestInterval ().OnNewValue += (o, args) => series.Points.Add (new DataPoint (args.Time.ToOADate (), a.Value.Value));
+
+				RealTimePlotView.Model.Series.Add (series);
+			}
 		}
 
 		#endregion
@@ -2663,6 +2670,28 @@ namespace Frontend
 			}
 		}
 
+		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)
+		{
+			//TODO implement
+		}
+
+
+		protected void OnBtnRealTimePlotJumpLatestClicked (object sender, EventArgs e)
+		{
+			//TODO implement
+		}
+
+
+		protected void OnBtnRealTimePlotFitDataClicked (object sender, EventArgs e)
+		{
+			RealTimeXAxis.Zoom (con.StartTime.ToOADate (), LastTimeKeeperPresenterTick);
+		}
+
+
+		protected void OnBtnRealTimePlotResetZoomClicked (object sender, EventArgs e)
+		{
+			RealTimeXAxis.Zoom (DefaultZoomValue);
+		}
 
 		#endregion
 	}
