@@ -230,6 +230,9 @@ namespace PrototypeBackend
 			info.AddValue ("Pins", Pins);
 			info.AddValue ("Name", Name);
 			info.AddValue ("Unit", Unit);
+			info.AddValue ("RED", uintToByte (Color.Red));
+			info.AddValue ("GREEN", uintToByte (Color.Green));
+			info.AddValue ("BLUE", uintToByte (Color.Blue));
 			info.AddValue ("Interval", MeanValuesCount);
 			info.AddValue ("OperationString", OperationString);
 		}
@@ -245,6 +248,7 @@ namespace PrototypeBackend
 			Pins = (List<APin>)info.GetValue ("Pins", Pins.GetType ());
 			Name = info.GetString ("Name");
 			Unit = info.GetString ("Unit");
+			Color = new Gdk.Color (info.GetByte ("RED"), info.GetByte ("GREEN"), info.GetByte ("BLUE"));
 			MeanValuesCount = info.GetInt32 ("Interval");
 			OperationString = info.GetString ("OperationString");
 
@@ -252,5 +256,16 @@ namespace PrototypeBackend
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Uints to byte.
+		/// This method is used to parse colors form one framework to another.
+		/// </summary>
+		/// <returns>The to byte.</returns>
+		/// <param name="val">Value.</param>
+		public static byte uintToByte (uint val)
+		{
+			return (byte)(byte.MaxValue / 65535.0 * val);
+		}
 	}
 }

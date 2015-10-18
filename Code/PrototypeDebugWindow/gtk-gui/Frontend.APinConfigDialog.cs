@@ -222,13 +222,13 @@ namespace Frontend
 			w14.XOptions = ((global::Gtk.AttachOptions)(4));
 			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.sbMeanValuesCount = new global::Gtk.SpinButton (1D, 100D, 1D);
+			this.sbMeanValuesCount = new global::Gtk.SpinButton (1, 100, 1);
 			this.sbMeanValuesCount.CanFocus = true;
 			this.sbMeanValuesCount.Name = "sbMeanValuesCount";
-			this.sbMeanValuesCount.Adjustment.PageIncrement = 10D;
-			this.sbMeanValuesCount.ClimbRate = 1D;
+			this.sbMeanValuesCount.Adjustment.PageIncrement = 10;
+			this.sbMeanValuesCount.ClimbRate = 1;
 			this.sbMeanValuesCount.Numeric = true;
-			this.sbMeanValuesCount.Value = 1D;
+			this.sbMeanValuesCount.Value = 1;
 			this.table3.Add (this.sbMeanValuesCount);
 			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbMeanValuesCount]));
 			w15.TopAttach = ((uint)(8));
@@ -238,11 +238,11 @@ namespace Frontend
 			w15.XOptions = ((global::Gtk.AttachOptions)(4));
 			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.sbOffset = new global::Gtk.SpinButton (0D, 100D, 1D);
+			this.sbOffset = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbOffset.CanFocus = true;
 			this.sbOffset.Name = "sbOffset";
-			this.sbOffset.Adjustment.PageIncrement = 10D;
-			this.sbOffset.ClimbRate = 1D;
+			this.sbOffset.Adjustment.PageIncrement = 10;
+			this.sbOffset.ClimbRate = 1;
 			this.sbOffset.Digits = ((uint)(10));
 			this.sbOffset.Numeric = true;
 			this.table3.Add (this.sbOffset);
@@ -254,14 +254,14 @@ namespace Frontend
 			w16.XOptions = ((global::Gtk.AttachOptions)(4));
 			w16.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
-			this.sbSlope = new global::Gtk.SpinButton (0D, 100D, 1D);
+			this.sbSlope = new global::Gtk.SpinButton (0, 100, 1);
 			this.sbSlope.CanFocus = true;
 			this.sbSlope.Name = "sbSlope";
-			this.sbSlope.Adjustment.PageIncrement = 10D;
-			this.sbSlope.ClimbRate = 1D;
+			this.sbSlope.Adjustment.PageIncrement = 10;
+			this.sbSlope.ClimbRate = 1;
 			this.sbSlope.Digits = ((uint)(10));
 			this.sbSlope.Numeric = true;
-			this.sbSlope.Value = 1D;
+			this.sbSlope.Value = 1;
 			this.table3.Add (this.sbSlope);
 			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table3 [this.sbSlope]));
 			w17.TopAttach = ((uint)(5));
@@ -324,11 +324,11 @@ namespace Frontend
 			w22.XOptions = ((global::Gtk.AttachOptions)(4));
 			w22.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbDays = new global::Gtk.SpinButton (0D, 111111D, 1D);
+			this.sbDays = new global::Gtk.SpinButton (0, 111111, 1);
 			this.sbDays.CanFocus = true;
 			this.sbDays.Name = "sbDays";
-			this.sbDays.Adjustment.PageIncrement = 10D;
-			this.sbDays.ClimbRate = 1D;
+			this.sbDays.Adjustment.PageIncrement = 10;
+			this.sbDays.ClimbRate = 1;
 			this.sbDays.Numeric = true;
 			this.table2.Add (this.sbDays);
 			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbDays]));
@@ -336,11 +336,11 @@ namespace Frontend
 			w23.RightAttach = ((uint)(2));
 			w23.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbHours = new global::Gtk.SpinButton (0D, 24D, 1D);
+			this.sbHours = new global::Gtk.SpinButton (0, 24, 1);
 			this.sbHours.CanFocus = true;
 			this.sbHours.Name = "sbHours";
-			this.sbHours.Adjustment.PageIncrement = 10D;
-			this.sbHours.ClimbRate = 1D;
+			this.sbHours.Adjustment.PageIncrement = 10;
+			this.sbHours.ClimbRate = 1;
 			this.sbHours.Numeric = true;
 			this.table2.Add (this.sbHours);
 			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbHours]));
@@ -348,11 +348,11 @@ namespace Frontend
 			w24.RightAttach = ((uint)(4));
 			w24.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbMilliSec = new global::Gtk.SpinButton (0D, 1000D, 100D);
+			this.sbMilliSec = new global::Gtk.SpinButton (0, 1000, 100);
 			this.sbMilliSec.CanFocus = true;
 			this.sbMilliSec.Name = "sbMilliSec";
-			this.sbMilliSec.Adjustment.PageIncrement = 10D;
-			this.sbMilliSec.ClimbRate = 1D;
+			this.sbMilliSec.Adjustment.PageIncrement = 10;
+			this.sbMilliSec.ClimbRate = 1;
 			this.sbMilliSec.Numeric = true;
 			this.table2.Add (this.sbMilliSec);
 			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbMilliSec]));
@@ -360,11 +360,11 @@ namespace Frontend
 			w25.RightAttach = ((uint)(10));
 			w25.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbMinutes = new global::Gtk.SpinButton (0D, 60D, 1D);
+			this.sbMinutes = new global::Gtk.SpinButton (0, 60, 1);
 			this.sbMinutes.CanFocus = true;
 			this.sbMinutes.Name = "sbMinutes";
-			this.sbMinutes.Adjustment.PageIncrement = 10D;
-			this.sbMinutes.ClimbRate = 1D;
+			this.sbMinutes.Adjustment.PageIncrement = 10;
+			this.sbMinutes.ClimbRate = 1;
 			this.sbMinutes.Numeric = true;
 			this.table2.Add (this.sbMinutes);
 			global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbMinutes]));
@@ -372,13 +372,13 @@ namespace Frontend
 			w26.RightAttach = ((uint)(6));
 			w26.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbSeconds = new global::Gtk.SpinButton (0D, 60D, 1D);
+			this.sbSeconds = new global::Gtk.SpinButton (0, 60, 1);
 			this.sbSeconds.CanFocus = true;
 			this.sbSeconds.Name = "sbSeconds";
-			this.sbSeconds.Adjustment.PageIncrement = 10D;
-			this.sbSeconds.ClimbRate = 1D;
+			this.sbSeconds.Adjustment.PageIncrement = 10;
+			this.sbSeconds.ClimbRate = 1;
 			this.sbSeconds.Numeric = true;
-			this.sbSeconds.Value = 1D;
+			this.sbSeconds.Value = 1;
 			this.table2.Add (this.sbSeconds);
 			global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbSeconds]));
 			w27.LeftAttach = ((uint)(7));
@@ -441,6 +441,7 @@ namespace Frontend
 			this.cbUnit.Changed += new global::System.EventHandler (this.OnCbUnitChanged);
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
 			this.cbColor.Clicked += new global::System.EventHandler (this.OnCbColorClicked);
+			this.cbColor.ColorSet += new global::System.EventHandler (this.OnCbColorColorSet);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}

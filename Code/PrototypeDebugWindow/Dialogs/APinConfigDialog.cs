@@ -202,6 +202,11 @@ namespace Frontend
 				pin.MeanValuesCount = Convert.ToUInt64 (sbMeanValuesCount.ValueAsInt);
 			}
 		}
+
+		protected void OnCbColorColorSet (object sender, EventArgs e)
+		{
+			pin.PlotColor = cbColor.Color;
+		}
 	}
 }
 

@@ -17,7 +17,6 @@ namespace Frontend
 {
 	public partial class MainWindow : Gtk.Window
 	{
-
 		#region Member
 
 		/// <summary>
@@ -106,6 +105,7 @@ namespace Frontend
 			BuildMCUDisplay ();
 			BuildConfigSettings ();
 			BindControllerEvents ();
+			BindWidgetEvents ();
 
 
 			nvDigitalPins.ButtonPressEvent += new ButtonPressEventHandler (OnDigitalPinNodePressed);
@@ -125,6 +125,7 @@ namespace Frontend
 				UpdateSettings ();
 				UpdateAllNodes ();
 				UpdateFilePathPreview ();
+				DrawMCU (this, null);
 			};
 
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
@@ -792,7 +793,6 @@ namespace Frontend
 		/// <summary>
 		/// Binds the widget events. This does not seam to work with glade interfaces.
 		/// </summary>
-		[Obsolete]
 		protected void BindWidgetEvents ()
 		{
 			btnAddAPin.ButtonPressEvent += OnBtnAddAPinClicked;
@@ -889,14 +889,10 @@ namespace Frontend
 
 			#endregion
 
-			#region Measurment
+			#region Analog
 			nvAnalogPins.NodeStore = NodeStoreAnalogPins;
-//			TreeModelSort APinsorter = new TreeModelSort (nvAnalogPins.Model);
 
 			nvAnalogPins.RowActivated += (o, args) => {
-//				var pin = con.Configuration.Pins
-//					.Where (x => x.Type == PinType.ANALOG)
-//					.ToList () [((o as NodeView).NodeSelection.SelectedNode as APinTreeNode).Index];
 				var pin = ((o as NodeView).NodeSelection.SelectedNode as APinTreeNode).Pin;
 				RunAddAPinDialog (pin as APin);
 			};
@@ -904,15 +900,11 @@ namespace Frontend
 			nvAnalogPins.AppendColumn (new TreeViewColumn ("Name", new Gtk.CellRendererText (), "text", 0) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
-//				SortColumnId = 0,
-//				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
 			nvAnalogPins.AppendColumn (new TreeViewColumn ("Number", new Gtk.CellRendererText (), "text", 1) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
-//				SortColumnId = 1,
-//				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
 			nvAnalogPins.AppendColumn ("Color", new Gtk.CellRendererPixbuf (), "pixbuf", 2);
@@ -921,78 +913,24 @@ namespace Frontend
 			nvAnalogPins.AppendColumn (new TreeViewColumn ("Unit", new Gtk.CellRendererText (), "text", 5) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
-//				SortColumnId = 5,
-//				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
 			nvAnalogPins.AppendColumn (new TreeViewColumn ("Frequency", new Gtk.CellRendererText (), "text", 6) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
-//				SortColumnId = 6,
-//				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
 			nvAnalogPins.AppendColumn (new TreeViewColumn ("Interval", new Gtk.CellRendererText (), "text", 7) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
-//				SortColumnId = 7,
-//				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
 			nvAnalogPins.AppendColumn (new TreeViewColumn ("Combination", new Gtk.CellRendererText (), "text", 8) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
-//				SortColumnId = 8,
-//				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
 
-//			APinsorter.SetSortFunc (0, delegate(TreeModel model, TreeIter a, TreeIter b)
-//			{
-//				string s1 = (string)model.GetValue (a, 0);
-//				string s2 = (string)model.GetValue (b, 0);
-//				// Analysis disable once StringCompareIsCultureSpecific
-//				return String.Compare (s1, s2);
-//			});
-//			APinsorter.SetSortFunc (1, delegate(TreeModel model, TreeIter a, TreeIter b)
-//			{
-//				string s1 = (string)model.GetValue (a, 1);
-//				string s2 = (string)model.GetValue (b, 1);
-//				// Analysis disable once StringCompareIsCultureSpecific
-//				return String.Compare (s1, s2);
-//			});
-//			APinsorter.SetSortFunc (5, delegate(TreeModel model, TreeIter a, TreeIter b)
-//			{
-//				string s1 = (string)model.GetValue (a, 5);
-//				string s2 = (string)model.GetValue (b, 5);
-//				// Analysis disable once StringCompareIsCultureSpecific
-//				return String.Compare (s1, s2);
-//			});
-//			APinsorter.SetSortFunc (6, delegate(TreeModel model, TreeIter a, TreeIter b)
-//			{
-//				TimeSpan s1 = TimeSpan.Parse ((string)model.GetValue (a, 6));
-//				TimeSpan s2 = TimeSpan.Parse ((string)model.GetValue (b, 6));
-//				// Analysis disable once StringCompareIsCultureSpecific
-//				return (s1 < s2) ? -1 : 1;
-//
-//			});
-//			APinsorter.SetSortFunc (7, delegate(TreeModel model, TreeIter a, TreeIter b)
-//			{
-//				double d1 = (double)model.GetValue (a, 7);
-//				double d2 = (double)model.GetValue (b, 7);
-//
-//				// Analysis disable once StringCompareIsCultureSpecific
-//				return (d1 < d2) ? -1 : 1;
-//			});
-//			APinsorter.SetSortFunc (8, delegate(TreeModel model, TreeIter a, TreeIter b)
-//			{
-//				string s1 = (string)model.GetValue (a, 8);
-//				string s2 = (string)model.GetValue (b, 8);
-//				// Analysis disable once StringCompareIsCultureSpecific
-//				return String.Compare (s1, s2);
-//			});
-
-//			nvAnalogPins.Model = APinsorter;
 			nvAnalogPins.QueueDraw ();
 			#endregion
 
@@ -1442,6 +1380,8 @@ namespace Frontend
 			vpanedSequences.Position = fSequences.Allocation.Height / 2;
 
 			RealTimePlotView.ShowAll ();
+
+			cbtnRealTimePlotShowMarker.Toggled += OnCbtnRealTimePlotShowMarkerToggled;
 		}
 
 		#endregion
@@ -2681,12 +2621,10 @@ namespace Frontend
 			//TODO implement
 		}
 
-
 		protected void OnBtnRealTimePlotFitDataClicked (object sender, EventArgs e)
 		{
 			RealTimeXAxis.Zoom (con.StartTime.ToOADate (), LastTimeKeeperPresenterTick);
 		}
-
 
 		protected void OnBtnRealTimePlotResetZoomClicked (object sender, EventArgs e)
 		{

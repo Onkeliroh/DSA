@@ -209,8 +209,7 @@ namespace Frontend
 			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.entryOperation = new global::Gtk.Entry ();
-			this.entryOperation.TooltipMarkup = "The Operation you wish to be processed.\r\n\r\ne.g:\r\nGiven analog inputs A0 and A5.\r\n" +
-			"Adding those two would require you to type in: \"A0+A5\".";
+			this.entryOperation.TooltipMarkup = "The Operation you wish to be processed.\n\ne.g:\nGiven analog inputs A0 and A5.\nAdding those two would require you to type in: \"A0+A5\".";
 			this.entryOperation.CanFocus = true;
 			this.entryOperation.Name = "entryOperation";
 			this.entryOperation.IsEditable = true;
@@ -309,9 +308,7 @@ namespace Frontend
 			// Container child table2.Gtk.Table+TableChild
 			this.lblWarning = new global::Gtk.Label ();
 			this.lblWarning.Name = "lblWarning";
-			this.lblWarning.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Please note:</b>\r\nYou have selected measurements, who\'s frequency and/or inter" +
-			"val are not compatible.\r\nIn order to apply the operation, the last available mea" +
-			"surement-data will be used.");
+			this.lblWarning.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Please note:</b>\nYou have selected measurements, who's frequency and/or interval are not compatible.\nIn order to apply the operation, the last available measurement-data will be used.");
 			this.lblWarning.UseMarkup = true;
 			this.lblWarning.Wrap = true;
 			this.table2.Add (this.lblWarning);
@@ -321,14 +318,14 @@ namespace Frontend
 			w24.LeftAttach = ((uint)(1));
 			w24.RightAttach = ((uint)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbMeanValuesCount = new global::Gtk.SpinButton (1D, 100D, 1D);
+			this.sbMeanValuesCount = new global::Gtk.SpinButton (1, 100, 1);
 			this.sbMeanValuesCount.TooltipMarkup = "Amount of values to create a arithmetic mean value from";
 			this.sbMeanValuesCount.CanFocus = true;
 			this.sbMeanValuesCount.Name = "sbMeanValuesCount";
-			this.sbMeanValuesCount.Adjustment.PageIncrement = 10D;
-			this.sbMeanValuesCount.ClimbRate = 1D;
+			this.sbMeanValuesCount.Adjustment.PageIncrement = 10;
+			this.sbMeanValuesCount.ClimbRate = 1;
 			this.sbMeanValuesCount.Numeric = true;
-			this.sbMeanValuesCount.Value = 1D;
+			this.sbMeanValuesCount.Value = 1;
 			this.table2.Add (this.sbMeanValuesCount);
 			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbMeanValuesCount]));
 			w25.TopAttach = ((uint)(3));

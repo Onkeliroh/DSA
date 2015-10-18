@@ -14,6 +14,8 @@ using System.Drawing.Imaging;
 
 namespace Frontend
 {
+	#region Enums
+
 	/// <summary>
 	/// Label format options. 
 	/// </summary>
@@ -42,6 +44,7 @@ namespace Frontend
 		NoLine
 	}
 
+	#endregion
 
 	/// <summary>
 	/// draws the board image. 

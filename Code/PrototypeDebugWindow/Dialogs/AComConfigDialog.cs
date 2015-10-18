@@ -110,9 +110,7 @@ namespace Frontend
 					CompileTimer.Start ();
 				}
 			};
-			//			entryOperation.Activated += (sender, e) => CompileOperation ();
-			//			entryOperation.FocusOutEvent += (o, args) => CompileOperation ();
-
+		
 			CompileTimer.Elapsed += CompileTimerElapsed;
 		}
 
