@@ -90,7 +90,7 @@ namespace Logger
 				if (!first)
 					sb.Append (Separator);
 				if (typeof(T) != typeof(string))
-					sb.Append (Convert.ToString (value, CultureInfo.NumberFormat));
+					sb.Append (Convert.ToString (value, CultureInfo));
 				else
 					sb.Append (value);
 				first = false;

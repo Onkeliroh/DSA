@@ -386,7 +386,7 @@ namespace PrototypeBackend
 					var values = measurements.Select (o => o.Value).ToList ();
 					values.AddRange (Configuration.MeasurementCombinations.Select (o => o.Value));
 
-					MeasurementCSVLogger.Log (values);
+					MeasurementCSVLogger.Log<double> (values.Select (o => o.Value).ToList<double> ());
 				}
 			} else {
 				MeasurementTimer.Stop ();
