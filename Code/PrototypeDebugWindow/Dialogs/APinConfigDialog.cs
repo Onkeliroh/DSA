@@ -86,7 +86,6 @@ namespace Frontend
 			sbMeanValuesCount.Adjustment.Upper = int.MaxValue;
 			sbMeanValuesCount.Adjustment.Lower = 1;
 
-			cbColor.Color = GUIHelper.ColorHelper.GetRandomGdkColor ();
 
 			for (int i = 0; i < availablePins.Length; i++) {
 				cbPin.AppendText (availablePins [i].DisplayNumber);
@@ -96,6 +95,8 @@ namespace Frontend
 				Pin = apin;
 			} else {
 				pin = new APin ();
+				pin.PlotColor = GUIHelper.ColorHelper.GetRandomGdkColor ();
+				cbColor.Color = pin.PlotColor;
 			}
 
 			if (availablePins.Length > 0) {

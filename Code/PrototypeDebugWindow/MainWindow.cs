@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Gtk;
+using Atk;
 using GUIHelper;
 using Logger;
 using OxyPlot;
@@ -12,6 +13,7 @@ using OxyPlot.Series;
 using PrototypeBackend;
 using System.Collections.Generic;
 using Gdk;
+using System.Globalization;
 
 namespace Frontend
 {
@@ -28,6 +30,8 @@ namespace Frontend
 		private Gtk.NodeStore NodeStoreAnalogPins = new NodeStore (typeof(APinTreeNode));
 		private Gtk.NodeStore NodeStoreSequences = new NodeStore (typeof(SequenceTreeNode));
 		private Gtk.NodeStore NodeStoreMeasurementCombinations = new NodeStore (typeof(MeasurementCombinationTreeNode));
+
+		private ComboBox PortBox;
 
 		private PlotView SequencePreviewPlotView;
 		private PlotModel SequencePreviewPlotModel;
@@ -97,11 +101,12 @@ namespace Frontend
 		private void InitComponents ()
 		{
 			Units = PrototypeBackend.ConfigHelper.StringToStringList (Properties.Resources.Units);
+			hpanedMain.Position = 380;
 
 			ArduinoController.OnConnectionChanged += OnConnection;
 
 			BuildMenu ();
-			BuildToolBar ();
+//			BuildToolBar ();
 			BuildNodeViews ();
 			BuildSequencePreviewPlot ();
 			BuildRealTimePlot ();
@@ -626,7 +631,6 @@ namespace Frontend
 			#region Axes
 			RealTimePlotView.Model.Axes.Clear ();
 
-			//TODO yAxen bauen
 			List<string> units = con.Configuration.AnalogPins.Select (o => o.Unit).ToList<string> ();
 			units.AddRange (con.Configuration.MeasurementCombinations.Select (o => o.Unit).ToList<string> ());
 			units = units.Distinct ().ToList ();
@@ -669,6 +673,8 @@ namespace Frontend
 				a.OnNewValue += (o, args) => series.Points.Add (new DataPoint (args.Time.ToOADate (), args.Value));
 
 				RealTimePlotView.Model.Series.Add (series);
+
+//				RealTimeXAxis.IntervalLength = 1 / 24 / 30;
 			}
 
 			foreach (MeasurementCombination a in con.Configuration.MeasurementCombinations) {
@@ -685,6 +691,8 @@ namespace Frontend
 
 				RealTimePlotView.Model.Series.Add (series);
 			}
+
+			ToggleRealTimePlotMarker ();
 		}
 
 		#endregion
@@ -696,6 +704,7 @@ namespace Frontend
 		/// </summary>
 		private void BuildConfigSettings ()
 		{
+			#region FileNaming
 			object[] cbeOptions = new object[]{ "[LOCALTIME]", "[UTC TIME]", "[DATE]", "[EMPTY]" };
 
 			((ListStore)(cbeFileNaming1.Model)).AppendValues (cbeOptions [0]);
@@ -730,6 +739,9 @@ namespace Frontend
 				UpdateFilePathPreview ();
 			};
 
+			#endregion
+
+
 			foreach (string s in FormatOptions.TimeFormatOptions.Keys) {
 				((ListStore)(cbeCSVTimeFormat.Model)).AppendValues (s);
 			}
@@ -741,6 +753,28 @@ namespace Frontend
 			}
 
 			cbeCSVSeparator.Active = 0;
+
+			#region Values Format Culture
+
+			(CultureInfo.GetCultures (CultureTypes.AllCultures))
+				.Select (o => o.EnglishName)
+				.OrderBy (o => o)
+				.ToList ()
+				.ForEach (
+				o => ((ListStore)cbValuesFormatCulture.Model)
+					.AppendValues (new object[]{ o })
+			);
+			cbValuesFormatCulture.Active = Array.IndexOf (
+				(CultureInfo.GetCultures (CultureTypes.AllCultures)).Select (o => o.EnglishName).OrderBy (o => o).ToArray (),
+				"English (United Kingdom)"
+			);
+
+			cbValuesFormatCulture.Changed += (sender, e) => {
+				if (con.Configuration != null) {
+					con.Configuration.ValueFormatCultur = cbValuesFormatCulture.ActiveText;
+				}
+			};
+			#endregion
 		}
 
 		/// <summary>
@@ -1159,15 +1193,36 @@ namespace Frontend
 		/// </summary>
 		private void BuildToolBar ()
 		{
-			Toolbar tbar = (this.UIManager.GetWidget ("/toolbarMain") as Toolbar);
+			//TODO warum werden eintraege nicht gerendert?
+			PortBox = new ComboBox ();
+			PortBox.WidthRequest = 200;
+			PortBox.Visible = true;
 
-			SeparatorToolItem sep = new SeparatorToolItem ();
-			sep.Expand = true;
-			ToolItem connectionItem = new ToolItem ();
-			connectionItem.Child = new Gtk.Image (Gtk.Stock.Ok, Gtk.IconSize.SmallToolbar);
+			PortBox.Changed += (sender, e) => {
+				ArduinoController.SerialPortName = PortBox.ActiveText;
+				ArduinoController.Setup ();	
+			};
 
-			tbar.Add (sep);
-			tbar.Add (connectionItem);
+			var vbox = new VBox ();
+			var middlehbox = new HBox ();
+
+			middlehbox.PackStart (new Label ("Port:"), false, false, 0);
+			middlehbox.PackStart (PortBox);
+
+			vbox.PackStart (new Label (""), true, true, 0);
+			vbox.PackStart (middlehbox, false, false, 0);
+			vbox.PackStart (new Label (""), true, true, 0);
+
+			var item = new ToolItem ();
+			item.Expand = false;
+			item.Add (vbox);
+
+			this.toolbarMain.Remove (this.toolbarMain.GetNthItem (4));
+
+			this.toolbarMain.Insert (item, 4);
+			this.toolbarMain.ShowAll ();
+
+			UpdatePortBox ();
 		}
 
 		/// <summary>
@@ -1217,7 +1272,6 @@ namespace Frontend
 			mbar.Append (file);
 			#endregion
 
-			//TODO preferences
 			#region Edit
 			Menu editmenu = new Menu ();
 			MenuItem edit = new MenuItem ("Edit");
@@ -1510,8 +1564,6 @@ namespace Frontend
 				cbeFileNaming3.AppendText (con.Configuration.FileNameConvention [2]);
 				cbeFileNaming3.Active = index;
 			}
-
-			//TODO plot settings
 		}
 
 		/// <summary>
@@ -1542,8 +1594,6 @@ namespace Frontend
 				con.Configuration.Board = con.BoardConfigs [cbBoardType.Active];
 				UpdateAREFList ();
 			}
-
-
 		}
 
 		/// <summary>
@@ -1594,6 +1644,32 @@ namespace Frontend
 			}
 		}
 
+		private void UpdatePortBox (string portname = null)
+		{
+			var store = new ListStore (typeof(string));
+
+			foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+				store.AppendValues (new object[]{ s });
+			}
+
+//			string atext = PortBox.ActiveText;
+//
+//			if (!string.IsNullOrEmpty (portname)) {
+//				atext = portname;
+//			}
+
+			PortBox.Model = store;
+//			if (!string.IsNullOrEmpty (atext)) {
+//				try {
+//					PortBox.Active = Array.IndexOf (System.IO.Ports.SerialPort.GetPortNames ().ToArray (), atext);
+//				} catch (Exception e) {
+//				}
+//			}	
+
+			toolbarMain.ShowAll ();
+
+		}
+
 		/// <summary>
 		/// Raised if connection was esablished or lost.
 		/// </summary>
@@ -1612,12 +1688,20 @@ namespace Frontend
 				} catch (Exception ex) {
 					con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 				}
+
+//				PortBox.ModifyBg (Gtk.StateType.Normal, new Gdk.Color (0, 255, 0));
+//				UpdatePortBox (e.Port);
+
 			} else {
 				lblConnectionStatus.Text = "<b>NOT</b> connected";
 				lblConnectionStatus.UseMarkup = true;
 				refreshAction.Sensitive = true;
 				mediaPlayAction.Sensitive = false;
 				mediaStopAction.Sensitive = false;
+
+//				PortBox.ModifyBg (Gtk.StateType.Normal);
+//				UpdatePortBox ();
+
 				try {
 					ImageConnectionStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-disconnect", global::Gtk.IconSize.Menu);
 				} catch (Exception ex) {
@@ -1653,7 +1737,6 @@ namespace Frontend
 		/// <param name="a">The alpha component.</param>
 		protected void OnKeyPressEvent (object obj, KeyPressEventArgs a)
 		{
-			//TODO Speichern und so einbauen
 			if (a.Event.Key == Gdk.Key.q && (a.Event.State & Gdk.ModifierType.ControlMask) == Gdk.ModifierType.ControlMask) {
 				OnDeleteEvent (null, null);
 			}
@@ -1913,7 +1996,6 @@ namespace Frontend
 
 		protected void EnableConfig (object sender, BoardSelectionArgs e)
 		{
-			//TODO englisch prüfen
 			if (e != null) {
 				notebook1.Foreach (o => o.Sensitive = true);
 				if (e.Board != con.Configuration.Board && ArduinoController.IsConnected) {
@@ -1946,9 +2028,9 @@ namespace Frontend
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					con.Configuration.CSVSaveFolderPath = dialog.CurrentFolder;
-					if (con.Configuration.CSVSaveFolderPath.Last () != '/')
-						con.Configuration.CSVSaveFolderPath += '/';
+
 					eCSVFilePath.Text = con.Configuration.CSVSaveFolderPath;
+
 					UpdateFilePathPreview ();
 				}
 			};
@@ -2020,7 +2102,22 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Raises the cbtn real time plot show marker toggled event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbtnRealTimePlotShowMarkerToggled (object sender, EventArgs e)
+		{
+			ToggleRealTimePlotMarker ();	
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Toggles the real time plot marker.
+		/// </summary>
+		private void ToggleRealTimePlotMarker ()
 		{
 			RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).MarkerFill = (o as LineSeries).Color);
 			RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).MarkerStroke = (o as LineSeries).Color);
@@ -2030,8 +2127,6 @@ namespace Frontend
 				RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).MarkerType = MarkerType.None);
 			}
 		}
-
-		#endregion
 
 		#region Drawing
 
@@ -2089,7 +2184,7 @@ namespace Frontend
 				if (location == null) {
 					location = RunOpenDialog ();
 				}
-				if (con.OpenConfiguration (path)) {
+				if (con.OpenConfiguration (location)) {
 					UpdateAllNodes ();
 					BindControllerEvents ();
 				} else {
@@ -2098,8 +2193,8 @@ namespace Frontend
 						             DialogFlags.Modal,
 						             MessageType.Error,
 						             ButtonsType.Ok,
-						             "Unable to load configuration /n" +
-						             "(" + path + ")./n " +
+						             "Unable to load configuration \n" +
+						             "(" + location + ").\n " +
 						             "Please make shur that the file exsists and you have read access.");
 					dialog.Run ();
 					dialog.Destroy ();
@@ -2357,7 +2452,6 @@ namespace Frontend
 
 		protected void LockControlls (bool sensitive)
 		{
-			//TODO rekursiv machen
 			btnAddAPin.Sensitive = sensitive;
 			btnAddDPin.Sensitive = sensitive;
 			btnAddSequence.Sensitive = sensitive;
@@ -2407,6 +2501,11 @@ namespace Frontend
 			string preview = string.Empty;
 
 			preview += con.Configuration.CSVSaveFolderPath;
+			if (Environment.OSVersion.Platform == PlatformID.Unix) {
+				preview += "/";
+			} else if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+				preview += @"\";
+			}
 
 			preview += con.Configuration.GetCSVLogName ();
 
@@ -2639,6 +2738,7 @@ namespace Frontend
 		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)
 		{
 			//TODO implement
+			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (con.StartTime.ToOADate ()), 0), new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMinimum), 0));
 		}
 
 

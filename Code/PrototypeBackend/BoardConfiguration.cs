@@ -117,7 +117,7 @@ namespace PrototypeBackend
 		/// Filepath to the configuration savefile 
 		/// </summary>
 		public string ConfigSavePath = string.Empty;
-		public string Separator = "[SEMICOLON]";
+		public string Separator = "[COMMA]";
 		public readonly string EmptyValueFilling = string.Empty;
 		public bool UTCTimestamp = false;
 		public readonly bool LocalTimestamp = true;
@@ -125,6 +125,7 @@ namespace PrototypeBackend
 		public string[] FileNameConvention = new string[]{ "[DATE]", "[LOCALTIME]", "[EMPTY]" };
 		public readonly string FileNameTimeFormat = "{0:HH_mm}";
 		public readonly string FileNameDateFormat = "{0:yyyy-MM-dd}";
+		public string ValueFormatCultur = "English (United Kingdom)";
 
 		public bool UseMarker = false;
 		public bool LogRAWValues = false;
@@ -761,6 +762,7 @@ namespace PrototypeBackend
 			info.AddValue ("FileNameConvention", FileNameConvention.ToList ());
 			info.AddValue ("FileNameTimeFormat", FileNameTimeFormat);
 			info.AddValue ("FileNameDateFormat", FileNameDateFormat);
+			info.AddValue ("ValueFormatCultur", ValueFormatCultur);
 		}
 
 		/// <summary>
@@ -792,6 +794,7 @@ namespace PrototypeBackend
 			FileNameConvention = ((List<string>)info.GetValue ("FileNameConvention", new List<string> ().GetType ())).ToArray<string> ();
 			FileNameTimeFormat = info.GetString ("FileNameTimeFormat");
 			FileNameDateFormat = info.GetString ("FileNameDateFormat");
+			ValueFormatCultur = info.GetString ("ValueFormatCultur");
 		}
 
 		#endregion

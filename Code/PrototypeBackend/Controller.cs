@@ -11,6 +11,7 @@ using PrototypeBackend;
 using PrototypeBackend.Properties;
 using System.Text;
 using Mono.Posix;
+using System.Globalization;
 
 
 namespace PrototypeBackend
@@ -73,7 +74,7 @@ namespace PrototypeBackend
 		/// <summary>
 		/// The start time.
 		/// </summary>
-		public DateTime StartTime;
+		public DateTime StartTime = DateTime.Now;
 
 		/// <summary>
 		/// The keeper of time. Gets the time elapsed since controller start.
@@ -344,6 +345,7 @@ namespace PrototypeBackend
 					false,
 					Configuration.CSVSaveFolderPath
 				);
+				MeasurementCSVLogger.CultureInfo = CultureInfo.GetCultures (CultureTypes.AllCultures).Single (o => o.EnglishName == Configuration.ValueFormatCultur);
 				MeasurementCSVLogger.Mapping = Configuration.CreateMapping ();
 				MeasurementCSVLogger.Separator = SeparatorOptions.GetOption (Configuration.Separator);
 				MeasurementCSVLogger.EmptySpaceFilling = Configuration.EmptyValueFilling;

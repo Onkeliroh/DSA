@@ -48,8 +48,6 @@ namespace Logger
 		public CSVLogger (string filename, List<object>header, bool localtime, bool utc)
 			: this (filename, "", localtime, utc)
 		{
-			//override the default separator of the Logger class
-			WriteHeader (CreateString (header));
 		}
 
 		/// <summary>
@@ -62,8 +60,6 @@ namespace Logger
 		public CSVLogger (string filename, List<string> header, bool localtime, bool utc, string location)
 			: this (filename, location, localtime, utc)
 		{
-			//override the default separator of the Logger class
-			WriteHeader (CreateString (header));
 		}
 
 		/// <summary>

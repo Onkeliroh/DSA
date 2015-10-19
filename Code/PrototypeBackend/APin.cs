@@ -133,13 +133,20 @@ namespace PrototypeBackend
 		public List<DateTimeValue> Values{ get; private set; }
 
 		/// <summary>
+		/// Gets the RAW values.
+		/// </summary>
+		/// <value>The RAW values.</value>
+		public List<DateTimeValue> RAWValues { get; private set; }
+
+		/// <summary>
 		/// Set: Adds a new value to the list of values.
 		///	Get: Returns the last value converted acording to the offset slope and relative voltage.
 		/// </summary>
 		/// <value>The value.</value>
 		public DateTimeValue Value {
 			set { 
-				Values.Add (value); 
+				RAWValues.Add (value); 
+				Values.Add (new DateTimeValue (CalcValue (), value.Time));
 				if (OnNewValue != null) {
 					DateTime time = DateTime.FromOADate (value.Time);
 					OnNewValue.Invoke (this, new NewMeasurementValue () {
@@ -218,6 +225,7 @@ namespace PrototypeBackend
 			MeanValuesCount = 1;
 			Interval = 1000;
 			Values = new List<DateTimeValue> ();
+			RAWValues = new List<DateTimeValue> ();
 		}
 
 		/// <summary>
@@ -283,18 +291,18 @@ namespace PrototypeBackend
 		/// <returns>The value.</returns>
 		public double CalcValue ()
 		{
-			if (Values.Count >= (int)MeanValuesCount) {
+			if (RAWValues.Count >= (int)MeanValuesCount) {
 				if (MeanValuesCount == 1) {
-					if (!double.IsNaN (Values.Last ().Value)) {
-						return ((Values.Last ().Value * Slope) + Offset);
+					if (!double.IsNaN (RAWValues.Last ().Value)) {
+						return ((RAWValues.Last ().Value * Slope) + Offset);
 					}
 					return double.NaN;
 				} else {
-					if (Values.Count >= (int)MeanValuesCount) {
+					if (RAWValues.Count >= (int)MeanValuesCount) {
 						double result = 0;
-						for (int i = Values.Count - (int)MeanValuesCount; i < Values.Count; i++) {
-							if (!double.IsNaN (Values [i].Value)) {
-								result += (Values [i].Value * Slope) + Offset;
+						for (int i = RAWValues.Count - (int)MeanValuesCount; i < RAWValues.Count; i++) {
+							if (!double.IsNaN (RAWValues [i].Value)) {
+								result += (RAWValues [i].Value * Slope) + Offset;
 							}
 						}
 						return result / MeanValuesCount;
@@ -342,7 +350,7 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <param name="info">Info.</param>
 		/// <param name="context">Context.</param>
-		public APin (SerializationInfo info, StreamingContext context)
+		public APin (SerializationInfo info, StreamingContext context) : base ()
 		{
 			Type = (PinType)info.GetByte ("Type");
 			Mode = (PinMode)info.GetByte ("Mode");
@@ -359,8 +367,6 @@ namespace PrototypeBackend
 			Offset = info.GetDouble ("Offset");
 			MeanValuesCount = info.GetUInt64 ("Interval");
 			Interval = info.GetUInt64 ("Period");
-
-			Values = new List<DateTimeValue> ();
 		}
 
 		#endregion

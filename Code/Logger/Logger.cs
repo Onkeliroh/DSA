@@ -113,7 +113,7 @@ namespace Logger
 		/// <summary>
 		/// CultureInfo is set to en-US, because of the common value display
 		/// </summary>
-		protected CultureInfo CultureInfo{ get; set; }
+		public CultureInfo CultureInfo{ get; set; }
 
 		#endregion
 
@@ -164,12 +164,18 @@ namespace Logger
 							System.IO.Directory.CreateDirectory (FilePath);
 						}
 					}
-					if (File.Exists (FileName_) || File.Exists (FilePath + FileName_)) {
-//						LogWriter = new StreamWriter (FileName_, true, FileEncoding);
-						LogWriter = new StreamWriter (new FileStream (FileName_, FileMode.Append, FileAccess.Write, FileShare.Write), FileEncoding);
-					} else {
-//						LogWriter = new StreamWriter (FileName_, false, FileEncoding);
-						LogWriter = new StreamWriter (new FileStream (FileName_, FileMode.CreateNew, FileAccess.Write, FileShare.Write), FileEncoding);
+					if (Environment.OSVersion.Platform == PlatformID.Unix) {
+						if (File.Exists (FileName_) || File.Exists (FilePath + "/" + FileName_)) {
+							LogWriter = new StreamWriter (new FileStream (FilePath + @"/" + FileName_, FileMode.Append, FileAccess.Write, FileShare.Write), FileEncoding);
+						} else {
+							LogWriter = new StreamWriter (new FileStream (FilePath + @"/" + FileName_, FileMode.CreateNew, FileAccess.Write, FileShare.Write), FileEncoding);
+						}
+					} else if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+						if (File.Exists (FileName_) || File.Exists (FilePath + "/" + FileName_)) {
+							LogWriter = new StreamWriter (new FileStream (FilePath + @"\" + FileName_, FileMode.Append, FileAccess.Write, FileShare.Write), FileEncoding);
+						} else {
+							LogWriter = new StreamWriter (new FileStream (FilePath + @"\" + FileName_, FileMode.CreateNew, FileAccess.Write, FileShare.Write), FileEncoding);
+						}
 					}
 					LogThread.Name = FileName_ + "_thread";
 				} catch (Exception) {
