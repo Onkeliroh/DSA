@@ -3,6 +3,8 @@ using System.Linq;
 using PrototypeBackend;
 using Gtk;
 using GUIHelper;
+using System.Collections.Generic;
+using Cairo;
 
 namespace Frontend
 {
@@ -47,6 +49,11 @@ namespace Frontend
 		private APin[] APins;
 
 		/// <summary>
+		/// List of all provided units.
+		/// </summary>
+		private List<string> Units = new List<string> ();
+
+		/// <summary>
 		/// The signal store.
 		/// </summary>
 		private Gtk.NodeStore SignalStore = new NodeStore (typeof(APinSignalDialogTreeNode));
@@ -66,7 +73,7 @@ namespace Frontend
 		/// <param name="pin">Pin.</param>
 		/// <param name="parent">Parent.</param>
 		/// <param name="units">Units.</param>
-		public AComConfigDialog (APin[] pins, MeasurementCombination signal = null, APin pin = null, Gtk.Window parent = null, string[] units = null)
+		public AComConfigDialog (APin[] pins, MeasurementCombination signal = null, APin pin = null, Gtk.Window parent = null, List<string> units = null)
 			: base ("Signal Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
@@ -92,9 +99,9 @@ namespace Frontend
 
 			if (pin != null) {
 				Combination_.AddPin (pin);
+				Combination_.Unit = Combination_.Pins [0].Unit;
 			}
 
-			BuildUnits (units);
 			SetupNodeView ();
 			DrawNodeView ();
 			UpdateCBPins ();
@@ -112,6 +119,20 @@ namespace Frontend
 			};
 		
 			CompileTimer.Elapsed += CompileTimerElapsed;
+
+
+			Units = units;
+			ListStore store = new ListStore (typeof(string));
+			Units.ForEach (o => store.AppendValues (new object[]{ o }));
+			cbeUnit.Model = store;
+			if (!string.IsNullOrEmpty (Combination_.Unit)) {
+				if (Units.Contains (Combination_.Unit)) {
+					cbeUnit.Active = Array.IndexOf (Units.ToArray (), Combination_.Unit);
+				} else {
+					store.AppendValues (new string[]{ Combination_.Unit });
+					cbeUnit.Active = Units.Count;
+				}
+			} 
 		}
 
 		/// <summary>
@@ -193,21 +214,6 @@ namespace Frontend
 		}
 
 		/// <summary>
-		/// Fills the unit combobox with options.
-		/// </summary>
-		/// <param name="units">Units.</param>
-		private void BuildUnits (string[] units)
-		{
-			if (units != null) {
-				for (int i = 0; i < units.Length; i++) {
-					if (!cbeUnit.Data.Contains (units [i])) {
-						cbeUnit.AppendText (units [i]);
-					}
-				}
-			}
-		}
-
-		/// <summary>
 		/// Adds the pin to the combination and updates the nessesary widgets.
 		/// </summary>
 		private void AddPin ()
@@ -216,6 +222,16 @@ namespace Frontend
 			if (cbPins.Active != -1) {
 				if (Combination_ != null) {
 					Combination_.AddPin (APins.Single (o => o.DisplayName == cbPins.ActiveText));
+					if (Combination.Pins.Count == 1) {
+						if (!string.IsNullOrEmpty (Combination_.Pins [0].Unit) && string.IsNullOrEmpty (cbeUnit.ActiveText)) {
+							if (Units.Contains (Combination_.Pins [0].Unit)) {
+								cbeUnit.Active = Array.IndexOf (Units.ToArray (), Combination_.Pins [0].Unit);
+							} else {
+								(cbeUnit.Model as ListStore).AppendValues (new string[]{ Combination_.Pins [0].Unit });
+								cbeUnit.Active = Units.Count;
+							}
+						}
+					}
 				}
 			}
 

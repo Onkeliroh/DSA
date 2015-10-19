@@ -38,6 +38,7 @@ namespace Frontend
 		private DateTimeAxis RealTimeXAxis;
 		private bool RealTimePlotUpdate = true;
 		private double DefaultZoomValue = 30;
+		public List<string> Units = new List<string> ();
 
 		/// <summary>
 		/// A timer for keeping track of time after the measurement beginns.
@@ -95,6 +96,8 @@ namespace Frontend
 		/// </summary>
 		private void InitComponents ()
 		{
+			Units = PrototypeBackend.ConfigHelper.StringToStringList (Properties.Resources.Units);
+
 			ArduinoController.OnConnectionChanged += OnConnection;
 
 			BuildMenu ();
@@ -2215,7 +2218,7 @@ namespace Frontend
 		{
 			var dings = con.Configuration.AvailableAnalogPins;
 
-			var dialog = new APinConfigDialog (dings, pin, this);
+			var dialog = new APinConfigDialog (dings, pin, this, this.Units);
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					if (pin == null) {
@@ -2276,7 +2279,7 @@ namespace Frontend
 
 		private void RunMeasurementCombinationDialog (MeasurementCombination sig = null, APin refPin = null)
 		{
-			var dialog = new AComConfigDialog (con.Configuration.GetPinsWithoutCombinations (), sig, refPin, this);
+			var dialog = new AComConfigDialog (con.Configuration.GetPinsWithoutCombinations (), sig, refPin, this, this.Units);
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					if (sig == null) {

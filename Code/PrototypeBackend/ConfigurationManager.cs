@@ -95,15 +95,15 @@ namespace PrototypeBackend
 						NumberOfDigitalPins = Convert.ToUInt32 (sd.Keys.GetKeyData ("NumberOfDigitalPins").Value),
 						MCU = sd.Keys.GetKeyData ("MCU").Value,
 						ImageFilePath = sd.Keys.GetKeyData ("ImagePath").Value,
-						SDA = StringToArray (sd.Keys.GetKeyData ("SDA").Value),
-						SCL = StringToArray (sd.Keys.GetKeyData ("SCL").Value),
-						RX = StringToArray (sd.Keys.GetKeyData ("RX").Value),
-						TX = StringToArray (sd.Keys.GetKeyData ("TX").Value),
+						SDA = ConfigHelper.StringToArray (sd.Keys.GetKeyData ("SDA").Value),
+						SCL = ConfigHelper.StringToArray (sd.Keys.GetKeyData ("SCL").Value),
+						RX = ConfigHelper.StringToArray (sd.Keys.GetKeyData ("RX").Value),
+						TX = ConfigHelper.StringToArray (sd.Keys.GetKeyData ("TX").Value),
 						UseDTR = Convert.ToBoolean (sd.Keys.GetKeyData ("DTR").Value),
-						HardwareAnalogPins = StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value),
-						AnalogReferences = StringToARefDict (sd.Keys.GetKeyData ("AREF").Value),
-						PinLayout = StringToLayout (sd.Keys.GetKeyData ("PinLeft").Value, sd.Keys.GetKeyData ("PinRight").Value, sd.Keys.GetKeyData ("PinBottom").Value),
-						PinLocation = StringToPinPlacement (sd.Keys.GetKeyData ("PinPosition").Value)
+						HardwareAnalogPins = ConfigHelper.StringToArray (sd.Keys.GetKeyData ("HWAPinsAddrs").Value),
+						AnalogReferences = ConfigHelper.StringToARefDict (sd.Keys.GetKeyData ("AREF").Value),
+						PinLayout = ConfigHelper.StringToLayout (sd.Keys.GetKeyData ("PinLeft").Value, sd.Keys.GetKeyData ("PinRight").Value, sd.Keys.GetKeyData ("PinBottom").Value),
+						PinLocation = ConfigHelper.StringToPinPlacement (sd.Keys.GetKeyData ("PinPosition").Value)
 					});
 				} catch (Exception ex) {
 					Console.WriteLine (ex);
@@ -111,92 +111,6 @@ namespace PrototypeBackend
 
 			}
 			return Boards.ToArray ();
-		}
-
-		/// <summary>
-		/// Strings to array.
-		/// </summary>
-		/// <returns>The to array.</returns>
-		/// <param name="str">String.</param>
-		private static uint[] StringToArray (string str)
-		{
-			var stra = str.Split (new char[]{ ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
-			var ints = new System.Collections.Generic.List<uint> ();
-			foreach (string s in stra) {
-				uint i;
-				uint.TryParse (s, out i);
-				ints.Add (i);
-			}
-			return ints.ToArray ();
-		}
-
-		/// <summary>
-		/// Strings to analog reference dictionary.
-		/// </summary>
-		/// <returns>The analog reference dictionary.</returns>
-		/// <param name="str">String.</param>
-		private static Dictionary<string,double> StringToARefDict (string str)
-		{
-			var stra = str.Split (new char[]{ ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
-			var res = new Dictionary<string,double> ();
-
-			foreach (string s in stra) {
-				var pair = s.Split (new char[]{ ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				res.Add (pair [0], Convert.ToDouble (pair [1]));
-			}
-			return res;
-		}
-
-		/// <summary>
-		/// Strings to layout.
-		/// </summary>
-		/// <returns>The to layout.</returns>
-		/// <param name="left">Left.</param>
-		/// <param name="right">Right.</param>
-		/// <param name="bottom">Bottom.</param>
-		private static Dictionary<string,List<int>> StringToLayout (string left, string right, string bottom)
-		{
-			var dict = new Dictionary<string,List<int>> ();
-			dict.Add ("LEFT", StringToPin (left));
-			dict.Add ("RIGHT", StringToPin (right));
-			dict.Add ("BOTTOM", StringToPin (bottom));
-
-			return dict;
-		}
-
-		/// <summary>
-		/// Strings to pin.
-		/// </summary>
-		/// <returns>The to pin.</returns>
-		/// <param name="str">String.</param>
-		private static List<int> StringToPin (string str)
-		{
-			var pairs = str.Split (new char[]{ ',' }, StringSplitOptions.RemoveEmptyEntries);
-			var dict = new List<int> ();
-
-			foreach (string s in pairs) {
-				dict.Add (Convert.ToInt32 (s));
-			}
-			return dict;
-		}
-
-		/// <summary>
-		/// Strings to pin placement.
-		/// </summary>
-		/// <returns>The to pin placement.</returns>
-		/// <param name="str">String.</param>
-		private static Dictionary<int,Point> StringToPinPlacement (string str)
-		{
-			var pins = str.Split (new char[]{ ';' }, StringSplitOptions.RemoveEmptyEntries);
-			var dict = new Dictionary<int,Point> ();
-
-			foreach (string s in pins) {
-				var pair = s.Split (new char[]{ ':', ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-				Point p = new Point (Convert.ToDouble (pair [1]), Convert.ToDouble (pair [2]));
-				dict.Add (Convert.ToInt32 (pair [0]), p);
-			}
-			return dict;
 		}
 	}
 

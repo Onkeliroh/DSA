@@ -82,6 +82,7 @@
     <Compile Include="TimeValue.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="ConfigHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

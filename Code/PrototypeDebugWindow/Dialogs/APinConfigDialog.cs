@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
 using PrototypeBackend;
+using Gtk;
+using GLib;
+using System.Collections.Generic;
 
 namespace Frontend
 {
@@ -51,12 +54,17 @@ namespace Frontend
 		private APin[] AvailablePins;
 
 		/// <summary>
+		/// List of all provided units.
+		/// </summary>
+		private List<string> Units = new List<string> ();
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="AnalogPinConfigurationDialog.AnalogPinConfiguration"/> class.
 		/// </summary>
 		/// <param name="availablePins">Available pins.</param>
 		/// <param name="apin">Apin.</param>
 		/// <param name="parent">Parent.</param>
-		public APinConfigDialog (APin[] availablePins, APin apin = null, Gtk.Window parent = null)
+		public APinConfigDialog (APin[] availablePins, APin apin = null, Gtk.Window parent = null, List<string> units = null)
 			: base ("Analog Pin Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
@@ -96,6 +104,22 @@ namespace Frontend
 				buttonOk.Sensitive = false;
 				buttonOk.TooltipText = "There are no more available pins to configure.";
 			}
+
+			Units = units;
+			ListStore store = new ListStore (typeof(string));
+			Units.ForEach (o => store.AppendValues (new object[]{ o }));
+			cbUnit.Model = store;
+			if (!string.IsNullOrEmpty (pin.Unit)) {
+				if (Units.Contains (pin.Unit)) {
+					cbUnit.Active = Array.IndexOf (Units.ToArray (), pin.Unit);
+				} else {
+					store.AppendValues (new string[]{ pin.Unit });
+					cbUnit.Active = Units.Count;
+				}
+			} else {
+				cbUnit.Active = Array.IndexOf (Units.ToArray (), "V");
+			}
+
 		}
 
 		/// <summary>
