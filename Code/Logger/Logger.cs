@@ -164,19 +164,25 @@ namespace Logger
 							System.IO.Directory.CreateDirectory (FilePath);
 						}
 					}
-					if (Environment.OSVersion.Platform == PlatformID.Unix) {
-						if (File.Exists (FileName_) || File.Exists (FilePath + "/" + FileName_)) {
-							LogWriter = new StreamWriter (new FileStream (FilePath + @"/" + FileName_, FileMode.Append, FileAccess.Write, FileShare.Write), FileEncoding);
-						} else {
-							LogWriter = new StreamWriter (new FileStream (FilePath + @"/" + FileName_, FileMode.CreateNew, FileAccess.Write, FileShare.Write), FileEncoding);
-						}
-					} else if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
-						if (File.Exists (FileName_) || File.Exists (FilePath + "/" + FileName_)) {
-							LogWriter = new StreamWriter (new FileStream (FilePath + @"\" + FileName_, FileMode.Append, FileAccess.Write, FileShare.Write), FileEncoding);
-						} else {
-							LogWriter = new StreamWriter (new FileStream (FilePath + @"\" + FileName_, FileMode.CreateNew, FileAccess.Write, FileShare.Write), FileEncoding);
+					string path = "";
+					if (!string.IsNullOrEmpty (FilePath)) {
+						path += FilePath;
+						if (Environment.OSVersion.Platform == PlatformID.Unix) {
+							path += @"/";
+						} else if (Environment.OSVersion.Platform == PlatformID.MacOSX) {
+							path += @"/";	
+						} else if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+							path += @"\";
 						}
 					}
+					path += FileName_;
+
+					if (File.Exists (path)) {
+						LogWriter = new StreamWriter (new FileStream (path, FileMode.Append, FileAccess.Write, FileShare.Write), FileEncoding);
+					} else {
+						LogWriter = new StreamWriter (new FileStream (path, FileMode.CreateNew, FileAccess.Write, FileShare.Write), FileEncoding);
+					}
+
 					LogThread.Name = FileName_ + "_thread";
 				} catch (Exception) {
 					throw;

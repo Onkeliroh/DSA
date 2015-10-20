@@ -392,7 +392,7 @@ namespace Frontend
 			this.hpanedMain = new global::Gtk.HPaned ();
 			this.hpanedMain.CanFocus = true;
 			this.hpanedMain.Name = "hpanedMain";
-			this.hpanedMain.Position = 1;
+			this.hpanedMain.Position = 324;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.vbox5 = new global::Gtk.VBox ();
 			this.vbox5.Name = "vbox5";
@@ -1066,6 +1066,7 @@ namespace Frontend
 			this.tableCSVLoggerSettings.ColumnSpacing = ((uint)(6));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.btnCSVFilePathOpen = new global::Gtk.Button ();
+			this.btnCSVFilePathOpen.WidthRequest = 75;
 			this.btnCSVFilePathOpen.CanFocus = true;
 			this.btnCSVFilePathOpen.Name = "btnCSVFilePathOpen";
 			this.btnCSVFilePathOpen.UseUnderline = true;
@@ -1275,12 +1276,13 @@ namespace Frontend
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.label4 = new global::Gtk.Label ();
 			this.label4.Name = "label4";
+			this.label4.Xalign = 0F;
 			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString (".csv");
 			this.tableCSVLoggerSettings.Add (this.label4);
 			global::Gtk.Table.TableChild w107 = ((global::Gtk.Table.TableChild)(this.tableCSVLoggerSettings [this.label4]));
 			w107.LeftAttach = ((uint)(2));
 			w107.RightAttach = ((uint)(3));
-			w107.XOptions = ((global::Gtk.AttachOptions)(0));
+			w107.XOptions = ((global::Gtk.AttachOptions)(4));
 			w107.YOptions = ((global::Gtk.AttachOptions)(0));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.lblPreviewFilePathFormat = new global::Gtk.Label ();
@@ -1762,6 +1764,7 @@ namespace Frontend
 			this.aboutAction.Activated += new global::System.EventHandler (this.OnAboutActionActivated);
 			this.preferencesAction.Activated += new global::System.EventHandler (this.OnPreferencesActionActivated);
 			this.btnCSVFilePathOpen.Clicked += new global::System.EventHandler (this.OnBtnCSVFilePathOpenClicked);
+			this.btnRealTimePlotFitData.Clicked += new global::System.EventHandler (this.OnBtnRealTimePlotFitDataClicked);
 		}
 	}
 }

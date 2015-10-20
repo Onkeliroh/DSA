@@ -134,7 +134,7 @@
           <widget class="Gtk.HPaned" id="hpanedMain">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">1</property>
+            <property name="Position">324</property>
             <child>
               <widget class="Gtk.VBox" id="vbox5">
                 <property name="MemberName" />
@@ -1037,6 +1037,7 @@
                                 <child>
                                   <widget class="Gtk.Button" id="btnCSVFilePathOpen">
                                     <property name="MemberName" />
+                                    <property name="WidthRequest">75</property>
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-open Menu</property>
@@ -1409,16 +1410,17 @@
                                 <child>
                                   <widget class="Gtk.Label" id="label4">
                                     <property name="MemberName" />
+                                    <property name="Xalign">0</property>
                                     <property name="LabelProp" translatable="yes">.csv</property>
                                   </widget>
                                   <packing>
                                     <property name="LeftAttach">2</property>
                                     <property name="RightAttach">3</property>
                                     <property name="AutoSize">False</property>
-                                    <property name="XOptions">0</property>
+                                    <property name="XOptions">Fill</property>
                                     <property name="YOptions">0</property>
                                     <property name="XExpand">False</property>
-                                    <property name="XFill">False</property>
+                                    <property name="XFill">True</property>
                                     <property name="XShrink">False</property>
                                     <property name="YExpand">False</property>
                                     <property name="YFill">False</property>
@@ -1751,6 +1753,7 @@
                                 <property name="Icon">stock:gtk-zoom-fit Menu</property>
                                 <property name="Label" translatable="yes">Fit all data on plot</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnRealTimePlotFitDataClicked" />
                               </widget>
                               <packing>
                                 <property name="Expand">False</property>

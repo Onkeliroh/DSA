@@ -63,7 +63,7 @@ namespace PrototypeBackend
 		/// Gets the interval.
 		/// </summary>
 		/// <value>The biggest interval of all the pins.</value>
-		public UInt64 Interval {
+		public int Interval {
 			get { 
 				return Pins.OrderByDescending (o => o.Interval).First ().Interval;
 			} 
@@ -97,9 +97,8 @@ namespace PrototypeBackend
 			get {
 				if (Pins.Count > 0) {
 					if (Operation != null) {
-
 						var time = Pins.OrderByDescending (o => o.Interval).First ().Value.Time;
-						double val = (Operation (Pins.Select (o => o.Value.Value).ToArray ()));
+						double val = CalcValue ();
 						return new DateTimeValue () {
 							Value = val,
 							Time = time
@@ -186,6 +185,30 @@ namespace PrototypeBackend
 		}
 
 		/// <summary>
+		/// Calculates the value.
+		/// </summary>
+		/// <returns>The value.</returns>
+		private double CalcValue ()
+		{
+			if (CheckPinIntervalEquality ()) {
+				if (Pins.TrueForAll (o => o.Values.Count % MeanValuesCount == 0)) {
+					double[] pinsvalues = new double[Pins.Count];
+					for (int i = 0; i < Pins.Count; i++) {
+						pinsvalues [i] =
+							Pins [i].Values.GetRange (
+							Pins [i].Values.Count - MeanValuesCount, MeanValuesCount
+						).Sum (o => o.Value) / (double)MeanValuesCount;
+					}
+					return Operation (pinsvalues);
+				} else {
+					return double.NaN;
+				}
+			} else {
+				return double.NaN;
+			}
+		}
+
+		/// <summary>
 		/// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="PrototypeBackend.MeasurementCombination"/>.
 		/// </summary>
 		/// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="PrototypeBackend.MeasurementCombination"/>.</param>
@@ -214,6 +237,15 @@ namespace PrototypeBackend
 		public APin GetPinWithLargestInterval ()
 		{
 			return Pins.OrderByDescending (o => o.Interval).ToList () [0];
+		}
+
+		public bool CheckPinIntervalEquality ()
+		{
+			if (Pins.Count > 0) {
+				return Pins.TrueForAll (o => o.Interval == Pins [0].Interval);
+			} else {
+				return false;
+			}
 		}
 
 		#endregion

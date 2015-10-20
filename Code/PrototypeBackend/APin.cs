@@ -146,20 +146,24 @@ namespace PrototypeBackend
 		public DateTimeValue Value {
 			set { 
 				RAWValues.Add (value); 
-				Values.Add (new DateTimeValue (CalcValue (), value.Time));
-				if (OnNewValue != null) {
-					DateTime time = DateTime.FromOADate (value.Time);
-					OnNewValue.Invoke (this, new NewMeasurementValue () {
-						RAW = value.Value,
-						Value = CalcValue (),
-						Time = time
-					});
+				double val = CalcValue ();
+				if (!double.IsNaN (val)) {
+					Values.Add (new DateTimeValue (CalcValue (), value.Time));
+				
+					if (OnNewValue != null) {
+						DateTime time = DateTime.FromOADate (value.Time);
+						OnNewValue.Invoke (this, new NewMeasurementValue () {
+							RAW = value.Value,
+							Value = val,
+							Time = time
+						});
+					}
 				}
 			}
 
 			get {
 				if (Values.Count > 0) {
-					return new DateTimeValue (CalcValue (), Values.Last ().Time);	
+					return new DateTimeValue (Values.Last ());	
 				} else {
 					return new DateTimeValue (double.NaN, DateTime.Now);
 				}
@@ -171,19 +175,19 @@ namespace PrototypeBackend
 		/// The Number of samlpes to build a mean value from.
 		/// </summary>
 		/// <value>The interval.</value>
-		public UInt64 MeanValuesCount { get; set; }
+		public int MeanValuesCount { get; set; }
 
 		/// <summary>
 		/// Gets or sets the interval in milliseconds.
 		/// </summary>
 		/// <value>The interval in ms.</value>
-		public UInt64 Interval { get; set; }
+		public int Interval { get; set; }
 
 		/// <summary>
 		/// Gets the frequency in milliseconds.
 		/// </summary>
 		/// <value>The frequency in ms.</value>
-		public UInt64 Frequency { get { return 1 / Interval; } private set { } }
+		public int Frequency { get { return 1 / Interval; } private set { } }
 
 		/// <summary>
 		/// Gets the effective interval (<paramref name="Interval"/> * <paramref name="MeanValuesCount"/>).
@@ -291,20 +295,16 @@ namespace PrototypeBackend
 		/// <returns>The value.</returns>
 		public double CalcValue ()
 		{
-			if (RAWValues.Count >= (int)MeanValuesCount) {
+			if (RAWValues.Count >= MeanValuesCount) {
 				if (MeanValuesCount == 1) {
 					if (!double.IsNaN (RAWValues.Last ().Value)) {
-						return ((RAWValues.Last ().Value * Slope) + Offset);
+						return TranslateRAW (RAWValues.Last ().Value);
 					}
 					return double.NaN;
 				} else {
-					if (RAWValues.Count >= (int)MeanValuesCount) {
+					if (RAWValues.Count % MeanValuesCount == 0) {
 						double result = 0;
-						for (int i = RAWValues.Count - (int)MeanValuesCount; i < RAWValues.Count; i++) {
-							if (!double.IsNaN (RAWValues [i].Value)) {
-								result += (RAWValues [i].Value * Slope) + Offset;
-							}
-						}
+						result = RAWValues.GetRange (RAWValues.Count - MeanValuesCount, MeanValuesCount).Sum (o => TranslateRAW (o.Value));
 						return result / MeanValuesCount;
 					} else {
 						return double.NaN;
@@ -313,6 +313,11 @@ namespace PrototypeBackend
 			} else {
 				return double.NaN;
 			}
+		}
+
+		private double TranslateRAW (double raw)
+		{
+			return (raw * Slope) + Offset;
 		}
 
 		#endregion
@@ -365,8 +370,11 @@ namespace PrototypeBackend
 			PlotColor = new Gdk.Color (info.GetByte ("RED"), info.GetByte ("GREEN"), info.GetByte ("BLUE"));
 			Slope = info.GetDouble ("Slope");
 			Offset = info.GetDouble ("Offset");
-			MeanValuesCount = info.GetUInt64 ("Interval");
-			Interval = info.GetUInt64 ("Period");
+			MeanValuesCount = info.GetInt32 ("Interval");
+			Interval = info.GetInt32 ("Period");
+
+			Values = new List<DateTimeValue> ();
+			RAWValues = new List<DateTimeValue> ();
 		}
 
 		#endregion

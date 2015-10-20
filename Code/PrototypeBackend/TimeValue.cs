@@ -58,6 +58,16 @@ namespace PrototypeBackend
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.DateTimeValue"/> struct.
+		/// </summary>
+		/// <param name="copy">Copy.</param>
+		public DateTimeValue (DateTimeValue copy)
+		{
+			Value = copy.Value;
+			Time = copy.Time;
+		}
+
+		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="PrototypeBackend.DateTimeValue"/>.
 		/// </summary>
 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="PrototypeBackend.DateTimeValue"/>.</returns>

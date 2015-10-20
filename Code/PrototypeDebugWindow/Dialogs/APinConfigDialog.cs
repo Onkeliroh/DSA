@@ -138,8 +138,8 @@ namespace Frontend
 			pin.Unit = cbUnit.ActiveText;
 			pin.Slope = sbSlope.Value;
 			pin.Offset = sbOffset.Value;
-			pin.Interval = Convert.ToUInt64 (new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt).TotalMilliseconds);
-			pin.MeanValuesCount = Convert.ToUInt64 (sbMeanValuesCount.ValueAsInt);
+			pin.Interval = Convert.ToInt32 (new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt).TotalMilliseconds);
+			pin.MeanValuesCount = Convert.ToInt32 (sbMeanValuesCount.ValueAsInt);
 		}
 
 		/// <summary>
@@ -224,7 +224,7 @@ namespace Frontend
 		protected void OnSbMeanValuesCountChanged (object sender, EventArgs e)
 		{
 			if (pin != null) {
-				pin.MeanValuesCount = Convert.ToUInt64 (sbMeanValuesCount.ValueAsInt);
+				pin.MeanValuesCount = Convert.ToInt32 (sbMeanValuesCount.ValueAsInt);
 			}
 		}
 

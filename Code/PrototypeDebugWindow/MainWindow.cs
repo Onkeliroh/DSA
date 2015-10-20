@@ -657,7 +657,6 @@ namespace Frontend
 
 			#endregion
 
-			PrepareRealTimePlot ();
 			RealTimePlotView.Model.Series.Clear ();
 			RealTimePlotView.InvalidatePlot (true);
 			foreach (APin a in con.Configuration.AnalogPins) {
@@ -673,8 +672,6 @@ namespace Frontend
 				a.OnNewValue += (o, args) => series.Points.Add (new DataPoint (args.Time.ToOADate (), args.Value));
 
 				RealTimePlotView.Model.Series.Add (series);
-
-//				RealTimeXAxis.IntervalLength = 1 / 24 / 30;
 			}
 
 			foreach (MeasurementCombination a in con.Configuration.MeasurementCombinations) {
@@ -687,7 +684,11 @@ namespace Frontend
 					XAxisKey = RealTimeXAxis.Key
 				};
 
-				a.GetPinWithLargestInterval ().OnNewValue += (o, args) => series.Points.Add (new DataPoint (args.Time.ToOADate (), a.Value.Value));
+				a.GetPinWithLargestInterval ().OnNewValue += (o, args) => {
+					if (!double.IsNaN (a.Value.Value)) {
+						series.Points.Add (new DataPoint (args.Time.ToOADate (), a.Value.Value));
+					}
+				};
 
 				RealTimePlotView.Model.Series.Add (series);
 			}
@@ -952,12 +953,12 @@ namespace Frontend
 				Sizing = TreeViewColumnSizing.Autosize,
 				Clickable = true,
 			});
-			nvAnalogPins.AppendColumn (new TreeViewColumn ("Frequency", new Gtk.CellRendererText (), "text", 6) {
+			nvAnalogPins.AppendColumn (new TreeViewColumn ("Interval", new Gtk.CellRendererText (), "text", 6) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
 				Clickable = true,
 			});
-			nvAnalogPins.AppendColumn (new TreeViewColumn ("Interval", new Gtk.CellRendererText (), "text", 7) {
+			nvAnalogPins.AppendColumn (new TreeViewColumn ("Mean Values", new Gtk.CellRendererText (), "text", 7) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
 				Clickable = true,
@@ -1123,14 +1124,14 @@ namespace Frontend
 //				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Frequency", new CellRendererText (), "text", 4) {
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 4) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
 //				SortColumnId = 4,
 //				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 5) {
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Mean Value", new CellRendererText (), "text", 5) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
 //				SortColumnId = 5,
@@ -1445,24 +1446,6 @@ namespace Frontend
 
 		#region Events
 
-		private void OnRealTimePlotClick (object sender, ButtonPressEventArgs e)
-		{
-			if (e.Event.Button == 3) {
-				Menu menu = new Menu ();
-				ImageMenuItem Snapshot = new ImageMenuItem ("Take snapshot");
-				Snapshot.Image = new Gtk.Image (Gtk.Stock.MediaRecord);
-
-
-				Snapshot.ButtonPressEvent += (o, args) => {
-					
-				};
-
-				menu.Add (Snapshot);
-				menu.ShowAll ();
-				menu.Popup ();
-			}
-		}
-
 		/// <summary>
 		/// Refreshs the MCU infos.
 		/// </summary>
@@ -1723,7 +1706,10 @@ namespace Frontend
 		/// <param name="a">The alpha component.</param>
 		protected void OnDeleteEvent (object obj, DeleteEventArgs a)
 		{
-			RunQuitSaveDialog ();
+			if (con.Configuration.AnalogPins.Count != 0 || con.Configuration.DigitalPins.Count != 0) {
+				RunQuitSaveDialog ();					
+			}
+
 			con.Quit ();
 			ArduinoController.Exit ();
 			Application.Quit ();
@@ -2060,46 +2046,34 @@ namespace Frontend
 
 		protected void OnBtnRealTimePlotSnapshotClicked (object sender, EventArgs e)
 		{
-			if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
-				PngExporter.Export (
-					RealTimePlotView.Model,
-					string.Format (
-						"{0}{1}{2}_{3}.png",
-						con.Configuration.CSVSaveFolderPath,
-						@"\",
-						string.Format (
-							"{0:D2}-{1:D2}-{2:D2}_{3:D2}_{4:D2}_{5:D2}",
-							DateTime.Now.Year,
-							DateTime.Now.Month,
-							DateTime.Now.Day,
-							DateTime.Now.Hour,
-							DateTime.Now.Minute,
-							DateTime.Now.Second),
-						"Snapshot"
-					), 
-					RealTimePlotView.Allocation.Width,
-					RealTimePlotView.Allocation.Height
-				);
-			} else if (Environment.OSVersion.Platform == PlatformID.Unix) {
-				PngExporter.Export (
-					RealTimePlotView.Model,
-					string.Format (
-						"{0}/{1}_{2}.png",
-						con.Configuration.CSVSaveFolderPath,
-						string.Format (
-							"{0:D2}-{1:D2}-{2:D2}_{3:D2}_{4:D2}_{5:D2}",
-							DateTime.Now.Year,
-							DateTime.Now.Month,
-							DateTime.Now.Day,
-							DateTime.Now.Hour,
-							DateTime.Now.Minute,
-							DateTime.Now.Second),
-						"Snapshot"
-					), 
-					RealTimePlotView.Allocation.Width,
-					RealTimePlotView.Allocation.Height
-				);
+			string path = "";
+			if (!string.IsNullOrEmpty (con.Configuration.CSVSaveFolderPath)) {
+				path += con.Configuration.CSVSaveFolderPath;
+				if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+					path += "/";
+				} else if (Environment.OSVersion.Platform == PlatformID.Unix) {
+					path += @"\";
+				}
 			}
+				
+			PngExporter.Export (
+				RealTimePlotView.Model,
+				string.Format (
+					"{0}{1}_{2}.png",
+					path,
+					string.Format (
+						"{0:D2}-{1:D2}-{2:D2}_{3:D2}_{4:D2}_{5:D2}",
+						DateTime.Now.Year,
+						DateTime.Now.Month,
+						DateTime.Now.Day,
+						DateTime.Now.Hour,
+						DateTime.Now.Minute,
+						DateTime.Now.Second),
+					"Snapshot"
+				), 
+				RealTimePlotView.Allocation.Width,
+				RealTimePlotView.Allocation.Height
+			);
 		}
 
 		/// <summary>
@@ -2481,20 +2455,20 @@ namespace Frontend
 			SequencePreviewPlotView.Sensitive = sensitive;
 		}
 
-		private void PrepareRealTimePlot ()
-		{
-//			if (RealTimeDictionary != null) {
-//				RealTimeDictionary.Clear ();
-//			} else {
-//				RealTimeDictionary = new Dictionary<string, Collection<DateTimeValue>> ();
-//			}
-//			foreach (APin a in con.Configuration.AnalogPins) {
-//				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());
-//			}
-//			foreach (MeasurementCombination mecom in con.Configuration.MeasurementCombinations) {
-//				RealTimeDictionary.Add (mecom.DisplayName, new Collection<DateTimeValue> ());
-//			}
-		}
+		//		private void PrepareRealTimePlot ()
+		//		{
+		////			if (RealTimeDictionary != null) {
+		////				RealTimeDictionary.Clear ();
+		////			} else {
+		////				RealTimeDictionary = new Dictionary<string, Collection<DateTimeValue>> ();
+		////			}
+		////			foreach (APin a in con.Configuration.AnalogPins) {
+		////				RealTimeDictionary.Add (a.DisplayName, new Collection<DateTimeValue> ());
+		////			}
+		////			foreach (MeasurementCombination mecom in con.Configuration.MeasurementCombinations) {
+		////				RealTimeDictionary.Add (mecom.DisplayName, new Collection<DateTimeValue> ());
+		////			}
+		//		}
 
 		private void UpdateFilePathPreview ()
 		{

@@ -58,6 +58,7 @@ namespace PrototypeTests
 
 			pin1.Offset = 0;
 			pin1.Slope = .5;
+			pin1.Value = new DateTimeValue (5, DateTime.Now);
 			Assert.AreEqual (2.5, pin1.Value.Value);
 		}
 
@@ -80,6 +81,20 @@ namespace PrototypeTests
 			pin1.Value = new DateTimeValue (4, DateTime.Now);
 			pin1.Value = new DateTimeValue (2, DateTime.Now);
 			Assert.AreEqual (1.5, pin1.Value.Value);
+		}
+
+		[Test]
+		public void APinvaluesTest5 ()
+		{
+			var pin1 = new APin ();
+			pin1.MeanValuesCount = 3;
+			pin1.Slope = .5;
+			pin1.Value = new DateTimeValue (4, DateTime.Now);
+			pin1.Value = new DateTimeValue (2, DateTime.Now);
+			Assert.AreEqual (double.NaN, pin1.Value.Value);
+			pin1.Value = new DateTimeValue (2, DateTime.Now);
+			Assert.AreEqual (4.0 / 3.0, pin1.Value.Value);
+
 		}
 
 		[Test]

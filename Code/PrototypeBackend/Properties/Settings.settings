@@ -27,7 +27,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LogFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Log/</Value>
+      <Value Profile="(Default)">Log</Value>
     </Setting>
   </Settings>
 </SettingsFile>

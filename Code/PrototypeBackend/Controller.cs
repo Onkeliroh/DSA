@@ -372,21 +372,40 @@ namespace PrototypeBackend
 		{
 			if (running) {
 				double time = KeeperOfTime.ElapsedMilliseconds;
-				var measurements = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
-				if (measurements.Length > 0) {
-					var query = measurements.Select (o => o.Number).ToArray ();
+				var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
+				if (analogPins.Length > 0) {
+					var query = analogPins.Select (o => o.Number).ToArray ();
 					var vals = ArduinoController.ReadAnalogPin (query);
 
 					var now = DateTime.Now;
 
-					for (int i = 0; i < measurements.Length; i++) {
-						measurements [i].Value = new DateTimeValue (vals [i], now);
+					for (int i = 0; i < analogPins.Length; i++) {
+						analogPins [i].Value = new DateTimeValue (vals [i], now);
 					}
 
-					var values = measurements.Select (o => o.Value).ToList ();
-					values.AddRange (Configuration.MeasurementCombinations.Select (o => o.Value));
+					var analogPinValues = analogPins.Select (o => o.Value.Value).ToList<double> ();
+					var analogPinValuesNames = analogPins.ToList ().Select (o => o.DisplayName).ToList ();
 
-					MeasurementCSVLogger.Log<double> (values.Select (o => o.Value).ToList<double> ());
+					var MeComValues = Configuration.MeasurementCombinations
+						.Select (o => o.Value.Value)
+						.Where (o => !double.IsNaN (o))
+						.ToList <double> ();
+					var MeComValuesNames = Configuration.MeasurementCombinations
+						.Where (o => !double.IsNaN (o.Value.Value))
+						.Select (o => o.DisplayName)
+						.ToList ();
+
+					var names = analogPinValuesNames;
+					names.AddRange (MeComValuesNames);
+					var values = analogPinValues;
+					values.AddRange (MeComValues);
+
+					MeasurementCSVLogger.Log<double> (names, values);
+
+
+//					values.AddRange (Configuration.MeasurementCombinations.Select (o => o.Value));
+
+//					MeasurementCSVLogger.Log<double> (values.Select (o => o.Value).ToList<double> ());
 				}
 			} else {
 				MeasurementTimer.Stop ();

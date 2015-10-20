@@ -121,7 +121,7 @@ namespace PrototypeBackend.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Log/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Log")]
         public string LogFilePath {
             get {
                 return ((string)(this["LogFilePath"]));
