@@ -5,7 +5,7 @@ namespace PrototypeBackend
 	/// <summary>
 	/// Connection changed arguments.
 	/// </summary>
-	public class ConnectionChangedArgs
+	public class ConnectionChangedArgs : EventArgs
 	{
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="PrototypeBackend.ConnectionChangedArgs"/> is connected.
@@ -46,7 +46,7 @@ namespace PrototypeBackend
 	/// <summary>
 	/// Controller pin update arguments.
 	/// </summary>
-	public class ControllerPinUpdateArgs
+	public class ControllerPinUpdateArgs : EventArgs
 	{
 		/// <summary>
 		/// The original pin.
@@ -83,7 +83,7 @@ namespace PrototypeBackend
 	/// <summary>
 	/// Sequences updated arguments.
 	/// </summary>
-	public class SequencesUpdatedArgs
+	public class SequencesUpdatedArgs : EventArgs
 	{
 		/// <summary>
 		/// Gets the old sequence.
@@ -120,7 +120,7 @@ namespace PrototypeBackend
 	/// <summary>
 	/// Measurement combinations updated arguments.
 	/// </summary>
-	public class MeasurementCombinationsUpdatedArgs
+	public class MeasurementCombinationsUpdatedArgs : EventArgs
 	{
 		/// <summary>
 		/// Gets the old measurementcombination.
@@ -157,7 +157,7 @@ namespace PrototypeBackend
 	/// <summary>
 	/// Board selection arguments.
 	/// </summary>
-	public class BoardSelectionArgs
+	public class BoardSelectionArgs : EventArgs
 	{
 		/// <summary>
 		/// Gets the board.
@@ -194,7 +194,7 @@ namespace PrototypeBackend
 	/// <summary>
 	/// Communication arguments.
 	/// </summary>
-	public class CommunicationArgs
+	public class CommunicationArgs : EventArgs
 	{
 		/// <summary>
 		/// Gets the message.

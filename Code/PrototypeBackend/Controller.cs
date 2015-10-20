@@ -4,13 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Resources;
+using System.Threading;
 using PrototypeBackend;
 using PrototypeBackend.Properties;
 using System.Text;
-using Mono.Posix;
 using System.Globalization;
 
 
@@ -64,7 +61,9 @@ namespace PrototypeBackend
 		/// <summary>
 		/// The measurement timer.
 		/// </summary>
-		private System.Timers.Timer MeasurementTimer;
+		//		private System.Timers.Timer MeasurementTimer;
+		private System.Threading.Timer MeasurementTimer;
+
 
 		/// <summary>
 		/// BoardConfiguration
@@ -262,7 +261,8 @@ namespace PrototypeBackend
 			SequencesTimer.Stop ();
 			if (MeasurementTimer != null) {
 				MeasurementCSVLogger.Stop ();
-				MeasurementTimer.Stop ();
+				MeasurementTimer.Dispose ();
+//				MeasurementTimer.Stop ();
 			}
 
 			KeeperOfTime.Stop ();
@@ -288,9 +288,10 @@ namespace PrototypeBackend
 			LastCondition = new ushort[]{ 0, 0, 0, 0 };
 
 			SequencesTimer.Start ();
-			if (MeasurementTimer != null) {
-				MeasurementTimer.Start ();
-			}
+			MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTick), null, 0, 10);
+//			if (MeasurementTimer != null) {
+//				MeasurementTimer.Start ();
+//			}
 
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + KeeperOfTime.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
@@ -358,57 +359,65 @@ namespace PrototypeBackend
 					MeasurementTimer.Dispose ();
 				}
 
-				MeasurementTimer = new System.Timers.Timer (10);
-				MeasurementTimer.Elapsed += OnMeasurementTimerElapsed;
+//				MeasurementTimer = new System.Timers.Timer (10);
+//				MeasurementTimer.Elapsed += OnMeasurementTimerElapsed;
 			}
 		}
 
-		/// <summary>
-		/// Raised by the <see cref="MeasurementTimer"/>. Collects data from board.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="args">Arguments.</param>
-		protected void OnMeasurementTimerElapsed (object sender, System.Timers.ElapsedEventArgs args)
+		//		/ <summary>
+		//		/ Raised by the <see cref="MeasurementTimer"/>. Collects data from board.
+		//		/ </summary>
+		//		/ <param name="sender">Sender.</param>
+		//		/ <param name="args">Arguments.</param>
+		//		protected void OnMeasurementTimerElapsed (object sender, System.Timers.ElapsedEventArgs args)
+		private void OnMeasurementTimerTick (object state)
 		{
-			if (running) {
-				double time = KeeperOfTime.ElapsedMilliseconds;
-				var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
-				if (analogPins.Length > 0) {
-					var query = analogPins.Select (o => o.Number).ToArray ();
-					var vals = ArduinoController.ReadAnalogPin (query);
+			try {
+				if (running) {
+					double time = KeeperOfTime.ElapsedMilliseconds;
 
-					var now = DateTime.Now;
+					var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
+					if (analogPins.Length > 0) {
+						Console.WriteLine (time + " Tick");
+						var query = analogPins.Select (o => o.Number).ToArray ();
+						var vals = ArduinoController.ReadAnalogPin (query);
 
-					for (int i = 0; i < analogPins.Length; i++) {
-						analogPins [i].Value = new DateTimeValue (vals [i], now);
-					}
+						var now = DateTime.Now;
 
-					var analogPinValues = analogPins.Select (o => o.Value.Value).ToList<double> ();
-					var analogPinValuesNames = analogPins.ToList ().Select (o => o.DisplayName).ToList ();
+						for (int i = 0; i < analogPins.Length; i++) {
+							analogPins [i].Value = new DateTimeValue (vals [i], now);
+						}
 
-					var MeComValues = Configuration.MeasurementCombinations
+						var analogPinValues = analogPins.Select (o => o.Value.Value).ToList<double> ();
+						var analogPinValuesNames = analogPins.ToList ().Select (o => o.DisplayName).ToList ();
+
+						var MeComValues = Configuration.MeasurementCombinations
 						.Select (o => o.Value.Value)
 						.Where (o => !double.IsNaN (o))
 						.ToList <double> ();
-					var MeComValuesNames = Configuration.MeasurementCombinations
+						var MeComValuesNames = Configuration.MeasurementCombinations
 						.Where (o => !double.IsNaN (o.Value.Value))
 						.Select (o => o.DisplayName)
 						.ToList ();
 
-					var names = analogPinValuesNames;
-					names.AddRange (MeComValuesNames);
-					var values = analogPinValues;
-					values.AddRange (MeComValues);
+						var names = analogPinValuesNames;
+						names.AddRange (MeComValuesNames);
+						var values = analogPinValues;
+						values.AddRange (MeComValues);
 
-					MeasurementCSVLogger.Log<double> (names, values);
+						MeasurementCSVLogger.Log<double> (names, values);
 
 
 //					values.AddRange (Configuration.MeasurementCombinations.Select (o => o.Value));
 
 //					MeasurementCSVLogger.Log<double> (values.Select (o => o.Value).ToList<double> ());
+					}
+				} else {
+					System.Threading.Timer t = (System.Threading.Timer)state;
+					t.Dispose ();
+//				MeasurementTimer.Stop ();
 				}
-			} else {
-				MeasurementTimer.Stop ();
+			} catch (Exception) {
 			}
 		}
 
