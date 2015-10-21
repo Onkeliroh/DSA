@@ -372,7 +372,7 @@ namespace Frontend
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><menubar name='menubarMain'/></ui>");
+			this.UIManager.AddUiFromString ("<ui><menubar name=\'menubarMain\'/></ui>");
 			this.menubarMain = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubarMain")));
 			this.menubarMain.Name = "menubarMain";
 			this.vbox1.Add (this.menubarMain);
@@ -381,7 +381,7 @@ namespace Frontend
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><separator/><toolitem name='refreshAction' action='refreshAction'/><separator/><toolitem name='mediaPlayAction' action='mediaPlayAction'/><toolitem name='mediaStopAction' action='mediaStopAction'/></toolbar></ui>");
+			this.UIManager.AddUiFromString (@"<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><separator/><toolitem name='refreshAction' action='refreshAction'/><separator/><toolitem name='mediaPlayAction' action='mediaPlayAction'/><toolitem name='mediaStopAction' action='mediaStopAction'/></toolbar></ui>");
 			this.toolbarMain = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMain")));
 			this.toolbarMain.Name = "toolbarMain";
 			this.toolbarMain.ShowArrow = false;
@@ -396,7 +396,7 @@ namespace Frontend
 			this.hpanedMain = new global::Gtk.HPaned ();
 			this.hpanedMain.CanFocus = true;
 			this.hpanedMain.Name = "hpanedMain";
-			this.hpanedMain.Position = 325;
+			this.hpanedMain.Position = 1;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.vbox5 = new global::Gtk.VBox ();
 			this.vbox5.Name = "vbox5";
@@ -486,11 +486,11 @@ namespace Frontend
 			w11.Expand = false;
 			w11.Fill = false;
 			// Container child hbox8.Gtk.Box+BoxChild
-			this.sbAREFExternal = new global::Gtk.SpinButton (0, 100, 1);
+			this.sbAREFExternal = new global::Gtk.SpinButton (0D, 100D, 1D);
 			this.sbAREFExternal.CanFocus = true;
 			this.sbAREFExternal.Name = "sbAREFExternal";
-			this.sbAREFExternal.Adjustment.PageIncrement = 10;
-			this.sbAREFExternal.ClimbRate = 1;
+			this.sbAREFExternal.Adjustment.PageIncrement = 10D;
+			this.sbAREFExternal.ClimbRate = 1D;
 			this.sbAREFExternal.Digits = ((uint)(2));
 			this.sbAREFExternal.Numeric = true;
 			this.hbox8.Add (this.sbAREFExternal);
@@ -930,7 +930,7 @@ namespace Frontend
 			this.vpanedSequences = new global::Gtk.VPaned ();
 			this.vpanedSequences.CanFocus = true;
 			this.vpanedSequences.Name = "vpanedSequences";
-			this.vpanedSequences.Position = 242;
+			this.vpanedSequences.Position = 1;
 			// Container child vpanedSequences.Gtk.Paned+PanedChild
 			this.hbSequences = new global::Gtk.HBox ();
 			this.hbSequences.Name = "hbSequences";
@@ -1363,13 +1363,13 @@ namespace Frontend
 			w116.XOptions = ((global::Gtk.AttachOptions)(4));
 			w116.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableRealTimePlotSettings.Gtk.Table+TableChild
-			this.sbtnMaxValueCountPlot = new global::Gtk.SpinButton (1, 10000, 1);
+			this.sbtnMaxValueCountPlot = new global::Gtk.SpinButton (1D, 10000D, 1D);
 			this.sbtnMaxValueCountPlot.CanFocus = true;
 			this.sbtnMaxValueCountPlot.Name = "sbtnMaxValueCountPlot";
-			this.sbtnMaxValueCountPlot.Adjustment.PageIncrement = 10;
-			this.sbtnMaxValueCountPlot.ClimbRate = 1;
+			this.sbtnMaxValueCountPlot.Adjustment.PageIncrement = 10D;
+			this.sbtnMaxValueCountPlot.ClimbRate = 1D;
 			this.sbtnMaxValueCountPlot.Numeric = true;
-			this.sbtnMaxValueCountPlot.Value = 1000;
+			this.sbtnMaxValueCountPlot.Value = 1000D;
 			this.tableRealTimePlotSettings.Add (this.sbtnMaxValueCountPlot);
 			global::Gtk.Table.TableChild w117 = ((global::Gtk.Table.TableChild)(this.tableRealTimePlotSettings [this.sbtnMaxValueCountPlot]));
 			w117.LeftAttach = ((uint)(1));
@@ -1432,13 +1432,13 @@ namespace Frontend
 			w123.Expand = false;
 			w123.Fill = false;
 			// Container child hbox2.Gtk.Box+BoxChild
-			this.sbtnMaxValueCountPlot1 = new global::Gtk.SpinButton (1, 10000, 1);
+			this.sbtnMaxValueCountPlot1 = new global::Gtk.SpinButton (1D, 10000D, 1D);
 			this.sbtnMaxValueCountPlot1.CanFocus = true;
 			this.sbtnMaxValueCountPlot1.Name = "sbtnMaxValueCountPlot1";
-			this.sbtnMaxValueCountPlot1.Adjustment.PageIncrement = 10;
-			this.sbtnMaxValueCountPlot1.ClimbRate = 1;
+			this.sbtnMaxValueCountPlot1.Adjustment.PageIncrement = 10D;
+			this.sbtnMaxValueCountPlot1.ClimbRate = 1D;
 			this.sbtnMaxValueCountPlot1.Numeric = true;
-			this.sbtnMaxValueCountPlot1.Value = 1000;
+			this.sbtnMaxValueCountPlot1.Value = 1000D;
 			this.hbox2.Add (this.sbtnMaxValueCountPlot1);
 			global::Gtk.Box.BoxChild w124 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.sbtnMaxValueCountPlot1]));
 			w124.Position = 1;

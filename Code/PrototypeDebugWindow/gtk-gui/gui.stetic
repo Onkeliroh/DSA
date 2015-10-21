@@ -134,7 +134,7 @@
           <widget class="Gtk.HPaned" id="hpanedMain">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">325</property>
+            <property name="Position">1</property>
             <child>
               <widget class="Gtk.VBox" id="vbox5">
                 <property name="MemberName" />
@@ -874,7 +874,7 @@
                           <widget class="Gtk.VPaned" id="vpanedSequences">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="Position">242</property>
+                            <property name="Position">1</property>
                             <child>
                               <widget class="Gtk.HBox" id="hbSequences">
                                 <property name="MemberName" />
