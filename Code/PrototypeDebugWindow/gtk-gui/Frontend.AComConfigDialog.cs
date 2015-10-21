@@ -85,6 +85,7 @@ namespace Frontend
 			this.GtkAlignment4.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment4.Gtk.Container+ContainerChild
 			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
+			this.table1.Name = "table1";
 			this.table1.RowSpacing = ((uint)(6));
 			this.table1.ColumnSpacing = ((uint)(6));
 			// Container child table1.Gtk.Table+TableChild
@@ -348,8 +349,6 @@ namespace Frontend
 			w1.Add (this.hbox1);
 			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(w1 [this.hbox1]));
 			w28.Position = 0;
-			w28.Expand = false;
-			w28.Fill = false;
 			// Internal child Frontend.AComConfigDialog.ActionArea
 			global::Gtk.HButtonBox w29 = this.ActionArea;
 			w29.Name = "dialog1_ActionArea";

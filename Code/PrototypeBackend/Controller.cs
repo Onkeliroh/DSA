@@ -260,9 +260,13 @@ namespace PrototypeBackend
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 			SequencesTimer.Stop ();
 			if (MeasurementTimer != null) {
-				MeasurementCSVLogger.Stop ();
-				MeasurementTimer.Dispose ();
-//				MeasurementTimer.Stop ();
+				try {
+					MeasurementTimer.Dispose ();
+					lock (MeasurementCSVLogger) {					
+						MeasurementCSVLogger.Stop ();
+					}
+				} catch (Exception) {
+				}
 			}
 
 			KeeperOfTime.Stop ();
@@ -289,9 +293,6 @@ namespace PrototypeBackend
 
 			SequencesTimer.Start ();
 			MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTick), null, 0, 10);
-//			if (MeasurementTimer != null) {
-//				MeasurementTimer.Start ();
-//			}
 
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + KeeperOfTime.ElapsedMilliseconds + "ms", LogLevel.DEBUG);

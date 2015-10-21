@@ -198,6 +198,7 @@ namespace Frontend
 			w7.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
 			this.sbRadioBtnStopAfter = new global::Gtk.SpinButton (1D, 100D, 1D);
+			this.sbRadioBtnStopAfter.Sensitive = false;
 			this.sbRadioBtnStopAfter.CanFocus = true;
 			this.sbRadioBtnStopAfter.Name = "sbRadioBtnStopAfter";
 			this.sbRadioBtnStopAfter.Adjustment.PageIncrement = 10D;
@@ -579,9 +580,6 @@ namespace Frontend
 			this.Show ();
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
 			this.cbeGroups.Changed += new global::System.EventHandler (this.OnCbeGroupsChanged);
-			this.btnRemoveOperation.Clicked += new global::System.EventHandler (this.OnBtnRemoveOperationClicked);
-			this.btnClearOperations.Clicked += new global::System.EventHandler (this.OnBtnClearOperationsClicked);
-			this.btnApplyOperation.Clicked += new global::System.EventHandler (this.OnBtnApplyOperationClicked);
 		}
 	}
 }

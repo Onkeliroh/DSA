@@ -202,7 +202,7 @@ namespace Frontend
 				AddPin.ButtonPressEvent += (o, args) => RunAddAPinDialog ();
 				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.ClonePin (pin.Pin as APin);
 				EditPin.ButtonPressEvent += (o, args) => RunAddAPinDialog (pin.Pin);
-				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Index);
+				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Pin);
 				ClearPins.ButtonPressEvent += (o, args) => RunAPinClear ();
 				AddCombination.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (null, pin.Pin);
 				EditCombination.ButtonPressEvent += (o, args) => RunMeasurementCombinationDialog (pin.Combination);
@@ -269,7 +269,7 @@ namespace Frontend
 				AddPin.ButtonPressEvent += (o, args) => RunAddDPinDialog ();
 				ClonePin.ButtonPressEvent += (o, args) => con.Configuration.ClonePin (pin.Pin as DPin);
 				EditPin.ButtonPressEvent += (o, args) => RunAddDPinDialog (pin.Pin);
-				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Index);
+				RemovePin.ButtonPressEvent += (o, args) => con.Configuration.RemovePin (pin.Pin);
 				ClearPins.ButtonPressEvent += (o, args) => RunDPinClear ();
 				AddSequence.ButtonPressEvent += (o, args) => {
 					RunSequenceDialog (null, pin.Pin);
@@ -835,32 +835,85 @@ namespace Frontend
 		/// </summary>
 		protected void BindWidgetEvents ()
 		{
-			btnAddAPin.ButtonPressEvent += OnBtnAddAPinClicked;
-			btnEditAPin.ButtonPressEvent += OnBtnEditAPinClicked;
-			btnClearAPins.ButtonPressEvent += OnBtnClearAPinsClicked;
+			try {
+				BuildAnalogButtons ();
+			} catch (Exception e) {
+				con.ConLogger.Log (e.ToString (), LogLevel.DEBUG);
+			}
 
-			btnAddDPin.ButtonPressEvent += OnBtnAddDPinClicked;
-			btnEditDPin.ButtonPressEvent += OnBtnEditDPinClicked;
-			btnRemoveDPin.ButtonPressEvent += OnBtnRemoveDPinClicked;
-			btnClearDPins.ButtonPressEvent += OnBtnClearDPinsClicked;
+			try {
+				BuildDigitalButtons ();
+			} catch (Exception e) {
+				con.ConLogger.Log (e.ToString (), LogLevel.DEBUG);
+			}
 
-			btnAddSignal.ButtonPressEvent += OnBtnAddSignalClicked;
-			btnEditSignal.ButtonPressEvent += OnBtnEditSignalClicked;
-			btnRemoveSignal.ButtonPressEvent += OnBtnRemoveSignalClicked;
-			btnClearSignals.ButtonPressEvent += OnBtnClearSignalsClicked;
+			try {
+				BuildAnalogCombinationButtons ();
+			} catch (Exception e) {
+				con.ConLogger.Log (e.ToString (), LogLevel.DEBUG);
+			}
 
-			btnAddSequence.ButtonPressEvent += OnBtnAddSequenceClicked;
-			btnEditSequence.ButtonPressEvent += OnBtnEditSequenceClicked;
-			btnRemoveSequence.ButtonPressEvent += OnBtnRemoveSequenceClicked;
-			btnClearSequence.ButtonPressEvent += OnBtnClearSequenceClicked;
+			try {
+				BuildSequenceButtons ();
+			} catch (Exception e) {
+				con.ConLogger.Log (e.ToString (), LogLevel.DEBUG);
+			}
 
 			cbBoardType.Changed += OnCbBoardTypeChanged;
 			cbAREF.Changed += OnCbAREFChanged;
 
-			btnCSVFilePathOpen.ButtonPressEvent += OnBtnCSVFilePathOpenClicked;
+			btnCSVFilePathOpen.Clicked += OnBtnCSVFilePathOpenClicked;
 			cbeCSVSeparator.Changed += OnCbeCSVSeparatorChanged;
 			cbeCSVTimeFormat.Changed += OnCbeCSVTimeFormatChanged;
 			cbCSVUTC.Toggled += OnCbCSVUTCToggled;
+		}
+
+		/// <summary>
+		/// Builds the digital button signals and connects delegates.
+		/// </summary>
+		private void BuildDigitalButtons ()
+		{
+			btnAddDPin.Clicked += OnBtnAddDPinClicked;
+			btnEditDPin.Clicked += OnBtnEditDPinClicked;
+			btnCloneDPin.Clicked += OnBtnCloneDPinClicked;
+			btnRemoveDPin.Clicked += OnBtnRemoveDPinClicked;
+			btnClearDPins.Clicked += OnBtnClearDPinsClicked;
+		}
+
+		/// <summary>
+		/// Builds the analog button signals and connects delegates.
+		/// </summary>
+		private void BuildAnalogButtons ()
+		{
+			btnAddAPin.Clicked += OnBtnAddAPinClicked;
+			btnCloneAPin.Clicked += OnBtnCloneAPinClicked;
+			btnEditAPin.Clicked += OnBtnEditAPinClicked;
+			btnRemoveAPin.Clicked += OnBtnRemoveAPinClicked;
+			btnClearAPins.Clicked += OnBtnClearAPinsClicked;			
+		}
+
+		/// <summary>
+		/// Builds the analog combination button signals and connects delegates.
+		/// </summary>
+		private void BuildAnalogCombinationButtons ()
+		{
+			btnAddSignal.Clicked += OnBtnAddSignalClicked;
+			btnCloneSignal.Clicked += OnBtnCloneSignalClicked;
+			btnEditSignal.Clicked += OnBtnEditSignalClicked;
+			btnRemoveSignal.Clicked += OnBtnRemoveSignalClicked;
+			btnClearSignals.Clicked += OnBtnClearSignalsClicked;
+		}
+
+		/// <summary>
+		/// Builds the sequence button signals and connects delegates.
+		/// </summary>
+		private void BuildSequenceButtons ()
+		{
+			btnAddSequence.Clicked += OnBtnAddSequenceClicked;
+			btnCloneSequence.Clicked += OnBtnCloneSequenceClicked;
+			btnEditSequence.Clicked += OnBtnEditSequenceClicked;
+			btnRemoveSequence.Clicked += OnBtnRemoveSequenceClicked;
+			btnClearSequence.Clicked += OnBtnClearSequenceClicked;	
 		}
 
 		/// <summary>
@@ -1441,6 +1494,12 @@ namespace Frontend
 			RealTimePlotView.ShowAll ();
 
 			cbtnRealTimePlotShowMarker.Toggled += OnCbtnRealTimePlotShowMarkerToggled;
+			btnRealTimePlotJumpStart.Clicked += OnBtnRealTimePlotJumpStartClicked;
+			btnRealTimePlotJumpLatest.Clicked += OnBtnRealTimePlotJumpLatestClicked;
+			btnRealTimePlotSnapshot.Clicked += OnBtnRealTimePlotSnapshotClicked;
+			btnRealTimePlotPause.Clicked += OnBtnRealTimePlotPauseClicked;
+			btnRealTimePlotResetZoom.Clicked += OnBtnRealTimePlotResetZoomClicked;
+			btnRealTimePlotFitData.Clicked += OnBtnRealTimePlotFitDataClicked;
 		}
 
 		#endregion
@@ -1834,7 +1893,7 @@ namespace Frontend
 		protected void OnBtnCloneSequenceClicked (object sender, EventArgs e)
 		{
 			SequenceTreeNode node = (SequenceTreeNode)nvSequences.NodeSelection.SelectedNode;
-			if (node != null && con.Configuration.GetPinsWithoutSequence ().Length > 0) {
+			if (node != null) {
 				con.Configuration.CloneSequence (node.Seq);
 			}
 		}
@@ -1888,7 +1947,7 @@ namespace Frontend
 		{
 			DPinTreeNode node = (DPinTreeNode)nvDigitalPins.NodeSelection.SelectedNode;
 			if (node != null) {
-				con.Configuration.RemovePin (node.Pin.Name);
+				con.Configuration.RemovePin (node.Pin);
 			}
 		}
 
@@ -1896,7 +1955,7 @@ namespace Frontend
 		{
 			APinTreeNode node = (APinTreeNode)nvAnalogPins.NodeSelection.SelectedNode;
 			if (node != null) {
-				con.Configuration.RemovePin (node.Pin.Name);
+				con.Configuration.RemovePin (node.Pin);
 			}
 		}
 

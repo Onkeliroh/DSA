@@ -385,6 +385,11 @@ namespace PrototypeBackend
 		/// <param name="seq">Seq.</param>
 		public void CloneSequence (Sequence seq)
 		{
+			if (GetPinsWithoutSequence ().Length == 0 && AvailableDigitalPins.Length > 0) {
+				ClonePin (seq.Pin);
+			} else if (GetPinsWithoutSequence ().Length == 0 && AvailableDigitalPins.Length == 0) {
+				return;
+			}
 			Sequence copy = new Sequence (seq);
 			copy.Pin = GetPinsWithoutSequence () [0];
 			AddSequence (copy);
@@ -436,6 +441,18 @@ namespace PrototypeBackend
 		#endregion
 
 		#region Remove
+
+		/// <summary>
+		/// Removes the pin.
+		/// </summary>
+		/// <param name="pin">Pin.</param>
+		public void RemovePin (IPin pin)
+		{
+			Pins.Remove (pin);
+			if (OnPinsUpdated != null) {
+				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (pin, UpdateOperation.Remove));
+			}
+		}
 
 		/// <summary>
 		/// Removes the pin.

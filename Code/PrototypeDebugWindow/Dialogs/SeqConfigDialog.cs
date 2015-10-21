@@ -25,13 +25,6 @@ namespace Frontend
 			set {
 				entryName.Text = value.Name;
 				cbPin.InsertText (0, string.Format ("{0}(D{1})", value.Pin.Name, value.Pin.Number));
-				if (value.Repetitions == -1) {
-					rbRepeateContinously.Active = true;
-				} else {
-					rbStopAfter.Active = true;
-					sbRadioBtnStopAfter.Value = value.Repetitions;
-				}
-
 				pinSequence = value;
 			}
 		}
@@ -99,6 +92,9 @@ namespace Frontend
 		{
 			this.Build ();
 
+			sbRadioBtnStopAfter.Adjustment.Upper = int.MaxValue;
+			sbRadioBtnStopAfter.Adjustment.Lower = 0;
+
 			DPins = pins;
 
 			//no DPin no Sequence
@@ -112,8 +108,16 @@ namespace Frontend
 
 			if (seq != null) {
 				PinSequence = seq;
+				if (seq.Repetitions == -1) {
+					rbRepeateContinously.Active = true;
+				} else {
+					rbStopAfter.Active = true;
+					sbRadioBtnStopAfter.Sensitive = true;
+					sbRadioBtnStopAfter.Value = seq.Repetitions;
+				}
 			} else {
 				pinSequence = new Sequence ();
+				pinSequence.Repetitions = -1;
 			}
 			if (RefPin == null) {
 				cbPin.Active = 0;
@@ -123,6 +127,23 @@ namespace Frontend
 
 			SetupGroups (groups);
 			DisplaySequenceInfos ();
+			BuildEvents ();
+		}
+
+		/// <summary>
+		/// Builds the event and connects delegates.
+		/// </summary>
+		private void BuildEvents ()
+		{
+			rbStopAfter.Toggled += OnRbStopAfterToggled;
+			rbRepeateContinously.Toggled += OnRbRepeateContinouslyToggled;
+			sbRadioBtnStopAfter.ValueChanged += OnSbRadioBtnStopAfterChanged;
+			entryName.Changed += OnEntryNameChanged;
+			cbPin.Changed += OnCbPinChanged;
+			cbeGroups.Changed += OnCbeGroupsChanged;
+			btnApplyOperation.Clicked += OnBtnApplyOperationClicked;
+			btnClearOperations.Clicked += OnBtnClearOperationsClicked;
+			btnRemoveOperation.Clicked += OnBtnRemoveOperationClicked;
 		}
 
 		/// <summary>
@@ -338,6 +359,17 @@ namespace Frontend
 		}
 
 		/// <summary>
+		/// Adds a operation.
+		/// </summary>
+		/// <param name="SeqOp">Seq op.</param>
+		private void AddOperation (SequenceOperation SeqOp)
+		{
+			pinSequence.AddSequenceOperation (SeqOp);
+			XAxis.AbsoluteMaximum = pinSequence.Chain.Sum (o => o.Duration.TotalMilliseconds);
+			DisplaySequenceInfos ();
+		}
+
+		/// <summary>
 		/// Creates a popup menu.
 		/// </summary>
 		/// <param name="o">O.</param>
@@ -411,31 +443,8 @@ namespace Frontend
 					}
 				}
 				// Analysis disable once EmptyGeneralCatchClause
-			} catch (Exception ex) {
+			} catch (Exception) {
 			}
-		}
-
-		/// <summary>
-		/// Sets every member.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		[GLib.ConnectBeforeAttribute]
-		protected void OnButtonOkClicked (object sender, EventArgs e)
-		{
-			pinSequence.Name = entryName.Text;
-			pinSequence.Pin = selectedPin;
-			pinSequence.Repetitions = (rbRepeateContinously.Active) ? -1 : sbRadioBtnStopAfter.ValueAsInt;
-		}
-
-		/// <summary>
-		/// Raises the button cancel clicked event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		protected void OnButtonCancelClicked (object sender, EventArgs e)
-		{
-			Respond (ResponseType.Cancel);
 		}
 
 		/// <summary>
@@ -481,6 +490,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnRbRepeateContinouslyToggled (object sender, EventArgs e)
 		{
+			sbRadioBtnStopAfter.Sensitive = false;
+			pinSequence.Repetitions = -1;
 			DisplayPlot ();
 		}
 
@@ -491,29 +502,11 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnRbStopAfterToggled (object sender, EventArgs e)
 		{
+			sbRadioBtnStopAfter.Sensitive = true;
+			pinSequence.Repetitions = sbRadioBtnStopAfter.ValueAsInt;
 			DisplayPlot ();
 		}
 
-		/// <summary>
-		/// Updates the plot.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		protected void OnSbRadioBtnStopAfterValueChanged (object sender, EventArgs e)
-		{
-			DisplayPlot ();
-		}
-
-		/// <summary>
-		/// Adds a operation.
-		/// </summary>
-		/// <param name="SeqOp">Seq op.</param>
-		private void AddOperation (SequenceOperation SeqOp)
-		{
-			pinSequence.AddSequenceOperation (SeqOp);
-			XAxis.AbsoluteMaximum = pinSequence.Chain.Sum (o => o.Duration.TotalMilliseconds);
-			DisplaySequenceInfos ();
-		}
 
 		/// <summary>
 		/// Updates the plot.
@@ -522,7 +515,7 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnSbRadioBtnStopAfterChanged (object sender, EventArgs e)
 		{
-			rbStopAfter.Active = true;
+			pinSequence.Repetitions = sbRadioBtnStopAfter.ValueAsInt;
 			DisplayPlot ();
 		}
 
@@ -544,10 +537,14 @@ namespace Frontend
 			dialog.Destroy ();
 		}
 
-
 		protected void OnBtnClearOperationsClicked (object sender, EventArgs e)
 		{
 			ClearOperations ();
+		}
+
+		private void OnEntryNameChanged (object sender, EventArgs e)
+		{
+			pinSequence.Name = entryName.Text;
 		}
 	}
 }

@@ -245,7 +245,7 @@ namespace PrototypeBackend
 			if (Pins.Count > 0) {
 				return Pins.TrueForAll (o => o.Interval == Pins [0].Interval);
 			} else {
-				return false;
+				return true;
 			}
 		}
 

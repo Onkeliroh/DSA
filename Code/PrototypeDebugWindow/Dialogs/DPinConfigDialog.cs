@@ -79,9 +79,9 @@ namespace Frontend
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
 			pin.Name = entryName.Text;
-			pin.Number = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].Number;
+//			pin.Number = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].Number;
 			pin.PlotColor = cbColor.Color;
-			pin.RealNumber = AvailablePins.Single (o => o.DisplayNumber == cbPin.ActiveText).RealNumber;
+//			pin.RealNumber = AvailablePins.Single (o => o.DisplayNumber == cbPin.ActiveText).RealNumber;
 		}
 
 		/// <summary>
@@ -115,7 +115,7 @@ namespace Frontend
 		{
 			if (pin != null) {
 				pin.Number = Convert.ToUInt32 (cbPin.ActiveText.Remove (0, 1));
-				pin.RealNumber = AvailablePins.Single (o => o.DisplayNumber == cbPin.ActiveText).RealNumber;
+				pin.RealNumber = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].RealNumber;
 			}
 		}
 
