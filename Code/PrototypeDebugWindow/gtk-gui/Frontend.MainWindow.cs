@@ -244,7 +244,7 @@ namespace Frontend
 		
 		private global::Gtk.CheckButton cbtnRealTimePlotShowMarker;
 		
-		private global::Gtk.HBox hbox2;
+		private global::Gtk.CheckButton cbtnRealTimePlotSmoothValues;
 		
 		private global::Gtk.HButtonBox hbuttonbox2;
 		
@@ -1350,16 +1350,20 @@ namespace Frontend
 			w116.XOptions = ((global::Gtk.AttachOptions)(4));
 			w116.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table5.Gtk.Table+TableChild
-			this.hbox2 = new global::Gtk.HBox ();
-			this.hbox2.Name = "hbox2";
-			this.hbox2.Spacing = 6;
-			this.table5.Add (this.hbox2);
-			global::Gtk.Table.TableChild w117 = ((global::Gtk.Table.TableChild)(this.table5 [this.hbox2]));
+			this.cbtnRealTimePlotSmoothValues = new global::Gtk.CheckButton ();
+			this.cbtnRealTimePlotSmoothValues.CanFocus = true;
+			this.cbtnRealTimePlotSmoothValues.Name = "cbtnRealTimePlotSmoothValues";
+			this.cbtnRealTimePlotSmoothValues.Label = global::Mono.Unix.Catalog.GetString ("Smooth values");
+			this.cbtnRealTimePlotSmoothValues.DrawIndicator = true;
+			this.cbtnRealTimePlotSmoothValues.UseUnderline = true;
+			this.table5.Add (this.cbtnRealTimePlotSmoothValues);
+			global::Gtk.Table.TableChild w117 = ((global::Gtk.Table.TableChild)(this.table5 [this.cbtnRealTimePlotSmoothValues]));
 			w117.TopAttach = ((uint)(3));
 			w117.BottomAttach = ((uint)(4));
 			w117.LeftAttach = ((uint)(1));
 			w117.RightAttach = ((uint)(2));
 			w117.XOptions = ((global::Gtk.AttachOptions)(4));
+			w117.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table5.Gtk.Table+TableChild
 			this.hbuttonbox2 = new global::Gtk.HButtonBox ();
 			this.hbuttonbox2.Name = "hbuttonbox2";
@@ -1482,6 +1486,8 @@ namespace Frontend
 			this.vboxRealTimePlot.Add (this.table5);
 			global::Gtk.Box.BoxChild w134 = ((global::Gtk.Box.BoxChild)(this.vboxRealTimePlot [this.table5]));
 			w134.Position = 1;
+			w134.Expand = false;
+			w134.Fill = false;
 			this.notebook1.Add (this.vboxRealTimePlot);
 			global::Gtk.Notebook.NotebookChild w135 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.vboxRealTimePlot]));
 			w135.Position = 5;

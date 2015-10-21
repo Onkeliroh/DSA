@@ -1493,6 +1493,7 @@ namespace Frontend
 
 			RealTimePlotView.ShowAll ();
 
+			cbtnRealTimePlotSmoothValues.Toggled += OnCbtnRealTimePlotSmoothValues;
 			cbtnRealTimePlotShowMarker.Toggled += OnCbtnRealTimePlotShowMarkerToggled;
 			btnRealTimePlotJumpStart.Clicked += OnBtnRealTimePlotJumpStartClicked;
 			btnRealTimePlotJumpLatest.Clicked += OnBtnRealTimePlotJumpLatestClicked;
@@ -2146,6 +2147,16 @@ namespace Frontend
 			ToggleRealTimePlotMarker ();	
 		}
 
+		/// <summary>
+		/// Raises the cbtn real time plot smooth values event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected void OnCbtnRealTimePlotSmoothValues (object sender, EventArgs e)
+		{
+			ToggleRealTimePlotSmooth ();
+		}
+
 		#endregion
 
 		/// <summary>
@@ -2160,6 +2171,11 @@ namespace Frontend
 			} else {
 				RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).MarkerType = MarkerType.None);
 			}
+		}
+
+		private void ToggleRealTimePlotSmooth ()
+		{
+			RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).Smooth = cbtnRealTimePlotSmoothValues.Active);
 		}
 
 		#region Drawing

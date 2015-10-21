@@ -209,8 +209,8 @@ namespace Frontend
 			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.entryOperation = new global::Gtk.Entry ();
-			this.entryOperation.TooltipMarkup = "The Operation you wish to be processed.\r\n\r\ne.g:\r\nGiven analog inputs A0 and A5.\r\n" +
-			"Adding those two would require you to type in: \"A0+A5\".";
+			this.entryOperation.TooltipMarkup = "The Operation you wish to be processed.\n\ne.g:\nGiven analog inputs A0 and A5.\nAddi" +
+			"ng those two would require you to type in: \"A0+A5\".";
 			this.entryOperation.CanFocus = true;
 			this.entryOperation.Name = "entryOperation";
 			this.entryOperation.IsEditable = true;
@@ -309,9 +309,9 @@ namespace Frontend
 			// Container child table2.Gtk.Table+TableChild
 			this.lblWarning = new global::Gtk.Label ();
 			this.lblWarning.Name = "lblWarning";
-			this.lblWarning.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Please note:</b>\r\nYou have selected measurements, who\'s frequency and/or inter" +
-			"val are not compatible.\r\nIn order to apply the operation, the last available mea" +
-			"surement-data will be used.");
+			this.lblWarning.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Please note:</b>\nYou have selected measurements, who\'s frequency and/or interv" +
+			"al are not compatible.\nIn order to apply the operation, the last available measu" +
+			"rement-data will be used.");
 			this.lblWarning.UseMarkup = true;
 			this.lblWarning.Wrap = true;
 			this.table2.Add (this.lblWarning);
@@ -389,7 +389,7 @@ namespace Frontend
 			this.Show ();
 			this.btnRemove.Clicked += new global::System.EventHandler (this.OnBtnRemoveClicked);
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
-			this.sbMeanValuesCount.Changed += new global::System.EventHandler (this.OnSbMeanValuesCountChanged);
+			this.sbMeanValuesCount.ValueChanged += new global::System.EventHandler (this.OnSbMeanValuesCountChanged);
 			this.entryOperation.Changed += new global::System.EventHandler (this.OnEntryOperationChanged);
 			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
 			this.cbeUnit.Changed += new global::System.EventHandler (this.OnCbeUnitChanged);
