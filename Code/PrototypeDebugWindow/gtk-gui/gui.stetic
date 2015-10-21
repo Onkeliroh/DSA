@@ -4107,7 +4107,7 @@ In order to apply the operation, the last available measurement-data will be use
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Frontend.SeqConfigDialog" design-size="980 601">
+  <widget class="Gtk.Dialog" id="Frontend.SeqConfigDialog" design-size="1038 601">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
@@ -4469,10 +4469,16 @@ In order to apply the operation, the last available measurement-data will be use
                         <child>
                           <widget class="Gtk.Table" id="table5">
                             <property name="MemberName" />
-                            <property name="NRows">2</property>
+                            <property name="NRows">3</property>
                             <property name="NColumns">3</property>
                             <property name="RowSpacing">6</property>
                             <property name="ColumnSpacing">10</property>
+                            <child>
+                              <placeholder />
+                            </child>
+                            <child>
+                              <placeholder />
+                            </child>
                             <child>
                               <widget class="Gtk.Button" id="btnApplyOperation">
                                 <property name="MemberName" />
@@ -4484,6 +4490,31 @@ In order to apply the operation, the last available measurement-data will be use
                                 <signal name="Clicked" handler="OnBtnApplyOperationClicked" />
                               </widget>
                               <packing>
+                                <property name="LeftAttach">2</property>
+                                <property name="RightAttach">3</property>
+                                <property name="AutoSize">False</property>
+                                <property name="YOptions">Fill</property>
+                                <property name="XExpand">True</property>
+                                <property name="XFill">True</property>
+                                <property name="XShrink">False</property>
+                                <property name="YExpand">False</property>
+                                <property name="YFill">True</property>
+                                <property name="YShrink">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Button" id="btnClearOperations">
+                                <property name="MemberName" />
+                                <property name="CanFocus">True</property>
+                                <property name="Type">TextAndIcon</property>
+                                <property name="Icon">stock:gtk-clear Menu</property>
+                                <property name="Label" translatable="yes">Clear operations</property>
+                                <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnClearOperationsClicked" />
+                              </widget>
+                              <packing>
+                                <property name="TopAttach">2</property>
+                                <property name="BottomAttach">3</property>
                                 <property name="LeftAttach">2</property>
                                 <property name="RightAttach">3</property>
                                 <property name="AutoSize">False</property>

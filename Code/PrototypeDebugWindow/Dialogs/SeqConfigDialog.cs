@@ -348,13 +348,20 @@ namespace Frontend
 			if (args.Event.Button == 3) { /* right click */
 				Menu m = new Menu ();
 
-				MenuItem deleteItem = new MenuItem ("Delete this SequenceOperation");
+				MenuItem deleteItem = new MenuItem ("Delete this operation");
 				deleteItem.ButtonPressEvent += (obj, e) => {
 					SequenceOperationTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
 					PinSequence.Chain.RemoveAt (node.Index);
 					DisplaySequenceInfos ();
 				};
+
+				ImageMenuItem clearItem = new ImageMenuItem ("Clear operaitons");
+				clearItem.Image = new Gtk.Image (Gtk.Stock.Clear, Gtk.IconSize.Menu);
+				clearItem.ButtonPressEvent += (obj, e) => ClearOperations ();
+
 				m.Add (deleteItem);
+				m.Add (new SeparatorMenuItem ());
+				m.Add (clearItem);
 				m.ShowAll ();
 				m.Popup ();
 			}
@@ -521,7 +528,26 @@ namespace Frontend
 
 		protected void OnCbeGroupsChanged (object sender, EventArgs e)
 		{
-			throw new NotImplementedException ();
+			PinSequence.GroupName = cbeGroups.ActiveText;
+		}
+
+		private void ClearOperations ()
+		{
+			var dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Question, ButtonsType.YesNo, "You are about to delete all operations from this sequence.\nDo you wish to proceede?");
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
+					PinSequence.Chain.Clear ();
+					DisplaySequenceInfos ();
+				}
+			};
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+
+		protected void OnBtnClearOperationsClicked (object sender, EventArgs e)
+		{
+			ClearOperations ();
 		}
 	}
 }
