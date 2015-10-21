@@ -74,7 +74,7 @@ namespace Frontend
 		/// <param name="parent">Parent.</param>
 		/// <param name="units">Units.</param>
 		public AComConfigDialog (APin[] pins, MeasurementCombination signal = null, APin pin = null, Gtk.Window parent = null, List<string> units = null)
-			: base ("Signal Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
+			: base ("Analog Inputs Combinations - Dialog", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
 
@@ -119,7 +119,6 @@ namespace Frontend
 			};
 		
 			CompileTimer.Elapsed += CompileTimerElapsed;
-
 
 			Units = units;
 			ListStore store = new ListStore (typeof(string));
@@ -204,10 +203,13 @@ namespace Frontend
 				cbPins.Active = 0;
 			}
 
-			if (!CheckMeasurementsOnInterval ()) {
+			if (!Combination_.CheckPinIntervalEquality ()) {
 				lblWarning.Visible = true;
+				sbMeanValuesCount.Sensitive = false;
+				sbMeanValuesCount.Value = 1;
 			} else {
 				lblWarning.Visible = false;
+				sbMeanValuesCount.Sensitive = true;
 			}
 
 			cbPins.ShowAll ();
@@ -240,22 +242,6 @@ namespace Frontend
 			DrawNodeView ();
 
 			SetApplyButton ();
-		}
-
-		/// <summary>
-		/// Checks the interval of the selected pins on whether their interval ist equal or different.
-		/// </summary>
-		/// <returns><c>true</c>, if intervals are equal, <c>false</c> otherwise.</returns>
-		private bool CheckMeasurementsOnInterval ()
-		{
-			foreach (APin i in Combination_.Pins) {
-				foreach (APin j in Combination_.Pins) {
-					if (i.Interval - j.Interval > 0.00000000000000000000001) {
-						return false;
-					}
-				}
-			}
-			return true;
 		}
 
 		/// <summary>

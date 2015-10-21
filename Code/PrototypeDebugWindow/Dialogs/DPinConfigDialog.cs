@@ -39,7 +39,7 @@ namespace Frontend
 		/// <param name="dpin">Dpin.</param>
 		/// <param name="parent">Parent.</param>
 		public DPinConfigDialog (DPin[] availablePins, DPin dpin = null, Gtk.Window parent = null)
-			: base ("Digital Pin Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
+			: base ("Digital Output - Dialog", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
 
@@ -57,7 +57,8 @@ namespace Frontend
 				Pin = dpin;
 			} else {
 				pin = new DPin ();
-				cbColor.Color = GUIHelper.ColorHelper.GetRandomGdkColor (); 
+				pin.PlotColor = GUIHelper.ColorHelper.GetRandomGdkColor ();
+				cbColor.Color = pin.PlotColor;
 			}
 
 			for (int i = 0; i < availablePins.Length; i++) {

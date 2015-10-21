@@ -134,7 +134,7 @@
           <widget class="Gtk.HPaned" id="hpanedMain">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">324</property>
+            <property name="Position">325</property>
             <child>
               <widget class="Gtk.VBox" id="vbox5">
                 <property name="MemberName" />
@@ -186,6 +186,7 @@
                                     <property name="MemberName" />
                                     <property name="IsTextCombo">True</property>
                                     <property name="Items" translatable="yes" />
+                                    <signal name="Changed" handler="OnCbBoardTypeChanged" />
                                   </widget>
                                   <packing>
                                     <property name="Position">1</property>
@@ -222,6 +223,7 @@
                                     <property name="MemberName" />
                                     <property name="IsTextCombo">True</property>
                                     <property name="Items" translatable="yes" />
+                                    <signal name="Changed" handler="OnCbAREFChanged" />
                                   </widget>
                                   <packing>
                                     <property name="Position">1</property>
@@ -319,7 +321,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">4</property>
+                <property name="CurrentPage">0</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -380,7 +382,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-add Menu</property>
-                                        <property name="Label" translatable="yes">Add Measurement...</property>
+                                        <property name="Label" translatable="yes">Add input...</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -397,7 +399,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-copy Menu</property>
-                                        <property name="Label" translatable="yes">Duplicate</property>
+                                        <property name="Label" translatable="yes">Duplicate input</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -413,7 +415,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-edit Menu</property>
-                                        <property name="Label" translatable="yes">Edit Measurement...</property>
+                                        <property name="Label" translatable="yes">Edit input...</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -430,7 +432,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-delete Menu</property>
-                                        <property name="Label" translatable="yes">Delete Measurement</property>
+                                        <property name="Label" translatable="yes">Delete input</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -447,7 +449,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-clear Menu</property>
-                                        <property name="Label" translatable="yes">Clear</property>
+                                        <property name="Label" translatable="yes">Clear inputs</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -477,7 +479,7 @@
                         <child>
                           <widget class="Gtk.Label" id="GtkLabel21">
                             <property name="MemberName" />
-                            <property name="LabelProp" translatable="yes">&lt;b&gt;Measurements&lt;/b&gt;</property>
+                            <property name="LabelProp" translatable="yes">&lt;b&gt;Analog Inputs&lt;/b&gt;</property>
                             <property name="UseMarkup">True</property>
                           </widget>
                           <packing>
@@ -500,7 +502,7 @@
                 <child>
                   <widget class="Gtk.Label" id="label6">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Measurements</property>
+                    <property name="LabelProp" translatable="yes">Analog Inputs</property>
                   </widget>
                   <packing>
                     <property name="type">tab</property>
@@ -532,7 +534,7 @@
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-add Menu</property>
-                                    <property name="Label" translatable="yes">Add Combination...</property>
+                                    <property name="Label" translatable="yes">Add combination...</property>
                                     <property name="UseUnderline">True</property>
                                   </widget>
                                   <packing>
@@ -549,7 +551,7 @@
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-copy Menu</property>
-                                    <property name="Label" translatable="yes">Duplicate</property>
+                                    <property name="Label" translatable="yes">Duplicate combination</property>
                                     <property name="UseUnderline">True</property>
                                   </widget>
                                   <packing>
@@ -565,7 +567,7 @@
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-edit Menu</property>
-                                    <property name="Label" translatable="yes">Edit Combination...</property>
+                                    <property name="Label" translatable="yes">Edit combination...</property>
                                     <property name="UseUnderline">True</property>
                                   </widget>
                                   <packing>
@@ -582,7 +584,7 @@
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-delete Menu</property>
-                                    <property name="Label" translatable="yes">Delete Combination</property>
+                                    <property name="Label" translatable="yes">Delete combination</property>
                                     <property name="UseUnderline">True</property>
                                   </widget>
                                   <packing>
@@ -599,7 +601,7 @@
                                     <property name="CanFocus">True</property>
                                     <property name="Type">TextAndIcon</property>
                                     <property name="Icon">stock:gtk-clear Menu</property>
-                                    <property name="Label" translatable="yes">Clear</property>
+                                    <property name="Label" translatable="yes">Clear combinations</property>
                                     <property name="UseUnderline">True</property>
                                   </widget>
                                   <packing>
@@ -641,7 +643,7 @@
                     <child>
                       <widget class="Gtk.Label" id="GtkLabel34">
                         <property name="MemberName" />
-                        <property name="LabelProp" translatable="yes">&lt;b&gt;Measurement Combinations&lt;/b&gt;</property>
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Analog Input Combinations&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
                       </widget>
                       <packing>
@@ -657,7 +659,7 @@
                 <child>
                   <widget class="Gtk.Label" id="label7">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Measurement Combinations</property>
+                    <property name="LabelProp" translatable="yes">Analog Input Combinations</property>
                   </widget>
                   <packing>
                     <property name="type">tab</property>
@@ -719,7 +721,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-add Menu</property>
-                                        <property name="Label" translatable="yes">Add digital Output...</property>
+                                        <property name="Label" translatable="yes">Add output...</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -736,7 +738,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-copy Menu</property>
-                                        <property name="Label" translatable="yes">Duplicate</property>
+                                        <property name="Label" translatable="yes">Duplicate output</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -752,7 +754,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-edit Menu</property>
-                                        <property name="Label" translatable="yes">Edit digital Output...</property>
+                                        <property name="Label" translatable="yes">Edit output...</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -769,7 +771,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-delete Menu</property>
-                                        <property name="Label" translatable="yes">Delete digital Output</property>
+                                        <property name="Label" translatable="yes">Delete output</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -786,7 +788,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-clear Menu</property>
-                                        <property name="Label" translatable="yes">Clear</property>
+                                        <property name="Label" translatable="yes">Clear outputs</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -837,7 +839,7 @@
                 <child>
                   <widget class="Gtk.Label" id="label5">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Output</property>
+                    <property name="LabelProp" translatable="yes">Digital Outputs</property>
                   </widget>
                   <packing>
                     <property name="type">tab</property>
@@ -874,7 +876,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-add Menu</property>
-                                        <property name="Label" translatable="yes">Add Sequence...</property>
+                                        <property name="Label" translatable="yes">Add sequence...</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -891,7 +893,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-copy Menu</property>
-                                        <property name="Label" translatable="yes">Duplicate</property>
+                                        <property name="Label" translatable="yes">Duplicate sequence</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -907,7 +909,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-edit Menu</property>
-                                        <property name="Label" translatable="yes">Edit Sequence...</property>
+                                        <property name="Label" translatable="yes">Edit sequence...</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -924,7 +926,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-delete Menu</property>
-                                        <property name="Label" translatable="yes">Delete Sequence</property>
+                                        <property name="Label" translatable="yes">Delete sequence</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -941,7 +943,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextAndIcon</property>
                                         <property name="Icon">stock:gtk-clear Menu</property>
-                                        <property name="Label" translatable="yes">Clear</property>
+                                        <property name="Label" translatable="yes">Clear Sequences</property>
                                         <property name="UseUnderline">True</property>
                                       </widget>
                                       <packing>
@@ -1619,10 +1621,16 @@
                     <child>
                       <widget class="Gtk.Table" id="table5">
                         <property name="MemberName" />
-                        <property name="NRows">3</property>
+                        <property name="NRows">4</property>
                         <property name="NColumns">3</property>
                         <property name="RowSpacing">6</property>
                         <property name="ColumnSpacing">6</property>
+                        <child>
+                          <placeholder />
+                        </child>
+                        <child>
+                          <placeholder />
+                        </child>
                         <child>
                           <placeholder />
                         </child>
@@ -1661,6 +1669,56 @@
                           </packing>
                         </child>
                         <child>
+                          <widget class="Gtk.HBox" id="hbox2">
+                            <property name="MemberName" />
+                            <property name="Spacing">6</property>
+                            <child>
+                              <widget class="Gtk.Label" id="label28">
+                                <property name="MemberName" />
+                                <property name="LabelProp" translatable="yes">Maximum Count of Values per Signal:</property>
+                              </widget>
+                              <packing>
+                                <property name="Position">0</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.SpinButton" id="sbtnMaxValueCountPlot1">
+                                <property name="MemberName" />
+                                <property name="CanFocus">True</property>
+                                <property name="Lower">1</property>
+                                <property name="Upper">10000</property>
+                                <property name="PageIncrement">10</property>
+                                <property name="StepIncrement">1</property>
+                                <property name="ClimbRate">1</property>
+                                <property name="Numeric">True</property>
+                                <property name="Value">1000</property>
+                              </widget>
+                              <packing>
+                                <property name="Position">1</property>
+                                <property name="AutoSize">False</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="TopAttach">3</property>
+                            <property name="BottomAttach">4</property>
+                            <property name="LeftAttach">1</property>
+                            <property name="RightAttach">2</property>
+                            <property name="AutoSize">True</property>
+                            <property name="XOptions">Fill</property>
+                            <property name="YOptions">Fill</property>
+                            <property name="XExpand">False</property>
+                            <property name="XFill">True</property>
+                            <property name="XShrink">False</property>
+                            <property name="YExpand">False</property>
+                            <property name="YFill">True</property>
+                            <property name="YShrink">False</property>
+                          </packing>
+                        </child>
+                        <child>
                           <widget class="Gtk.HButtonBox" id="hbuttonbox2">
                             <property name="MemberName" />
                             <property name="Homogeneous">True</property>
@@ -1674,6 +1732,7 @@
                                 <property name="Icon">stock:gtk-media-previous Menu</property>
                                 <property name="Label" translatable="yes">Jump to start</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnRealTimePlotJumpStartClicked" />
                               </widget>
                               <packing>
                                 <property name="Expand">False</property>
@@ -1688,6 +1747,7 @@
                                 <property name="Icon">stock:gtk-media-record Menu</property>
                                 <property name="Label" translatable="yes">Snapshot</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnRealTimePlotSnapshotClicked" />
                               </widget>
                               <packing>
                                 <property name="Position">1</property>
@@ -1703,6 +1763,7 @@
                                 <property name="Icon">stock:gtk-media-pause Button</property>
                                 <property name="Label" translatable="yes">Pause plot</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnRealTimePlotPauseClicked" />
                               </widget>
                               <packing>
                                 <property name="Position">2</property>
@@ -1718,6 +1779,7 @@
                                 <property name="Icon">stock:gtk-media-next Menu</property>
                                 <property name="Label" translatable="yes">Jump to latest points</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="OnBtnRealTimePlotJumpLatestClicked" />
                               </widget>
                               <packing>
                                 <property name="Position">3</property>
@@ -2037,6 +2099,7 @@
           <widget class="Gtk.Statusbar" id="statusbar1">
             <property name="MemberName" />
             <property name="Spacing">6</property>
+            <property name="BorderWidth">2</property>
             <property name="HasResizeGrip">False</property>
             <child>
               <widget class="Gtk.Image" id="ImageConnectionStatus">
@@ -2047,9 +2110,8 @@
               </widget>
               <packing>
                 <property name="Position">0</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="Expand">False</property>
-                <property name="Fill">False</property>
               </packing>
             </child>
             <child>
@@ -2083,9 +2145,8 @@
               </widget>
               <packing>
                 <property name="Position">3</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="Expand">False</property>
-                <property name="Fill">False</property>
               </packing>
             </child>
             <child>
@@ -2117,9 +2178,8 @@
               </widget>
               <packing>
                 <property name="Position">6</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="Expand">False</property>
-                <property name="Fill">False</property>
               </packing>
             </child>
             <child>

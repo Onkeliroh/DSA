@@ -49,6 +49,10 @@ public partial class MainWindow: Gtk.Window
 
 		model = new PlotModel () {
 			PlotType = PlotType.XY,
+			LegendPosition = LegendPosition.RightMiddle,
+			IsLegendVisible = true,
+			LegendPlacement = LegendPlacement.Outside,
+			LegendBorder = OxyColors.Black,
 		};
 
 		model.Axes.Add (XAxis);
@@ -113,7 +117,7 @@ public partial class MainWindow: Gtk.Window
 		} else {
 			var rng = new Random ();
 
-			var series = new OxyPlot.Series.LineSeries ();
+			var series = new OxyPlot.Series.LineSeries (){ Title = "Test" };
 
 			timer.Elapsed += (o, args) => {
 				series.Points.Add (new DataPoint (DateTime.Now.ToOADate (), rng.NextDouble ()));	
@@ -121,24 +125,16 @@ public partial class MainWindow: Gtk.Window
 				view.QueueDraw ();
 
 				if (series.Points.Count == 1) {
-//					XAxis.Pan (series.Points.Last ().X);
 				} else if (series.Points.Count > 2) {
-//					XAxis.Pan (series.Points [series.Points.Count - 1].X - series.Points [series.Points.Count - 2].X);
 					XAxis.Pan (new ScreenPoint (XAxis.Transform (series.Points.Last ().X), 0), new ScreenPoint (XAxis.Transform (series.Points [series.Points.Count - 2].X), 0));
-
-//					Log ((XAxis.Offset - prevoffset).ToString () +
-//					"\t" +
-//					(XAxis.InverseTransform (series.Points [series.Points.Count - 1].X) - XAxis.InverseTransform (series.Points [series.Points.Count - 2].X)).ToString () +
-//					"\t" +
-//					(series.Points [series.Points.Count - 1].X - series.Points [series.Points.Count - 2].X).ToString ()
-//					);
 				}
-//				Log (string.Format ("{0}\t{1}", series.Points.Last ().X, XAxis.Offset));
 				prevoffset = XAxis.Offset;
 			};
 
 			model.Series.Clear ();
 			model.Series.Add (series);
+
+//			view.Model = model;
 
 			timer.Start ();
 		}

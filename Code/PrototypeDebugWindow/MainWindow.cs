@@ -662,6 +662,7 @@ namespace Frontend
 			foreach (APin a in con.Configuration.AnalogPins) {
 				var series = new LineSeries () {
 					Color = ColorHelper.GdkColorToOxyColor (a.PlotColor),
+					Title = a.DisplayName,
 					DataFieldX = "Time",
 					DataFieldY = "Value",
 					YAxisKey = a.Unit,
@@ -835,7 +836,6 @@ namespace Frontend
 		{
 			btnAddAPin.ButtonPressEvent += OnBtnAddAPinClicked;
 			btnEditAPin.ButtonPressEvent += OnBtnEditAPinClicked;
-			btnRemoveAPin.ButtonPressEvent += OnBtnRemoveAPinClicked;
 			btnClearAPins.ButtonPressEvent += OnBtnClearAPinsClicked;
 
 			btnAddDPin.ButtonPressEvent += OnBtnAddDPinClicked;
@@ -1422,7 +1422,7 @@ namespace Frontend
 				Background = OxyPlot.OxyColors.White,
 				IsLegendVisible = true,
 				LegendOrientation = LegendOrientation.Horizontal,
-				LegendPlacement = LegendPlacement.Inside,
+				LegendPlacement = LegendPlacement.Outside,
 				LegendPosition = LegendPosition.RightMiddle
 			};
 
@@ -2051,7 +2051,7 @@ namespace Frontend
 				path += con.Configuration.CSVSaveFolderPath;
 				if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
 					path += "/";
-				} else if (Environment.OSVersion.Platform == PlatformID.Unix) {
+				} else if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) {
 					path += @"\";
 				}
 			}
@@ -2434,7 +2434,6 @@ namespace Frontend
 			btnEditDPin.Sensitive = sensitive;
 			btnEditSequence.Sensitive = sensitive;
 			btnEditSignal.Sensitive = sensitive;
-			btnRemoveAPin.Sensitive = sensitive;
 			btnRemoveDPin.Sensitive = sensitive;
 			btnRemoveSequence.Sensitive = sensitive;
 			btnRemoveSignal.Sensitive = sensitive;
@@ -2699,7 +2698,6 @@ namespace Frontend
 			RunPreferencesDialog ();
 		}
 
-
 		protected void OnBtnCSVOpenFolderClicked (object sender, EventArgs e)
 		{
 			if (System.IO.File.Exists (con.Configuration.CSVSaveFolderPath)) {
@@ -2711,14 +2709,13 @@ namespace Frontend
 
 		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)
 		{
-			//TODO implement
 			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (con.StartTime.ToOADate ()), 0), new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMinimum), 0));
 		}
 
 
 		protected void OnBtnRealTimePlotJumpLatestClicked (object sender, EventArgs e)
 		{
-			//TODO implement
+			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMaximum), 0), new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0));
 		}
 
 		protected void OnBtnRealTimePlotFitDataClicked (object sender, EventArgs e)

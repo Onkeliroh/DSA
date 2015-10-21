@@ -145,7 +145,7 @@ namespace PrototypeBackend
 		/// <value>The value.</value>
 		public DateTimeValue Value {
 			set { 
-				RAWValues.Add (value); 
+                AddRawValue(value);
 				double val = CalcValue ();
 				if (!double.IsNaN (val)) {
 					Values.Add (new DateTimeValue (CalcValue (), value.Time));
@@ -319,6 +319,22 @@ namespace PrototypeBackend
 		{
 			return (raw * Slope) + Offset;
 		}
+
+        private void AddRawValue(DateTimeValue value)
+        {
+            RAWValues.Add(value);
+            if (OnNewRAWValue != null)
+            {
+                OnNewRAWValue.Invoke(
+                    this,
+                    new NewMeasurementValue() {
+                        RAW = value.Value,
+                        Value = value.Value,
+                        Time = DateTime.FromOADate(value.Time) 
+                    }
+               );
+            }
+        }
 
 		#endregion
 

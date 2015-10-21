@@ -31,13 +31,14 @@ namespace PrototypeBackend
 		/// <value>The display name.</value>
 		public string DisplayName { 
 			get {
-				string s = Name;
+				string s = "";
+				s += Name;
 				s += "( ";
 				foreach (APin a in Pins) {
 					s += a.DisplayNumberShort + " ";
 				}
-				s += "(";
-				return Name; 
+				s += ")";
+				return s; 
 			} 
 			set { } 
 		}
@@ -204,7 +205,7 @@ namespace PrototypeBackend
 					return double.NaN;
 				}
 			} else {
-				return double.NaN;
+				return Operation (Pins.Select (o => o.Values.Last ().Value).ToArray ());
 			}
 		}
 

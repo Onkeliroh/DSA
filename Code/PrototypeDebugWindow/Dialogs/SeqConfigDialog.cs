@@ -95,7 +95,7 @@ namespace Frontend
 		/// <param name="RefPin">Reference pin.</param>
 		/// <param name="parent">Parent.</param>
 		public SeqConfigDialog (DPin[] pins, List<string> groups, Sequence seq = null, DPin RefPin = null, Gtk.Window parent = null)
-			: base ("Sequence Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
+			: base ("Digital Sequences - Dialog", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
 

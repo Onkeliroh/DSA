@@ -65,7 +65,7 @@ namespace Frontend
 		/// <param name="apin">Apin.</param>
 		/// <param name="parent">Parent.</param>
 		public APinConfigDialog (APin[] availablePins, APin apin = null, Gtk.Window parent = null, List<string> units = null)
-			: base ("Analog Pin Configuration", parent, Gtk.DialogFlags.Modal, new object[0])
+			: base ("Analog Input - Dialog", parent, Gtk.DialogFlags.Modal, new object[0])
 		{
 			this.Build ();
 
