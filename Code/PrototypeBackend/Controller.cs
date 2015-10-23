@@ -232,11 +232,21 @@ namespace PrototypeBackend
 			WritePreferences ();
 		}
 
-		public void LoadLastConfigAndConnect ()
+		/// <summary>
+		/// Loads the last config.
+		/// </summary>
+		public void LoadLastConfig ()
 		{
 			if (!string.IsNullOrEmpty (Properties.Settings.Default.Config1)) {
 				OpenConfiguration (Properties.Settings.Default.Config1);
 			}	
+		}
+
+		/// <summary>
+		/// Connects to last port.
+		/// </summary>
+		public void ConnectToLastPort ()
+		{
 			if (!string.IsNullOrEmpty (Properties.Settings.Default.LastConnectedPort)) {
 				ArduinoController.SerialPortName = Properties.Settings.Default.LastConnectedPort;
 				ArduinoController.Setup (Configuration.Board.UseDTR);

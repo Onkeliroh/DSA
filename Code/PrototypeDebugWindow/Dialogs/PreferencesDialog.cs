@@ -21,7 +21,7 @@ namespace Frontend
 		{
 			cbDebuggingMode.Active = Frontend.Settings.Default.DebugMode;
 			cbMaximizedStart.Active = Frontend.Settings.Default.StartMaximized;
-			cbAutoConnect.Active = Frontend.Settings.Default.AutoConnect;
+			cbConnectLastPort.Active = Frontend.Settings.Default.AutoConnect;
 			cbLoadLastConfig.Active = Frontend.Settings.Default.LoadLastFile;
 			cbtnenablelogging.Active = Con.LogToFile;
 			entryLogFilePath.Text = Con.LogFilePath;
@@ -43,6 +43,7 @@ namespace Frontend
 		private void BindEvents ()
 		{
 			cbLoadLastConfig.Toggled += OnCbLoadLastConfigToggled;
+			cbConnectLastPort.Toggled += OnCbConnectLastPortToggled;
 		}
 
 		protected void OnCbDebuggingModeToggled (object sender, EventArgs e)
@@ -54,12 +55,6 @@ namespace Frontend
 		protected void OnCbMaximizedStartToggled (object sender, EventArgs e)
 		{
 			Frontend.Settings.Default.StartMaximized = cbMaximizedStart.Active;
-			Frontend.Settings.Default.Save ();
-		}
-
-		protected void OnCbAutoConnectToggled (object sender, EventArgs e)
-		{
-			Frontend.Settings.Default.AutoConnect = cbAutoConnect.Active;
 			Frontend.Settings.Default.Save ();
 		}
 
@@ -90,6 +85,12 @@ namespace Frontend
 		private void OnCbLoadLastConfigToggled (object sender, EventArgs e)
 		{
 			Frontend.Settings.Default.LoadLastFile = cbLoadLastConfig.Active;
+			Frontend.Settings.Default.Save ();
+		}
+
+		private void OnCbConnectLastPortToggled (object sender, EventArgs e)
+		{
+			Frontend.Settings.Default.ConnectToLastPort = cbLoadLastConfig.Active;
 			Frontend.Settings.Default.Save ();
 		}
 	}

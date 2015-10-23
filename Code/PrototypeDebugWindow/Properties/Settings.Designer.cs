@@ -72,5 +72,17 @@ namespace Frontend
 				this ["LoadLastFile"] = value;
 			}
 		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("True")]
+		public bool ConnectToLastPort {
+			get {
+				return ((bool)(this ["ConnectToLastPort"]));
+			}
+			set {
+				this ["ConnectToLastPort"] = value;
+			}
+		}
 	}
 }

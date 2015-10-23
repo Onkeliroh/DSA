@@ -93,7 +93,11 @@ namespace Frontend
 			}
 
 			if (Frontend.Settings.Default.LoadLastFile) {
-				con.LoadLastConfigAndConnect ();
+				con.LoadLastConfig ();
+			}
+
+			if (Frontend.Settings.Default.ConnectToLastPort) {
+				con.ConnectToLastPort ();
 			}
 		}
 

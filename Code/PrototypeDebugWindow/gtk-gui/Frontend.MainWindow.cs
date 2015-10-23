@@ -511,7 +511,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 5;
+			this.notebook1.CurrentPage = 4;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -1042,6 +1042,7 @@ namespace Frontend
 			this.frameCSVLoggerSettings = new global::Gtk.Frame ();
 			this.frameCSVLoggerSettings.Name = "frameCSVLoggerSettings";
 			this.frameCSVLoggerSettings.ShadowType = ((global::Gtk.ShadowType)(0));
+			this.frameCSVLoggerSettings.BorderWidth = ((uint)(2));
 			// Container child frameCSVLoggerSettings.Gtk.Container+ContainerChild
 			this.GtkAlignment31 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment31.Name = "GtkAlignment31";
@@ -1126,7 +1127,8 @@ namespace Frontend
 			w92.BottomAttach = ((uint)(2));
 			w92.LeftAttach = ((uint)(1));
 			w92.RightAttach = ((uint)(2));
-			w92.YOptions = ((global::Gtk.AttachOptions)(0));
+			w92.XOptions = ((global::Gtk.AttachOptions)(4));
+			w92.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.hbox1 = new global::Gtk.HBox ();
 			this.hbox1.Name = "hbox1";
@@ -1281,7 +1283,7 @@ namespace Frontend
 			w108.BottomAttach = ((uint)(3));
 			w108.LeftAttach = ((uint)(1));
 			w108.RightAttach = ((uint)(3));
-			w108.YOptions = ((global::Gtk.AttachOptions)(0));
+			w108.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.GtkAlignment31.Add (this.tableCSVLoggerSettings);
 			this.frameCSVLoggerSettings.Add (this.GtkAlignment31);
 			this.GtkLabel41 = new global::Gtk.Label ();
@@ -1687,7 +1689,7 @@ namespace Frontend
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 1207;
+			this.DefaultWidth = 1208;
 			this.DefaultHeight = 600;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);

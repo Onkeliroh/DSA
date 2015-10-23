@@ -2106,14 +2106,13 @@
                   <placeholder />
                 </child>
                 <child>
-                  <widget class="Gtk.CheckButton" id="cbAutoConnect">
+                  <widget class="Gtk.CheckButton" id="cbConnectLastPort">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Label" translatable="yes">Try to connect automaticly to a available device.</property>
+                    <property name="Label" translatable="yes">Try to connect to the last used serial port</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
-                    <signal name="Toggled" handler="OnCbAutoConnectToggled" />
                   </widget>
                   <packing>
                     <property name="TopAttach">1</property>
@@ -2164,7 +2163,6 @@
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
-                    <signal name="Toggled" handler="OnCbAutoConnectToggled" />
                   </widget>
                   <packing>
                     <property name="LeftAttach">1</property>
@@ -2292,7 +2290,7 @@
                   <widget class="Gtk.Label" id="label6">
                     <property name="MemberName" />
                     <property name="Xalign">0</property>
-                    <property name="LabelProp" translatable="yes">Attempt automatic connection:</property>
+                    <property name="LabelProp" translatable="yes">Connect to last used port:</property>
                   </widget>
                   <packing>
                     <property name="TopAttach">1</property>

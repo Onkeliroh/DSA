@@ -8,7 +8,7 @@ namespace Frontend
 		
 		private global::Gtk.Table table2;
 		
-		private global::Gtk.CheckButton cbAutoConnect;
+		private global::Gtk.CheckButton cbConnectLastPort;
 		
 		private global::Gtk.CheckButton cbDebuggingMode;
 		
@@ -77,14 +77,14 @@ namespace Frontend
 			this.table2.ColumnSpacing = ((uint)(6));
 			this.table2.BorderWidth = ((uint)(6));
 			// Container child table2.Gtk.Table+TableChild
-			this.cbAutoConnect = new global::Gtk.CheckButton ();
-			this.cbAutoConnect.CanFocus = true;
-			this.cbAutoConnect.Name = "cbAutoConnect";
-			this.cbAutoConnect.Label = global::Mono.Unix.Catalog.GetString ("Try to connect automaticly to a available device.");
-			this.cbAutoConnect.DrawIndicator = true;
-			this.cbAutoConnect.UseUnderline = true;
-			this.table2.Add (this.cbAutoConnect);
-			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table2 [this.cbAutoConnect]));
+			this.cbConnectLastPort = new global::Gtk.CheckButton ();
+			this.cbConnectLastPort.CanFocus = true;
+			this.cbConnectLastPort.Name = "cbConnectLastPort";
+			this.cbConnectLastPort.Label = global::Mono.Unix.Catalog.GetString ("Try to connect to the last used serial port");
+			this.cbConnectLastPort.DrawIndicator = true;
+			this.cbConnectLastPort.UseUnderline = true;
+			this.table2.Add (this.cbConnectLastPort);
+			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table2 [this.cbConnectLastPort]));
 			w2.TopAttach = ((uint)(1));
 			w2.BottomAttach = ((uint)(2));
 			w2.LeftAttach = ((uint)(1));
@@ -181,7 +181,7 @@ namespace Frontend
 			this.label6 = new global::Gtk.Label ();
 			this.label6.Name = "label6";
 			this.label6.Xalign = 0F;
-			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Attempt automatic connection:");
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Connect to last used port:");
 			this.table2.Add (this.label6);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table2 [this.label6]));
 			w10.TopAttach = ((uint)(1));
@@ -359,9 +359,7 @@ namespace Frontend
 			this.label7.Hide ();
 			this.Show ();
 			this.cbMaximizedStart.Toggled += new global::System.EventHandler (this.OnCbMaximizedStartToggled);
-			this.cbLoadLastConfig.Toggled += new global::System.EventHandler (this.OnCbAutoConnectToggled);
 			this.cbDebuggingMode.Toggled += new global::System.EventHandler (this.OnCbDebuggingModeToggled);
-			this.cbAutoConnect.Toggled += new global::System.EventHandler (this.OnCbAutoConnectToggled);
 			this.cbtnenablelogging.Toggled += new global::System.EventHandler (this.OnCbtnenableloggingToggled);
 			this.cboxLogLevel.Changed += new global::System.EventHandler (this.OnCboxLogLevelChanged);
 			this.btnLogFilePath.Clicked += new global::System.EventHandler (this.OnBtnLogFilePathClicked);
