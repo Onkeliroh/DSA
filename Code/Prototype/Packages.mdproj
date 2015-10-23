@@ -6,22 +6,18 @@
     <Packages>
       <Packages>
         <Package name="Microsoft Windows Binaries">
-          <Builder targetFile="..\..\Tools\WindowsPackage\Prototype.zip" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="Prototype.tar.gz" platform="Windows" configuration="Debug" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
               <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
               <SolutionItemReference path="..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj" />
               <SolutionItemReference path="..\DigitalPinConfigurationDialog\DigitalPinConfigurationDialog.csproj" />
               <SolutionItemReference path="..\SignalConfigurationDialog\MeasurementCombinationDialog.csproj" />
-              <SolutionItemReference path="..\GUIHelper\GUIHelper.csproj" />
-              <SolutionItemReference path="..\SequenceConfigurationsDialog\SequenceConfigurationsDialog.csproj" />
+              <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
               <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj" />
               <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj" />
               <SolutionItemReference path="..\Logger\Logger.csproj" />
               <SolutionItemReference path="..\Starter\Starter.csproj" />
-              <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
-              <SolutionItemReference path="Prototype.sln" id="{A12F99B0-3709-47FD-B8A9-6101257C8F16}" />
-              <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
             </ChildEntries>
             <ExcludedFiles>
               <File>Frontend,ProgramFiles,MainWindow.cs</File>
@@ -30,32 +26,27 @@
           </Builder>
         </Package>
         <Package name="Linux Binaries">
-          <Builder targetFile="..\..\Tools\LinuxPackage\Prototype.zip" platform="Linux" configuration="Release" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\..\Tools\LinuxPackage\Prototype.zip" platform="Linux" configuration="Debug|x86" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
               <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
               <SolutionItemReference path="..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj" />
               <SolutionItemReference path="..\DigitalPinConfigurationDialog\DigitalPinConfigurationDialog.csproj" />
               <SolutionItemReference path="..\SignalConfigurationDialog\MeasurementCombinationDialog.csproj" />
-              <SolutionItemReference path="..\GUIHelper\GUIHelper.csproj" />
-              <SolutionItemReference path="..\SequenceConfigurationsDialog\SequenceConfigurationsDialog.csproj" />
+              <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
               <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj" />
               <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj" />
               <SolutionItemReference path="..\Logger\Logger.csproj" />
               <SolutionItemReference path="..\Starter\Starter.csproj" />
-              <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
-              <SolutionItemReference path="Prototype.sln" id="{A12F99B0-3709-47FD-B8A9-6101257C8F16}" />
-              <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
             </ChildEntries>
             <ExcludedFiles>
               <File>Frontend,ProgramFiles,MainWindow.cs</File>
+              <File>Logger,ProgramFiles,nunit.framework.dll</File>
             </ExcludedFiles>
             <RootEntry path="Prototype.sln" id=":root:" />
           </Builder>
         </Package>
       </Packages>
     </Packages>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
 </Project>
