@@ -698,7 +698,11 @@ namespace Frontend
 				RealTimePlotView.Model.Series.Add (series);
 			}
 
+			RealTimeXAxis.Minimum = con.StartTime.AddMinutes (-2).ToOADate ();
+			RealTimeXAxis.Maximum = con.StartTime.AddMinutes (2).ToOADate ();
+
 			ToggleRealTimePlotMarker ();
+			ToggleRealTimePlotSmooth ();
 		}
 
 		#endregion
@@ -2160,6 +2164,34 @@ namespace Frontend
 			ToggleRealTimePlotSmooth ();
 		}
 
+		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)
+		{
+			if (RealTimeXAxis.ActualMinimum > con.StartTime.ToOADate ()) {
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (con.StartTime.ToOADate ()), 0), new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMinimum), 0));
+			} else {
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMinimum), 0), new ScreenPoint (RealTimeXAxis.Transform (con.StartTime.ToOADate ()), 0));
+			}
+		}
+
+		protected void OnBtnRealTimePlotJumpLatestClicked (object sender, EventArgs e)
+		{
+			if (RealTimeXAxis.ActualMaximum > LastTimeKeeperPresenterTick) {
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMaximum), 0), new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0));
+			} else {
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0), new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMaximum), 0));
+			}
+		}
+
+		protected void OnBtnRealTimePlotFitDataClicked (object sender, EventArgs e)
+		{
+			RealTimeXAxis.Zoom (con.StartTime.ToOADate (), LastTimeKeeperPresenterTick);
+		}
+
+		protected void OnBtnRealTimePlotResetZoomClicked (object sender, EventArgs e)
+		{
+			RealTimeXAxis.Zoom (DefaultZoomValue);
+		}
+
 		#endregion
 
 		/// <summary>
@@ -2773,26 +2805,6 @@ namespace Frontend
 			}
 		}
 
-		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)
-		{
-			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (con.StartTime.ToOADate ()), 0), new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMinimum), 0));
-		}
-
-
-		protected void OnBtnRealTimePlotJumpLatestClicked (object sender, EventArgs e)
-		{
-			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMaximum), 0), new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0));
-		}
-
-		protected void OnBtnRealTimePlotFitDataClicked (object sender, EventArgs e)
-		{
-			RealTimeXAxis.Zoom (con.StartTime.ToOADate (), LastTimeKeeperPresenterTick);
-		}
-
-		protected void OnBtnRealTimePlotResetZoomClicked (object sender, EventArgs e)
-		{
-			RealTimeXAxis.Zoom (DefaultZoomValue);
-		}
 
 		#endregion
 	}

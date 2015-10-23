@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Logger
 {
-	public class LogMessageArgs
+	public class LogMessageArgs : EventArgs
 	{
 		public DateTime Time { get; private set; }
 
@@ -13,11 +13,9 @@ namespace Logger
 
 		public LogMessageArgs (string message, object time = null, LogLevel level = LogLevel.INFO)
 		{
-			if (time != null)
-			{
+			if (time != null) {
 				Time = (DateTime)time;
-			} else
-			{
+			} else {
 				Time = DateTime.Now;
 			}
 			Level = level;

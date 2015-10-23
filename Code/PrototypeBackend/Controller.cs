@@ -390,7 +390,6 @@ namespace PrototypeBackend
 
 					var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
 					if (analogPins.Length > 0) {
-						Console.WriteLine (time + " Tick");
 						var query = analogPins.Select (o => o.Number).ToArray ();
 						var vals = ArduinoController.ReadAnalogPin (query);
 

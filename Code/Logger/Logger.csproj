@@ -11,8 +11,6 @@
     <AssemblyName>Logger</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +41,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="nunit.framework">
       <HintPath>packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Package>nunit</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +59,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Tests\" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
