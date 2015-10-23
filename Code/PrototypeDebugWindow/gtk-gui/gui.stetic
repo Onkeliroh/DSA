@@ -4022,6 +4022,7 @@ In order to apply the operation, the last available measurement-data will be use
                 <child>
                   <widget class="Gtk.ComboBoxEntry" id="cbeGroups">
                     <property name="MemberName" />
+                    <property name="Visible">False</property>
                     <property name="IsTextCombo">True</property>
                     <property name="Items" translatable="yes" />
                     <signal name="Changed" handler="OnCbeGroupsChanged" />
@@ -4290,6 +4291,7 @@ In order to apply the operation, the last available measurement-data will be use
                 <child>
                   <widget class="Gtk.Label" id="label9">
                     <property name="MemberName" />
+                    <property name="Visible">False</property>
                     <property name="Xalign">0</property>
                     <property name="LabelProp" translatable="yes">Group:</property>
                   </widget>

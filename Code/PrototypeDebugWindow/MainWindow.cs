@@ -1038,13 +1038,13 @@ namespace Frontend
 				RunSequenceDialog (Seq);
 			};
 
-			nvSequences.AppendColumn (new TreeViewColumn ("Group", new CellRendererText (), "text", 0) {
-				Resizable = true,
-				Sizing = TreeViewColumnSizing.Autosize,
-//				SortColumnId = 0,
-//				SortOrder = SortType.Ascending,
-				Clickable = true,
-			});
+//			nvSequences.AppendColumn (new TreeViewColumn ("Group", new CellRendererText (), "text", 0) {
+//				Resizable = true,
+//				Sizing = TreeViewColumnSizing.Autosize,
+////				SortColumnId = 0,
+////				SortOrder = SortType.Ascending,
+//				Clickable = true,
+//			});
 			nvSequences.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 1) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
