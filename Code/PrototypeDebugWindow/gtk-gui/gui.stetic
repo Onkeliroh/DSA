@@ -2642,7 +2642,6 @@
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
-                <signal name="Changed" handler="OnCbPinChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -2781,7 +2780,6 @@
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-add</property>
             <property name="ResponseId">-10</property>
-            <signal name="Clicked" handler="OnButtonOkClicked" />
             <property name="label">gtk-add</property>
           </widget>
           <packing>

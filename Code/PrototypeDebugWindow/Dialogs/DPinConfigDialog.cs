@@ -68,6 +68,17 @@ namespace Frontend
 				cbPin.Active = 0;
 			}
 
+			BindEvents ();
+		}
+
+		/// <summary>
+		/// Binds the events.
+		/// </summary>
+		private void BindEvents ()
+		{
+			entryName.Changed += OnEntryNameChanged;
+			cbPin.Changed += OnCbPinChanged;
+			cbColor.ColorSet += OnCbColorColorSet;
 		}
 
 		/// <summary>
@@ -76,6 +87,7 @@ namespace Frontend
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
 		[GLib.ConnectBeforeAttribute]
+		[Obsolete]
 		protected void OnButtonOkClicked (object sender, EventArgs e)
 		{
 			pin.Name = entryName.Text;
@@ -89,6 +101,7 @@ namespace Frontend
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
+		[Obsolete]
 		protected void OnButtonCancelClicked (object sender, EventArgs e)
 		{
 			Respond (Gtk.ResponseType.Cancel);

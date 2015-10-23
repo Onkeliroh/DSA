@@ -146,8 +146,6 @@ namespace Frontend
 			this.DefaultWidth = 223;
 			this.DefaultHeight = 171;
 			this.Show ();
-			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
-			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}
 }
