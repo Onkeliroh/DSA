@@ -2813,8 +2813,6 @@
                 <property name="CanFocus">True</property>
                 <property name="Events">ButtonMotionMask, ButtonPressMask, ButtonReleaseMask</property>
                 <property name="Alpha">-1</property>
-                <signal name="Clicked" handler="OnCbColorClicked" />
-                <signal name="ColorSet" handler="OnCbColorColorSet" />
               </widget>
               <packing>
                 <property name="TopAttach">2</property>
@@ -2837,7 +2835,6 @@
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
-                <signal name="Changed" handler="OnCbPinChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -2860,7 +2857,6 @@
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
-                <signal name="Changed" handler="OnCbUnitChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">4</property>
@@ -2884,7 +2880,6 @@
                 <property name="CanFocus">True</property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
-                <signal name="Changed" handler="OnEntryNameChanged" />
               </widget>
               <packing>
                 <property name="LeftAttach">1</property>
@@ -3087,7 +3082,6 @@
                 <property name="ClimbRate">1</property>
                 <property name="Numeric">True</property>
                 <property name="Value">1</property>
-                <signal name="Changed" handler="OnSbMeanValuesCountChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">8</property>
@@ -3115,7 +3109,6 @@
                 <property name="ClimbRate">1</property>
                 <property name="Digits">10</property>
                 <property name="Numeric">True</property>
-                <signal name="Changed" handler="OnSbOffsetChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">6</property>
@@ -3144,7 +3137,6 @@
                 <property name="Digits">10</property>
                 <property name="Numeric">True</property>
                 <property name="Value">1</property>
-                <signal name="Changed" handler="OnSbSlopeChanged" />
               </widget>
               <packing>
                 <property name="TopAttach">5</property>
@@ -3436,7 +3428,6 @@
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-add</property>
             <property name="ResponseId">-10</property>
-            <signal name="Clicked" handler="OnButtonOkClicked" after="yes" />
             <property name="label">gtk-add</property>
           </widget>
           <packing>
