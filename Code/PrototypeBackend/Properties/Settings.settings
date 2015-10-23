@@ -29,5 +29,9 @@
     <Setting Name="LogFilePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">Log</Value>
     </Setting>
+    <Setting Name="LastConnectedPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+
   </Settings>
 </SettingsFile>

@@ -14,6 +14,7 @@ namespace Frontend
 
 			this.Build ();
 			InitComponents ();
+			BindEvents ();
 		}
 
 		private void InitComponents ()
@@ -21,6 +22,7 @@ namespace Frontend
 			cbDebuggingMode.Active = Frontend.Settings.Default.DebugMode;
 			cbMaximizedStart.Active = Frontend.Settings.Default.StartMaximized;
 			cbAutoConnect.Active = Frontend.Settings.Default.AutoConnect;
+			cbLoadLastConfig.Active = Frontend.Settings.Default.LoadLastFile;
 			cbtnenablelogging.Active = Con.LogToFile;
 			entryLogFilePath.Text = Con.LogFilePath;
 
@@ -36,6 +38,11 @@ namespace Frontend
 
 			cboxLogLevel.Model = store;
 			cboxLogLevel.Active = index;
+		}
+
+		private void BindEvents ()
+		{
+			cbLoadLastConfig.Toggled += OnCbLoadLastConfigToggled;
 		}
 
 		protected void OnCbDebuggingModeToggled (object sender, EventArgs e)
@@ -78,6 +85,12 @@ namespace Frontend
 			};
 			dialog.Run ();
 			dialog.Destroy ();
+		}
+
+		private void OnCbLoadLastConfigToggled (object sender, EventArgs e)
+		{
+			Frontend.Settings.Default.LoadLastFile = cbLoadLastConfig.Active;
+			Frontend.Settings.Default.Save ();
 		}
 	}
 }

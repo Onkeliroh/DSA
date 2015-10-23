@@ -8,127 +8,141 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrototypeBackend.Properties {
+namespace PrototypeBackend.Properties
+{
     
     
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute ()]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute ("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+	internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
+	{
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoConnect {
-            get {
-                return ((bool)(this["AutoConnect"]));
-            }
-            set {
-                this["AutoConnect"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Config1 {
-            get {
-                return ((string)(this["Config1"]));
-            }
-            set {
-                this["Config1"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Config2 {
-            get {
-                return ((string)(this["Config2"]));
-            }
-            set {
-                this["Config2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Config3 {
-            get {
-                return ((string)(this["Config3"]));
-            }
-            set {
-                this["Config3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Config4 {
-            get {
-                return ((string)(this["Config4"]));
-            }
-            set {
-                this["Config4"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Config5 {
-            get {
-                return ((string)(this["Config5"]));
-            }
-            set {
-                this["Config5"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("WARNING")]
-        public global::Logger.LogLevel LogLevel {
-            get {
-                return ((global::Logger.LogLevel)(this["LogLevel"]));
-            }
-            set {
-                this["LogLevel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LogToFile {
-            get {
-                return ((bool)(this["LogToFile"]));
-            }
-            set {
-                this["LogToFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Log")]
-        public string LogFilePath {
-            get {
-                return ((string)(this["LogFilePath"]));
-            }
-            set {
-                this["LogFilePath"] = value;
-            }
-        }
-    }
+		private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized (new Settings ())));
+
+		public static Settings Default {
+			get {
+				return defaultInstance;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("False")]
+		public bool AutoConnect {
+			get {
+				return ((bool)(this ["AutoConnect"]));
+			}
+			set {
+				this ["AutoConnect"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("")]
+		public string Config1 {
+			get {
+				return ((string)(this ["Config1"]));
+			}
+			set {
+				this ["Config1"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("")]
+		public string Config2 {
+			get {
+				return ((string)(this ["Config2"]));
+			}
+			set {
+				this ["Config2"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("")]
+		public string Config3 {
+			get {
+				return ((string)(this ["Config3"]));
+			}
+			set {
+				this ["Config3"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("")]
+		public string Config4 {
+			get {
+				return ((string)(this ["Config4"]));
+			}
+			set {
+				this ["Config4"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("")]
+		public string Config5 {
+			get {
+				return ((string)(this ["Config5"]));
+			}
+			set {
+				this ["Config5"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("WARNING")]
+		public global::Logger.LogLevel LogLevel {
+			get {
+				return ((global::Logger.LogLevel)(this ["LogLevel"]));
+			}
+			set {
+				this ["LogLevel"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("True")]
+		public bool LogToFile {
+			get {
+				return ((bool)(this ["LogToFile"]));
+			}
+			set {
+				this ["LogToFile"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("Log")]
+		public string LogFilePath {
+			get {
+				return ((string)(this ["LogFilePath"]));
+			}
+			set {
+				this ["LogFilePath"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("")]
+		public string LastConnectedPort {
+			get {
+				return ((string)(this ["LastConnectedPort"]));
+			}
+			set {
+				this ["LastConnectedPort"] = value;
+			}
+		}
+	}
 }

@@ -91,7 +91,10 @@ namespace Frontend
 			if (Frontend.Settings.Default.StartMaximized) {
 				this.Maximize ();
 			}
-//			BindWidgetEvents ();
+
+			if (Frontend.Settings.Default.LoadLastFile) {
+				con.LoadLastConfigAndConnect ();
+			}
 		}
 
 		#endregion

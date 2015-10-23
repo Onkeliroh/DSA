@@ -8,55 +8,69 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Frontend {
+namespace Frontend
+{
     
     
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute ()]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute ("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+	internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
+	{
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DebugMode {
-            get {
-                return ((bool)(this["DebugMode"]));
-            }
-            set {
-                this["DebugMode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool StartMaximized {
-            get {
-                return ((bool)(this["StartMaximized"]));
-            }
-            set {
-                this["StartMaximized"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoConnect {
-            get {
-                return ((bool)(this["AutoConnect"]));
-            }
-            set {
-                this["AutoConnect"] = value;
-            }
-        }
-    }
+		private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized (new Settings ())));
+
+		public static Settings Default {
+			get {
+				return defaultInstance;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("False")]
+		public bool DebugMode {
+			get {
+				return ((bool)(this ["DebugMode"]));
+			}
+			set {
+				this ["DebugMode"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("False")]
+		public bool StartMaximized {
+			get {
+				return ((bool)(this ["StartMaximized"]));
+			}
+			set {
+				this ["StartMaximized"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("False")]
+		public bool AutoConnect {
+			get {
+				return ((bool)(this ["AutoConnect"]));
+			}
+			set {
+				this ["AutoConnect"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("True")]
+		public bool LoadLastFile {
+			get {
+				return ((bool)(this ["LoadLastFile"]));
+			}
+			set {
+				this ["LoadLastFile"] = value;
+			}
+		}
+	}
 }
