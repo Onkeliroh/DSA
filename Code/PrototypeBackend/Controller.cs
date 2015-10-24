@@ -134,7 +134,7 @@ namespace PrototypeBackend
 		/// <summary>
 		/// Raised when onfiguration loaded.
 		/// </summary>
-		public EventHandler OnOnfigurationLoaded;
+		public EventHandler<ConfigurationLoadedArgs> OnOnfigurationLoaded;
 
 		#endregion
 
@@ -509,7 +509,7 @@ namespace PrototypeBackend
 					WritePreferences ();
 
 					if (OnOnfigurationLoaded != null) {
-						OnOnfigurationLoaded.Invoke (this, null);
+						OnOnfigurationLoaded.Invoke (this, new ConfigurationLoadedArgs (path, true));
 					}
 				} catch (Exception) {
 					throw;

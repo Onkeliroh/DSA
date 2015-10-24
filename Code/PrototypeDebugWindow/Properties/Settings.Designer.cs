@@ -84,5 +84,29 @@ namespace Frontend
 				this ["ConnectToLastPort"] = value;
 			}
 		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("True")]
+		public bool ShowConnectionMessage {
+			get {
+				return ((bool)(this ["ShowConnectionMessage"]));
+			}
+			set {
+				this ["ShowConnectionMessage"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("True")]
+		public bool ShowConfigurationLoadMessage {
+			get {
+				return ((bool)(this ["ShowConfigurationLoadMessage"]));
+			}
+			set {
+				this ["ShowConfigurationLoadMessage"] = value;
+			}
+		}
 	}
 }

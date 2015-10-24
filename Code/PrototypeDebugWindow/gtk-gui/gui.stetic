@@ -83,6 +83,13 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-no</property>
       </action>
+      <action id="newAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_New</property>
+        <property name="ShortLabel" translatable="yes">_New</property>
+        <property name="StockId">gtk-new</property>
+        <signal name="Activated" handler="OnNewActionActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="WidthRequest">800</property>
@@ -1488,7 +1495,7 @@
                       <placeholder />
                     </child>
                     <child>
-                      <widget class="Gtk.Button" id="btnCSVOpenFolder">
+                      <widget class="Gtk.Button" id="btnCSVOpenDirectory">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Type">TextAndIcon</property>

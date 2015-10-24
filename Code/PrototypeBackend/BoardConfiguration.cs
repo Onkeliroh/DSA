@@ -154,6 +154,8 @@ namespace PrototypeBackend
 			Pins = new List<IPin> ();
 			MeasurementCombinations = new List<MeasurementCombination> ();
 			Sequences = new List<Sequence> ();
+			//just in case use the home directory of the user -> ensures write properties
+			CSVSaveFolderPath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile);
 		}
 
 		/// <summary>
