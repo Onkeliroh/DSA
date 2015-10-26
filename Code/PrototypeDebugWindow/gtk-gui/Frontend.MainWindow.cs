@@ -1710,7 +1710,6 @@ namespace Frontend
 			this.newAction.Activated += new global::System.EventHandler (this.OnNewActionActivated);
 			this.cbBoardType.Changed += new global::System.EventHandler (this.OnCbBoardTypeChanged);
 			this.cbAREF.Changed += new global::System.EventHandler (this.OnCbAREFChanged);
-			this.btnDigitalPingTest.Clicked += new global::System.EventHandler (this.OnBtnDigitalPingTestClicked);
 		}
 	}
 }
