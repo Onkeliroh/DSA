@@ -10,6 +10,7 @@ enum
   kAcknowledge,
   kError,
   kReady,
+  kAlive,
   kSetPinMode,
   kSetPinState,
   kSetDigitalOutputPins,
@@ -69,6 +70,7 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kGetAnalogReference, OnGetAnalogReference);
   cmdMessenger.attach(kGetAnalogPinNumbers, OnGetAnalogPinNumbers);
   cmdMessenger.attach(kGetSDASCL,OnGetSDASCL);
+  cmdMessenger.attach(kAlive,kAlive);
 }
 
 // Called when a received command has no attached function
@@ -758,6 +760,13 @@ void OnGetSDASCL()
   cmdMessenger.sendCmdStart(kGetSDASCL);
   cmdMessenger.sendCmdArg(SDA);
   cmdMessenger.sendCmdArg(SCL);
+  cmdMessenger.sendCmdEnd();
+}
+
+//Response for ping to check liveliness
+void OnAlive()
+{
+  cmdMessenger.sendCmdStart(kAlive);
   cmdMessenger.sendCmdEnd();
 }
 //---------------------ARDUINO--------------------------------------------------
