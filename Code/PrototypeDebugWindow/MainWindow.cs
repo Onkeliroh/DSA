@@ -2241,6 +2241,9 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Toggles the real time plot smoothing.
+		/// </summary>
 		private void ToggleRealTimePlotSmooth ()
 		{
 			RealTimePlotView.Model.Series.ToList ().ForEach (o => (o as LineSeries).Smooth = cbtnRealTimePlotSmoothValues.Active);
