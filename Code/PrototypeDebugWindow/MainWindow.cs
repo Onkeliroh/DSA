@@ -41,6 +41,7 @@ namespace Frontend
 
 		private PlotView RealTimePlotView;
 		private PlotModel RealTimePlotModel;
+		private PlotController RealTimePlotController;
 		private DateTimeAxis RealTimeXAxis;
 		private bool RealTimePlotUpdate = true;
 		private double DefaultZoomValue = 30;
@@ -694,7 +695,10 @@ namespace Frontend
 					DataFieldY = "Value",
 					Title = a.DisplayName,
 					YAxisKey = a.Unit,
-					XAxisKey = RealTimeXAxis.Key
+					XAxisKey = RealTimeXAxis.Key,
+//					CanTrackerInterpolatePoints = true,
+//					TrackerKey = a.DisplayName,
+//					TrackerFormatString = "X:{2:yyyy-MM-dd} Y:{4}"
 				};
 
 				a.GetPinWithLargestInterval ().OnNewValue += (o, args) => {
@@ -1492,8 +1496,10 @@ namespace Frontend
 				IsLegendVisible = true,
 				LegendOrientation = LegendOrientation.Horizontal,
 				LegendPlacement = LegendPlacement.Outside,
-				LegendPosition = LegendPosition.RightMiddle
+				LegendPosition = LegendPosition.RightMiddle,
 			};
+
+			RealTimePlotController = new PlotController ();
 
 			RealTimePlotModel.Axes.Add (YAxis);
 			RealTimePlotModel.Axes.Add (RealTimeXAxis);
