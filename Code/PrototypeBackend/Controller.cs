@@ -426,7 +426,7 @@ namespace PrototypeBackend
 						var values = analogPinValues;
 						values.AddRange (MeComValues);
 
-						MeasurementCSVLogger.Log<double> (names, values);
+						MeasurementCSVLogger.Log (names, values);
 					}
 				} else {
 					System.Threading.Timer t = (System.Threading.Timer)state;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.IO;
 using System.Globalization;
@@ -90,7 +91,7 @@ namespace Logger
 				if (!first)
 					sb.Append (Separator);
 				if (typeof(T) != typeof(string))
-					sb.Append (Convert.ToString (value, CultureInfo));
+					sb.Append (Convert.ToString (value, CultureInfo.NumberFormat));
 				else
 					sb.Append (value);
 				first = false;
@@ -104,7 +105,7 @@ namespace Logger
 		/// <param name="row">A row of values.</param>
 		public void Log<T> (List<T> row)
 		{
-			Log (GetTimeString () + CreateString (row));
+			Log (GetTimeString () + CreateString<T> (row));
 		}
 
 		/// <summary>
@@ -112,9 +113,10 @@ namespace Logger
 		/// </summary>
 		/// <param name="properties">Properties</param>
 		/// <param name="row">Values</param>
-		public void Log<T> (List<string> properties, List<T> row)
+		public void Log (List<string> properties, List<double> row)
 		{
-			Log (SortValues (properties, row));
+
+			Log (SortValues<double> (properties, row));
 			
 		}
 
@@ -129,7 +131,7 @@ namespace Logger
 			var list = new string[Mapping.Count];
 			foreach (string property in Mapping.Keys) {
 				if (properties.Contains (property)) {
-					list [Mapping [property]] = row [properties.FindIndex (o => o == property)].ToString ();
+					list [Mapping [property]] = Convert.ToString (row [properties.FindIndex (o => o == property)], CultureInfo);
 				} else {
 					list [Mapping [property]] = EmptySpaceFilling;
 				}
