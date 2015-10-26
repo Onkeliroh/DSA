@@ -30,9 +30,12 @@
             <ChildEntries>
               <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
               <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />
+<<<<<<< HEAD
               <SolutionItemReference path="..\AnalogPinConfigurationDialog\MeasurmentConfigurationDialog.csproj" />
               <SolutionItemReference path="..\DigitalPinConfigurationDialog\DigitalPinConfigurationDialog.csproj" />
               <SolutionItemReference path="..\SignalConfigurationDialog\MeasurementCombinationDialog.csproj" />
+=======
+>>>>>>> d564eeceec261d01568b59083dead32750719262
               <SolutionItemReference path="Prototype.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
               <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj" />
               <SolutionItemReference path="..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj" />

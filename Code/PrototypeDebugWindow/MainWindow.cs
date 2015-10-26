@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using Gdk;
 using System.Globalization;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Frontend
 {
@@ -55,6 +56,8 @@ namespace Frontend
 		public int LastActiveBoard = -1;
 
 		public readonly bool Verbose = false;
+
+		#endregion
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Frontend.MainWindow"/> class.
@@ -98,10 +101,16 @@ namespace Frontend
 			{
 				this.Maximize ();
 			}
-//			BindWidgetEvents ();
+
+			if (Frontend.Settings.Default.LoadLastFile) {
+				con.LoadLastConfig ();
+			}
+
+			if (Frontend.Settings.Default.ConnectToLastPort) {
+				con.ConnectToLastPort ();
+			}
 		}
 
-		#endregion
 
 		/// <summary>
 		/// Inits the components.
@@ -135,6 +144,7 @@ namespace Frontend
 			drawingareaMCU.ExposeEvent += DrawMCU;
 			cbBoardType.Changed += OnCbBoardTypeChanged;
 			cbAREF.Changed += OnCbAREFChanged;
+			btnCSVOpenDirectory.Clicked += (sender, e) => OpenCSVDirectory ();
 			con.Configuration.OnPinsUpdated += (sender, o) => DrawMCU (this, null);
 			con.Configuration.OnBoardUpdated += RefreshMCUInfos;
 			con.OnOnfigurationLoaded += (sender, e) =>
@@ -143,6 +153,7 @@ namespace Frontend
 				UpdateAllNodes ();
 				UpdateFilePathPreview ();
 				DrawMCU (this, null);
+				ShowConfigurationLoadedMessage (e.Path, e.Success);
 			};
 
 			TimeKeeperPresenter = new System.Timers.Timer (1000);
@@ -746,7 +757,11 @@ namespace Frontend
 				RealTimePlotView.Model.Series.Add (series);
 			}
 
+			RealTimeXAxis.Minimum = con.StartTime.AddMinutes (-2).ToOADate ();
+			RealTimeXAxis.Maximum = con.StartTime.AddMinutes (2).ToOADate ();
+
 			ToggleRealTimePlotMarker ();
+			ToggleRealTimePlotSmooth ();
 		}
 
 		#endregion
@@ -1112,13 +1127,13 @@ namespace Frontend
 				RunSequenceDialog (Seq);
 			};
 
-			nvSequences.AppendColumn (new TreeViewColumn ("Group", new CellRendererText (), "text", 0) {
-				Resizable = true,
-				Sizing = TreeViewColumnSizing.Autosize,
-//				SortColumnId = 0,
-//				SortOrder = SortType.Ascending,
-				Clickable = true,
-			});
+//			nvSequences.AppendColumn (new TreeViewColumn ("Group", new CellRendererText (), "text", 0) {
+//				Resizable = true,
+//				Sizing = TreeViewColumnSizing.Autosize,
+////				SortColumnId = 0,
+////				SortOrder = SortType.Ascending,
+//				Clickable = true,
+//			});
 			nvSequences.AppendColumn (new TreeViewColumn ("Name", new CellRendererText (), "text", 1) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
@@ -1576,7 +1591,8 @@ namespace Frontend
 			RealTimePlotModel.Axes.Add (YAxis);
 			RealTimePlotModel.Axes.Add (RealTimeXAxis);
 
-			RealTimePlotView = new PlotView (){ Name = "", Model = RealTimePlotModel  };
+			//Enable double buffered to prevent flickering
+			RealTimePlotView = new PlotView (){ Name = "", Model = RealTimePlotModel, DoubleBuffered = true  };
 
 			vboxRealTimePlot.PackStart (RealTimePlotView, true, true, 0);
 			(vboxRealTimePlot [RealTimePlotView] as Box.BoxChild).Position = 0;
@@ -1809,6 +1825,10 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Updates the Toolbar combobox containing the available serial ports
+		/// </summary>
+		/// <param name="portname">Portname.</param>
 		private void UpdatePortBox (string portname = null)
 		{
 			var store = new ListStore (typeof(string));
@@ -1861,8 +1881,18 @@ namespace Frontend
 //				PortBox.ModifyBg (Gtk.StateType.Normal, new Gdk.Color (0, 255, 0));
 //				UpdatePortBox (e.Port);
 
+<<<<<<< HEAD
 			} else
 			{
+=======
+				Gtk.Application.Invoke (delegate {
+					var dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok,
+						             "A connection to serial-port: " + ArduinoController.SerialPortName + " has successfully been established.");
+					dialog.Run ();
+					dialog.Destroy ();
+				});
+			} else {
+>>>>>>> d564eeceec261d01568b59083dead32750719262
 				lblConnectionStatus.Text = "<b>NOT</b> connected";
 				lblConnectionStatus.UseMarkup = true;
 				refreshAction.Sensitive = true;
@@ -1879,12 +1909,6 @@ namespace Frontend
 				{
 					con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 				}
-
-				var dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok,
-					             "A connection to serial-port: " + ArduinoController.SerialPortName + " has successfully been established.");
-	
-				dialog.Run ();
-				dialog.Destroy ();
 			}
 		}
 
@@ -2273,12 +2297,18 @@ namespace Frontend
 			if (!string.IsNullOrEmpty (con.Configuration.CSVSaveFolderPath))
 			{
 				path += con.Configuration.CSVSaveFolderPath;
+<<<<<<< HEAD
 				if (Environment.OSVersion.Platform == PlatformID.Win32NT)
 				{
 					path += "/";
 				} else if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
 				{
+=======
+				if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+>>>>>>> d564eeceec261d01568b59083dead32750719262
 					path += @"\";
+				} else if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) {
+					path += @"/";
 				}
 			}
 				
@@ -2320,6 +2350,54 @@ namespace Frontend
 		protected void OnCbtnRealTimePlotSmoothValues (object sender, EventArgs e)
 		{
 			ToggleRealTimePlotSmooth ();
+		}
+
+		/// <summary>
+		/// Raises the button real time plot jump start clicked event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)
+		{
+			if (RealTimeXAxis.ActualMinimum > con.StartTime.ToOADate ()) {
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (con.StartTime.ToOADate ()), 0), new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMinimum), 0));
+			} else {
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMinimum), 0), new ScreenPoint (RealTimeXAxis.Transform (con.StartTime.ToOADate ()), 0));
+			}
+		}
+
+		/// <summary>
+		/// Raises the button real time plot jump latest clicked event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected void OnBtnRealTimePlotJumpLatestClicked (object sender, EventArgs e)
+		{
+			if (RealTimeXAxis.ActualMaximum > LastTimeKeeperPresenterTick) {
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMaximum), 0), new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0));
+			} else {
+				RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0), new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMaximum), 0));
+			}
+		}
+
+		/// <summary>
+		/// Raises the button real time plot fit data clicked event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected void OnBtnRealTimePlotFitDataClicked (object sender, EventArgs e)
+		{
+			RealTimeXAxis.Zoom (con.StartTime.ToOADate (), LastTimeKeeperPresenterTick);
+		}
+
+		/// <summary>
+		/// Raises the button real time plot reset zoom clicked event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected void OnBtnRealTimePlotResetZoomClicked (object sender, EventArgs e)
+		{
+			RealTimeXAxis.Zoom (DefaultZoomValue);
 		}
 
 		#endregion
@@ -2416,7 +2494,7 @@ namespace Frontend
 						             ButtonsType.Ok,
 						             "Unable to load configuration \n" +
 						             "(" + location + ").\n " +
-						             "Please make shur that the file exsists and you have read access.");
+						             "Please make shure that the file exsists and you have read access.");
 					dialog.Run ();
 					dialog.Destroy ();
 				}
@@ -2428,9 +2506,9 @@ namespace Frontend
 					             DialogFlags.Modal,
 					             MessageType.Error,
 					             ButtonsType.Ok,
-					             "Unable to load configuration /n" +
-					             "(" + path + ")./n " +
-					             "Please make shur that the file exsists and you have read access.");
+					             @"Unable to load configuration\n" +
+					             @"(" + path + @").\n" +
+					             "Please make shure that the file exsists and you have read access.");
 				dialog.Run ();
 				dialog.Destroy ();
 			}
@@ -2689,6 +2767,44 @@ namespace Frontend
 			};
 			dialog.Run ();
 			dialog.Destroy ();
+		}
+
+		/// <summary>
+		/// Shows the configuration loaded message.
+		/// </summary>
+		/// <param name="path">Path.</param>
+		/// <param name="success">If set to <c>true</c> success.</param>
+		private void ShowConfigurationLoadedMessage (string path, bool success)
+		{
+			string msg = "";
+
+			msg += path;
+			msg += "\n";
+
+			if (success) {
+				msg += "Successfully loaded.";
+			} else {
+				msg += "Not loaded.";
+			}
+
+			var dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Info, ButtonsType.Close, msg);
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		private void OpenCSVDirectory ()
+		{
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+				ProcessStartInfo startInfo = new ProcessStartInfo ();
+				startInfo.FileName = "explorer.exe";
+				startInfo.Arguments = con.Configuration.CSVSaveFolderPath;
+				Process.Start (startInfo);
+			} else if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) {
+				ProcessStartInfo startInfo = new ProcessStartInfo ();
+				startInfo.FileName = "xdg-open";
+				startInfo.Arguments = con.Configuration.CSVSaveFolderPath;
+				Process.Start (startInfo);
+			}
 		}
 
 		#endregion
@@ -2995,25 +3111,9 @@ namespace Frontend
 			}
 		}
 
-		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)
+		protected void OnNewActionActivated (object sender, EventArgs e)
 		{
-			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (con.StartTime.ToOADate ()), 0), new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMinimum), 0));
-		}
-
-
-		protected void OnBtnRealTimePlotJumpLatestClicked (object sender, EventArgs e)
-		{
-			RealTimeXAxis.Pan (new ScreenPoint (RealTimeXAxis.Transform (RealTimeXAxis.ActualMaximum), 0), new ScreenPoint (RealTimeXAxis.Transform (LastTimeKeeperPresenterTick), 0));
-		}
-
-		protected void OnBtnRealTimePlotFitDataClicked (object sender, EventArgs e)
-		{
-			RealTimeXAxis.Zoom (con.StartTime.ToOADate (), LastTimeKeeperPresenterTick);
-		}
-
-		protected void OnBtnRealTimePlotResetZoomClicked (object sender, EventArgs e)
-		{
-			RealTimeXAxis.Zoom (DefaultZoomValue);
+			throw new NotImplementedException ();
 		}
 
 		#endregion

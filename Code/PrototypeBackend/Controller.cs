@@ -78,7 +78,7 @@ namespace PrototypeBackend
 		/// <summary>
 		/// The keeper of time. Gets the time elapsed since controller start.
 		/// </summary>
-		private Stopwatch KeeperOfTime;
+		private Stopwatch KeeperOfTime = new Stopwatch ();
 
 		/// <summary>
 		/// The sequences timer.
@@ -134,7 +134,7 @@ namespace PrototypeBackend
 		/// <summary>
 		/// Raised when onfiguration loaded.
 		/// </summary>
-		public EventHandler OnOnfigurationLoaded;
+		public EventHandler<ConfigurationLoadedArgs> OnOnfigurationLoaded;
 
 		#endregion
 
@@ -158,7 +158,6 @@ namespace PrototypeBackend
 		public Controller (string ConfigurationPath = null)
 		{
 			Configuration = new BoardConfiguration ();
-//			Configs = ConfigManager.ParseBoards (ConfigManager.GeneralData.Sections ["General"].GetKeyData ("BoardPath").Value);
 			using (MemoryStream memstream = new MemoryStream (Encoding.ASCII.GetBytes (Resources.Boards))) {
 				using (StreamReader str = new StreamReader (memstream)) {
 					BoardConfigs = ConfigurationManager.ParseBoards (str);
@@ -206,11 +205,6 @@ namespace PrototypeBackend
 				else
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldMeCom);
 			};
-
-			KeeperOfTime = new Stopwatch ();
-
-			SequencesTimer = new System.Timers.Timer (10);
-			SequencesTimer.Elapsed += OnSequenceTimeElapsed;
 		}
 
 		/// <summary>
@@ -232,9 +226,31 @@ namespace PrototypeBackend
 			running = false;
 
 			ConLogger.Stop ();
-			SequencesTimer.Stop ();
+			if (SequencesTimer != null)
+				SequencesTimer.Stop ();
 			KeeperOfTime.Stop ();
 			WritePreferences ();
+		}
+
+		/// <summary>
+		/// Loads the last config.
+		/// </summary>
+		public void LoadLastConfig ()
+		{
+			if (!string.IsNullOrEmpty (Properties.Settings.Default.Config1)) {
+				OpenConfiguration (Properties.Settings.Default.Config1);
+			}	
+		}
+
+		/// <summary>
+		/// Connects to last port.
+		/// </summary>
+		public void ConnectToLastPort ()
+		{
+			if (!string.IsNullOrEmpty (Properties.Settings.Default.LastConnectedPort)) {
+				ArduinoController.SerialPortName = Properties.Settings.Default.LastConnectedPort;
+				ArduinoController.Setup (Configuration.Board.UseDTR);
+			}
 		}
 
 		/// <summary>
@@ -281,17 +297,24 @@ namespace PrototypeBackend
 		/// </summary>
 		public void Start ()
 		{
+			//Save the port, so that next time the connection may be automaticly established
+			Properties.Settings.Default.LastConnectedPort = ArduinoController.SerialPortName;
+			Properties.Settings.Default.Save ();
+
 			KeeperOfTime.Restart ();
 
 			running = true;
 
 			ArduinoController.SetPinModes (Configuration.AnalogPins.Select (o => o.RealNumber).ToArray<uint> (), Configuration.DigitalPins.Select (o => o.RealNumber).ToArray<uint> ());
-			MeasurementPreProcessing ();
 
 			StartTime = DateTime.Now;
 			LastCondition = new ushort[]{ 0, 0, 0, 0 };
 
+			SequencesTimer = new System.Timers.Timer (10);
+			SequencesTimer.Elapsed += OnSequenceTimeElapsed;
 			SequencesTimer.Start ();
+
+			MeasurementPreProcessing ();
 			MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTick), null, 0, 10);
 
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
@@ -332,7 +355,6 @@ namespace PrototypeBackend
 			LastCondition = conditions;
 		}
 
-		//Version1
 		/// <summary>
 		/// Creates multiple timers acording to the needed measurement frequencies.
 		/// </summary>
@@ -365,12 +387,11 @@ namespace PrototypeBackend
 			}
 		}
 
-		//		/ <summary>
-		//		/ Raised by the <see cref="MeasurementTimer"/>. Collects data from board.
-		//		/ </summary>
-		//		/ <param name="sender">Sender.</param>
-		//		/ <param name="args">Arguments.</param>
-		//		protected void OnMeasurementTimerElapsed (object sender, System.Timers.ElapsedEventArgs args)
+		/// <summary>
+		/// Raised by the <see cref="MeasurementTimer"/>. Collects data from board.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="args">Arguments.</param>
 		private void OnMeasurementTimerTick (object state)
 		{
 			try {
@@ -379,7 +400,6 @@ namespace PrototypeBackend
 
 					var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
 					if (analogPins.Length > 0) {
-						Console.WriteLine (time + " Tick");
 						var query = analogPins.Select (o => o.Number).ToArray ();
 						var vals = ArduinoController.ReadAnalogPin (query);
 
@@ -407,16 +427,10 @@ namespace PrototypeBackend
 						values.AddRange (MeComValues);
 
 						MeasurementCSVLogger.Log<double> (names, values);
-
-
-//					values.AddRange (Configuration.MeasurementCombinations.Select (o => o.Value));
-
-//					MeasurementCSVLogger.Log<double> (values.Select (o => o.Value).ToList<double> ());
 					}
 				} else {
 					System.Threading.Timer t = (System.Threading.Timer)state;
 					t.Dispose ();
-//				MeasurementTimer.Stop ();
 				}
 			} catch (Exception) {
 			}
@@ -492,9 +506,10 @@ namespace PrototypeBackend
 						LastConfigurationLocations.Add (path);
 						LastConfigurationLocations.Reverse ();
 					}
+					WritePreferences ();
 
 					if (OnOnfigurationLoaded != null) {
-						OnOnfigurationLoaded.Invoke (this, null);
+						OnOnfigurationLoaded.Invoke (this, new ConfigurationLoadedArgs (path, true));
 					}
 				} catch (Exception) {
 					throw;

@@ -213,6 +213,26 @@ namespace PrototypeBackend
 	}
 
 	/// <summary>
+	/// Configuration loaded arguments.
+	/// </summary>
+	public class ConfigurationLoadedArgs : EventArgs
+	{
+		public string Path;
+		public bool Success;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PrototypeBackend.ConfigurationLoadedArgs"/> class.
+		/// </summary>
+		/// <param name="path">Path.</param>
+		/// <param name="success">If set to <c>true</c> success.</param>
+		public ConfigurationLoadedArgs (string path, bool success = true)
+		{
+			Path = path;
+			Success = success;
+		}
+	}
+
+	/// <summary>
 	/// New measurement value.
 	/// </summary>
 	public class NewMeasurementValue

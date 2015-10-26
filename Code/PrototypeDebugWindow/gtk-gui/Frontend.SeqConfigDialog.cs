@@ -176,6 +176,7 @@ namespace Frontend
 			this.rbRepeateContinously = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Repeate continously"));
 			this.rbRepeateContinously.CanFocus = true;
 			this.rbRepeateContinously.Name = "rbRepeateContinously";
+			this.rbRepeateContinously.Active = true;
 			this.rbRepeateContinously.DrawIndicator = true;
 			this.rbRepeateContinously.UseUnderline = true;
 			this.rbRepeateContinously.Group = new global::GLib.SList (global::System.IntPtr.Zero);
@@ -197,14 +198,14 @@ namespace Frontend
 			w7.XOptions = ((global::Gtk.AttachOptions)(4));
 			w7.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table4.Gtk.Table+TableChild
-			this.sbRadioBtnStopAfter = new global::Gtk.SpinButton (1D, 100D, 1D);
+			this.sbRadioBtnStopAfter = new global::Gtk.SpinButton (1, 100, 1);
 			this.sbRadioBtnStopAfter.Sensitive = false;
 			this.sbRadioBtnStopAfter.CanFocus = true;
 			this.sbRadioBtnStopAfter.Name = "sbRadioBtnStopAfter";
-			this.sbRadioBtnStopAfter.Adjustment.PageIncrement = 10D;
-			this.sbRadioBtnStopAfter.ClimbRate = 1D;
+			this.sbRadioBtnStopAfter.Adjustment.PageIncrement = 10;
+			this.sbRadioBtnStopAfter.ClimbRate = 1;
 			this.sbRadioBtnStopAfter.Numeric = true;
-			this.sbRadioBtnStopAfter.Value = 1D;
+			this.sbRadioBtnStopAfter.Value = 1;
 			this.table4.Add (this.sbRadioBtnStopAfter);
 			global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table4 [this.sbRadioBtnStopAfter]));
 			w8.TopAttach = ((uint)(1));
@@ -447,11 +448,11 @@ namespace Frontend
 			w33.XOptions = ((global::Gtk.AttachOptions)(4));
 			w33.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbDays = new global::Gtk.SpinButton (0D, 111111D, 1D);
+			this.sbDays = new global::Gtk.SpinButton (0, 111111, 1);
 			this.sbDays.CanFocus = true;
 			this.sbDays.Name = "sbDays";
-			this.sbDays.Adjustment.PageIncrement = 10D;
-			this.sbDays.ClimbRate = 1D;
+			this.sbDays.Adjustment.PageIncrement = 10;
+			this.sbDays.ClimbRate = 1;
 			this.sbDays.Numeric = true;
 			this.table2.Add (this.sbDays);
 			global::Gtk.Table.TableChild w34 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbDays]));
@@ -460,11 +461,11 @@ namespace Frontend
 			w34.XOptions = ((global::Gtk.AttachOptions)(4));
 			w34.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbHours = new global::Gtk.SpinButton (0D, 24D, 1D);
+			this.sbHours = new global::Gtk.SpinButton (0, 24, 1);
 			this.sbHours.CanFocus = true;
 			this.sbHours.Name = "sbHours";
-			this.sbHours.Adjustment.PageIncrement = 10D;
-			this.sbHours.ClimbRate = 1D;
+			this.sbHours.Adjustment.PageIncrement = 10;
+			this.sbHours.ClimbRate = 1;
 			this.sbHours.Numeric = true;
 			this.table2.Add (this.sbHours);
 			global::Gtk.Table.TableChild w35 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbHours]));
@@ -473,11 +474,11 @@ namespace Frontend
 			w35.XOptions = ((global::Gtk.AttachOptions)(4));
 			w35.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbMilliSec = new global::Gtk.SpinButton (0D, 1000D, 1D);
+			this.sbMilliSec = new global::Gtk.SpinButton (0, 1000, 1);
 			this.sbMilliSec.CanFocus = true;
 			this.sbMilliSec.Name = "sbMilliSec";
-			this.sbMilliSec.Adjustment.PageIncrement = 10D;
-			this.sbMilliSec.ClimbRate = 1D;
+			this.sbMilliSec.Adjustment.PageIncrement = 10;
+			this.sbMilliSec.ClimbRate = 1;
 			this.sbMilliSec.Numeric = true;
 			this.table2.Add (this.sbMilliSec);
 			global::Gtk.Table.TableChild w36 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbMilliSec]));
@@ -486,11 +487,11 @@ namespace Frontend
 			w36.XOptions = ((global::Gtk.AttachOptions)(4));
 			w36.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbMinutes = new global::Gtk.SpinButton (0D, 60D, 1D);
+			this.sbMinutes = new global::Gtk.SpinButton (0, 60, 1);
 			this.sbMinutes.CanFocus = true;
 			this.sbMinutes.Name = "sbMinutes";
-			this.sbMinutes.Adjustment.PageIncrement = 10D;
-			this.sbMinutes.ClimbRate = 1D;
+			this.sbMinutes.Adjustment.PageIncrement = 10;
+			this.sbMinutes.ClimbRate = 1;
 			this.sbMinutes.Numeric = true;
 			this.table2.Add (this.sbMinutes);
 			global::Gtk.Table.TableChild w37 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbMinutes]));
@@ -499,11 +500,11 @@ namespace Frontend
 			w37.XOptions = ((global::Gtk.AttachOptions)(4));
 			w37.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.sbSeconds = new global::Gtk.SpinButton (0D, 60D, 1D);
+			this.sbSeconds = new global::Gtk.SpinButton (0, 60, 1);
 			this.sbSeconds.CanFocus = true;
 			this.sbSeconds.Name = "sbSeconds";
-			this.sbSeconds.Adjustment.PageIncrement = 10D;
-			this.sbSeconds.ClimbRate = 1D;
+			this.sbSeconds.Adjustment.PageIncrement = 10;
+			this.sbSeconds.ClimbRate = 1;
 			this.sbSeconds.Numeric = true;
 			this.table2.Add (this.sbSeconds);
 			global::Gtk.Table.TableChild w38 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbSeconds]));
@@ -577,6 +578,8 @@ namespace Frontend
 			}
 			this.DefaultWidth = 1038;
 			this.DefaultHeight = 601;
+			this.cbeGroups.Hide ();
+			this.label9.Hide ();
 			this.Show ();
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
 			this.cbeGroups.Changed += new global::System.EventHandler (this.OnCbeGroupsChanged);

@@ -434,15 +434,6 @@ namespace Frontend
 			this.DefaultWidth = 524;
 			this.DefaultHeight = 346;
 			this.Show ();
-			this.sbSlope.Changed += new global::System.EventHandler (this.OnSbSlopeChanged);
-			this.sbOffset.Changed += new global::System.EventHandler (this.OnSbOffsetChanged);
-			this.sbMeanValuesCount.Changed += new global::System.EventHandler (this.OnSbMeanValuesCountChanged);
-			this.entryName.Changed += new global::System.EventHandler (this.OnEntryNameChanged);
-			this.cbUnit.Changed += new global::System.EventHandler (this.OnCbUnitChanged);
-			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
-			this.cbColor.Clicked += new global::System.EventHandler (this.OnCbColorClicked);
-			this.cbColor.ColorSet += new global::System.EventHandler (this.OnCbColorColorSet);
-			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}
 }

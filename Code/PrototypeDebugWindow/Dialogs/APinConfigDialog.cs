@@ -121,25 +121,28 @@ namespace Frontend
 				cbUnit.Active = Array.IndexOf (Units.ToArray (), "V");
 			}
 
+			BindEvents ();
 		}
 
 		/// <summary>
-		/// Sets every pin property by the information entered by the user.
+		/// Binds the events.
 		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		[GLib.ConnectBeforeAttribute]
-		protected void OnButtonOkClicked (object sender, EventArgs e)
+		private void BindEvents ()
 		{
-			pin.Name = entryName.Text;
-			pin.Number = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].Number;
-			pin.RealNumber = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].RealNumber;
-			pin.PlotColor = cbColor.Color;
-			pin.Unit = cbUnit.ActiveText;
-			pin.Slope = sbSlope.Value;
-			pin.Offset = sbOffset.Value;
-			pin.Interval = Convert.ToInt32 (new TimeSpan (sbDays.ValueAsInt, sbHours.ValueAsInt, sbMinutes.ValueAsInt, sbSeconds.ValueAsInt, sbMilliSec.ValueAsInt).TotalMilliseconds);
-			pin.MeanValuesCount = Convert.ToInt32 (sbMeanValuesCount.ValueAsInt);
+			entryName.Changed += OnEntryNameChanged;	
+			cbPin.Changed += OnCbPinChanged;
+			cbColor.ColorSet += OnCbColorColorSet;
+			cbUnit.Changed += OnCbUnitChanged;
+			sbSlope.ValueChanged += OnSbSlopeChanged;
+			sbOffset.ValueChanged += OnSbOffsetChanged;
+			sbMeanValuesCount.ValueChanged += OnSbMeanValuesCountChanged;
+
+			//time Events
+			sbDays.ValueChanged += OnTimeChanged;
+			sbHours.ValueChanged += OnTimeChanged;
+			sbMinutes.ValueChanged += OnTimeChanged;
+			sbSeconds.ValueChanged += OnTimeChanged;
+			sbMilliSec.ValueChanged += OnTimeChanged;
 		}
 
 		/// <summary>
@@ -165,18 +168,7 @@ namespace Frontend
 				var selector = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0];
 				pin.Number = selector.Number;
 				pin.DigitalNumber = selector.DigitalNumber;
-			}
-		}
-
-		/// <summary>
-		/// Sets the color.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		protected void OnCbColorClicked (object sender, EventArgs e)
-		{
-			if (pin != null) {
-				pin.PlotColor = cbColor.Color;
+				pin.RealNumber = selector.RealNumber;
 			}
 		}
 
@@ -228,9 +220,32 @@ namespace Frontend
 			}
 		}
 
+		/// <summary>
+		/// Sets the color of the pin.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void OnCbColorColorSet (object sender, EventArgs e)
 		{
 			pin.PlotColor = cbColor.Color;
+		}
+
+		/// <summary>
+		/// Sets the interval of the pin.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected void OnTimeChanged (object sender, EventArgs e)
+		{
+			pin.Interval = Convert.ToInt32 (
+				new TimeSpan (
+					sbDays.ValueAsInt,
+					sbHours.ValueAsInt,
+					sbMinutes.ValueAsInt,
+					sbSeconds.ValueAsInt,
+					sbMilliSec.ValueAsInt
+				).TotalMilliseconds
+			);
 		}
 	}
 }

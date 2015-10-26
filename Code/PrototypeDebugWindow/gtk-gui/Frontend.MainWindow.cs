@@ -26,6 +26,8 @@ namespace Frontend
 		
 		private global::Gtk.Action noAction;
 		
+		private global::Gtk.Action newAction;
+		
 		private global::Gtk.VBox vbox1;
 		
 		private global::Gtk.MenuBar menubarMain;
@@ -234,7 +236,7 @@ namespace Frontend
 		
 		private global::Gtk.HSeparator hseparator1;
 		
-		private global::Gtk.Button btnCSVOpenFolder;
+		private global::Gtk.Button btnCSVOpenDirectory;
 		
 		private global::Gtk.Label label1;
 		
@@ -343,6 +345,9 @@ namespace Frontend
 			w1.Add (this.preferencesAction, null);
 			this.noAction = new global::Gtk.Action ("noAction", null, null, "gtk-no");
 			w1.Add (this.noAction, null);
+			this.newAction = new global::Gtk.Action ("newAction", global::Mono.Unix.Catalog.GetString ("_New"), null, "gtk-new");
+			this.newAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_New");
+			w1.Add (this.newAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.WidthRequest = 800;
@@ -379,7 +384,7 @@ namespace Frontend
 			this.hpanedMain = new global::Gtk.HPaned ();
 			this.hpanedMain.CanFocus = true;
 			this.hpanedMain.Name = "hpanedMain";
-			this.hpanedMain.Position = 1;
+			this.hpanedMain.Position = 331;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.vbox5 = new global::Gtk.VBox ();
 			this.vbox5.Name = "vbox5";
@@ -511,7 +516,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 5;
+			this.notebook1.CurrentPage = 4;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -1042,6 +1047,7 @@ namespace Frontend
 			this.frameCSVLoggerSettings = new global::Gtk.Frame ();
 			this.frameCSVLoggerSettings.Name = "frameCSVLoggerSettings";
 			this.frameCSVLoggerSettings.ShadowType = ((global::Gtk.ShadowType)(0));
+			this.frameCSVLoggerSettings.BorderWidth = ((uint)(2));
 			// Container child frameCSVLoggerSettings.Gtk.Container+ContainerChild
 			this.GtkAlignment31 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment31.Name = "GtkAlignment31";
@@ -1126,7 +1132,8 @@ namespace Frontend
 			w92.BottomAttach = ((uint)(2));
 			w92.LeftAttach = ((uint)(1));
 			w92.RightAttach = ((uint)(2));
-			w92.YOptions = ((global::Gtk.AttachOptions)(0));
+			w92.XOptions = ((global::Gtk.AttachOptions)(4));
+			w92.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.hbox1 = new global::Gtk.HBox ();
 			this.hbox1.Name = "hbox1";
@@ -1281,7 +1288,7 @@ namespace Frontend
 			w108.BottomAttach = ((uint)(3));
 			w108.LeftAttach = ((uint)(1));
 			w108.RightAttach = ((uint)(3));
-			w108.YOptions = ((global::Gtk.AttachOptions)(0));
+			w108.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.GtkAlignment31.Add (this.tableCSVLoggerSettings);
 			this.frameCSVLoggerSettings.Add (this.GtkAlignment31);
 			this.GtkLabel41 = new global::Gtk.Label ();
@@ -1303,16 +1310,16 @@ namespace Frontend
 			w112.Expand = false;
 			w112.Fill = false;
 			// Container child vboxSettings.Gtk.Box+BoxChild
-			this.btnCSVOpenFolder = new global::Gtk.Button ();
-			this.btnCSVOpenFolder.CanFocus = true;
-			this.btnCSVOpenFolder.Name = "btnCSVOpenFolder";
-			this.btnCSVOpenFolder.UseUnderline = true;
-			this.btnCSVOpenFolder.Label = global::Mono.Unix.Catalog.GetString ("Open CSV log file folder");
+			this.btnCSVOpenDirectory = new global::Gtk.Button ();
+			this.btnCSVOpenDirectory.CanFocus = true;
+			this.btnCSVOpenDirectory.Name = "btnCSVOpenDirectory";
+			this.btnCSVOpenDirectory.UseUnderline = true;
+			this.btnCSVOpenDirectory.Label = global::Mono.Unix.Catalog.GetString ("Open CSV log file folder");
 			global::Gtk.Image w113 = new global::Gtk.Image ();
 			w113.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-open", global::Gtk.IconSize.Menu);
-			this.btnCSVOpenFolder.Image = w113;
-			this.vboxSettings.Add (this.btnCSVOpenFolder);
-			global::Gtk.Box.BoxChild w114 = ((global::Gtk.Box.BoxChild)(this.vboxSettings [this.btnCSVOpenFolder]));
+			this.btnCSVOpenDirectory.Image = w113;
+			this.vboxSettings.Add (this.btnCSVOpenDirectory);
+			global::Gtk.Box.BoxChild w114 = ((global::Gtk.Box.BoxChild)(this.vboxSettings [this.btnCSVOpenDirectory]));
 			w114.Position = 3;
 			w114.Expand = false;
 			w114.Fill = false;
@@ -1687,7 +1694,7 @@ namespace Frontend
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 1207;
+			this.DefaultWidth = 1208;
 			this.DefaultHeight = 600;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
@@ -1700,6 +1707,7 @@ namespace Frontend
 			this.refreshAction.Activated += new global::System.EventHandler (this.OnAutoConnectActionActivated);
 			this.aboutAction.Activated += new global::System.EventHandler (this.OnAboutActionActivated);
 			this.preferencesAction.Activated += new global::System.EventHandler (this.OnPreferencesActionActivated);
+			this.newAction.Activated += new global::System.EventHandler (this.OnNewActionActivated);
 			this.cbBoardType.Changed += new global::System.EventHandler (this.OnCbBoardTypeChanged);
 			this.cbAREF.Changed += new global::System.EventHandler (this.OnCbAREFChanged);
 			this.btnDigitalPingTest.Clicked += new global::System.EventHandler (this.OnBtnDigitalPingTestClicked);
