@@ -1,0 +1,44 @@
+\documentclass[a4paper,10pt,openright,oneside,notitlepage]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{hyperref}
+\usepackage[toc,acronym]{glossaries}
+\usepackage[square, numbers]{natbib}
+\usepackage{graphicx}
+\usepackage{float}
+
+\title{Anforderungsanalyse der Bachelorarbeit}
+\author{Daniel Pollack}
+\date{}
+
+\newcommand{\ProgrammName}{ProgrammnamePlatzhalter}
+
+\pdfinfo{
+  /Title    (\title)
+  /Author   (\author)
+  /Creator  (\author)
+  /Producer (\author)
+  /Subject  (Anforderungsanalyse)
+  /Keywords (Anforderungsanalyse, Arduino, C#, C sharp, Gtk, Bachelorarbeit)
+}
+
+\makeglossary
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\input{Introduction}
+\input{System}
+\input{Modelle}
+%\addcontentsline{toc}{chapter}{Glossar}
+\input{Glossar}
+
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{plainnat}
+\bibliography{Bibliography}
+
+
+\end{document}
