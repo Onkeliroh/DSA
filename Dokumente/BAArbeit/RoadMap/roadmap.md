@@ -6,6 +6,10 @@ Titel: Entwicklung einer Software zur Messdatenerfassung und Signalsteuerung mit
 
 Einführung
 --
+Related Work
+--
+  * -> Ist-Zustand
+
 Theorethische Grundlagen
 --
   * Was ist ein Arduino
@@ -14,29 +18,32 @@ Theorethische Grundlagen
   * Linearisierung von Signalen
   * Analog-Digital Wandler
     * Anwendung auf Arduino (Referenzspanung berücksichtigen)
-* Vorüberlegungen
-  * Persona (Zielgruppe, Literatur)
-  * Technische und eigene Einschränkungen
-    * Einschränkungen:
-      * z.B.: I2C, SPI, Bit-Auflösung, Eingangsspannung
-      * Geschwindigkeit und Zuverlässigkeit:
-        * Echtzeitnähe der Betriebssysteme
-      * CSV-Format
-  * Software
-    * Programmiersprache(n)
-      * Begründung (z.B. Verlässlichkeit, Übertragbarkeit auf andere Plattformen, Beschränkungen)
-    * unterstützte Systeme
-      * einschräkungen bezüglich der getesteten Systeme treffen (MacOS wird nicht getestet, aber in der Theorie unterstützt)
-    * Designstudy, Anforderungsanalyse usw.
-    * Tabelle mit Features
-    * Deployment
-      * Packaging
-      * Veröffentlichung
-      * Support
-  * Interface
-    * Ansprüche:
-      * Sprache
-      * Terminologien -> z.B. elektrotechnische Begriffe, Micosoft Manual of Style
+
+
+Vorüberlegungen
+--
+* Persona (Zielgruppe, Literatur)
+* Technische und eigene Einschränkungen
+  * Einschränkungen:
+    * z.B.: I2C, SPI, Bit-Auflösung, Eingangsspannung
+    * Geschwindigkeit und Zuverlässigkeit:
+      * Echtzeitnähe der Betriebssysteme
+    * CSV-Format
+* Software
+  * Programmiersprache(n)
+    * Begründung (z.B. Verlässlichkeit, Übertragbarkeit auf andere Plattformen, Beschränkungen)
+  * unterstützte Systeme
+    * einschräkungen bezüglich der getesteten Systeme treffen (MacOS wird nicht getestet, aber in der Theorie unterstützt)
+  * Designstudy, Anforderungsanalyse usw.
+  * Tabelle mit Features
+  * Deployment
+    * Packaging
+    * Veröffentlichung
+    * Support
+* Interface
+  * Ansprüche:
+    * Sprache
+    * Terminologien -> z.B. elektrotechnische Begriffe, Micosoft Manual of Style
 
 Implementation
 --
