@@ -40,6 +40,8 @@ Vorüberlegungen
     * Packaging
     * Veröffentlichung
     * Support
+    * Lizensierung
+      * Sichtung der Lizensen der verwendeten Bibliotheken
 * Interface
   * Ansprüche:
     * Sprache
@@ -56,11 +58,12 @@ Implementation
   * FlowChart
 
 
-*Erklärung Arduino Sketch
+* Erklärung Arduino Sketch
 
 * Erklärung Frontend
   * Bibliotheken
-    * Gtk Philosophie (Icons, Buttonplatzierungen an Dialogen, Dialoge allgemein)
+    * Gtk
+      * Philosophie (Icons, Buttonplatzierungen an Dialogen, Dialoge allgemein)
     * Oxyplot
   * Features
     * HCI usablity Berücksichtigen
@@ -82,8 +85,9 @@ Test unter Laborbedingungen an praxisnahem Versuchsaufbau
   * Funktionsweise
 * Verwendung und Konfiguration der Software
   * Arduino brennen
-  * Software schritt für schritt einrichten
-* Ergebniss
+  * Software Schritt für Schritt einrichten
+* Ergebnis
+  * etwaige notwendige Verbesserungen / Bug-Fixes
 * Fazit
 
 
