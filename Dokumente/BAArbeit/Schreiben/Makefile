@@ -1,8 +1,12 @@
 CC=pdflatex
-MAIN=Bachelorarbeit.tex
+BIB=bibtex
+MAIN=Bachelorarbeit
 
 all:
 	$(CC) $(MAIN)
+	$(BIB) $(MAIN)
+	$(CC) $(MAIN)
+	$(CC) $(MAIN)
 
 clean:
-	rm *.log *.lof *.aux
+	rm *.log *.lof *.aux *.out *.dvi *.bbl *.toc *.lot

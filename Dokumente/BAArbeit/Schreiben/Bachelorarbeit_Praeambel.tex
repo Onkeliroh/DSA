@@ -27,6 +27,10 @@
 \usepackage[ngerman,pdfauthor={}, pdftitle={}, breaklinks=true, pdfborder={0 0 0}]{hyperref}
 \usepackage[final]{microtype} % mikrotypographische Optimierungen
 \usepackage{url}
+\usepackage{cite}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[toc,acronym]{glossaries}
 \usepackage{pdflscape} % einzelne Seiten drehen können
 % Tabellen
 \usepackage{multirow} % Tabellen-Zellen über mehrere Zeilen
@@ -86,6 +90,19 @@
 \makeatother 
 
 
+\title{TBA}
+\author{Daniel Pollack}
+\subject{Bachelorarbeit}
+
+\pdfinfo{
+  /Title    (\title)
+  /Author   (\author)
+  /Creator  (\author)
+  /Producer (\author)
+  /Subject  (\subject)
+  /Keywords (Anforderungsanalyse, Arduino, C#, C sharp, Gtk, Bachelorarbeit)
+}
+
 
 % Eigene Befehle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 % Matrix
@@ -128,7 +145,6 @@
       \vspace{1ex}
   \end{figure}
 }
-
 
 % Bild todo
 \newcommand{\bildt}[2]{

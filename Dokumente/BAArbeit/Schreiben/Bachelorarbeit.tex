@@ -1,5 +1,8 @@
 \input{Bachelorarbeit_Praeambel.tex} % Importiere die Einstellungen aus der Präambel
 % hier beginnt der eigentliche Inhalt
+
+\makeglossary
+
 \begin{document}
 \pagenumbering{Roman} % große Römische Seitenummerierung
 \pagestyle{empty}
@@ -17,14 +20,15 @@ Fakultät Medien\\
 
 \vspace{20mm}
 \begin{Large}
-Titel\\
+\title\\
 \end{Large}
 \vspace{8mm}
-Bachelorarbeit\\
+\subject\\
 \vspace{0.4cm}
 \vspace{2 cm}
-Name \\
-Matrikel-Nummer\\
+\author \\
+%Matrikel-Nummer\\
+100488\\
 \vspace{8cm}
 \begin{tabular}{ll}
 {\bf Betreuer} & Maxima Musterfrau\\
@@ -41,17 +45,6 @@ Matrikel-Nummer\\
 \tableofcontents
 \listoffigures
 \listoftables
-
-\chapter*{Symbolverzeichnis}\label{s.sym}
-\addcontentsline{toc}{chapter}{Symbolverzeichnis}
-\markboth{Symbolverzeichnis}{Symbolverzeichnis}
-\section*{Allgemeine Symbole}\label{s.sym.alg}
-\begin{flushleft}\begin{tabularx}{\textwidth}{l|X}
-Symbol & Bedeutung\\\hline
-$a$ & der Skalar $a$ \\
-$\vec{x}$ & der Vektor $\vec{x}$\\
-$\mat{A}$ & die Matrix $\mat{A}$\\
-\end{tabularx}\end{flushleft}
 
 \chapter*{Notizen/Ideen}
 
@@ -72,11 +65,12 @@ $\mat{A}$ & die Matrix $\mat{A}$\\
 % Anhang
 \appendix
 \chapter{Anhang}
+\input{./Glossar.tex}
+\bibliography{Bachelorarbeit}
 
-
-
+%\addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{plain}
-\bibliography{bibliographie}
+%\bibliography{bibliographie}
 
 
 \chapter*{Erklärung}

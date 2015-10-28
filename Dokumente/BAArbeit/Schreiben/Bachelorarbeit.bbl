@@ -1,3 +1,293 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{10}
+
+\bibitem{__????}
+
+
+\bibitem{_arduino_????}
+Arduino data logging and speed test {\textbar} {Dustyn} {Robots}.
+
+\bibitem{_cr1000_????}
+{CR}1000 {Measurement} and {Control} {System}.
+
+\bibitem{_design_????}
+Design a {Low}-{Jitter} {Clock} for {High}-{Speed} {Data} {Converters} -
+  {Tutorial} - {Maxim}.
+
+\bibitem{_robot_????}
+Robot {Platform} {\textbar} {Knowledge} {\textbar} {Analog} {To} {Digital}
+  {Conversion}.
+
+\bibitem{_what_????}
+What {Every} {Computer} {Scientist} {Should} {Know} {About} {Floating} {Point}
+  {Arithmetic}.
+
+\bibitem{_analog--digital_2015}
+Analog-to-digital converter, October 2015.
+\newblock Page Version ID: 685454241.
+
+\bibitem{_arduino_2015}
+Arduino - {ArduinoBoardUno}, October 2015.
+
+\bibitem{_iso_2015}
+{ISO} 8601, September 2015.
+\newblock Page Version ID: 683160981.
+
+\bibitem{aiken_automated_1984}
+Elizabeth Aiken and David~I. Mostofsky.
+\newblock Automated data acquisition for multidimensional scaling analysis.
+\newblock {\em Behavior Research Methods}, 16(3):325--326, 1984.
+
+\bibitem{anupama.b_java_2014}
+{Anupama.B} and {Sukesh Rao.M}.
+\newblock Java {Based} {Serial} {Data} {Logging} {System}.
+\newblock {\em International Journal of Computer Science and Mobile Computing},
+  3(5):1151--1157, May 2014.
+
+\bibitem{atmel_corporation_atmega48a/pa/88a/pa/168a/pa/328/p_2014}
+{Atmel Corporation}.
+\newblock {ATmega}48a/{PA}/88a/{PA}/168a/{PA}/328/{P} {Complete}, October 2014.
+
+\bibitem{baker_open_2014}
+Ed~Baker.
+\newblock Open source data logger for low-cost environmental monitoring.
+\newblock {\em Biodiversity Data Journal}, 2:e1059, February 2014.
+
+\bibitem{bogolyubsky_multicomputer_2007}
+M.~Yu. Bogolyubsky, V.~A. Viktorov, V.~A. Onuchin, V.~S. Petrov, B.~V.
+  Polishchuk, S.~A. Sadovsky, V.~A. Sen’ko, M.~M. Soldatov, A.~S. Solov’ev,
+  P.~V. Stolpovsky, Yu.~V. Kharlov, N.~A. Shalanda, V.~I. Yakimchuk, N.~A.
+  Kuz’min, V.~P. Obudovskii, Yu.~P. Petukhov, N.~L. Rusakovich, S.~Ya.
+  Sychkov, and V.~B. Flyagin.
+\newblock A multicomputer data acquisition complex based on {MISS} and {SUMMA}
+  electronics for the {Hyperon}-{M} experiment.
+\newblock {\em Instruments and Experimental Techniques}, 50(5):664--672,
+  September 2007.
+
+\bibitem{bulgakov_24-bit_2001}
+A.~Yu Bulgakov, V.~N. V'yukhin, and Yu~A. Popov.
+\newblock A 24-bit data acquisition system.
+\newblock {\em Instruments and Experimental Techniques}, 44(2):180--182, 2001.
+
+\bibitem{cheung_data_????}
+Moe Cheung, Bahman Noruziaan, and W.~C. Li.
+\newblock Data acquisition, processing and management systems for a {Canadian}
+  bridge monitoring project.
+
+\bibitem{claude_ghaoui_encyclopedia_2006}
+{Claude Ghaoui}.
+\newblock Encyclopedia of {Human} {Computer} {Interaction}.pdf, 2006.
+
+\bibitem{dedrick_inexpensive_2000}
+Robert~R. Dedrick, John~D. Halfman, and D.~Brooks McKinney.
+\newblock An inexpensive, microprocessor-based, data logging system.
+\newblock {\em Computers \& Geosciences}, 26(9):1059--1066, 2000.
+
+\bibitem{dausilio_arduino:_2012}
+Alessandro D’Ausilio.
+\newblock Arduino: {A} low-cost multipurpose lab equipment.
+\newblock {\em Behavior Research Methods}, 44(2):305--313, June 2012.
+
+\bibitem{fisher_open-source_2012}
+Daniel~K. Fisher and Peter~J. Gould.
+\newblock Open-{Source} {Hardware} {Is} a {Low}-{Cost} {Alternative} for
+  {Scientific} {Instrumentation} and {Research}.
+\newblock {\em Modern Instrumentation}, 01(02):8--20, 2012.
+
+\bibitem{galitz_essential_2007}
+Wilbert~O. Galitz.
+\newblock {\em The essential guide to user interface design: an introduction to
+  {GUI} design principles and techniques}.
+\newblock Wiley Pub, Indianapolis, IN, 3rd ed edition, 2007.
+
+\bibitem{guerrero_real-time_2014}
+Ricardo Jose~S. Guerrero, Francis Nguyen, and Genki Yoshikawa.
+\newblock Real-time gas identification on mobile platforms using a
+  nanomechanical membrane-type surface stress sensor.
+\newblock {\em EPJ Techniques and Instrumentation}, 1(1):1--5, 2014.
+
+\bibitem{gurko_64-channel_2003}
+V.~F. Gurko, P.~V. Zubarev, A.~N. Kvashnin, and A.~D. Khil'chenko.
+\newblock A 64-{Channel} {Data} {Acquisition} {System} for {Heterodyne}
+  {Interferometric} {Plasma} {Density} {Diagnostics}.
+\newblock {\em Instruments and Experimental Techniques}, 46(5):619--623, 2003.
+
+\bibitem{gurko_32-channel_2003}
+V.~F. Gurko, P.~V. Zubarev, A.~N. Kvashnin, D.~V. Moiseev, A.~D. Khil'chenko,
+  and V.~A. Khil'chenko.
+\newblock A 32-{Channel} {High}-{Speed} {Simultaneously} {Sampling} {Data}
+  {Acquisition} {System}.
+\newblock {\em Instruments and Experimental Techniques}, 46(5):608--612, 2003.
+
+\bibitem{hering_elektronik_2014}
+Ekbert Hering, Klaus Bressler, and Jürgen Gutekunst.
+\newblock {\em Elektronik für {Ingenieure} und {Naturwissenschaftler}}.
+\newblock Springer-{Lehrbuch}. Springer Berlin Heidelberg, Berlin, Heidelberg,
+  2014.
+
+\bibitem{ibm_cua_1992}
+{IBM}.
+\newblock {CUA} {Basic} {Interface} {Design} {Guide}, December 1992.
+
+\bibitem{ibm_object-oriented_1992}
+{IBM}.
+\newblock Object-oriented interface design: {IBM} common user access
+  guidelines, 1992.
+
+\bibitem{johansson_case_2007}
+Maria Johansson and Mattias Arvola.
+\newblock A case study of how user interface sketches, scenarios and computer
+  prototypes structure stakeholder meetings.
+\newblock In {\em Proceedings of the 21st {British} {HCI} {Group} {Annual}
+  {Conference} on {People} and {Computers}: {HCI}... but not as we know
+  it-{Volume} 1}, pages 177--184. British Computer Society, 2007.
+\newblock bibtex: Johansson2007.
+
+\bibitem{jokinen_evaluating_????}
+Kristiina Jokinen.
+\newblock Evaluating {Robustness} in {Dialogue} {Systems}3.
+
+\bibitem{joshua_m._pearce_open-source_2014}
+{Joshua M. Pearce}.
+\newblock {\em Open-{Source} {Lab}}.
+\newblock Elsevier, Boston, 1 edition, 2014.
+
+\bibitem{kahan_ieee_????}
+W.~Kahan.
+\newblock {IEEE} {Standard} 754 for {Binary} {Floating}-{Point} {Arithmetic}.
+
+\bibitem{koenka_instrumentino:_2014}
+Israel~Joel Koenka, Jorge Sáiz, and Peter~C. Hauser.
+\newblock Instrumentino: {An} open-source modular {Python} framework for
+  controlling {Arduino} based experimental instruments.
+\newblock {\em Computer Physics Communications}, 185(10):2724--2729, October
+  2014.
+
+\bibitem{kuhnel_arduino:_2011}
+Claus Kühnel.
+\newblock {\em Arduino: {Hard}- und {Software} {Open} {Source} {Plattform}}.
+\newblock Skript Verlag Kühnel, 1 edition, August 2011.
+
+\bibitem{lahart_taking_2009}
+Justin Lahart.
+\newblock Taking an {Open}-{Source} {Approach} to {Hardware}, November 2009.
+
+\bibitem{lamb_cost-effective_2013}
+Jacob~J. Lamb, Julian~J. Eaton-Rye, and Martin~F. Hohmann-Marriott.
+\newblock A {Cost}-{Effective} {Solution} for the {Reliable} {Determination} of
+  {Cell} {Numbers} of {Microorganisms} in {Liquid} {Culture}.
+\newblock {\em Current Microbiology}, 67(2):123--129, August 2013.
+
+\bibitem{layer_measurements_2010}
+Edward Layer and Krzysztof Tomczyk.
+\newblock {\em Measurements, {Modelling} and {Simulation} of {Dynamic}
+  {Systems}}.
+\newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 2010.
+
+\bibitem{ludvig_reprogrammable_2002}
+Jozsef Ludvig, James McCarthy, Stephen Neuendorffer, and Sonia~R. Sachs.
+\newblock Reprogrammable platforms for high-speed data acquisition.
+\newblock {\em Design Automation for Embedded Systems}, 7(4):341--364, 2002.
+
+\bibitem{lux_data-virtualization_2013}
+Christopher Lux.
+\newblock A {Data}-{Virtualization} {System} for {Large} {Model}
+  {Visualization}.
+\newblock 2013.
+
+\bibitem{mandl_messen_2013}
+Roland Mandl and Bernhard Sick.
+\newblock {\em Messen, {Steuern} und {Regeln} mit {ICONNECT}:
+  {Komponentenbasierte} {Bild}-und {Signalverarbeitungsanwendungen} visuell
+  programmiert}.
+\newblock Springer-Verlag, 2013.
+
+\bibitem{maricic_high-resolution_1994}
+Z.~B. Maričić, L.~P. Ellison, B.~G. Gowland, and G.~A. Gledhill.
+\newblock A high-resolution high-speed data acquisition system based on an
+  {IBM}-{PC} 486, for control of a {Fourier} transform spectrometer.
+\newblock {\em International journal of infrared and millimeter waves},
+  15(1):247--261, 1994.
+
+\bibitem{mok_-line_1982}
+C.~I. Mok, N.~J. Burton, and T.~J. Parker.
+\newblock An on-line microcomputing system for the acquisition and processing
+  of data from a fourier spectrometer.
+\newblock {\em International Journal of Infrared and Millimeter Waves},
+  3(3):331--337, 1982.
+
+\bibitem{mori_visual_1995}
+Hirohiko Mori and Yoshio Hayashi.
+\newblock Visual interference with users’ tasks on multiwindow systems.
+\newblock {\em International Journal of Human-Computer Interaction},
+  7(4):329--340, October 1995.
+
+\bibitem{nalla_senthilnathan_simple_2008}
+{Nalla Senthilnathan}.
+\newblock A simple pattern for requirements analysis, August 2008.
+
+\bibitem{nashtara_islam_z8_2006}
+{Nashtara Islam}, {Robert Watson}, and {Philip Moore}.
+\newblock Z8 {Encore} {Microcontroller} {Based} {Data} {Logging} {System},
+  October 2006.
+
+\bibitem{o._paiva_voltage--frequency/frequency--voltageconverter_2002}
+Michael O.~Paiva and Inc. Microchip~Technology.
+\newblock Voltage-to-{Frequency}/{Frequency}-to-{VoltageConverter}, 2002.
+
+\bibitem{pearce_quantifying_2015}
+Joshua~M. Pearce.
+\newblock Quantifying the {Value} of {Open} {Source} {Hard}-ware {Development}.
+\newblock {\em Modern Economy}, 06(01):1--11, 2015.
+
+\bibitem{pease_analog_2008}
+Robert Pease.
+\newblock {\em Analog circuits}.
+\newblock Newnes, 2008.
+
+\bibitem{pramanik_unique_????}
+Arko Pramanik, Rahul Thaokar, and Pravika Zade.
+\newblock Unique {Office} {Communication} {Using} {RF} {Signal} {With}
+  {Matlab}.
+
+\bibitem{schubert_using_2013}
+Thomas~W. Schubert, Alessandro D’Ausilio, and Rosario Canto.
+\newblock Using {Arduino} microcontroller boards to measure response latencies.
+\newblock {\em Behavior Research Methods}, 45(4):1332--1346, December 2013.
+
+\bibitem{thijs_elenbaas_arduino--pc_2013}
+{Thijs Elenbaas}.
+\newblock Arduino-to-{PC} messaging, September 2013.
+
+\bibitem{torrone_why_2011}
+Phillip Torrone.
+\newblock Why the {Arduino} {Won} and {Why} {It}’s {Here} to {Stay}.
+\newblock {\em Make:}, February 2011.
+
+\bibitem{tristo_real_2015}
+Gianluca Tristo, Giuliano Bissacco, Andrej Lebar, and Joško Valentinčič.
+\newblock Real time power consumption monitoring for energy efficiency analysis
+  in micro {EDM} milling.
+\newblock {\em The International Journal of Advanced Manufacturing Technology},
+  January 2015.
+
+\bibitem{van_roermund_smart_2010}
+Arthur van Roermund, Hans Hegt, and Pieter Harpe.
+\newblock {\em Smart {AD} and {DA} {Conversion}}.
+\newblock Springer Netherlands, Dordrecht, 2010.
+
+\bibitem{wheat_arduino_2011}
+Dale Wheat.
+\newblock {\em Arduino internals}.
+\newblock Apress, 2011.
+
+\bibitem{wijnen_open-source_2014}
+Bas Wijnen, G.~C. Anzalone, and Joshua~M. Pearce.
+\newblock Open-source mobile water quality testing platform.
+\newblock {\em Journal of Water, Sanitation and Hygiene for Development},
+  4(3):532, September 2014.
+
+\bibitem{yates_arduinos_2014}
+Darren Yates.
+\newblock Arduino's analog-to-digital converter: how it works, April 2014.
 
 \end{thebibliography}

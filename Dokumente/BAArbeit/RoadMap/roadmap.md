@@ -4,18 +4,27 @@ Gliederung
 Titel: Entwicklung einer Software zur Messdatenerfassung und Signalsteuerung mit Hilfe der Arduino Plattform
 --
 
+Zusammenfassung
+--
+
+Inhaltsverzeichnis
+--
+
 Einführung
 --
+> Lizensstreit bei Arduino erwähnen und erklären das diese Arbeit mit Arduino auf Genuino meint
+
 Related Work
 --
   * -> Ist-Zustand
 
 Theorethische Grundlagen
 --
-  * Was ist ein Arduino
   * Was ist ein Datenlogger
   * Ist-Zustand (gängiger Überblick bzg. Software-Plattformen zur Kommunikation mit Arduino entspr. Messdatenerfassung, Instrumentino & Co.)
   * Linearisierung von Signalen
+  * Was ist ein Arduino
+    * > *Referenzspannung Optionen erklären*
   * Analog-Digital Wandler
     * Anwendung auf Arduino (Referenzspanung berücksichtigen)
 
