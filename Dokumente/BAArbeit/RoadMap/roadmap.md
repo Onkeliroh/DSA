@@ -25,6 +25,8 @@ Theorethische Grundlagen
   * Linearisierung von Signalen
   * Was ist ein Arduino
     * > *Referenzspannung Optionen erklären*
+  * Was ist ein Microcontroller
+    * > Klären ob dieser Begriff durch etwas "deutsches" ersetzt werden muss
   * Analog-Digital Wandler
     * Anwendung auf Arduino (Referenzspanung berücksichtigen)
 

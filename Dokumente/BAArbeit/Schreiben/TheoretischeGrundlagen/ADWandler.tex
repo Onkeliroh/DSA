@@ -1,7 +1,7 @@
 %Was ist ein ADWandler
 Um analoge Signale zu digitalisieren, werden Analog-Digital-Wandler (kurz: AD-Wandler) eingesetzt. Diese Wandler erzeugen ein binäres Abbild der gegebenen analogen Spannung. Die Geschwindigkeit und Genauigkeit dieser Wandler variiert sowohl mit der Bit-Auflösung, als auch mit dem verwendeten Verfahren.
 
-Laut \cite{hering_elektronik_2014} existieren fünf nennenswerte, beziehungsweise ausgereifte Verfahren für die Analog-Digital-Wandlung:
+Laut \cite{heringelektronik2014} existieren fünf nennenswerte, beziehungsweise ausgereifte Verfahren für die Analog-Digital-Wandlung:
 \begin{enumerate}
  \item Integrierender AD-Wandler, Zweirampenverfahren
  \item AD-Wandler nach dem Prinzip der sukzessiven Approximation SAR-Prinzip
@@ -10,15 +10,15 @@ Laut \cite{hering_elektronik_2014} existieren fünf nennenswerte, beziehungsweis
  \item Parallel-Analog-Digital-Wandler
 \end{enumerate}
 
-Der in einer Arduino Uno Rev.3 Plattform verbaute ATmega328P Mikroprozessor\cite{_arduino_2015} benutzt einen AD-Wandler mit einer 10 Bit Auflösung nach dem Prinzip der sukzessiven Approximation\cite{atmel_corporation_atmega48a/pa/88a/pa/168a/pa/328/p_2014}\cite{yates_arduinos_2014}. 
+Der in einer Arduino Uno Rev.3 Plattform verbaute ATmega328P Mikroprozessor\cite{arduino2015} benutzt einen AD-Wandler mit einer 10 Bit Auflösung nach dem Prinzip der sukzessiven Approximation\cite{atmelcorporationatmega48apa88apa168apa328p2014}\cite{yatesarduinos2014}.
 
-In einem Arduino Uno Rev.3 sind sechs analoge Ein-/Ausgänge (A0-A5)\cite{_arduino_2015} und einen AD-Wandler\cite{atmel_corporation_atmega48a/pa/88a/pa/168a/pa/328/p_2014} verfügbar. Um eine anliegenden Spannung an jedem Eingang umwandeln zu können ist vor dem AD-Wandler ein Multiplexer geschalten, der je nach Bedarf den angeforderten Wert eines der Pins ausliest. Da nur ein AD-Wandler verbaut ist wird folglich das gleichzeitige Auslesen mehrerer Eingänge verhindert.
+In einem Arduino Uno Rev.3 sind sechs analoge Ein-/Ausgänge (A0-A5)\cite{arduino2015} und einen AD-Wandler\cite{atmelcorporationatmega48apa88apa168apa328p2014} verfügbar. Um eine anliegenden Spannung an jedem Eingang umwandeln zu können ist vor dem AD-Wandler ein Multiplexer geschalten, der je nach Bedarf den angeforderten Wert eines der Pins an den AD-Wandler weiter gibt. Da nur ein AD-Wandler verbaut ist wird folglich das gleichzeitige Auslesen mehrerer Eingänge verhindert.
 
-Bei einem Mikroprozessor wie dem ATmega328P mit einer 16MHz Taktung und einer AD-Wandler-Auflösung von 10Bit dauert das Wandeln eines Kanals 13 Zyklen. Diese 13 Zyklen ergeben sich aus der Dauer der einzelnen Operationen und sind, auch auf Grund ihrer Hardwarenähe, sehr verlässlich in ihrer Dauer\cite{atmel_corporation_atmega48a/pa/88a/pa/168a/pa/328/p_2014}\todo{Steht das da wirklich?}.
-Der AD-Wandler ist abhängig von seiner internen Uhr. Diese gibt ihm beeinflusst durch einen Prescaler, einer Art Taktbegrenzer, eine voreingestellte Effektivfrequenz von 125Hz ($16\text{MHz} / 128 = 125\text{Hz}$ ). Dies bedeutet, dass der AD-Wandler nicht mit einer Taktrate von 16MHz misst, sondern Prescaler die Taktrate durch den Faktor 128 teilt.
+Bei einem Mikroprozessor wie dem ATmega328P mit einer 16MHz Taktung und einer AD-Wandler-Auflösung von 10Bit dauert das Wandeln eines Kanals 13 Zyklen. Diese 13 Zyklen ergeben sich aus der Dauer der einzelnen Operationen und sind, auch auf Grund ihrer Hardwarenähe, zeitlich sehr zuverlässlig\cite{atmelcorporationatmega48apa88apa168apa328p2014}\todo{Steht das da wirklich?}.
+Der AD-Wandler ist abhängig von seiner internen Uhr. Diese gibt ihm beeinflusst durch einen Prescaler, einer Art Taktbegrenzer, eine voreingestellte Effektivfrequenz von 125Hz ($16\text{MHz} / 128 = 125\text{Hz}$ ). Dies bedeutet, dass der AD-Wandler nicht mit einer Taktrate von 16MHz misst, sondern Prescaler die Taktrate durch den Faktor 128 teilt\cite{atmelcorporationatmega48apa88apa168apa328p2014}.
 Effektiv dauert somit eine Messung 9.6kHz ($125\text{Hz} / 13\text{Zyklen}$) . Möchte man nun alle sechs Kanäle auslesen muss man den AD-Wandler sechs mal anfragen, was eine effektive Frequenz von 1.6MHz zur Folge hat.
 
-Es ist  möglich den Prescaler des AD-Wandler durch Registermanipulation zu ändern\cite{atmel_corporation_atmega48a/pa/88a/pa/168a/pa/328/p_2014}, aber einer höhere Geschwindigkeit zu zu Lasten der Genauigkeit der Messung.
+Es ist  möglich den Prescaler des AD-Wandler durch Registermanipulation zu ändern\cite{atmelcorporationatmega48apa88apa168apa328p2014} und somit die Frequenz des AD-Wandler zu ändern.Dabei ist zu beachten, dass eine höhere Geschwindigkeit zu Lasten der Genauigkeit der Messungen geht. Niedrigere Frequenzen führen allerdings auf Grund hardware-seitiger Beschränkungen jedoch nicht zu einer höheren Genauigkeit.
 
 Dieser ausgelesene Wert stellt dabei das Verhältnis zwischen der anliegenden Spannung am analogen Eingang und der relativen Spannung der Mikroprozessor dar.
 \begin{center}
@@ -27,58 +27,60 @@ Dieser ausgelesene Wert stellt dabei das Verhältnis zwischen der anliegenden Sp
     \frac{\text{Größt möglicher Wert im Rahmen der Bit-Auflösung}}{\text{analoge Referenzspannung}} = \frac{\text{Verhältnis}}{\text{anliegende Eingangsspannung}}
   \end{equation}
 \end{center}
-Der ATmega328P Mikroprozessor besitzt eine interne Referenzspannung von 1,1 Volt und die Option eine andere Spannungsquelle als Referenz über den AREF Eingang anzuschließen\cite{atmel_corporation_atmega48a/pa/88a/pa/168a/pa/328/p_201}. Zusätzlich bieten die Arduino Plattformen eine vorgegebene Referenzspannung von 5 bzw. 3,3 Volt\cite{_arduino_2015-1}, welche die voreingestellte Referenzspannung in den mit der Arduino \acr {IDE} compilierten Programmen ist.
+
+Wendet man diese Formal auf einen Arduino Uno Rev.3 mit einem ATmega328P Mikroprozessor an:
+\begin{center}
+  \begin{equation}
+      \frac{\overbrace{1023}^\text{Größt möglicher 10Bit Wert}}{\underbrace{5V}_\text{voreingestellte Referenzspannung}} = \frac{x}{V_\text{Eingang}}
+  \end{equation}
+\end{center}
+Der ATmega328P Mikroprozessor besitzt eine interne Referenzspannung von 1,1 Volt und die Option eine andere Spannungsquelle als Referenz über den AREF Eingang anzuschließen\cite{atmelcorporationatmega48apa88apa168apa328p2014}. Zusätzlich bieten die Arduino Plattformen eine vorgegebene Referenzspannung von 5 bzw. 3,3 Volt\cite{arduino2015-1}, welche die voreingestellte Referenzspannung in den mit der Arduino \acr {IDE} compilierten Programmen ist.
 
 %TODO was ist ein Multiplexer?
 
-Das Auslesen geschieht mittels des Prinzips der sukzessiven Approximation. Hierbei wird die anliegende Eingangsspannung nach und nach, beginnend mit dem MSB und endend mit dem LSB, verglichen. Der Arduino Uno Rev.3 besitzt eine Auflösung von 10 Bit. Folglich repräsentiert das MSB den Wert $2^{10}$ und das LSB den Wert $2^{0}$.
+Das Auslesen geschieht mittels des Prinzips der sukzessiven Approximation. Hierbei wird die anliegende Eingangsspannung nach und nach, beginnend mit dem MSB und endend mit dem LSB, verglichen. Der Arduino Uno Rev.3 besitzt eine Auflösung von 10 Bit. Folglich repräsentiert das MSB den Wert $2^{9}$ und das LSB den Wert $2^{0}$.
 Der AD-Wandler vergleicht den Wert der Spannung mit dem MSB, sollte der Spannungswert über dem des MSB liegen wird eine \textit{1} geschrieben, andern Falls eine \textit{0}. Dieser Vergleich wird für jedes Bit angestellt. Sind alle Bits verglichen, ist die digitale Repräsentation des anliegenden Spannungswertes berechnet.
 
 \begin{framed}
   \textbf{Beispiel:}
-  
+
   Gegeben sei:
-  
+
   \begin{itemize}
     \item Eingangsspannung $V_\mathsf{E}$ mit 2,12 Volt
     \item Referenzspannung $V_\mathsf{Ref}$ mit 5 Volt
     \item AD-Wandler mit 10 Bit Auflösung
   \end{itemize}
-  
+
   Gesucht ist:
-  
+
   \begin{itemize}
     \item digitale Repräsentation von $V_\mathsf{E}$
   \end{itemize}
 
   Die AD-Wandlung geschieht wie folgt:
-  
-  \begin{tabular}{r|c|r|c|c}
+
+  \begin{tabular}{r|c|r|c|l}
    Bit Nummer & Bit-Binär & Bit-Dezimal & Ergebnis & Rechnung \\\hline
-   10 & $2^{9}$ & 512   &       & \\
-   9& $2^{8}$ & 256     &       & \\
-   8& $2^{7}$ & 128     &       & \\
-   7& $2^{6}$ & 64      &       & \\
-   6& $2^{5}$ & 32      &       & \\
-   5& $2^{4}$ & 16      &       & \\
-   4& $2^{3}$ & 8       &       & \\
-   3 & $2^2$ & 4        & 0     & $1 > 4$ \\
-   2 & $2^1$ & 2        &       &\\ 
-   1 & $2^0$ & 1        &
+   10 & $2^{9}$ & 512   & 0     & $V_\text{E} > 512$ \\
+   9& $2^{8}$ & 256     & 1     & $V_\text{E} > 256$\\
+   8& $2^{7}$ & 128     & 1     & $V_\text{E} < 256+128$\\
+   7& $2^{6}$ & 64      & 0     & $V_\text{E} < 256+128+64$\\
+   6& $2^{5}$ & 32      & 1     & $V_\text{E} > 256+128+32$\\
+   5& $2^{4}$ & 16      & 1     & $V_\text{E} > 256+128+32+16$\\
+   4& $2^{3}$ & 8       & 0     & $V_\text{E} > 256+128+32+16+8$\\
+   3 & $2^2$ & 4        & 0     & $V_\text{E} > 256+128+32+16+4$\\
+   2 & $2^1$ & 2        & 1     & $V_\text{E} > 256+128+32+16+2$\\
+   1 & $2^0$ & 1        & 0     & $V_\text{E} < 256+128+32+16+2+1$\\
   \end{tabular}
- 
-  Das Verhältnis berechnet sich, nach der Formal aus \eqref{eq: Formel zur Berechnung der anligenden Spannung in Relation zur Referenzspannung} wie folgt:
-  \begin{equation}
-    \begin{align}
-      \frac{1023}{5V} &= \frac{x}{2.12V} \\
-      x &= \frac{1023}{5V} \times 2.12V   \\
-      x &= \underline{\underline{434}} \approx 433.752 
-    \end{align}
-  \end{equation}
+
+  Das Verhältnis berechnet sich, nach der Formal aus Gleichung\eqref{eq: Formel zur Berechnung der anligenden Spannung in Relation zur Referenzspannung}, wie folgt:
+  \begin{align}
+    \frac{1023}{5V} &= \frac{x}{2.12V} \\
+    x &= \frac{1023}{5V} \times 2.12V   \\
+    x &= 0110110010_2 = \underline{\underline{434_{10}}} \approx 433.752_{10}
+  \end{align}
 \end{framed}
-
-
-}
 
   %Prinzip
   %Typen

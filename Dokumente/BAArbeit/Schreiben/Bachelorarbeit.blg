@@ -3,68 +3,75 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: Bachelorarbeit.aux
 The style file: plain.bst
 Database file #1: Bachelorarbeit.bib
-Warning--to sort, need author or key in _what_????
-Warning--to sort, need author or key in _arduino_????
-Warning--to sort, need author or key in _cr1000_????
-Warning--to sort, need author or key in __????
-Warning--to sort, need author or key in _analog--digital_2015
-Warning--to sort, need author or key in _design_????
-Warning--to sort, need author or key in _robot_????
-Warning--to sort, need author or key in _iso_2015
-Warning--to sort, need author or key in _arduino_2015
-Warning--empty author in __????
-Warning--empty title in __????
-Warning--empty journal in __????
-Warning--empty year in __????
-Warning--empty author in _what_????
-Warning--empty journal in _what_????
-Warning--empty year in _what_????
-Warning--empty journal in cheung_data_????
-Warning--empty year in cheung_data_????
-Warning--empty journal in jokinen_evaluating_????
-Warning--empty year in jokinen_evaluating_????
-Warning--empty journal in lux_data-virtualization_2013
-Warning--empty journal in pramanik_unique_????
-Warning--empty year in pramanik_unique_????
-You've used 56 entries,
+Warning--to sort, need author or key in what
+Warning--to sort, need author or key in arduino-1
+Warning--to sort, need author or key in cr1000
+Warning--to sort, need author or key in open
+Warning--to sort, need author or key in google
+Warning--to sort, need author or key in zotero-null-96
+Warning--to sort, need author or key in analogtodigital2015
+Warning--to sort, need author or key in design
+Name 2 in "{O}. {Paiva}, {Michael} and {Microchip} {Technology}{,}{Inc}.," has a comma at the end for entry o.paivavoltagetofrequencyfrequencytovoltageconverter2002
+while executing---line 1049 of file plain.bst
+Warning--to sort, need author or key in robot
+Warning--to sort, need author or key in iso2015
+Warning--to sort, need author or key in arduino2015-1
+Warning--to sort, need author or key in arduino2015
+Warning--empty author in zotero-null-96
+Warning--empty title in zotero-null-96
+Warning--empty journal in zotero-null-96
+Warning--empty year in zotero-null-96
+Warning--empty author in what
+Warning--empty journal in what
+Warning--empty year in what
+Warning--empty journal in cheungdata
+Warning--empty year in cheungdata
+Warning--empty journal in jokinenevaluating
+Warning--empty year in jokinenevaluating
+Warning--empty journal in luxdatavirtualization2013
+Name 2 in "{O}. {Paiva}, {Michael} and {Microchip} {Technology}{,}{Inc}.," has a comma at the end for entry o.paivavoltagetofrequencyfrequencytovoltageconverter2002
+while executing---line 1090 of file plain.bst
+Warning--empty journal in pramanikunique
+Warning--empty year in pramanikunique
+You've used 61 entries,
             2118 wiz_defined-function locations,
-            756 strings with 12467 characters,
-and the built_in function-call counts, 15381 in all, are:
-= -- 1436
-> -- 710
+            773 strings with 13354 characters,
+and the built_in function-call counts, 16243 in all, are:
+= -- 1511
+> -- 733
 < -- 1
-+ -- 300
-- -- 232
-* -- 1064
-:= -- 2522
-add.period$ -- 141
-call.type$ -- 56
-change.case$ -- 277
++ -- 302
+- -- 238
+* -- 1095
+:= -- 2636
+add.period$ -- 148
+call.type$ -- 61
+change.case$ -- 295
 chr.to.int$ -- 0
-cite$ -- 79
-duplicate$ -- 557
-empty$ -- 1312
-format.name$ -- 232
-if$ -- 3171
+cite$ -- 87
+duplicate$ -- 592
+empty$ -- 1425
+format.name$ -- 238
+if$ -- 3377
 int.to.chr$ -- 0
-int.to.str$ -- 56
+int.to.str$ -- 61
 missing$ -- 47
-newline$ -- 254
-num.names$ -- 94
-pop$ -- 389
+newline$ -- 271
+num.names$ -- 98
+pop$ -- 438
 preamble$ -- 1
-purify$ -- 228
+purify$ -- 241
 quote$ -- 0
-skip$ -- 424
+skip$ -- 463
 stack$ -- 0
-substring$ -- 792
-swap$ -- 60
+substring$ -- 808
+swap$ -- 65
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 206
-warning$ -- 23
-while$ -- 135
-width$ -- 58
-write$ -- 523
-(There were 23 warnings)
+type$ -- 226
+warning$ -- 26
+while$ -- 139
+width$ -- 63
+write$ -- 556
+(There were 2 error messages)
