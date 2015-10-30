@@ -3,20 +3,21 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: Bachelorarbeit.aux
 The style file: plain.bst
 Database file #1: Bachelorarbeit.bib
-Warning--to sort, need author or key in what
-Warning--to sort, need author or key in arduino-1
-Warning--to sort, need author or key in cr1000
-Warning--to sort, need author or key in open
-Warning--to sort, need author or key in google
 Warning--to sort, need author or key in zotero-null-96
 Warning--to sort, need author or key in analogtodigital2015
-Warning--to sort, need author or key in design
+Warning--to sort, need author or key in robot
+Warning--to sort, need author or key in arduino
+Warning--to sort, need author or key in open
+Warning--to sort, need author or key in google
 Name 2 in "{O}. {Paiva}, {Michael} and {Microchip} {Technology}{,}{Inc}.," has a comma at the end for entry o.paivavoltagetofrequencyfrequencytovoltageconverter2002
 while executing---line 1049 of file plain.bst
-Warning--to sort, need author or key in robot
-Warning--to sort, need author or key in iso2015
-Warning--to sort, need author or key in arduino2015-1
+Warning--to sort, need author or key in arduino-1
+Warning--to sort, need author or key in what
+Warning--to sort, need author or key in cr1000
 Warning--to sort, need author or key in arduino2015
+Warning--to sort, need author or key in design
+Warning--to sort, need author or key in arduino2015-1
+Warning--to sort, need author or key in iso2015
 Warning--empty author in zotero-null-96
 Warning--empty title in zotero-null-96
 Warning--empty journal in zotero-null-96
@@ -33,45 +34,45 @@ Name 2 in "{O}. {Paiva}, {Michael} and {Microchip} {Technology}{,}{Inc}.," has a
 while executing---line 1090 of file plain.bst
 Warning--empty journal in pramanikunique
 Warning--empty year in pramanikunique
-You've used 61 entries,
+You've used 62 entries,
             2118 wiz_defined-function locations,
-            773 strings with 13354 characters,
-and the built_in function-call counts, 16243 in all, are:
-= -- 1511
-> -- 733
+            776 strings with 13537 characters,
+and the built_in function-call counts, 16391 in all, are:
+= -- 1523
+> -- 734
 < -- 1
-+ -- 302
++ -- 303
 - -- 238
-* -- 1095
-:= -- 2636
-add.period$ -- 148
-call.type$ -- 61
-change.case$ -- 295
+* -- 1100
+:= -- 2650
+add.period$ -- 149
+call.type$ -- 62
+change.case$ -- 298
 chr.to.int$ -- 0
-cite$ -- 87
-duplicate$ -- 592
-empty$ -- 1425
+cite$ -- 89
+duplicate$ -- 599
+empty$ -- 1448
 format.name$ -- 238
-if$ -- 3377
+if$ -- 3414
 int.to.chr$ -- 0
-int.to.str$ -- 61
+int.to.str$ -- 62
 missing$ -- 47
-newline$ -- 271
+newline$ -- 274
 num.names$ -- 98
-pop$ -- 438
+pop$ -- 446
 preamble$ -- 1
-purify$ -- 241
+purify$ -- 243
 quote$ -- 0
-skip$ -- 463
+skip$ -- 473
 stack$ -- 0
-substring$ -- 808
-swap$ -- 65
+substring$ -- 813
+swap$ -- 66
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 226
-warning$ -- 26
+type$ -- 230
+warning$ -- 27
 while$ -- 139
-width$ -- 63
-write$ -- 556
+width$ -- 64
+write$ -- 561
 (There were 2 error messages)

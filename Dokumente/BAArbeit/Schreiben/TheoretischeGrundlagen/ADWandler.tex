@@ -36,10 +36,12 @@ Wendet man diese Formal auf einen Arduino Uno Rev.3 mit einem ATmega328P Mikropr
 \end{center}
 Der ATmega328P Mikroprozessor besitzt eine interne Referenzspannung von 1,1 Volt und die Option eine andere Spannungsquelle als Referenz über den AREF Eingang anzuschließen\cite{atmelcorporationatmega48apa88apa168apa328p2014}. Zusätzlich bieten die Arduino Plattformen eine vorgegebene Referenzspannung von 5 bzw. 3,3 Volt\cite{arduino2015-1}, welche die voreingestellte Referenzspannung in den mit der Arduino \acr {IDE} compilierten Programmen ist.
 
-%TODO was ist ein Multiplexer?
+\todo{was ist ein Multiplexer?}
 
 Das Auslesen geschieht mittels des Prinzips der sukzessiven Approximation. Hierbei wird die anliegende Eingangsspannung nach und nach, beginnend mit dem MSB und endend mit dem LSB, verglichen. Der Arduino Uno Rev.3 besitzt eine Auflösung von 10 Bit. Folglich repräsentiert das MSB den Wert $2^{9}$ und das LSB den Wert $2^{0}$.
-Der AD-Wandler vergleicht den Wert der Spannung mit dem MSB, sollte der Spannungswert über dem des MSB liegen wird eine \textit{1} geschrieben, andern Falls eine \textit{0}. Dieser Vergleich wird für jedes Bit angestellt. Sind alle Bits verglichen, ist die digitale Repräsentation des anliegenden Spannungswertes berechnet.
+
+Der AD-Wandler vergleich, beginned mit dem MSB, einen von Mikroprozessor erstellten Spannungswert aus dem eingebauten DA-Wandler (Digital-Analog-Wandler). Sollte diese erzeugte Spannung des DA-Wandlers kleiner der Anliegenden sein, so wird das MSB auf \textit{1} gesetzt. Die folgenden Spannungen werden aus den Ergebissen der vorergehenden Vergleiche erzeugt und wiederum mit der Eingangsspannung verglichen.
+%Der AD-Wandler vergleicht den Wert der Spannung mit dem MSB, sollte der Spannungswert über dem des MSB liegen wird eine \textit{1} geschrieben, andern Falls eine \textit{0}. Dieser Vergleich wird für jedes Bit angestellt. Sind alle Bits verglichen, ist die digitale Repräsentation des anliegenden Spannungswertes berechnet.
 
 \begin{framed}
   \textbf{Beispiel:}
@@ -60,18 +62,18 @@ Der AD-Wandler vergleicht den Wert der Spannung mit dem MSB, sollte der Spannung
 
   Die AD-Wandlung geschieht wie folgt:
 
-  \begin{tabular}{r|c|r|c|l}
-   Bit Nummer & Bit-Binär & Bit-Dezimal & Ergebnis & Rechnung \\\hline
-   10 & $2^{9}$ & 512   & 0     & $V_\text{E} > 512$ \\
-   9& $2^{8}$ & 256     & 1     & $V_\text{E} > 256$\\
-   8& $2^{7}$ & 128     & 1     & $V_\text{E} < 256+128$\\
-   7& $2^{6}$ & 64      & 0     & $V_\text{E} < 256+128+64$\\
-   6& $2^{5}$ & 32      & 1     & $V_\text{E} > 256+128+32$\\
-   5& $2^{4}$ & 16      & 1     & $V_\text{E} > 256+128+32+16$\\
-   4& $2^{3}$ & 8       & 0     & $V_\text{E} > 256+128+32+16+8$\\
-   3 & $2^2$ & 4        & 0     & $V_\text{E} > 256+128+32+16+4$\\
-   2 & $2^1$ & 2        & 1     & $V_\text{E} > 256+128+32+16+2$\\
-   1 & $2^0$ & 1        & 0     & $V_\text{E} < 256+128+32+16+2+1$\\
+  \begin{tabular}{r|c|r|c|c|l}
+   Bit& Binär & Dezimal & DA-Wandler & Ergebnis & Rechnung \\\hline
+   10 & $2^{9}$ & 512   & $\approx2.5V$ & 0     & $V_\text{E} > 512$ \\
+   9& $2^{8}$ & 256     & $\approx1.25V$ & 1     & $V_\text{E} > 256$\\
+   8& $2^{7}$ & 128     & $\approx1.87V$ & 1     & $V_\text{E} < 256+128$\\
+   7& $2^{6}$ & 64      & $\approx2.19V$ & 0     & $V_\text{E} < 256+128+64$\\
+   6& $2^{5}$ & 32      & $\approx2.03V$ & 1     & $V_\text{E} > 256+128+32$\\
+   5& $2^{4}$ & 16      & $\approx2.11V$ & 1     & $V_\text{E} > 256+128+32+16$\\
+   4& $2^{3}$ & 8       & $\approx2.15V$ & 0     & $V_\text{E} > 256+128+32+16+8$\\
+   3 & $2^2$ & 4        & $\approx2.13V$ & 0     & $V_\text{E} > 256+128+32+16+4$\\
+   2 & $2^1$ & 2        & $\approx2.12V$ & 1     & $V_\text{E} > 256+128+32+16+2$\\
+   1 & $2^0$ & 1        & $\approx2.13V$ & 0     & $V_\text{E} < 256+128+32+16+2+1$\\
   \end{tabular}
 
   Das Verhältnis berechnet sich, nach der Formal aus Gleichung\eqref{eq: Formel zur Berechnung der anligenden Spannung in Relation zur Referenzspannung}, wie folgt:
