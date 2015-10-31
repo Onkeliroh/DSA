@@ -1,4 +1,0 @@
-wxPython
-pyserial
-matplotlib
-numpy

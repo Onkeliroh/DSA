@@ -1,1 +1,0 @@
-avr-g++ -c -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega32u4 -DF_CPU=16000000L -MMD -DUSB_VID=0x2341 -DUSB_PID=0x8036 -DARDUINO=106 -I/usr/share/arduino/hardware/arduino/cores/arduino -I/usr/share/arduino/hardware/arduino/variants/leonardo -I/usr/share/arduino/libraries/SoftwareSerial -IPID_v1/ controlino.cpp -o controlino.cpp.o
