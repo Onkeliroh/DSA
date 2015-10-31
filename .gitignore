@@ -8,6 +8,7 @@
 *.mdb
 *.userprefs
 *.log*
+*.gz
 
 #begin latex
 *.pdf
