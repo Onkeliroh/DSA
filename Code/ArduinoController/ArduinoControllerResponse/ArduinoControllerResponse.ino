@@ -113,6 +113,7 @@ void OnSetDigitalOutputPins()
   int condition2 = cmdMessenger.readInt16Arg();
   int condition3 = cmdMessenger.readInt16Arg();
   int condition4 = cmdMessenger.readInt16Arg();
+  int condition5 = cmdMessenger.readInt16Arg();
   for(int i =0; i<16; i++)
   {
     digitalWrite(i, bitRead(condition1,i));
@@ -124,6 +125,9 @@ void OnSetDigitalOutputPins()
     #endif
     #if NUM_DIGITAL_PINS > 48
     digitalWrite(i+48, bitRead(condition4,i));
+    #endif
+    #if NUM_DIGITAL_PINS > 64
+    digitalWrite(i+64, bitRead(condition5,i));
     #endif
   }
 }

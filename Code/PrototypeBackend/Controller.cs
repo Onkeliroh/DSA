@@ -354,11 +354,12 @@ namespace PrototypeBackend
 		{
 			double time = KeeperOfTime.ElapsedMilliseconds;
 
-			UInt16[] conditions = new UInt16[4];
+			UInt16[] conditions = new UInt16[5];
 			conditions [0] = 0x0;
 			conditions [1] = 0x0;
 			conditions [2] = 0x0;
 			conditions [3] = 0x0;
+			conditions [4] = 0x0;
 
 			foreach (Sequence seq in Configuration.Sequences)
 			{
@@ -371,7 +372,13 @@ namespace PrototypeBackend
 				}
 			}
 
-			if (LastCondition [0] != conditions [0] || LastCondition [1] != conditions [1] || LastCondition [2] != conditions [2] || LastCondition [3] != conditions [3])
+			//only send new states if the is actual change 
+			if (
+				LastCondition [0] != conditions [0] ||
+				LastCondition [1] != conditions [1] ||
+				LastCondition [2] != conditions [2] ||
+				LastCondition [3] != conditions [3] ||
+				LastCondition [4] != conditions [4])
 			{
 				ArduinoController.SetDigitalOutputPins (conditions);
 			}
