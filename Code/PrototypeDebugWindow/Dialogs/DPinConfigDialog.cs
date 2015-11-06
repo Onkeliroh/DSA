@@ -45,26 +45,32 @@ namespace Frontend
 
 			this.FocusChain = new Widget[]{ entryName, cbPin, cbColor, buttonOk, buttonCancel };
 
-			if (dpin != null) {
+			if (dpin != null)
+			{
 				AvailablePins = new DPin[availablePins.Length + 1];
 				Array.Copy (availablePins, AvailablePins, availablePins.Length);
 				AvailablePins [availablePins.Length] = dpin;
-			} else {
+			} else
+			{
 				AvailablePins = availablePins;
 			}
 
-			if (dpin != null) {
+			if (dpin != null)
+			{
 				Pin = dpin;
-			} else {
+			} else
+			{
 				pin = new DPin ();
 				pin.PlotColor = GUIHelper.ColorHelper.GetRandomGdkColor ();
 				cbColor.Color = pin.PlotColor;
 			}
 
-			for (int i = 0; i < availablePins.Length; i++) {
+			for (int i = 0; i < availablePins.Length; i++)
+			{
 				cbPin.AppendText (availablePins [i].DisplayNumber);
 			}
-			if (availablePins.Length > 0) {
+			if (availablePins.Length > 0)
+			{
 				cbPin.Active = 0;
 			}
 
@@ -114,7 +120,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
-			if (pin != null) {
+			if (pin != null)
+			{
 				pin.Name = entryName.Text;
 			}
 		}
@@ -126,9 +133,10 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			if (pin != null) {
-				pin.Number = Convert.ToUInt32 (cbPin.ActiveText.Remove (0, 1));
-				pin.RealNumber = AvailablePins.Where (o => o.DisplayNumber == cbPin.ActiveText).ToList () [0].RealNumber;
+			if (pin != null)
+			{
+				pin.Number = AvailablePins.ToList ().Single (o => o.DisplayNumber.Equals (cbPin.ActiveText)).Number;
+				pin.RealNumber = AvailablePins.ToList ().Single (o => o.DisplayNumber == cbPin.ActiveText).RealNumber;
 			}
 		}
 

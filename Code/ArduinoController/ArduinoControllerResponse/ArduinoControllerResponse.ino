@@ -70,7 +70,7 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kGetAnalogReference, OnGetAnalogReference);
   cmdMessenger.attach(kGetAnalogPinNumbers, OnGetAnalogPinNumbers);
   cmdMessenger.attach(kGetSDASCL,OnGetSDASCL);
-  cmdMessenger.attach(kAlive,kAlive);
+  cmdMessenger.attach(kAlive,OnAlive);
 }
 
 // Called when a received command has no attached function
@@ -116,9 +116,15 @@ void OnSetDigitalOutputPins()
   for(int i =0; i<16; i++)
   {
     digitalWrite(i, bitRead(condition1,i));
+    #if NUM_DIGITAL_PINS > 16
     digitalWrite(i+16, bitRead(condition2,i));
+    #endif
+    #if NUM_DIGITAL_PINS > 32
     digitalWrite(i+32, bitRead(condition3,i));
+    #endif
+    #if NUM_DIGITAL_PINS > 48
     digitalWrite(i+48, bitRead(condition4,i));
+    #endif
   }
 }
 

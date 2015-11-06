@@ -22,6 +22,7 @@ namespace PrototypeBackend
 			//the  blueprint for the class, wich will be compiled
 			string tobecompiled = 
 				@"using System; 
+				using System.Math;
 				public class DynamicClass	
 				{ 
 					public static double Main(double[] parameters) 
