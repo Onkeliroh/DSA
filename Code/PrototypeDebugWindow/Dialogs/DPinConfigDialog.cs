@@ -60,7 +60,10 @@ namespace Frontend
 				Pin = dpin;
 			} else
 			{
-				pin = new DPin ();
+				if (AvailablePins.Length > 0)
+				{
+					pin = AvailablePins [0];
+				}
 				pin.PlotColor = GUIHelper.ColorHelper.GetRandomGdkColor ();
 				cbColor.Color = pin.PlotColor;
 			}
@@ -72,6 +75,10 @@ namespace Frontend
 			if (availablePins.Length > 0)
 			{
 				cbPin.Active = 0;
+			} else
+			{
+				buttonOk.Sensitive = false;
+				buttonOk.TooltipText = "There are no more Pins left to configure.";
 			}
 
 			BindEvents ();
@@ -135,8 +142,8 @@ namespace Frontend
 		{
 			if (pin != null)
 			{
-				pin.Number = AvailablePins.ToList ().Single (o => o.DisplayNumber.Equals (cbPin.ActiveText)).Number;
 				pin.RealNumber = AvailablePins.ToList ().Single (o => o.DisplayNumber == cbPin.ActiveText).RealNumber;
+				pin.Number = AvailablePins.ToList ().Single (o => o.DisplayNumber.Equals (cbPin.ActiveText)).Number;
 			}
 		}
 

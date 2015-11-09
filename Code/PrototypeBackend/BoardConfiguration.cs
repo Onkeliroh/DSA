@@ -872,6 +872,11 @@ namespace PrototypeBackend
 		/// <param name="context">Context.</param>
 		public BoardConfiguration (SerializationInfo info, StreamingContext context)
 		{
+			OnPinsUpdated = null;
+			OnBoardUpdated = null;
+			OnSequencesUpdated = null;
+			OnSignalsUpdated = null;
+
 			board = new Board ();
 			Pins = new List<IPin> ();
 			MeasurementCombinations = new List<MeasurementCombination> ();

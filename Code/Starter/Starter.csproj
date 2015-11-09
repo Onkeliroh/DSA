@@ -22,6 +22,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <Commandlineparameters>-c ../../Resources/Config.ini</Commandlineparameters>
     <ConsolePause>false</ConsolePause>
+    <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -31,6 +32,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
     <Commandlineparameters>-c /home/onkeliroh/Bachelorarbeit/Resources/Config.ini</Commandlineparameters>
+    <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>

@@ -105,7 +105,7 @@ namespace Frontend
 
 			if (Frontend.Settings.Default.LoadLastFile)
 			{
-				con.LoadLastConfig ();
+//				con.LoadLastConfig ();
 			}
 
 			if (Frontend.Settings.Default.ConnectToLastPort)
