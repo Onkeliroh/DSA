@@ -413,9 +413,6 @@ namespace PrototypeBackend
 				{
 					MeasurementTimer.Dispose ();
 				}
-
-//				MeasurementTimer = new System.Timers.Timer (10);
-//				MeasurementTimer.Elapsed += OnMeasurementTimerElapsed;
 			}
 		}
 
@@ -449,13 +446,13 @@ namespace PrototypeBackend
 						var analogPinValuesNames = analogPins.ToList ().Select (o => o.DisplayName).ToList ();
 
 						var MeComValues = Configuration.MeasurementCombinations
-						.Select (o => o.Value.Value)
-						.Where (o => !double.IsNaN (o))
-						.ToList <double> ();
+							.Where (o => !double.IsNaN (o.Value.Value))
+							.Select (o => o.Value.Value)
+							.ToList <double> ();
 						var MeComValuesNames = Configuration.MeasurementCombinations
-						.Where (o => !double.IsNaN (o.Value.Value))
-						.Select (o => o.DisplayName)
-						.ToList ();
+							.Where (o => !double.IsNaN (o.Value.Value))
+							.Select (o => o.DisplayName)
+							.ToList ();
 
 						var names = analogPinValuesNames;
 						names.AddRange (MeComValuesNames);
@@ -486,7 +483,17 @@ namespace PrototypeBackend
 				Stream stream;
 				if (path == null)
 				{
-					stream = File.Open (Configuration.ConfigSavePath, System.IO.FileMode.Create);
+					if (File.Exists (Configuration.ConfigSavePath))
+					{
+						stream = File.Open (Configuration.ConfigSavePath, System.IO.FileMode.Create);
+					} else
+					{
+						string folderpath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile);
+						string filename = Path.GetFileName (Configuration.ConfigSavePath);
+						string completepath = Path.Combine (folderpath, filename);
+						stream = File.Open (completepath, System.IO.FileMode.CreateNew);
+						Configuration.ConfigSavePath = completepath;
+					}
 				} else
 				{
 					stream = File.Open (path, System.IO.FileMode.Create);

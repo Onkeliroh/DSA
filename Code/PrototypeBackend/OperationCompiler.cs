@@ -22,7 +22,6 @@ namespace PrototypeBackend
 			//the  blueprint for the class, wich will be compiled
 			string tobecompiled = 
 				@"using System; 
-				using System.Math;
 				public class DynamicClass	
 				{ 
 					public static double Main(double[] parameters) 
@@ -70,10 +69,12 @@ namespace PrototypeBackend
 			//if there were no errors while compiling
 			if (results.Errors.Count > 0)
 			{
+				#if DEBUG
 				foreach (var error in results.Errors)
 				{
-//					Console.WriteLine (error);
+					Console.WriteLine (error);
 				}
+				#endif
 			} else
 			{
 				//extract class and method

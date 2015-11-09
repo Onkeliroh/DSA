@@ -19,11 +19,14 @@ namespace PrototypeBackend
 			get{ return board; }
 			set {
 				//TODO versuchen zu verschieben?
-				if (board != null) {
-					if (value.NumberOfAnalogPins < board.NumberOfAnalogPins) {
+				if (board != null)
+				{
+					if (value.NumberOfAnalogPins < board.NumberOfAnalogPins)
+					{
 						Pins.Where (o => o is APin).ToList ().RemoveAll (x => x.Number >= value.NumberOfAnalogPins);
 					}
-					if (value.NumberOfDigitalPins < board.NumberOfDigitalPins) {
+					if (value.NumberOfDigitalPins < board.NumberOfDigitalPins)
+					{
 						Pins.Where (o => o is DPin).ToList ().RemoveAll (x => x.Number >= value.NumberOfDigitalPins);
 					}
 				}
@@ -32,7 +35,8 @@ namespace PrototypeBackend
 
 				CheckPins ();
 
-				if (OnBoardUpdated != null) {
+				if (OnBoardUpdated != null)
+				{
 					OnBoardUpdated.Invoke (this, null);
 				}
 			}
@@ -69,8 +73,10 @@ namespace PrototypeBackend
 			get {
 				var list = new List<IPin> ();
 
-				foreach (int i in board.PinLayout["LEFT"]) {
-					if (Pins.Select (o => o.RealNumber).Contains ((uint)i)) {
+				foreach (int i in board.PinLayout["LEFT"])
+				{
+					if (Pins.Select (o => o.RealNumber).Contains ((uint)i))
+					{
 						list.Add (Pins.Single (o => o.RealNumber == i));
 					}
 				}
@@ -83,8 +89,10 @@ namespace PrototypeBackend
 			get {
 				var list = new List<IPin> ();
 
-				foreach (int i in board.PinLayout["RIGHT"]) {
-					if (Pins.Select (o => o.RealNumber).Contains ((uint)i)) {
+				foreach (int i in board.PinLayout["RIGHT"])
+				{
+					if (Pins.Select (o => o.RealNumber).Contains ((uint)i))
+					{
 						list.Add (Pins.Single (o => o.RealNumber == i));
 					}
 				}
@@ -97,8 +105,10 @@ namespace PrototypeBackend
 			get {
 				var list = new List<IPin> ();
 
-				foreach (int i in board.PinLayout["BOTTOM"]) {
-					if (Pins.Select (o => o.RealNumber).Contains ((uint)i)) {
+				foreach (int i in board.PinLayout["BOTTOM"])
+				{
+					if (Pins.Select (o => o.RealNumber).Contains ((uint)i))
+					{
 						list.Add (Pins.Single (o => o.RealNumber == i));
 					}
 				}
@@ -166,7 +176,8 @@ namespace PrototypeBackend
 		{
 			var unusedpins = new List<APin> ();
 			var numpins = Board.NumberOfAnalogPins; 
-			for (uint i = 0; i < numpins; i++) {
+			for (uint i = 0; i < numpins; i++)
+			{
 				unusedpins.Add (new APin () {
 					Number = i,
 					DigitalNumber = Board.HardwareAnalogPins [i],
@@ -177,10 +188,13 @@ namespace PrototypeBackend
 				});
 			}
 
-			foreach (IPin pin in Pins) {
-				if (pin is APin) {
+			foreach (IPin pin in Pins)
+			{
+				if (pin is APin)
+				{
 					unusedpins.RemoveAll (o => o.Number == pin.Number);
-				} else if (pin is DPin) {
+				} else if (pin is DPin)
+				{
 					unusedpins.RemoveAll (o => o.DigitalNumber == pin.Number);
 				}
 			}
@@ -195,7 +209,8 @@ namespace PrototypeBackend
 		{
 			var unusedpins = new List<DPin> ();
 			var numpins = Board.NumberOfDigitalPins; 
-			for (uint i = 0; i < numpins; i++) {
+			for (uint i = 0; i < numpins; i++)
+			{
 				unusedpins.Add (new DPin () {
 					Number = i,
 					AnalogNumber = ((Array.IndexOf (Board.HardwareAnalogPins, i) > -1) ? Array.IndexOf (Board.HardwareAnalogPins, i) : -1),
@@ -206,10 +221,13 @@ namespace PrototypeBackend
 				});
 			}
 
-			foreach (IPin pin in Pins) {
-				if (pin is DPin) {
+			foreach (IPin pin in Pins)
+			{
+				if (pin is DPin)
+				{
 					unusedpins.RemoveAll (o => o.Number == pin.Number);
-				} else if (pin is APin) {
+				} else if (pin is APin)
+				{
 					unusedpins.RemoveAll (o => o.Number == (pin as APin).DigitalNumber);
 				}
 			}
@@ -249,8 +267,10 @@ namespace PrototypeBackend
 		/// <param name="pin">Pin</param>
 		public Sequence GetCorespondingSequence (DPin pin)
 		{
-			foreach (Sequence seq in Sequences) {
-				if (seq.Pin == pin) {
+			foreach (Sequence seq in Sequences)
+			{
+				if (seq.Pin == pin)
+				{
 					return seq;
 				}
 			}
@@ -264,8 +284,10 @@ namespace PrototypeBackend
 		/// <param name="pin">Pin</param>
 		public MeasurementCombination GetCorespondingCombination (APin pin)
 		{
-			foreach (MeasurementCombination sig in MeasurementCombinations) {
-				if (sig.Pins.Contains (pin)) {
+			foreach (MeasurementCombination sig in MeasurementCombinations)
+			{
+				if (sig.Pins.Contains (pin))
+				{
 					return sig;
 				}
 			}
@@ -280,10 +302,12 @@ namespace PrototypeBackend
 		/// <param name="pin">Pin</param>
 		public void AddPin (IPin pin)
 		{
-			if (!Pins.Contains (pin)) {
+			if (!Pins.Contains (pin))
+			{
 				Pins.Add (pin);
 //				Pins = Pins.OrderBy (x => x.RealNumber).ThenBy (x => x.Type).ToList ();
-				if (OnPinsUpdated != null) {
+				if (OnPinsUpdated != null)
+				{
 					OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (pin, UpdateOperation.Add));
 				}
 			}
@@ -295,12 +319,15 @@ namespace PrototypeBackend
 		/// <param name="pins">Pins</param>
 		public void AddPinRange (IPin[] pins)
 		{
-			for (int i = 0; i < pins.Length; i++) {
-				if (!Pins.Contains (pins [i]) && pins [i] != null) {
+			for (int i = 0; i < pins.Length; i++)
+			{
+				if (!Pins.Contains (pins [i]) && pins [i] != null)
+				{
 					Pins.Add (pins [i]);
 				}
 			}
-			if (OnPinsUpdated != null) {
+			if (OnPinsUpdated != null)
+			{
 				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.AddRange));
 			}
 		}
@@ -315,7 +342,8 @@ namespace PrototypeBackend
 			MeasurementCombinations.Add (s);
 //			}
 
-			if (OnSignalsUpdated != null) {
+			if (OnSignalsUpdated != null)
+			{
 				OnSignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Add, s));
 			}
 		}
@@ -326,9 +354,11 @@ namespace PrototypeBackend
 		/// <param name="sequence">Sequence</param>
 		public void AddSequence (Sequence sequence)
 		{
-			if (!Sequences.Contains (sequence)) {
+			if (!Sequences.Contains (sequence))
+			{
 				Sequences.Add (sequence);
-				if (OnSequencesUpdated != null) {
+				if (OnSequencesUpdated != null)
+				{
 					OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Add, sequence));
 				}
 			}
@@ -346,24 +376,30 @@ namespace PrototypeBackend
 		public bool ClonePin (IPin pin)
 		{
 			Console.WriteLine ("Cloning: " + pin);
-			if ((pin as APin) != null) {
-				if (AvailableAnalogPins.Length != 0) {
+			if ((pin as APin) != null)
+			{
+				if (AvailableAnalogPins.Length != 0)
+				{
 					APin newPin = new APin (pin as APin);
 					newPin.Number = AvailableAnalogPins [0].Number;
 					newPin.DigitalNumber = AvailableAnalogPins [0].DigitalNumber;
 
 					AddPin (newPin);
-				} else {
+				} else
+				{
 					return false;
 				}
-			} else if ((pin as DPin) != null) {
-				if (AvailableDigitalPins.Length != 0) {
+			} else if ((pin as DPin) != null)
+			{
+				if (AvailableDigitalPins.Length != 0)
+				{
 					DPin newPin = new DPin (pin as DPin);
 					newPin.Number = AvailableDigitalPins [0].Number;
 					newPin.AnalogNumber = AvailableDigitalPins [0].AnalogNumber;
 
 					AddPin (newPin);
-				} else {
+				} else
+				{
 					return false;
 				}
 			}
@@ -387,9 +423,11 @@ namespace PrototypeBackend
 		/// <param name="seq">Seq.</param>
 		public void CloneSequence (Sequence seq)
 		{
-			if (GetPinsWithoutSequence ().Length == 0 && AvailableDigitalPins.Length > 0) {
+			if (GetPinsWithoutSequence ().Length == 0 && AvailableDigitalPins.Length > 0)
+			{
 				ClonePin (seq.Pin);
-			} else if (GetPinsWithoutSequence ().Length == 0 && AvailableDigitalPins.Length == 0) {
+			} else if (GetPinsWithoutSequence ().Length == 0 && AvailableDigitalPins.Length == 0)
+			{
 				return;
 			}
 			Sequence copy = new Sequence (seq);
@@ -408,7 +446,8 @@ namespace PrototypeBackend
 		/// <param name="ip">Ip.</param>
 		public void EditPin (int index, IPin ip)
 		{
-			if (OnPinsUpdated != null) {
+			if (OnPinsUpdated != null)
+			{
 				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (Pins [index], UpdateOperation.Change, ip));
 			}
 			Pins [index] = ip;
@@ -421,7 +460,8 @@ namespace PrototypeBackend
 		/// <param name="s">S.</param>
 		public void EditMeasurmentCombination (int index, MeasurementCombination s)
 		{
-			if (OnSignalsUpdated != null) {
+			if (OnSignalsUpdated != null)
+			{
 				OnSignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Change, MeasurementCombinations [index], s));
 			}
 			MeasurementCombinations [index] = s;
@@ -434,7 +474,8 @@ namespace PrototypeBackend
 		/// <param name="seq">Seq.</param>
 		public void EditSequence (int index, Sequence seq)
 		{
-			if (OnSequencesUpdated != null) {
+			if (OnSequencesUpdated != null)
+			{
 				OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Change, Sequences [index], seq));
 			}
 			Sequences [index] = seq;
@@ -451,7 +492,8 @@ namespace PrototypeBackend
 		public void RemovePin (IPin pin)
 		{
 			Pins.Remove (pin);
-			if (OnPinsUpdated != null) {
+			if (OnPinsUpdated != null)
+			{
 				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (pin, UpdateOperation.Remove));
 			}
 		}
@@ -464,19 +506,23 @@ namespace PrototypeBackend
 		{
 			var result = Pins.Where (o => o.Name == name).ToList<IPin> ();
 
-			if (result.Count > 0) {
+			if (result.Count > 0)
+			{
 				var pin = result.First ();
-				if (pin is DPin) {
+				if (pin is DPin)
+				{
 					var tmp = GetCorespondingSequence (pin as DPin);
 					if (tmp != null)
 						RemoveSequence (tmp.Name);
-				} else if (pin is APin) {
+				} else if (pin is APin)
+				{
 					var tmp = GetCorespondingCombination (pin as APin);
 					if (tmp != null)
 						RemoveMeasurementCombination (tmp);
 				}
 				Pins.Remove (result.First ());
-				if (OnPinsUpdated != null) {
+				if (OnPinsUpdated != null)
+				{
 					OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (result [0], UpdateOperation.Remove));
 				}
 			}
@@ -489,17 +535,20 @@ namespace PrototypeBackend
 		public void RemovePin (int index)
 		{
 			IPin pin = Pins [index];
-			if (pin is DPin) {
+			if (pin is DPin)
+			{
 				var tmp = GetCorespondingSequence (pin as DPin);
 				if (tmp != null)
 					RemoveSequence (tmp.Name);
-			} else if (pin is APin) {
+			} else if (pin is APin)
+			{
 				var tmp = GetCorespondingCombination (pin as APin);
 				if (tmp != null)
 					RemoveMeasurementCombination (tmp);
 			}
 			Pins.RemoveAt (index);
-			if (OnPinsUpdated != null) {
+			if (OnPinsUpdated != null)
+			{
 				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (pin, UpdateOperation.Remove));
 			}
 		}
@@ -514,7 +563,8 @@ namespace PrototypeBackend
 			sig = MeasurementCombinations [index];
 			MeasurementCombinations.RemoveAt (index);
 		
-			if (OnSignalsUpdated != null) {
+			if (OnSignalsUpdated != null)
+			{
 				OnSignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Remove, sig));
 			}
 		}
@@ -525,15 +575,18 @@ namespace PrototypeBackend
 		/// <param name="index">Index.</param>
 		public void RemoveMeasurementCombination (string index)
 		{
-			if (index != null) {
+			if (index != null)
+			{
 				var MeCom = new MeasurementCombination ();
 				MeCom = MeasurementCombinations.Where (o => o.Name == index).ToList<MeasurementCombination> () [0];
 		
-				if (OnSignalsUpdated != null) {
+				if (OnSignalsUpdated != null)
+				{
 					OnSignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Remove, MeCom));
 				}
 				MeasurementCombinations.Remove (MeCom);
-			} else {
+			} else
+			{
 				throw new ArgumentNullException ();
 			}
 		}
@@ -544,8 +597,10 @@ namespace PrototypeBackend
 		/// <param name="index">Index.</param>
 		public void RemoveMeasurementCombination (MeasurementCombination index)
 		{
-			if (index != null) {
-				if (OnSignalsUpdated != null) {
+			if (index != null)
+			{
+				if (OnSignalsUpdated != null)
+				{
 					OnSignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Remove, index));
 				}
 				MeasurementCombinations.Remove (index);
@@ -558,11 +613,14 @@ namespace PrototypeBackend
 		/// <param name="name">Name.</param>
 		public void RemoveSequence (string name)
 		{
-			if (name != null) {
+			if (name != null)
+			{
 				var result = Sequences.Where (o => o.Name == name).ToList<Sequence> ();
-				if (result.Count > 0) {
+				if (result.Count > 0)
+				{
 					Sequences.Remove (result [0]);
-					if (OnSequencesUpdated != null) {
+					if (OnSequencesUpdated != null)
+					{
 						OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, result [0]));
 					}
 				}
@@ -575,11 +633,13 @@ namespace PrototypeBackend
 		/// <param name="index">Index.</param>
 		public void RemoveSequence (int index)
 		{
-			if (index > -1) {
+			if (index > -1)
+			{
 				var seq = new Sequence ();
 				seq = Sequences [index];
 				Sequences.RemoveAt (index);
-				if (OnSequencesUpdated != null) {
+				if (OnSequencesUpdated != null)
+				{
 					OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, seq));
 				}
 			}
@@ -591,8 +651,10 @@ namespace PrototypeBackend
 		/// <param name="index">Index.</param>
 		public void RemoveSequence (Sequence index)
 		{
-			if (index != null) {
-				if (OnSequencesUpdated != null) {
+			if (index != null)
+			{
+				if (OnSequencesUpdated != null)
+				{
 					OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, index));
 				}
 				Sequences.Remove (index);
@@ -607,7 +669,8 @@ namespace PrototypeBackend
 		{
 			Sequences.RemoveAll (o => o.GroupName.Equals (groupname));
 
-			if (OnSequencesUpdated != null) {
+			if (OnSequencesUpdated != null)
+			{
 				OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Remove, null));
 			}
 		}
@@ -623,12 +686,15 @@ namespace PrototypeBackend
 		public void ClearPins (PinType type)
 		{
 			Pins.RemoveAll (o => o.Type == type);
-			if (OnPinsUpdated != null) {
+			if (OnPinsUpdated != null)
+			{
 				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.Clear));
 			}
-			if (type == PinType.DIGITAL) {
+			if (type == PinType.DIGITAL)
+			{
 				ClearSequences ();
-			} else if (type == PinType.ANALOG) {
+			} else if (type == PinType.ANALOG)
+			{
 				ClearMeasurementCombinations ();
 			}
 		}
@@ -641,7 +707,8 @@ namespace PrototypeBackend
 			Pins.Clear ();
 			ClearSequences ();
 			ClearMeasurementCombinations ();
-			if (OnPinsUpdated != null) {
+			if (OnPinsUpdated != null)
+			{
 				OnPinsUpdated.Invoke (this, new ControllerPinUpdateArgs (null, UpdateOperation.Clear, null));
 			}
 		}
@@ -653,7 +720,8 @@ namespace PrototypeBackend
 		{
 			MeasurementCombinations.Clear ();
 
-			if (OnSignalsUpdated != null) {
+			if (OnSignalsUpdated != null)
+			{
 				OnSignalsUpdated.Invoke (this, new MeasurementCombinationsUpdatedArgs (UpdateOperation.Clear, null));
 			}
 		}
@@ -664,7 +732,8 @@ namespace PrototypeBackend
 		public void ClearSequences ()
 		{
 			Sequences.Clear ();
-			if (OnSequencesUpdated != null) {
+			if (OnSequencesUpdated != null)
+			{
 				OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Clear));
 			}
 		}
@@ -676,12 +745,15 @@ namespace PrototypeBackend
 		/// </summary>
 		private void CheckPins ()
 		{
-			foreach (APin pin in AnalogPins) {
-				if (pin.Number < board.HardwareAnalogPins.Length) {
+			foreach (APin pin in AnalogPins)
+			{
+				if (pin.Number < board.HardwareAnalogPins.Length)
+				{
 					pin.DigitalNumber = board.HardwareAnalogPins [pin.Number];
 				}
 			}
-			foreach (DPin pin in DigitalPins) {
+			foreach (DPin pin in DigitalPins)
+			{
 				pin.AnalogNumber = ((Array.IndexOf (Board.HardwareAnalogPins, pin.Number) > -1) ? Array.IndexOf (Board.HardwareAnalogPins, pin.Number) : -1);
 			}
 		}
@@ -695,8 +767,10 @@ namespace PrototypeBackend
 		{
 			string preview = string.Empty;
 
-			foreach (string option in FileNameConvention) {
-				switch (option) {
+			foreach (string option in FileNameConvention)
+			{
+				switch (option)
+				{
 				case "[LOCALTIME]":
 					preview += string.Format (FileNameTimeFormat, DateTime.Now);
 					preview += "-";
@@ -710,8 +784,10 @@ namespace PrototypeBackend
 					preview += "-";
 					break;
 				case "[EMPTY]":
-					if (preview.Length > 0) {
-						if (preview.Last () == '-') {
+					if (preview.Length > 0)
+					{
+						if (preview.Last () == '-')
+						{
 							preview.Remove (preview.Length - 1, 1);
 						}
 					}
@@ -723,8 +799,10 @@ namespace PrototypeBackend
 				}
 			}
 
-			if (preview.Length > 0) {
-				if (preview.Last () == '-') {
+			if (preview.Length > 0)
+			{
+				if (preview.Last () == '-')
+				{
 					preview = preview.Remove (preview.LastIndexOf ('-'), 1);
 				}
 			}
@@ -743,13 +821,16 @@ namespace PrototypeBackend
 
 			int pos = 0;
 
-			for (int i = pos; i < AnalogPins.Count; i++) {
+			for (int i = pos; i < AnalogPins.Count; i++)
+			{
 				dict.Add (AnalogPins [i].DisplayName, i);
 				pos++;
 			}
-			if (MeasurementCombinations.Count > 0) {
-				for (int i = 0; i < MeasurementCombinations.Count; i++) {
-					dict.Add (MeasurementCombinations [i].Name, i + pos);
+			if (MeasurementCombinations.Count > 0)
+			{
+				for (int i = 0; i < MeasurementCombinations.Count; i++)
+				{
+					dict.Add (MeasurementCombinations [i].DisplayName, i + pos);
 				}
 			}
 			return dict;

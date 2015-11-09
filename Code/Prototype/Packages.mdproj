@@ -23,7 +23,7 @@
           </Builder>
         </Package>
         <Package name="Linux Binaries">
-          <Builder targetFile="..\..\Tools\LinuxPackage\Prototype.zip" platform="Linux" configuration="Debug|x86" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\..\Tools\LinuxPackage\Prototype.zip" platform="Linux" configuration="Release|x86" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\PrototypeBackend\Backend.csproj" />
               <SolutionItemReference path="..\PrototypeDebugWindow\Frontend.csproj" />

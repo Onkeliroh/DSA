@@ -20,6 +20,11 @@ namespace PrototypeBackend
 		public string Port { get ; private set; }
 
 		/// <summary>
+		/// Determines whether this event has been handled or not.
+		/// </summary>
+		public bool Handled = false;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="PrototypeBackend.ConnectionChangedArgs"/> class.
 		/// </summary>
 		/// <param name="connected">If set to <c>true</c> connected.</param>

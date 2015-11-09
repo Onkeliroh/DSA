@@ -120,10 +120,13 @@ namespace PrototypeBackend
 			get{ return _autoconnect; }
 			set {
 				_autoconnect = value;
-				if (AutoConnectTimer != null) {
-					if (_autoconnect) {
+				if (AutoConnectTimer != null)
+				{
+					if (_autoconnect)
+					{
 						AutoConnectTimer.Start ();
-					} else {
+					} else
+					{
 						AutoConnectTimer.Abort ();
 					}
 				}
@@ -149,9 +152,13 @@ namespace PrototypeBackend
 		public static bool IsConnected {
 			get { return isConnected; }
 			private set {
-				isConnected = value;
-				if (OnConnectionChanged != null) {
-					OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (value, SerialPortName));
+				if (value != isConnected)
+				{
+					isConnected = value;
+					if (OnConnectionChanged != null)
+					{
+						OnConnectionChanged.Invoke (null, new ConnectionChangedArgs (value, SerialPortName));
+					}
 				}
 			}
 		}
@@ -219,8 +226,10 @@ namespace PrototypeBackend
 			NumberOfAnalogPins = apins;
 			NumberOfDigitalPins = dpins;
 
-			OnConnectionChanged += (sender, e) => {
-				if (e.Connected) {
+			OnConnectionChanged += (sender, e) =>
+			{
+				if (e.Connected)
+				{
 					GetModel ();
 					GetNumberAnalogPins ();
 					GetNumberDigitalPins ();
@@ -236,9 +245,12 @@ namespace PrototypeBackend
 			isConnected = false;
 			#endif
 
-			AutoConnectTimer = new System.Threading.Thread (() => {
-				while (!IsConnected) {
-					foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+			AutoConnectTimer = new System.Threading.Thread (() =>
+			{
+				while (!IsConnected)
+				{
+					foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+					{
 						Console.WriteLine ("attemting auto connect to " + s);
 						SerialPortName = s;
 
@@ -255,7 +267,8 @@ namespace PrototypeBackend
 					}
 				}
 			});
-			if (AutoConnect) {
+			if (AutoConnect)
+			{
 				AutoConnectTimer.Start ();
 			}
 		}
@@ -266,12 +279,15 @@ namespace PrototypeBackend
 		/// <param name="Dtr">If <c>true</c> use dtr for transmition.</param>
 		public static bool Setup (bool Dtr = false)
 		{
-			if (SerialPortName != null) {
-				if (_cmdMessenger != null) {
+			if (SerialPortName != null)
+			{
+				if (_cmdMessenger != null)
+				{
 					_cmdMessenger.Disconnect ();
 					_cmdMessenger.Dispose ();
 				}
-				if (ConnectionWatchdog != null) {
+				if (ConnectionWatchdog != null)
+				{
 					ConnectionWatchdog.Dispose ();
 				}
 
@@ -296,9 +312,11 @@ namespace PrototypeBackend
 
 				// Start listening
 				IsConnected = _cmdMessenger.Connect ();
-				if (!IsConnected) {
+				if (!IsConnected)
+				{
 					SerialPortName = string.Empty;
-				} else {
+				} else
+				{
 					ConnectionWatchdog = new System.Threading.Timer (new System.Threading.TimerCallback (ConnectionWatchdogCallback), null, 0, 1000);
 				}
 				return IsConnected;
@@ -313,15 +331,18 @@ namespace PrototypeBackend
 		{
 			// Stop listening
 			AutoConnect = false;
-			if (IsConnected) {
+			if (IsConnected)
+			{
 				// Dispose Command Messenger
-				if (_cmdMessenger != null) {
+				if (_cmdMessenger != null)
+				{
 					_cmdMessenger.Disconnect ();	
 					_cmdMessenger.Dispose ();
 				}
 			}
 
-			if (ConnectionWatchdog != null) {
+			if (ConnectionWatchdog != null)
+			{
 				ConnectionWatchdog.Dispose ();
 			}
 		}
@@ -331,15 +352,18 @@ namespace PrototypeBackend
 		/// </summary>
 		public static void Disconnect ()
 		{
-			if (IsConnected) {
+			if (IsConnected)
+			{
 				IsConnected = false;
 				_cmdMessenger.Disconnect ();
 
-				if (ConnectionWatchdog != null) {
+				if (ConnectionWatchdog != null)
+				{
 					ConnectionWatchdog.Dispose ();
 				}
 
-				if (AutoConnect && AutoConnectTimer.ThreadState != System.Threading.ThreadState.Running) {
+				if (AutoConnect && AutoConnectTimer.ThreadState != System.Threading.ThreadState.Running)
+				{
 					AutoConnectTimer.Start ();
 				}
 			}
@@ -352,13 +376,15 @@ namespace PrototypeBackend
 		/// <returns><c>true</c>, if auto connect was successfull, <c>false</c> otherwise.</returns>
 		public static bool AttemdAutoConnect ()
 		{
-			foreach (string s in System.IO.Ports.SerialPort.GetPortNames()) {
+			foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+			{
 				SerialPortName = s;
 
 				Setup (false);
 				System.Threading.Thread.Sleep (2000);
 //				await System.Threading.Tasks.Task.Delay (1000);
-				if (IsConnected) {
+				if (IsConnected)
+				{
 					return true;
 //					break;
 				}
@@ -366,7 +392,8 @@ namespace PrototypeBackend
 				Setup (true);
 				System.Threading.Thread.Sleep (2000);
 //				await System.Threading.Tasks.Task.Delay (1000);
-				if (IsConnected) {
+				if (IsConnected)
+				{
 					return true;
 //					break;
 				}
@@ -439,7 +466,8 @@ namespace PrototypeBackend
 			Console.WriteLine (@"Received > " + e.Command.CommandString ());
 			#endif
 
-			if (OnReceiveMessage != null) {
+			if (OnReceiveMessage != null)
+			{
 				OnReceiveMessage.Invoke (null, new CommunicationArgs (e.Command.CommandString ()));
 			}
 			LastCommunication = DateTime.Now;
@@ -455,7 +483,8 @@ namespace PrototypeBackend
 			#if DEBUG
 			Console.WriteLine (DateTime.Now + @": Sent > " + e.Command.CommandString ());
 			#endif
-			if (OnSendMessage != null) {
+			if (OnSendMessage != null)
+			{
 				OnSendMessage.Invoke (null, new CommunicationArgs (e.Command.CommandString ()));
 			}
 			LastCommunication = DateTime.Now;
@@ -472,10 +501,12 @@ namespace PrototypeBackend
 		/// <param name="outputs">Outputs.</param>
 		public static void SetPinModes (uint[] inputs, uint[]outputs)
 		{
-			for (int i = 0; i < inputs.Length; i++) {
+			for (int i = 0; i < inputs.Length; i++)
+			{
 				SetPinMode (inputs [i], PinMode.INPUT);
 			}
-			for (int i = 0; i < outputs.Length; i++) {
+			for (int i = 0; i < outputs.Length; i++)
+			{
 				SetPinMode (outputs [i], PinMode.OUTPUT);
 			}
 		}
@@ -501,7 +532,8 @@ namespace PrototypeBackend
 		public static void SetDigitalOutputPins (UInt16[] conditions)
 		{
 			var command = new SendCommand ((int)Command.SetDigitalOutputPins);
-			for (int i = 0; i < conditions.Length; i++) {
+			for (int i = 0; i < conditions.Length; i++)
+			{
 				command.AddArgument (conditions [i]);
 			}
 			_cmdMessenger.SendCommand (command);
@@ -516,7 +548,8 @@ namespace PrototypeBackend
 			UInt16[] parts = new UInt16[conditions.Length * 2];
 
 			int pos = 0;
-			while (pos < conditions.Length) {
+			while (pos < conditions.Length)
+			{
 				parts [pos] = (UInt16)conditions [pos];
 				parts [pos + 1] = (UInt16)(conditions [pos] >> 16);
 				pos += 2;
@@ -552,7 +585,8 @@ namespace PrototypeBackend
 			command.AddArgument (nr);
 			command.AddArgument ((Int16)state);
 			var ret = _cmdMessenger.SendCommand (command);
-			if (!ret.Ok) {
+			if (!ret.Ok)
+			{
 				Console.Error.WriteLine ("SetPinState " + nr + " " + state + " failed");
 				LastCommunication = DateTime.Now;
 			}
@@ -572,8 +606,10 @@ namespace PrototypeBackend
 			command.AddArgument ((Int16)mode);
 			command.AddArgument ((Int16)state);
 			var ret = _cmdMessenger.SendCommand (command);
-			if (ret.Ok) {
-				if (!(nr == (uint)ret.ReadInt32Arg () && (Int16)mode == ret.ReadInt16Arg () && (Int16)state == ret.ReadInt16Arg ())) {
+			if (ret.Ok)
+			{
+				if (!(nr == (uint)ret.ReadInt32Arg () && (Int16)mode == ret.ReadInt16Arg () && (Int16)state == ret.ReadInt16Arg ()))
+				{
 					Console.Error.WriteLine (DateTime.Now.ToString ("HH:mm:ss tt zz") + "\t" + nr + "\t" + mode + "\t" + state);
 				}	
 				LastCommunication = DateTime.Now;
@@ -628,23 +664,30 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.ReadAnalogPin, (int)Command.ReadAnalogPin, 100);
 			command.AddArgument (nr.Length);
-			foreach (int i in nr) {
+			foreach (int i in nr)
+			{
 				command.AddArgument (i);
 			}
 			double[] results = new double[nr.Length];
 			var result = _cmdMessenger.SendCommand (command);
-			if (result.Ok) {
-				try {
-					for (int i = 0; i < nr.Length; i++) {
+			if (result.Ok)
+			{
+				try
+				{
+					for (int i = 0; i < nr.Length; i++)
+					{
 						results [i] = Board.RAWToVolt (result.ReadFloatArg ());
 					}
-				} catch (Exception ex) {
+				} catch (Exception ex)
+				{
 					Console.Error.WriteLine (ex);
 				}
 				LastCommunication = DateTime.Now;
 				return results;
-			} else {
-				for (int i = 0; i < results.Length; i++) {
+			} else
+			{
+				for (int i = 0; i < results.Length; i++)
+				{
 					results [i] = double.NaN;
 				}
 				return results;
@@ -661,7 +704,8 @@ namespace PrototypeBackend
 			var command = new SendCommand ((int)Command.ReadPin, (int)Command.ReadPin, 500);
 			command.AddArgument (nr);
 			var result = _cmdMessenger.SendCommand (command);
-			if (result.Ok) {
+			if (result.Ok)
+			{
 				LastCommunication = DateTime.Now;
 				return (result.ReadBinInt16Arg () == (int)DPinState.HIGH) ? DPinState.HIGH : DPinState.LOW;
 			}
@@ -675,9 +719,11 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetAnalogReference, (int)Command.GetAnalogReference, 500);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				AnalogReferences.Clear ();
-				for (int i = 0; i < (returnVal.Arguments.Length / 2); i++) {
+				for (int i = 0; i < (returnVal.Arguments.Length / 2); i++)
+				{
 					AnalogReferences.Add (returnVal.ReadStringArg (), returnVal.ReadInt16Arg ());
 				}
 				LastCommunication = DateTime.Now;
@@ -691,7 +737,8 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetModel, (int)Command.GetModel, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				MCU = returnVal.ReadStringArg ().ToLower ();
 				LastCommunication = DateTime.Now;
 			}
@@ -704,10 +751,12 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetNumberDigitalPins, (int)Command.GetNumberDigitalPins, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				NumberOfDigitalPins = returnVal.ReadUInt32Arg ();
 				LastCommunication = DateTime.Now;
-			} else {
+			} else
+			{
 				//in case the arduino did not respond
 				NumberOfDigitalPins = uint.MaxValue;
 			}
@@ -720,10 +769,12 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetNumberAnalogPins, (int)Command.GetNumberAnalogPins, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				NumberOfAnalogPins = returnVal.ReadUInt32Arg ();
 				LastCommunication = DateTime.Now;
-			} else {
+			} else
+			{
 				NumberOfAnalogPins = uint.MaxValue;
 			}
 		}
@@ -736,14 +787,17 @@ namespace PrototypeBackend
 			var command = new SendCommand ((int)Command.GetAnalogPinNumbers, (int)Command.GetAnalogPinNumbers, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
 
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				uint[] tmp = new uint[returnVal.Arguments.Length - 1];
-				for (int i = 0; i < returnVal.Arguments.Length - 1; i++) {
+				for (int i = 0; i < returnVal.Arguments.Length - 1; i++)
+				{
 					tmp [i] = returnVal.ReadUInt32Arg ();
 				}
 				_board.HardwareAnalogPins = tmp;
 				LastCommunication = DateTime.Now;
-			} else {
+			} else
+			{
 				_board.HardwareAnalogPins = null;
 			}
 		}
@@ -755,7 +809,8 @@ namespace PrototypeBackend
 		{
 			var command = new SendCommand ((int)Command.GetSDASCL, (int)Command.GetSDASCL, 1000);
 			var returnVal = _cmdMessenger.SendCommand (command);
-			if (returnVal.Ok) {
+			if (returnVal.Ok)
+			{
 				Board.SDA = new uint[]{ returnVal.ReadUInt32Arg () };
 				Board.SCL = new uint[]{ returnVal.ReadUInt32Arg () };
 
@@ -771,16 +826,19 @@ namespace PrototypeBackend
 		/// <param name="sender">Sender.</param>
 		private static void ConnectionWatchdogCallback (object sender)
 		{
-			if ((DateTime.Now.Subtract (LastCommunication).TotalMilliseconds > CommunicationTimeout) && IsConnected) {
+			if ((DateTime.Now.Subtract (LastCommunication).TotalMilliseconds > CommunicationTimeout) && IsConnected)
+			{
 				var command = new SendCommand ((int)Command.Alive, (int)Command.Alive, 1000);
 				var returnVal = _cmdMessenger.SendCommand (command);
 
 				Console.Write ("ping");
 
-				if (returnVal.Ok) {
+				if (returnVal.Ok)
+				{
 					LastCommunication = DateTime.Now;	
 					Console.Write (" -> OK\n");
-				} else {
+				} else
+				{
 					IsConnected = false;
 					Console.Error.Write (" -> FAIL\n");
 				}

@@ -56,6 +56,9 @@
         <property name="StockId">gtk-refresh</property>
         <property name="Tooltip" translatable="yes">attempts a automatic connection to a prepared microcontroller</property>
         <property name="Visible">False</property>
+        <property name="VisibleHorizontal">False</property>
+        <property name="VisibleVertical">False</property>
+        <property name="VisibleOverflown">False</property>
         <signal name="Activated" handler="OnAutoConnectActionActivated" />
       </action>
       <action id="quitAction">
@@ -329,7 +332,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">4</property>
+                <property name="CurrentPage">1</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
