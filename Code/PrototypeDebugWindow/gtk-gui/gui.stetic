@@ -2798,7 +2798,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Frontend.APinConfigDialog" design-size="524 346">
+  <widget class="Gtk.Dialog" id="Frontend.APinConfigDialog" design-size="531 346">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
@@ -3446,7 +3446,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Frontend.AComConfigDialog" design-size="715 346">
+  <widget class="Gtk.Dialog" id="Frontend.AComConfigDialog" design-size="718 346">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
@@ -3984,9 +3984,9 @@ In order to apply the operation, the last available measurement-data will be use
             <property name="CanFocus">True</property>
             <property name="UseStock">True</property>
             <property name="Type">StockItem</property>
-            <property name="StockId">gtk-ok</property>
+            <property name="StockId">gtk-add</property>
             <property name="ResponseId">-10</property>
-            <property name="label">gtk-ok</property>
+            <property name="label">gtk-add</property>
           </widget>
           <packing>
             <property name="Position">1</property>
@@ -3997,7 +3997,7 @@ In order to apply the operation, the last available measurement-data will be use
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Frontend.SeqConfigDialog" design-size="1038 601">
+  <widget class="Gtk.Dialog" id="Frontend.SeqConfigDialog" design-size="1068 601">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>

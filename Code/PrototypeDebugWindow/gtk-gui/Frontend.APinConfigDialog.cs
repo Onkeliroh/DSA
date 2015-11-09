@@ -431,7 +431,7 @@ namespace Frontend
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 524;
+			this.DefaultWidth = 531;
 			this.DefaultHeight = 346;
 			this.Show ();
 		}

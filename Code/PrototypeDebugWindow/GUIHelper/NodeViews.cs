@@ -88,9 +88,11 @@ namespace GUIHelper
 		public string Pins {
 			get {
 				var s = "";
-				for (int i = 0; i < AnalogSignal.Pins.Count; i++) {
+				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
+				{
 					s += AnalogSignal.Pins [i].Name;
-					if (i != AnalogSignal.Pins.Count - 1) {
+					if (i != AnalogSignal.Pins.Count - 1)
+					{
 						s += "\n";	
 					}
 				}
@@ -103,9 +105,11 @@ namespace GUIHelper
 		public string PinNumbers {
 			get {
 				var s = "";
-				for (int i = 0; i < AnalogSignal.Pins.Count; i++) {
+				for (int i = 0; i < AnalogSignal.Pins.Count; i++)
+				{
 					s += AnalogSignal.Pins [i].DisplayNumber;
-					if (i != AnalogSignal.Pins.Count - 1) {
+					if (i != AnalogSignal.Pins.Count - 1)
+					{
 						s += "\n";	
 					}
 				}
@@ -115,12 +119,15 @@ namespace GUIHelper
 		}
 
 		[Gtk.TreeNodeValue (Column = 4)]
-		public string Interval { get { return TimeSpan.FromMilliseconds (AnalogSignal.Interval).ToString ("g"); } private set { } }
+		public string Unit { get { return AnalogSignal.Unit; } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 5)]
-		public string MeanValues { get { return AnalogSignal.MeanValuesCount.ToString (); } }
+		public string Interval { get { return TimeSpan.FromMilliseconds (AnalogSignal.Interval).ToString ("g"); } private set { } }
 
 		[Gtk.TreeNodeValue (Column = 6)]
+		public string MeanValues { get { return AnalogSignal.MeanValuesCount.ToString (); } private set { } }
+
+		[Gtk.TreeNodeValue (Column = 7)]
 		public string Operation { get { return AnalogSignal.OperationString; } private set { } }
 
 		public int Index{ get; private set; }
@@ -206,9 +213,11 @@ namespace GUIHelper
 			SeqOp = seqop;
 			Index = index;
 
-			if (totalTime < 0) {
+			if (totalTime < 0)
+			{
 				TotalTime = "";
-			} else {
+			} else
+			{
 				TotalTime = "+" + TimeSpan.FromTicks ((long)totalTime).ToString ("g");
 			}
 		}

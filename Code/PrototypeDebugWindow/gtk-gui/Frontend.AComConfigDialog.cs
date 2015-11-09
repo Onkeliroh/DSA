@@ -371,7 +371,7 @@ namespace Frontend
 			this.buttonOk.Name = "buttonOk";
 			this.buttonOk.UseStock = true;
 			this.buttonOk.UseUnderline = true;
-			this.buttonOk.Label = "gtk-ok";
+			this.buttonOk.Label = "gtk-add";
 			this.AddActionWidget (this.buttonOk, -10);
 			global::Gtk.ButtonBox.ButtonBoxChild w31 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w29 [this.buttonOk]));
 			w31.Position = 1;
@@ -380,7 +380,7 @@ namespace Frontend
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 715;
+			this.DefaultWidth = 718;
 			this.DefaultHeight = 346;
 			this.lblWarning.Hide ();
 			this.Show ();

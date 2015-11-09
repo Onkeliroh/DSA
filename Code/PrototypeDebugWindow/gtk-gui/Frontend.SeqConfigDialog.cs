@@ -576,7 +576,7 @@ namespace Frontend
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 1038;
+			this.DefaultWidth = 1068;
 			this.DefaultHeight = 601;
 			this.cbeGroups.Hide ();
 			this.label9.Hide ();

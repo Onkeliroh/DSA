@@ -1277,21 +1277,27 @@ namespace Frontend
 //				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 4) {
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Unit", new CellRendererText (), "text", 4) {
+				Resizable = true,
+				Sizing = TreeViewColumnSizing.Autosize,
+				Clickable = true,
+			});
+
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Interval", new CellRendererText (), "text", 5) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
 //				SortColumnId = 4,
 //				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Mean Value", new CellRendererText (), "text", 5) {
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Mean Value", new CellRendererText (), "text", 6) {
 				Resizable = true,
 				Sizing = TreeViewColumnSizing.Autosize,
 //				SortColumnId = 5,
 //				SortOrder = SortType.Ascending,
 				Clickable = true,
 			});
-			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 6));
+			nvMeasurementCombinations.AppendColumn (new TreeViewColumn ("Operation", new CellRendererText (), "text", 7));
 //
 //			MeComsorter.SetSortFunc (0, delegate(TreeModel model, TreeIter a, TreeIter b)
 //			{
