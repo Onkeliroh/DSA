@@ -2454,9 +2454,7 @@ namespace Frontend
 
 		private void RunAddAPinDialog (APin pin = null)
 		{
-			var dings = con.Configuration.AvailableAnalogPins;
-
-			var dialog = new APinConfigDialog (dings, pin, this, this.Units);
+			APinConfigDialog dialog = new APinConfigDialog (con.Configuration.AvailableAnalogPins, pin, this, this.Units);
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
 					if (pin == null) {
