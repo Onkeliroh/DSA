@@ -2605,7 +2605,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Frontend.DPinConfigDialog" design-size="223 171">
+  <widget class="Gtk.Dialog" id="Frontend.DPinConfigDialog" design-size="223 145">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
     <property name="AllowShrink">True</property>

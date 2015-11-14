@@ -144,7 +144,7 @@ namespace Frontend
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 223;
-			this.DefaultHeight = 171;
+			this.DefaultHeight = 145;
 			this.Show ();
 		}
 	}

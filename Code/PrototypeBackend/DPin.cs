@@ -161,8 +161,7 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as DPin;
-			if (seq != null)
-			{
+			if (seq != null) {
 				return (seq.Number == Number)
 				&& seq.Name.Equals (Name)
 				&& seq.State.Equals (State)
