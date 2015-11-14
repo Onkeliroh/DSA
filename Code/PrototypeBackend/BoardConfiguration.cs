@@ -434,10 +434,10 @@ namespace PrototypeBackend
 		/// <param name="seq">Seq.</param>
 		public void EditSequence (int index, Sequence seq)
 		{
-			if (OnSequencesUpdated != null) {
-				OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Change, Sequences [index], seq));
-			}
 			Sequences [index] = seq;
+			if (OnSequencesUpdated != null) {
+				OnSequencesUpdated.Invoke (this, new SequencesUpdatedArgs (UpdateOperation.Change, null, seq));
+			}
 		}
 
 		#endregion

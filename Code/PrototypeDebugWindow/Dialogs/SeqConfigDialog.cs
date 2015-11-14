@@ -98,38 +98,33 @@ namespace Frontend
 			DPins = pins;
 
 			//no DPin no Sequence
-			if (DPins.Length > 0)
-			{
-				for (int i = 0; i < DPins.Length; i++)
-				{
+			if (DPins.Length > 0) {
+				for (int i = 0; i < DPins.Length; i++) {
 					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
 				}
 			}
 			SetupNodeView ();
 			SetupOxyPlot ();
 
-			if (seq != null)
-			{
+			if (seq != null) {
 				PinSequence = seq;
-				if (seq.Repetitions == -1)
-				{
+				if (seq.Repetitions == -1) {
 					rbRepeateContinously.Active = true;
-				} else
-				{
+				} else {
 					rbStopAfter.Active = true;
 					sbRadioBtnStopAfter.Sensitive = true;
 					sbRadioBtnStopAfter.Value = seq.Repetitions;
 				}
-			} else
-			{
+
+				buttonOk.Label = "Apply";
+				buttonOk.Image = new Image (Gtk.Stock.Apply, IconSize.Button);
+			} else {
 				pinSequence = new Sequence ();
 				pinSequence.Repetitions = -1;
 			}
-			if (RefPin == null)
-			{
+			if (RefPin == null) {
 				cbPin.Active = 0;
-			} else
-			{
+			} else {
 				cbPin.Active = pins.ToList ().IndexOf (RefPin);
 			}
 
@@ -163,10 +158,8 @@ namespace Frontend
 				Key = "X",
 				Position = AxisPosition.Bottom,
 				AbsoluteMinimum = TimeSpan.FromSeconds (0).Ticks,
-				LabelFormatter = x =>
-				{
-					if (x <= TimeSpan.FromSeconds (0).Ticks)
-					{
+				LabelFormatter = x => {
+					if (x <= TimeSpan.FromSeconds (0).Ticks) {
 						return "Start";
 					}
 					return string.Format ("+{0}", TimeSpan.FromSeconds (x).ToString ("c"));
@@ -234,8 +227,7 @@ namespace Frontend
 
 			nvSequenceOptions.ButtonPressEvent += new ButtonPressEventHandler (OnSequenceOptionsButtonPress);
 			nvSequenceOptions.KeyPressEvent += new KeyPressEventHandler (OnSequenceOptionsKeyPress);
-			nvSequenceOptions.RowActivated += (o, args) =>
-			{
+			nvSequenceOptions.RowActivated += (o, args) => {
 				var node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
 				ActiveNode = node;
 				sbDays.Value = node.SeqOp.Duration.Days;
@@ -259,20 +251,16 @@ namespace Frontend
 		/// <param name="groups">Groups.</param>
 		private void SetupGroups (List<string> groups)
 		{
-			foreach (string s in groups)
-			{
+			foreach (string s in groups) {
 				cbeGroups.AppendText (s);
 			}
 
-			if (!string.IsNullOrEmpty (pinSequence.GroupName) && !string.IsNullOrWhiteSpace (pinSequence.GroupName))
-			{
+			if (!string.IsNullOrEmpty (pinSequence.GroupName) && !string.IsNullOrWhiteSpace (pinSequence.GroupName)) {
 				cbeGroups.Active = groups.IndexOf (pinSequence.GroupName);
 			}
 
-			cbeGroups.Changed += (object sender, EventArgs e) =>
-			{
-				if (pinSequence != null)
-				{
+			cbeGroups.Changed += (object sender, EventArgs e) => {
+				if (pinSequence != null) {
 					pinSequence.GroupName = cbeGroups.ActiveText;
 				}
 			};
@@ -301,14 +289,12 @@ namespace Frontend
 		/// </summary>
 		private void DisplaySequenceInfos ()
 		{
-			if (pinSequence != null)
-			{
+			if (pinSequence != null) {
 				btnRemoveOperation.Sensitive = false;
 
 				nvSequenceOptionsStore.Clear ();
 				TimeSpan totalTime = new TimeSpan (0);
-				for (int i = 0; i < PinSequence.Chain.Count; i++)
-				{
+				for (int i = 0; i < PinSequence.Chain.Count; i++) {
 					nvSequenceOptions.NodeStore.AddNode (new SequenceOperationTreeNode (PinSequence.Chain [i], i, totalTime.Ticks));
 					totalTime = totalTime.Add (PinSequence.Chain [i].Duration);
 				}
@@ -322,14 +308,12 @@ namespace Frontend
 		/// </summary>
 		private void DisplayPlot ()
 		{
-			if (pinSequence != null)
-			{
+			if (pinSequence != null) {
 				plotView.Model.Series.Clear ();
 
 				var current = new TimeSpan (0);
 				var data = new Collection<TimeValue> ();
-				for (int i = 0; i < pinSequence.Chain.Count; i++)
-				{
+				for (int i = 0; i < pinSequence.Chain.Count; i++) {
 					data.Add (new TimeValue () {
 						Time = current,
 						Value = ((pinSequence.Chain [i].State == DPinState.HIGH) ? 1 : 0)
@@ -396,13 +380,11 @@ namespace Frontend
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSequenceOptionsButtonPress (object o, ButtonPressEventArgs args)
 		{
-			if (args.Event.Button == 3)
-			{ /* right click */
+			if (args.Event.Button == 3) { /* right click */
 				Menu m = new Menu ();
 
 				MenuItem deleteItem = new MenuItem ("Delete this operation");
-				deleteItem.ButtonPressEvent += (obj, e) =>
-				{
+				deleteItem.ButtonPressEvent += (obj, e) => {
 					SequenceOperationTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode);
 					PinSequence.Chain.RemoveAt (node.Index);
 					DisplaySequenceInfos ();
@@ -428,8 +410,7 @@ namespace Frontend
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSequenceOptionsKeyPress (object o, KeyPressEventArgs args)
 		{
-			if (args.Event.Key == Gdk.Key.Delete)
-			{
+			if (args.Event.Key == Gdk.Key.Delete) {
 				PinSequence.Chain.RemoveAt (((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode).Index);
 				DisplaySequenceInfos ();
 			}
@@ -442,23 +423,17 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			try
-			{
-				if (cbPin.ActiveText != null && selectedPin != null)
-				{
-					if (cbPin.ActiveText.Length > 0)
-					{
+			try {
+				if (cbPin.ActiveText != null && selectedPin != null) {
+					if (cbPin.ActiveText.Length > 0) {
 						int nr = 0;
 						var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
 						reg = Regex.Match (reg.Value, @"\d+");
-						if (reg.Success)
-						{
+						if (reg.Success) {
 							nr = Convert.ToInt32 (reg.Value);
 
-							for (int i = 0; i < DPins.Length; i++)
-							{
-								if (DPins [i].Number == nr)
-								{
+							for (int i = 0; i < DPins.Length; i++) {
+								if (DPins [i].Number == nr) {
 									selectedPin = DPins [i];
 									sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
 									repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
@@ -471,8 +446,7 @@ namespace Frontend
 					}
 				}
 				// Analysis disable once EmptyGeneralCatchClause
-			} catch (Exception)
-			{
+			} catch (Exception) {
 			}
 		}
 
@@ -487,12 +461,10 @@ namespace Frontend
 				Duration = this.Duration,
 				State = (cbState.ActiveText == "HIGH") ? DPinState.HIGH : DPinState.LOW,
 			};
-			if (ActiveNode == null)
-			{
+			if (ActiveNode == null) {
 				AddOperation (op);
 				cbState.Active = (cbState.Active == 0) ? 1 : 0;
-			} else
-			{
+			} else {
 				pinSequence.Chain [ActiveNode.Index] = op;
 				DisplaySequenceInfos ();
 				SwitchToAddBtn ();
@@ -506,8 +478,7 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnBtnRemoveOperationClicked (object sender, EventArgs e)
 		{
-			if (ActiveNode != null)
-			{
+			if (ActiveNode != null) {
 				PinSequence.Chain.RemoveAt (ActiveNode.Index);
 				DisplaySequenceInfos ();
 				btnRemoveOperation.Sensitive = false;
@@ -559,10 +530,8 @@ namespace Frontend
 		private void ClearOperations ()
 		{
 			var dialog = new MessageDialog (this, DialogFlags.Modal, MessageType.Question, ButtonsType.YesNo, "You are about to delete all operations from this sequence.\nDo you wish to proceede?");
-			dialog.Response += (o, args) =>
-			{
-				if (args.ResponseId == ResponseType.Yes)
-				{
+			dialog.Response += (o, args) => {
+				if (args.ResponseId == ResponseType.Yes) {
 					PinSequence.Chain.Clear ();
 					DisplaySequenceInfos ();
 				}

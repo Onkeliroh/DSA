@@ -2477,13 +2477,24 @@ namespace Frontend
 
 		private void RunSequenceDialog (Sequence seq = null, DPin RefPin = null)
 		{
-			var dialog = new SeqConfigDialog (
-				             con.Configuration.GetPinsWithoutSequence (), 
-				             con.Configuration.SequenceGroups, 
-				             seq, 
-				             RefPin, 
-				             this
-			             );
+			SeqConfigDialog dialog;
+			if (seq != null) {
+				dialog = new SeqConfigDialog (
+					con.Configuration.GetPinsWithoutSequence (), 
+					con.Configuration.SequenceGroups, 
+					new Sequence (seq), 
+					RefPin, 
+					this
+				);
+			} else {
+				dialog = new SeqConfigDialog (
+					con.Configuration.GetPinsWithoutSequence (), 
+					con.Configuration.SequenceGroups, 
+					null, 
+					RefPin, 
+					this
+				);
+			}
 
 			dialog.Response += (o, args) => {
 				if (args.ResponseId == ResponseType.Apply) {
