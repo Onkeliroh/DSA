@@ -243,8 +243,10 @@ namespace PrototypeBackend
 		/// <param name="copy">Copy.</param>
 		public APin (APin copy) : base ()
 		{
+
 			Name = copy.Name;
 			Number = copy.Number;
+			DigitalNumber = copy.DigitalNumber;
 			PlotColor = copy.PlotColor;
 			Slope = copy.Slope;
 			Offset = copy.Offset;
