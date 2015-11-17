@@ -733,7 +733,7 @@ namespace Frontend
 					TrackerKey = a.DisplayName,
 				};
 
-				a.OnNewValue += (o, args) => series.Points.Add (new DataPoint (args.Time.ToOADate (), args.Value));
+				a.OnNewValue += (o, args) => OnNewPoint (o, args, ref series);
 
 				RealTimePlotView.Model.Series.Add (series);
 			}
@@ -752,13 +752,7 @@ namespace Frontend
 //					TrackerFormatString = "X:{2:yyyy-MM-dd} Y:{4}"
 				};
 
-				a.GetPinWithLargestInterval ().OnNewValue += (o, args) =>
-				{
-					if (!double.IsNaN (a.Value.Value))
-					{
-						series.Points.Add (new DataPoint (args.Time.ToOADate (), a.Value.Value));
-					}
-				};
+				a.GetPinWithLargestInterval ().OnNewValue += (o, args) => OnNewPoint (o, args, ref series);
 
 				RealTimePlotView.Model.Series.Add (series);
 			}
@@ -1624,7 +1618,7 @@ namespace Frontend
 			btnRealTimePlotPause.Clicked += OnBtnRealTimePlotPauseClicked;
 			btnRealTimePlotResetZoom.Clicked += OnBtnRealTimePlotResetZoomClicked;
 			btnRealTimePlotFitData.Clicked += OnBtnRealTimePlotFitDataClicked;
-			cbtnRealTimePlotLimitPoints.Active = Frontend.Settings.LimitPlotPoints;
+			cbtnRealTimePlotLimitPoints.Active = Frontend.Settings.Default.LimitPlotPoints;
 			cbtnRealTimePlotLimitPoints.Toggled += OnCbtnRealTimePlotLimitPoints;
 		}
 
@@ -2391,6 +2385,21 @@ namespace Frontend
 		protected void OnBtnRealTimePlotResetZoomClicked (object sender, EventArgs e)
 		{
 			RealTimeXAxis.Zoom (DefaultZoomValue);
+		}
+
+		protected void OnNewPoint (object sender, NewMeasurementValueArgs e, ref LineSeries series)
+		{
+			if (Frontend.Settings.Default.LimitPlotPoints)
+			{
+				if (series.Points.Count > Frontend.Settings.Default.MaximumSeriesSize)
+				{
+					series.Points.RemoveRange (0, series.Points.Count - Frontend.Settings.Default.MaximumSeriesSize);
+				}
+			} 
+			if (!double.IsNaN (e.Value))
+			{
+				series.Points.Add (new DataPoint (e.Time.ToOADate (), e.Value));
+			}
 		}
 
 		#endregion

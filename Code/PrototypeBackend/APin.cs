@@ -154,7 +154,7 @@ namespace PrototypeBackend
 					if (OnNewValue != null)
 					{
 						DateTime time = DateTime.FromOADate (value.Time);
-						OnNewValue.Invoke (this, new NewMeasurementValue () {
+						OnNewValue.Invoke (this, new NewMeasurementValueArgs () {
 							RAW = value.Value,
 							Value = val,
 							Time = time
@@ -207,12 +207,12 @@ namespace PrototypeBackend
 		/// Is invoked, if new value is added
 		/// </summary>
 		[NonSerialized]
-		public EventHandler<NewMeasurementValue> OnNewValue;
+		public EventHandler<NewMeasurementValueArgs> OnNewValue;
 		/// <summary>
 		/// Is invoked, if new value is added
 		/// </summary>
 		[NonSerialized]
-		public EventHandler<NewMeasurementValue> OnNewRAWValue;
+		public EventHandler<NewMeasurementValueArgs> OnNewRAWValue;
 
 		#endregion
 
@@ -343,7 +343,7 @@ namespace PrototypeBackend
 			{
 				OnNewRAWValue.Invoke (
 					this,
-					new NewMeasurementValue () {
+					new NewMeasurementValueArgs () {
 						RAW = value.Value,
 						Value = value.Value,
 						Time = DateTime.FromOADate (value.Time) 

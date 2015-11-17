@@ -135,7 +135,7 @@ namespace PrototypeBackend
 
 		#region Events
 
-		public EventHandler<NewMeasurementValue> OnNewValue;
+		public EventHandler<NewMeasurementValueArgs> OnNewValue;
 
 		#endregion
 

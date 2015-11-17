@@ -240,7 +240,7 @@ namespace PrototypeBackend
 	/// <summary>
 	/// New measurement value.
 	/// </summary>
-	public class NewMeasurementValue
+	public class NewMeasurementValueArgs
 	{
 		/// <summary>
 		/// The raw value.
