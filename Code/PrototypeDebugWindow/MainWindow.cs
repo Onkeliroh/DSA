@@ -1624,6 +1624,8 @@ namespace Frontend
 			btnRealTimePlotPause.Clicked += OnBtnRealTimePlotPauseClicked;
 			btnRealTimePlotResetZoom.Clicked += OnBtnRealTimePlotResetZoomClicked;
 			btnRealTimePlotFitData.Clicked += OnBtnRealTimePlotFitDataClicked;
+			cbtnRealTimePlotLimitPoints.Active = Frontend.Settings.LimitPlotPoints;
+			cbtnRealTimePlotLimitPoints.Toggled += OnCbtnRealTimePlotLimitPoints;
 		}
 
 		#endregion
@@ -2343,31 +2345,22 @@ namespace Frontend
 			);
 		}
 
-		/// <summary>
-		/// Raises the cbtn real time plot show marker toggled event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
 		protected void OnCbtnRealTimePlotShowMarkerToggled (object sender, EventArgs e)
 		{
 			ToggleRealTimePlotMarker ();	
 		}
 
-		/// <summary>
-		/// Raises the cbtn real time plot smooth values event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
 		protected void OnCbtnRealTimePlotSmoothValues (object sender, EventArgs e)
 		{
 			ToggleRealTimePlotSmooth ();
 		}
 
-		/// <summary>
-		/// Raises the button real time plot jump start clicked event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
+		protected void OnCbtnRealTimePlotLimitPoints (object sender, EventArgs e)
+		{
+			Frontend.Settings.Default.LimitPlotPoints = cbtnRealTimePlotLimitPoints.Active;
+			Frontend.Settings.Default.Save ();
+		}
+
 		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)
 		{
 			if (RealTimeXAxis.ActualMinimum > con.StartTime.ToOADate ())
@@ -2379,11 +2372,6 @@ namespace Frontend
 			}
 		}
 
-		/// <summary>
-		/// Raises the button real time plot jump latest clicked event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
 		protected void OnBtnRealTimePlotJumpLatestClicked (object sender, EventArgs e)
 		{
 			if (RealTimeXAxis.ActualMaximum > LastTimeKeeperPresenterTick)
@@ -2395,21 +2383,11 @@ namespace Frontend
 			}
 		}
 
-		/// <summary>
-		/// Raises the button real time plot fit data clicked event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
 		protected void OnBtnRealTimePlotFitDataClicked (object sender, EventArgs e)
 		{
 			RealTimeXAxis.Zoom (con.StartTime.ToOADate (), LastTimeKeeperPresenterTick);
 		}
 
-		/// <summary>
-		/// Raises the button real time plot reset zoom clicked event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
 		protected void OnBtnRealTimePlotResetZoomClicked (object sender, EventArgs e)
 		{
 			RealTimeXAxis.Zoom (DefaultZoomValue);

@@ -121,5 +121,17 @@ namespace Frontend
 				this ["MaximumSeriesSize"] = Convert.ToString (value);
 			}
 		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("True")]
+		public bool LimitPlotPoints {
+			get {
+				return ((bool)this ["LimitPlotPoints"]);
+			}
+			set {
+				this ["LimitPlotPoints"] = value;
+			}
+		}
 	}
 }
