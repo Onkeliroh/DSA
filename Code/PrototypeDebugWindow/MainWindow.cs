@@ -2353,6 +2353,32 @@ namespace Frontend
 		{
 			Frontend.Settings.Default.LimitPlotPoints = cbtnRealTimePlotLimitPoints.Active;
 			Frontend.Settings.Default.Save ();
+
+//			if (!Frontend.Settings.Default.LimitPlotPoints && con.IsRunning)
+//			{
+//				foreach (LineSeries series in RealTimePlotModel.Series)
+//				{
+//					lock (series)
+//					{
+//						var hits = con.Configuration.AnalogPins.Where (o => o.DisplayName.Equals (series.Title)).ToList ();
+//						if (hits.Count > 0)
+//						{
+//							APin pin = hits [0];
+//							series.Points.Clear ();
+//							pin.Values.ForEach (o => series.Points.Add (new DataPoint (o.Time, o.Value)));
+//						} else
+//						{
+//							var mecomhit = con.Configuration.MeasurementCombinations.Where (o => o.DisplayName.Equals (series.Title)).ToList ();
+//							if (mecomhit.Count > 0)
+//							{
+//								MeasurementCombination pin = mecomhit [0];
+//								series.Points.Clear ();
+//								pin.Values.ForEach (o => series.Points.Add (new DataPoint (o.Time, o.Value)));
+//							} 
+//						}
+//					}
+//				}
+//			}
 		}
 
 		protected void OnBtnRealTimePlotJumpStartClicked (object sender, EventArgs e)

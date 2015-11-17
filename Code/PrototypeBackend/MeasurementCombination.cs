@@ -34,7 +34,8 @@ namespace PrototypeBackend
 				string s = "";
 				s += Name;
 				s += "( ";
-				foreach (APin a in Pins) {
+				foreach (APin a in Pins)
+				{
 					s += a.DisplayNumberShort + " ";
 				}
 				s += ")";
@@ -96,22 +97,33 @@ namespace PrototypeBackend
 		/// <value>The value.</value>
 		public DateTimeValue Value {
 			get {
-				if (Pins.Count > 0) {
-					if (Operation != null) {
+				if (Pins.Count > 0)
+				{
+					if (Operation != null)
+					{
 						var time = Pins.OrderByDescending (o => o.Interval).First ().Value.Time;
 						double val = CalcValue ();
-						return new DateTimeValue () {
+
+						var dtv = new DateTimeValue () {
 							Value = val,
 							Time = time
 						};
+						Values.Add (dtv);
+						return dtv;
 					}
-					return new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Interval).First ().Value.Time };
-				} else {
+					return  new DateTimeValue (){ Value = double.NaN, Time = Pins.OrderBy (o => o.Interval).First ().Value.Time };
+				} else
+				{
 					return new DateTimeValue (){ Value = double.NaN, Time = DateTime.Now.ToOADate () };
 				}
 			}
 			private set { }
 		}
+
+		/// <summary>
+		/// The values
+		/// </summary>
+		public List<DateTimeValue> Values{ get; private set; }
 
 		/// <summary>
 		/// Gets or sets the operation string.
@@ -178,7 +190,8 @@ namespace PrototypeBackend
 		/// <param name="pin">Pin.</param>
 		public bool AddPin (APin pin)
 		{
-			if (!Pins.Contains (pin)) {
+			if (!Pins.Contains (pin))
+			{
 				Pins.Add (pin);
 				return true;
 			}
@@ -191,20 +204,25 @@ namespace PrototypeBackend
 		/// <returns>The value.</returns>
 		private double CalcValue ()
 		{
-			if (CheckPinIntervalEquality ()) {
-				if (Pins.TrueForAll (o => o.Values.Count % MeanValuesCount == 0)) {
+			if (CheckPinIntervalEquality ())
+			{
+				if (Pins.TrueForAll (o => o.Values.Count % MeanValuesCount == 0))
+				{
 					double[] pinsvalues = new double[Pins.Count];
-					for (int i = 0; i < Pins.Count; i++) {
+					for (int i = 0; i < Pins.Count; i++)
+					{
 						pinsvalues [i] =
 							Pins [i].Values.GetRange (
 							Pins [i].Values.Count - MeanValuesCount, MeanValuesCount
 						).Sum (o => o.Value) / (double)MeanValuesCount;
 					}
 					return Operation (pinsvalues);
-				} else {
+				} else
+				{
 					return double.NaN;
 				}
-			} else {
+			} else
+			{
 				return Operation (Pins.Select (o => o.Values.Last ().Value).ToArray ());
 			}
 		}
@@ -218,7 +236,8 @@ namespace PrototypeBackend
 		public override bool Equals (object obj)
 		{
 			MeasurementCombination MeCom = obj as MeasurementCombination;
-			if (MeCom != null) {
+			if (MeCom != null)
+			{
 				return 
 				    this.Pins.SequenceEqual (MeCom.Pins)	&&
 				this.Name.Equals (MeCom.Name) &&
@@ -242,9 +261,11 @@ namespace PrototypeBackend
 
 		public bool CheckPinIntervalEquality ()
 		{
-			if (Pins.Count > 0) {
+			if (Pins.Count > 0)
+			{
 				return Pins.TrueForAll (o => o.Interval == Pins [0].Interval);
-			} else {
+			} else
+			{
 				return true;
 			}
 		}

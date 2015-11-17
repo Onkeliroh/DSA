@@ -1572,7 +1572,8 @@
                         <child>
                           <widget class="Gtk.CheckButton" id="cbtnRealTimePlotLimitPoints">
                             <property name="MemberName" />
-                            <property name="Tooltip" translatable="yes">Limits the shown points to save computing time</property>
+                            <property name="Tooltip" translatable="yes">Limits the shown points to save computing time.
+This action is irreversible!</property>
                             <property name="CanFocus">True</property>
                             <property name="Label" translatable="yes">Limit shown Points</property>
                             <property name="DrawIndicator">True</property>

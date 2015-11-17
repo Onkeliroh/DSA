@@ -112,7 +112,7 @@ namespace Frontend
 
 		[global::System.Configuration.UserScopedSettingAttribute ()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
-		[global::System.Configuration.DefaultSettingValueAttribute ("25000")]
+		[global::System.Configuration.DefaultSettingValueAttribute ("25")]
 		public int MaximumSeriesSize {
 			get {
 				return (Convert.ToInt32 (this ["MaximumSeriesSize"]));
