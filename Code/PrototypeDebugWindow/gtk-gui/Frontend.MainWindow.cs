@@ -1355,7 +1355,7 @@ namespace Frontend
 			this.table5.ColumnSpacing = ((uint)(6));
 			// Container child table5.Gtk.Table+TableChild
 			this.cbtnRealTimePlotLimitPoints = new global::Gtk.CheckButton ();
-			this.cbtnRealTimePlotLimitPoints.TooltipMarkup = "Limits the shown points to save computing time";
+			this.cbtnRealTimePlotLimitPoints.TooltipMarkup = "Limits the shown points to save computing time.\nThis action is irreversible!";
 			this.cbtnRealTimePlotLimitPoints.CanFocus = true;
 			this.cbtnRealTimePlotLimitPoints.Name = "cbtnRealTimePlotLimitPoints";
 			this.cbtnRealTimePlotLimitPoints.Label = global::Mono.Unix.Catalog.GetString ("Limit shown Points");

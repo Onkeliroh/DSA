@@ -34,6 +34,7 @@ namespace Frontend
 		private Gtk.NodeStore NodeStoreMeasurementCombinations = new NodeStore (typeof(MeasurementCombinationTreeNode));
 
 		private ComboBox PortBox;
+		private ListStore PortBoxStore = new ListStore (typeof(string));
 
 		private PlotView SequencePreviewPlotView;
 		private PlotModel SequencePreviewPlotModel;
@@ -126,7 +127,7 @@ namespace Frontend
 			ArduinoController.OnConnectionChanged += OnConnection;
 
 			BuildMenu ();
-//			BuildToolBar ();
+			BuildToolBar ();
 			BuildNodeViews ();
 			BuildSequencePreviewPlot ();
 			BuildRealTimePlot ();
@@ -1347,30 +1348,35 @@ namespace Frontend
 		/// </summary>
 		private void BuildToolBar ()
 		{
-			//TODO warum werden eintraege nicht gerendert?
 			PortBox = new ComboBox ();
 			PortBox.WidthRequest = 200;
 			PortBox.Visible = true;
+
+			EventBox eb = new EventBox ();
 
 			PortBox.Changed += (sender, e) =>
 			{
 				ArduinoController.SerialPortName = PortBox.ActiveText;
 				ArduinoController.Setup ();	
+//				UpdatePortBox ();
 			};
 
+			PortBox.ButtonPressEvent += (o, args) => UpdatePortBox ();
+			eb.ButtonPressEvent += (o, args) =>	UpdatePortBox ();
+
+			var label = new Label ("Connect to:");
+			label.Xalign = 0;
+
 			var vbox = new VBox ();
-			var middlehbox = new HBox ();
 
-			middlehbox.PackStart (new Label ("Port:"), false, false, 0);
-			middlehbox.PackStart (PortBox);
+			vbox.PackStart (label, true, true, 0);
+			vbox.PackStart (PortBox, false, false, 0);
 
-			vbox.PackStart (new Label (""), true, true, 0);
-			vbox.PackStart (middlehbox, false, false, 0);
-			vbox.PackStart (new Label (""), true, true, 0);
+			eb.Add (vbox);
 
 			var item = new ToolItem ();
 			item.Expand = false;
-			item.Add (vbox);
+			item.Add (eb);
 
 			this.toolbarMain.Remove (this.toolbarMain.GetNthItem (4));
 
@@ -1841,26 +1847,32 @@ namespace Frontend
 		/// <param name="portname">Portname.</param>
 		private void UpdatePortBox (string portname = null)
 		{
-			var store = new ListStore (typeof(string));
+			PortBox.Clear ();
+			PortBoxStore = new ListStore (typeof(string));
+			PortBox.Model = PortBoxStore;
 
-			foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
+			CellRendererText crt = new CellRendererText ();
+			PortBox.PackStart (crt, true);
+
+			PortBox.AddAttribute (crt, "text", 0);
+
+
+			var portnames = System.IO.Ports.SerialPort.GetPortNames ();
+			foreach (string s in portnames)
 			{
-				store.AppendValues (new object[]{ s });
+				PortBoxStore.AppendValues (new object[]{ s });
 			}
 
-//			string atext = PortBox.ActiveText;
-//
-//			if (!string.IsNullOrEmpty (portname)) {
-//				atext = portname;
-//			}
-
-			PortBox.Model = store;
-//			if (!string.IsNullOrEmpty (atext)) {
-//				try {
-//					PortBox.Active = Array.IndexOf (System.IO.Ports.SerialPort.GetPortNames ().ToArray (), atext);
-//				} catch (Exception e) {
-//				}
-//			}	
+			if (ArduinoController.IsConnected)
+			{
+				if (portnames.Contains (ArduinoController.SerialPortName))
+				{
+					PortBox.Active = Array.IndexOf (portnames, ArduinoController.SerialPortName);
+				}
+			} else
+			{
+				PortBox.Active = -1;
+			}
 
 			toolbarMain.ShowAll ();
 
@@ -1876,12 +1888,16 @@ namespace Frontend
 			if (!e.Handled)
 			{
 				e.Handled = true;
+
+				UpdatePortBox ();
+
 				if (e.Connected)
 				{
 					lblConnectionStatus.Text = "connected to " + e.Port;
 					refreshAction.Sensitive = false;
 					mediaPlayAction.Sensitive = true;
 					mediaStopAction.Sensitive = false;
+
 
 					try
 					{
@@ -1890,9 +1906,6 @@ namespace Frontend
 					{
 						con.ConLogger.Log (ex.ToString (), LogLevel.ERROR);
 					}
-
-//				PortBox.ModifyBg (Gtk.StateType.Normal, new Gdk.Color (0, 255, 0));
-//				UpdatePortBox (e.Port);
 
 					Gtk.Application.Invoke (delegate
 					{
@@ -1910,9 +1923,6 @@ namespace Frontend
 					refreshAction.Sensitive = true;
 					mediaPlayAction.Sensitive = false;
 					mediaStopAction.Sensitive = false;
-
-//				PortBox.ModifyBg (Gtk.StateType.Normal);
-//				UpdatePortBox ();
 
 					try
 					{

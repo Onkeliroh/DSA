@@ -166,6 +166,7 @@ namespace PrototypeBackend
 			OperationString_ = string.Empty;
 			Unit = string.Empty;
 			MeanValuesCount = 1;
+			Values = new List<DateTimeValue> ();
 		}
 
 		/// <summary>
@@ -181,6 +182,7 @@ namespace PrototypeBackend
 			OperationString = copy.OperationString;
 			Unit = copy.Unit;
 			MeanValuesCount = copy.MeanValuesCount;
+			Values = copy.Values;
 		}
 
 		/// <summary>
@@ -307,6 +309,8 @@ namespace PrototypeBackend
 			OperationString = info.GetString ("OperationString");
 
 			Operation = OperationCompiler.CompileOperation (OperationString, Pins.Select (o => o.DisplayNumberShort).ToArray<string> ());
+
+			Values = new List<DateTimeValue> ();
 		}
 
 		#endregion
