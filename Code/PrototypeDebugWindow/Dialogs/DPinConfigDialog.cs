@@ -45,7 +45,8 @@ namespace Frontend
 
 			this.FocusChain = new Widget[]{ entryName, cbPin, cbColor, buttonOk, buttonCancel };
 
-			if (dpin != null) {
+			if (dpin != null)
+			{
 				//change to ApplyBtn to singal change instead of addition of a new instance
 				buttonOk.Label = "Apply";
 				buttonOk.Image = new Image (Gtk.Stock.Apply, IconSize.Button);
@@ -54,23 +55,28 @@ namespace Frontend
 				Array.Copy (availablePins, AvailablePins, availablePins.Length);
 				AvailablePins [availablePins.Length] = dpin;
 
-				Pin = dpin;
-			} else {
+				Pin = new DPin (dpin);
+			} else
+			{
 				AvailablePins = availablePins;
 
-				if (AvailablePins.Length > 0) {
+				if (AvailablePins.Length > 0)
+				{
 					pin = AvailablePins [0];
 				}
 				pin.PlotColor = GUIHelper.ColorHelper.GetRandomGdkColor ();
 				cbColor.Color = pin.PlotColor;
 			}
 
-			for (int i = 0; i < availablePins.Length; i++) {
+			for (int i = 0; i < availablePins.Length; i++)
+			{
 				cbPin.AppendText (availablePins [i].DisplayNumber);
 			}
-			if (AvailablePins.Length > 0) {
+			if (AvailablePins.Length > 0)
+			{
 				cbPin.Active = 0;
-			} else {
+			} else
+			{
 				buttonOk.Sensitive = false;
 				buttonOk.TooltipText = "There are no more Pins left to configure.";
 			}
@@ -95,7 +101,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
-			if (pin != null) {
+			if (pin != null)
+			{
 				pin.Name = entryName.Text;
 			}
 		}
@@ -107,7 +114,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			if (pin != null) {
+			if (pin != null)
+			{
 				pin.RealNumber = AvailablePins.ToList ().Single (o => o.DisplayNumber == cbPin.ActiveText).RealNumber;
 				pin.Number = AvailablePins.ToList ().Single (o => o.DisplayNumber.Equals (cbPin.ActiveText)).Number;
 			}
@@ -120,7 +128,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnCbColorColorSet (object sender, EventArgs e)
 		{
-			if (pin != null) {
+			if (pin != null)
+			{
 				pin.PlotColor = cbColor.Color;
 			}
 		}

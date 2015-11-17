@@ -8,7 +8,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../../../Tools/Frontend/PrototypeDebugWindow.dll" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="Frontend.MainWindow" design-size="1208 600">
+  <widget class="Gtk.Window" id="Frontend.MainWindow" design-size="1201 600">
     <action-group name="Default">
       <action id="mediaPlayAction">
         <property name="Type">Action</property>
@@ -332,7 +332,7 @@
               <widget class="Gtk.Notebook" id="notebook1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">1</property>
+                <property name="CurrentPage">4</property>
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
@@ -1089,8 +1089,9 @@
                                     <property name="LeftAttach">1</property>
                                     <property name="RightAttach">3</property>
                                     <property name="AutoSize">True</property>
+                                    <property name="XOptions">Fill</property>
                                     <property name="YOptions">Fill</property>
-                                    <property name="XExpand">True</property>
+                                    <property name="XExpand">False</property>
                                     <property name="XFill">True</property>
                                     <property name="XShrink">False</property>
                                     <property name="YExpand">False</property>
@@ -1110,8 +1111,9 @@
                                     <property name="LeftAttach">1</property>
                                     <property name="RightAttach">3</property>
                                     <property name="AutoSize">True</property>
+                                    <property name="XOptions">Fill</property>
                                     <property name="YOptions">Fill</property>
-                                    <property name="XExpand">True</property>
+                                    <property name="XExpand">False</property>
                                     <property name="XFill">True</property>
                                     <property name="XShrink">False</property>
                                     <property name="YExpand">False</property>
@@ -1175,10 +1177,9 @@
                                     <property name="BottomAttach">2</property>
                                     <property name="LeftAttach">1</property>
                                     <property name="RightAttach">2</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="XOptions">Fill</property>
+                                    <property name="AutoSize">False</property>
                                     <property name="YOptions">Fill</property>
-                                    <property name="XExpand">False</property>
+                                    <property name="XExpand">True</property>
                                     <property name="XFill">True</property>
                                     <property name="XShrink">False</property>
                                     <property name="YExpand">False</property>
@@ -1198,7 +1199,9 @@
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
-                                        <property name="AutoSize">False</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1222,7 +1225,9 @@
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
-                                        <property name="AutoSize">False</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1246,19 +1251,21 @@
                                       </widget>
                                       <packing>
                                         <property name="Position">4</property>
-                                        <property name="AutoSize">False</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
                                       </packing>
                                     </child>
                                   </widget>
                                   <packing>
                                     <property name="LeftAttach">1</property>
                                     <property name="RightAttach">2</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="XOptions">Fill</property>
+                                    <property name="AutoSize">False</property>
+                                    <property name="XOptions">Expand, Shrink, Fill</property>
                                     <property name="YOptions">Fill</property>
-                                    <property name="XExpand">False</property>
+                                    <property name="XExpand">True</property>
                                     <property name="XFill">True</property>
-                                    <property name="XShrink">False</property>
+                                    <property name="XShrink">True</property>
                                     <property name="YExpand">False</property>
                                     <property name="YFill">True</property>
                                     <property name="YShrink">False</property>
@@ -1451,7 +1458,7 @@
                                     <property name="BottomAttach">3</property>
                                     <property name="LeftAttach">1</property>
                                     <property name="RightAttach">3</property>
-                                    <property name="AutoSize">True</property>
+                                    <property name="AutoSize">False</property>
                                     <property name="YOptions">Fill</property>
                                     <property name="XExpand">True</property>
                                     <property name="XFill">True</property>
@@ -1508,7 +1515,7 @@
                       </widget>
                       <packing>
                         <property name="Position">3</property>
-                        <property name="AutoSize">True</property>
+                        <property name="AutoSize">False</property>
                         <property name="Expand">False</property>
                         <property name="Fill">False</property>
                       </packing>

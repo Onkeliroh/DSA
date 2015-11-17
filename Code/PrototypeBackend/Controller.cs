@@ -429,7 +429,7 @@ namespace PrototypeBackend
 				{
 					double time = KeeperOfTime.ElapsedMilliseconds;
 
-					var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 10).ToArray ();
+					var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 9).ToArray ();
 					if (analogPins.Length > 0)
 					{
 						var query = analogPins.Select (o => o.Number).ToArray ();
@@ -439,7 +439,10 @@ namespace PrototypeBackend
 
 						for (int i = 0; i < analogPins.Length; i++)
 						{
-							analogPins [i].Value = new DateTimeValue (vals [i], now);
+							lock (analogPins)
+							{
+								analogPins [i].Value = new DateTimeValue (vals [i], now);
+							}
 						}
 
 						var analogPinValues = analogPins.Select (o => o.Value.Value).ToList<double> ();

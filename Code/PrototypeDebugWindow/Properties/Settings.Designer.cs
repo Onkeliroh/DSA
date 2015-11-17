@@ -7,6 +7,7 @@
 //     der Code erneut generiert wird.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System;
 
 namespace Frontend
 {
@@ -106,6 +107,18 @@ namespace Frontend
 			}
 			set {
 				this ["ShowConfigurationLoadMessage"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute ()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute ()]
+		[global::System.Configuration.DefaultSettingValueAttribute ("10000")]
+		public int MaximumSeriesSize {
+			get {
+				return (Convert.ToInt32 (this ["MaximumSeriesSize"]));
+			}
+			set {
+				this ["MaximumSeriesSize"] = Convert.ToString (value);
 			}
 		}
 	}

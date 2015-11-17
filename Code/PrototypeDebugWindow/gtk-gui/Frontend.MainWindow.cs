@@ -519,7 +519,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 1;
+			this.notebook1.CurrentPage = 4;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -1090,6 +1090,7 @@ namespace Frontend
 			w88.BottomAttach = ((uint)(6));
 			w88.LeftAttach = ((uint)(1));
 			w88.RightAttach = ((uint)(3));
+			w88.XOptions = ((global::Gtk.AttachOptions)(4));
 			w88.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.cbeCSVSeparator = global::Gtk.ComboBoxEntry.NewText ();
@@ -1100,6 +1101,7 @@ namespace Frontend
 			w89.BottomAttach = ((uint)(5));
 			w89.LeftAttach = ((uint)(1));
 			w89.RightAttach = ((uint)(3));
+			w89.XOptions = ((global::Gtk.AttachOptions)(4));
 			w89.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.cbeCSVTimeFormat = global::Gtk.ComboBox.NewText ();
@@ -1135,7 +1137,6 @@ namespace Frontend
 			w92.BottomAttach = ((uint)(2));
 			w92.LeftAttach = ((uint)(1));
 			w92.RightAttach = ((uint)(2));
-			w92.XOptions = ((global::Gtk.AttachOptions)(4));
 			w92.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.hbox1 = new global::Gtk.HBox ();
@@ -1147,6 +1148,8 @@ namespace Frontend
 			this.hbox1.Add (this.cbeFileNaming1);
 			global::Gtk.Box.BoxChild w93 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.cbeFileNaming1]));
 			w93.Position = 0;
+			w93.Expand = false;
+			w93.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.label24 = new global::Gtk.Label ();
 			this.label24.Name = "label24";
@@ -1163,6 +1166,8 @@ namespace Frontend
 			this.hbox1.Add (this.cbeFileNaming2);
 			global::Gtk.Box.BoxChild w95 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.cbeFileNaming2]));
 			w95.Position = 2;
+			w95.Expand = false;
+			w95.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.label25 = new global::Gtk.Label ();
 			this.label25.Name = "label25";
@@ -1179,11 +1184,13 @@ namespace Frontend
 			this.hbox1.Add (this.cbeFileNaming3);
 			global::Gtk.Box.BoxChild w97 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.cbeFileNaming3]));
 			w97.Position = 4;
+			w97.Expand = false;
+			w97.Fill = false;
 			this.tableCSVLoggerSettings.Add (this.hbox1);
 			global::Gtk.Table.TableChild w98 = ((global::Gtk.Table.TableChild)(this.tableCSVLoggerSettings [this.hbox1]));
 			w98.LeftAttach = ((uint)(1));
 			w98.RightAttach = ((uint)(2));
-			w98.XOptions = ((global::Gtk.AttachOptions)(4));
+			w98.XOptions = ((global::Gtk.AttachOptions)(7));
 			w98.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.hseparator2 = new global::Gtk.HSeparator ();
@@ -1697,7 +1704,7 @@ namespace Frontend
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 1208;
+			this.DefaultWidth = 1201;
 			this.DefaultHeight = 600;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
