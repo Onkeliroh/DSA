@@ -51,7 +51,7 @@ void attachCommandCallbacks()
 {
   // Attach callback methods
   cmdMessenger.attach(OnUnknownCommand);
-  cmdMessenger.attach(kReady,OnReady);
+  cmdMessenger.attach(kReady, OnReady);
   cmdMessenger.attach(kSetPin, OnSetPin);
   cmdMessenger.attach(kReadAnalogPin, OnReadAnalogPin);
   cmdMessenger.attach(kReadPin, OnReadPin);
@@ -69,8 +69,8 @@ void attachCommandCallbacks()
   cmdMessenger.attach(kGetPinModeMask, OnGetPinModeMask);
   cmdMessenger.attach(kGetAnalogReference, OnGetAnalogReference);
   cmdMessenger.attach(kGetAnalogPinNumbers, OnGetAnalogPinNumbers);
-  cmdMessenger.attach(kGetSDASCL,OnGetSDASCL);
-  cmdMessenger.attach(kAlive,OnAlive);
+  cmdMessenger.attach(kGetSDASCL, OnGetSDASCL);
+  cmdMessenger.attach(kAlive, OnAlive);
 }
 
 // Called when a received command has no attached function
@@ -143,11 +143,11 @@ void OnSetPinState()
 
 void OnReadAnalogPin()
 {
-  int NrOfValues = cmdMessenger.readInt16Arg();
+  int nrOfValues = cmdMessenger.readInt16Arg();
 
   cmdMessenger.sendCmdStart(kReadAnalogPin);
 
-  for ( int i = 0; i < NrOfValues; i++)
+  for ( int i = 0; i < nrOfValues; i++)
   {
     cmdMessenger.sendCmdArg(analogRead(cmdMessenger.readInt16Arg()));
   }

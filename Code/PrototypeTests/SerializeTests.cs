@@ -113,6 +113,21 @@ namespace PrototypeTests
 		}
 
 		[Test]
+		public void SerializeMeasurementCombinationWithoutPins ()
+		{
+			MeasurementCombination MeCom = new MeasurementCombination () {
+				OperationString = "A42"
+			};
+
+			Formator.Serialize (MemStream, MeCom);
+			MemStream.Seek (0, SeekOrigin.Begin);
+			MeasurementCombination MeComCopy = (MeasurementCombination)Formator.Deserialize (MemStream);
+
+			Assert.AreEqual (MeCom.Pins.Count, MeComCopy.Pins.Count);
+			Assert.AreEqual (MeCom, MeComCopy);
+		}
+
+		[Test]
 		public void SerializeMeasurementCombination ()
 		{
 			APin oPinionAtor = new APin () {
@@ -126,8 +141,16 @@ namespace PrototypeTests
 
 			Formator.Serialize (MemStream, MeCom);
 			MemStream.Seek (0, SeekOrigin.Begin);
-			MeasurementCombination MeComCopy = (MeasurementCombination)Formator.Deserialize (MemStream);
+			MeasurementCombination MeComCopy = new MeasurementCombination ();
+			try
+			{
+				MeComCopy = (MeasurementCombination)Formator.Deserialize (MemStream);
+			} catch (Exception e)
+			{
+				Console.WriteLine (e);
+			}
 
+			Assert.AreEqual (MeCom.Pins [0], MeComCopy.Pins [0]);
 			Assert.AreEqual (MeCom, MeComCopy);
 		}
 

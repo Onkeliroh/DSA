@@ -56,7 +56,10 @@ namespace PrototypeBackend
 		/// <value>The frequency.</value>
 		public double Frequency { 
 			get { 
-				return Pins.OrderByDescending (o => o.Interval).First ().Frequency; 
+				if (Pins.Count > 0)
+					return Pins.OrderByDescending (o => o.Interval).First ().Frequency;
+				else
+					return -1;
 			} 
 			private set { } 
 		}
@@ -67,7 +70,10 @@ namespace PrototypeBackend
 		/// <value>The biggest interval of all the pins.</value>
 		public int Interval {
 			get { 
-				return Pins.OrderByDescending (o => o.Interval).First ().Interval;
+				if (Pins.Count > 0)
+					return Pins.OrderByDescending (o => o.Interval).First ().Interval;
+				else
+					return -1;
 			} 
 			private set { }
 		}
@@ -298,17 +304,27 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <param name="info">Info.</param>
 		/// <param name="context">Context.</param>
-		public MeasurementCombination (SerializationInfo info, StreamingContext context) : base ()
+		public MeasurementCombination (SerializationInfo info, StreamingContext context)
 		{
 			Pins = new List<APin> ();
 			Pins = (List<APin>)info.GetValue ("Pins", Pins.GetType ());
+
 			Name = info.GetString ("Name");
 			Unit = info.GetString ("Unit");
 			Color = new Gdk.Color (info.GetByte ("RED"), info.GetByte ("GREEN"), info.GetByte ("BLUE"));
 			MeanValuesCount = info.GetInt32 ("Interval");
-			OperationString = info.GetString ("OperationString");
 
-			Operation = OperationCompiler.CompileOperation (OperationString, Pins.Select (o => o.DisplayNumberShort).ToArray<string> ());
+			OperationString = info.GetString ("OperationString");
+			if (!string.IsNullOrEmpty (OperationString) && Pins.Count > 0 && Pins.All (o => o != null))
+			{
+				try
+				{
+					Operation = OperationCompiler.CompileOperation (OperationString, Pins.Select (o => o.DisplayNumberShort).ToArray<string> ());
+				} catch (Exception e)
+				{
+					throw e;
+				}
+			}
 
 			Values = new List<DateTimeValue> ();
 		}

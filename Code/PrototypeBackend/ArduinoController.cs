@@ -9,7 +9,7 @@ namespace PrototypeBackend
 {
 	#region ENUMS
 	/// <summary>
-	/// Arduin Controller Commands
+	/// Arduino Controller Commands
 	/// </summary>
 	public enum Command
 	{
@@ -308,7 +308,7 @@ namespace PrototypeBackend
 				_cmdMessenger.NewLineReceived += NewLineReceived;
 
 				// Attach to NewLineSent for logging purposes
-				_cmdMessenger.NewLineSent += NewLineSent;                       
+				_cmdMessenger.NewLineSent += NewLineSent;
 
 				// Start listening
 				IsConnected = _cmdMessenger.Connect ();
@@ -336,7 +336,7 @@ namespace PrototypeBackend
 				// Dispose Command Messenger
 				if (_cmdMessenger != null)
 				{
-					_cmdMessenger.Disconnect ();	
+					_cmdMessenger.Disconnect ();
 					_cmdMessenger.Dispose ();
 				}
 			}
@@ -420,7 +420,7 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <param name="arguments">Arguments.</param>
 		static void OnUnknownCommand (ReceivedCommand arguments)
-		{            
+		{
 			#if DEBUG
 			Console.WriteLine (@"Command without attached callback received");
 			#endif
@@ -611,7 +611,7 @@ namespace PrototypeBackend
 				if (!(nr == (uint)ret.ReadInt32Arg () && (Int16)mode == ret.ReadInt16Arg () && (Int16)state == ret.ReadInt16Arg ()))
 				{
 					Console.Error.WriteLine (DateTime.Now.ToString ("HH:mm:ss tt zz") + "\t" + nr + "\t" + mode + "\t" + state);
-				}	
+				}
 				LastCommunication = DateTime.Now;
 			}
 			#endif
@@ -835,7 +835,7 @@ namespace PrototypeBackend
 
 				if (returnVal.Ok)
 				{
-					LastCommunication = DateTime.Now;	
+					LastCommunication = DateTime.Now;
 					Console.Write (" -> OK\n");
 				} else
 				{

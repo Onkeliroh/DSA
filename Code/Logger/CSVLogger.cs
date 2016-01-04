@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.IO;
 using System.Globalization;
@@ -87,7 +86,8 @@ namespace Logger
 		{
 			StringBuilder sb = new StringBuilder ();
 			bool first = true;
-			foreach (T value in row) {
+			foreach (T value in row)
+			{
 				if (!first)
 					sb.Append (Separator);
 				if (typeof(T) != typeof(string))
@@ -129,10 +129,13 @@ namespace Logger
 		private List<string> SortValues<T> (List<string> properties, List<T> row)
 		{
 			var list = new string[Mapping.Count];
-			foreach (string property in Mapping.Keys) {
-				if (properties.Contains (property)) {
+			foreach (string property in Mapping.Keys)
+			{
+				if (properties.Contains (property))
+				{
 					list [Mapping [property]] = Convert.ToString (row [properties.FindIndex (o => o == property)], CultureInfo);
-				} else {
+				} else
+				{
 					list [Mapping [property]] = EmptySpaceFilling;
 				}
 			}
