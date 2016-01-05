@@ -17,6 +17,8 @@ namespace PrototypeBackend
 	{
 		#region Member
 
+		public const string SoftwareName = "Datalogger and Sequencer for Arduino";
+
 		/// <summary>
 		/// Gets the gernal purpose logger.
 		/// </summary>

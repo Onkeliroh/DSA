@@ -2,35 +2,11 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{26212356-8A7B-454E-91B0-D3A325E53AA5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>PrototypeBackend</RootNamespace>
-    <AssemblyName>PrototypeBackend</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG; TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>5</LangVersion>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>5</LangVersion>
-    <DefineConstants>RELEASE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'FakeSerial|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -39,6 +15,23 @@
     <DefineConstants>FAKESERIAL; DEBUG</DefineConstants>
     <LangVersion>5</LangVersion>
     <DebugSymbols>true</DebugSymbols>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <AssemblyName>PrototypeBackend</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>Backend</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>FAKESERIAL; DEBUG; TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Backend.xml</DocumentationFile>
+    <AssemblyName>Backend</AssemblyName>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
