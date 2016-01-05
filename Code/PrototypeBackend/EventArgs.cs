@@ -20,6 +20,12 @@ namespace PrototypeBackend
 		public string Port { get ; private set; }
 
 		/// <summary>
+		/// Gets the reason.
+		/// </summary>
+		/// <value>The reason.</value>
+		public string Reason { get; private set; }
+
+		/// <summary>
 		/// Determines whether this event has been handled or not.
 		/// </summary>
 		public bool Handled = false;
@@ -29,10 +35,11 @@ namespace PrototypeBackend
 		/// </summary>
 		/// <param name="connected">If set to <c>true</c> connected.</param>
 		/// <param name="port">Port.</param>
-		public ConnectionChangedArgs (bool connected, string port = null)
+		public ConnectionChangedArgs (bool connected, string port = null, string reason = null)
 		{
 			Connected = connected;
 			Port = port;
+			Reason = reason;
 		}
 	}
 

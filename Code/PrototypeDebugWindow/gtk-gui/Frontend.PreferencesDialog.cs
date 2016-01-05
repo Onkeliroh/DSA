@@ -36,6 +36,8 @@ namespace Frontend
 		
 		private global::Gtk.Button btnLogFilePath;
 		
+		private global::Gtk.Button btnOpenLogFileFolder;
+		
 		private global::Gtk.ComboBox cboxLogLevel;
 		
 		private global::Gtk.CheckButton cbtnenablelogging;
@@ -45,6 +47,8 @@ namespace Frontend
 		private global::Gtk.Label label10;
 		
 		private global::Gtk.Label label2;
+		
+		private global::Gtk.Label label3;
 		
 		private global::Gtk.Label label9;
 		
@@ -218,7 +222,7 @@ namespace Frontend
 			this.notebook1.SetTabLabel (this.table2, this.label1);
 			this.label1.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
-			this.table3 = new global::Gtk.Table (((uint)(4)), ((uint)(3)), false);
+			this.table3 = new global::Gtk.Table (((uint)(5)), ((uint)(3)), false);
 			this.table3.Name = "table3";
 			this.table3.RowSpacing = ((uint)(6));
 			this.table3.ColumnSpacing = ((uint)(6));
@@ -241,13 +245,29 @@ namespace Frontend
 			w15.XOptions = ((global::Gtk.AttachOptions)(4));
 			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
+			this.btnOpenLogFileFolder = new global::Gtk.Button ();
+			this.btnOpenLogFileFolder.CanFocus = true;
+			this.btnOpenLogFileFolder.Name = "btnOpenLogFileFolder";
+			this.btnOpenLogFileFolder.UseUnderline = true;
+			this.btnOpenLogFileFolder.Label = global::Mono.Unix.Catalog.GetString ("Open Diagnostics-File Folder");
+			global::Gtk.Image w16 = new global::Gtk.Image ();
+			w16.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-open", global::Gtk.IconSize.Menu);
+			this.btnOpenLogFileFolder.Image = w16;
+			this.table3.Add (this.btnOpenLogFileFolder);
+			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table3 [this.btnOpenLogFileFolder]));
+			w17.TopAttach = ((uint)(4));
+			w17.BottomAttach = ((uint)(5));
+			w17.RightAttach = ((uint)(3));
+			w17.XOptions = ((global::Gtk.AttachOptions)(4));
+			w17.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table3.Gtk.Table+TableChild
 			this.cboxLogLevel = global::Gtk.ComboBox.NewText ();
 			this.cboxLogLevel.Name = "cboxLogLevel";
 			this.table3.Add (this.cboxLogLevel);
-			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table3 [this.cboxLogLevel]));
-			w16.LeftAttach = ((uint)(1));
-			w16.RightAttach = ((uint)(3));
-			w16.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table3 [this.cboxLogLevel]));
+			w18.LeftAttach = ((uint)(1));
+			w18.RightAttach = ((uint)(3));
+			w18.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.cbtnenablelogging = new global::Gtk.CheckButton ();
 			this.cbtnenablelogging.CanFocus = true;
@@ -256,13 +276,13 @@ namespace Frontend
 			this.cbtnenablelogging.DrawIndicator = true;
 			this.cbtnenablelogging.UseUnderline = true;
 			this.table3.Add (this.cbtnenablelogging);
-			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table3 [this.cbtnenablelogging]));
-			w17.TopAttach = ((uint)(2));
-			w17.BottomAttach = ((uint)(3));
-			w17.LeftAttach = ((uint)(1));
-			w17.RightAttach = ((uint)(2));
-			w17.XOptions = ((global::Gtk.AttachOptions)(4));
-			w17.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table3 [this.cbtnenablelogging]));
+			w19.TopAttach = ((uint)(2));
+			w19.BottomAttach = ((uint)(3));
+			w19.LeftAttach = ((uint)(1));
+			w19.RightAttach = ((uint)(2));
+			w19.XOptions = ((global::Gtk.AttachOptions)(4));
+			w19.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.entryLogFilePath = new global::Gtk.Entry ();
 			this.entryLogFilePath.CanFocus = true;
@@ -270,46 +290,56 @@ namespace Frontend
 			this.entryLogFilePath.IsEditable = false;
 			this.entryLogFilePath.InvisibleChar = '●';
 			this.table3.Add (this.entryLogFilePath);
-			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table3 [this.entryLogFilePath]));
-			w18.TopAttach = ((uint)(1));
-			w18.BottomAttach = ((uint)(2));
-			w18.LeftAttach = ((uint)(1));
-			w18.RightAttach = ((uint)(2));
-			w18.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table3 [this.entryLogFilePath]));
+			w20.TopAttach = ((uint)(1));
+			w20.BottomAttach = ((uint)(2));
+			w20.LeftAttach = ((uint)(1));
+			w20.RightAttach = ((uint)(2));
+			w20.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.label10 = new global::Gtk.Label ();
 			this.label10.Name = "label10";
 			this.label10.Xalign = 0F;
 			this.label10.LabelProp = global::Mono.Unix.Catalog.GetString ("Diagnostics-file path:");
 			this.table3.Add (this.label10);
-			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table3 [this.label10]));
-			w19.TopAttach = ((uint)(1));
-			w19.BottomAttach = ((uint)(2));
-			w19.XOptions = ((global::Gtk.AttachOptions)(4));
-			w19.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table3 [this.label10]));
+			w21.TopAttach = ((uint)(1));
+			w21.BottomAttach = ((uint)(2));
+			w21.XOptions = ((global::Gtk.AttachOptions)(4));
+			w21.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table3.Gtk.Table+TableChild
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
 			this.label2.Xalign = 0F;
 			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Use system logger:");
 			this.table3.Add (this.label2);
-			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table3 [this.label2]));
-			w20.TopAttach = ((uint)(2));
-			w20.BottomAttach = ((uint)(3));
-			w20.XOptions = ((global::Gtk.AttachOptions)(4));
-			w20.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table3 [this.label2]));
+			w22.TopAttach = ((uint)(2));
+			w22.BottomAttach = ((uint)(3));
+			w22.XOptions = ((global::Gtk.AttachOptions)(4));
+			w22.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table3.Gtk.Table+TableChild
+			this.label3 = new global::Gtk.Label ();
+			this.label3.Name = "label3";
+			this.table3.Add (this.label3);
+			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table3 [this.label3]));
+			w23.TopAttach = ((uint)(3));
+			w23.BottomAttach = ((uint)(4));
+			w23.LeftAttach = ((uint)(1));
+			w23.RightAttach = ((uint)(2));
+			w23.YOptions = ((global::Gtk.AttachOptions)(1));
 			// Container child table3.Gtk.Table+TableChild
 			this.label9 = new global::Gtk.Label ();
 			this.label9.Name = "label9";
 			this.label9.Xalign = 0F;
 			this.label9.LabelProp = global::Mono.Unix.Catalog.GetString ("Log Level:");
 			this.table3.Add (this.label9);
-			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table3 [this.label9]));
-			w21.XOptions = ((global::Gtk.AttachOptions)(4));
-			w21.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table3 [this.label9]));
+			w24.XOptions = ((global::Gtk.AttachOptions)(4));
+			w24.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.notebook1.Add (this.table3);
-			global::Gtk.Notebook.NotebookChild w22 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table3]));
-			w22.Position = 1;
+			global::Gtk.Notebook.NotebookChild w25 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.table3]));
+			w25.Position = 1;
 			// Notebook tab
 			this.label5 = new global::Gtk.Label ();
 			this.label5.Name = "label5";
@@ -317,14 +347,14 @@ namespace Frontend
 			this.notebook1.SetTabLabel (this.table3, this.label5);
 			this.label5.ShowAll ();
 			w1.Add (this.notebook1);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(w1 [this.notebook1]));
-			w23.Position = 0;
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(w1 [this.notebook1]));
+			w26.Position = 0;
 			// Internal child Frontend.PreferencesDialog.ActionArea
-			global::Gtk.HButtonBox w24 = this.ActionArea;
-			w24.Name = "dialog1_ActionArea";
-			w24.Spacing = 10;
-			w24.BorderWidth = ((uint)(5));
-			w24.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
+			global::Gtk.HButtonBox w27 = this.ActionArea;
+			w27.Name = "dialog1_ActionArea";
+			w27.Spacing = 10;
+			w27.BorderWidth = ((uint)(5));
+			w27.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonCancel = new global::Gtk.Button ();
 			this.buttonCancel.CanDefault = true;
@@ -334,9 +364,9 @@ namespace Frontend
 			this.buttonCancel.UseUnderline = true;
 			this.buttonCancel.Label = "gtk-cancel";
 			this.AddActionWidget (this.buttonCancel, -6);
-			global::Gtk.ButtonBox.ButtonBoxChild w25 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w24 [this.buttonCancel]));
-			w25.Expand = false;
-			w25.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w28 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w27 [this.buttonCancel]));
+			w28.Expand = false;
+			w28.Fill = false;
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonOk = new global::Gtk.Button ();
 			this.buttonOk.CanDefault = true;
@@ -346,10 +376,10 @@ namespace Frontend
 			this.buttonOk.UseUnderline = true;
 			this.buttonOk.Label = "gtk-ok";
 			this.AddActionWidget (this.buttonOk, -5);
-			global::Gtk.ButtonBox.ButtonBoxChild w26 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w24 [this.buttonOk]));
-			w26.Position = 1;
-			w26.Expand = false;
-			w26.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w29 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w27 [this.buttonOk]));
+			w29.Position = 1;
+			w29.Expand = false;
+			w29.Fill = false;
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}

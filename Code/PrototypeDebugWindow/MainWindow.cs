@@ -12,10 +12,11 @@ using OxyPlot.GtkSharp;
 using OxyPlot.Series;
 using PrototypeBackend;
 using System.Collections.Generic;
-using Gdk;
 using System.Globalization;
+using Cairo;
 using System.Reflection;
 using System.Diagnostics;
+using Gdk;
 
 namespace Frontend
 {

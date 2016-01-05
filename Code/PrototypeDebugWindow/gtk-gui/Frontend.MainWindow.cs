@@ -521,7 +521,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 5;
+			this.notebook1.CurrentPage = 4;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";

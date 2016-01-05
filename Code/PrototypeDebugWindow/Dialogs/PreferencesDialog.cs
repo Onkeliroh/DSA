@@ -1,6 +1,7 @@
 ﻿using System;
 using PrototypeBackend;
 using Gtk;
+using System.Diagnostics;
 
 namespace Frontend
 {
@@ -28,9 +29,11 @@ namespace Frontend
 
 			ListStore store = new ListStore (typeof(string));
 			int index = 0;
-			foreach (Logger.LogLevel lvl in Enum.GetValues(typeof(Logger.LogLevel))) {
+			foreach (Logger.LogLevel lvl in Enum.GetValues(typeof(Logger.LogLevel)))
+			{
 				store.AppendValues (new object[]{ lvl.ToString () });
-				if (lvl == Con.LoggerLevel) {
+				if (lvl == Con.LoggerLevel)
+				{
 					break;
 				}
 				index++;
@@ -44,6 +47,7 @@ namespace Frontend
 		{
 			cbLoadLastConfig.Toggled += OnCbLoadLastConfigToggled;
 			cbConnectLastPort.Toggled += OnCbConnectLastPortToggled;
+			btnOpenLogFileFolder.Clicked += OnBtnOpenLogFileFolderClicked;
 		}
 
 		protected void OnCbDebuggingModeToggled (object sender, EventArgs e)
@@ -72,8 +76,10 @@ namespace Frontend
 		protected void OnBtnLogFilePathClicked (object sender, EventArgs e)
 		{
 			var dialog = new FileChooserDialog ("Choose a Log-File location.", this, FileChooserAction.SelectFolder, "Select", ResponseType.Accept);
-			dialog.Response += (o, args) => {
-				if (args.ResponseId == ResponseType.Accept) {
+			dialog.Response += (o, args) =>
+			{
+				if (args.ResponseId == ResponseType.Accept)
+				{
 					entryLogFilePath.Text = dialog.CurrentFolder;
 					Con.LogFilePath = dialog.CurrentFolder;
 				}
@@ -92,6 +98,23 @@ namespace Frontend
 		{
 			Frontend.Settings.Default.ConnectToLastPort = cbLoadLastConfig.Active;
 			Frontend.Settings.Default.Save ();
+		}
+
+		private void OnBtnOpenLogFileFolderClicked (object sender, EventArgs e)
+		{
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			{
+				ProcessStartInfo startInfo = new ProcessStartInfo ();
+				startInfo.FileName = "explorer.exe";
+				startInfo.Arguments = Con.LogFilePath;
+				Process.Start (startInfo);
+			} else if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+			{
+				ProcessStartInfo startInfo = new ProcessStartInfo ();
+				startInfo.FileName = "xdg-open";
+				startInfo.Arguments = Con.LogFilePath;
+				Process.Start (startInfo);
+			}	
 		}
 	}
 }
