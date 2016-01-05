@@ -10,7 +10,7 @@ namespace PrototypeTests
 	public class ControllerTests
 	{
 		[Test]
-		[Ignore]
+		[Ignore ("Need to be redone")]
 		public void GetUsedPinsTest ()
 		{
 			var tmp = new Controller ();
@@ -46,7 +46,7 @@ namespace PrototypeTests
 		}
 
 		[Test]
-		[Ignore]
+		[Ignore ("Needs do be redone")]
 		public void GetUnusedPinsTest ()
 		{
 			var tmp = new Controller ();
@@ -87,7 +87,7 @@ namespace PrototypeTests
 		}
 
 		[Test]
-		[Ignore]
+		[Ignore ("Needs to be redone")]
 		public void GetUnusedPinsTest2 ()
 		{
 			var con = new Controller ();
