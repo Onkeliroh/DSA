@@ -11,12 +11,17 @@ This software is still under development and can therefor be concidered as "_not
 - [Gtk#](https://github.com/mono/gtk-sharp) (Version >=2.12.0.0)
 - [Mono](https://github.com/mono/mono) or [.Net Framework](https://www.microsoft.com/net) (depending on your OS)
 - Access to the USB Ports on your maschine
+- [CmdMessenger](https://github.com/thijse/Arduino-CmdMessenger) for compiling the Arduino sketch
 
-## Install
+## Install/Run
 
 * Compile
   1. Download the Repository and compile the code with a Mono/C# compiler of your choise
+  2. upload the Arduino Sketch to the Arduino
+  3. run the application
 
 
 * Download Binary
 	1. either run the `run.sh` script or the `.exe` file from the folder
+	2. upload the Arduino Sketch to the Arduino
+	3. run the application
