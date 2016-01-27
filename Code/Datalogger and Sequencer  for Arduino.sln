@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "..\PrototypeBackend\Backend.csproj", "{26212356-8A7B-454E-91B0-D3A325E53AA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{26212356-8A7B-454E-91B0-D3A325E53AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeTests", "..\PrototypeTests\PrototypeTests.csproj", "{7B3354E4-2100-496B-B15A-557FF10D9A2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeTests", "PrototypeTests\PrototypeTests.csproj", "{7B3354E4-2100-496B-B15A-557FF10D9A2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "..\PrototypeDebugWindow\Frontend.csproj", "{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "PrototypeDebugWindow\Frontend.csproj", "{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transport", "Transport", "{70D51A23-74C0-430D-92AF-2F0E881CB35A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger", "..\CommandMessengerLib\CommandMessenger\CommandMessenger.csproj", "{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger", "CommandMessengerLib\CommandMessenger\CommandMessenger.csproj", "{3CF8F8FC-6F5C-46F8-94DC-C2E4C505ECA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger.Transport.Serial", "..\CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj", "{00D85F0B-00A5-41FA-8A99-428C0199C663}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandMessenger.Transport.Serial", "CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj", "{00D85F0B-00A5-41FA-8A99-428C0199C663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "..\Logger\Logger.csproj", "{DAF25932-C4D6-4619-BDA6-9CF7D8684340}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{DAF25932-C4D6-4619-BDA6-9CF7D8684340}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter", "..\Starter\Starter.csproj", "{58116293-BDE7-4FB3-8C0A-CB873D9A5719}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter", "Starter\Starter.csproj", "{58116293-BDE7-4FB3-8C0A-CB873D9A5719}"
 EndProject
 Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Packages", "Packages.mdproj", "{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}"
 EndProject
@@ -124,6 +124,7 @@ Global
 		{00D85F0B-00A5-41FA-8A99-428C0199C663} = {70D51A23-74C0-430D-92AF-2F0E881CB35A}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
+		BaseDirectory = ..
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = Hierarchical
@@ -137,7 +138,7 @@ Global
 		$0.VersionControlPolicy = $3
 		$3.inheritsSet = Mono
 		$0.StandardHeader = $4
-		$4.Text = 
+		$4.Text =
 		$4.IncludeInNewFiles = True
 		outputpath = ..\..\Tools\Frontend
 	EndGlobalSection

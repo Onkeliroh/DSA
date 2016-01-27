@@ -1,13 +1,17 @@
 Heading
 =======
 
-Grundlegende Informationen
+Description
 --------------------------
 
 ###Autor:
 	Daniel Pollack
 
-Über dieses Repository
-----------------------
+Dependencies
+--------------------------
+- Gtk# (Version 2.12)
+- Mono or .Net Framework (depending on your OS)
+- Access to the USB Ports on your maschine
 
-Dieses Repository behinhaltet die Dateien für meine Bachelorarbeit.
+Install
+--------------------------
