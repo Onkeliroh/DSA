@@ -23,5 +23,7 @@ This software is still under development and can therefor be concidered as "_not
 
 * Download Binary
 	1. either run the `run.sh` script or the `.exe` file from the folder
+	  * [Linux](https://github.com/Onkeliroh/DSA/blob/master/DSA_Linux.zip)
+		* [Windows](https://github.com/Onkeliroh/DSA/blob/master/DSA_Windows.zip)
 	2. upload the Arduino Sketch to the Arduino
 	3. run the application
