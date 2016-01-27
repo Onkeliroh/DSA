@@ -14,7 +14,7 @@ namespace PrototypeBackend
 		/// </summary>
 		public static readonly Dictionary<string,string> TimeFormatOptions = new Dictionary<string, string> () {
 			{ "SHORT (YYYY-MM-DD hh:mm:ss)", "{0:yyyy-MM-dd HH:mm:ss}" },
-			{ "LONG (YYYY-MM-DD hh:mm:ss.ssss)", "{0:yyyy-MM-dd HH:mm:ss:ffff}" }
+			{ "LONG (YYYY-MM-DD hh:mm:ss.ssss)", "{0:yyyy-MM-dd HH:mm:ss.ffff}" }
 		};
 
 		/// <summary>
