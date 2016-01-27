@@ -24,7 +24,8 @@ namespace Frontend
 				cbColor.Color = value.Color;
 				sbMeanValuesCount.Value = value.MeanValuesCount;
 
-				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit)) {
+				if (value.Unit != null && !cbeUnit.Data.Contains (value.Unit))
+				{
 					cbeUnit.InsertText (0, value.Unit);
 					cbeUnit.Active = 0;
 				} 
@@ -85,19 +86,24 @@ namespace Frontend
 
 			cbColor.Color = GUIHelper.ColorHelper.GetRandomGdkColor ();
 
-			if (signal == null) {
+			if (signal == null)
+			{
 				Combination_ = new MeasurementCombination ();
 				Combination_.Color = cbColor.Color;
-			} else {
+			} else
+			{
 				Combination = signal;
-				if (!string.IsNullOrEmpty (Combination.OperationString)) {
+				if (!string.IsNullOrEmpty (Combination.OperationString))
+				{
 					CompileOperation ();
-				} else {
+				} else
+				{
 					SetWarning ();
 				}
 			}
 
-			if (pin != null) {
+			if (pin != null)
+			{
 				Combination_.AddPin (pin);
 				Combination_.Unit = Combination_.Pins [0].Unit;
 			}
@@ -107,13 +113,17 @@ namespace Frontend
 			UpdateCBPins ();
 			SetApplyButton ();
 
-			entryOperation.Activated += (sender, e) => {
-				if (!CompileTimer.Enabled) {
+			entryOperation.Activated += (sender, e) =>
+			{
+				if (!CompileTimer.Enabled)
+				{
 					CompileTimer.Start ();
 				}
 			};
-			entryOperation.FocusInEvent += (sender, e) => {
-				if (!CompileTimer.Enabled) {
+			entryOperation.FocusInEvent += (sender, e) =>
+			{
+				if (!CompileTimer.Enabled)
+				{
 					CompileTimer.Start ();
 				}
 			};
@@ -124,10 +134,13 @@ namespace Frontend
 			ListStore store = new ListStore (typeof(string));
 			Units.ForEach (o => store.AppendValues (new object[]{ o }));
 			cbeUnit.Model = store;
-			if (!string.IsNullOrEmpty (Combination_.Unit)) {
-				if (Units.Contains (Combination_.Unit)) {
+			if (!string.IsNullOrEmpty (Combination_.Unit))
+			{
+				if (Units.Contains (Combination_.Unit))
+				{
 					cbeUnit.Active = Array.IndexOf (Units.ToArray (), Combination_.Unit);
-				} else {
+				} else
+				{
 					store.AppendValues (new string[]{ Combination_.Unit });
 					cbeUnit.Active = Units.Count;
 				}
@@ -141,13 +154,17 @@ namespace Frontend
 		/// <param name="args">Arguments.</param>
 		private void CompileTimerElapsed (object obj, System.Timers.ElapsedEventArgs args)
 		{
-			try {
-				if (Combination_ != null) {
-					if (!string.IsNullOrEmpty (Combination_.OperationString)) {
+			try
+			{
+				if (Combination_ != null)
+				{
+					if (!string.IsNullOrEmpty (Combination_.OperationString))
+					{
 						CompileOperation ();
 					}
 				}
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				Console.Error.WriteLine (ex);
 			}
 		}
@@ -164,7 +181,8 @@ namespace Frontend
 
 			nvSignal.ButtonPressEvent += new ButtonPressEventHandler (OnSignalButtonPress);
 			nvSignal.KeyPressEvent += new KeyPressEventHandler (OnSignalKeyPress);
-			nvSignal.RowActivated += (o, args) => {
+			nvSignal.RowActivated += (o, args) =>
+			{
 				var node = ((o as NodeView).NodeSelection.SelectedNode as APinSignalDialogTreeNode).Pin;
 				ActiveNode = node;
 
@@ -179,7 +197,8 @@ namespace Frontend
 		{
 			nvSignal.NodeStore.Clear ();
 			btnRemove.Sensitive = false;
-			for (int i = 0; i < Combination_.Pins.Count; i++) {
+			for (int i = 0; i < Combination_.Pins.Count; i++)
+			{
 				nvSignal.NodeStore.AddNode (new APinSignalDialogTreeNode (Combination_.Pins [i], i));
 			}
 			nvSignal.QueueDraw ();
@@ -192,22 +211,27 @@ namespace Frontend
 		{
 			var store = new Gtk.ListStore (typeof(string));
 
-			foreach (APin pin in APins) {
-				if (!Combination_.Pins.Contains (pin)) {
+			foreach (APin pin in APins)
+			{
+				if (!Combination_.Pins.Contains (pin))
+				{
 					// Analysis disable once CompareOfFloatsByEqualityOperator
 					store.AppendValues (new object[]{ pin.DisplayName });
 				}
 			}
 			cbPins.Model = store;
-			if (cbPins.Cells.Length > 0) {
+			if (cbPins.Cells.Length > 0)
+			{
 				cbPins.Active = 0;
 			}
 
-			if (!Combination_.CheckPinIntervalEquality ()) {
+			if (!Combination_.CheckPinIntervalEquality ())
+			{
 				lblWarning.Visible = true;
 				sbMeanValuesCount.Sensitive = false;
 				sbMeanValuesCount.Value = 1;
-			} else {
+			} else
+			{
 				lblWarning.Visible = false;
 				sbMeanValuesCount.Sensitive = true;
 			}
@@ -221,14 +245,20 @@ namespace Frontend
 		private void AddPin ()
 		{
 			//if one item is selected
-			if (cbPins.Active != -1) {
-				if (Combination_ != null) {
+			if (cbPins.Active != -1)
+			{
+				if (Combination_ != null)
+				{
 					Combination_.AddPin (APins.Single (o => o.DisplayName == cbPins.ActiveText));
-					if (Combination.Pins.Count == 1) {
-						if (!string.IsNullOrEmpty (Combination_.Pins [0].Unit) && string.IsNullOrEmpty (cbeUnit.ActiveText)) {
-							if (Units.Contains (Combination_.Pins [0].Unit)) {
+					if (Combination.Pins.Count == 1)
+					{
+						if (!string.IsNullOrEmpty (Combination_.Pins [0].Unit) && string.IsNullOrEmpty (cbeUnit.ActiveText))
+						{
+							if (Units.Contains (Combination_.Pins [0].Unit))
+							{
 								cbeUnit.Active = Array.IndexOf (Units.ToArray (), Combination_.Pins [0].Unit);
-							} else {
+							} else
+							{
 								(cbeUnit.Model as ListStore).AppendValues (new string[]{ Combination_.Pins [0].Unit });
 								cbeUnit.Active = Units.Count;
 							}
@@ -251,7 +281,8 @@ namespace Frontend
 		/// <param name="index">Index.</param>
 		private APin GetPins (int index)
 		{
-			foreach (APin pin in APins) {
+			foreach (APin pin in APins)
+			{
 				if (pin.Number == index)
 					return pin;
 			}
@@ -263,21 +294,28 @@ namespace Frontend
 		/// </summary>
 		private void CompileOperation ()
 		{
-			try {
-				if (Combination_ != null) {
+			System.Console.WriteLine ("Compiling Operations"); //todo remove
+			try
+			{
+				if (Combination_ != null)
+				{
 					var tmp = PrototypeBackend.OperationCompiler.CompileOperation (
 						          entryOperation.Text,
 						          Combination_.Pins.Select (o => "A" + o.Number.ToString ()).ToArray ()
 					          );
 					Combination_.Operation = tmp;
 
-					if (Combination_.Operation != null) {
+					if (Combination_.Operation != null)
+					{
 						Combination_.OperationString = entryOperation.Text;
 					}
 					SetApplyButton ();
 					SetWarning ();
+
+					System.Console.WriteLine ("Done Compiling"); //todo remove
 				}
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				Console.Error.WriteLine (ex);
 			}
 		}
@@ -287,10 +325,12 @@ namespace Frontend
 		/// </summary>
 		private void SetWarning ()
 		{
-			if (Combination_.Operation == null) {
+			if (Combination_.Operation == null)
+			{
 				imageOperation.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-warning", global::Gtk.IconSize.Menu);
 
-			} else {
+			} else
+			{
 				Combination_.OperationString = entryOperation.Text;
 				imageOperation.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-apply", global::Gtk.IconSize.Menu);
 				CompileTimer.Stop ();
@@ -304,16 +344,20 @@ namespace Frontend
 		{
 			bool sensitive = false;
 			string hint = "";
-			if (Combination_.Pins.Count != 0) {
+			if (Combination_.Pins.Count != 0)
+			{
 				sensitive = true;
-			} else {
+			} else
+			{
 				hint += "- Please select at least one measurement signal\n";
 				sensitive = false;
 			}
 
-			if (Combination_.Operation != null) {
+			if (Combination_.Operation != null)
+			{
 				sensitive = true;
-			} else {
+			} else
+			{
 				hint += "- Please enter a valid operation\n";
 				sensitive = false;
 			}
@@ -332,11 +376,13 @@ namespace Frontend
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalButtonPress (object o, ButtonPressEventArgs args)
 		{
-			if (args.Event.Button == 3) {
+			if (args.Event.Button == 3)
+			{
 				Menu m = new Menu ();
 
 				MenuItem deleteItem = new MenuItem ("Delete this measurementsignal");
-				deleteItem.ButtonPressEvent += (obj, e) => {
+				deleteItem.ButtonPressEvent += (obj, e) =>
+				{
 					APinSignalDialogTreeNode node = ((o as NodeView).NodeSelection.SelectedNode as APinSignalDialogTreeNode);
 					Combination.Pins.RemoveAt (node.Index);
 					DrawNodeView ();
@@ -357,7 +403,8 @@ namespace Frontend
 		[GLib.ConnectBeforeAttribute]
 		protected void OnSignalKeyPress (object o, KeyPressEventArgs args)
 		{
-			if (args.Event.Key == Gdk.Key.Delete) {
+			if (args.Event.Key == Gdk.Key.Delete)
+			{
 				Combination.Pins.RemoveAt (((o as NodeView).NodeSelection.SelectedNode as SequenceOperationTreeNode).Index);
 				DrawNodeView ();
 			}
@@ -404,7 +451,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnBtnRemoveClicked (object sender, EventArgs e)
 		{
-			if (ActiveNode != null) {
+			if (ActiveNode != null)
+			{
 				Combination_.Pins.Remove (ActiveNode);
 				btnRemove.Sensitive = false;
 				DrawNodeView ();
@@ -420,7 +468,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
-			if (Combination_ != null) {
+			if (Combination_ != null)
+			{
 				Combination_.Name = entryName.Text;
 			}
 		}
@@ -432,7 +481,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnCbeUnitChanged (object sender, EventArgs e)
 		{
-			if (Combination_ != null) {
+			if (Combination_ != null)
+			{
 				Combination_.Unit = cbeUnit.ActiveText;
 			}
 		}
@@ -444,7 +494,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnCbColorColorSet (object sender, EventArgs e)
 		{
-			if (Combination_ != null) {
+			if (Combination_ != null)
+			{
 				Combination_.Color = cbColor.Color;
 			}
 		}
@@ -466,7 +517,8 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnSbMeanValuesCountChanged (object sender, EventArgs e)
 		{
-			if (Combination_ != null) {
+			if (Combination_ != null)
+			{
 				Combination_.MeanValuesCount = sbMeanValuesCount.ValueAsInt;
 			}
 		}

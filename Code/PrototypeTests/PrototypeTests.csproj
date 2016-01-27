@@ -35,12 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\Prototype\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>gtk-sharp-2.0</Package>
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\Prototype\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -55,10 +53,11 @@
     <Compile Include="BoardConfigurationTests.cs" />
     <Compile Include="CSVLoggerTests.cs" />
     <Compile Include="MeasurementCombinationTests.cs" />
+    <Compile Include="ConnectionsTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\PrototypeBackend\Backend.csproj">
+    <ProjectReference Include="..\Backend\Backend.csproj">
       <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
       <Name>Backend</Name>
     </ProjectReference>
