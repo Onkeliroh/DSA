@@ -56,11 +56,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\PrototypeBackend\Backend.csproj">
+    <ProjectReference Include="..\Backend\Backend.csproj">
       <Project>{26212356-8A7B-454E-91B0-D3A325E53AA5}</Project>
       <Name>Backend</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PrototypeDebugWindow\Frontend.csproj">
+    <ProjectReference Include="..\Frontend\Frontend.csproj">
       <Project>{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}</Project>
       <Name>Frontend</Name>
     </ProjectReference>

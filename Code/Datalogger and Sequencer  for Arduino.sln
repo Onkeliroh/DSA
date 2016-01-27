@@ -5,9 +5,9 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{26212356-8A7B-454E-91B0-D3A325E53AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeTests", "PrototypeTests\PrototypeTests.csproj", "{7B3354E4-2100-496B-B15A-557FF10D9A2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7B3354E4-2100-496B-B15A-557FF10D9A2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "PrototypeDebugWindow\Frontend.csproj", "{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{04110A7A-9AAD-4DCC-BCC9-D5B43B7D7F5E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transport", "Transport", "{70D51A23-74C0-430D-92AF-2F0E881CB35A}"
 EndProject
@@ -138,7 +138,7 @@ Global
 		$0.VersionControlPolicy = $3
 		$3.inheritsSet = Mono
 		$0.StandardHeader = $4
-		$4.Text =
+		$4.Text = 
 		$4.IncludeInNewFiles = True
 		outputpath = ..\..\Tools\Frontend
 	EndGlobalSection
