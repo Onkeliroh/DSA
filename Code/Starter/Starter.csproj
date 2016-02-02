@@ -20,7 +20,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <Commandlineparameters>-c ../../Resources/Config.ini</Commandlineparameters>
     <ConsolePause>false</ConsolePause>
     <LangVersion>5</LangVersion>
   </PropertyGroup>
@@ -31,7 +30,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <Commandlineparameters>-c /home/onkeliroh/Bachelorarbeit/Resources/Config.ini</Commandlineparameters>
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup />
@@ -77,4 +75,11 @@
   <ItemGroup>
     <None Include="Resources\gtkrc.txt" />
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Deployment.LinuxDeployData scriptName="run.sh" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
