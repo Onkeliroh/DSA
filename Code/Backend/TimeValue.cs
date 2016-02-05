@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	/// Time value.

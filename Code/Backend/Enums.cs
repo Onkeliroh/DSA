@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	/// A class for storing all DateTime format options.

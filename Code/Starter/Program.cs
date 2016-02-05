@@ -89,7 +89,7 @@ namespace Starter
 
 				Gtk.Rc.ParseString (Resources.gtkrc);
 
-				var con = new PrototypeBackend.Controller (ConfigPath);
+				var con = new Backend.Controller (ConfigPath);
 				MainWindow win = new MainWindow (con, verbose);
 				win.SetGtkTheme (Resources.gtkrc);
 				win.Show ();

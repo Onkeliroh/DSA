@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	/// Connection changed arguments.
@@ -175,7 +175,7 @@ namespace PrototypeBackend
 		/// Gets the board.
 		/// </summary>
 		/// <value>The board.</value>
-		public PrototypeBackend.Board @Board{ get; private set; }
+		public Backend.Board @Board{ get; private set; }
 
 		/// <summary>
 		/// Gets the analog reference voltage.

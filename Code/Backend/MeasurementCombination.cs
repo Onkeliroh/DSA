@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Gdk;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	/// Measurement combination.

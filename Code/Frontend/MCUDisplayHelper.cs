@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Gtk;
 using Gdk;
 using Cairo;
-using PrototypeBackend;
+using Backend;
 using Frontend.Properties;
 using System.IO;
 using System.Drawing;
@@ -95,7 +95,7 @@ namespace Frontend
 		/// <summary>
 		/// The pin locations in pixels.
 		/// </summary>
-		public static Dictionary<int,PrototypeBackend.Point> PinLocations = new Dictionary<int,PrototypeBackend.Point> ();
+		public static Dictionary<int,Backend.Point> PinLocations = new Dictionary<int,Backend.Point> ();
 
 		/// <summary>
 		/// The color of the background.

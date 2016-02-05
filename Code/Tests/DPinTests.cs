@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using PrototypeBackend;
+using Backend;
 using Gdk;
 
 namespace PrototypeTests
@@ -13,8 +13,8 @@ namespace PrototypeTests
 		{
 			var pin = new DPin ();
 
-			Assert.AreEqual (PrototypeBackend.PinType.DIGITAL, pin.Type);
-			Assert.AreEqual (PrototypeBackend.PinMode.OUTPUT, pin.Mode);
+			Assert.AreEqual (Backend.PinType.DIGITAL, pin.Type);
+			Assert.AreEqual (Backend.PinMode.OUTPUT, pin.Mode);
 
 			Assert.AreEqual (Color.Zero, pin.PlotColor);
 			pin.PlotColor = new Gdk.Color (255, 0, 0);

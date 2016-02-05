@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Gdk;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	public enum SequenceState
 	{

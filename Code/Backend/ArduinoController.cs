@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using CommandMessenger;
 using CommandMessenger.Transport.Serial;
-using PrototypeBackend;
+using Backend;
 using System.IO.Ports;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	#region ENUMS
 	/// <summary>

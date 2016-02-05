@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	/// The Pin interface.
@@ -53,13 +53,13 @@ namespace PrototypeBackend
 		/// Gets or sets the type.
 		/// </summary>
 		/// <value>The type.</value>
-		PrototypeBackend.PinType Type { get; set; }
+		Backend.PinType Type { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mode.
 		/// </summary>
 		/// <value>The mode.</value>
-		PrototypeBackend.PinMode Mode { get; set; }
+		Backend.PinMode Mode { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="PrototypeBackend.DPin"/> is SDA enabled.

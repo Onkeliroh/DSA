@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
-using PrototypeBackend;
+using Backend;
 using System.Security.Cryptography;
 
 namespace PrototypeTests

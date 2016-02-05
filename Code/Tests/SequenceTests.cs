@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using PrototypeBackend;
+using Backend;
 
 namespace PrototypeTests
 {

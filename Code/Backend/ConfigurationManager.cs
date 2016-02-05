@@ -4,7 +4,7 @@ using IniParser;
 using IniParser.Model;
 using System.Collections.Generic;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	/// Manages the ini-configuration files, reads and writes informations.

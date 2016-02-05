@@ -3,7 +3,7 @@ using System.Linq;
 using System.IO;
 using System.Runtime;
 using System.Runtime.Serialization;
-using PrototypeBackend;
+using Backend;
 using NUnit.Framework;
 
 namespace PrototypeTests

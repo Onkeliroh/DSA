@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using Gdk;
 using System.Threading;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	/// A class managing analog pins.
@@ -23,13 +23,13 @@ namespace PrototypeBackend
 		/// Gets or sets the type.
 		/// </summary>
 		/// <value>The type.</value>
-		public PrototypeBackend.PinType Type { get; set; }
+		public Backend.PinType Type { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mode.
 		/// </summary>
 		/// <value>The mode.</value>
-		public PrototypeBackend.PinMode Mode { get; set; }
+		public Backend.PinMode Mode { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.
@@ -223,8 +223,8 @@ namespace PrototypeBackend
 		/// </summary>
 		public APin ()
 		{
-			Type = PrototypeBackend.PinType.ANALOG;
-			Mode = PrototypeBackend.PinMode.INPUT;
+			Type = Backend.PinType.ANALOG;
+			Mode = Backend.PinMode.INPUT;
 			Name = "";
 			Number = 0;
 			PlotColor = new Gdk.Color (0, 0, 0);
@@ -253,8 +253,8 @@ namespace PrototypeBackend
 			MeanValuesCount = copy.MeanValuesCount;
 			Interval = copy.Interval;
 			Unit = copy.Unit;
-			Type = PrototypeBackend.PinType.ANALOG;
-			Mode = PrototypeBackend.PinMode.INPUT;
+			Type = Backend.PinType.ANALOG;
+			Mode = Backend.PinMode.INPUT;
 		}
 
 		/// <summary>

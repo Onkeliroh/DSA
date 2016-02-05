@@ -1,11 +1,11 @@
 ﻿using System;
-using PrototypeBackend;
+using Backend;
 using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	/// A class managing analog pins.
@@ -108,7 +108,7 @@ namespace PrototypeBackend
 		/// <summary>
 		/// The state.
 		/// </summary>
-		public PrototypeBackend.DPinState State = PrototypeBackend.DPinState.LOW;
+		public Backend.DPinState State = Backend.DPinState.LOW;
 
 		//Constructors
 
@@ -117,8 +117,8 @@ namespace PrototypeBackend
 		/// </summary>
 		public DPin ()
 		{
-			Type = PrototypeBackend.PinType.DIGITAL;
-			Mode = PrototypeBackend.PinMode.OUTPUT;
+			Type = Backend.PinType.DIGITAL;
+			Mode = Backend.PinMode.OUTPUT;
 			Name = "";
 			Number = 0;
 			AnalogNumber = -1;
@@ -134,8 +134,8 @@ namespace PrototypeBackend
 		{
 			Name = name;
 			Number = pinnr;
-			Type = PrototypeBackend.PinType.DIGITAL;
-			Mode = PrototypeBackend.PinMode.OUTPUT;
+			Type = Backend.PinType.DIGITAL;
+			Mode = Backend.PinMode.OUTPUT;
 			AnalogNumber = -1;
 			PlotColor = Gdk.Color.Zero;
 		}

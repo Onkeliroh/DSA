@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using PrototypeBackend;
+using Backend;
 using GUIHelper;
 
 namespace PrototypeTests
@@ -31,7 +31,7 @@ namespace PrototypeTests
 			});
 
 			signal.OperationString = "A0";
-			signal.Operation = PrototypeBackend.OperationCompiler.CompileOperation (
+			signal.Operation = Backend.OperationCompiler.CompileOperation (
 				signal.OperationString, 
 				new string[]{ "A0" }
 			);

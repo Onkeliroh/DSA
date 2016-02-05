@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PrototypeBackend
+namespace Backend
 {
 	public static class ConfigHelper
 	{

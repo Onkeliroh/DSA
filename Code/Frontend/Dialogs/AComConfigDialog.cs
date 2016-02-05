@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using PrototypeBackend;
+using Backend;
 using Gtk;
 using GUIHelper;
 using System.Collections.Generic;
@@ -299,7 +299,7 @@ namespace Frontend
 			{
 				if (Combination_ != null)
 				{
-					var tmp = PrototypeBackend.OperationCompiler.CompileOperation (
+					var tmp = Backend.OperationCompiler.CompileOperation (
 						          entryOperation.Text,
 						          Combination_.Pins.Select (o => "A" + o.Number.ToString ()).ToArray ()
 					          );

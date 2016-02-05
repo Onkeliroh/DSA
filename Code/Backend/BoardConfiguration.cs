@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PrototypeBackend;
+using Backend;
 using System.Runtime.Serialization;
 
-namespace PrototypeBackend
+namespace Backend
 {
 
 	/// <summary>

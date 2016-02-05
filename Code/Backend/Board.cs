@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace PrototypeBackend
+namespace Backend
 {
 	/// <summary>
 	///	The Board class. Storing inforamtions concerning boards like the Arduino UNO 

@@ -5,13 +5,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using PrototypeBackend;
+using Backend;
 using PrototypeBackend.Properties;
 using System.Text;
 using System.Globalization;
 
 
-namespace PrototypeBackend
+namespace Backend
 {
 	public class Controller
 	{
@@ -170,11 +170,11 @@ namespace PrototypeBackend
 				}
 			}
 
-			LastConfigurationLocations [0] = Properties.Settings.Default.Config1;
-			LastConfigurationLocations [1] = Properties.Settings.Default.Config2;
-			LastConfigurationLocations [2] = Properties.Settings.Default.Config3;
-			LastConfigurationLocations [3] = Properties.Settings.Default.Config4;
-			LastConfigurationLocations [4] = Properties.Settings.Default.Config5;
+			LastConfigurationLocations [0] = PrototypeBackend.Properties.Settings.Default.Config1;
+			LastConfigurationLocations [1] = PrototypeBackend.Properties.Settings.Default.Config2;
+			LastConfigurationLocations [2] = PrototypeBackend.Properties.Settings.Default.Config3;
+			LastConfigurationLocations [3] = PrototypeBackend.Properties.Settings.Default.Config4;
+			LastConfigurationLocations [4] = PrototypeBackend.Properties.Settings.Default.Config5;
 
 			ConLogger = new InfoLogger (Resources.LogFileName, true, false, Settings.Default.LogLevel, Settings.Default.LogFilePath);
 			ConLogger.LogToFile = Settings.Default.LogToFile; 
@@ -250,9 +250,9 @@ namespace PrototypeBackend
 		/// </summary>
 		public void LoadLastConfig ()
 		{
-			if (!string.IsNullOrEmpty (Properties.Settings.Default.Config1))
+			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.Config1))
 			{
-				OpenConfiguration (Properties.Settings.Default.Config1);
+				OpenConfiguration (PrototypeBackend.Properties.Settings.Default.Config1);
 			}	
 		}
 
@@ -261,9 +261,9 @@ namespace PrototypeBackend
 		/// </summary>
 		public void ConnectToLastPort ()
 		{
-			if (!string.IsNullOrEmpty (Properties.Settings.Default.LastConnectedPort))
+			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.LastConnectedPort))
 			{
-				ArduinoController.SerialPortName = Properties.Settings.Default.LastConnectedPort;
+				ArduinoController.SerialPortName = PrototypeBackend.Properties.Settings.Default.LastConnectedPort;
 				ArduinoController.Setup (Configuration.Board.UseDTR);
 			}
 		}
@@ -273,12 +273,12 @@ namespace PrototypeBackend
 		/// </summary>
 		public void WritePreferences ()
 		{
-			Properties.Settings.Default.Config1 = LastConfigurationLocations [0];
-			Properties.Settings.Default.Config2 = LastConfigurationLocations [1];
-			Properties.Settings.Default.Config3 = LastConfigurationLocations [2];
-			Properties.Settings.Default.Config4 = LastConfigurationLocations [3];
-			Properties.Settings.Default.Config5 = LastConfigurationLocations [4];
-			Properties.Settings.Default.Save ();
+			PrototypeBackend.Properties.Settings.Default.Config1 = LastConfigurationLocations [0];
+			PrototypeBackend.Properties.Settings.Default.Config2 = LastConfigurationLocations [1];
+			PrototypeBackend.Properties.Settings.Default.Config3 = LastConfigurationLocations [2];
+			PrototypeBackend.Properties.Settings.Default.Config4 = LastConfigurationLocations [3];
+			PrototypeBackend.Properties.Settings.Default.Config5 = LastConfigurationLocations [4];
+			PrototypeBackend.Properties.Settings.Default.Save ();
 		}
 
 		/// <summary>
@@ -318,8 +318,8 @@ namespace PrototypeBackend
 		public void Start ()
 		{
 			//Save the port, so that next time the connection may be automaticly established
-			Properties.Settings.Default.LastConnectedPort = ArduinoController.SerialPortName;
-			Properties.Settings.Default.Save ();
+			PrototypeBackend.Properties.Settings.Default.LastConnectedPort = ArduinoController.SerialPortName;
+			PrototypeBackend.Properties.Settings.Default.Save ();
 
 			KeeperOfTime.Restart ();
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using PrototypeBackend;
+using Backend;
 using Gtk;
 
 namespace Frontend
