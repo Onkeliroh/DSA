@@ -49,7 +49,8 @@ namespace Starter
 		/// <param name="args">The command-line arguments.</param>
 		public static void Main (string[] args)
 		{
-			if (System.Diagnostics.Process.GetProcessesByName (System.IO.Path.GetFileNameWithoutExtension (System.Reflection.Assembly.GetEntryAssembly ().Location)).Count () > 1) {
+			if (System.Diagnostics.Process.GetProcessesByName (System.IO.Path.GetFileNameWithoutExtension (System.Reflection.Assembly.GetEntryAssembly ().Location)).Count () > 1)
+			{
 				Console.WriteLine ("Another instance was found. Exiting now.");
 				return;
 			}
@@ -58,8 +59,10 @@ namespace Starter
 			var matchedParameters = ret.OfType<ParameterPair> ().Where (o => o.Matched == true);
 			var matchedFlags = ret.OfType<FlagPair> ().Where (o => o.Matched == true);
 
-			try {
-				if (matchedFlags.Any (o => o.Key == VerboseShort.Key)) {
+			try
+			{
+				if (matchedFlags.Any (o => o.Key == VerboseShort.Key))
+				{
 					verbose = true;	
 				}
 
@@ -73,9 +76,11 @@ namespace Starter
 //					RunWindow (System.Environment.CurrentDirectory + "/Config.ini");
 //				}
 				RunWindow ();
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				Console.Error.WriteLine (ex);
 			}
+			Console.WriteLine ("Finished");
 		}
 
 		/// <summary>
@@ -84,7 +89,8 @@ namespace Starter
 		/// <param name="ConfigPath">Config path.</param>
 		private static void RunWindow (string ConfigPath = null)
 		{
-			try {
+			try
+			{
 				Application.Init ();
 
 				Gtk.Rc.ParseString (Resources.gtkrc);
@@ -94,7 +100,8 @@ namespace Starter
 				win.SetGtkTheme (Resources.gtkrc);
 				win.Show ();
 				Application.Run ();
-			} catch (Exception ex) {
+			} catch (Exception ex)
+			{
 				Console.Error.WriteLine (ex);
 			}
 		}
@@ -105,7 +112,8 @@ namespace Starter
 		private static void PrintHelp ()
 		{
 			Console.WriteLine ("Key | Description | Default Value");
-			foreach (IArgument a in arguments) {
+			foreach (IArgument a in arguments)
+			{
 				Console.WriteLine (string.Format ("{0} | {1} | {2}", a.Key, a.Description, a.DefaultValue));
 			}
 		}

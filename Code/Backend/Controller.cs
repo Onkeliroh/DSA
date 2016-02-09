@@ -411,6 +411,9 @@ namespace Backend
 				MeasurementCSVLogger.Start ();
 				#endregion
 
+				//reset time to 0 so that there are no problems during the measurement and the first value will be measured right away
+				Configuration.AnalogPins.ForEach (o => o.LastValue = 0);
+
 				if (MeasurementTimer != null)
 				{
 					MeasurementTimer.Dispose ();
@@ -421,8 +424,6 @@ namespace Backend
 		/// <summary>
 		/// Raised by the <see cref="MeasurementTimer"/>. Collects data from board.
 		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="args">Arguments.</param>
 		private void OnMeasurementTimerTick (object state)
 		{
 			try
@@ -430,10 +431,13 @@ namespace Backend
 				if (running)
 				{
 					double time = KeeperOfTime.ElapsedMilliseconds;
-
-					var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 9).ToArray ();
+//					var analogPins = Configuration.AnalogPins.Where (o => ((time % o.Interval) <= 10)).ToArray ();
+					var analogPins = Configuration.AnalogPins.Where (o => (o.LastValue + o.Interval) - time <= 1).ToArray ();
 					if (analogPins.Length > 0)
 					{
+						analogPins.ToList ().ForEach (o => o.LastValue = time);
+
+						Console.WriteLine ("Tick");
 						var query = analogPins.Select (o => o.Number).ToArray ();
 						var vals = ArduinoController.ReadAnalogPin (query);
 
@@ -471,8 +475,9 @@ namespace Backend
 					System.Threading.Timer t = (System.Threading.Timer)state;
 					t.Dispose ();
 				}
-			} catch (Exception)
+			} catch (Exception e)
 			{
+				ConLogger.Log (e.ToString (), LogLevel.ERROR);
 			}
 		}
 
