@@ -826,23 +826,27 @@ namespace Backend
 		/// <param name="sender">Sender.</param>
 		private static void ConnectionWatchdogCallback (object sender)
 		{
-			if ((DateTime.Now.Subtract (LastCommunication).TotalMilliseconds > CommunicationTimeout) && IsConnected)
+			if (System.Environment.OSVersion.Platform == PlatformID.Unix)
 			{
-				var command = new SendCommand ((int)Command.Alive, (int)Command.Alive, 1000);
-				var returnVal = _cmdMessenger.SendCommand (command);
-
-				Console.Write ("ping");
-
-				if (returnVal.Ok)
+				if ((DateTime.Now.Subtract (LastCommunication).TotalMilliseconds > CommunicationTimeout) && IsConnected)
 				{
-					LastCommunication = DateTime.Now;
-					Console.Write (" -> OK\n");
-				} else
-				{
-					IsConnected = false;
-					Console.Error.Write (" -> FAIL\n");
+					var command = new SendCommand ((int)Command.Alive, (int)Command.Alive, 1000);
+					var returnVal = _cmdMessenger.SendCommand (command);
+
+					Console.Write ("ping");
+
+					if (returnVal.Ok)
+					{
+						LastCommunication = DateTime.Now;
+						Console.Write (" -> OK\n");
+					} else
+					{
+						IsConnected = false;
+						Console.Error.Write (" -> FAIL\n");
+					}
 				}
 			}
+			//TODO reenable for Windows
 		}
 	}
 }
