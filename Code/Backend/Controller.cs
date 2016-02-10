@@ -96,7 +96,7 @@ namespace Backend
 		/// Gets the elapsed time.
 		/// </summary>
 		/// <value>The elapsed time.</value>
-		public TimeSpan TimeElapsed { 
+		public TimeSpan TimeElapsed {
 			get {
 				if (KeeperOfTime != null)
 				{
@@ -143,7 +143,7 @@ namespace Backend
 		#endregion
 
 		/// <summary>
-		///	Determines whether the controller timers shall keep running or not. 
+		///	Determines whether the controller timers shall keep running or not.
 		/// </summary>
 		private bool running = false;
 
@@ -177,11 +177,11 @@ namespace Backend
 			LastConfigurationLocations [4] = PrototypeBackend.Properties.Settings.Default.Config5;
 
 			ConLogger = new InfoLogger (Resources.LogFileName, true, false, Settings.Default.LogLevel, Settings.Default.LogFilePath);
-			ConLogger.LogToFile = Settings.Default.LogToFile; 
+			ConLogger.LogToFile = Settings.Default.LogToFile;
 			ConLogger.Start ();
 
 
-			ArduinoController.AutoConnect = Settings.Default.AutoConnect; 
+			ArduinoController.AutoConnect = Settings.Default.AutoConnect;
 			ArduinoController.Init ();
 			ArduinoController.OnReceiveMessage += (sender, e) => ConLogger.Log ("IN < " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnSendMessage += (sender, e) => ConLogger.Log ("OUT > " + e.Message, LogLevel.DEBUG);
@@ -253,7 +253,7 @@ namespace Backend
 			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.Config1))
 			{
 				OpenConfiguration (PrototypeBackend.Properties.Settings.Default.Config1);
-			}	
+			}
 		}
 
 		/// <summary>
@@ -296,7 +296,7 @@ namespace Backend
 				{
 					MeasurementTimer.Dispose ();
 					lock (MeasurementCSVLogger)
-					{					
+					{
 						MeasurementCSVLogger.Stop ();
 					}
 				} catch (Exception)
@@ -374,7 +374,7 @@ namespace Backend
 				}
 			}
 
-			//only send new states if the is actual change 
+			//only send new states if the is actual change
 			if (
 				LastCondition [0] != conditions [0] ||
 				LastCondition [1] != conditions [1] ||
@@ -398,7 +398,7 @@ namespace Backend
 				MeasurementCSVLogger = new CSVLogger (
 					Configuration.GetCSVLogName (),
 					new List<string> (),
-					true, 
+					true,
 					false,
 					Configuration.CSVSaveFolderPath
 				);
@@ -411,6 +411,9 @@ namespace Backend
 				MeasurementCSVLogger.Start ();
 				#endregion
 
+				//reset time to 0 so that there are no problems during the measurement and the first value will be measured right away
+				Configuration.AnalogPins.ForEach (o => o.LastValue = 0);
+
 				if (MeasurementTimer != null)
 				{
 					MeasurementTimer.Dispose ();
@@ -421,8 +424,6 @@ namespace Backend
 		/// <summary>
 		/// Raised by the <see cref="MeasurementTimer"/>. Collects data from board.
 		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="args">Arguments.</param>
 		private void OnMeasurementTimerTick (object state)
 		{
 			try
@@ -430,10 +431,13 @@ namespace Backend
 				if (running)
 				{
 					double time = KeeperOfTime.ElapsedMilliseconds;
-
-					var analogPins = Configuration.AnalogPins.Where (o => time % o.Interval <= 9).ToArray ();
+//					var analogPins = Configuration.AnalogPins.Where (o => ((time % o.Interval) <= 10)).ToArray ();
+					var analogPins = Configuration.AnalogPins.Where (o => (o.LastValue + o.Interval) - time <= 0).ToArray ();
 					if (analogPins.Length > 0)
 					{
+						analogPins.ToList ().ForEach (o => o.LastValue = time);
+
+						Console.WriteLine ("Tick");
 						var query = analogPins.Select (o => o.Number).ToArray ();
 						var vals = ArduinoController.ReadAnalogPin (query);
 
@@ -471,8 +475,9 @@ namespace Backend
 					System.Threading.Timer t = (System.Threading.Timer)state;
 					t.Dispose ();
 				}
-			} catch (Exception)
+			} catch (Exception e)
 			{
+				ConLogger.Log (e.ToString (), LogLevel.ERROR);
 			}
 		}
 
@@ -531,7 +536,7 @@ namespace Backend
 			} catch (Exception)
 			{
 				throw;
-			} 
+			}
 			return true;
 		}
 
@@ -554,7 +559,7 @@ namespace Backend
 					Configuration = (BoardConfiguration)config;
 
 					stream.Close ();
-				
+
 					if (LastConfigurationLocations.Contains (path))
 					{
 						LastConfigurationLocations.Remove (path);
@@ -586,4 +591,3 @@ namespace Backend
 		}
 	}
 }
-

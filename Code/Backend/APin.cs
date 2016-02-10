@@ -133,6 +133,12 @@ namespace Backend
 		public List<DateTimeValue> Values{ get; private set; }
 
 		/// <summary>
+		/// Gets the last time a value was added in milliseconds dependent on de KeeperOfTime of the controller.
+		/// </summary>
+		/// <value>The last time a value was added in milliseconds.</value>
+		public double LastValue { get; set; }
+
+		/// <summary>
 		/// Gets the RAW values.
 		/// </summary>
 		/// <value>The RAW values.</value>
@@ -150,7 +156,7 @@ namespace Backend
 				if (!double.IsNaN (val))
 				{
 					Values.Add (new DateTimeValue (CalcValue (), value.Time));
-				
+
 					if (OnNewValue != null)
 					{
 						DateTime time = DateTime.FromOADate (value.Time);
