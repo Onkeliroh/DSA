@@ -21,7 +21,7 @@
           </Builder>
         </Package>
         <Package name="MicrosoftWindowsBinaries">
-          <Builder targetFile="..\DSAWindows.zip" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\DSA.zip" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="Backend\Backend.csproj" />
               <SolutionItemReference path="Frontend\Frontend.csproj" />
@@ -29,8 +29,10 @@
               <SolutionItemReference path="CommandMessengerLib\CommandMessenger.Transport.Serial\CommandMessenger.Transport.Serial.csproj" />
               <SolutionItemReference path="Logger\Logger.csproj" />
               <SolutionItemReference path="Starter\Starter.csproj" />
-              <SolutionItemReference path="Datalogger and Sequencer  for Arduino.sln" id="{F78408A2-9685-4EFB-9FB3-0BE1B89119D3}" />
+              <SolutionItemReference path="Frontend\Frontend.csproj" />
               <SolutionItemReference path="Datalogger and Sequencer  for Arduino.sln" id="{70D51A23-74C0-430D-92AF-2F0E881CB35A}" />
+              <SolutionItemReference path="Backend\Backend.csproj" />
+              <SolutionItemReference path="Datalogger and Sequencer  for Arduino.sln" id="{F78408A2-9685-4EFB-9FB3-0BE1B89119D3}" />
             </ChildEntries>
             <RootEntry path="Datalogger and Sequencer  for Arduino.sln" id=":root:" />
           </Builder>
