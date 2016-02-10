@@ -335,7 +335,15 @@ namespace Backend
 
 			MeasurementPreProcessing ();
 
-			MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTick), null, 0, 10);
+
+			if (System.Environment.OSVersion.Platform == PlatformID.Unix)
+			{
+				MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTick), null, 0, 10);
+			} else
+			{
+				//because windows sux
+				MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTickWindows), null, 0, 10);
+			}
 			SequencesTimer.Start ();
 
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
@@ -431,12 +439,9 @@ namespace Backend
 				if (running)
 				{
 					double time = KeeperOfTime.ElapsedMilliseconds;
-//					var analogPins = Configuration.AnalogPins.Where (o => ((time % o.Interval) <= 10)).ToArray ();
-					var analogPins = Configuration.AnalogPins.Where (o => (o.LastValue + o.Interval) - time <= 0).ToArray ();
+					var analogPins = Configuration.AnalogPins.Where (o => ((time % o.Interval) <= 10)).ToArray ();
 					if (analogPins.Length > 0)
 					{
-						analogPins.ToList ().ForEach (o => o.LastValue = time);
-
 						Console.WriteLine ("Tick");
 						var query = analogPins.Select (o => o.Number).ToArray ();
 						var vals = ArduinoController.ReadAnalogPin (query);
@@ -480,6 +485,68 @@ namespace Backend
 				ConLogger.Log (e.ToString (), LogLevel.ERROR);
 			}
 		}
+
+		/// <summary>
+		/// Raised by the <see cref="MeasurementTimer"/>. Collects data from board.
+		/// </summary>
+		private void OnMeasurementTimerTickWindows (object state)
+		{
+			try
+			{
+				if (running)
+				{
+					double time = KeeperOfTime.ElapsedMilliseconds;
+
+					var analogPins = Configuration.AnalogPins.Where (o => (o.LastValue + o.Interval) - time <= 9).ToArray ();
+
+					if (analogPins.Length > 0)
+					{
+						analogPins.ToList ().ForEach (o => o.LastValue = time - (o.LastValue + o.Interval) + o.Interval);
+
+						var query = analogPins.Select (o => o.Number).ToArray ();
+						var vals = ArduinoController.ReadAnalogPin (query);
+
+						var now = DateTime.Now;
+
+						for (int i = 0; i < analogPins.Length; i++)
+						{
+							lock (analogPins)
+							{
+								analogPins [i].Value = new DateTimeValue (vals [i], now);
+							}
+						}
+
+						var analogPinValues = analogPins.Select (o => o.Value.Value).ToList<double> ();
+						var analogPinValuesNames = analogPins.ToList ().Select (o => o.DisplayName).ToList ();
+
+						var MeComValues = Configuration.MeasurementCombinations
+							.Where (o => !double.IsNaN (o.Value.Value))
+							.Select (o => o.Value.Value)
+							.ToList <double> ();
+						var MeComValuesNames = Configuration.MeasurementCombinations
+							.Where (o => !double.IsNaN (o.Value.Value))
+							.Select (o => o.DisplayName)
+							.ToList ();
+
+						var names = analogPinValuesNames;
+						names.AddRange (MeComValuesNames);
+						var values = analogPinValues;
+						values.AddRange (MeComValues);
+
+						MeasurementCSVLogger.Log (names, values);
+					}
+				} else
+				{
+					System.Threading.Timer t = (System.Threading.Timer)state;
+					t.Dispose ();
+				}
+			} catch (Exception e)
+			{
+				ConLogger.Log (e.ToString (), LogLevel.ERROR);
+			}
+		}
+
+
 
 		/// <summary>
 		/// Saves the configuration.
