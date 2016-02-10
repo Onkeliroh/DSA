@@ -97,7 +97,6 @@
     <ProjectReference Include="..\Logger\Logger.csproj">
       <Project>{DAF25932-C4D6-4619-BDA6-9CF7D8684340}</Project>
       <Name>Logger</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
