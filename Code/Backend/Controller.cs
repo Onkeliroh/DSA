@@ -342,7 +342,7 @@ namespace Backend
 			} else
 			{
 				//because windows sux
-				MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTickWindows), null, 0, 10);
+				MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTickWindows), null, 0, 1);
 			}
 			SequencesTimer.Start ();
 
@@ -497,11 +497,13 @@ namespace Backend
 				{
 					double time = KeeperOfTime.ElapsedMilliseconds;
 
-					var analogPins = Configuration.AnalogPins.Where (o => (o.LastValue + o.Interval) - time <= 9).ToArray ();
+//					var analogPins = Configuration.AnalogPins.Where (o => (o.LastValue + o.Interval) - time <= 0).ToArray ();
+					var analogPins = Configuration.AnalogPins.Where (o => o.LastValue + o.Interval < time).ToArray ();
 
 					if (analogPins.Length > 0)
 					{
-						analogPins.ToList ().ForEach (o => o.LastValue = time - (o.LastValue + o.Interval) + o.Interval);
+//						analogPins.ToList ().ForEach (o => o.LastValue = time - (o.LastValue + o.Interval) + o.Interval);
+						analogPins.ToList ().ForEach (o => o.LastValue += o.Interval);
 
 						var query = analogPins.Select (o => o.Number).ToArray ();
 						var vals = ArduinoController.ReadAnalogPin (query);
