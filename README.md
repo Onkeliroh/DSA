@@ -31,7 +31,7 @@ The images used to portrait the Arduino Board are from the [Fritzing Software](h
 	2. upload the [Arduino Sketch](https://github.com/Onkeliroh/DSA/blob/master/Code/ArduinoController/ArduinoController.ino) to the Arduino
 	3. run the application
 
-* On Linux the application can be executed via the terminal:
+* On **Linux** the application can be executed via the terminal:
 
     mono *DSA.exe*
 
