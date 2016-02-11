@@ -30,3 +30,18 @@ The images used to portrait the Arduino Board are from the [Fritzing Software](h
       * [Windows](https://github.com/Onkeliroh/DSA/blob/master/DSA_Windows.zip)
 	2. upload the [Arduino Sketch](https://github.com/Onkeliroh/DSA/blob/master/Code/ArduinoController/ArduinoController.ino) to the Arduino
 	3. run the application
+
+* On Linux the application can be executed via the terminal:
+
+    mono *DSA.exe*
+
+* On **Windows** running *mono* can be a little bit tricky. If your Windows does not make a connection to the installed mono files, you need to help. The best solution i found, so far, is to extend the *PATH* environment variable with the mono folder and create a script or shortcut to run the application
+    * Extending *PATH*
+
+    Run *cmd.exe*
+
+    $ set PATH=*PATH_TO_MONO_BIN_FOLDER*;%PATH%
+
+    * Create a Shortcut and add to the *Target* line:
+
+    Target: mono.exe *YOUR_TARGET_PATH*
