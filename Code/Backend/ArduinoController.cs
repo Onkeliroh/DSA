@@ -833,7 +833,9 @@ namespace Backend
 					var command = new SendCommand ((int)Command.Alive, (int)Command.Alive, 1000);
 					var returnVal = _cmdMessenger.SendCommand (command);
 
+					#if DEBUG
 					Console.Write ("ping");
+					#endif
 
 					if (returnVal.Ok)
 					{

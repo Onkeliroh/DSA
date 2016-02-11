@@ -176,7 +176,13 @@ namespace Backend
 			LastConfigurationLocations [3] = PrototypeBackend.Properties.Settings.Default.Config4;
 			LastConfigurationLocations [4] = PrototypeBackend.Properties.Settings.Default.Config5;
 
+
+			#if DEBUG
 			ConLogger = new InfoLogger (Resources.LogFileName, true, false, Settings.Default.LogLevel, Settings.Default.LogFilePath);
+			#endif
+			#if !DEBUG
+			ConLogger = new InfoLogger (Resources.LogFileName, true, false, LogLevel.INFO, Settings.Default.LogFilePath);
+			#endif
 			ConLogger.LogToFile = Settings.Default.LogToFile;
 			ConLogger.Start ();
 
@@ -419,7 +425,8 @@ namespace Backend
 				MeasurementCSVLogger.Start ();
 				#endregion
 
-				//reset time to 0 so that there are no problems during the measurement and the first value will be measured right away
+				//reset time to 0 so that there are no problems during the measurement 
+				// and the first value will be measured right away
 				Configuration.AnalogPins.ForEach (o => o.LastValue = 0);
 
 				if (MeasurementTimer != null)
@@ -442,7 +449,6 @@ namespace Backend
 					var analogPins = Configuration.AnalogPins.Where (o => ((time % o.Interval) <= 10)).ToArray ();
 					if (analogPins.Length > 0)
 					{
-						Console.WriteLine ("Tick");
 						var query = analogPins.Select (o => o.Number).ToArray ();
 						var vals = ArduinoController.ReadAnalogPin (query);
 
@@ -497,12 +503,10 @@ namespace Backend
 				{
 					double time = KeeperOfTime.ElapsedMilliseconds;
 
-//					var analogPins = Configuration.AnalogPins.Where (o => (o.LastValue + o.Interval) - time <= 0).ToArray ();
 					var analogPins = Configuration.AnalogPins.Where (o => o.LastValue + o.Interval < time).ToArray ();
 
 					if (analogPins.Length > 0)
 					{
-//						analogPins.ToList ().ForEach (o => o.LastValue = time - (o.LastValue + o.Interval) + o.Interval);
 						analogPins.ToList ().ForEach (o => o.LastValue += o.Interval);
 
 						var query = analogPins.Select (o => o.Number).ToArray ();
