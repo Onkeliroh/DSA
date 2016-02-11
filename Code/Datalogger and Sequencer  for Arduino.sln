@@ -129,7 +129,7 @@ Global
 		{00D85F0B-00A5-41FA-8A99-428C0199C663} = {70D51A23-74C0-430D-92AF-2F0E881CB35A}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		BaseDirectory = ..
+		BaseDirectory = ..\bin
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = Hierarchical
@@ -145,7 +145,7 @@ Global
 		$0.StandardHeader = $4
 		$4.Text = 
 		$4.IncludeInNewFiles = True
-		outputpath = ..\..\Tools\Frontend
+		outputpath = ..\bin
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
