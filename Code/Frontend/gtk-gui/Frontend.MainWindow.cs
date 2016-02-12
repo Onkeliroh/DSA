@@ -365,7 +365,7 @@ namespace Frontend
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><menubar name='menubarMain'/></ui>");
+			this.UIManager.AddUiFromString ("<ui><menubar name=\'menubarMain\'/></ui>");
 			this.menubarMain = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubarMain")));
 			this.menubarMain.Name = "menubarMain";
 			this.vbox1.Add (this.menubarMain);
@@ -374,7 +374,7 @@ namespace Frontend
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><separator/><toolitem name='refreshAction' action='refreshAction'/><separator/><toolitem name='mediaPlayAction' action='mediaPlayAction'/><toolitem name='mediaStopAction' action='mediaStopAction'/></toolbar></ui>");
+			this.UIManager.AddUiFromString (@"<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><separator/><toolitem name='refreshAction' action='refreshAction'/><separator/><toolitem name='mediaPlayAction' action='mediaPlayAction'/><toolitem name='mediaStopAction' action='mediaStopAction'/></toolbar></ui>");
 			this.toolbarMain = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMain")));
 			this.toolbarMain.Name = "toolbarMain";
 			this.toolbarMain.ShowArrow = false;
@@ -479,11 +479,11 @@ namespace Frontend
 			w11.Expand = false;
 			w11.Fill = false;
 			// Container child hbox8.Gtk.Box+BoxChild
-			this.sbAREFExternal = new global::Gtk.SpinButton (0, 100, 1);
+			this.sbAREFExternal = new global::Gtk.SpinButton (0D, 100D, 1D);
 			this.sbAREFExternal.CanFocus = true;
 			this.sbAREFExternal.Name = "sbAREFExternal";
-			this.sbAREFExternal.Adjustment.PageIncrement = 10;
-			this.sbAREFExternal.ClimbRate = 1;
+			this.sbAREFExternal.Adjustment.PageIncrement = 10D;
+			this.sbAREFExternal.ClimbRate = 1D;
 			this.sbAREFExternal.Digits = ((uint)(2));
 			this.sbAREFExternal.Numeric = true;
 			this.hbox8.Add (this.sbAREFExternal);
@@ -521,7 +521,7 @@ namespace Frontend
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 4;
+			this.notebook1.CurrentPage = 0;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(1)), false);
 			this.table1.Name = "table1";
@@ -1355,7 +1355,7 @@ namespace Frontend
 			this.table5.ColumnSpacing = ((uint)(6));
 			// Container child table5.Gtk.Table+TableChild
 			this.cbtnRealTimePlotLimitPoints = new global::Gtk.CheckButton ();
-			this.cbtnRealTimePlotLimitPoints.TooltipMarkup = "Limits the shown points to save computing time.\nThis action is irreversible!";
+			this.cbtnRealTimePlotLimitPoints.TooltipMarkup = "Limits the shown points to save computing time.\r\nThis action is irreversible!";
 			this.cbtnRealTimePlotLimitPoints.CanFocus = true;
 			this.cbtnRealTimePlotLimitPoints.Name = "cbtnRealTimePlotLimitPoints";
 			this.cbtnRealTimePlotLimitPoints.Label = global::Mono.Unix.Catalog.GetString ("Limit shown Points");
