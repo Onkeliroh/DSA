@@ -240,6 +240,8 @@ namespace Backend
 			Values = new List<DateTimeValue> ();
 			RAWValues = new List<DateTimeValue> ();
 			Unit = "V";
+			OnNewValue = null;
+			OnNewRAWValue = null;
 		}
 
 		/// <summary>
@@ -261,6 +263,9 @@ namespace Backend
 			Type = Backend.PinType.ANALOG;
 			Mode = Backend.PinMode.INPUT;
 			Values = copy.Values;
+			RAWValues = copy.RAWValues;
+			OnNewValue = copy.OnNewValue;
+			OnNewRAWValue = copy.OnNewRAWValue;
 		}
 
 		/// <summary>
