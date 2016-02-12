@@ -22,6 +22,56 @@ namespace PrototypeTests
 		}
 
 		[Test ()]
+		public void APinCopyConstructorTest ()
+		{
+			var pin = new APin ();
+			pin.Name = "PinPinsen";
+			pin.Interval = 3000;
+
+			double value = 42;
+			pin.Value = new DateTimeValue (value, DateTime.Now);
+
+			var copypin = new APin (pin);
+			Assert.AreEqual ("PinPinsen", copypin.Name);
+			Assert.AreEqual (3000, copypin.Interval);
+			Assert.AreEqual (value, copypin.Value.Value);
+			Assert.AreEqual (1, copypin.Values.Count);
+		}
+
+		[Test ()]
+		public void APinNewValueEventTest ()
+		{
+			double val = -1;
+			var pin = new APin ();
+			pin.OnNewValue += (o, args) => val = args.Value;
+
+			pin.Value = new DateTimeValue (42.0, DateTime.Now);
+			Assert.AreEqual (42, val);
+
+			pin.Value = new DateTimeValue (43, DateTime.Now);
+			Assert.AreEqual (43, val);
+		}
+
+		[Test ()]
+		public void APinNewValueEventTestAfterEdit ()
+		{
+			double val = -1;
+			var pin = new APin ();
+			pin.OnNewValue += (o, args) => val = args.Value;
+
+			pin.Value = new DateTimeValue (42, DateTime.Now);
+
+			Assert.AreEqual (42, val);
+
+			pin.Interval = 3000;
+			pin.OnNewValue = null;
+			pin.OnNewValue += (o, args) => val = args.Value * 2;
+			pin.Value = new DateTimeValue (42, DateTime.Now);
+
+			Assert.AreEqual (84, val);
+		}
+
+		[Test ()]
 		public void APinEqualsTest ()
 		{
 			var pin1 = new APin ();

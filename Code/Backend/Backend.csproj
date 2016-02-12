@@ -37,13 +37,11 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG; TRACE</DefineConstants>
+    <DefineConstants>DEBUG</DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Backend.xml</DocumentationFile>
     <AssemblyName>Backend</AssemblyName>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <ItemGroup>
