@@ -1068,6 +1068,7 @@ namespace Frontend
 			this.btnCSVFilePathOpen.CanFocus = true;
 			this.btnCSVFilePathOpen.Name = "btnCSVFilePathOpen";
 			this.btnCSVFilePathOpen.UseUnderline = true;
+			this.btnCSVFilePathOpen.Label = global::Mono.Unix.Catalog.GetString ("Open...");
 			global::Gtk.Image w86 = new global::Gtk.Image ();
 			w86.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-open", global::Gtk.IconSize.Menu);
 			this.btnCSVFilePathOpen.Image = w86;
@@ -1077,8 +1078,8 @@ namespace Frontend
 			w87.BottomAttach = ((uint)(2));
 			w87.LeftAttach = ((uint)(2));
 			w87.RightAttach = ((uint)(3));
-			w87.XOptions = ((global::Gtk.AttachOptions)(0));
-			w87.YOptions = ((global::Gtk.AttachOptions)(0));
+			w87.XOptions = ((global::Gtk.AttachOptions)(4));
+			w87.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.cbCSVUTC = new global::Gtk.CheckButton ();
 			this.cbCSVUTC.CanFocus = true;
@@ -1139,6 +1140,7 @@ namespace Frontend
 			w92.BottomAttach = ((uint)(2));
 			w92.LeftAttach = ((uint)(1));
 			w92.RightAttach = ((uint)(2));
+			w92.XOptions = ((global::Gtk.AttachOptions)(4));
 			w92.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.hbox1 = new global::Gtk.HBox ();
@@ -1192,7 +1194,7 @@ namespace Frontend
 			global::Gtk.Table.TableChild w98 = ((global::Gtk.Table.TableChild)(this.tableCSVLoggerSettings [this.hbox1]));
 			w98.LeftAttach = ((uint)(1));
 			w98.RightAttach = ((uint)(2));
-			w98.XOptions = ((global::Gtk.AttachOptions)(7));
+			w98.XOptions = ((global::Gtk.AttachOptions)(4));
 			w98.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.hseparator2 = new global::Gtk.HSeparator ();
@@ -1289,7 +1291,7 @@ namespace Frontend
 			w107.LeftAttach = ((uint)(2));
 			w107.RightAttach = ((uint)(3));
 			w107.XOptions = ((global::Gtk.AttachOptions)(4));
-			w107.YOptions = ((global::Gtk.AttachOptions)(0));
+			w107.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableCSVLoggerSettings.Gtk.Table+TableChild
 			this.lblPreviewFilePathFormat = new global::Gtk.Label ();
 			this.lblPreviewFilePathFormat.Name = "lblPreviewFilePathFormat";
@@ -1355,7 +1357,7 @@ namespace Frontend
 			this.table5.ColumnSpacing = ((uint)(6));
 			// Container child table5.Gtk.Table+TableChild
 			this.cbtnRealTimePlotLimitPoints = new global::Gtk.CheckButton ();
-			this.cbtnRealTimePlotLimitPoints.TooltipMarkup = "Limits the shown points to save computing time.\r\nThis action is irreversible!";
+			this.cbtnRealTimePlotLimitPoints.TooltipMarkup = "Limits the shown points to save computing time.\nThis action is irreversible!";
 			this.cbtnRealTimePlotLimitPoints.CanFocus = true;
 			this.cbtnRealTimePlotLimitPoints.Name = "cbtnRealTimePlotLimitPoints";
 			this.cbtnRealTimePlotLimitPoints.Label = global::Mono.Unix.Catalog.GetString ("Limit shown Points");

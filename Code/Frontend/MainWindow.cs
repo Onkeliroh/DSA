@@ -687,6 +687,7 @@ namespace Frontend
 					TrackerKey = a.DisplayName,
 				};
 
+//				a.OnNewValue = null;
 				a.OnNewValue += (o, args) => OnNewPoint (o, args, ref series);
 
 				RealTimePlotView.Model.Series.Add (series);
@@ -2254,6 +2255,7 @@ namespace Frontend
 
 		protected void OnNewPoint (object sender, NewMeasurementValueArgs e, ref LineSeries series)
 		{
+			Console.WriteLine ("New Value");
 			if (Frontend.Settings.Default.LimitPlotPoints) {
 				if (series.Points.Count > Frontend.Settings.Default.MaximumSeriesSize) {
 					series.Points.RemoveRange (0, series.Points.Count - Frontend.Settings.Default.MaximumSeriesSize);

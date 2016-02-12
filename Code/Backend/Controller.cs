@@ -98,11 +98,9 @@ namespace Backend
 		/// <value>The elapsed time.</value>
 		public TimeSpan TimeElapsed {
 			get {
-				if (KeeperOfTime != null)
-				{
+				if (KeeperOfTime != null) {
 					return KeeperOfTime.Elapsed;
-				} else
-				{
+				} else {
 					return new TimeSpan (0);
 				}
 			}
@@ -162,10 +160,8 @@ namespace Backend
 		public Controller (string ConfigurationPath = null)
 		{
 			Configuration = new BoardConfiguration ();
-			using (MemoryStream memstream = new MemoryStream (Encoding.ASCII.GetBytes (Resources.Boards)))
-			{
-				using (StreamReader str = new StreamReader (memstream))
-				{
+			using (MemoryStream memstream = new MemoryStream (Encoding.ASCII.GetBytes (Resources.Boards))) {
+				using (StreamReader str = new StreamReader (memstream)) {
 					BoardConfigs = ConfigurationManager.ParseBoards (str);
 				}
 			}
@@ -191,33 +187,27 @@ namespace Backend
 			ArduinoController.Init ();
 			ArduinoController.OnReceiveMessage += (sender, e) => ConLogger.Log ("IN < " + e.Message, LogLevel.DEBUG);
 			ArduinoController.OnSendMessage += (sender, e) => ConLogger.Log ("OUT > " + e.Message, LogLevel.DEBUG);
-			ArduinoController.OnConnectionChanged += ((o, e) =>
-			{
-				if (e.Connected)
-				{
+			ArduinoController.OnConnectionChanged += ((o, e) => {
+				if (e.Connected) {
 					ConLogger.Log ("Connected to: " + ArduinoController.Board.ToString (), LogLevel.INFO);
-				} else
-				{
+				} else {
 					ConLogger.Log ("Disconnected", LogLevel.INFO);
 				}
 			});
 
-			Configuration.OnPinsUpdated += (o, e) =>
-			{
+			Configuration.OnPinsUpdated += (o, e) => {
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.OldPin + " to " + e.NewPin);
 				else
 					ConLogger.Log ("Pin Update: [" + e.UpdateOperation + "] " + e.OldPin);
 			};
-			Configuration.OnSequencesUpdated += (o, e) =>
-			{
+			Configuration.OnSequencesUpdated += (o, e) => {
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldSeq + " to " + e.OldSeq);
 				else
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldSeq);
 			};
-			Configuration.OnSignalsUpdated += (o, e) =>
-			{
+			Configuration.OnSignalsUpdated += (o, e) => {
 				if (e.UpdateOperation == UpdateOperation.Change)
 					ConLogger.Log ("Sequence Update: [" + e.UpdateOperation + "] " + e.OldMeCom + " to " + e.NewMeCom);
 				else
@@ -231,8 +221,7 @@ namespace Backend
 		/// </summary>
 		~Controller ()
 		{
-			if (ConLogger != null)
-			{
+			if (ConLogger != null) {
 				ConLogger.Stop ();
 			}
 		}
@@ -256,8 +245,7 @@ namespace Backend
 		/// </summary>
 		public void LoadLastConfig ()
 		{
-			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.Config1))
-			{
+			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.Config1)) {
 				OpenConfiguration (PrototypeBackend.Properties.Settings.Default.Config1);
 			}
 		}
@@ -267,8 +255,7 @@ namespace Backend
 		/// </summary>
 		public void ConnectToLastPort ()
 		{
-			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.LastConnectedPort))
-			{
+			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.LastConnectedPort)) {
 				ArduinoController.SerialPortName = PrototypeBackend.Properties.Settings.Default.LastConnectedPort;
 				ArduinoController.Setup (Configuration.Board.UseDTR);
 			}
@@ -296,24 +283,24 @@ namespace Backend
 
 			ConLogger.Log ("Controller Stoped", LogLevel.DEBUG);
 			SequencesTimer.Stop ();
-			if (MeasurementTimer != null)
-			{
-				try
-				{
+			if (MeasurementTimer != null) {
+				try {
 					MeasurementTimer.Dispose ();
-					lock (MeasurementCSVLogger)
-					{
+					lock (MeasurementCSVLogger) {
 						MeasurementCSVLogger.Stop ();
 					}
-				} catch (Exception)
-				{
+
+					//reset time to 0 so that there are no problems during the measurement 
+					// and the first value will be measured right away
+					Configuration.AnalogPins.ForEach (o => o.LastValue = 0);
+//					Configuration.AnalogPins.ForEach (o => o.Values = new List<DateTimeValue> ());
+				} catch (Exception) {
 				}
 			}
 
 			KeeperOfTime.Stop ();
 
-			if (OnControllerStoped != null)
-			{
+			if (OnControllerStoped != null) {
 				OnControllerStoped.Invoke (this, null);
 			}
 		}
@@ -342,11 +329,9 @@ namespace Backend
 			MeasurementPreProcessing ();
 
 
-			if (System.Environment.OSVersion.Platform == PlatformID.Unix)
-			{
+			if (System.Environment.OSVersion.Platform == PlatformID.Unix) {
 				MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTick), null, 0, 10);
-			} else
-			{
+			} else {
 				//because windows sux
 				MeasurementTimer = new System.Threading.Timer (new TimerCallback (OnMeasurementTimerTickWindows), null, 0, 1);
 			}
@@ -355,8 +340,7 @@ namespace Backend
 			ConLogger.Log ("Controller Started", LogLevel.DEBUG);
 			ConLogger.Log ("Start took: " + KeeperOfTime.ElapsedMilliseconds + "ms", LogLevel.DEBUG);
 
-			if (OnControllerStarted != null)
-			{
+			if (OnControllerStarted != null) {
 				OnControllerStarted.Invoke (this, null);
 			}
 		}
@@ -377,10 +361,8 @@ namespace Backend
 			conditions [3] = 0x0;
 			conditions [4] = 0x0;
 
-			foreach (Sequence seq in Configuration.Sequences)
-			{
-				if (seq.GetCurrentState (time) == DPinState.HIGH)
-				{
+			foreach (Sequence seq in Configuration.Sequences) {
+				if (seq.GetCurrentState (time) == DPinState.HIGH) {
 					int arraypos = (int)seq.Pin.Number / 16;
 					int shift = (int)seq.Pin.Number % 16;
 					int pos = 0x1 << (int)shift;
@@ -394,8 +376,7 @@ namespace Backend
 				LastCondition [1] != conditions [1] ||
 				LastCondition [2] != conditions [2] ||
 				LastCondition [3] != conditions [3] ||
-				LastCondition [4] != conditions [4])
-			{
+				LastCondition [4] != conditions [4]) {
 				ArduinoController.SetDigitalOutputPins (conditions);
 			}
 			LastCondition = conditions;
@@ -406,8 +387,7 @@ namespace Backend
 		/// </summary>
 		private void MeasurementPreProcessing ()
 		{
-			if (Configuration.AnalogPins.Count > 0)
-			{
+			if (Configuration.AnalogPins.Count > 0) {
 				#region Build Logger
 				MeasurementCSVLogger = new CSVLogger (
 					Configuration.GetCSVLogName (),
@@ -425,12 +405,9 @@ namespace Backend
 				MeasurementCSVLogger.Start ();
 				#endregion
 
-				//reset time to 0 so that there are no problems during the measurement 
-				// and the first value will be measured right away
-				Configuration.AnalogPins.ForEach (o => o.LastValue = 0);
 
-				if (MeasurementTimer != null)
-				{
+
+				if (MeasurementTimer != null) {
 					MeasurementTimer.Dispose ();
 				}
 			}
@@ -441,23 +418,18 @@ namespace Backend
 		/// </summary>
 		private void OnMeasurementTimerTick (object state)
 		{
-			try
-			{
-				if (running)
-				{
+			try {
+				if (running) {
 					double time = KeeperOfTime.ElapsedMilliseconds;
 					var analogPins = Configuration.AnalogPins.Where (o => ((time % o.Interval) <= 10)).ToArray ();
-					if (analogPins.Length > 0)
-					{
+					if (analogPins.Length > 0) {
 						var query = analogPins.Select (o => o.Number).ToArray ();
 						var vals = ArduinoController.ReadAnalogPin (query);
 
 						var now = DateTime.Now;
 
-						for (int i = 0; i < analogPins.Length; i++)
-						{
-							lock (analogPins)
-							{
+						for (int i = 0; i < analogPins.Length; i++) {
+							lock (analogPins) {
 								analogPins [i].Value = new DateTimeValue (vals [i], now);
 							}
 						}
@@ -481,13 +453,11 @@ namespace Backend
 
 						MeasurementCSVLogger.Log (names, values);
 					}
-				} else
-				{
+				} else {
 					System.Threading.Timer t = (System.Threading.Timer)state;
 					t.Dispose ();
 				}
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				ConLogger.Log (e.ToString (), LogLevel.ERROR);
 			}
 		}
@@ -497,16 +467,13 @@ namespace Backend
 		/// </summary>
 		private void OnMeasurementTimerTickWindows (object state)
 		{
-			try
-			{
-				if (running)
-				{
+			try {
+				if (running) {
 					double time = KeeperOfTime.ElapsedMilliseconds;
 
 					var analogPins = Configuration.AnalogPins.Where (o => o.LastValue + o.Interval < time).ToArray ();
 
-					if (analogPins.Length > 0)
-					{
+					if (analogPins.Length > 0) {
 						analogPins.ToList ().ForEach (o => o.LastValue += o.Interval);
 
 						var query = analogPins.Select (o => o.Number).ToArray ();
@@ -514,10 +481,8 @@ namespace Backend
 
 						var now = DateTime.Now;
 
-						for (int i = 0; i < analogPins.Length; i++)
-						{
-							lock (analogPins)
-							{
+						for (int i = 0; i < analogPins.Length; i++) {
+							lock (analogPins) {
 								analogPins [i].Value = new DateTimeValue (vals [i], now);
 							}
 						}
@@ -541,13 +506,11 @@ namespace Backend
 
 						MeasurementCSVLogger.Log (names, values);
 					}
-				} else
-				{
+				} else {
 					System.Threading.Timer t = (System.Threading.Timer)state;
 					t.Dispose ();
 				}
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				ConLogger.Log (e.ToString (), LogLevel.ERROR);
 			}
 		}
@@ -561,24 +524,19 @@ namespace Backend
 		/// <param name="path">Path.</param>
 		public bool SaveConfiguration (string path = null)
 		{
-			try
-			{
+			try {
 				Stream stream;
-				if (path == null)
-				{
-					if (File.Exists (Configuration.ConfigSavePath))
-					{
+				if (path == null) {
+					if (File.Exists (Configuration.ConfigSavePath)) {
 						stream = File.Open (Configuration.ConfigSavePath, System.IO.FileMode.Create);
-					} else
-					{
+					} else {
 						string folderpath = Environment.GetFolderPath (Environment.SpecialFolder.UserProfile);
 						string filename = Path.GetFileName (Configuration.ConfigSavePath);
 						string completepath = Path.Combine (folderpath, filename);
 						stream = File.Open (completepath, System.IO.FileMode.CreateNew);
 						Configuration.ConfigSavePath = completepath;
 					}
-				} else
-				{
+				} else {
 					stream = File.Open (path, System.IO.FileMode.Create);
 				}
 				var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
@@ -588,26 +546,22 @@ namespace Backend
 
 				formatter.Serialize (stream, config);
 
-				if (LastConfigurationLocations.Contains (path))
-				{
+				if (LastConfigurationLocations.Contains (path)) {
 					LastConfigurationLocations.Remove (path);
 					LastConfigurationLocations.Reverse ();
 					LastConfigurationLocations.Add (path);
 					LastConfigurationLocations.Reverse ();
-				} else
-				{
+				} else {
 					LastConfigurationLocations.Reverse ();
 					LastConfigurationLocations.Add (path);
 					LastConfigurationLocations.Reverse ();
 				}
-				while (LastConfigurationLocations.Count > 5)
-				{
+				while (LastConfigurationLocations.Count > 5) {
 					LastConfigurationLocations.RemoveAt (5);
 				}
 
 				stream.Close ();
-			} catch (Exception)
-			{
+			} catch (Exception) {
 				throw;
 			}
 			return true;
@@ -620,10 +574,8 @@ namespace Backend
 		/// <param name="path">Path.</param>
 		public bool OpenConfiguration (string path)
 		{
-			if (File.Exists (path))
-			{
-				try
-				{
+			if (File.Exists (path)) {
+				try {
 					Stream stream = File.Open (path, System.IO.FileMode.Open, FileAccess.Read, FileShare.Write);
 					var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
 
@@ -633,32 +585,27 @@ namespace Backend
 
 					stream.Close ();
 
-					if (LastConfigurationLocations.Contains (path))
-					{
+					if (LastConfigurationLocations.Contains (path)) {
 						LastConfigurationLocations.Remove (path);
 						LastConfigurationLocations.Reverse ();
 						LastConfigurationLocations.Add (path);
 						LastConfigurationLocations.Reverse ();
-					} else
-					{
+					} else {
 						LastConfigurationLocations.Reverse ();
 						LastConfigurationLocations.Add (path);
 						LastConfigurationLocations.Reverse ();
 					}
 					WritePreferences ();
 
-					if (OnOnfigurationLoaded != null)
-					{
+					if (OnOnfigurationLoaded != null) {
 						OnOnfigurationLoaded.Invoke (this, new ConfigurationLoadedArgs (path, true));
 					}
-				} catch (Exception)
-				{
+				} catch (Exception) {
 					throw;
 				}
 
 				return true;
-			} else
-			{
+			} else {
 				return false;
 			}
 		}
