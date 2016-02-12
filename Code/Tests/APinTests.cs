@@ -36,6 +36,7 @@ namespace PrototypeTests
 			Assert.AreEqual (3000, copypin.Interval);
 			Assert.AreEqual (value, copypin.Value.Value);
 			Assert.AreEqual (1, copypin.Values.Count);
+			Assert.AreEqual (pin.RAWValues, copypin.RAWValues);
 		}
 
 		[Test ()]
