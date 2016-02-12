@@ -348,13 +348,17 @@ namespace Logger
 		/// </summary>
 		protected virtual void LogToFile ()
 		{
-			lock (LogWriter) {
-				while (this.LogQueue.Count > 0) {
-					lock (LogQueue) {
-						LogWriter.Write (this.LogQueue.Dequeue () + Linebreak);
-						LogWriter.Flush ();
+			try {
+				lock (LogWriter) {
+					while (this.LogQueue.Count > 0) {
+						lock (LogQueue) {
+							LogWriter.Write (this.LogQueue.Dequeue () + Linebreak);
+							LogWriter.Flush ();
+						}
 					}
 				}
+			} catch (Exception e) {
+				Console.Error.WriteLine (e);
 			}
 		}
 	}
