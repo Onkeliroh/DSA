@@ -176,7 +176,6 @@ namespace Frontend
 			this.rbRepeateContinously = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Repeate continously"));
 			this.rbRepeateContinously.CanFocus = true;
 			this.rbRepeateContinously.Name = "rbRepeateContinously";
-			this.rbRepeateContinously.Active = true;
 			this.rbRepeateContinously.DrawIndicator = true;
 			this.rbRepeateContinously.UseUnderline = true;
 			this.rbRepeateContinously.Group = new global::GLib.SList (global::System.IntPtr.Zero);
@@ -582,7 +581,6 @@ namespace Frontend
 			this.label9.Hide ();
 			this.Show ();
 			this.cbPin.Changed += new global::System.EventHandler (this.OnCbPinChanged);
-			this.cbeGroups.Changed += new global::System.EventHandler (this.OnCbeGroupsChanged);
 		}
 	}
 }

@@ -4101,7 +4101,6 @@ In order to apply the operation, the last available measurement-data will be use
                     <property name="Visible">False</property>
                     <property name="IsTextCombo">True</property>
                     <property name="Items" translatable="yes" />
-                    <signal name="Changed" handler="OnCbeGroupsChanged" />
                   </widget>
                   <packing>
                     <property name="TopAttach">2</property>

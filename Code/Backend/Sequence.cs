@@ -114,7 +114,7 @@ namespace Backend
 		/// <param name="copy">Copy.</param>
 		public Sequence (Sequence copy) : base ()
 		{
-			Pin = new DPin ();
+			Pin = new DPin (copy.Pin);
 			Name = copy.Name;
 			Chain = new List<SequenceOperation> (copy.Chain);
 			Repetitions = copy.Repetitions;
@@ -150,8 +150,7 @@ namespace Backend
 		/// <param name="seqops">Seqops.</param>
 		public void AddSequenceOperationRange (SequenceOperation[] seqops)
 		{
-			for (int i = 0; i < seqops.Length; i++)
-			{
+			for (int i = 0; i < seqops.Length; i++) {
 				AddSequenceOperation (seqops [i]);
 			}
 		}
@@ -179,19 +178,16 @@ namespace Backend
 			CurrentOperation += 1;
 
 			//one cycle is finished -> start new cycle
-			if (CurrentOperation == Chain.Count)
-			{
+			if (CurrentOperation == Chain.Count) {
 				CurrentOperation = 0;
 				Cycle += 1;
 			}
 
 			//if sequence is done
-			if (CurrentState == SequenceState.Done || ((Cycle > Repetitions || Chain.Count == 0) && Repetitions != -1))
-			{
+			if (CurrentState == SequenceState.Done || ((Cycle > Repetitions || Chain.Count == 0) && Repetitions != -1)) {
 				CurrentState = SequenceState.Done;
 				return  null;
-			} else
-			{
+			} else {
 				CurrentState = SequenceState.Running;
 				LastOperation += Chain [CurrentOperation].Duration;
 
@@ -205,11 +201,9 @@ namespace Backend
 		/// </summary>
 		public SequenceOperation? Current ()
 		{
-			if (Chain.Count > 0)
-			{
+			if (Chain.Count > 0) {
 				return Chain [CurrentOperation];
-			} else
-			{
+			} else {
 				return null;
 			}
 		}
@@ -222,30 +216,22 @@ namespace Backend
 		public DPinState GetCurrentState (double milli)
 		{
 			int multiplier = 0;
-			if (milli >= Runtime.TotalMilliseconds)
-			{
+			if (milli >= Runtime.TotalMilliseconds) {
 				multiplier = (int)(System.Math.Floor (milli / Runtime.TotalMilliseconds));
 				milli -= multiplier * Runtime.TotalMilliseconds;
 			}
  			
 			SequenceOperation op = new SequenceOperation ();
-			if (Chain.Count > 0)
-			{
-				if (multiplier >= Repetitions && Repetitions != -1 && multiplier != 0)
-				{
+			if (Chain.Count > 0) {
+				if (multiplier >= Repetitions && Repetitions != -1 && multiplier != 0) {
 					return Chain.Last ().State;
-				} else
-				{
+				} else {
 					op = Chain [0];
-					foreach (SequenceOperation seqop in Chain)
-					{
-						if (seqop.Moment.TotalMilliseconds == milli)
-						{
+					foreach (SequenceOperation seqop in Chain) {
+						if (seqop.Moment.TotalMilliseconds == milli) {
 							return seqop.State;
-						} else if (seqop.Moment.TotalMilliseconds < milli)
-						{
-							if ((milli - seqop.Moment.TotalMilliseconds) < (milli - op.Moment.TotalMilliseconds))
-							{
+						} else if (seqop.Moment.TotalMilliseconds < milli) {
+							if ((milli - seqop.Moment.TotalMilliseconds) < (milli - op.Moment.TotalMilliseconds)) {
 								op = seqop;	
 							}
 
@@ -276,8 +262,7 @@ namespace Backend
 		public override bool Equals (object obj)
 		{
 			var seq = obj as Sequence;
-			if (seq != null)
-			{
+			if (seq != null) {
 				return( 
 				    this.Pin.Equals (seq.Pin) &&
 				    this.Chain.SequenceEqual (seq.Chain) &&
@@ -295,8 +280,7 @@ namespace Backend
 		{
 			string res = String.Format ("Name: {0}\n[Pin: {1}]\nColor {2}\tRepetitions {3}", Name, Pin, Color, Repetitions);
 			res += "\nOperations:";
-			foreach (SequenceOperation seqop in Chain)
-			{
+			foreach (SequenceOperation seqop in Chain) {
 				res += string.Format ("\nDuration: {0}\tState: {1}", seqop.Duration, seqop.State);
 			}
 			return res;

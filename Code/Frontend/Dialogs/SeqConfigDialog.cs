@@ -24,7 +24,8 @@ namespace Frontend
 			get { return pinSequence; }
 			set {
 				entryName.Text = value.Name;
-				cbPin.InsertText (0, string.Format ("{0}(D{1})", value.Pin.Name, value.Pin.Number));
+//				cbPin.InsertText (0, string.Format ("{0}(D{1})", value.Pin.Name, value.Pin.Number));
+				cbPin.InsertText (0, value.Pin.DisplayNumber);
 				pinSequence = value;
 			}
 		}
@@ -100,7 +101,8 @@ namespace Frontend
 			//no DPin no Sequence
 			if (DPins.Length > 0) {
 				for (int i = 0; i < DPins.Length; i++) {
-					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
+//					cbPin.AppendText (string.Format ("{0}(D{1})", DPins [i].Name, DPins [i].Number));
+					cbPin.AppendText (DPins [i].DisplayNumber);
 				}
 			}
 			SetupNodeView ();
@@ -427,21 +429,29 @@ namespace Frontend
 				if (cbPin.ActiveText != null && selectedPin != null) {
 					if (cbPin.ActiveText.Length > 0) {
 						int nr = 0;
-						var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
-						reg = Regex.Match (reg.Value, @"\d+");
-						if (reg.Success) {
-							nr = Convert.ToInt32 (reg.Value);
-
-							for (int i = 0; i < DPins.Length; i++) {
-								if (DPins [i].Number == nr) {
-									selectedPin = DPins [i];
-									sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
-									repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
-									plotView.InvalidatePlot (true);
-									plotView.ShowAll ();
-									break;
-								}
-							}
+//						var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
+//						reg = Regex.Match (reg.Value, @"\d+");
+//						if (reg.Success) {
+//							nr = Convert.ToInt32 (reg.Value);
+//
+//							for (int i = 0; i < DPins.Length; i++) {
+//								if (DPins [i].Number == nr) {
+//									selectedPin = DPins [i];
+//									sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+//									repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+//									plotView.InvalidatePlot (true);
+//									plotView.ShowAll ();
+//									break;
+//								}
+//							}
+//						}
+						var pin = DPins.ToList ().Single (p => p.DisplayNumber == cbPin.ActiveText);
+						if (pin != null) {
+							selectedPin = pin;
+							sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+							repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
+							plotView.InvalidatePlot (true);
+							plotView.ShowAll ();
 						}
 					}
 				}
@@ -459,7 +469,8 @@ namespace Frontend
 		{
 			var op = new SequenceOperation () {
 				Duration = this.Duration,
-				State = (cbState.ActiveText == "HIGH") ? DPinState.HIGH : DPinState.LOW,
+//				State = (cbState.ActiveText == "HIGH") ? DPinState.HIGH : DPinState.LOW,
+				State = (cbState.Active == 0) ? DPinState.HIGH : DPinState.LOW,
 			};
 			if (ActiveNode == null) {
 				AddOperation (op);
