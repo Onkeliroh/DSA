@@ -12,6 +12,7 @@ The images used to portrait the Arduino Board are from the [Fritzing Software](h
 
 ## Dependencies/Requirements
 - [Gtk#](https://github.com/mono/gtk-sharp) (Version >=2.12.0.0)
+    - Version 2.12.26 is recommended
 - [Mono](https://github.com/mono/mono) or [.Net Framework](https://www.microsoft.com/net) (depending on your OS)
 - Access to the USB Ports on your maschine
 - [CmdMessenger](https://github.com/thijse/Arduino-CmdMessenger) for compiling the Arduino sketch
