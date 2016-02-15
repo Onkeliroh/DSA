@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Gtk;
-using Atk;
 using GUIHelper;
 using Logger;
 using OxyPlot;
@@ -14,7 +13,6 @@ using Backend;
 using System.Collections.Generic;
 using System.Globalization;
 using Cairo;
-using System.Reflection;
 using System.Diagnostics;
 using Gdk;
 

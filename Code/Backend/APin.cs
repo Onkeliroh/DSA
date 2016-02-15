@@ -153,27 +153,36 @@ namespace Backend
 			set { 
 				AddRawValue (value);
 				double val = CalcValue ();
-				if (!double.IsNaN (val)) {
+				if (!double.IsNaN (val))
+				{
 					Values.Add (new DateTimeValue (CalcValue (), value.Time));
 //					if (Values.Count > 1000) {
 //						Values.RemoveRange (0, Values.Count - 1000);
 //					}
 
-					if (OnNewValue != null) {
+					if (OnNewValue != null)
+					{
 						DateTime time = DateTime.FromOADate (value.Time);
-						OnNewValue.Invoke (this, new NewMeasurementValueArgs () {
+						OnNewValue.BeginInvoke (this, new NewMeasurementValueArgs () {
 							RAW = value.Value,
 							Value = val,
 							Time = time
-						});
+						}, null, null);
+//						OnNewValue.BeginInvoke (this, new NewMeasurementValueArgs () {
+//							RAW = value.Value,
+//							Value = val,
+//							Time = time
+//						});
 					}
 				}
 			}
 
 			get {
-				if (Values.Count > 0) {
+				if (Values.Count > 0)
+				{
 					return new DateTimeValue (Values.Last ());	
-				} else {
+				} else
+				{
 					return new DateTimeValue (double.NaN, DateTime.Now);
 				}
 			}
@@ -276,8 +285,10 @@ namespace Backend
 		/// <see cref="PrototypeBackend.APin"/>; otherwise, <c>false</c>.</returns>
 		public override bool Equals (object obj)
 		{
-			if (obj != null) {
-				if (obj is APin) {
+			if (obj != null)
+			{
+				if (obj is APin)
+				{
 					return (obj as APin).Type == Type &&
 					(obj as APin).Mode == Mode &&
 					(obj as APin).Name.Equals (Name) &&
@@ -313,22 +324,29 @@ namespace Backend
 		/// <returns>The value.</returns>
 		public double CalcValue ()
 		{
-			if (RAWValues.Count >= MeanValuesCount) {
-				if (MeanValuesCount == 1) {
-					if (!double.IsNaN (RAWValues.Last ().Value)) {
+			if (RAWValues.Count >= MeanValuesCount)
+			{
+				if (MeanValuesCount == 1)
+				{
+					if (!double.IsNaN (RAWValues.Last ().Value))
+					{
 						return TranslateRAW (RAWValues.Last ().Value);
 					}
 					return double.NaN;
-				} else {
-					if (RAWValues.Count % MeanValuesCount == 0) {
+				} else
+				{
+					if (RAWValues.Count % MeanValuesCount == 0)
+					{
 						double result = 0;
 						result = RAWValues.GetRange (RAWValues.Count - MeanValuesCount, MeanValuesCount).Sum (o => TranslateRAW (o.Value));
 						return result / MeanValuesCount;
-					} else {
+					} else
+					{
 						return double.NaN;
 					}
 				}
-			} else {
+			} else
+			{
 				return double.NaN;
 			}
 		}
@@ -341,7 +359,8 @@ namespace Backend
 		private void AddRawValue (DateTimeValue value)
 		{
 			RAWValues.Add (value);
-			if (OnNewRAWValue != null) {
+			if (OnNewRAWValue != null)
+			{
 				OnNewRAWValue.Invoke (
 					this,
 					new NewMeasurementValueArgs () {
