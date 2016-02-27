@@ -21,7 +21,7 @@
           </Builder>
         </Package>
         <Package name="MicrosoftWindowsBinaries">
-          <Builder targetFile="..\DSA_Windows.zip" platform="Windows" configuration="Debug" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\DSA_Windows.zip" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="Backend\Backend.csproj" />
               <SolutionItemReference path="Frontend\Frontend.csproj" />

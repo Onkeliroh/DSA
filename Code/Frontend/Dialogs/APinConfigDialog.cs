@@ -20,15 +20,12 @@ namespace Frontend
 				cbColor.Color = value.PlotColor;
 				cbPin.Active = 0;
 
-				try
-				{
-					if (!cbUnit.Data.Contains (value.Unit))
-					{
+				try {
+					if (!cbUnit.Data.Contains (value.Unit)) {
 						cbUnit.InsertText (0, value.Unit);
 						cbUnit.Active = 0;
 					}
-				} catch
-				{
+				} catch {
 				}
 
 				sbSlope.Value = value.Slope;
@@ -72,16 +69,14 @@ namespace Frontend
 			this.Build ();
 
 
-			if (apin != null)
-			{
+			if (apin != null) {
 				AvailablePins = new APin[availablePins.Length + 1];
 				Array.Copy (availablePins, AvailablePins, availablePins.Length);
 				AvailablePins [availablePins.Length] = apin;
 
 				buttonOk.Label = "Apply";
 				buttonOk.Image = new Image (Gtk.Stock.Apply, IconSize.Button);
-			} else
-			{
+			} else {
 				AvailablePins = availablePins;
 			}
 
@@ -94,38 +89,29 @@ namespace Frontend
 			sbMeanValuesCount.Adjustment.Lower = 1;
 
 
-			for (int i = 0; i < AvailablePins.Length; i++)
-			{
+			for (int i = 0; i < AvailablePins.Length; i++) {
 				cbPin.AppendText (AvailablePins [i].DisplayNumber);
 			}
 
-			if (apin != null)
-			{
+			if (apin != null) {
 				Pin = new APin (apin);
-			} else
-			{
-				if (AvailablePins.Length > 0)
-				{
+			} else {
+				if (AvailablePins.Length > 0) {
 					pin = AvailablePins [0];
-				} else
-				{
+				} else {
 					pin = new APin ();
 				}
 				pin.PlotColor = GUIHelper.ColorHelper.GetRandomGdkColor ();
 				cbColor.Color = pin.PlotColor;
 			}
 
-			if (AvailablePins.Length > 0)
-			{
-				if (apin != null)
-				{
+			if (AvailablePins.Length > 0) {
+				if (apin != null) {
 					cbPin.Active = AvailablePins.Length - 1;
-				} else
-				{
+				} else {
 					cbPin.Active = 0;
 				}
-			} else
-			{
+			} else {
 				buttonOk.Sensitive = false;
 				buttonOk.TooltipText = "There are no more available pins to configure.";
 			}
@@ -134,18 +120,14 @@ namespace Frontend
 			ListStore store = new ListStore (typeof(string));
 			Units.ForEach (o => store.AppendValues (new object[]{ o }));
 			cbUnit.Model = store;
-			if (!string.IsNullOrEmpty (pin.Unit))
-			{
-				if (Units.Contains (pin.Unit))
-				{
+			if (!string.IsNullOrEmpty (pin.Unit)) {
+				if (Units.Contains (pin.Unit)) {
 					cbUnit.Active = Array.IndexOf (Units.ToArray (), pin.Unit);
-				} else
-				{
+				} else {
 					store.AppendValues (new string[]{ pin.Unit });
 					cbUnit.Active = Units.Count;
 				}
-			} else
-			{
+			} else {
 				cbUnit.Active = Array.IndexOf (Units.ToArray (), "V");
 			}
 
@@ -180,8 +162,7 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnEntryNameChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Name = entryName.Text;
 			}
 		}
@@ -193,8 +174,7 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnCbPinChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				var selector = AvailablePins.Single (o => o.DisplayNumber == cbPin.ActiveText);
 				pin.Number = selector.Number;
 				pin.DigitalNumber = selector.DigitalNumber;
@@ -209,8 +189,7 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnCbUnitChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Unit = cbUnit.ActiveText;	
 			}
 		}
@@ -222,8 +201,7 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnSbSlopeChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Slope = sbSlope.Value;
 			}	
 		}
@@ -235,8 +213,7 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnSbOffsetChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.Offset = sbOffset.Value;
 			}
 		}
@@ -248,8 +225,7 @@ namespace Frontend
 		/// <param name="e">E.</param>
 		protected void OnSbMeanValuesCountChanged (object sender, EventArgs e)
 		{
-			if (pin != null)
-			{
+			if (pin != null) {
 				pin.MeanValuesCount = Convert.ToInt32 (sbMeanValuesCount.ValueAsInt);
 			}
 		}
