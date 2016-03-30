@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Backend;
-using PrototypeBackend.Properties;
+using Backend.Properties;
 using System.Text;
 using System.Globalization;
 
@@ -31,26 +31,26 @@ namespace Backend
 		private CSVLogger MeasurementCSVLogger;
 
 		public LogLevel LoggerLevel {
-			get{ return PrototypeBackend.Properties.Settings.Default.LogLevel; }
+			get{ return Backend.Properties.Settings.Default.LogLevel; }
 			set {
-				PrototypeBackend.Properties.Settings.Default.LogLevel = value;
-				PrototypeBackend.Properties.Settings.Default.Save ();
+				Backend.Properties.Settings.Default.LogLevel = value;
+				Backend.Properties.Settings.Default.Save ();
 			}
 		}
 
 		public bool LogToFile {
-			get{ return PrototypeBackend.Properties.Settings.Default.LogToFile; }
+			get{ return Backend.Properties.Settings.Default.LogToFile; }
 			set {
-				PrototypeBackend.Properties.Settings.Default.LogToFile = value;
-				PrototypeBackend.Properties.Settings.Default.Save ();
+				Backend.Properties.Settings.Default.LogToFile = value;
+				Backend.Properties.Settings.Default.Save ();
 			}
 		}
 
 		public string LogFilePath {
-			get{ return PrototypeBackend.Properties.Settings.Default.LogFilePath; }
+			get{ return Backend.Properties.Settings.Default.LogFilePath; }
 			set {
-				PrototypeBackend.Properties.Settings.Default.LogFilePath = value;
-				PrototypeBackend.Properties.Settings.Default.Save ();
+				Backend.Properties.Settings.Default.LogFilePath = value;
+				Backend.Properties.Settings.Default.Save ();
 			}
 		}
 
@@ -154,7 +154,7 @@ namespace Backend
 		#endregion
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PrototypeBackend.Controller"/> class.
+		/// Initializes a new instance of the <see cref="Backend.Controller"/> class.
 		/// </summary>
 		/// <param name="ConfigurationPath">Configuration path.</param>
 		public Controller (string ConfigurationPath = null)
@@ -166,11 +166,11 @@ namespace Backend
 				}
 			}
 
-			LastConfigurationLocations [0] = PrototypeBackend.Properties.Settings.Default.Config1;
-			LastConfigurationLocations [1] = PrototypeBackend.Properties.Settings.Default.Config2;
-			LastConfigurationLocations [2] = PrototypeBackend.Properties.Settings.Default.Config3;
-			LastConfigurationLocations [3] = PrototypeBackend.Properties.Settings.Default.Config4;
-			LastConfigurationLocations [4] = PrototypeBackend.Properties.Settings.Default.Config5;
+			LastConfigurationLocations [0] = Backend.Properties.Settings.Default.Config1;
+			LastConfigurationLocations [1] = Backend.Properties.Settings.Default.Config2;
+			LastConfigurationLocations [2] = Backend.Properties.Settings.Default.Config3;
+			LastConfigurationLocations [3] = Backend.Properties.Settings.Default.Config4;
+			LastConfigurationLocations [4] = Backend.Properties.Settings.Default.Config5;
 
 
 			#if DEBUG
@@ -217,7 +217,7 @@ namespace Backend
 
 		/// <summary>
 		/// Releases unmanaged resources and performs other cleanup operations before the
-		/// <see cref="PrototypeBackend.Controller"/> is reclaimed by garbage collection.
+		/// <see cref="Backend.Controller"/> is reclaimed by garbage collection.
 		/// </summary>
 		~Controller ()
 		{
@@ -245,8 +245,8 @@ namespace Backend
 		/// </summary>
 		public void LoadLastConfig ()
 		{
-			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.Config1)) {
-				OpenConfiguration (PrototypeBackend.Properties.Settings.Default.Config1);
+			if (!string.IsNullOrEmpty (Backend.Properties.Settings.Default.Config1)) {
+				OpenConfiguration (Backend.Properties.Settings.Default.Config1);
 			}
 		}
 
@@ -255,8 +255,8 @@ namespace Backend
 		/// </summary>
 		public void ConnectToLastPort ()
 		{
-			if (!string.IsNullOrEmpty (PrototypeBackend.Properties.Settings.Default.LastConnectedPort)) {
-				ArduinoController.SerialPortName = PrototypeBackend.Properties.Settings.Default.LastConnectedPort;
+			if (!string.IsNullOrEmpty (Backend.Properties.Settings.Default.LastConnectedPort)) {
+				ArduinoController.SerialPortName = Backend.Properties.Settings.Default.LastConnectedPort;
 				ArduinoController.Setup (Configuration.Board.UseDTR);
 			}
 		}
@@ -266,12 +266,12 @@ namespace Backend
 		/// </summary>
 		public void WritePreferences ()
 		{
-			PrototypeBackend.Properties.Settings.Default.Config1 = LastConfigurationLocations [0];
-			PrototypeBackend.Properties.Settings.Default.Config2 = LastConfigurationLocations [1];
-			PrototypeBackend.Properties.Settings.Default.Config3 = LastConfigurationLocations [2];
-			PrototypeBackend.Properties.Settings.Default.Config4 = LastConfigurationLocations [3];
-			PrototypeBackend.Properties.Settings.Default.Config5 = LastConfigurationLocations [4];
-			PrototypeBackend.Properties.Settings.Default.Save ();
+			Backend.Properties.Settings.Default.Config1 = LastConfigurationLocations [0];
+			Backend.Properties.Settings.Default.Config2 = LastConfigurationLocations [1];
+			Backend.Properties.Settings.Default.Config3 = LastConfigurationLocations [2];
+			Backend.Properties.Settings.Default.Config4 = LastConfigurationLocations [3];
+			Backend.Properties.Settings.Default.Config5 = LastConfigurationLocations [4];
+			Backend.Properties.Settings.Default.Save ();
 		}
 
 		/// <summary>
@@ -290,7 +290,7 @@ namespace Backend
 						MeasurementCSVLogger.Stop ();
 					}
 
-					//reset time to 0 so that there are no problems during the measurement 
+					//reset time to 0 so that there are no problems during the measurement
 					// and the first value will be measured right away
 					Configuration.AnalogPins.ForEach (o => o.LastValue = 0);
 //					Configuration.AnalogPins.ForEach (o => o.Values = new List<DateTimeValue> ());
@@ -311,8 +311,8 @@ namespace Backend
 		public void Start ()
 		{
 			//Save the port, so that next time the connection may be automaticly established
-			PrototypeBackend.Properties.Settings.Default.LastConnectedPort = ArduinoController.SerialPortName;
-			PrototypeBackend.Properties.Settings.Default.Save ();
+			Backend.Properties.Settings.Default.LastConnectedPort = ArduinoController.SerialPortName;
+			Backend.Properties.Settings.Default.Save ();
 
 			KeeperOfTime.Restart ();
 

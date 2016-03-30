@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrototypeBackend.Properties {
+namespace Backend.Properties {
     using System;
-    
-    
+
+
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
@@ -23,15 +23,15 @@ namespace PrototypeBackend.Properties {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-        
+
         /// <summary>
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
@@ -45,7 +45,7 @@ namespace PrototypeBackend.Properties {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
@@ -59,7 +59,7 @@ namespace PrototypeBackend.Properties {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die [Arduino Uno]
         ///Name = Arduino Uno
@@ -83,7 +83,7 @@ namespace PrototypeBackend.Properties {
                 return ResourceManager.GetString("Boards", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die DEBUG.log ähnelt.
         /// </summary>
