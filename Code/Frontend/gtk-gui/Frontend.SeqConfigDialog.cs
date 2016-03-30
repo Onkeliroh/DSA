@@ -506,6 +506,7 @@ namespace Frontend
 			this.sbSeconds.Adjustment.PageIncrement = 10;
 			this.sbSeconds.ClimbRate = 1;
 			this.sbSeconds.Numeric = true;
+			this.sbSeconds.Value = 1;
 			this.table2.Add (this.sbSeconds);
 			global::Gtk.Table.TableChild w38 = ((global::Gtk.Table.TableChild)(this.table2 [this.sbSeconds]));
 			w38.LeftAttach = ((uint)(7));
