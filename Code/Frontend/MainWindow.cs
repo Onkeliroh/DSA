@@ -735,6 +735,7 @@ namespace Frontend
 					TrackerKey = a.DisplayName,
 				};
 
+				a.OnNewValue = null;
 				a.OnNewValue += (o, args) => OnNewPoint (o, args, ref series);
 
 				RealTimePlotView.Model.Series.Add (series);
