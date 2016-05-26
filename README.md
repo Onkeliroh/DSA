@@ -4,6 +4,8 @@ The goal was to create a _easy to use_ interface with wich users without coding 
 
 This software is still under development and can therefor be concidered as "_not yet bug free_".
 
+A demonstation video is available on [YouTube](https://youtu.be/vC8f1kLn2UU).
+
 * `Autor:` Daniel Pollack
 * `Email:` danielpollack@posteo.de
 
