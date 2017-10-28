@@ -14,15 +14,10 @@ namespace PrototypeTests
 		public MemoryStream MemStream;
 		public System.Runtime.Serialization.Formatters.Binary.BinaryFormatter Formator;
 
-		[TestFixtureSetUp]
+        [SetUp]
 		public void Init ()
 		{
 			Formator = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter ();
-		}
-
-		[SetUp]
-		public void SetUp ()
-		{
 			MemStream = new MemoryStream ();			
 		}
 

@@ -36,3 +36,5 @@ Dokumente/Mockup/pages/
 Code/*/packages/
 Tools/LinuxPackage/
 Tools/WindowsPackage/
+**/.vs/**/*
+**/packages/**/*
