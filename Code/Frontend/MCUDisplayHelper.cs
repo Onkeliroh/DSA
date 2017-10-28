@@ -310,13 +310,6 @@ namespace Frontend
 		{
 			System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)Resources.ResourceManager.GetObject (ImageName);
 
-//			using (MemoryStream stream = new MemoryStream ()) {
-//				bitmap.Save (stream, ImageFormat.Png);
-//				var strider = bitmap.LockBits (new System.Drawing.Rectangle (0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-//				var surf = new ImageSurface (stream.ToArray (), Format.ARGB32, strider.Width, strider.Height, strider.Stride);
-//				return surf;
-//			}
-
 			bitmap.Save ("image", ImageFormat.Png);
 			var surf = new ImageSurface ("image");
 		
