@@ -428,23 +428,6 @@ namespace Frontend
 			try {
 				if (cbPin.ActiveText != null && selectedPin != null) {
 					if (cbPin.ActiveText.Length > 0) {
-						int nr = 0;
-//						var reg = Regex.Match (cbPin.ActiveText, @"\(D([0-9]+)\)");
-//						reg = Regex.Match (reg.Value, @"\d+");
-//						if (reg.Success) {
-//							nr = Convert.ToInt32 (reg.Value);
-//
-//							for (int i = 0; i < DPins.Length; i++) {
-//								if (DPins [i].Number == nr) {
-//									selectedPin = DPins [i];
-//									sequenceSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
-//									repeateSeries.Color = ColorHelper.GdkColorToOxyColor (selectedPin.PlotColor);
-//									plotView.InvalidatePlot (true);
-//									plotView.ShowAll ();
-//									break;
-//								}
-//							}
-//						}
 						var pin = DPins.ToList ().Single (p => p.DisplayNumber == cbPin.ActiveText);
 						if (pin != null) {
 							selectedPin = pin;

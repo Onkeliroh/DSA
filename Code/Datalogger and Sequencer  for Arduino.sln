@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter", "Starter\Starter.csproj", "{58116293-BDE7-4FB3-8C0A-CB873D9A5719}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Packages", "Packages.mdproj", "{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ArduinoSketch", "ArduinoSketch", "{F78408A2-9685-4EFB-9FB3-0BE1B89119D3}"
 	ProjectSection(SolutionItems) = preProject
 		ArduinoController\ArduinoController.ino = ArduinoController\ArduinoController.ino
@@ -105,14 +103,6 @@ Global
 		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.FakeSerial|x86.ActiveCfg = FakeSerial|Any CPU
 		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B3354E4-2100-496B-B15A-557FF10D9A2E}.Release|x86.ActiveCfg = Release|Any CPU
-		{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}.FakeSerial|Any CPU.ActiveCfg = FakeSerial|Any CPU
-		{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}.FakeSerial|x86.ActiveCfg = FakeSerial|Any CPU
-		{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84C9D84E-DB7D-4EFA-8FA8-97DD7341C0FE}.Release|x86.ActiveCfg = Release|Any CPU
 		{DAF25932-C4D6-4619-BDA6-9CF7D8684340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DAF25932-C4D6-4619-BDA6-9CF7D8684340}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAF25932-C4D6-4619-BDA6-9CF7D8684340}.Debug|x86.ActiveCfg = Debug|Any CPU
