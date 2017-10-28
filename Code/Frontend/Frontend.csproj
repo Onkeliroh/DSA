@@ -54,13 +54,13 @@
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="INIFileParser">
-      <HintPath>..\..\bin\packages\ini-parser.2.2.4\lib\net20\INIFileParser.dll</HintPath>
+      <HintPath>..\..\bin\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
     <Reference Include="OxyPlot">
-      <HintPath>..\..\bin\packages\OxyPlot.Core.1.0.0-unstable2067\lib\net45\OxyPlot.dll</HintPath>
+      <HintPath>..\..\bin\packages\OxyPlot.Core.2015.1.1046-alpha\lib\net45\OxyPlot.dll</HintPath>
     </Reference>
     <Reference Include="OxyPlot.GtkSharp">
-      <HintPath>..\..\bin\packages\OxyPlot.GtkSharp.1.0.0-unstable2067\lib\net45\OxyPlot.GtkSharp.dll</HintPath>
+      <HintPath>..\..\bin\packages\OxyPlot.GtkSharp.2015.1.1046-alpha\lib\net45\OxyPlot.GtkSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
